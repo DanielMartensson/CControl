@@ -1,0 +1,24 @@
+const float A[ADIM * ADIM] = {
+0.699224,0.346290,
+-1.038871,0.352933};
+
+const float B[ADIM * RDIM] = {
+0.200517,
+0.692581};
+
+const float C[YDIM * ADIM] = {
+1.000000,0.000000};
+
+const float D[YDIM * RDIM] = {
+0.000000};
+
+const float K[ADIM * YDIM] = {
+0.391511,
+-0.648019};
+
+const float L[RDIM * ADIM] = {
+0.914449,0.680646};
+
+const float Li[RDIM * 1] = {
+0.565673};
+
