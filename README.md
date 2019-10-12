@@ -15,7 +15,7 @@ CControl is a library written in C only. The library have the tools and features
 
 All these controller can be implemented onto an microcontroller such as STM32, Arduino, PIC, AVR etc because all is made in portable C code. 
 
-Just download the project and open it with e.g Eclipse IDE. The project have working examples. I will upload some projects here.
+Just download the project and open it with e.g Eclipse IDE. The project have working examples. I will upload some projects here. To start with CControl? Please look at the ReadMe.pdf in src -> CControl -> Documents folder. 
 
 ## Fan Controller with Linear Quadratic Integral Control
 
