@@ -1,0 +1,2 @@
+MCP3008.c:20:6:MCP3008_Init	8	static
+MCP3008.c:29:10:MCP3008_Read_Channel	40	static
