@@ -80,7 +80,7 @@ void saturation(float* input, float lower_limit, float upper_limit){
 		*input = upper_limit;
 	}else if(*input < lower_limit){
 		*input = lower_limit;
-	}// else = nothing happens to *in
+	}// else = nothing happens to *input
 }
 
 /*
@@ -108,3 +108,4 @@ void cut(float* A, int row, int column, float* B, int start_row, int stop_row, i
 	}
 
 }
+

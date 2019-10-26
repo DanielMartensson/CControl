@@ -35,6 +35,7 @@
 
 #include "../../qpOASES/Header/qpOASES_e/QProblem.h"
 #include "../../qpOASES/Header/qpOASES_e/QProblemB.h"
+#include "../../CControl/Headers/Configurations.h" // This is for set SHOW_QP_OUTPUT TRUE or FALSE
 
 
 
@@ -7040,6 +7041,7 @@ returnValue QProblem_printIteration( 	QProblem* _THIS,
 			break;
 
 		case PL_MEDIUM:
+			#if SHOW_QP_OUTPUT == TRUE
 			/* 1) Print header at first iteration. */
  			if ( ( iter == 0 ) && ( isFirstCall == BT_TRUE ) )
 			{
@@ -7079,6 +7081,7 @@ returnValue QProblem_printIteration( 	QProblem* _THIS,
 				snprintf( myPrintfString,QPOASES_MAX_STRING_LENGTH,"   %5.1d   |   %1.6e   |   %s %4.1d   |  %4.1d   |  %4.1d   \n", iter,_THIS->tau,info,BC_idx,QProblem_getNFX( _THIS ),QProblem_getNAC( _THIS ) );
 				qpOASES_myPrintf( myPrintfString );
 			}
+			#endif
 			break;
 
 		default:

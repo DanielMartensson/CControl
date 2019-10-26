@@ -16,7 +16,7 @@
  */
 #define AUTOMATIC 0  // For Autotuning Predictive Control, Generalized Predictive Control
 #define MANUAL 1	 // For Linear Quadratic Integral Control, Model Predictive Control
-
+#define SHOW_QP_OUTPUT FALSE // Set this to TRUE if you want mpc-result to appear. Good to know how many nWSR you should have
 
 #ifndef CCONTROL_CONFIGURATIONS_H_
 #define CCONTROL_CONFIGURATIONS_H_
@@ -25,7 +25,7 @@
 /*
  * Step 1: Select your SELECTED_CONTROL_STRATEGY first
  */
-#define SELECTED_CONTROL_STRATEGY MANUAL
+#define SELECTED_CONTROL_STRATEGY AUTOMATIC
 
 /*
  * Step 2: Configure the parameters that you need. Read the PDF manual.
@@ -41,8 +41,8 @@
 	/*
 	 * Prediction & Integration
 	 */
-	#define HORIZON 50 // How long we want to look in the future
-	#define ALPHA 0.1 // This will prevent dead-beat control and gives more smooth input values
+	#define HORIZON 10 // How long we want to look in the future
+	#define ALPHA 1.0 // This will prevent dead-beat control and gives more smooth input values
 	#define INTEGRATION TRUE // Enable integral action inside model - Recommended
 
 	/*

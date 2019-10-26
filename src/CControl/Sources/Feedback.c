@@ -7,14 +7,15 @@
 
 #include "../../CControl/Headers/Configurations.h"
 #include "../../CControl/Headers/Functions.h"
+#include "../../qpOASES/Header/qpOASES_e.h"
 
 /*
  * Consider these as private functions
  */
-static void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C);
-static void obsv(float* PHI, float* A, float* C);
 static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r);
 static void integral(float* xi, float* r, float* y, int anti_windup);
+static void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C);
+static void obsv(float* PHI, float* A, float* C);
 
 /*
  * This computes the Generlized Predictive Control inputs
@@ -38,7 +39,7 @@ void gpc(float* A, float* B, float* C, float* x, float* u, float* r) {
 }
 
 /*
- * This computes the Model Predictive Control control law L and its reference gain Kr
+ * This computes the unconstrained Model Predictive Control control law L and its reference gain Kr
  * Input: Matrix A, Matrix B, Matrix C, Matrix L, Matrix Kr
  * Output: Matrix L, Matrix Kr
  */
@@ -59,7 +60,7 @@ void autotuning(float* A, float* B, float* C, float* L, float* Kr){
 	 * Kr = (GAMMA'GAMMA + ALPHA*I)^{-1}GAMMA'*R*r
 	 *
 	 * But we will do - because inv calls() linsolve() and linsolve do (GAMMA'GAMMA + ALPHA*I)^{-1}GAMMA' to inv(GAMMA)
-	 * L = -inv(GAMMA)*PHI*x
+	 * L = -inv(GAMMA)*PHI
 	 * Kr = inv(GAMMA)*R
 	 */
 
@@ -114,6 +115,172 @@ void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, 
 	for(int i = 0; i < RDIM; i++){
 		*(u + i) = *(Li + i*RDIM)/(1-qi) * *(r + i) - (*(L_vec + i) - *(Li_vec + i));
 	}
+}
+
+/*
+ * Model predictive control
+ */
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb, float* uub, float* ylb, float* yub, int* nWSR){
+	// Create the extended observability matrix
+	float PHI[HORIZON*YDIM*ADIM];
+	memset(PHI, 0, HORIZON*YDIM*ADIM*sizeof(float));
+	obsv(PHI, A, C);
+
+	// Create the lower triangular toeplitz matrix
+	float GAMMA[HORIZON*YDIM*HORIZON*RDIM];
+	memset(GAMMA, 0, HORIZON*YDIM*HORIZON*RDIM*sizeof(float));
+	CAB(GAMMA, PHI, A, B, C);
+
+	// Create transpose of GAMMA
+	float GAMMAT[HORIZON*YDIM*HORIZON*RDIM];
+	memcpy(GAMMAT, GAMMA, HORIZON*YDIM*HORIZON*RDIM*sizeof(float));
+	tran(GAMMAT, HORIZON*YDIM, HORIZON*RDIM); // Swap rows and columns
+
+	/*
+	 * Find
+	 * H = GAMMTAT*ALPHA*GAMMA
+	 * g = GAMMAT*(ALPHA*PHI*x - R*ALPHA*r)
+	 */
+
+	// R_vec = R*ALPHA*r
+	float R_vec[HORIZON * YDIM];
+	memset(R_vec, 0, HORIZON * YDIM * sizeof(float));
+	for (int i = 0; i < HORIZON * YDIM; i++) {
+		for (int j = 0; j < YDIM; j++) {
+			*(R_vec + i + j) = ALPHA * *(r + j);
+		}
+		i += YDIM - 1;
+	}
+
+	// Create lower and upper bounds for input u
+	float uub_vec[HORIZON * RDIM];
+	float ulb_vec[HORIZON * RDIM];
+	memset(uub_vec, 0, HORIZON * RDIM * sizeof(float));
+	memset(ulb_vec, 0, HORIZON * RDIM * sizeof(float));
+	for (int i = 0; i < HORIZON * RDIM; i++) {
+		for (int j = 0; j < RDIM; j++) {
+			*(uub_vec + i + j) = *(uub + j); // Upper bound for u, which is the input
+			*(ulb_vec + i + j) = *(ulb + j); // Lower bound for u, which is the input
+		}
+		i += RDIM - 1;
+	}
+
+	// PHI_vec = PHI*x
+	float PHI_vec[HORIZON * YDIM];
+	memset(PHI_vec, 0, HORIZON * YDIM * sizeof(float));
+	mul(PHI, x, PHI_vec, HORIZON * YDIM, ADIM, 1);
+
+	// Create lower and upper bounds for output y
+	float yub_vec[HORIZON * YDIM];
+	float ylb_vec[HORIZON * YDIM];
+	memset(yub_vec, 0, HORIZON * YDIM * sizeof(float));
+	memset(ylb_vec, 0, HORIZON * YDIM * sizeof(float));
+	for (int i = 0; i < HORIZON * YDIM; i++) {
+		for (int j = 0; j < YDIM; j++) {
+			*(yub_vec + i + j) = *(yub + j) - *(PHI_vec + i + j); // Upper bound for y, which is the reference
+			*(ylb_vec + i + j) = *(ylb + j) - *(PHI_vec + i + j); // Lower bound for y, which is the reference
+		}
+		i += YDIM - 1;
+	}
+
+
+	// We re-use PHI_vec = ALHPA*PHI_vec - R_vec just to save memory
+	for(int i = 0; i < HORIZON * YDIM; i++){
+			*(PHI_vec + i) = ALPHA * *(PHI_vec + i) - *(R_vec + i);
+	}
+
+	// g_vec = GAMMAT*(ALPHA*PHI*x - R*ALPHA*r) = GAMMAT*(PHI_vec)
+	float g[HORIZON*RDIM];
+	memset(g, 0, HORIZON*RDIM*sizeof(float));
+	mul(GAMMAT, PHI_vec, g, HORIZON * RDIM, HORIZON * YDIM, 1);
+
+	// We need to copy GAMMA -> A_ because of the constraints of outputs and we are going to change GAMMA later
+	real_t A_[HORIZON*YDIM*HORIZON*RDIM];
+	for(int i = 0; i < HORIZON*YDIM*HORIZON*RDIM; i++)
+		*(A_ + i) = (real_t) *(GAMMA + i);
+
+	// H = GAMMAT*ALPHA*GAMMA
+	float H[HORIZON*RDIM*HORIZON*RDIM];
+	memset(H, 0, HORIZON*RDIM*HORIZON*RDIM*sizeof(float));
+	for(int i = 0; i < HORIZON*YDIM*HORIZON*RDIM; i++)
+		*(GAMMA + i) = ALPHA * *(GAMMA + i); // First GAMMA = ALPHA*GAMMA
+	mul(GAMMAT, GAMMA, H, HORIZON*RDIM, HORIZON*YDIM, HORIZON*RDIM);
+
+	// Setting up QProblem object J = U^T*H*U + g^T*U
+	QProblem objective;
+	Options options;
+	int nV = HORIZON*RDIM;
+	int nC = HORIZON*YDIM;
+	QProblemCON(&objective, nV, nC, HST_UNKNOWN);
+	Options_setToDefault(&options);
+	QProblem_setOptions(&objective, options);
+
+	/*
+	 * We need to turn float to real_t which is double. You need a microcontroller that can handle datatype double
+	 */
+	real_t H_[HORIZON*RDIM*HORIZON*RDIM];
+	for(int i = 0; i < HORIZON*RDIM*HORIZON*RDIM; i++)
+		*(H_ + i) = (real_t) *(H + i);
+
+	real_t g_[HORIZON*RDIM];
+	for(int i = 0; i < HORIZON*RDIM; i++)
+		*(g_ + i) = (real_t) *(g + i);
+
+	real_t uub_vec_[HORIZON * RDIM];
+	real_t ulb_vec_[HORIZON * RDIM];
+	for(int i = 0; i < HORIZON * RDIM; i++){
+		*(uub_vec_ + i) = (real_t) *(uub_vec + i);
+		*(ulb_vec_ + i) = (real_t) *(ulb_vec + i);
+	}
+
+	real_t yub_vec_[HORIZON * YDIM];
+	real_t ylb_vec_[HORIZON * YDIM];
+	for(int i = 0; i < HORIZON * YDIM; i++){
+		*(yub_vec_ + i) = (real_t) *(yub_vec + i);
+		*(ylb_vec_ + i) = (real_t) *(ylb_vec + i);
+	}
+
+
+	// Declare best input vector
+	real_t best_inputs[HORIZON*RDIM];
+
+	/*
+	printf("Matrix H_\n");
+	dprint(H_, HORIZON*RDIM, HORIZON*RDIM);
+
+	printf("Matrix g_\n");
+	dprint(g_, HORIZON*RDIM, 1);
+
+	printf("Matrix A_\n");
+	dprint(A_, HORIZON*YDIM, HORIZON*RDIM);
+
+	printf("Vector ulb_vec_\n");
+	dprint(ulb_vec_, HORIZON*RDIM, 1);
+
+	printf("Vector uub_vec_\n");
+	dprint(uub_vec_, HORIZON*RDIM, 1);
+
+	printf("Vector ylb_vec_\n");
+	dprint(ylb_vec_, HORIZON*RDIM, 1);
+
+	printf("Vector yub_vec_\n");
+	dprint(yub_vec_, HORIZON*RDIM, 1);
+	*/
+
+	// Solve
+	QProblem_init(&objective, H_, g_, A_, ulb_vec_,  uub_vec_,  ylb_vec_, yub_vec_, nWSR, 0);
+
+	// Get the best_inputs
+	QProblem_getPrimalSolution(&objective, best_inputs);
+
+	/*
+	printf("Best inputs\n");
+	dprint(best_inputs, HORIZON*RDIM, 1);
+	*/
+
+	// Set the first best values to u
+	for(int i = 0; i < RDIM; i++)
+		*(u + i) = (float) *(best_inputs + i);
 
 }
 
@@ -154,10 +321,10 @@ static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r) {
 	float R_vec[HORIZON * YDIM];
 	memset(R_vec, 0, HORIZON * YDIM * sizeof(float));
 	for (int i = 0; i < HORIZON * YDIM; i++) {
-		for (int j = 0; j < RDIM; j++) {
+		for (int j = 0; j < YDIM; j++) {
 			*(R_vec + i + j) = *(r + j);
 		}
-		i += RDIM - 1;
+		i += YDIM - 1;
 	}
 
 	// PHI_vec = PHI*x
@@ -185,7 +352,7 @@ static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r) {
 /*
  * Lower traingular toeplitz of extended observability matrix
  */
-static void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C){
+void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C){
 
 	// First create the initial C*A^0*B == C*I*B == C*B
 	float CB[YDIM*RDIM];
@@ -221,7 +388,7 @@ static void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C){
 /*
  * [C*A^1; C*A^2; C*A^3; ... ; C*A^HORIZON] % Extended observability matrix
  */
-static void obsv(float* PHI, float* A, float* C) {
+void obsv(float* PHI, float* A, float* C) {
 
 	// This matrix will A^(i+1) all the time
 	float A_pow[ADIM*ADIM];
@@ -247,3 +414,4 @@ static void obsv(float* PHI, float* A, float* C) {
 		memcpy(A_copy, A_pow, ADIM * ADIM * sizeof(float)); // A_copy <- A_pow
 	}
 }
+

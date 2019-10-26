@@ -11,7 +11,8 @@ src/qpOASES/Source/QProblem.o: ../src/qpOASES/Source/QProblem.c \
  ../src/qpOASES/Source/../../qpOASES/Header/qpOASES_e/Constraints.h \
  ../src/qpOASES/Source/../../qpOASES/Header/qpOASES_e/Flipper.h \
  ../src/qpOASES/Source/../../qpOASES/Header/qpOASES_e/ConstraintProduct.h \
- ../src/qpOASES/Source/../../qpOASES/Header/qpOASES_e/QProblemB.h
+ ../src/qpOASES/Source/../../qpOASES/Header/qpOASES_e/QProblemB.h \
+ ../src/qpOASES/Source/../../CControl/Headers/Configurations.h
 
 ../src/qpOASES/Source/../../qpOASES/Header/qpOASES_e/QProblem.h:
 
@@ -38,3 +39,5 @@ src/qpOASES/Source/QProblem.o: ../src/qpOASES/Source/QProblem.c \
 ../src/qpOASES/Source/../../qpOASES/Header/qpOASES_e/ConstraintProduct.h:
 
 ../src/qpOASES/Source/../../qpOASES/Header/qpOASES_e/QProblemB.h:
+
+../src/qpOASES/Source/../../CControl/Headers/Configurations.h:

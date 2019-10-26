@@ -19,6 +19,7 @@
  */
 void rls(float* theta, float u, float y, int* count);
 void gpc(float* A, float* B, float* C, float* x, float* u, float* r);
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb, float* uub, float* ylb, float* yub, int* nWSR);
 void autotuning(float* A, float* B, float* C, float* L, float* Kr);
 void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y);
 void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi, int anti_windup);
@@ -30,6 +31,7 @@ void theta2ss(float* A, float* B, float* C, float* theta, float* K);
 void saturation(float* input, float lower_limit, float upper_limit);
 void cut(float* A, int row, int column, float* B, int start_row, int stop_row, int start_column, int stop_column);
 void print(float* A, int row, int column);
+void dprint(double* A, int row, int column);
 
 /*
  * Algebra functions

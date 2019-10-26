@@ -6,6 +6,7 @@ CControl is a library written in C only. The library have the tools and features
 * Autotuning Predictive Control
 * Generalized Predictive Control
 * Model Predictive Control
+* Adaptive Model Predictive Control
 * Linear Quadratic Integral Control
 * Gain Scheduling
 * Kalman Filter

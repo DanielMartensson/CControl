@@ -45,6 +45,7 @@
 
 
 #include "../../qpOASES/Header/qpOASES_e/Utils.h"
+#include "../../CControl/Headers/Configurations.h" // This is for set SHOW_QP_OUTPUT TRUE or FALSE
 
 
 #ifdef __NO_SNPRINTF__
@@ -299,7 +300,9 @@ returnValue qpOASES_printCopyrightNotice( )
 		#ifndef __XPCTARGET__
 		#ifndef __DSPACE__
 		#ifndef __NO_COPYRIGHT__
-		qpOASES_myPrintf( "\nqpOASES_embedded -- An Embedded Implementation of the Online Active Set Strategy.\nCopyright (C) 2007-2017 by Hans Joachim Ferreau, Andreas Potschka,\nChristian Kirches et al. All rights reserved.\n\nqpOASES is distributed under the terms of the \nGNU Lesser General Public License 2.1 in the hope that it will be \nuseful, but WITHOUT ANY WARRANTY; without even the implied warranty \nof MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. \nSee the GNU Lesser General Public License for more details.\n\n" );
+		#if SHOW_QP_OUTPUT == TRUE
+			qpOASES_myPrintf( "\nqpOASES_embedded -- An Embedded Implementation of the Online Active Set Strategy.\nCopyright (C) 2007-2017 by Hans Joachim Ferreau, Andreas Potschka,\nChristian Kirches et al. All rights reserved.\n\nqpOASES is distributed under the terms of the \nGNU Lesser General Public License 2.1 in the hope that it will be \nuseful, but WITHOUT ANY WARRANTY; without even the implied warranty \nof MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. \nSee the GNU Lesser General Public License for more details.\n\n" );
+		#endif
 		#endif /* __NO_COPYRIGHT__ */
 		#endif /* __DSPACE__ */
 		#endif /* __XPCTARGET__ */
