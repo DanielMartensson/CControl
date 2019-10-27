@@ -17,7 +17,7 @@
 /*
  * Control functions
  */
-void rls(float* theta, float u, float y, int* count);
+void rls(float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P);
 void gpc(float* A, float* B, float* C, float* x, float* u, float* r);
 void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb, float* uub, float* ylb, float* yub, int* nWSR);
 void autotuning(float* A, float* B, float* C, float* L, float* Kr);

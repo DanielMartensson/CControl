@@ -22,7 +22,7 @@ int main() {
 	 * q 1000
 	 * LAMBDA 1
 	 * POLY_LENGTH 6
-	 * HORIZON 50
+	 * HORIZON 100
 	 * ALPHA 1.0
 	 * INTEGRATION TRUE
 	 * SHOW_QP_OUTPUT FALSE
@@ -81,10 +81,15 @@ int main() {
 	/*
 	 * Estimation SISO model - Assume that this this is inside the microprocessor's while(1) loop
 	 */
+	float past_e; // The past e
+	float past_y; // The past y
+	float past_u; // The past u
+	float phi[NP + NZ + NZE];
+	float P[(NP + NZ + NZE)*(NP + NZ + NZE)];
 	float theta[NP + NZ + NZE]; // Remember that total length is POLY_LENGTH*3 - ALWAYS have these dimensions
 	int count = 0; // Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over
 	for (int i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
-		rls(theta, input[i], output[i], &count);
+		rls(theta, input[i], output[i], &count, &past_e, &past_y, &past_u, phi, P);
 	}
 
 	/*
@@ -111,7 +116,7 @@ int main() {
 	printf("Kalman gain matrix: K\n");
 	print(K, (ADIM - 1), YDIM);
 
-	float x[ADIM] = { 0, 0, 0, 0, 0, 0, 0};
+	float x[ADIM] = { 0, 0, 0, 0, 0, 0, output[sizeof(output) / sizeof(output[0]) - 1]};
 
 	float u[RDIM] = { 0 };
 	float r[YDIM] = { 12.5 };
@@ -122,7 +127,7 @@ int main() {
 	float ylb[YDIM] = { 0 };
 	float yub[YDIM] = { 20 };
 
-	int nWSR = 50;
+	int nWSR = 10;
 
 	mpc(A, B, C, x, u, r, ulb, uub, ylb, yub, &nWSR);
 
@@ -131,4 +136,3 @@ int main() {
 
 	return EXIT_SUCCESS;
 }
-

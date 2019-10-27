@@ -15,14 +15,14 @@ static void recursive(float y, float* phi, float* theta, float* P, float* past_e
  * Our goal is to find theta from y and u
  * Hint: Look up rls.m in Mataveid
  */
-void rls(float* theta, float u, float y, int* count) {
+void rls(float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P) {
 
-	// Static values that belongs to this function
-	static float past_e = 0; // The past e
-	static float past_y = 0; // The past y
-	static float past_u = 0; // The past u
-	static float phi[NP + NZ + NZE];
-	static float P[(NP + NZ + NZE)*(NP + NZ + NZE)];
+	// Static values that belongs to this function - OLD CODE, but they have the same size
+	//static float past_e = 0; // The past e
+	//static float past_y = 0; // The past y
+	//static float past_u = 0; // The past u
+	//static float phi[NP + NZ + NZE];
+	//static float P[(NP + NZ + NZE)*(NP + NZ + NZE)];
 
 	if(*count == 0){
 		// Nothing here - Leave phi with only zeros - Important to have phi as zeros
@@ -35,9 +35,9 @@ void rls(float* theta, float u, float y, int* count) {
 		}
 
 		// Reset the past
-		past_y = 0;
-		past_u = 0;
-		past_e = 0;
+		*past_y = 0;
+		*past_u = 0;
+		*past_e = 0;
 
 		// Reset phi and theta
 		memset(phi, 0, (NP + NZ + NZE)*sizeof(float));
@@ -48,9 +48,9 @@ void rls(float* theta, float u, float y, int* count) {
 
 	}else if(*count == 1){
 		// Insert the first values
-		*(phi + 0) = past_y;
-		*(phi + NP) = past_u;
-		*(phi + NP+NZ) = past_e;
+		*(phi + 0) = *past_y;
+		*(phi + NP) = *past_u;
+		*(phi + NP+NZ) = *past_e;
 		*count = 2; // No more - Every time when we start rls again from rest, we set k = 0
 
 	}else{
@@ -74,9 +74,9 @@ void rls(float* theta, float u, float y, int* count) {
 		}
 
 		// Insert the values at first e.g y(t) = -y(t-1)
-		*(phi + 0) = past_y;
-		*(phi + 0 + NP) = past_u;
-		*(phi + 0 + NP + NZ) = past_e;
+		*(phi + 0) = *past_y;
+		*(phi + 0 + NP) = *past_u;
+		*(phi + 0 + NP + NZ) = *past_e;
 		*count = *count + 1;
 
 	}
@@ -85,8 +85,8 @@ void rls(float* theta, float u, float y, int* count) {
 	recursive(y, phi, theta, P, &past_e);
 
 	// Set the past values
-	past_y = -y;
-	past_u = u;
+	*past_y = -y;
+	*past_u = u;
 
 }
 

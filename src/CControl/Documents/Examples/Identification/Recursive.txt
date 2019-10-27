@@ -31,13 +31,13 @@ int main() {
 	 * Assume that we reading u(k), and y(k) from an ADC. In this case, we have
 	 * a vector of u's and y's, but in real time running, we will not have this vector.
 	 */
-	float u[100] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+	float input[100] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }; // Input signal
 
-	float y[100] = { -0.0445137, -0.0032672, 0.0856559, 0.1004473, 0.2113512,
+	float output[100] = { -0.0445137, -0.0032672, 0.0856559, 0.1004473, 0.2113512,
 			0.2604174, 0.3894188, 0.4583728, 0.5023350, 0.5022329, 0.6228566,
 			0.6713991, 0.6192597, 0.6774358, 0.7754895, 0.7998662, 0.8251695,
 			0.8806162, 0.8874140, 0.8677128, 0.9239047, 0.9119708, 0.9597855,
@@ -58,10 +58,15 @@ int main() {
 	/*
 	 * Estimation SISO model - Assume that this this is inside the microprocessor's while(1) loop
 	 */
+	float past_e; // The past e
+	float past_y; // The past y
+	float past_u; // The past u
+	float phi[NP + NZ + NZE];
+	float P[(NP + NZ + NZE)*(NP + NZ + NZE)];
 	float theta[NP + NZ + NZE]; // Remember that total length is POLY_LENGTH*3 - ALWAYS have these dimensions
 	int count = 0; // Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over
-	for (int i = 0; i < 100; i++) {
-		rls(theta, u[i], y[i], &count);
+	for (int i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
+		rls(theta, input[i], output[i], &count, &past_e, &past_y, &past_u, phi, P);
 	}
 
 	/*

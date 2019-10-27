@@ -183,16 +183,16 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb,
 		i += YDIM - 1;
 	}
 
-
 	// We re-use PHI_vec = ALHPA*PHI_vec - R_vec just to save memory
 	for(int i = 0; i < HORIZON * YDIM; i++){
-			*(PHI_vec + i) = ALPHA * *(PHI_vec + i) - *(R_vec + i);
+		*(PHI_vec + i) = ALPHA * *(PHI_vec + i) - *(R_vec + i);
 	}
 
 	// g_vec = GAMMAT*(ALPHA*PHI*x - R*ALPHA*r) = GAMMAT*(PHI_vec)
 	float g[HORIZON*RDIM];
 	memset(g, 0, HORIZON*RDIM*sizeof(float));
 	mul(GAMMAT, PHI_vec, g, HORIZON * RDIM, HORIZON * YDIM, 1);
+
 
 	// We need to copy GAMMA -> A_ because of the constraints of outputs and we are going to change GAMMA later
 	real_t A_[HORIZON*YDIM*HORIZON*RDIM];

@@ -1,9 +1,6 @@
 
 function [retval] = ampc()
   
-  % Set the horizon
-  horizon = 10;
-  
   % Model
   G = tf(4.1, [2 4.2 4]);
 
@@ -29,13 +26,17 @@ function [retval] = ampc()
   sysdIntegral.A = [sysd.A zeros(size(sysd.A, 2), 1); sysd.C*sysd.A 1];
   sysdIntegral.B = [sysd.B; sysd.C*sysd.B];
   sysdIntegral.C = [zeros(1, size(Gd.num, 2)) 1]
-
-  % We select N = 50 horizon 
-  PHI = phiMat(sysdIntegral.A, sysdIntegral.C, 50);
-  GAMMA = gammaMat(sysdIntegral.A, sysdIntegral.B, sysdIntegral.C, 50);
+  sysdIntegral.D = [0];
+  sysdIntegral.sampleTime = sysd.sampleTime;
+  sysdIntegral.delay = 0;
+  sysdIntegral.type = 'SS';
   
   % Set alpha for prevent dead beat control = stiff input signals 
   alpha = 1.0;
+  % Reference
+  r = 12.5;
+  % Set the horizon
+  horizon = 100;
   
   % Compute the PHI matrix now!
   PHI = phiMat(sysdIntegral.A, sysdIntegral.C, horizon);
@@ -46,21 +47,26 @@ function [retval] = ampc()
   % Compute H matrix
   H = GAMMA'*Q*GAMMA;
   
-  % Create g vector. g = g0*x - g1*r where x is the state vector and r is the reference vector
-  g0 = GAMMA'*Q*PHI;
-  g1 = GAMMA'*Q;
   % Create the matrix for saturation on inputs
   Ay = GAMMA;
-
+  
+  % Initial state vector. Estimate this with a kalman filter
+  x = [zeros(length(sysd.A), 1)]; 
+  xy = y(end); % This is the state for the output. Because we have an augmented sysd model
+  x0 = [x; 
+        xy];
+  
   % Comput best inputs - Try a computation
-  gg = GAMMA'(Q*PHI*x - GAMMA'*Q*r1*repmat(r, horizon, 1));
-  ylb = repmat(y_lb, horizon, 1) - PHI*x0;
-  yub = repmat(y_ub, horizon, 1) - PHI*x0;
-  ulb = repmat(u_lb, horizon, 1);
-  uub = repmat(u_ub, horizon, 1);
+  g = GAMMA'*(Q*PHI*x0 - Q*repmat(r, horizon, 1));
+  ylb = repmat(0, horizon, 1) - PHI*x0;
+  yub = repmat(20, horizon, 1) - PHI*x0;
+  ulb = repmat(0, horizon, 1);
+  uub = repmat(20, horizon, 1);
   u = qp([], H, g, [], [], ulb, uub, ylb, Ay, yub)  % Replace qp with quadprog if you are using MATLAB
     
-  
+  % Simulation
+  t = 0:sysdIntegral.sampleTime:length(u)/10;
+  lsim(sysdIntegral, u', t);
     
   
 end
