@@ -177,15 +177,3 @@ void print(float* A, int row, int column) {
 	printf("\n");
 }
 
-/*
- * Print matrix or vector - Just for error check
- */
-void dprint(double* A, int row, int column) {
-	for (int i = 0; i < row; i++) {
-		for (int j = 0; j < column; j++) {
-			printf("%0.18f ", *(A++));
-		}
-		printf("\n");
-	}
-	printf("\n");
-}

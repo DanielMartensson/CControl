@@ -197,7 +197,7 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb,
 	// We need to copy GAMMA -> A_ because of the constraints of outputs and we are going to change GAMMA later
 	real_t A_[HORIZON*YDIM*HORIZON*RDIM];
 	for(int i = 0; i < HORIZON*YDIM*HORIZON*RDIM; i++)
-		*(A_ + i) = (real_t) *(GAMMA + i);
+		*(A_ + i) = *(GAMMA + i);
 
 	// H = GAMMAT*ALPHA*GAMMA
 	float H[HORIZON*RDIM*HORIZON*RDIM];
@@ -215,68 +215,19 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb,
 	Options_setToDefault(&options);
 	QProblem_setOptions(&objective, options);
 
-	/*
-	 * We need to turn float to real_t which is double. You need a microcontroller that can handle datatype double
-	 */
-	real_t H_[HORIZON*RDIM*HORIZON*RDIM];
-	for(int i = 0; i < HORIZON*RDIM*HORIZON*RDIM; i++)
-		*(H_ + i) = (real_t) *(H + i);
-
-	real_t g_[HORIZON*RDIM];
-	for(int i = 0; i < HORIZON*RDIM; i++)
-		*(g_ + i) = (real_t) *(g + i);
-
-	real_t uub_vec_[HORIZON * RDIM];
-	real_t ulb_vec_[HORIZON * RDIM];
-	for(int i = 0; i < HORIZON * RDIM; i++){
-		*(uub_vec_ + i) = (real_t) *(uub_vec + i);
-		*(ulb_vec_ + i) = (real_t) *(ulb_vec + i);
-	}
-
-	real_t yub_vec_[HORIZON * YDIM];
-	real_t ylb_vec_[HORIZON * YDIM];
-	for(int i = 0; i < HORIZON * YDIM; i++){
-		*(yub_vec_ + i) = (real_t) *(yub_vec + i);
-		*(ylb_vec_ + i) = (real_t) *(ylb_vec + i);
-	}
-
-
 	// Declare best input vector
 	real_t best_inputs[HORIZON*RDIM];
 
-	/*
-	printf("Matrix H_\n");
-	dprint(H_, HORIZON*RDIM, HORIZON*RDIM);
-
-	printf("Matrix g_\n");
-	dprint(g_, HORIZON*RDIM, 1);
-
-	printf("Matrix A_\n");
-	dprint(A_, HORIZON*YDIM, HORIZON*RDIM);
-
-	printf("Vector ulb_vec_\n");
-	dprint(ulb_vec_, HORIZON*RDIM, 1);
-
-	printf("Vector uub_vec_\n");
-	dprint(uub_vec_, HORIZON*RDIM, 1);
-
-	printf("Vector ylb_vec_\n");
-	dprint(ylb_vec_, HORIZON*RDIM, 1);
-
-	printf("Vector yub_vec_\n");
-	dprint(yub_vec_, HORIZON*RDIM, 1);
-	*/
-
 	// Solve
-	QProblem_init(&objective, H_, g_, A_, ulb_vec_,  uub_vec_,  ylb_vec_, yub_vec_, nWSR, 0);
+	QProblem_init(&objective, H, g, A_, ulb_vec,  uub_vec,  ylb_vec, yub_vec, nWSR, 0);
 
 	// Get the best_inputs
 	QProblem_getPrimalSolution(&objective, best_inputs);
 
-	/*
+
 	printf("Best inputs\n");
-	dprint(best_inputs, HORIZON*RDIM, 1);
-	*/
+	print(best_inputs, HORIZON*RDIM, 1);
+
 
 	// Set the first best values to u
 	for(int i = 0; i < RDIM; i++)

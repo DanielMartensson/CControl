@@ -25,7 +25,7 @@ function [retval] = ampc()
   % Implement integral action
   sysdIntegral.A = [sysd.A zeros(size(sysd.A, 2), 1); sysd.C*sysd.A 1];
   sysdIntegral.B = [sysd.B; sysd.C*sysd.B];
-  sysdIntegral.C = [zeros(1, size(Gd.num, 2)) 1]
+  sysdIntegral.C = [zeros(1, size(Gd.num, 2)) 1];
   sysdIntegral.D = [0];
   sysdIntegral.sampleTime = sysd.sampleTime;
   sysdIntegral.delay = 0;
@@ -36,7 +36,7 @@ function [retval] = ampc()
   % Reference
   r = 12.5;
   % Set the horizon
-  horizon = 100;
+  horizon = 10;
   
   % Compute the PHI matrix now!
   PHI = phiMat(sysdIntegral.A, sysdIntegral.C, horizon);
@@ -66,6 +66,7 @@ function [retval] = ampc()
     
   % Simulation
   t = 0:sysdIntegral.sampleTime:length(u)/10;
+  sysdIntegral
   lsim(sysdIntegral, u', t);
     
   

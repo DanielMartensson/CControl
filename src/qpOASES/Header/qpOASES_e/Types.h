@@ -67,7 +67,7 @@
 /* #define __USE_THREE_MULTS_GIVENS__ */
 
 /* Uncomment the following line to activate the use of single precision arithmetic. */
-/* #define __USE_SINGLE_PRECISION__ */
+#define __USE_SINGLE_PRECISION__
 
 /* The inline keyword is skipped by default as it is not part of the C90 standard. 
  * However, by uncommenting the following line, use of the inline keyword can be enforced. */

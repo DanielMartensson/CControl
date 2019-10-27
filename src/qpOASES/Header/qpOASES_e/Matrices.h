@@ -37,7 +37,7 @@
 #ifndef QPOASES_MATRICES_H
 #define QPOASES_MATRICES_H
 
-#ifdef __USE_SINGLE_PRECISION__
+#ifndef __USE_SINGLE_PRECISION__ // This was first #ifdef
 
 	/** Macro for calling level 3 BLAS operation in single precision. */
 	#define GEMM sgemm_

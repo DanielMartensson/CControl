@@ -82,7 +82,7 @@ void rls(float* theta, float u, float y, int* count, float* past_e, float* past_
 	}
 
 	// Call recursive
-	recursive(y, phi, theta, P, &past_e);
+	recursive(y, phi, theta, P, past_e);
 
 	// Set the past values
 	*past_y = -y;

@@ -22,10 +22,10 @@ int main() {
 	 * q 1000
 	 * LAMBDA 1
 	 * POLY_LENGTH 6
-	 * HORIZON 100
+	 * HORIZON 10
 	 * ALPHA 1.0
 	 * INTEGRATION TRUE
-	 * SHOW_QP_OUTPUT FALSE
+	 * SHOW_QP_OUTPUT FALSE - Set this to TRUE to begin with, then red text appear. Change nWSR so QP can compute its sets
 	 */
 
 	float input[200] = { 0, 0.301, 0.59896, 0.89088, 1.1738, 1.4449, 1.7014,
@@ -127,7 +127,7 @@ int main() {
 	float ylb[YDIM] = { 0 };
 	float yub[YDIM] = { 20 };
 
-	int nWSR = 10;
+	int nWSR = 50;
 
 	mpc(A, B, C, x, u, r, ulb, uub, ylb, yub, &nWSR);
 
