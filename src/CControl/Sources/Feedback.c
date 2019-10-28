@@ -224,10 +224,10 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb,
 	// Get the best_inputs
 	QProblem_getPrimalSolution(&objective, best_inputs);
 
-
+	/*
 	printf("Best inputs\n");
 	print(best_inputs, HORIZON*RDIM, 1);
-
+	*/
 
 	// Set the first best values to u
 	for(int i = 0; i < RDIM; i++)

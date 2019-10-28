@@ -41,7 +41,7 @@
 	/*
 	 * Prediction & Integration
 	 */
-	#define HORIZON 10 // How long we want to look in the future
+	#define HORIZON 100 // How long we want to look in the future
 	#define ALPHA 1.0 // This will prevent dead-beat control and gives more smooth input values
 	#define INTEGRATION TRUE // Enable integral action inside model - Recommended
 
