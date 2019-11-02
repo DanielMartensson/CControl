@@ -128,11 +128,17 @@ int main() {
 	float yub[YDIM] = { 20 };
 
 	int nWSR = 10;
+	int isSolved;
 
-	mpc(A, B, C, x, u, r, ulb, uub, ylb, yub, &nWSR);
+	mpc(A, B, C, x, u, r, ulb, uub, ylb, yub, &nWSR, &isSolved);
 
 	printf("Best input\n");
 	print(u, RDIM, 1);
+
+	if(isSolved == TRUE)
+		printf("QP solved!\n");
+	else
+		printf("QP NOT solved!\n");
 
 	return EXIT_SUCCESS;
 }

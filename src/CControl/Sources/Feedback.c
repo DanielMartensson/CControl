@@ -120,7 +120,7 @@ void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, 
 /*
  * Model predictive control
  */
-void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb, float* uub, float* ylb, float* yub, int* nWSR){
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb, float* uub, float* ylb, float* yub, int* nWSR, int* isSolved){
 	// Create the extended observability matrix
 	float PHI[HORIZON*YDIM*ADIM];
 	memset(PHI, 0, HORIZON*YDIM*ADIM*sizeof(float));
@@ -224,6 +224,12 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb,
 	// Get the best_inputs
 	QProblem_getPrimalSolution(&objective, best_inputs);
 
+	// Check if solved or not
+	if(QProblem_isSolved(&objective) == TRUE)
+		*isSolved = TRUE;
+	else
+		*isSolved = FALSE;
+
 	/*
 	printf("Best inputs\n");
 	print(best_inputs, HORIZON*RDIM, 1);
@@ -232,6 +238,7 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb,
 	// Set the first best values to u
 	for(int i = 0; i < RDIM; i++)
 		*(u + i) = (float) *(best_inputs + i);
+
 
 }
 

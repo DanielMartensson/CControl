@@ -10,7 +10,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
@@ -23,12 +22,11 @@ int main() {
 	 * q 1000
 	 * LAMBDA 1
 	 * POLY_LENGTH 6
-	 * HORIZON 100
+	 * HORIZON 10
 	 * ALPHA 1.0
 	 * INTEGRATION TRUE
-	 * SHOW_QP_OUTPUT FALSE - Set this to TRUE to begin with, then red text appear. Change nWSR so QP can compute its sets
+	 * SHOW_QP_OUTPUT FALSE
 	 */
-	clock_t start = clock();
 
 	float input[200] = { 0, 0.301, 0.59896, 0.89088, 1.1738, 1.4449, 1.7014,
 			1.9407, 2.1605, 2.3584, 2.5325, 2.6811, 2.8026, 2.8959, 2.9599,
@@ -105,7 +103,7 @@ int main() {
 
 	/*
 	 * Print our state space matrix
-
+	 */
 	printf("System matrix: A\n");
 	print(A, ADIM, ADIM);
 
@@ -117,7 +115,6 @@ int main() {
 
 	printf("Kalman gain matrix: K\n");
 	print(K, (ADIM - 1), YDIM);
-	*/
 
 	float x[ADIM] = { 0, 0, 0, 0, 0, 0, output[sizeof(output) / sizeof(output[0]) - 1]};
 
@@ -130,25 +127,18 @@ int main() {
 	float ylb[YDIM] = { 0 };
 	float yub[YDIM] = { 20 };
 
-	int nWSR = 50;
+	int nWSR = 10;
+	int isSolved;
 
-	mpc(A, B, C, x, u, r, ulb, uub, ylb, yub, &nWSR);
+	mpc(A, B, C, x, u, r, ulb, uub, ylb, yub, &nWSR, &isSolved);
 
 	printf("Best input\n");
 	print(u, RDIM, 1);
 
-	float y[YDIM] = { x[ADIM - 1] };
-
-	// Update our state vector x
-	printf("Our current state is:\n");
-	print(x, ADIM, 1);
-	kalman(A, B, C, K, u, x, y);
-	printf("Our estimated state is:\n");
-	print(x, ADIM, 1);
-
-	clock_t end = clock();
-	float seconds = (float)(end - start) / CLOCKS_PER_SEC;
-	printf("Total time was %f", seconds);
+	if(isSolved == TRUE)
+		printf("QP solved!\n");
+	else
+		printf("QP NOT solved!\n");
 
 	return EXIT_SUCCESS;
 }

@@ -36,7 +36,7 @@ function [retval] = ampc()
   % Reference
   r = 12.5;
   % Set the horizon
-  horizon = 10;
+  horizon = 5;
   
   % Compute the PHI matrix now!
   PHI = phiMat(sysdIntegral.A, sysdIntegral.C, horizon);
@@ -45,7 +45,7 @@ function [retval] = ampc()
   % Compute the tuning matrix - Set it to identity matrix
   Q = alpha*eye(size(GAMMA, 1), size(GAMMA, 1));
   % Compute H matrix
-  H = GAMMA'*Q*GAMMA;
+  H = GAMMA'*Q*GAMMA
   
   % Create the matrix for saturation on inputs
   Ay = GAMMA;
@@ -57,11 +57,11 @@ function [retval] = ampc()
         xy];
   
   % Comput best inputs - Try a computation
-  g = GAMMA'*(Q*PHI*x0 - Q*repmat(r, horizon, 1));
-  ylb = repmat(0, horizon, 1) - PHI*x0;
-  yub = repmat(20, horizon, 1) - PHI*x0;
-  ulb = repmat(0, horizon, 1);
-  uub = repmat(20, horizon, 1);
+  g = GAMMA'*(Q*PHI*x0 - Q*repmat(r, horizon, 1))
+  ylb = repmat(0, horizon, 1) - PHI*x0
+  yub = repmat(20, horizon, 1) - PHI*x0
+  ulb = repmat(0, horizon, 1)
+  uub = repmat(100, horizon, 1)
   u = qp([], H, g, [], [], ulb, uub, ylb, Ay, yub)  % Replace qp with quadprog if you are using MATLAB
     
   % Simulation
