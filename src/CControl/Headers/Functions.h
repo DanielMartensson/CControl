@@ -13,13 +13,14 @@
  */
 #include <string.h>
 #include <stdio.h>
+#include "Configurations.h"
 
 /*
  * Control functions
  */
 void rls(float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P);
 void gpc(float* A, float* B, float* C, float* x, float* u, float* r);
-void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb, float* uub, float* ylb, float* yub, int* nWSR, int* isSolved);
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r);
 void autotuning(float* A, float* B, float* C, float* L, float* Kr);
 void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y);
 void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi, int anti_windup);
@@ -39,5 +40,6 @@ void inv(float* A, int row);
 void linsolve(float* A, float* x, float* b, int row_a, int column_a);
 void tran(float* A, int row, int column);
 void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b);
+void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, int iteration_limit);
 
 #endif /* CCONTROL_FUNCTIONS_H_ */

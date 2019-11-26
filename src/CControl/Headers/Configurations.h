@@ -16,7 +16,6 @@
  */
 #define AUTOMATIC 0  // For Autotuning Predictive Control, Generalized Predictive Control
 #define MANUAL 1	 // For Linear Quadratic Integral Control, Model Predictive Control
-#define SHOW_QP_OUTPUT FALSE // Set this to TRUE if you want mpc-result to appear. Good to know how many nWSR you should have
 
 #ifndef CCONTROL_CONFIGURATIONS_H_
 #define CCONTROL_CONFIGURATIONS_H_
@@ -25,7 +24,7 @@
 /*
  * Step 1: Select your SELECTED_CONTROL_STRATEGY first
  */
-#define SELECTED_CONTROL_STRATEGY AUTOMATIC
+#define SELECTED_CONTROL_STRATEGY AUTOMCATIC
 
 /*
  * Step 2: Configure the parameters that you need. Read the PDF manual.
@@ -41,9 +40,10 @@
 	/*
 	 * Prediction & Integration
 	 */
-	#define HORIZON 100 // How long we want to look in the future
-	#define ALPHA 1.0 // This will prevent dead-beat control and gives more smooth input values
+	#define HORIZON 20 // How long we want to look in the future
+	#define ALPHA 0.1 // This will prevent dead-beat control and gives more smooth input values
 	#define INTEGRATION TRUE // Enable integral action inside model - Recommended
+	#define ITERATION_LIMIT 100 // This is for MPC
 
 	/*
 	 * This is configuration for the state space model.
@@ -63,10 +63,12 @@
 	#endif
 
 #elif SELECTED_CONTROL_STRATEGY == MANUAL
-	#define ADIM 10 // Matrix A will be [A]
+	#define ADIM 2 // Matrix A will be [A]
 	#define YDIM 1 // Matrix B will be [C]
 	#define RDIM 1 // Matrix C will be [B]
-	#define HORIZON 10
+	#define HORIZON 100
+	#define ALPHA 0.1 // Prevent deadbeat control for MPC and GPC
+    #define ITERATION_LIMIT 100 // This is for MPC
 
 	/*
 	 * We need to at least set some values of these, even if MANUAL don't use identification, integration and prediction
@@ -78,13 +80,7 @@
 	#define NZE 1 // Not need this
 	#define q 1 // Not need this
     #define LAMBDA 1 // Not need this
-	#define ALPHA 0 // Not need this
 #endif
-
-
-
-
-
 
 
 

@@ -32,23 +32,16 @@ function [retval] = ampc()
   sysdIntegral.type = 'SS';
   
   % Set alpha for prevent dead beat control = stiff input signals 
-  alpha = 1.0;
+  alpha = 0.1;
   % Reference
   r = 12.5;
   % Set the horizon
-  horizon = 5;
+  horizon = 20;
   
   % Compute the PHI matrix now!
   PHI = phiMat(sysdIntegral.A, sysdIntegral.C, horizon);
   % Compute the GAMMA matrix now
   GAMMA = gammaMat(sysdIntegral.A, sysdIntegral.B, sysdIntegral.C, horizon);
-  % Compute the tuning matrix - Set it to identity matrix
-  Q = alpha*eye(size(GAMMA, 1), size(GAMMA, 1));
-  % Compute H matrix
-  H = GAMMA'*Q*GAMMA
-  
-  % Create the matrix for saturation on inputs
-  Ay = GAMMA;
   
   % Initial state vector. Estimate this with a kalman filter
   x = [zeros(length(sysd.A), 1)]; 
@@ -56,19 +49,16 @@ function [retval] = ampc()
   x0 = [x; 
         xy];
   
-  % Comput best inputs - Try a computation
-  g = GAMMA'*(Q*PHI*x0 - Q*repmat(r, horizon, 1))
-  ylb = repmat(0, horizon, 1) - PHI*x0
-  yub = repmat(20, horizon, 1) - PHI*x0
-  ulb = repmat(0, horizon, 1)
-  uub = repmat(100, horizon, 1)
-  u = qp([], H, g, [], [], ulb, uub, ylb, Ay, yub)  % Replace qp with quadprog if you are using MATLAB
-    
+  Y = repmat(r, horizon, 1) - PHI*x0;
+  % Use linprog in MATLAB
+  A = GAMMA'*GAMMA + alpha*eye(size(GAMMA));
+  c = A'*Y;
+  b = GAMMA'*Y;
+  u = glpk(c, A, b, repmat(0, 1, horizon), [], repmat("U", 1, horizon), repmat("C", 1, horizon), -1);
+  u
   % Simulation
   t = 0:sysdIntegral.sampleTime:length(u)/10;
-  sysdIntegral
-  lsim(sysdIntegral, u', t);
-    
+  lsim(sysd, u', t);
   
 end
 

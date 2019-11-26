@@ -15,5 +15,4 @@ C_DEPS :=
 SUBDIRS := \
 src/CControl/Sources \
 src \
-src/qpOASES/Source \
 

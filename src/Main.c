@@ -23,9 +23,9 @@ int main() {
 	 * LAMBDA 1
 	 * POLY_LENGTH 6
 	 * HORIZON 10
-	 * ALPHA 1.0
+	 * ALPHA 0.1
 	 * INTEGRATION TRUE
-	 * SHOW_QP_OUTPUT FALSE
+	 * ITERATION_LIMIT 100
 	 */
 
 	float input[200] = { 0, 0.301, 0.59896, 0.89088, 1.1738, 1.4449, 1.7014,
@@ -117,28 +117,16 @@ int main() {
 	print(K, (ADIM - 1), YDIM);
 
 	float x[ADIM] = { 0, 0, 0, 0, 0, 0, output[sizeof(output) / sizeof(output[0]) - 1]};
-
 	float u[RDIM] = { 0 };
 	float r[YDIM] = { 12.5 };
 
-	float ulb[RDIM] = { 0 };
-	float uub[RDIM] = { 20 };
+	// Do model predictive control where u cannot be negative and output cannot be over reference r
+	mpc(A, B, C, x, u, r);
 
-	float ylb[YDIM] = { 0 };
-	float yub[YDIM] = { 20 };
-
-	int nWSR = 10;
-	int isSolved;
-
-	mpc(A, B, C, x, u, r, ulb, uub, ylb, yub, &nWSR, &isSolved);
-
+	// Solution
 	printf("Best input\n");
 	print(u, RDIM, 1);
 
-	if(isSolved == TRUE)
-		printf("QP solved!\n");
-	else
-		printf("QP NOT solved!\n");
 
 	return EXIT_SUCCESS;
 }

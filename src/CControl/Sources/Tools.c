@@ -109,3 +109,17 @@ void cut(float* A, int row, int column, float* B, int start_row, int stop_row, i
 
 }
 
+/*
+ * Print matrix or vector - Just for error check
+ */
+void print(float* A, int row, int column) {
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < column; j++) {
+			printf("%0.18f ", *(A++));
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
+

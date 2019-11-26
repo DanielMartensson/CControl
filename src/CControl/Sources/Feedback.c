@@ -7,12 +7,14 @@
 
 #include "../../CControl/Headers/Configurations.h"
 #include "../../CControl/Headers/Functions.h"
-#include "../../qpOASES/Header/qpOASES_e.h"
+
+#define MPC 1
+#define GPC 0
 
 /*
  * Consider these as private functions
  */
-static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r);
+static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r, int mode);
 static void integral(float* xi, float* r, float* y, int anti_windup);
 static void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C);
 static void obsv(float* PHI, float* A, float* C);
@@ -35,7 +37,7 @@ void gpc(float* A, float* B, float* C, float* x, float* u, float* r) {
 	CAB(GAMMA, PHI, A, B, C);
 
 	// Find the input value from GAMMA and PHI
-	solve(GAMMA, PHI, x, u, r);
+	solve(GAMMA, PHI, x, u, r, GPC);
 }
 
 /*
@@ -120,7 +122,7 @@ void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, 
 /*
  * Model predictive control
  */
-void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb, float* uub, float* ylb, float* yub, int* nWSR, int* isSolved){
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r){
 	// Create the extended observability matrix
 	float PHI[HORIZON*YDIM*ADIM];
 	memset(PHI, 0, HORIZON*YDIM*ADIM*sizeof(float));
@@ -131,115 +133,8 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, float* ulb,
 	memset(GAMMA, 0, HORIZON*YDIM*HORIZON*RDIM*sizeof(float));
 	CAB(GAMMA, PHI, A, B, C);
 
-	// Create transpose of GAMMA
-	float GAMMAT[HORIZON*YDIM*HORIZON*RDIM];
-	memcpy(GAMMAT, GAMMA, HORIZON*YDIM*HORIZON*RDIM*sizeof(float));
-	tran(GAMMAT, HORIZON*YDIM, HORIZON*RDIM); // Swap rows and columns
-
-	/*
-	 * Find
-	 * H = GAMMTAT*ALPHA*GAMMA
-	 * g = GAMMAT*(ALPHA*PHI*x - R*ALPHA*r)
-	 */
-
-	// R_vec = R*ALPHA*r
-	float R_vec[HORIZON * YDIM];
-	memset(R_vec, 0, HORIZON * YDIM * sizeof(float));
-	for (int i = 0; i < HORIZON * YDIM; i++) {
-		for (int j = 0; j < YDIM; j++) {
-			*(R_vec + i + j) = ALPHA * *(r + j);
-		}
-		i += YDIM - 1;
-	}
-
-	// Create lower and upper bounds for input u
-	float uub_vec[HORIZON * RDIM];
-	float ulb_vec[HORIZON * RDIM];
-	memset(uub_vec, 0, HORIZON * RDIM * sizeof(float));
-	memset(ulb_vec, 0, HORIZON * RDIM * sizeof(float));
-	for (int i = 0; i < HORIZON * RDIM; i++) {
-		for (int j = 0; j < RDIM; j++) {
-			*(uub_vec + i + j) = *(uub + j); // Upper bound for u, which is the input
-			*(ulb_vec + i + j) = *(ulb + j); // Lower bound for u, which is the input
-		}
-		i += RDIM - 1;
-	}
-
-	// PHI_vec = PHI*x
-	float PHI_vec[HORIZON * YDIM];
-	memset(PHI_vec, 0, HORIZON * YDIM * sizeof(float));
-	mul(PHI, x, PHI_vec, HORIZON * YDIM, ADIM, 1);
-
-	// Create lower and upper bounds for output y
-	float yub_vec[HORIZON * YDIM];
-	float ylb_vec[HORIZON * YDIM];
-	memset(yub_vec, 0, HORIZON * YDIM * sizeof(float));
-	memset(ylb_vec, 0, HORIZON * YDIM * sizeof(float));
-	for (int i = 0; i < HORIZON * YDIM; i++) {
-		for (int j = 0; j < YDIM; j++) {
-			*(yub_vec + i + j) = *(yub + j) - *(PHI_vec + i + j); // Upper bound for y, which is the reference
-			*(ylb_vec + i + j) = *(ylb + j) - *(PHI_vec + i + j); // Lower bound for y, which is the reference
-		}
-		i += YDIM - 1;
-	}
-
-	// We re-use PHI_vec = ALHPA*PHI_vec - R_vec just to save memory
-	for(int i = 0; i < HORIZON * YDIM; i++){
-		*(PHI_vec + i) = ALPHA * *(PHI_vec + i) - *(R_vec + i);
-	}
-
-	// g_vec = GAMMAT*(ALPHA*PHI*x - R*ALPHA*r) = GAMMAT*(PHI_vec)
-	float g[HORIZON*RDIM];
-	memset(g, 0, HORIZON*RDIM*sizeof(float));
-	mul(GAMMAT, PHI_vec, g, HORIZON * RDIM, HORIZON * YDIM, 1);
-
-
-	// We need to copy GAMMA -> A_ because of the constraints of outputs and we are going to change GAMMA later
-	real_t A_[HORIZON*YDIM*HORIZON*RDIM];
-	for(int i = 0; i < HORIZON*YDIM*HORIZON*RDIM; i++)
-		*(A_ + i) = *(GAMMA + i);
-
-	// H = GAMMAT*ALPHA*GAMMA
-	float H[HORIZON*RDIM*HORIZON*RDIM];
-	memset(H, 0, HORIZON*RDIM*HORIZON*RDIM*sizeof(float));
-	for(int i = 0; i < HORIZON*YDIM*HORIZON*RDIM; i++)
-		*(GAMMA + i) = ALPHA * *(GAMMA + i); // First GAMMA = ALPHA*GAMMA
-	mul(GAMMAT, GAMMA, H, HORIZON*RDIM, HORIZON*YDIM, HORIZON*RDIM);
-
-	// Setting up QProblem object J = U^T*H*U + g^T*U
-	QProblem objective;
-	Options options;
-	int nV = HORIZON*RDIM;
-	int nC = HORIZON*YDIM;
-	QProblemCON(&objective, nV, nC, HST_UNKNOWN);
-	Options_setToDefault(&options);
-	QProblem_setOptions(&objective, options);
-
-	// Declare best input vector
-	real_t best_inputs[HORIZON*RDIM];
-
-	// Solve
-	QProblem_init(&objective, H, g, A_, ulb_vec,  uub_vec,  ylb_vec, yub_vec, nWSR, 0);
-
-	// Get the best_inputs
-	QProblem_getPrimalSolution(&objective, best_inputs);
-
-	// Check if solved or not
-	if(QProblem_isSolved(&objective) == TRUE)
-		*isSolved = TRUE;
-	else
-		*isSolved = FALSE;
-
-	/*
-	printf("Best inputs\n");
-	print(best_inputs, HORIZON*RDIM, 1);
-	*/
-
-	// Set the first best values to u
-	for(int i = 0; i < RDIM; i++)
-		*(u + i) = (float) *(best_inputs + i);
-
-
+	// Find the input value from GAMMA and PHI
+	solve(GAMMA, PHI, x, u, r, MPC);
 }
 
 /*
@@ -273,7 +168,7 @@ static void integral(float* xi, float* r, float* y, int anti_windup) {
  * Solve U from R = PHI*x + GAMMA*U
  * Hint: Look up lmpc.m in Matavecontrol
  */
-static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r) {
+static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r, int mode) {
 
 	// R_vec = R*r
 	float R_vec[HORIZON * YDIM];
@@ -297,9 +192,52 @@ static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r) {
 		*(R_PHI_vec + i) = *(R_vec + i) - *(PHI_vec + i);
 	}
 
-	// Solve R_vec from GAMMA*R_vec = R_PHI_vec
-	linsolve(GAMMA, R_vec, R_PHI_vec, HORIZON * YDIM, HORIZON * RDIM);
+	// Solve R_vec from (GAMMAT*GAMMA + ALPHA*I)*R_vec = GAMMAT*R_PHI_vec
+	if(mode == GPC){
+		linsolve(GAMMA, R_vec, R_PHI_vec, HORIZON * YDIM, HORIZON * RDIM);
+	}else if(mode == MPC){
+		/* Find the optimal solution R_vec from linear programming
+		 * min (GAMMAT*GAMMA + ALPHA*I)^T*R_PHI_vec*R_vec
+		 * s.t
+		 * 		(GAMMAT*GAMMA + ALPHA*I)*R_vec <= GAMMAT*R_PHI_vec
+		 *								 R_vec >= 0
+		 */
 
+		// Transpose gamma
+		float GAMMAT[HORIZON*YDIM*HORIZON*RDIM];
+		memcpy(GAMMAT, GAMMA, HORIZON*YDIM*HORIZON*RDIM*sizeof(float)); // GAMMA -> GAMMAT
+		tran(GAMMAT, HORIZON*YDIM, HORIZON*RDIM);
+
+		// b = GAMMAT*R_PHI_vec
+		float b[HORIZON * YDIM];
+		memset(b, 0, HORIZON * YDIM * sizeof(float));
+		mul(GAMMAT, R_PHI_vec, b, HORIZON * RDIM, HORIZON*YDIM, 1);
+
+		// A = GAMMAT*GAMMA
+		float A[HORIZON * RDIM*HORIZON * RDIM];
+		memset(A, 0, HORIZON * RDIM*HORIZON * RDIM * sizeof(float));
+		mul(GAMMAT, GAMMA, A, HORIZON * RDIM, HORIZON*YDIM, HORIZON * RDIM);
+
+		// A = A + alpha*I
+		for(int i = 0; i < HORIZON * RDIM; i++){
+			*(A + i*HORIZON * RDIM + i) = *(A + i*HORIZON * RDIM + i) + ALPHA; // Don't need identity matrix here because we only add on diagonal
+		}
+
+		// Copy A and call it AT
+		float AT[HORIZON * RDIM*HORIZON * RDIM];
+		memcpy(AT, A, HORIZON * RDIM*HORIZON * RDIM*sizeof(float)); // A -> AT
+		tran(AT, HORIZON*RDIM, HORIZON*RDIM);
+
+		// Now create c = AT*R_PHI_vec
+		float c[HORIZON * YDIM];
+		memset(c, 0, HORIZON * YDIM*sizeof(float));
+		mul(AT, R_PHI_vec, c, HORIZON*RDIM, HORIZON*RDIM, 1);
+
+		// Do linear programming now
+		linprog(c, A, b, R_vec, HORIZON*YDIM, HORIZON*RDIM, ITERATION_LIMIT);
+		//print(R_vec, HORIZON * YDIM, 1);
+
+	}
 	// Set first R_vec to u
 	for(int i = 0; i < RDIM; i++){
 		*(u + i) = *(R_vec + i);
