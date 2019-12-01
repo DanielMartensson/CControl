@@ -19,12 +19,16 @@ int main() {
 	/*
 	 * In this example we have selected the following configuration inside Confiugration.h
 	 * SELECTED_CONTROL_STRATEGY AUTOMATIC
-	 * q 1000
-	 * LAMBDA 1
-	 * POLY_LENGTH 6
-	 * HORIZON 50
-	 * ALPHA 0.1
-	 * INTEGRATION TRUE
+	 * q 1000 // Initial diagonal values for P matrix for system identification. 1000 is a good number
+	 * LAMBDA 1 // Forgetting factor for system identification. Lambda Should not be less than zero
+	 * POLY_LENGTH 6 // Length of polynomials A(q), B(q) and C(q) in Recursive least squares
+
+	 * HORIZON 50 // How long we want to look in the future
+	 * ALPHA 0.1 // This will prevent dead-beat control and gives more smooth input values
+	 * INTEGRATION TRUE // Enable integral action inside model - Recommended
+	 * ITERATION_LIMIT 100 // This is for MPC
+	 * ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for MRAC
+	 * LEARNING 0.0001 // For MRAC
 	 */
 
 	/*
@@ -101,7 +105,7 @@ int main() {
 	float A[ADIM * ADIM];
 	float B[ADIM * RDIM];
 	float C[YDIM * ADIM];
-	float K[(ADIM - 1) * YDIM]; // (ADIM-1) only if we have INTEGRATION TRUE, else ADIM
+	float K[ADIM * YDIM];
 	theta2ss(A, B, C, theta, K);
 
 	/*
@@ -117,7 +121,7 @@ int main() {
 	print(C, YDIM, ADIM);
 
 	printf("Kalman gain matrix: K\n");
-	print(K, (ADIM - 1), YDIM);
+	print(K, ADIM, YDIM);
 
 	// Find the control law L and reference gain Kr
 	float L[RDIM * ADIM];
@@ -126,6 +130,9 @@ int main() {
 
 	printf("Control law matrix: L\n");
 	print(L, RDIM, ADIM);
+
+	printf("Reference gain: Kr\n");
+	print(Kr, RDIM, 1);
 
 	// Hint: We are using INTEGRATION and therefore control law L contains a integral element at the last element
 	if(INTEGRATION == TRUE){
@@ -149,15 +156,14 @@ int main() {
 		float x[ADIM-1];
 		memset(x, 0, (ADIM-1)*sizeof(float));
 		float xi[1] = {0}; // Integral state
-		int anti_windup = 0; // Anti-windup state - integrate always
 
 		// Call this with the inputs u, y and get the u output
-		lqi(y, u, qi, r, L, Li, x, xi, anti_windup);
+		// If you don't want to have integral action, you can just call lqi() with Li = {0}
+		lqi(y, u, qi, r, L, Li, x, xi);
+
+		// Estimation
 		kalman(A, B, C, K, u, x, y);
 	}
-
-	printf("Reference gain: Kr\n");
-	print(Kr, RDIM, 1);
 
 	return EXIT_SUCCESS;
 }

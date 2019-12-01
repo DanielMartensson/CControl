@@ -15,12 +15,53 @@
  * Consider these as private functions
  */
 static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r, int mode);
-static void integral(float* xi, float* r, float* y, int anti_windup);
+static void integral(float* xi, float* r, float* y);
 static void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C);
 static void obsv(float* PHI, float* A, float* C);
 
 /*
- * This computes the Generlized Predictive Control inputs
+ * This is Adaptive Model Reference Control - No need to use a transfer function here
+ *
+ * u = -LEARNING*r*integral(r*y - r*r) - LEARNING*y*integral(y*y - y*r);
+ * Where: u = input to our system
+ *      : r = reference
+ *      : y = output
+ *      : LEARNING = learning factor e.g 0.00001
+ *      : K1 = integral(r*e) = integral(r*y - r*r)
+ *      : K2 = integral(y*e) = integral(y*y - y*r);
+ *      : e = Model error y - r
+ *
+ * This can be used with multiple outputs and references
+ * HINT: Look up my repository Adaptive-Control and look for Model Reference Adaptive Control with Lyapunov rule
+ */
+void mrac(float* y, float* u, float* r, float* K1, float* K2){
+
+	// First create these vectors
+	float ry[RDIM];
+	float rr[RDIM];
+	float yy[RDIM];
+	float yr[RDIM];
+
+	// Then compute the product
+	for(int i = 0; i < RDIM; i++){
+		*(ry + i) = *(r + i) * *(y + i);
+		*(rr + i) = *(r + i) * *(r + i);
+		*(yy + i) = *(y + i) * *(y + i);
+		*(yr + i) = *(y + i) * *(r + i);
+	}
+
+	// Integrate K = K + y - r
+	integral(K1, ry, rr);
+	integral(K2, yy, yr);
+
+	// Compute u now
+	for(int i = 0; i < RDIM; i++){
+		*(u + i) = -LEARNING * *(r + i) * *(K1 + i) - LEARNING * *(y + i) * *(K2 + i);
+	}
+}
+
+/*
+ * This computes the Generalized Predictive Control inputs
  * Input: Matrix A, Matrix B, Matrix X, Vector x, Vector u, Vector r
  * Output: Vector u
  */
@@ -98,11 +139,11 @@ void autotuning(float* A, float* B, float* C, float* L, float* Kr){
 
 /*
  * This computes the Linear Quadratic Integral inputs
- * Input: Vector y, Vector u, Scalar qi, Vector r, Matrix L, Matrix Li, Vector x, Vecor xi, Option anti_windup
+ * Input: Vector y, Vector u, Scalar qi, Vector r, Matrix L, Matrix Li, Vector x, Vecor xi
  */
-void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi, int anti_windup) {
+void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi) {
 
-	// First compute the L_vec = L*x
+	// First compute the control law L_vec = L*x
 	float L_vec[RDIM*1];
 	memset(L_vec, 0, RDIM*sizeof(float));
 	mul(L, x, L_vec, RDIM, ADIM, 1);
@@ -110,7 +151,7 @@ void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, 
 	// Then compute the integral law Li_vec = Li*xi
 	float Li_vec[RDIM];
 	memset(Li_vec, 0, RDIM*sizeof(float));
-	integral(xi, r, y, anti_windup);
+	integral(xi, r, y);
 	mul(Li, xi, Li_vec, RDIM, YDIM, 1);
 
 	// u = Li/(1-qi)*r - (L*x - Li*xi)
@@ -140,20 +181,20 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r){
 /*
  * xi = xi + r - y;
  */
-static void integral(float* xi, float* r, float* y, int anti_windup) {
+static void integral(float* xi, float* r, float* y) {
 	for(int i = 0; i < RDIM; i++){
 		/*
 		 * Anti-windup
 		 */
-		if(anti_windup == 0){
+		if(ANTI_WINDUP == 0){
 			*(xi + i) = *(xi + i) + *(r + i) - *(y + i); // Always integrate
-		}else if(anti_windup == 1){
+		}else if(ANTI_WINDUP == 1){
 			if(*(r + i) > *(y + i)){
 				*(xi + i) = *(xi + i) + *(r + i) - *(y + i); // Only integrate when r > y, else delete
 			}else{
 				*(xi + i) = 0; // Delete just that xi
 			}
-		}else if(anti_windup == 2){
+		}else if(ANTI_WINDUP == 2){
 			if(*(r + i) > *(y + i)){
 				*(xi + i) = *(xi + i) + *(r + i) - *(y + i); // Only integrate r > y, else stop
 			}
@@ -310,4 +351,3 @@ void obsv(float* PHI, float* A, float* C) {
 		memcpy(A_copy, A_pow, ADIM * ADIM * sizeof(float)); // A_copy <- A_pow
 	}
 }
-

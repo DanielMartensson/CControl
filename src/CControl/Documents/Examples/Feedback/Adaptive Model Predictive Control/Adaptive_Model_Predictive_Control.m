@@ -1,7 +1,6 @@
-%% Example made by Daniel Mårtensson - 2019-10-08
-%% To run this example. You need to install Matavecontrol
 
-function Generalized_Predictive_Control()
+function [retval] = Adaptive_Model_Predictive_Control()
+  
   % Model
   G = tf(4.1, [2 4.2 4]);
 
@@ -26,47 +25,49 @@ function Generalized_Predictive_Control()
   % Implement integral action
   sysdIntegral.A = [sysd.A zeros(size(sysd.A, 2), 1); sysd.C*sysd.A 1];
   sysdIntegral.B = [sysd.B; sysd.C*sysd.B];
-  sysdIntegral.C = [zeros(1, size(Gd.num, 2)) 1]
-
-  % We select N = 50 horizon 
-  PHI = phiMat(sysdIntegral.A, sysdIntegral.C, 50);
-  GAMMA = gammaMat(sysdIntegral.A, sysdIntegral.B, sysdIntegral.C, 50);
+  sysdIntegral.C = [zeros(1, size(Gd.num, 2)) 1];
+  sysdIntegral.D = [0];
+  sysdIntegral.sampleTime = sysd.sampleTime;
+  sysdIntegral.delay = 0;
+  sysdIntegral.type = 'SS';
   
-  % Compute our best inputs with ALPHA = 0.1 and r = 12.5
-  ALPHA = 0.1; % Prevent dead-beat control 
-  r = 12.5; % Reference
+  % Set alpha for prevent dead beat control = stiff input signals 
+  alpha = 0.1;
+  % Reference
+  r = 12.5;
+  % Set the horizon
+  horizon = 50;
+  
+  % Compute the PHI matrix now!
+  PHI = phiMat(sysdIntegral.A, sysdIntegral.C, horizon);
+  % Compute the GAMMA matrix now
+  GAMMA = gammaMat(sysdIntegral.A, sysdIntegral.B, sysdIntegral.C, horizon);
   
   % Initial state vector. Estimate this with a kalman filter
   x = [zeros(length(sysd.A), 1)]; 
   xy = y(end); % This is the state for the output. Because we have an augmented sysd model
   x0 = [x; 
-        xy]
+        xy];
   
-  % The CControl uses Gaussian Elimination, not inverse - Will result the same
-  U = inv(GAMMA'*GAMMA + ALPHA*eye(size(GAMMA)))*GAMMA'*(r-PHI*x0); 
-  
-  % Saturation
-  U(U > 25) = 25;
-  
-  % Kalman 
-  K
-  
-  % Goal: We select the first value that we are going to use as input value
-  disp('Our U(1) value')
-  U(1)
-  
-  % Goal: Update our state vector
-  disp('Current state vector x')
-  x
-  x = sysd.A*x - K*sysd.C*x + sysd.B*U(1) + K*y(end);
-  disp('Our estimated state vector is:')
-  x
-  xy
+  % Use linprog in MATLAB
+  % Here we solve for:
+  % Max: c = (A'*A + ALPHA*I)'*b*x
+  % S.t: (A'*A + ALPHA*I)*x <= A'*b
+  %                       x >= 0
+  Y = repmat(r, horizon, 1) - PHI*x0;
+  A = GAMMA'*GAMMA + alpha*eye(size(GAMMA));
+  c = A'*Y;
+  b = GAMMA'*Y;
+  u = glpk(c, A, b, repmat(0, 1, horizon), [], repmat("U", 1, horizon), repmat("C", 1, horizon), -1);
+  u
+  % Simulation
+  t = 0:sysdIntegral.sampleTime:length(u)/10;
+  lsim(sysd, u', t);
   
 end
 
 function PHI = phiMat(A, C, N)
-
+  
   % Create the special Observabillity matrix
   PHI = [];
   for i = 1:N
@@ -94,3 +95,4 @@ function CAB = cabMat(A, B, C, N)
   end
   
 end
+

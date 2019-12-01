@@ -19,11 +19,13 @@ int main() {
 	/*
 	 * In this example we have selected the following configuration inside Confiugration.h
 	 * SELECTED_CONTROL_STRATEGY MANUAL
-	 * HORIZON 1 // Not needed here
-	 * ALPHA 0 // Not needed here
-	 * ADIM 2
-	 * YDIM 2
-	 * RDIM 2
+	 * ADIM 2 // Matrix A will be [A]
+	 * YDIM 2 // Matrix B will be [C]
+     * RDIM 2 // Matrix C will be [B]
+	 * HORIZON 20
+	 * ALPHA 0.1 // Prevent deadbeat control for MPC and GPC
+     * ITERATION_LIMIT 100 // This is for MPC
+     * ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for LQR
      */
 	float A[ADIM * ADIM] = {0.79499,   0.33654,
 		                   -0.70673,   0.35749};

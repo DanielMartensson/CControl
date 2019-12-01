@@ -23,7 +23,7 @@ void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y
 		for(int i = 0; i < (ADIM-1); i++){
 			*(A_ + i*(ADIM-1)) = *(A + i*ADIM); // Copy over all rows (except last) from column 0
 		}
-		for(int i = 0; i < (ADIM-1)-2; i++){
+		for(int i = 0; i < (ADIM-1)-1; i++){
 			*(A_ + i*(ADIM-1) + 1 + i) = 1; // Ones at the diagonal with 1 in shift to right to second last row
 		}
 		memcpy(B_, B, (ADIM-1)*RDIM*sizeof(float)); // Just copy the whole rows, except last row

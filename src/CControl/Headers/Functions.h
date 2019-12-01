@@ -23,7 +23,8 @@ void gpc(float* A, float* B, float* C, float* x, float* u, float* r);
 void mpc(float* A, float* B, float* C, float* x, float* u, float* r);
 void autotuning(float* A, float* B, float* C, float* L, float* Kr);
 void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y);
-void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi, int anti_windup);
+void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi);
+void mrac(float* y, float* u, float* r, float* K1, float* K2);
 
 /*
  * Tools functions

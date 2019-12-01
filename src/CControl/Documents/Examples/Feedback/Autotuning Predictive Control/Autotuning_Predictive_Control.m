@@ -28,7 +28,17 @@ function Autotuning_Predictive_Control()
   PHI = phiMat(sysdIntegral.A, sysdIntegral.C, 50);
   GAMMA = gammaMat(sysdIntegral.A, sysdIntegral.B, sysdIntegral.C, 50);
   
-  % Get our control law L
+  % The theory is simple.
+  % Assume that we have our agumented state space model R*r = PHI*x + GAMMA*u
+  % Then we solve for u = inv(GAMMA'*GAMMA + ALPHA*I)*GAMMA'*(R*r-PHI*x)
+  % But we are looking for something like this: u = -Kr*r + L*x
+  % So we split up Kr = inv(GAMMA'*GAMMA + ALPHA*I)*GAMMA'*R*r
+  % And L = inv(GAMMA'*GAMMA + ALPHA*I)*GAMMA'*PHI*x
+  % Easy!
+  % Also if we have integral action, then L = [Lx Li] where Lx is control law and Li integral law
+  
+  
+  % Get our control law L and integral law Li
   ALPHA = 0.1;
   G = inv(GAMMA'*GAMMA + ALPHA*eye(size(GAMMA)))*GAMMA';
   L = (G*PHI)(1:size(sysdIntegral.B,2), 1:size(sysdIntegral.A,1));
@@ -37,6 +47,9 @@ function Autotuning_Predictive_Control()
   
   % Get our reference gain Kr
   Kr = (G*repmat(1, 50, 1))(1:size(sysdIntegral.B,2), 1)
+  
+  % You can use Lx and Li for LQI function in CControl.
+  % Multiply Kr with your input r vector for better reference tracking.
 
   
 end

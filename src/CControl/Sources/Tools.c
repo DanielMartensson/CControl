@@ -43,7 +43,7 @@ void theta2ss(float* A, float* B, float* C, float* theta, float* K){
 		*(C + ADIM-1 ) = 1; // Notice that transfer functions is only SISO
 
 		// Create the kalman gain matrix K
-		for(int i = 0; i < ADIM; i++){
+		for(int i = 0; i < ADIM-1; i++){
 			*(K + i) = *(theta + NP + NZ + i) - *(theta + i);
 		}
 	}else{

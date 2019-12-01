@@ -19,24 +19,23 @@ int main() {
 	/*
 	 * In this example we have selected the following configuration inside Confiugration.h
 	 * SELECTED_CONTROL_STRATEGY MANUAL
-	 * ADIM 2
-	 * YDIM 1
-	 * RDIM 1
-	 * HORIZON 100
-	 * ALPHA 0.1
-     * ITERATION_LIMIT 100
+	 * ADIM 2 // Matrix A will be [A]
+	 * YDIM 1 // Matrix B will be [C]
+	 * RDIM 1 // Matrix C will be [B]
+	 * HORIZON 20
+	 * ALPHA 0.1 // Prevent deadbeat control for MPC and GPC
+	 * ITERATION_LIMIT 100 // This is for MPC
+	 * ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for LQR
 	 */
-
 
 	/*
 	 * State space model
 	 */
-	float A[ADIM * ADIM] = {0.89559,   0.37735,
-		      	  	       -0.37735,   0.51825};
-	float B[ADIM * RDIM] = {0.20881,
-		       	   	   	    0.75469};
-	float C[YDIM * ADIM] = {1,   0};
-
+	float A[ADIM * ADIM] = { 0.89559, 0.37735,
+							-0.37735, 0.51825 };
+	float B[ADIM * RDIM] = { 0.20881,
+							 0.75469 };
+	float C[YDIM * ADIM] = { 1, 0 };
 
 	/*
 	 * Print our state space matrix
@@ -50,7 +49,7 @@ int main() {
 	printf("Output matrix: C\n");
 	print(C, YDIM, ADIM);
 
-	float x[ADIM] = {0, 0};
+	float x[ADIM] = { 4, 2};
 	float u[RDIM] = { 0 };
 	float r[YDIM] = { 12.5 };
 
@@ -60,7 +59,6 @@ int main() {
 	// Print solution
 	printf("Best input\n");
 	print(u, RDIM, 1);
-
 
 	return EXIT_SUCCESS;
 }

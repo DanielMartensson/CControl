@@ -1,68 +1,27 @@
-% Call this function with Model_Predictive_Control(A, B, C, Horizon, r, x0)
-% Where A, B, C are system matricies and alpha is tuning factor so you don't
-% Use lmpc.m from Matavecontrol if you want to try a time based simulation before 
-
-function [u] = Model_Predictive_Control(varargin)
-  if(length(varargin) < 1)
-    error('Missing A-matrix and B-matrix')
-  else
-    A = varargin{1};
-    % Check if sys.A is square matrix
-    if(size(A,1) ~= size(A,2))
-      error('A is not a square');
-    end
-  end
+function [u] = Model_Predictive_Control()
   
-  if(length(varargin) < 2)
-    error('Missing B-matrix')
-  else
-    B = varargin{2};
-    % Check if sys.A and sys.B have the same lenght of rows
-    if(size(A, 1) ~= size(B, 1))
-      error('A and B have not the same row length');
-    end
-  end
+  % Model
+  sys = ss(0, [0 1; -1 -1], [0; 2], [1 0]);
+  sysd = c2d(sys, 0.5);
   
-  if(length(varargin) < 3)
-    sprintf('C matrix assumed to be a diagonal %ix%i matrix', size(varargin{1}, 1),size(varargin{1}, 2))
-    C = eye(size(varargin{1}, 1));
-  else
-    C = varargin{3};
-    % Check if sys.A and sys.C have the same lenght of columns 
-    if(size(A, 2) ~= size(C, 2))
-      error('A and C have not the same column length');
-    end
-  end
+  % Initial state
+  x0 = [4;2];
   
-  if(length(varargin) < 4)
-    sprintf('Horizon assumend to be 10');
-    horizon = 10;
-  else
-    horizon = varargin{4};
-  end
+  % Alpha - Prevent dead beat control
+  alpha = 0.1;
   
-  % Get the reference vector R
-  if(length(varargin) >= 5)
-    r = varargin{5};
-  else
-    error('Missing the reference vector R');
-  end
-  
-  % Get the initial state vector x0
-  if(length(varargin) >= 6)
-    x0 = varargin{6};
-  else
-    x0 = zeros(size(A, 1), 1);
-  end
+  % Reference and horizon
+  r = 12.5;
+  horizon = 200;
   
   % Compute the PHI matrix now!
-  PHI = phiMat(A, C, horizon);
+  PHI = phiMat(sysd.A, sysd.C, horizon);
   % Compute the GAMMA matrix now
-  GAMMA = gammaMat(A, B, C, horizon);
+  GAMMA = gammaMat(sysd.A, sysd.B, sysd.C, horizon);
   
-  Y = repmat(r, horizon, 1) - PHI*x0;
   % Use linprog in MATLAB
-  A = GAMMA'*GAMMA + 0.1*eye(size(GAMMA));
+  Y = repmat(r, horizon, 1) - PHI*x0;
+  A = GAMMA'*GAMMA +alpha*eye(size(GAMMA));
   c = A'*Y;
   b = GAMMA'*Y;
   u = glpk(c, A, b, repmat(0, 1, horizon), [], repmat("U", 1, horizon), repmat("C", 1, horizon), -1);
