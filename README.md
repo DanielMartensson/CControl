@@ -28,7 +28,7 @@ Use this controller if you are in need of a PI-controller that needs continuousl
 Use this controleller if you are in need of a LQI controller that finds the control law and integral law by it self and you only need to find these laws only once at start up. 
 
 #### Generalized Predictive Control(GPC)
-Use this controller is you need to compute continuously the best optimal inputs for the system for every iteration. This controller using Gaussian Elimination with Tikhonov regularization to find its input.
+Use this controller is you need to compute continuously the best optimal inputs for the system for every iteration. This controller using Gaussian Elimination with Tikhonov regularization to find its input. The difference between GPC and MPC is that GPC includes Recursive Least Square identification.
 
 #### Model Predictive Control(MPC)
 Use this controller if you have a fix model and you need to continuously the best optimal inputs for the system for every iteration. But instead, you make sure that your inputs cannot result that your output will overshoot over your reference and the inputs cannot be negative. This controller using simplex method with Tikhonov regularization to find its input.
