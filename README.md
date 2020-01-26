@@ -37,7 +37,7 @@ Use this controller if you have a fix model and you need to continuously the bes
 Same as MPC, but this using Recursive Least Square identification to identify a transfer function and after that creates a discrete state space model. Use this controller if you are in a nonlinear system or only need autotuning inside the controller.
 
 #### Linear Quadratic Integral Control(LQI)
-Use this controller if you need multiple inputs and mutiple outputs. This controllers requries offline tuning. But it strench is that what you tune in in your simulation, it going to act very like that in the controller. That's make LQI a very safe controller.
+Use this controller if you need multiple inputs and mutiple outputs. This controllers requries offline tuning. But its strench is that what you tune in in your simulation, it going to act very like that in the controller. That's make LQI a very safe controller.
 
 # Fan Controller with Linear Quadratic Integral Control
 
