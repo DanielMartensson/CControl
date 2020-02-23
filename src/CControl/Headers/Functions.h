@@ -18,7 +18,6 @@
 /*
  * Control functions
  */
-void rls(float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P);
 void gpc(float* A, float* B, float* C, float* x, float* u, float* r);
 void mpc(float* A, float* B, float* C, float* x, float* u, float* r);
 void autotuning(float* A, float* B, float* C, float* L, float* Kr);
@@ -47,5 +46,10 @@ void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, in
  * AI-algorithms
  */
 void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_stop, int y_stop, int height, int width);
+
+/*
+ * Machine learning algorithms
+ */
+void rls(float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P);
 
 #endif /* CCONTROL_FUNCTIONS_H_ */
