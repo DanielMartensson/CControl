@@ -103,7 +103,7 @@
 			}
 		} else {
 			//printf("Break at %i\n", i);
-			position = i; // Remeber that too
+			position = i; // Remember that too
 			break; // The rest is just -1's
 		}
 	}
@@ -135,10 +135,8 @@
 			for(int index = 0; index < 4; index++){
 				for (int j = i + 1; j < height * width; j++) {
 					if(x + x_directions[index] == *(path_x + j) && y + y_directions[index] == *(path_y + j)){
-						if(j > position){
-							position = j;
-							//break;
-						}
+						if(j > position)
+							position = j; // We want to have the largest "gap", which is the zigzag
 					}
 				}
 				// If we got zigzag. We need to have + 1 because we cannot accept a neighbor step as zigzag
@@ -151,7 +149,7 @@
 
 		} else {
 			//printf("Break at %i\n", i);
-			position = i; // Remeber that too
+			position = i; // Remember that too
 			break; // The rest is just -1's
 		}
 	}
