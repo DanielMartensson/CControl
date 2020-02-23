@@ -102,7 +102,7 @@
 				i = position; // Jump
 			}
 		} else {
-			printf("Break at %i\n", i);
+			//printf("Break at %i\n", i);
 			position = i; // Remeber that too
 			break; // The rest is just -1's
 		}
