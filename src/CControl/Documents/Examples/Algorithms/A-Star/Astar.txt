@@ -73,7 +73,7 @@ int main() {
 
 
 	// Print the map
-	printf("Initial map where 0 is our goal\n");
+	printf("Initial map\n");
 	print_int(map, height_map, width_map);
 
 	// Compute the "shortest" path
