@@ -4,6 +4,9 @@
  *  Created on: 23 Feb. 2020
  *      Author: Daniel Mårtensson
  */
+
+#include "../../CControl/Headers/Functions.h"
+#include "../../CControl/Headers/Configurations.h"
  
  /*
   * This is A* algorithm. An AI-algorithm in other words.
