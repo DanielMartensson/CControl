@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : Adaptive_Model_Predictive_Control.c
+ Name        : Model_Reference_Adaptice_Control.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Adaptive Model Predictive Control
+ Description : Model Reference Adaptice Control 
  ============================================================================
  */
 
