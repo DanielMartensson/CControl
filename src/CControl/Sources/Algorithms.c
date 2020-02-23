@@ -116,7 +116,9 @@
 			for (int j = i; j < height * width; j++) {
 				if (*(path_x + j) != -1 && *(path_y + j) != -1) {
 					*(path_x + i) = *(path_x + j);
+					*(path_x + j) = -1;
 					*(path_y + i) = *(path_y + j);
+					*(path_y + j) = -1;
 					break;
 				}
 			}
