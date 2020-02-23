@@ -11,7 +11,8 @@
  /*
   * This is A* algorithm. An AI-algorithm in other words.
   * It find the optimal(at least try too) path from your source to your destination.
-  * See working example how to use
+  * See working example how to use. 
+  * I wrote this C code because I don't like calloc, malloc and recalloc in embedded.
   */
  void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_stop, int y_stop, int height, int width) {
 	// Compute weights
