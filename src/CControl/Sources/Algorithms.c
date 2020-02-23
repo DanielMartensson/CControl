@@ -141,7 +141,7 @@
 						}
 					}
 				}
-				// If we got zigzag. We need to have + 1 because we cannot accent a neighbor step as zigzag
+				// If we got zigzag. We need to have + 1 because we cannot accept a neighbor step as zigzag
 				if (position > i + 1) {
 					memset(path_x + i + 1, -1, (position - i-1) * sizeof(int));
 					memset(path_y + i + 1, -1, (position - i-1) * sizeof(int));
