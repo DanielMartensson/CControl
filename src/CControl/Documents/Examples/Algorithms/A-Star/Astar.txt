@@ -1,0 +1,81 @@
+/*
+ ============================================================================
+ Name        : Astar.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : A* algorithm - Find the shortest path
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "CControl/Headers/Configurations.h"
+#include "CControl/Headers/Functions.h"
+
+#define height_map 15
+#define width_map 10
+
+// This function is here only for illustration. Not needed
+void show_path(int* map, int* path_x, int* path_y, int height, int width){
+	for(int k = 0; k < height*width; k++){
+		int x = *(path_x + k);
+		int y = *(path_y + k);
+		if(x != -1 && y != -1)
+			*(map + y*width + x) = -100;
+	}
+	print((float*) map, height, width);
+}
+
+int main() {
+
+	// Beginning coordinates
+	int x_start = 8;
+	int y_start = 13;
+
+	// End coordinates
+	int x_stop = 7;
+	int y_stop = 4;
+
+	// Path - Our goal is to find them
+	int path_x[height_map*width_map];
+	int path_y[height_map*width_map];
+	memset(path_x, -1, height_map*width_map*sizeof(int));
+	memset(path_y, -1, height_map*width_map*sizeof(int));
+
+	// Map size
+	int map[height_map*width_map] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+									 -1,  0,  0,  0, -1, -1, -1,  0,  0, -1,
+									 -1,  0,  0,  0,  0,  0, -1,  0,  0, -1,
+									 -1,  -1,  0, -1,  0,  0, -1,-1, -1, -1,
+									 -1,  -1,  0, -1,  0,  0, 0,  0,  0, -1,
+									 -1,  0,  0, -1, -1, -1, -1,  0,  0, -1,
+									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+									 -1,  0, -1, -1, -1, -1, -1, -1, -1, -1,
+									 -1,  0,  0,  0, -1,  0,  0, -1,  0, -1,
+									 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
+									 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
+									 -1,  0,  0,  0,  0,  0, -1, -1,  0, -1,
+									 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+
+
+	// Print the map
+	printf("Initial map where 0 is our goal\n");
+	print((float*) map, height_map, width_map);
+
+	// Compute the "shortest" path
+	printf("Compute the coordinates\n");
+	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map);
+
+	// Show the path
+	printf("\nComputed map\n");
+	show_path(map, path_x, path_y, height_map, width_map);
+
+	// Show the path
+	for(int i = 0; i < height_map*width_map; i++)
+		printf("x = %d, y = %d\n", path_x[i] , path_y[i]);
+
+	return EXIT_SUCCESS;
+}
