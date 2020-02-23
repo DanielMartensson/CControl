@@ -83,7 +83,7 @@
 	}
 	//printf("Current goal coordinate: x = %d, y = %d\n", x, y);
 
-	// Filter the path_x and path_y
+	// Filter the path_x and path_y from duplicates
 	for (int i = 0; i < height * width; i++) {
 		position = 0;
 		x = *(path_x + i);
@@ -124,5 +124,54 @@
 			}
 		}
 	}
+
+	// Filter the path_x and path_y from zigzag
+	for (int i = 0; i < height * width; i++) {
+		position = 0;
+		x = *(path_x + i);
+		y = *(path_y + i);
+		if (x != -1 && y != -1) {
+			// Search for a jump
+			for(int index = 0; index < 4; index++){
+				for (int j = i + 1; j < height * width; j++) {
+					if(x + x_directions[index] == *(path_x + j) && y + y_directions[index] == *(path_y + j)){
+						if(j > position){
+							position = j;
+							//break;
+						}
+					}
+				}
+				// If we got zigzag. We need to have + 1 because we cannot accent a neighbor step as zigzag
+				if (position > i + 1) {
+					memset(path_x + i + 1, -1, (position - i-1) * sizeof(int));
+					memset(path_y + i + 1, -1, (position - i-1) * sizeof(int));
+					i = position; // Jump
+				}
+			}
+
+		} else {
+			//printf("Break at %i\n", i);
+			position = i; // Remeber that too
+			break; // The rest is just -1's
+		}
+	}
+
+	// Pack path_x and path_y together again
+	for (int i = 0; i < position; i++) {
+		// If we have a deleted coordinate
+		if (*(path_x + i) == -1 && *(path_y + i) == -1) {
+			// Move them up
+			for (int j = i; j < height * width; j++) {
+				if (*(path_x + j) != -1 && *(path_y + j) != -1) {
+					*(path_x + i) = *(path_x + j);
+					*(path_x + j) = -1;
+					*(path_y + i) = *(path_y + j);
+					*(path_y + j) = -1;
+					break;
+				}
+			}
+		}
+	}
+
 	//printf("Done\n");
 }
