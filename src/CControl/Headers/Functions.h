@@ -43,4 +43,9 @@ void tran(float* A, int row, int column);
 void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b);
 void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, int iteration_limit);
 
+/*
+ * AI-algorithms
+ */
+void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_stop, int y_stop, int height, int width);
+
 #endif /* CCONTROL_FUNCTIONS_H_ */
