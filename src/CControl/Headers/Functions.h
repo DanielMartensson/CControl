@@ -46,8 +46,7 @@ void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, in
 /*
  * AI-algorithms
  */
-void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_stop, int y_stop, int height, int width);
-
+void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_stop, int y_stop, int height, int width, int norm_mode, int* steps);
 /*
  * Machine learning algorithms
  */
