@@ -7,28 +7,22 @@
 
 #include "../../CControl/Headers/Functions.h"
 #include "../../CControl/Headers/Configurations.h"
- 
- /*
-  * This is A* algorithm. An AI-algorithm in other words.
-  * It find the optimal(at least try too) path from your source to your destination.
-  * See working example how to use. 
-  * I wrote this C code because I don't like calloc, malloc and recalloc in embedded.
-  */
- void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_stop, int y_stop, int height, int width) {
-	// Compute weights
-	for (int i = 0; i < width; i++) {
-		for (int j = 0; j < height; j++) {
-			if (*(map + j * width + i) != -1) {
-				int dot1 = (j + i); // Here we stand
-				int dot2 = (j + x_stop); // Here we want to go in x-axis
-				int dot3 = (y_stop + i); // Here we want to go in y-axis
-				// Do pythagoras theorem c*c = a*a + b*b, but don't use square root here
-				//*(map + j * width + i) = (dot2 - dot1) * (dot2 - dot1) + (dot3 - dot1) * (dot3 - dot1);
-				// Use Manhattan distance instead
-				*(map + j * width + i) = abs(dot2 - dot1) + abs(dot3 - dot1);
-			}
-		}
-	}
+
+static void heuristic_map(int *map, int x_stop, int y_stop, int height, int width, int norm_mode);
+
+/*
+ * This is A* algorithm. An AI-algorithm in other words.
+ * It find the optimal(at least try too) path from your source to your destination.
+ * See working example how to use.
+ * I wrote this C code because I don't like calloc, malloc and recalloc in embedded.
+ */
+void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_stop, int y_stop, int height, int width, int norm_mode, int* steps) {
+	// Clear first our path
+	memset(path_x, -1, height * width * sizeof(int));
+	memset(path_y, -1, height * width * sizeof(int));
+
+	// Create map with L2-norm
+	heuristic_map(map, x_stop, y_stop, height, width, norm_mode);
 
 	// Set some initial parameters
 	int direction[4];
@@ -76,7 +70,7 @@
 		if (position == 3) y++; // Go one step down
 
 		// Check if we are at our goal
-		if (*(map + y * width + x) == 0){
+		if (*(map + y * width + x) == 0) {
 			*(path_x + k + 1) = x;
 			*(path_y + k + 1) = y;
 			break;
@@ -134,17 +128,17 @@
 		y = *(path_y + i);
 		if (x != -1 && y != -1) {
 			// Search for a jump
-			for(int index = 0; index < 4; index++){
+			for (int index = 0; index < 4; index++) {
 				for (int j = i + 1; j < height * width; j++) {
-					if(x + x_directions[index] == *(path_x + j) && y + y_directions[index] == *(path_y + j)){
-						if(j > position)
+					if (x + x_directions[index] == *(path_x + j) && y + y_directions[index] == *(path_y + j)) {
+						if (j > position)
 							position = j; // We want to have the largest "gap", which is the zigzag
 					}
 				}
 				// If we got zigzag. We need to have + 1 because we cannot accept a neighbor step as zigzag
 				if (position > i + 1) {
-					memset(path_x + i + 1, -1, (position - i-1) * sizeof(int));
-					memset(path_y + i + 1, -1, (position - i-1) * sizeof(int));
+					memset(path_x + i + 1, -1, (position - i - 1) * sizeof(int));
+					memset(path_y + i + 1, -1, (position - i - 1) * sizeof(int));
 					i = position; // Jump
 				}
 			}
@@ -173,5 +167,27 @@
 		}
 	}
 
+	// How many steps have we done
+	//printf("position is = %d\n", position);
+	*steps = position;
+
 	//printf("Done\n");
+}
+
+// norm_mode = 2 -> L2 norm
+// norm_mode = 1 -> L1 norm
+static void heuristic_map(int *map, int x_stop, int y_stop, int height, int width, int norm_mode) {
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			if (*(map + j * width + i) != -1) {
+				int dx = (j + x_stop) - (j + i); 	// Distance we want to go in x-axis
+				int dy = (y_stop + i) - (j + i);  	// Distance we want to go in y-axis
+				if (norm_mode == 1)
+					*(map + j * width + i) = abs(dx) + abs(dy); // L1-Norm
+				if (norm_mode == 2)
+					*(map + j * width + i) = dx * dx + dy * dy; // L2-Norm (without square root, not needed due to integers)
+				// You can add more heuristic here!
+			}
+		}
+	}
 }
