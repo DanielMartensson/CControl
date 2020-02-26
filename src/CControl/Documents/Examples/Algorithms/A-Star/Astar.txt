@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
@@ -17,7 +18,7 @@
 #define width_map 10
 
 // This function is here only for illustration. Not needed
-void print_int(int* A, int row, int column) {
+void print_int(int *A, int row, int column) {
 	for (int i = 0; i < row; i++) {
 		for (int j = 0; j < column; j++) {
 			printf("%d\t", *(A++));
@@ -28,12 +29,12 @@ void print_int(int* A, int row, int column) {
 }
 
 // This function is here only for illustration. Not needed
-void show_path(int* map, int* path_x, int* path_y, int height, int width){
-	for(int k = 0; k < height*width; k++){
+void show_path(int *map, int *path_x, int *path_y, int height, int width) {
+	for (int k = 0; k < height * width; k++) {
 		int x = *(path_x + k);
 		int y = *(path_y + k);
-		if(x != -1 && y != -1)
-			*(map + y*width + x) = -100 - k;
+		if (x != -1 && y != -1)
+			*(map + y * width + x) = -100 - k;
 	}
 	print_int(map, height, width);
 }
@@ -41,36 +42,41 @@ void show_path(int* map, int* path_x, int* path_y, int height, int width){
 int main() {
 
 	// Beginning coordinates
-	int x_start = 1;
-	int y_start = 1;
+	int x_start = 8;
+	int y_start = 13;
 
 	// End coordinates
 	int x_stop = 6;
-	int y_stop = 6;
+	int y_stop = 2;
 
 	// Path - Our goal is to find them
-	int path_x[height_map*width_map];
-	int path_y[height_map*width_map];
-	memset(path_x, -1, height_map*width_map*sizeof(int));
-	memset(path_y, -1, height_map*width_map*sizeof(int));
+	int path_x[height_map * width_map];
+	int path_y[height_map * width_map];
+
+	// Norm modes
+	int norm1 = 1; // L1-Norm
+	int norm2 = 2; // L2-Norm
+
+	// Steps
+	int steps1 = 0;
+	int steps2 = 0;
 
 	// Map size
 	int map[height_map*width_map] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-					 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
-					 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
-					 -1,  0,  0,  0, -1, -1, -1,  0,  0, -1,
-					 -1,  0,  0,  0,  0,  0, -1,  0,  0, -1,
-					 -1, -1,  0, -1,  0,  0, -1, -1, -1, -1,
-					 -1, -1,  0, -1,  0,  0,  0,  0,  0, -1,
-					 -1,  0,  0, -1, -1, -1, -1,  0,  0, -1,
-					 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
-					 -1,  0, -1, -1, -1, -1, -1, -1, -1, -1,
-					 -1,  0,  0,  0, -1,  0,  0, -1,  0, -1,
-					 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
-					 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
-					 -1,  0,  0,  0,  0,  0, -1, -1,  0, -1,
-					 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
-
+									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+									 -1,  0,  0,  0, -1, -1, -1,  0,  0, -1,
+									 -1,  0,  0,  0,  0,  0, -1,  0,  0, -1,
+									 -1, -1,  0, -1,  0,  0, -1, -1, -1, -1,
+									 -1, -1,  0, -1,  0,  0,  0,  0,  0, -1,
+									 -1,  0,  0, -1, -1, -1, -1,  0,  0, -1,
+									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+									 -1,  0, -1, -1, -1, -1, -1, -1, -1, -1,
+									 -1,  0,  0,  0, -1,  0,  0, -1,  0, -1,
+									 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
+									 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
+									 -1,  0,  0,  0,  0,  0, -1, -1,  0, -1,
+									 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 
 	// Print the map
 	printf("Initial map\n");
@@ -78,15 +84,33 @@ int main() {
 
 	// Compute the "shortest" path
 	printf("Compute the coordinates\n");
-	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map);
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	// First compute with L1-Norm and check the steps
+	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm1, &steps1);
+	// Then compute with L2-norm and check the steps
+	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm2, &steps2);
+	// Check the steps now - Which of the norms results less steps
+	if(steps2 > steps1){
+		Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm1, &steps1); // Get the path again
+		printf("Shortest step is = %d\n", steps1);
+	}else{
+		printf("Shortest step is = %d\n", steps2);
+	}
+
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f,", cpu_time_used);
 
 	// Show the path
 	printf("\nComputed map\n");
 	show_path(map, path_x, path_y, height_map, width_map);
 
 	// Show the path
-	for(int i = 0; i < height_map*width_map; i++)
-		printf("x = %d, y = %d\n", path_x[i] , path_y[i]);
+	for (int i = 0; i < height_map * width_map; i++)
+		printf("x = %d, y = %d\n", path_x[i], path_y[i]);
 
 	return EXIT_SUCCESS;
 }
