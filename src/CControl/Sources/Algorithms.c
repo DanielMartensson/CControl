@@ -23,7 +23,9 @@
 				int dot2 = (j + x_stop); // Here we want to go in x-axis
 				int dot3 = (y_stop + i); // Here we want to go in y-axis
 				// Do pythagoras theorem c*c = a*a + b*b, but don't use square root here
-				*(map + j * width + i) = (dot2 - dot1) * (dot2 - dot1) + (dot3 - dot1) * (dot3 - dot1);
+				//*(map + j * width + i) = (dot2 - dot1) * (dot2 - dot1) + (dot3 - dot1) * (dot3 - dot1);
+				// Use Manhattan distance instead
+				*(map + j * width + i) = abs(dot2 - dot1) + abs(dot3 - dot1);
 			}
 		}
 	}
