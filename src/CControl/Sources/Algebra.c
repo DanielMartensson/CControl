@@ -37,8 +37,8 @@ void tran(float* A, int row, int column) {
 void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b) {
 
 	// Data matrix
-	float* data_a = A;
-	float* data_b = B;
+	float* data_a;
+	float* data_b;
 
 	for (int i = 0; i < row_a; i++) {
 		// Then we go through every column of b
@@ -274,7 +274,110 @@ void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, in
 			}
 		}
 	}
-
+	
 	//print(tableau,(row_a+1),(column_a+row_a+2));
+}
 
+/*
+ * This is Singular Value Decomposition A = USV^T
+ * This uses Jacobi rotation method. A need to be symmetric and square
+ * http://www.netlib.org/lapack/lawnspdf/lawn15.pdf
+ * A [m*m]
+ * U [m*m]
+ * S [m]
+ * V [m*m]
+ */
+void svd(float *A, int row_a, float *U, float *S, float *V) {
+	// i and j are the indices of the point we've chosen to zero out
+	float al, b, c, l, t, cs, sn, tmp, sign;
+	int i, j, p, k;
+
+	// Create the identity matrix
+	memset(U, 0, row_a*row_a*sizeof(float));
+	memset(V, 0, row_a*row_a*sizeof(float));
+	memset(S, 0, row_a*sizeof(float));
+	for(i = 0; i < row_a; i++){
+		*(U + row_a*i + i) = 1;
+		*(V + row_a*i + i) = 1;
+	}
+
+	// Apply 10 times. That should be good enough
+	for (p = 0; p < 10; p++) {
+		// For all pairs i < j
+		for (i = 0; i < row_a; i++) {
+			for (j = i + 1; j < row_a; j++) {
+				al = b = c = l = t = cs = sn = tmp = sign = 0.0;
+				// Find the 2x2 submatrix
+				for (k = 0; k < row_a; k++) {
+					al += *(A + row_a*k + i) * *(A + row_a*k + i);
+					b += *(A + row_a*k + j) * *(A + row_a*k + j);
+					c += *(A + row_a*k + i) * *(A + row_a*k + j);
+				}
+
+				// Compute Jacobi rotation
+				l = (b - al) / (2.0 * c);
+				sign = 1.0;
+				if (l < 0.0)
+					sign = -1.0;
+				t = sign / ((sign * l) + sqrt(1.0 + l * l));
+				cs = 1.0 / sqrt(1.0 + t * t);
+				sn = cs * t;
+
+				// Change columns i and j only
+				for (k = 0; k < row_a; k++) {
+					tmp = *(A + row_a*k + i);
+					*(A + row_a*k + i) = cs * tmp - sn * *(A + row_a*k + j);
+					*(A + row_a*k + j) = sn * tmp + cs * *(A + row_a*k + j);
+				}
+
+				// Update the right singular vectors
+				for (k = 0; k < row_a; k++) {
+					tmp = *(V + row_a*k + i);
+					*(V + row_a*k + i) = cs * tmp - sn * *(V + row_a*k + j);
+					*(V + row_a*k + j) = sn * tmp + cs * *(V + row_a*k + j);
+				}
+
+			}
+		}
+	}
+
+	// Find the singular values by adding up squares of each column, then taking square root of each column
+	for (j = 0; j < row_a; j++) {
+		for (i = 0; i < row_a; i++) {
+			*(S + j) += *(A + row_a*i + j) * *(A + row_a*i + j);
+		}
+		tmp = *(S + j);
+		*(S + j) = sqrt(tmp);
+	}
+
+	// Sort the singular values largest to smallest, and the right matrix accordingly
+	for (p = 0; p < (row_a - 1); p++) {
+		for (j = 0; j < row_a - p - 1; j++) {
+			if (*(S + j) < *(S + j + 1)) {
+				tmp = *(S + j);
+				*(S + j) = *(S + j + 1);
+				*(S + j + 1) = tmp;
+
+				// Rearrange columns of u and v accordingly
+				for (i = 0; i < row_a; i++) {
+					tmp = *(V + row_a*i + j);
+					*(V + row_a*i + j) = *(V + row_a*i + j + 1);
+					*(V + row_a*i + j + 1) = tmp;
+					tmp = *(A + row_a*i + j);
+					*(A + row_a*i + j) = *(A + row_a*i + j + 1);
+					*(A + row_a*i + j + 1) = tmp;
+				}
+			}
+		}
+	}
+
+	// A is A*V, so in order to get U, we divide by S in each column
+	for (i = 0; i < row_a; i++) {
+		for (j = 0; j < row_a; j++) {
+			*(A + row_a*i + j) = *(A + row_a*i + j) / *(S + j);
+		}
+	}
+
+	// Set U to A, since we have been making modifications to A
+	memcpy(U, A, row_a*row_a*sizeof(float));
 }
