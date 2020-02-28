@@ -99,9 +99,7 @@ void linsolve(float* A, float* x, float* b, int row_a, int column_a) {
 		}
 	}
 
-	/*
-	 * Time to solve x from ATAx = ATb.
-	 */
+	// Time to solve x from ATAx = ATb.
 	memset(x, 0, column_a * sizeof(float)); // Reset
 	for(int i = column_a-1; i >= 0; i--){ // Column
 		pivot = 0.0; // This is our sum
