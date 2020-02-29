@@ -289,7 +289,7 @@ static void solve(float* GAMMA, float* PHI, float* x, float* u, float* r, int mo
 /*
  * Lower traingular toeplitz of extended observability matrix
  */
-void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C){
+static void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C){
 
 	// First create the initial C*A^0*B == C*I*B == C*B
 	float CB[YDIM*RDIM];
@@ -325,7 +325,7 @@ void CAB(float* GAMMA, float* PHI, float* A, float* B, float* C){
 /*
  * [C*A^1; C*A^2; C*A^3; ... ; C*A^HORIZON] % Extended observability matrix
  */
-void obsv(float* PHI, float* A, float* C) {
+static void obsv(float* PHI, float* A, float* C) {
 
 	// This matrix will A^(i+1) all the time
 	float A_pow[ADIM*ADIM];
