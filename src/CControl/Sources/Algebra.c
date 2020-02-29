@@ -285,7 +285,7 @@ void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, in
 
 /*
  * This is Singular Value Decomposition A = USV^T
- * This uses Jacobi rotation method. A need to be symmetric and square
+ * This uses Jacobi rotation method. A need to be square.
  * http://www.netlib.org/lapack/lawnspdf/lawn15.pdf
  * A [m*m]
  * U [m*m]
