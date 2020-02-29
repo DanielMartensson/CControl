@@ -33,6 +33,7 @@ void mrac(float* y, float* u, float* r, float* K1, float* K2);
 void theta2ss(float* A, float* B, float* C, float* theta, float* K);
 void saturation(float* input, float lower_limit, float upper_limit);
 void cut(float* A, int row, int column, float* B, int start_row, int stop_row, int start_column, int stop_column);
+void insert(float* A, float* B, int row_a, int column_a, int column_b, int startRow_b, int startColumn_b);
 void print(float* A, int row, int column);
 
 /*
@@ -44,6 +45,7 @@ void tran(float* A, int row, int column);
 void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b);
 void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, int iteration_limit);
 void svd(float *A, int row_a, float *U, float *S, float *V);
+void dlyap(float* A, float* P, float* Q, int row_a);
 
 /*
  * AI-algorithms
