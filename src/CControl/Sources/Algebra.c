@@ -8,6 +8,11 @@
 #include "../../CControl/Headers/Functions.h"
 #include "../../CControl/Headers/Configurations.h"
 
+// Private functions
+static void Householders_Reduction_to_Bidiagonal_Form(float *A, int nrows, int ncols, float *U, float *V, float *diagonal, float *superdiagonal);
+static int Givens_Reduction_to_Diagonal_Form(int nrows, int ncols, float *U, float *V, float *diagonal, float *superdiagonal);
+static void Sort_by_Decreasing_Singular_Values(int nrows, int ncols, float *singular_value, float *U, float *V);
+
 /*
  * Turn A into transponse A^T
  */
