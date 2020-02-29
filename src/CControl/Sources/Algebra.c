@@ -381,3 +381,36 @@ void svd(float *A, int row_a, float *U, float *S, float *V) {
 	// Set U to A, since we have been making modifications to A
 	memcpy(U, A, row_a*row_a*sizeof(float));
 }
+
+/*
+ * Discrete Lyapunov equation
+ * Solves A * P * A' - P + Q = 0
+ * A, P, Q need to be square and Q need to be positive and symmetric
+ */
+void dlyap(float* A, float* P, float* Q, int row_a){
+	// Create an zero large matrix M
+	float M[row_a*row_a*row_a*row_a]; // row_a^2 * row_a^2
+
+	// Create a temporary B matrix
+	float B[row_a*row_a];
+
+	// Fill the M matrix
+	for(int k = 0; k < row_a; k++){
+		for(int l = 0; l < row_a; l++){
+			memcpy(B, A, row_a*row_a*sizeof(float)); // B = A*A(k, l);
+			for(int i = 0; i < row_a*row_a; i++) *(B + i) *= *(A + row_a*k + l);
+			insert(B, M, row_a, row_a, row_a*row_a, row_a*k, row_a*l);
+		}
+	}
+
+	// Turn M negative but add +1 on diagonals
+	for(int i = 0; i < row_a*row_a; i++)
+		for(int j = 0; j < row_a*row_a; j++)
+			if(i == j)
+				*(M + row_a*row_a*i + j) = - *(M + row_a*row_a*i + j) + 1;
+			else
+				*(M + row_a*row_a*i + j) = - *(M + row_a*row_a*i + j);
+
+	// Solve MP = Q, where P is our solution
+	linsolve(M, P, Q, row_a*row_a, row_a*row_a);
+}
