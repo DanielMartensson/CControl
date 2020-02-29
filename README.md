@@ -12,6 +12,7 @@ CControl is a library written in C only. The library have the tools and features
 * Kalman Filter(KF)
 * Recursive Least Square identification(RLS)
 * A* - Find and search the shortest path in a map
+* Lyapunov stability check
 ```
 
 All these controller can be implemented onto an microcontroller such as STM32, Arduino, PIC, AVR etc because all are made in portable C code. 
