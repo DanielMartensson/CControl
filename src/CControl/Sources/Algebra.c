@@ -575,8 +575,7 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, int nrows, int n
 	*(pvi + ncols - 1) = 1.0;
 	s = superdiagonal[ncols - 1];
 	pvi -= ncols;
-	for (i = ncols - 2, ip1 = ncols - 1; i >= 0; i--, pui -= ncols, pvi -=
-			ncols, ip1--) {
+	for (i = ncols - 2, ip1 = ncols - 1; i >= 0; i--, pui -= ncols, pvi -= ncols, ip1--) {
 		if (s != 0.0) {
 			pv = pvi + ncols;
 			for (j = ip1; j < ncols; j++, pv += ncols)
