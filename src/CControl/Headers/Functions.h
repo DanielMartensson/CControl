@@ -45,7 +45,7 @@ void linsolve(float* A, float* x, float* b, int row_a, int column_a);
 void tran(float* A, int row, int column);
 void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b);
 void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, int iteration_limit);
-void svd(float *A, int row_a, float *U, float *S, float *V);
+void svd_jacobi_one_sided(float *A, int row_a, float *U, float *S, float *V);
 void dlyap(float* A, float* P, float* Q, int row_a);
 
 /*
