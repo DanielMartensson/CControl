@@ -412,5 +412,5 @@ void dlyap(float* A, float* P, float* Q, int row_a){
 				*(M + row_a*row_a*i + j) = - *(M + row_a*row_a*i + j);
 
 	// Solve MP = Q, where P is our solution
-	linsolve(M, P, Q, row_a*row_a, row_a*row_a);
+	linsolve(M, P, Q, row_a*row_a, row_a*row_a);  // TODO: Använd QR-decomposition istället för Tichonov regularization.
 }
