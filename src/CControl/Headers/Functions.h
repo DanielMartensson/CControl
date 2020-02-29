@@ -26,6 +26,7 @@ void autotuning(float* A, float* B, float* C, float* L, float* Kr);
 void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y);
 void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi);
 void mrac(float* y, float* u, float* r, float* K1, float* K2);
+int stability(float* A);
 
 /*
  * Tools functions
