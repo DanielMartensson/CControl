@@ -24,6 +24,11 @@
 #define UPPER_INTEGRATE_LOWER_DELETE 1 // Delete xi when r < y, else integrate when r > y
 #define UPPER_INTEGRATE_LOWER_STOP 2 // Only integrate xi when r < y, but stop integrate when r > y
 
+/*
+ * Algorithms iterations
+ */
+#define MAX_ITERATION_COUNT_SVD 30   // Maximum number of iterations
+
 #ifndef CCONTROL_CONFIGURATIONS_H_
 #define CCONTROL_CONFIGURATIONS_H_
 
