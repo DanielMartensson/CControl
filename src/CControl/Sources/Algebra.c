@@ -60,7 +60,7 @@ void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b) {
 
 /*
  * This solves x from (A^T*A + ALPHA*I)*x = A^T*b
- * In other words. This is Gaussian elimination for solving Ax = b
+ * In other words. This is Tikhonov regularization solved by Guassian Elimination for solving Ax = b
  */
 void linsolve(float* A, float* x, float* b, int row_a, int column_a) {
 
