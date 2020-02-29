@@ -287,7 +287,7 @@ void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, in
  * S [m]
  * V [m*m]
  */
-void svd(float *A, int row_a, float *U, float *S, float *V) {
+void svd_jacobi_one_sided(float *A, int row_a, float *U, float *S, float *V) {
 	// i and j are the indices of the point we've chosen to zero out
 	float al, b, c, l, t, cs, sn, tmp, sign;
 	int i, j, p, k;
