@@ -319,8 +319,8 @@ void svd(float *A, int row_a, float *U, float *S, float *V) {
 				sign = 1.0;
 				if (l < 0.0)
 					sign = -1.0;
-				t = sign / ((sign * l) + sqrt(1.0 + l * l));
-				cs = 1.0 / sqrt(1.0 + t * t);
+				t = sign / ((sign * l) + sqrtf(1.0 + l * l));
+				cs = 1.0 / sqrtf(1.0 + t * t);
 				sn = cs * t;
 
 				// Change columns i and j only
@@ -347,7 +347,7 @@ void svd(float *A, int row_a, float *U, float *S, float *V) {
 			*(S + j) += *(A + row_a*i + j) * *(A + row_a*i + j);
 		}
 		tmp = *(S + j);
-		*(S + j) = sqrt(tmp);
+		*(S + j) = sqrtf(tmp);
 	}
 
 	// Sort the singular values largest to smallest, and the right matrix accordingly
