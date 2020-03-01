@@ -49,6 +49,7 @@ void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, in
 void svd_jacobi_one_sided(float *A, int row_a, float *U, float *S, float *V);
 void dlyap(float* A, float* P, float* Q, int row_a);
 int svd_golub_reinsch(float *A, int nrows, int ncols, float *U, float *singular_values, float *V);
+void qr(float* A, float* Q, float* R, int row_a, int column_a);
 
 /*
  * AI-algorithms
