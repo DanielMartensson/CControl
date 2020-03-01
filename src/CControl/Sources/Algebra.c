@@ -772,3 +772,90 @@ static void Sort_by_Decreasing_Singular_Values(int nrows, int ncols, float *sing
 		}
 	}
 }
+
+/*
+ * Householder QR - The best QR-decomposition.
+ * A [m*n]
+ * Q [m*m]
+ * R [m*n]
+ */
+void qr(float* A, float* Q, float* R, int row_a, int column_a){
+	// Turn Q into identity matrix
+	memset(Q, 0, row_a*row_a*sizeof(float));
+	for(int i = 0; i < row_a; i++) *(Q + row_a*i + i) = 1;
+
+	// Give A to R
+	memcpy(R, A, row_a*column_a*sizeof(float));
+
+	// Parameters
+	float normx;
+	float s;
+	float u1;
+	float tau;
+	float temp[column_a]; // This is for holding values for Q and R
+
+	// This make sure that we can use A transpose as well
+	int loops = row_a <= column_a ? row_a : column_a;
+
+	// H = I-tau*w*w’ to put zeros below R(j,j)
+	for(int j = 0; j < loops; j++){
+		// Do the euclidean norm
+		normx = 0;
+		for(int i = j; i < row_a; i++){
+			normx += *(R + column_a*i + j) * *(R + column_a*i + j);
+		}
+		normx = sqrtf(normx);
+
+		// Do reversed sigmoid!
+		if(*(R + column_a*j + j) > 0)
+			s = -1;
+		else if(*(R + column_a*j + j) < 0)
+			s = 1;
+		else
+			s = 0;
+
+		// Now create Q and R
+		u1 = *(R + column_a*j + j) - s*normx;
+		float w[row_a - j];
+		for(int i = 0; i < row_a-j; i++)
+			w[i] = *(R + column_a*(i+j) + j)/u1;
+		w[0] = 1;
+		tau = -s*u1/normx;
+
+		// R = HR, Q := QH
+
+		// Do temp = w'*B
+		// B = R(j:end, :)
+		float B[(row_a-j)*column_a];
+		memset(B, 0, (row_a-j)*column_a*sizeof(float));
+		cut(R, row_a, column_a, B, j, row_a-1, 0, column_a-1);
+		mul(w, B, temp, 1, row_a - j, column_a);
+
+		// Do B = w*temp
+		mul(w, temp, B, row_a - j, 1, column_a);
+
+		// Do C = w*w'
+		float C[(row_a - j)*(row_a - j)];
+		memset(C, 0, (row_a - j)*(row_a - j)*sizeof(float));
+		mul(w, w, C, row_a - j, 1, row_a - j);
+
+		// Create D = Q(:,j:end)
+		float D[row_a*(row_a-j)];
+		memset(D, 0, row_a*(row_a-j)*sizeof(float));
+		cut(Q, row_a, row_a, D, 0, row_a-1, j, row_a-1);
+
+		// Do E = D*C
+		float E[row_a*(row_a - j)];
+		memset(E, 0, row_a*(row_a - j)*sizeof(float));
+		mul(D, C, E, row_a, row_a-j, row_a-j);
+
+		// Find now Q and R
+		for(int i = 0; i < row_a-j; i++)
+			for(int a = 0; a < column_a; a++)
+				*(R + column_a*(i+j) + a) += -tau*B[column_a*i + a];
+
+		for(int i = 0; i < row_a; i++)
+			for(int a = 0; a < row_a-j; a++)
+				*(Q + row_a*i + (a+j)) += -tau*E[(row_a-j)*i + a];
+	}
+}
