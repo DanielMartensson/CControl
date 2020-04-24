@@ -1,0 +1,46 @@
+/*
+ ============================================================================
+ Name        : insert.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Insert into a matrix
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "CControl/Headers/Configurations.h"
+#include "CControl/Headers/Functions.h"
+
+int main() {
+
+	// Matrix A
+	float A[5*5] = {0.87508,   0.48607,   0.30560,   0.32509,   0.23096,
+				    0.12308,   0.84311,   0.42221,   0.20273,   0.87377,
+				    0.42986,   0.11245,   0.40494,   0.27304,   0.59772,
+				    0.85124,   0.99245,   0.56873,   0.19438,   0.11308,
+				    0.97190,   0.22475,   0.24501,   0.85403,   0.54691};
+
+	// Matrix B
+	float B[2*3] = {1, 1, 1,
+					2, 2, 2};
+
+
+	// Insert B into A at a specific row and column
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+	insert(B, A, 2, 3, 5, 3, 2);
+	cut(A, 5, 5, B, 3, 4, 2, 4); // We want to B = A(4:5, 3:5)
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	// Print A
+	printf("A\n");
+	print(A, 5, 5);
+
+	return EXIT_SUCCESS;
+}

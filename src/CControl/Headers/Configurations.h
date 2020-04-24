@@ -45,7 +45,7 @@
 	/*
 	 * Polynomial transfer function estimation
 	 */
-	#define q 1000 // Initial diagonal values for P matrix for system identification. 1000 is a good number
+	#define Pq 1000 // Initial diagonal values for P matrix for system identification. 1000 is a good number
 	#define LAMBDA 1 // Forgetting factor for system identification. Lambda Should not be less than zero
 	#define POLY_LENGTH 6 // Length of polynomials A(q), B(q) and C(q) in Recursive least squares
 

@@ -8,7 +8,13 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include src/CControl/Sources/subdir.mk
+-include src/CControl/Sources/SystemIdentification/subdir.mk
+-include src/CControl/Sources/Optimization/subdir.mk
+-include src/CControl/Sources/Miscellaneous/subdir.mk
+-include src/CControl/Sources/LinearAlgebra/subdir.mk
+-include src/CControl/Sources/ControlEngineering/subdir.mk
+-include src/CControl/Sources/Classification/subdir.mk
+-include src/CControl/Sources/ArtificialIntelligence/subdir.mk
 -include src/subdir.mk
 -include subdir.mk
 -include objects.mk

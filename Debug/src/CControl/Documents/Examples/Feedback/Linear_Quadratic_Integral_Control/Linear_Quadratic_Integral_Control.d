@@ -1,2 +1,0 @@
-src/CControl/Documents/Examples/Feedback/Linear_Quadratic_Integral_Control/Linear_Quadratic_Integral_Control.o: \
- ../src/CControl/Documents/Examples/Feedback/Linear_Quadratic_Integral_Control/Linear_Quadratic_Integral_Control.c

@@ -1,0 +1,83 @@
+/*
+ ============================================================================
+ Name        : tikhonov.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Solve Ax = b with Tikhonov regularization
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "CControl/Headers/Configurations.h"
+#include "CControl/Headers/Functions.h"
+
+int main() {
+
+	// Matrix A
+	float A[6*4] = {0.7179787,   0.7985186,   0.1000046,   0.2203064,
+					0.9044292,   0.5074379,   0.3539301,   0.9475452,
+					0.0029252,   0.4930148,   0.3209303,   0.5289174,
+					0.6546133,   0.7354447,   0.9989453,   0.0310190,
+					0.7434944,   0.0874402,   0.3388867,   0.8256180,
+					0.7483093,   0.3624991,   0.2039784,   0.5528368};
+
+	// Vector b
+	float b[6] = {0.31028,
+				  0.69595,
+				  0.31662,
+				  0.33631,
+				  0.15131,
+				  0.83935};
+
+	//  (A^T*A + alpha*I) and A^T*b
+	float ATA[4*4];
+	float ATb[4];
+
+	// Solution that need to have the same rows and columns from A
+	float x[4];
+
+	// Do Tikhonov regularization
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+	tikhonov(A, b, ATA, ATb, 6, 4, 0.001);
+	triu(ATA, ATb, 4);
+	linsolve_upper_triangular(ATA, x, ATb, 4);
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	// Print x
+	printf("x\n");
+	print(x, 4, 1);
+
+	return EXIT_SUCCESS;
+}
+
+/*
+ * GNU Octave code:
+ * A = [0.7179787,   0.7985186,   0.1000046,   0.2203064,
+	    0.9044292,   0.5074379,   0.3539301,   0.9475452,
+	    0.0029252,   0.4930148,   0.3209303,   0.5289174,
+	    0.6546133,   0.7354447,   0.9989453,   0.0310190,
+	    0.7434944,   0.0874402,   0.3388867,   0.8256180,
+	    0.7483093,   0.3624991,   0.2039784,   0.5528368];
+
+	b = [0.31028,
+		 0.69595,
+		 0.31662,
+		 0.33631,
+		 0.15131,
+		 0.83935];
+
+	% Tikhonov regularization
+	alpha = 0.001;
+	b = A'*b;
+	A = (A'*A + alpha*eye(4));
+
+	% Solve
+	x = linsolve(A, b)
+ */

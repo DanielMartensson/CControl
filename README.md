@@ -4,10 +4,7 @@ CControl is a library written in C only. The library have the tools and features
 
 ```
 * Model Reference Adaptive Control(MRAC) 
-* Autotuning Predictive Control(APC) 
-* Generalized Predictive Control(GPC)
 * Model Predictive Control(MPC)
-* Adaptive Model Predictive Control(AMPC)
 * Linear Quadratic Integral Control(LQI)
 * Kalman Filter(KF)
 * Recursive Least Square identification(RLS)
@@ -26,17 +23,8 @@ The goal is to break down the huge theory in academic control theory an apply th
 #### Model Reference Adaptive Control(MRAC) 
 Use this controller if you are in need of a PI-controller that needs continuously self tuning on P and I. Very simple controller.
 
-#### Autotuning Predictive Control(APC) 
-Use this controleller if you are in need of a LQI controller that finds the control law and integral law by it self and you only need to find these laws only once at start up. 
-
-#### Generalized Predictive Control(GPC)
-Use this controller is you need to compute continuously the best optimal inputs for the system for every iteration. This controller using Gaussian Elimination with Tikhonov regularization to find its input. The difference between GPC and MPC is that GPC includes Recursive Least Square identification.
-
 #### Model Predictive Control(MPC)
 Use this controller if you have a fix model and you need to continuously the best optimal inputs for the system for every iteration. But instead, you make sure that your inputs cannot result that your output will overshoot over your reference and the inputs cannot be negative. This controller using simplex method with Tikhonov regularization to find its input.
-
-#### Adaptive Model Predictive Control(AMPC)
-Same as MPC, but this using Recursive Least Square identification to identify a transfer function and after that creates a discrete state space model. Use this controller if you are in a nonlinear system or only need autotuning inside the controller.
 
 #### Linear Quadratic Integral Control(LQI)
 Use this controller if you need multiple inputs and mutiple outputs. This controllers requries offline tuning. But its strench is that what you tune in in your simulation, it going to act very like that in the controller. That's make LQI a very safe controller.

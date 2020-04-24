@@ -1,0 +1,48 @@
+/*
+ ============================================================================
+ Name        : triu.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Turn A and vector b into upper triangular
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "CControl/Headers/Configurations.h"
+#include "CControl/Headers/Functions.h"
+
+int main() {
+
+	// Matrix A
+	float A[4*4] = {0.649587,   0.320520,   0.274275,   0.821053,
+				    0.424608,   0.996594,   0.638315,   0.636367,
+				    0.719499,   0.017284,   0.321835,   0.060467,
+				    0.859543,   0.243554,   0.402577,   0.753847};
+
+	// Vector b
+	float b[4] = {0.091799,
+				  0.202273,
+				  0.269783,
+				  0.580578};
+
+	// Do upper triangular 
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+	triu(A, b, 4); // This ONLY prepare A, b to be solved by linsolve_upper_triangular
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	// Print A and b
+	printf("A\n");
+	print(A, 4, 4);
+
+	printf("b\n");
+	print(b, 4, 1);
+
+	return EXIT_SUCCESS;
+}

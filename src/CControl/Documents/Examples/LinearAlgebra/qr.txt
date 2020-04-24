@@ -1,0 +1,92 @@
+/*
+ ============================================================================
+ Name        : qr.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Solve Ax=b with QR-decomposition. 
+               Recommended if vector b have the same dimension as A and A is non-square
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "CControl/Headers/Configurations.h"
+#include "CControl/Headers/Functions.h"
+
+int main() {
+
+	// Matrix A
+	float A[6*4] = {0.9889143,   0.8156388,   0.7197012,   0.9117410,
+				    0.3513571,   0.9509832,   0.7666883,   0.2984587,
+				    0.7419696,   0.6665918,   0.8349609,   0.0493249,
+				    0.5387147,   0.9922028,   0.7225777,   0.1423897,
+				    0.0217779,   0.5598255,   0.5004498,   0.5730017,
+				    0.9608793,   0.4709475,   0.0031274,   0.0698641};
+
+	// Vector b
+	float b[6] = {0.883369,
+				  0.653627,
+				  0.417359,
+				  0.049459,
+				  0.879004,
+				  0.152040};
+
+	// QR-decomposition
+	float Q[6*6];
+	float R[6*4];
+
+	// Solution that need to have the same rows and columns from A
+	float x[4];
+
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+	qr(A, Q, R, 6, 4);
+	tran(Q, 6, 6); // Do transpose Q -> Q^T
+	float QTb[6];
+	mul(Q, b, QTb, 6, 6, 1); // Q^Tb = Q^T*b
+	linsolve_upper_triangular(R, x, QTb, 4);
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	// Print Q
+	printf("Q\n");
+	print(Q, 6, 6);
+
+	// Print R
+	printf("R\n");
+	print(R, 6, 4);
+
+	// Print Q^Tb
+	printf("Q^Tb\n");
+	print(QTb, 6, 1);
+
+	printf("x\n");
+	print(x, 4, 1);
+
+	return EXIT_SUCCESS;
+}
+
+/*
+ * GNU Octave code:
+ * A = [0.9889143,   0.8156388,   0.7197012,   0.9117410,
+	    0.3513571,   0.9509832,   0.7666883,   0.2984587,
+		0.7419696,   0.6665918,   0.8349609,   0.0493249,
+		0.5387147,   0.9922028,   0.7225777,   0.1423897,
+	    0.0217779,   0.5598255,   0.5004498,   0.5730017,
+		0.9608793,   0.4709475,   0.0031274,   0.0698641];
+
+	b = [0.883369,
+	     0.653627,
+		 0.417359,
+		 0.049459,
+		 0.879004,
+		 0.152040];
+
+	[Q,R] = qr(A)
+	x = linsolve(R, Q'*b)
+ *
+ */
