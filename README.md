@@ -16,6 +16,17 @@ All these controller can be implemented onto an microcontroller such as STM32, A
 
 Just download the project and open it with e.g Eclipse IDE. The project have working examples. I will upload some projects here. To start with CControl? Please look at the ReadMe.pdf in src -> CControl -> Documents folder.
 
+
+### How the project is structed
+This project is structed as
+```
+ * No malloc, calloc or free - No dynamical memory allocation in other words
+ * Use pointers as much as you can
+ * Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct
+ * I'm focusing on real practical controllers or methods that are cost effective and don't require "a lot of tuning"
+ * Main focusing on: Control engineering, linear algebra, opimization, AI algorithms, system identification and classification
+```
+
 ### What controller should I select?
 
 The goal is to break down the huge theory in academic control theory an apply them to practical system where nothing is perfect/ideal and nonlinearities are daily standard.

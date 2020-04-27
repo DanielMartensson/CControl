@@ -1,0 +1,43 @@
+desc: (none)
+cmd: ./CControl
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=204186
+mem_heap_B=1024
+mem_heap_extra_B=8
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=2
+#-----------
+time=234277
+mem_heap_B=1024
+mem_heap_extra_B=8
+mem_stacks_B=0
+heap_tree=peak
+n1: 1024 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 1024 0x524F18A: _IO_file_doallocate (filedoalloc.c:101)
+  n1: 1024 0x525F377: _IO_doallocbuf (genops.c:365)
+   n1: 1024 0x525E496: _IO_file_overflow@@GLIBC_2.2.5 (fileops.c:759)
+    n1: 1024 0x525C9EB: _IO_file_xsputn@@GLIBC_2.2.5 (fileops.c:1266)
+     n1: 1024 0x522C532: vfprintf (vfprintf.c:1328)
+      n1: 1024 0x5235F24: printf (printf.c:33)
+       n0: 1024 0x1157D6: main (Main.c:108)
+#-----------
+snapshot=3
+#-----------
+time=234277
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
