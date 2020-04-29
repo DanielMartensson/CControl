@@ -11,16 +11,30 @@
 /*
  * Convert SISO transfer function parameters theta vector into a
  * state space model on Observable Canonical Form.
- * Vector theta can be found from rls function
+ * Vector theta can be found from rls function.
+ *
+ * No inegration:
+ * A [ADIM*ADIM]
+ * B [ADIM*1]
+ * C [1*ADIM]
+ * theta [NP+NZ+NZE]
+ * integration = 0
+ *
+ * Integration:
+ * A [(ADIM+1)*(ADIM+1)]
+ * B [(ADIM+1)*1]
+ * C [1*(ADIM+1)]
+ * theta [NP+NZ+NZE]
+ * integration = 1
  */
-void theta2ss(float* A, float* B, float* C, float* theta, float* K){
+void theta2ss(uint8_t integration, float* A, float* B, float* C, float* theta, float* K){
 	// Clear A, B, C, K
 	memset(A, 0, ADIM*ADIM*sizeof(float));
 	memset(B, 0, ADIM*RDIM*sizeof(float));
 	memset(C, 0, YDIM*ADIM*sizeof(float));
 	memset(K, 0, ADIM*YDIM*sizeof(float));
 
-	if(INTEGRATION == TRUE){
+	if(integration == TRUE){
 		// Insert A = [A 0; CA 1]
 		for(int i = 0; i < NP; i++){
 			*(A + i*ADIM) = -*(theta + i); // Insert on column 0 only to almost last row

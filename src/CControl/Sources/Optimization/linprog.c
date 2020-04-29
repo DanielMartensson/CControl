@@ -231,7 +231,7 @@ function [x] = linprog2(c, A, b, max_or_min, iteration_limit)
   column_a = size(A, 2);
 
   if(max_or_min == 0)
-    % Mazimization
+    % Maximization
     x = opti(c, A, b, row_a, column_a, max_or_min, iteration_limit);
   else
     % Minimization
