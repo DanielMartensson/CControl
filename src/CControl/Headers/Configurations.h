@@ -42,38 +42,32 @@
  * Step 2: Configure the parameters that you need. Read the PDF manual.
  */
 #if SELECTED_CONTROL_STRATEGY == AUTOMATIC
-	/*
-	 * Polynomial transfer function estimation
-	 */
-	#define Pq 1000 // Initial diagonal values for P matrix for system identification. 1000 is a good number
-	#define LAMBDA 1 // Forgetting factor for system identification. Lambda Should not be less than zero
-	#define POLY_LENGTH 6 // Length of polynomials A(q), B(q) and C(q) in Recursive least squares
 
 	/*
 	 * Prediction & Integration
 	 */
-	#define HORIZON 50 // How long we want to look in the future
-	#define ALPHA 0.1 // This will prevent dead-beat control and gives more smooth input values
-	#define INTEGRATION TRUE // Enable integral action inside model - Recommended
-	#define ITERATION_LIMIT 100 // This is for MPC
-	#define ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for MRAC
-    #define LEARNING 0.0001 // For MRAC
+	//#define HORIZON 50 // How long we want to look in the future
+	//#define ALPHA 0.1 // This will prevent dead-beat control and gives more smooth input values
+	//#define INTEGRATION TRUE // Enable integral action inside model - Recommended
+	//#define ITERATION_LIMIT 100 // This is for MPC
+	//#define ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for MRAC
+    //#define LEARNING 0.0001 // For MRAC
 
 	/*
 	 * This is configuration for the state space model.
 	 * Let the configurations above configure this below - Do not touch
 	 */
-	#define NP POLY_LENGTH // Number of poles for output polynomial A(q)
-	#define NZ POLY_LENGTH // Number of zeros for input polynomial B(q)
-	#define NZE POLY_LENGTH // Number of zeros for error polynomial C(q)
+	//#define NP POLY_LENGTH // Number of poles for output polynomial A(q)
+	//#define NZ POLY_LENGTH // Number of zeros for input polynomial B(q)
+	//#define NZE POLY_LENGTH // Number of zeros for error polynomial C(q)
 	#if INTEGRATION
-		#define ADIM (POLY_LENGTH+1) // Matrix A will be [A 0; CA 1]
-		#define RDIM 1 // Matrix B will be [B; CB]
-		#define YDIM 1 // Matrix C will be [0 1]
+		//#define ADIM (POLY_LENGTH+1) // Matrix A will be [A 0; CA 1]
+		//#define RDIM 1 // Matrix B will be [B; CB]
+		//#define YDIM 1 // Matrix C will be [0 1]
 	#else
-		#define ADIM POLY_LENGTH // Matrix A will be [A]
-		#define RDIM 1 // Matrix B will be [B]
-		#define YDIM 1 // Matrix C will be [C]
+		//#define ADIM POLY_LENGTH // Matrix A will be [A]
+		//#define RDIM 1 // Matrix B will be [B]
+		//#define YDIM 1 // Matrix C will be [C]
 	#endif
 
 #elif SELECTED_CONTROL_STRATEGY == MANUAL

@@ -24,15 +24,13 @@
  * Control engineering
  * TODO:
  * mpc behöver quadprog om det är möjlig! Annars fungerar linprog bra!
- * Gör massa exempel på systemen!
- * Skriv om funktionsnamnen så dom innehåller dimensionerna på matriserna. Vi ska ej behöva använda #define här
  */
-void mpc(float* A, float* B, float* C, float* x, float* u, float* r);
-void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y);
-void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi);
-void mrac(float* y, float* u, float* r, float* K1, float* K2);
-int stability(float* A);
-void theta2ss(uint8_t integration, float* A, float* B, float* C, float* theta, float* K);
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, float ALPHA, uint16_t ITERATION_LIMIT);
+void kalman(uint8_t integration, float* A, float* B, float* C, float* K, float* u, float* x, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
+void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t ANTI_WINDUP);
+void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, float* K1, float* K2, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
+int stability(float* A, uint8_t ADIM);
+void theta2ss(uint8_t integration, float* A, float* B, float* C, float* theta, float* K, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t NP, uint8_t NZ, uint8_t NZE);
 
 /*
  * Miscellaneous
@@ -83,7 +81,7 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 /*
  * System identification
  */
-void rls(float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P);
+void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P, float Pq, float forgetting);
 void okid(float* u, float* y, float* g, uint16_t row, uint16_t column);
 void era(float* u, float* y, uint16_t row, uint16_t column, float* A, float* B, float* C, uint8_t row_a, uint8_t inputs_outputs);
 

@@ -27,7 +27,7 @@
  * theta [NP+NZ+NZE]
  * integration = 1
  */
-void theta2ss(uint8_t integration, float* A, float* B, float* C, float* theta, float* K){
+void theta2ss(uint8_t integration, float* A, float* B, float* C, float* theta, float* K, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t NP, uint8_t NZ, uint8_t NZE){
 	// Clear A, B, C, K
 	memset(A, 0, ADIM*ADIM*sizeof(float));
 	memset(B, 0, ADIM*RDIM*sizeof(float));

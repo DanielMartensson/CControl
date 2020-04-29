@@ -37,8 +37,7 @@ void filtfilt(float *y, float *t, uint16_t l, float K) {
 // Euler method for simple ODE - Low pass filter
 static void simulation(float K, float *y, float *t, uint16_t l) {
 	float h = *(t + 1) - *(t + 0); // Time step
-	printf("time step %f\n", h);
-	float x = 0;
+	float x = *(y + 0); // Initial state
 	for (uint16_t i = 0; i < l; i++) {
 		x = x + h * (-1 / K * x + 1 / K * *(y + i));
 		*(y + i) = x; // Save

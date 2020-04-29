@@ -12,11 +12,11 @@
  * This function updates the state by this equation
  * x = Ax - KCx + Bu + Ky % Kalman filter
  */
-void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y) {
+void kalman(uint8_t integration, float* A, float* B, float* C, float* K, float* u, float* x, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM) {
 
 	// Note that INTEGRATION is only used for AUTOMATIC control.
 	// Makes no sense to use it for MANUAL when you implement integral action by your self
-	if(INTEGRATION == TRUE){
+	if(integration == TRUE){
 		// We have integration inside our model, model is augmented.
 		// But our K matrix is built by none-integral augmented models.
 		float A_[(ADIM-1)*(ADIM-1)];

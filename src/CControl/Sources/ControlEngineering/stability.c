@@ -14,7 +14,7 @@
  * A is from the dx = Ax + Bu system
  * Returns 1 when system is stable.
  */
-int stability(float* A){
+int stability(float* A, uint8_t ADIM){
 
 	// TODO: Här måste vi ha precis som kalman.c har.
 	// En if-sats för att dela upp A om det är integration på

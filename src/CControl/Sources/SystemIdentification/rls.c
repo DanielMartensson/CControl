@@ -8,14 +8,17 @@
 #include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
-static void recursive(float y, float* phi, float* theta, float* P, float* past_e);
+static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, float* theta, float* P, float* past_e, float forgetting);
 
 /*
  * Recursive least square. We estimate A(q)y(t) = B(q) + C(q)e(t)
- * Our goal is to find theta from y and u
- * Hint: Look at the bottom for GNU Octave code.
+ * theta [NP + NZ + NZE]
+ * P [(NP + NZ + NZE)*(NP + NZ + NZE)]
+ * phi [NP + NZ + NZE]
+ * Pq > 0
+ * 0 < forgetting <= 1
  */
-void rls(float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P) {
+void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P, float Pq, float forgetting) {
 
 	// Static values that belongs to this function - OLD CODE, but they have the same size
 	//static float past_e = 0; // The past e
@@ -82,7 +85,7 @@ void rls(float* theta, float u, float y, int* count, float* past_e, float* past_
 	}
 
 	// Call recursive
-	recursive(y, phi, theta, P, past_e);
+	recursive(NP, NZ, NZE, y, phi, theta, P, past_e, forgetting);
 
 	// Set the past values
 	*past_y = -y;
@@ -93,7 +96,7 @@ void rls(float* theta, float u, float y, int* count, float* past_e, float* past_
 /*
  * This function is the updater for theta, P and past_e
  */
-static void recursive(float y, float* phi, float* theta, float* P, float* past_e) {
+static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, float* theta, float* P, float* past_e, float forgetting) {
 
 	// Compute error = y - phi'*theta;
 	float sum = 0;
@@ -119,7 +122,7 @@ static void recursive(float y, float* phi, float* theta, float* P, float* past_e
 	for(int i = 0; i < NP + NZ + NZE; i++){
 		sum += *(phiTP + i) * *(phi + i);
 	}
-	sum += LAMBDA; // Our LAMBDA
+	sum += forgetting; // Our LAMBDA
 
 	// Step 4: Pphi*phiTP = P*phi*phi'*P -> Matrix
 	float PphiphiTP[(NP + NZ + NZE)*(NP + NZ + NZE)];
@@ -129,7 +132,7 @@ static void recursive(float y, float* phi, float* theta, float* P, float* past_e
 
 	// Step 5: Compute P = 1/l*(P - 1/sum*PphiphiTP);
 	for(int i = 0; i < (NP + NZ + NZE)*(NP + NZ + NZE); i++){
-		*(P + i) = 1/LAMBDA * (*(P + i) - 1/sum * *(PphiphiTP + i));
+		*(P + i) = 1/forgetting * (*(P + i) - 1/sum * *(PphiphiTP + i));
 	}
 
 	// Compute theta = theta + P*phi*error;
