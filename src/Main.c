@@ -1,54 +1,45 @@
 /*
  ============================================================================
- Name        : dlyap.c
+ Name        : Model_Reference_Adaptice_Control.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Solve the discrete lyapunov equation
+ Description : Model Reference Adaptive Control
  ============================================================================
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+
 #include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
+#define RDIM 1
+#define ANTI_WINDUP 0
+#define LEARNING 0.001
+
 int main() {
 
-	// Matrix A
-	float A[2*2] = {0.798231,   0.191700,
-			  	   -0.575101,   0.031430};
+	/* MRAC works as K1 and K2 integrates over time so y -> r when time -> inf
+	 * r ----{K1}*(-LEARNING)---->+()----->G(s)-----------------------> y
+	 *               			  -^            			  |
+	 *               			   |            			  |
+	 *                			   |              			  |
+	 *                  		   |---*(LEARNING){K2}<--------
+	 */
 
-	// Symmetric positive matrix
-	float Q[2*2] = {1,   2,
-				    2,   3};
+	float y[RDIM] = {7};
+	float u[RDIM] = {0};
+	float r[RDIM] = {51};
+	float K1[RDIM] = {3.1};
+	float K2[RDIM] = {4.1};
 
-	// Solution for the equation A * P * A' - P + Q = 0
-	float P[2*2];
+	// Compute now
+	mrac(ANTI_WINDUP, LEARNING, y, u, r, K1, K2, RDIM);
 
-	clock_t start, end;
-	float cpu_time_used;
-	start = clock();
-	dlyap(A, P, Q, 2);
-	end = clock();
-	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
-	printf("\nTotal speed  was %f\n", cpu_time_used);
-
-	// Print P - This A matrix have absolute eigenvalues less < 1 because of P > 0 and P = P^T
-	printf("P\n");
-	print(P, 2, 2);
+	// Show input signal
+	printf("Our output signal\n");
+	print(u, RDIM, 1);
 
 	return EXIT_SUCCESS;
 }
-
-/*
- * GNU Octave code:
- * A = [0.798231,   0.191700,
-	   -0.575101,   0.031430];
-
-	Q = [1  2,
-		 2, 3];
-
-	P = dlyap(A, Q) % Using Matavecontrol package
- */

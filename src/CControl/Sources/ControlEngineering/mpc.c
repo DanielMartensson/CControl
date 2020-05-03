@@ -21,10 +21,14 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 	memset(PHI, 0, HORIZON*YDIM*ADIM*sizeof(float));
 	obsv(PHI, A, C, ADIM, YDIM, RDIM, HORIZON);
 
+	//print(PHI, HORIZON*YDIM, ADIM);
+
 	// Create the lower triangular toeplitz matrix
 	float GAMMA[HORIZON*YDIM*HORIZON*RDIM];
 	memset(GAMMA, 0, HORIZON*YDIM*HORIZON*RDIM*sizeof(float));
 	cab(GAMMA, PHI, A, B, C, ADIM, YDIM, RDIM, HORIZON);
+
+	//print(GAMMA, HORIZON*YDIM, HORIZON*RDIM);
 
 	// Find the input value from GAMMA and PHI
 	// R_vec = R*r
@@ -51,7 +55,7 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 
 	// Find the input value from GAMMA and PHI
 	/* Find the optimal solution R_vec from linear programming
-	 * min (GAMMAT*GAMMA + ALPHA*I)^T*R_PHI_vec*R_vec
+	 * max (GAMMAT*GAMMA + ALPHA*I)^T*R_PHI_vec*R_vec
 	 * s.t
 	 * 		(GAMMAT*GAMMA + ALPHA*I)*R_vec <= GAMMAT*R_PHI_vec
 	 *								 R_vec >= 0
@@ -87,15 +91,19 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 	memset(c, 0, HORIZON * YDIM*sizeof(float));
 	mul(AT, R_PHI_vec, c, HORIZON*RDIM, HORIZON*RDIM, 1);
 
-	// Do linear programming now
-	// TODO: Fixa så att man kan ha max och min på y
-	linprog(c, A, b, R_vec, HORIZON*YDIM, HORIZON*RDIM, 1, ITERATION_LIMIT);
 	//print(R_vec, HORIZON * YDIM, 1);
+
+	// Do linear programming now
+	linprog(c, GAMMATGAMMA, b, R_vec, HORIZON*YDIM, HORIZON*RDIM, 0, ITERATION_LIMIT);
 
 	// Set first R_vec to u - Done
 	for(int i = 0; i < RDIM; i++){
 		*(u + i) = *(R_vec + i);
 	}
+
+	// Show the whole input vector
+	//print(R_vec, HORIZON, YDIM);
+
 }
 
 

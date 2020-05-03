@@ -1,0 +1,38 @@
+/*
+ ============================================================================
+ Name        : stability.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Stability with lyapunov
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "CControl/Headers/Configurations.h"
+#include "CControl/Headers/Functions.h"
+
+
+#define ADIM 2
+#define RDIM 1
+
+
+int main() {
+
+	// State space matrix A and B
+	float A[ADIM * ADIM] = {0.72212,   1.00000,
+		       	   	   	    0.24065,   0.00000};
+
+	float B[ADIM*RDIM] = {0.0037021,
+					     0.0087303};
+
+	// Check if this A is stable
+	uint8_t result = stability(A, B, ADIM, RDIM);
+
+	printf("Stability: %d\n", result);
+
+
+	return EXIT_SUCCESS;
+}

@@ -22,14 +22,12 @@
 
 /*
  * Control engineering
- * TODO:
- * mpc behöver quadprog om det är möjlig! Annars fungerar linprog bra!
  */
 void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, float ALPHA, uint16_t ITERATION_LIMIT);
-void kalman(uint8_t integration, float* A, float* B, float* C, float* K, float* u, float* x, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
+void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
 void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t ANTI_WINDUP);
-void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, float* K1, float* K2, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
-int stability(float* A, uint8_t ADIM);
+void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, float* K1, float* K2, uint8_t RDIM);
+uint8_t stability(float* A, float* B, uint8_t ADIM, uint8_t RDIM);
 void theta2ss(uint8_t integration, float* A, float* B, float* C, float* theta, float* K, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t NP, uint8_t NZ, uint8_t NZE);
 
 /*
@@ -68,8 +66,6 @@ void eig_sym(float* A, uint16_t row, float* d);
 
 /*
  * Optimization
- * TODO:
- * Använd linprog för att skapa quadprog - Hur gör man det?
  */
 void linprog(float* c, float* A, float* b, float* x, int row_a, int column_a, uint8_t max_or_min, int iteration_limit);
 
@@ -87,11 +83,8 @@ void era(float* u, float* y, uint16_t row, uint16_t column, float* A, float* B, 
 
 /*
  * Classification
- * TODO:
- * Ta bort lbph - Local Binary Pattern Histogram
- * Ersätt med lbph med k-neasest från Bytefish Fisherfaces
+ * TODO: Implement k nearest neighbor
  */
-uint16_t lbph(uint8_t* picture, uint16_t row_p, uint16_t column_p, uint8_t* histograms, uint16_t row_h, bool save);
-
+void knn();
 
 #endif /* CCONTROL_FUNCTIONS_H_ */

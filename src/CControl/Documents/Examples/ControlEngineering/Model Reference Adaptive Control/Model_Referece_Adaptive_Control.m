@@ -10,10 +10,10 @@ function [u] = Model_Referece_Adaptive_Control()
    u = 0; % Our input 
    K1 = 3.1; % Current I gain
    K2 = 4.1; % Current P gain
-   LEARNING = 0.0001;
+   LEARNING = 0.001;
    
    e = y-r;
    K1 = K1 + r*e; % I-gain in practical view
    K2 = K2 + y*e; % P-gain in practical view
-   u = -LEARNING*r*(K1) - LEARNING*y*(K2);
+   u = -LEARNING*r*(K1) - LEARNING*y*(K2)
 end

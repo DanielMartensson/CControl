@@ -8,7 +8,7 @@
 #include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
-static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
+static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t RDIM);
 
 /*
  * This computes the Linear Quadratic Integral inputs
@@ -24,7 +24,7 @@ void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, 
 	// Then compute the integral law: Li_vec = Li*xi
 	float Li_vec[RDIM];
 	memset(Li_vec, 0, RDIM*sizeof(float));
-	integral(ANTI_WINDUP, xi, r, y, ADIM, YDIM, RDIM);
+	integral(ANTI_WINDUP, xi, r, y, RDIM);
 	mul(Li, xi, Li_vec, RDIM, YDIM, 1);
 
 	// Now combine these two laws: u = Li/(1-qi)*r - (L*x - Li*xi)
@@ -37,7 +37,7 @@ void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, 
  * This computes the integral by sum state vector xi with reference - measurement
  * xi = xi + r - y;
  */
-static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM) {
+static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t RDIM) {
 	for(int i = 0; i < RDIM; i++){
 		/*
 		 * Anti-windup

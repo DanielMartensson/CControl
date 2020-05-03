@@ -8,7 +8,7 @@
 #include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
-static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
+static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t RDIM);
 
 /*
  * This is Adaptive Model Reference Control - No need to use a transfer function here
@@ -25,7 +25,7 @@ static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t
  * This can be used with multiple outputs and references
  * HINT: Look up my repository Adaptive-Control and look for Model Reference Adaptive Control with Lyapunov rule
  */
-void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, float* K1, float* K2, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM){
+void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, float* K1, float* K2, uint8_t RDIM){
 
 	// First create these vectors
 	float ry[RDIM];
@@ -42,8 +42,8 @@ void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, flo
 	}
 
 	// Integrate K = K + y - r
-	integral(ANTI_WINDUP, K1, ry, rr, ADIM, YDIM, RDIM);
-	integral(ANTI_WINDUP, K2, yy, yr, ADIM, YDIM, RDIM);
+	integral(ANTI_WINDUP, K1, ry, rr, RDIM);
+	integral(ANTI_WINDUP, K2, yy, yr, RDIM);
 
 	// Compute u now
 	for(int i = 0; i < RDIM; i++){
@@ -55,7 +55,7 @@ void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, flo
  * This computes the integral by sum state vector xi with reference - measurement
  * xi = xi + r - y;
  */
-static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM) {
+static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t RDIM) {
 	for(int i = 0; i < RDIM; i++){
 		/*
 		 * Anti-windup

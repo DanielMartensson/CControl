@@ -2,14 +2,15 @@
 
 CControl is a library written in C only. The library have the tools and features for using advanced control techniques in a simple way. Instead of using big computers and lots of theory, I have made this library so you can use the following controllers very simple.
 
-```
-* Model Reference Adaptive Control(MRAC) 
-* Model Predictive Control(MPC)
-* Linear Quadratic Integral Control(LQI)
-* Kalman Filter(KF)
-* Recursive Least Square identification(RLS)
-* A* - Find and search the shortest path in a map
-* Lyapunov stability check
+- Model Reference Adaptive Control(MRAC) 
+- Model Predictive Control(MPC)
+- Linear Quadratic Integral Control(LQI)
+- Kalman Filter(KF)
+- Recursive Least Square identification(RLS)
+- A* - Find and search the shortest path in a map
+- Lyapunov stability check
+- Linear algebra package that works for ALL microprocessors
+- Eigensystem Realization Algorithm(ERA) 
 ```
 
 All these controller can be implemented onto an microcontroller such as STM32, Arduino, PIC, AVR etc because all are made in portable C code. 

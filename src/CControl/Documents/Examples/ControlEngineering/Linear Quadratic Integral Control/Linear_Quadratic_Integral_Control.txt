@@ -14,19 +14,13 @@
 #include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
-int main() {
+#define ADIM 2
+#define RDIM 1
+#define YDIM 1
+#define ANTI_WINDUP 0
+#define integration 0 // Our A, B, C does not include integration
 
-	/*
-	 * In this example we have selected the following configuration inside Confiugration.h
-	 * SELECTED_CONTROL_STRATEGY MANUAL
-	 * ADIM 2 // Matrix A will be [A]
-	 * YDIM 1 // Matrix B will be [C]
-	 * RDIM 1 // Matrix C will be [B]
-	 * HORIZON 20
-	 * ALPHA 0.1 // Prevent deadbeat control for MPC and GPC
-	 * ITERATION_LIMIT 100 // This is for MPC
-	 * ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for LQR
-	 */
+int main() {
 
 	// Model A, B, C, D
 	float A[ADIM * ADIM] = { 0.89559,   0.37735,
@@ -58,10 +52,10 @@ int main() {
 	float y[YDIM] = {0}; // <-- This is our measurement. Set it.
 
 	//Control LQI
-	lqi(y, u, qi, r, L, Li, x, xi);
+	lqi(y, u, qi, r, L, Li, x, xi, ADIM, YDIM, RDIM, ANTI_WINDUP);
 
 	// Estimate the state x
-	kalman(A, B, C, K, u, x, y);
+	kalman(integration, A, B, C, K, u, x, y, ADIM, YDIM, RDIM);
 
 	// Check the inputs
 	for(int i = 0; i < RDIM; i++){

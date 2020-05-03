@@ -14,32 +14,23 @@
 #include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
+#define ADIM 2
+#define RDIM 1
+#define YDIM 1
+#define HORIZON 10
+#define ALPHA 0.001
+#define ITERATION_LIMIT 200
+
 int main() {
 
-	/*
-	 * In this example we have selected the following configuration inside Confiugration.h
-	 * SELECTED_CONTROL_STRATEGY MANUAL
-	 * ADIM 2 // Matrix A will be [A]
-	 * YDIM 1 // Matrix B will be [C]
-	 * RDIM 1 // Matrix C will be [B]
-	 * HORIZON 20
-	 * ALPHA 0.1 // Prevent deadbeat control for MPC and GPC
-	 * ITERATION_LIMIT 100 // This is for MPC
-	 * ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for LQR
-	 */
-
-	/*
-	 * State space model
-	 */
+	// State space model
 	float A[ADIM * ADIM] = { 0.89559, 0.37735,
 							-0.37735, 0.51825 };
 	float B[ADIM * RDIM] = { 0.20881,
 							 0.75469 };
 	float C[YDIM * ADIM] = { 1, 0 };
 
-	/*
-	 * Print our state space matrix
-	 */
+	// Print our state space matrix
 	printf("System matrix: A\n");
 	print(A, ADIM, ADIM);
 
@@ -54,7 +45,7 @@ int main() {
 	float r[YDIM] = { 12.5 };
 
 	// Do Model Predictive Control where u cannot be negative and output cannot be over r
-	mpc(A, B, C, x, u, r);
+	mpc(A, B, C, x, u, r, ADIM, YDIM, RDIM, HORIZON, ALPHA, ITERATION_LIMIT);
 
 	// Print solution
 	printf("Best input\n");

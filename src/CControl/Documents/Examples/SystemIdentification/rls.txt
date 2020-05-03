@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : Recursive.c
+ Name        : rls.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
@@ -14,21 +14,18 @@
 #include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
-int main() {
+// Dimensions for input and output
+#define YDIM 1
+#define RDIM 1
 
-	/*
-	 * In this example we have selected the following configuration inside Confiugration.h
-	 * SELECTED_CONTROL_STRATEGY AUTOMATIC
-	 * q 1000 // Initial diagonal values for P matrix for system identification. 1000 is a good number
-	 * LAMBDA 1 // Forgetting factor for system identification. Lambda Should not be less than zero
-	 * POLY_LENGTH 5 // Length of polynomials A(q), B(q) and C(q) in Recursive least squares
-	 * HORIZON 50 // How long we want to look in the future
-	 * ALPHA 0.1 // This will prevent dead-beat control and gives more smooth input values
-	 * INTEGRATION TRUE // Enable integral action inside model - Recommended
-	 * ITERATION_LIMIT 100 // This is for MPC
-	 * ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for MRAC
-	 * LEARNING 0.0001 // For MRAC
-	 */
+// Recursive Least Squares with kalman filter - It's recommended to have NP = NZ = NZE
+#define NP 5
+#define NZ 5
+#define NZE 5
+#define forgetting 0.99
+#define Pq 1000
+
+int main() {
 
 	/*
 	 * Assume that we reading u(k), and y(k) from an ADC. In this case, we have
@@ -56,9 +53,7 @@ int main() {
 			1.91020, 1.91721, 1.92370, 1.92971, 1.93527, 1.94041, 1.94516,
 			1.94955, 1.95360, 1.95734 };
 
-	/*
-	 * Estimation SISO model - Assume that this this is inside the microprocessor's while(1) loop
-	 */
+	// Estimation SISO model - Assume that this this is inside the microprocessor's while(1) loop
 	float past_e; // The past e
 	float past_y; // The past y
 	float past_u; // The past u
@@ -67,55 +62,94 @@ int main() {
 	float theta[NP + NZ + NZE]; // Remember that total length is POLY_LENGTH*3 - ALWAYS have these dimensions
 	int count = 0; // Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over
 	for (int i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
-		rls(theta, input[i], output[i], &count, &past_e, &past_y, &past_u, phi,
-				P);
+		rls(NP, NZ, NZE, theta, input[i], output[i], &count, &past_e, &past_y, &past_u, phi, P, Pq, forgetting);
 	}
 
-	/*
-	 * Find our state space model with kalman gain matrix from theta - ALWAYS have these dimensions
-	 */
-	float A[ADIM * ADIM];
-	float B[ADIM * RDIM];
-	float C[YDIM * ADIM];
-	float K[ADIM * YDIM]; // (ADIM-1) only if we have INTEGRATION TRUE, else ADIM
-	theta2ss(A, B, C, theta, K);
+	// Find our state space model with kalman gain matrix from theta - NP = ADIM
+	float A[NP * NP];
+	float B[NP * RDIM];
+	float C[YDIM * NP];
+	float K[NP * YDIM];
+	uint8_t integration = 0;
+	theta2ss(integration, A, B, C, theta, K, NP, YDIM, RDIM, NP, NZ, NZE);
 
-	/*
-	 * Print our state space matrix
-	 */
+	// Print our state space matrix
 	printf("System matrix: A\n");
-	print(A, ADIM, ADIM);
+	print(A, NP, NP);
 
 	printf("Input matrix: B\n");
-	print(B, ADIM, RDIM);
+	print(B, NP, RDIM);
 
 	printf("Output matrix: C\n");
-	print(C, YDIM, ADIM);
+	print(C, YDIM, NP);
 
 	printf("Kalman gain matrix: K\n");
-	print(K, ADIM, YDIM);
+	print(K, NP, YDIM);
 
-	/*
-	 * Create input u, output y and state vector x
-	 */
-	float u[RDIM] = { 2.2};
-	float y[YDIM] = { 5.134};
-	float x[ADIM] = { 2.32,
-			          4.12,
-					  1.34,
-	                  2.11,
-	                  5.21,
-					  0 // <-- Last state does not matter in Kalman function due to integration
-	};
+	// Find our state space model with kalman gain matrix from theta with integration
+	float Ai[(NP+1) * (NP+1)];
+	float Bi[(NP+1) * RDIM];
+	float Ci[YDIM * (NP+1)];
+	float Ki[NP * YDIM]; // This WILL be the same as K
 
-	/*
-	 * Call kalman function and estimate our future state at x(k+1)
-	 */
-	printf("Our current state vector is:\n");
-	print(x, ADIM, 1);
-	kalman(A, B, C, K, u, x, y);
-	printf("Our estimated state vector is:\n");
-	print(x, ADIM, 1);
+	integration = 1;
+	theta2ss(integration, Ai, Bi, Ci, theta, Ki, (NP+1), YDIM, RDIM, NP, NZ, NZE);
+
+	// Print our state space matrix
+	printf("System matrix: Ai\n");
+	print(Ai, (NP+1), (NP+1));
+
+	printf("Input matrix: Bi\n");
+	print(Bi, (NP+1), RDIM);
+
+	printf("Output matrix: Ci\n");
+	print(Ci, YDIM, (NP+1));
+
+	printf("Kalman gain matrix: Ki\n");
+	print(Ki, NP, YDIM);
 
 	return EXIT_SUCCESS;
 }
+
+/* Octave code:
+
+	%% Example made by Daniel Mårtensson - 2019-10-08
+	%% To run this example. You need to install Matavecontrol and Mataveid
+	
+	% Real life model of a water tank
+	G = tf([1], [1 2 1]); 
+	
+	% Time
+	t = linspace(0, 10, 100);
+	
+	% Input signals
+	u1 = linspace(1, 1, 50);
+	u2 = linspace(2, 2, 50);
+	u = [u1 u2];
+	
+	% Simulation of the model - It will give you a graphical plot what type of data you need
+	y = lsim(G, u, t);
+	
+	% Put some noise to output
+	%y = y + 0.03*randn(1, length(y));
+	
+	% Identification with recursive least squares and model order 5 and delay 0 and lambda 0.99
+	[Gd, Hd, sys, K] = rls(u, y, 5, 5, 5, t(2)-t(1), 0, 0.99);
+	
+	% Transfer function to state space - With no integration
+	sysd = tf2ss(Gd);
+	disp('INTEGRATION FALSE')
+	sysd
+	
+	% Implement integration
+	sysdi.A = [sysd.A zeros(size(sysd.A, 2), 1); sysd.C*sysd.A 1];
+	sysdi.B = [sysd.B; sysd.C*sysd.B];
+	sysdi.C = [zeros(1, size(Gd.num, 2)) 1];
+	disp('INTEGRATION TRUE')
+	sysdi
+	
+	disp('Kalman K')
+	K
+
+ 
+*/

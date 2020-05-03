@@ -14,27 +14,21 @@
 #include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
+#define ADIM 2
+#define RDIM 2
+#define YDIM 2
+
 int main() {
 
-	/*
-	 * In this example we have selected the following configuration inside Confiugration.h
-	 * SELECTED_CONTROL_STRATEGY MANUAL
-	 * ADIM 2 // Matrix A will be [A]
-	 * YDIM 2 // Matrix B will be [C]
-     * RDIM 2 // Matrix C will be [B]
-	 * HORIZON 20
-	 * ALPHA 0.1 // Prevent deadbeat control for MPC and GPC
-     * ITERATION_LIMIT 100 // This is for MPC
-     * ANTI_WINDUP ALWAYS_INTEGRATE // The integral function for LQR
-     */
+	// Create our matrices
 	float A[ADIM * ADIM] = {0.79499,   0.33654,
 		                   -0.70673,   0.35749};
 	float B[ADIM * RDIM] = {0.2050072,   0.0097622,
 		                    0.7067279,   0.0336537};
 	float C[YDIM * ADIM] = {1.20000,   0.00000,
 		                    0.00000,   0.30000};
-	float K[POLY_LENGTH * YDIM] = {0.532591,  -0.066108,
-			                      -0.503803,   0.136580};
+	float K[ADIM * YDIM] = {0.532591,  -0.066108,
+			               -0.503803,   0.136580};
 
 	/*
 	 * Print our state space matrix
@@ -49,11 +43,9 @@ int main() {
 	print(C, YDIM, ADIM);
 
 	printf("Kalman gain matrix: K\n");
-	print(K, POLY_LENGTH, YDIM);
+	print(K, ADIM, YDIM);
 
-	/*
-	 * Create input u, output y and state vector x
-	 */
+	// Create input u, output y and state vector x
 	float u[RDIM] = {2.2,
 			         4.3};
 	float y[YDIM] = {5.134,
@@ -61,12 +53,10 @@ int main() {
 	float x[ADIM] = {2.32,
 			         4.12};
 
-	/*
-	 * Call kalman function and estimate our future state at x(k+1)
-	 */
+	// Call kalman function and estimate our future state at x(k+1)
 	printf("Our current state vector is:\n");
     print(x, ADIM, 1);
-	kalman(A, B, C, K, u, x, y);
+	kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM);
 	printf("Our estimated state vector is:\n");
 	print(x, ADIM, 1);
 

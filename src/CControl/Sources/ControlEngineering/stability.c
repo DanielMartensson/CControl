@@ -13,27 +13,32 @@
  * A need to be square. Returns 0 when system is not stable.
  * A is from the dx = Ax + Bu system
  * Returns 1 when system is stable.
+ *
+ * Works really good with models identified by RLS
  */
-int stability(float* A, uint8_t ADIM){
+uint8_t stability(float* A, float* B, uint8_t ADIM, uint8_t RDIM){
 
-	// TODO: Här måste vi ha precis som kalman.c har.
-	// En if-sats för att dela upp A om det är integration på
 	float P[ADIM*ADIM];
 
-	// Create a symmetric matrix that is a positive definite matrix
+	// Create a symmetric matrix B*B' that is a positive definite matrix
 	float Q[ADIM*ADIM];
-	for(int i = 0; i < ADIM; i++)
-		for(int j = 0; j < ADIM; j++)
-			P[ADIM*i + j] = i + j + 1;
+	float Bt[ADIM];
+	memcpy(Bt, B, ADIM*RDIM*sizeof(float));
+	tran(Bt, ADIM, RDIM);
+	mul(B, Bt, Q, ADIM, RDIM, ADIM);
+
+	// Solve discrete lyapunov and find P
 	dlyap(A, P, Q, ADIM);
 
-	// Check if P is symmetric and positive definite
+	// Check if solution P is symmetric and positive definite
 	for(int i = 0; i < ADIM; i++){
 		for(int j = i; j < ADIM; j++){
 			if(i == j){
-				if(P[ADIM*i + j] <= 0) return 0; // Diagonal
+				if(P[ADIM*i + j] <= 0) return 0; // Diagonals
 			}else{
-				if(P[ADIM*i + j] <= 0 && P[ADIM*j + i] <= 0) return 0; // non-Diagonal
+				float upper = P[ADIM*i + j];
+				float lower = P[ADIM*j + i];
+				if(upper <= 0 || lower <= 0 || upper - lower > FLT_EPSILON || upper - lower < -FLT_EPSILON) return 0; // non-Diagonals
 			}
 		}
 	}

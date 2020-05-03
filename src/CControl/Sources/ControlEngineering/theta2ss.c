@@ -13,10 +13,13 @@
  * state space model on Observable Canonical Form.
  * Vector theta can be found from rls function.
  *
+ * It's recommended that NP = NZ = NZE = ADIM
+ *
  * No inegration:
  * A [ADIM*ADIM]
  * B [ADIM*1]
  * C [1*ADIM]
+ * K [ADIM*1]
  * theta [NP+NZ+NZE]
  * integration = 0
  *
@@ -24,6 +27,7 @@
  * A [(ADIM+1)*(ADIM+1)]
  * B [(ADIM+1)*1]
  * C [1*(ADIM+1)]
+ * K [ADIM*1]
  * theta [NP+NZ+NZE]
  * integration = 1
  */

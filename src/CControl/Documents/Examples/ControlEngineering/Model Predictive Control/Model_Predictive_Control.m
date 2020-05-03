@@ -8,23 +8,15 @@ function [u] = Model_Predictive_Control()
   x0 = [4;2];
   
   % Alpha - Prevent dead beat control
-  alpha = 0.1;
+  regularization = 0.001;
   
   % Reference and horizon
   r = 12.5;
-  horizon = 200;
+  horizon = 10;
+  t = linspace(0, 20);
   
-  % Compute the PHI matrix now!
-  PHI = phiMat(sysd.A, sysd.C, horizon);
-  % Compute the GAMMA matrix now
-  GAMMA = gammaMat(sysd.A, sysd.B, sysd.C, horizon);
-  
-  % Use linprog in MATLAB
-  Y = repmat(r, horizon, 1) - PHI*x0;
-  A = GAMMA'*GAMMA +alpha*eye(size(GAMMA));
-  c = A'*Y;
-  b = GAMMA'*Y;
-  u = glpk(c, A, b, repmat(0, 1, horizon), [], repmat("U", 1, horizon), repmat("C", 1, horizon), -1);
+  % Do MPC
+  [y, T, X, U] = lmpc(sysd, horizon, r, t, regularization, x0);
   
 end
 
