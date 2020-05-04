@@ -11,7 +11,6 @@ CControl is a library written in C only. The library have the tools and features
 - Lyapunov stability check
 - Linear algebra package that works for ALL microprocessors
 - Eigensystem Realization Algorithm(ERA) 
-```
 
 All these controller can be implemented onto an microcontroller such as STM32, Arduino, PIC, AVR etc because all are made in portable C code. 
 
