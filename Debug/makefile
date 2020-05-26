@@ -13,7 +13,6 @@ RM := rm -rf
 -include src/CControl/Sources/Miscellaneous/subdir.mk
 -include src/CControl/Sources/LinearAlgebra/subdir.mk
 -include src/CControl/Sources/ControlEngineering/subdir.mk
--include src/CControl/Sources/Classification/subdir.mk
 -include src/CControl/Sources/ArtificialIntelligence/subdir.mk
 -include src/subdir.mk
 -include subdir.mk

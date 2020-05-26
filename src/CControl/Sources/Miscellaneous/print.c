@@ -5,7 +5,6 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 /*

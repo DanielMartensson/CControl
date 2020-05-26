@@ -7,16 +7,16 @@ function [u] = Model_Predictive_Control()
   % Initial state
   x0 = [4;2];
   
-  % Alpha - Prevent dead beat control
-  regularization = 0.001;
+  % Alpha - Only used for linear programming - See commented code in lmpc.m file
+  regularization = 0;
   
   % Reference and horizon
-  r = 12.5;
-  horizon = 10;
-  t = linspace(0, 20);
+  r = linspace(12.5, 12.5, 100);
+  N = 20; % Horizon
+  t = linspace(0, 20, 100);
   
   % Do MPC
-  [y, T, X, U] = lmpc(sysd, horizon, r, t, regularization, x0);
+  [y, T, X, U] = lmpc(sysd, N, r, t, regularization, x0);
   
 end
 

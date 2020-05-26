@@ -10,15 +10,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
 #define ADIM 2
 #define RDIM 1
 #define YDIM 1
 #define ANTI_WINDUP 0
-#define integration 0 // Our A, B, C does not include integration
 
 int main() {
 
@@ -55,7 +52,7 @@ int main() {
 	lqi(y, u, qi, r, L, Li, x, xi, ADIM, YDIM, RDIM, ANTI_WINDUP);
 
 	// Estimate the state x
-	kalman(integration, A, B, C, K, u, x, y, ADIM, YDIM, RDIM);
+	kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM);
 
 	// Check the inputs
 	for(int i = 0; i < RDIM; i++){

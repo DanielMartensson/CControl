@@ -5,7 +5,6 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 static void simulation(float K, float *y, float *t, uint16_t l);

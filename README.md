@@ -1,44 +1,76 @@
 # CControl
 
-CControl is a library written in C only. The library have the tools and features for using advanced control techniques in a simple way. Instead of using big computers and lots of theory, I have made this library so you can use the following controllers very simple.
+CControl is a library written in C only. 
+The purpose with this library is to fit advanced tools for really small embedded systems. So these tools are very slim and
+I have removed the most time consuming parts of the theory. Here you can use basic linear algebra to create everything from
+system identification to control engineering. 
 
-- Model Reference Adaptive Control(MRAC) 
-- Model Predictive Control(MPC)
-- Linear Quadratic Integral Control(LQI)
-- Kalman Filter(KF)
-- Recursive Least Square identification(RLS)
-- A* - Find and search the shortest path in a map
-- Lyapunov stability check
-- Linear algebra package that works for ALL microprocessors
-- Eigensystem Realization Algorithm(ERA) 
+- Artificial Intelligence
+  - Astar algorithm for quick path finding
+  
+- Control Engineering
+  - Kalman filter update
+  - Linear Quadratic Integral regulator(LQI)
+  - Model predictive Control(MPC)
+  - Model Reference Adaptive Control(MRAC)
+  - Transfer function to state space
+  
+- Linear Algebra
+  - Balance matrix
+  - Cholesky decomposition
+  - Determinant
+  - Discrete Lyapunov solver
+  - Eigenvalues symmetric + Eigenvectors
+  - Random real eigenvalues and random imaginary eigenvalues
+  - Hankel matrix
+  - Inverse
+  - Linear solver
+  - LUP factorization
+  - Multiplication
+  - Pseudo inverse
+  - QR-factorization
+  - Singular Value Decomposition Golup Reinsch
+  - Singular Value Decomposition Jacobi One Sided
+  - Tikanov regularization
+  - Transpose
+  - Upper triangular
+  
+- Miscellaneous
+  - Cut matrix
+  - Filtfilt 
+  - Insert sub matrix into matrix
+  - Print
+  - Saturation
+  - Sign
+  
+- Optimization
+  - Linear programming maximization
+  - Linear programming minimization
 
-All these controller can be implemented onto an microcontroller such as STM32, Arduino, PIC, AVR etc because all are made in portable C code. 
+- System Identification
+ - Observer Kalman Filter identification(OKID)
+ - Eigensystem Realization Algorithm(ERA)
+ - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
 
-Just download the project and open it with e.g Eclipse IDE. The project have working examples. I will upload some projects here. To start with CControl? Please look at the ReadMe.pdf in src -> CControl -> Documents folder.
 
+### How the project is structured
 
-### How the project is structed
-This project is structed as
+This project is structured as
 ```
- * No malloc, calloc or free - No dynamical memory allocation in other words
+ * No malloc, calloc or free - No dynamic memory allocation in other words
  * Use pointers as much as you can
  * Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct
  * I'm focusing on real practical controllers or methods that are cost effective and don't require "a lot of tuning"
- * Main focusing on: Control engineering, linear algebra, opimization, AI algorithms, system identification and classification
+ * Main focusing on: Control engineering, linear algebra, optimization, AI algorithms, system identification and classification
 ```
 
-### What controller should I select?
+### What I recommend
 
-The goal is to break down the huge theory in academic control theory an apply them to practical system where nothing is perfect/ideal and nonlinearities are daily standard.
+- MPC for slow temperature/water lever systems
+- LQI for fast mechanical systems
+- MRAC for replacing PI controllers. MRAC is actually a PI controller, with integration on P
+- RLS for identification due to it's low memory use. For MIMO, please use MataveID if you going to do off-line identification
 
-#### Model Reference Adaptive Control(MRAC) 
-Use this controller if you are in need of a PI-controller that needs continuously self tuning on P and I. Very simple controller.
-
-#### Model Predictive Control(MPC)
-Use this controller if you have a fix model and you need to continuously the best optimal inputs for the system for every iteration. But instead, you make sure that your inputs cannot result that your output will overshoot over your reference and the inputs cannot be negative. This controller using simplex method with Tikhonov regularization to find its input.
-
-#### Linear Quadratic Integral Control(LQI)
-Use this controller if you need multiple inputs and mutiple outputs. This controllers requries offline tuning. But its strench is that what you tune in in your simulation, it going to act very like that in the controller. That's make LQI a very safe controller.
 
 # Fan Controller with Linear Quadratic Integral Control
 

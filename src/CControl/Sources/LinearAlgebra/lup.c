@@ -5,7 +5,6 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 /*
@@ -14,10 +13,10 @@
  * LU [m*n]
  * P [n]
  * n == m
- * Returns 0 == Success
- * Returns -1 == Fail
+ * Returns 1 == Success
+ * Returns 0 == Fail
  */
-int lup(float *A, float *LU, int *P, int row) {
+uint8_t lup(float *A, float *LU, int *P, int row) {
 
 	// If not the same
 	if (A != LU) memcpy(LU, A, row*row*sizeof(float));
@@ -39,7 +38,7 @@ int lup(float *A, float *LU, int *P, int row) {
 		*(P + ind_max) = tmp_int;
 
 		if (fabsf(*(LU + row * *(P + i) + i)) < FLT_EPSILON)
-			return -1; // matrix is singular (up to tolerance)
+			return 0; // matrix is singular (up to tolerance)
 
 		for (int j = i + 1; j < row; ++j) {
 			*(LU + row * *(P + j) + i) = *(LU + row * *(P + j) + i) / *(LU + row * *(P + i) + i);
@@ -49,6 +48,6 @@ int lup(float *A, float *LU, int *P, int row) {
 		}
 	}
 
-	return 0;
+	return 1; // Solved
 }
 

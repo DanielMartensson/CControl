@@ -5,11 +5,11 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 /*
- * Observer kalman filter identification
+ * Observer kalman filter identification.
+ * This is the basic version! If you need fully version, then look for MataveID at GitHub
  * Convert inputs and outputs into impulse responses
  * Data length need to be the same as the column length n!
  * u [m*n]

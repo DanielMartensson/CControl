@@ -5,7 +5,6 @@
  *      Author: hp
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 /*
@@ -14,12 +13,14 @@
  * P [n]
  * b [m]
  * n == m
+ * Returns 1 == Success
+ * Returns 0 == Fail
  */
-int linsolve_lup(float *A, float *x, float *b, int row) {
+uint8_t linsolve_lup(float *A, float *x, float *b, int row) {
 
 	float LU[row*row];
 	int P[row];
-	int status = lup(A, LU, P,row);
+	uint8_t status = lup(A, LU, P,row);
 
 	// forward substitution with pivoting
 	for (int i = 0; i < row; ++i) {

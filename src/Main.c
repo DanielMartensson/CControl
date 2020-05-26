@@ -1,44 +1,51 @@
 /*
  ============================================================================
- Name        : Model_Reference_Adaptice_Control.c
+ Name        : Model_Predictive_Control.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Model Reference Adaptive Control
+ Description : Model Predictive Control
  ============================================================================
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
+#define ADIM 2
 #define RDIM 1
-#define ANTI_WINDUP 0
-#define LEARNING 0.001
+#define YDIM 1
+#define HORIZON 10
+
 
 int main() {
 
-	/* MRAC works as K1 and K2 integrates over time so y -> r when time -> inf
-	 * r ----{K1}*(-LEARNING)---->+()----->G(s)-----------------------> y
-	 *               			  -^            			  |
-	 *               			   |            			  |
-	 *                			   |              			  |
-	 *                  		   |---*(LEARNING){K2}<--------
-	 */
+	// State space model
+	float A[ADIM * ADIM] = { 1.05216,   1.00000,
+		      	  	  	  	-0.60653,   0.00000};
+	float B[ADIM * RDIM] = { 0.50129,
+		       	   	   	   	 0.42266};
+	float C[YDIM * ADIM] = { 1, 0 };
 
-	float y[RDIM] = {7};
-	float u[RDIM] = {0};
-	float r[RDIM] = {51};
-	float K1[RDIM] = {3.1};
-	float K2[RDIM] = {4.1};
+	// Print our state space matrix
+	printf("System matrix: A\n");
+	print(A, ADIM, ADIM);
 
-	// Compute now
-	mrac(ANTI_WINDUP, LEARNING, y, u, r, K1, K2, RDIM);
+	printf("Input matrix: B\n");
+	print(B, ADIM, RDIM);
 
-	// Show input signal
-	printf("Our output signal\n");
+	printf("Output matrix: C\n");
+	print(C, YDIM, ADIM);
+
+	float x[ADIM] = { 4, 2};
+	float u[RDIM] = { 0 };
+	float r[YDIM] = { 12.5 };
+
+	// Do Model Predictive Control where we selecting last u
+	mpc(A, B, C, x, u, r, ADIM, YDIM, RDIM, HORIZON);
+
+	// Print solution
+	printf("Best input\n");
 	print(u, RDIM, 1);
 
 	return EXIT_SUCCESS;

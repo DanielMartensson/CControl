@@ -5,7 +5,6 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 // Private functions
@@ -49,22 +48,22 @@ static void Sort_by_Decreasing_Singular_Values(uint16_t nrows, uint16_t ncols, f
  * m = row
  * n = column
  * If m < n, then this procedure is for A'
- * Return 0 = Success.
- * Return -1 = Fail.
+ * Return 1 = Success.
+ * Return 0 = Fail.
  */
-int svd_golub_reinsch(float *A, uint16_t row, uint16_t column, float *U, float *singular_values, float *V) {
+uint8_t svd_golub_reinsch(float *A, uint16_t row, uint16_t column, float *U, float *singular_values, float *V) {
 	float dummy_array[column];
 
 	Householders_Reduction_to_Bidiagonal_Form(A, row, column, U, V, singular_values, dummy_array);
 
 	if (Givens_Reduction_to_Diagonal_Form(row, column, U, V, singular_values, dummy_array) < 0)
-		return -1;
+		return 0; // Fail
 
 	Sort_by_Decreasing_Singular_Values(row, column, singular_values, U, V);
 
-	return 0;
+	return 1; // Solved
 }
-                                                                      //
+
 static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, uint16_t ncols, float *U, float *V, float *diagonal, float *superdiagonal) {
 	int i, j, k, ip1;
 	float s, s2, si, scale;

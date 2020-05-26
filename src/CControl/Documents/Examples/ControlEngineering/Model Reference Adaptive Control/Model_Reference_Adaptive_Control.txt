@@ -10,8 +10,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
 #define RDIM 1

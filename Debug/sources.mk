@@ -14,7 +14,6 @@ C_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 src/CControl/Sources/ArtificialIntelligence \
-src/CControl/Sources/Classification \
 src/CControl/Sources/ControlEngineering \
 src/CControl/Sources/LinearAlgebra \
 src/CControl/Sources/Miscellaneous \

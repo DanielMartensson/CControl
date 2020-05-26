@@ -5,7 +5,6 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t RDIM);

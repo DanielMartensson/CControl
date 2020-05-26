@@ -10,8 +10,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "CControl/Headers/Configurations.h"
 #include "CControl/Headers/Functions.h"
 
 // Dimensions for input and output
@@ -70,8 +68,7 @@ int main() {
 	float B[NP * RDIM];
 	float C[YDIM * NP];
 	float K[NP * YDIM];
-	uint8_t integration = 0;
-	theta2ss(integration, A, B, C, theta, K, NP, YDIM, RDIM, NP, NZ, NZE);
+	theta2ss(A, B, C, theta, K, NP, YDIM, RDIM, NP, NZ, NZE);
 
 	// Print our state space matrix
 	printf("System matrix: A\n");
@@ -85,28 +82,6 @@ int main() {
 
 	printf("Kalman gain matrix: K\n");
 	print(K, NP, YDIM);
-
-	// Find our state space model with kalman gain matrix from theta with integration
-	float Ai[(NP+1) * (NP+1)];
-	float Bi[(NP+1) * RDIM];
-	float Ci[YDIM * (NP+1)];
-	float Ki[NP * YDIM]; // This WILL be the same as K
-
-	integration = 1;
-	theta2ss(integration, Ai, Bi, Ci, theta, Ki, (NP+1), YDIM, RDIM, NP, NZ, NZE);
-
-	// Print our state space matrix
-	printf("System matrix: Ai\n");
-	print(Ai, (NP+1), (NP+1));
-
-	printf("Input matrix: Bi\n");
-	print(Bi, (NP+1), RDIM);
-
-	printf("Output matrix: Ci\n");
-	print(Ci, YDIM, (NP+1));
-
-	printf("Kalman gain matrix: Ki\n");
-	print(Ki, NP, YDIM);
 
 	return EXIT_SUCCESS;
 }
@@ -134,20 +109,11 @@ int main() {
 	%y = y + 0.03*randn(1, length(y));
 	
 	% Identification with recursive least squares and model order 5 and delay 0 and lambda 0.99
-	[Gd, Hd, sys, K] = rls(u, y, 5, 5, 5, t(2)-t(1), 0, 0.99);
+	[Gd, Hd, sysd, K] = rls(u, y, 5, 5, 5, t(2)-t(1), 0, 0.99); % sysd contains K at column 2 of B
 	
-	% Transfer function to state space - With no integration
-	sysd = tf2ss(Gd);
-	disp('INTEGRATION FALSE')
-	sysd
-	
-	% Implement integration
-	sysdi.A = [sysd.A zeros(size(sysd.A, 2), 1); sysd.C*sysd.A 1];
-	sysdi.B = [sysd.B; sysd.C*sysd.B];
-	sysdi.C = [zeros(1, size(Gd.num, 2)) 1];
-	disp('INTEGRATION TRUE')
-	sysdi
-	
+	% Transfer function to state space
+	sysd = tf2ss(Gd)
+
 	disp('Kalman K')
 	K
 

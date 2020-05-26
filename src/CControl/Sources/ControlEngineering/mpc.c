@@ -5,7 +5,6 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 static void obsv(float* PHI, float* A, float* C, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON);
@@ -15,8 +14,9 @@ static void cab(float* GAMMA, float* PHI, float* A, float* B, float* C, uint8_t 
  * Model predictive control
  * Hint: Look up lmpc.m in Matavecontrol
  */
-void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, float ALPHA, uint16_t ITERATION_LIMIT){
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON){
 	// Create the extended observability matrix
+
 	float PHI[HORIZON*YDIM*ADIM];
 	memset(PHI, 0, HORIZON*YDIM*ADIM*sizeof(float));
 	obsv(PHI, A, C, ADIM, YDIM, RDIM, HORIZON);
@@ -27,6 +27,7 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 	float GAMMA[HORIZON*YDIM*HORIZON*RDIM];
 	memset(GAMMA, 0, HORIZON*YDIM*HORIZON*RDIM*sizeof(float));
 	cab(GAMMA, PHI, A, B, C, ADIM, YDIM, RDIM, HORIZON);
+
 
 	//print(GAMMA, HORIZON*YDIM, HORIZON*RDIM);
 
@@ -53,14 +54,6 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 		*(R_PHI_vec + i) = *(R_vec + i) - *(PHI_vec + i);
 	}
 
-	// Find the input value from GAMMA and PHI
-	/* Find the optimal solution R_vec from linear programming
-	 * max (GAMMAT*GAMMA + ALPHA*I)^T*R_PHI_vec*R_vec
-	 * s.t
-	 * 		(GAMMAT*GAMMA + ALPHA*I)*R_vec <= GAMMAT*R_PHI_vec
-	 *								 R_vec >= 0
-	 */
-
 	// Transpose gamma
 	float GAMMAT[HORIZON*YDIM*HORIZON*RDIM];
 	memcpy(GAMMAT, GAMMA, HORIZON*YDIM*HORIZON*RDIM*sizeof(float)); // GAMMA -> GAMMAT
@@ -71,38 +64,22 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 	memset(b, 0, HORIZON * YDIM * sizeof(float));
 	mul(GAMMAT, R_PHI_vec, b, HORIZON * RDIM, HORIZON*YDIM, 1);
 
-	// GAMMATGAMMA = GAMMAT*GAMMA
+	// GAMMATGAMMA = GAMMAT*GAMMA = A
 	float GAMMATGAMMA[HORIZON * RDIM*HORIZON * RDIM];
 	memset(GAMMATGAMMA, 0, HORIZON * RDIM*HORIZON * RDIM * sizeof(float));
 	mul(GAMMAT, GAMMA, GAMMATGAMMA, HORIZON * RDIM, HORIZON*YDIM, HORIZON * RDIM);
 
-	// A = A + alpha*I
-	for(int i = 0; i < HORIZON * RDIM; i++){
-		*(GAMMATGAMMA + i*HORIZON * RDIM + i) = *(GAMMATGAMMA + i*HORIZON * RDIM + i) + ALPHA; // Don't need identity matrix here because we only add on diagonal
-	}
+	// Solve Ax = b with ordinary least squares and take the last values
+	linsolve_lup(GAMMATGAMMA, R_vec, b, HORIZON * RDIM);
 
-	// Copy A and call it AT
-	float AT[HORIZON * RDIM*HORIZON * RDIM];
-	memcpy(AT, GAMMATGAMMA, HORIZON * RDIM*HORIZON * RDIM*sizeof(float)); // A -> AT
-	tran(AT, HORIZON*RDIM, HORIZON*RDIM);
-
-	// Now create c = AT*R_PHI_vec
-	float c[HORIZON * YDIM];
-	memset(c, 0, HORIZON * YDIM*sizeof(float));
-	mul(AT, R_PHI_vec, c, HORIZON*RDIM, HORIZON*RDIM, 1);
-
-	//print(R_vec, HORIZON * YDIM, 1);
-
-	// Do linear programming now
-	linprog(c, GAMMATGAMMA, b, R_vec, HORIZON*YDIM, HORIZON*RDIM, 0, ITERATION_LIMIT);
-
-	// Set first R_vec to u - Done
+	// Set last R_vec to u - Done
 	for(int i = 0; i < RDIM; i++){
-		*(u + i) = *(R_vec + i);
+		*(u + i) = *(R_vec + HORIZON * RDIM - RDIM + i);
 	}
 
 	// Show the whole input vector
-	//print(R_vec, HORIZON, YDIM);
+	print(R_vec, HORIZON, YDIM);
+
 
 }
 

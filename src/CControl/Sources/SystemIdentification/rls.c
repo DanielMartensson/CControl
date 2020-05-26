@@ -5,7 +5,6 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, float* theta, float* P, float* past_e, float forgetting);

@@ -5,7 +5,6 @@
  *      Author: hp
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row);

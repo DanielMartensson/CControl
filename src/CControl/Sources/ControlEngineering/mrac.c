@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
+
 #include "../../Headers/Functions.h"
 
 static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t RDIM);
@@ -24,6 +24,7 @@ static void integral(uint8_t ANTI_WINDUP, float* xi, float* r, float* y, uint8_t
  *
  * This can be used with multiple outputs and references
  * HINT: Look up my repository Adaptive-Control and look for Model Reference Adaptive Control with Lyapunov rule
+ * HINT: The book Adaptive Control by Karl-Johan Åström describe on page 208 how this works. ISBN: 9780486462783
  */
 void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, float* K1, float* K2, uint8_t RDIM){
 

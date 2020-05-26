@@ -5,7 +5,6 @@
  *      Author: hp
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 /*

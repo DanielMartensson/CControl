@@ -5,7 +5,6 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Configurations.h"
 #include "../../Headers/Functions.h"
 
 static void heuristic_map(int *map, int x_stop, int y_stop, int height, int width, int norm_mode);
