@@ -48,9 +48,9 @@ system identification to control engineering.
   - Linear programming minimization
 
 - System Identification
- - Observer Kalman Filter identification(OKID)
- - Eigensystem Realization Algorithm(ERA)
- - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
+  - Observer Kalman Filter identification(OKID)
+  - Eigensystem Realization Algorithm(ERA)
+  - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
 
 
 ### How the project is structured
