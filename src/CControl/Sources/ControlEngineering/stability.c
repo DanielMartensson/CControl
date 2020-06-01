@@ -16,11 +16,11 @@ uint8_t stability(float* A, uint8_t ADIM){
 	float wr[ADIM]; // Real eigenvalues
 	float wi[ADIM]; // Imaginary eigenvalues
 	eig(A, wr, wi, ADIM);
-	uint8_t stable = 0; // Assume that the system is unstable
+	uint8_t stable = 1; // Assume that the system is stable
 	for(uint8_t i = 0; i < ADIM; i++){
 		float abs_value = sqrtf(wr[i]*wr[i] + wi[i]*wi[i]);
-		if(abs_value <= 1 && abs_value >= -1){
-			stable = 1; // Stable
+		if(abs_value > 1){
+			stable = 0; // Unstable
 		}
 	}
 	return stable;
