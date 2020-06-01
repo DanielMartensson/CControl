@@ -71,6 +71,10 @@ This project is structured as
 - MRAC for replacing PI controllers. MRAC is actually a PI controller, with integration on P
 - RLS for identification due to it's low memory use. For MIMO, please use MataveID if you going to do off-line identification
 
+# TODO
+
+- Implement Gain Scheduling
+
 
 # Fan Controller with Linear Quadratic Integral Control
 

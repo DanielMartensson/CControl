@@ -14,18 +14,18 @@ static void cab(float* GAMMA, float* PHI, float* A, float* B, float* C, uint8_t 
  * Model predictive control
  * Hint: Look up lmpc.m in Matavecontrol
  */
-void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON){
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, uint8_t ITERATION_LIMIT, uint8_t has_integration){
 	// Create the extended observability matrix
 
 	float PHI[HORIZON*YDIM*ADIM];
-	memset(PHI, 0, HORIZON*YDIM*ADIM*sizeof(float));
+	//memset(PHI, 0, HORIZON*YDIM*ADIM*sizeof(float));
 	obsv(PHI, A, C, ADIM, YDIM, RDIM, HORIZON);
 
 	//print(PHI, HORIZON*YDIM, ADIM);
 
 	// Create the lower triangular toeplitz matrix
 	float GAMMA[HORIZON*YDIM*HORIZON*RDIM];
-	memset(GAMMA, 0, HORIZON*YDIM*HORIZON*RDIM*sizeof(float));
+	memset(GAMMA, 0, HORIZON*YDIM*HORIZON*RDIM*sizeof(float)); // We need memset here
 	cab(GAMMA, PHI, A, B, C, ADIM, YDIM, RDIM, HORIZON);
 
 
@@ -34,7 +34,7 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 	// Find the input value from GAMMA and PHI
 	// R_vec = R*r
 	float R_vec[HORIZON * YDIM];
-	memset(R_vec, 0, HORIZON * YDIM * sizeof(float));
+	//memset(R_vec, 0, HORIZON * YDIM * sizeof(float));
 	for (int i = 0; i < HORIZON * YDIM; i++) {
 		for (int j = 0; j < YDIM; j++) {
 			*(R_vec + i + j) = *(r + j);
@@ -44,12 +44,12 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 
 	// PHI_vec = PHI*x
 	float PHI_vec[HORIZON * YDIM];
-	memset(PHI_vec, 0, HORIZON * YDIM * sizeof(float));
+	//memset(PHI_vec, 0, HORIZON * YDIM * sizeof(float));
 	mul(PHI, x, PHI_vec, HORIZON * YDIM, ADIM, 1);
 
 	// R_PHI_vec = R_vec - PHI_vec
 	float R_PHI_vec[HORIZON * YDIM];
-	memset(R_PHI_vec, 0, HORIZON * YDIM*sizeof(float));
+	//memset(R_PHI_vec, 0, HORIZON * YDIM*sizeof(float));
 	for(int i = 0; i < HORIZON * YDIM; i++){
 		*(R_PHI_vec + i) = *(R_vec + i) - *(PHI_vec + i);
 	}
@@ -61,26 +61,42 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 
 	// b = GAMMAT*R_PHI_vec
 	float b[HORIZON * YDIM];
-	memset(b, 0, HORIZON * YDIM * sizeof(float));
+	//memset(b, 0, HORIZON * YDIM * sizeof(float));
 	mul(GAMMAT, R_PHI_vec, b, HORIZON * RDIM, HORIZON*YDIM, 1);
 
 	// GAMMATGAMMA = GAMMAT*GAMMA = A
 	float GAMMATGAMMA[HORIZON * RDIM*HORIZON * RDIM];
-	memset(GAMMATGAMMA, 0, HORIZON * RDIM*HORIZON * RDIM * sizeof(float));
+	//memset(GAMMATGAMMA, 0, HORIZON * RDIM*HORIZON * RDIM * sizeof(float));
 	mul(GAMMAT, GAMMA, GAMMATGAMMA, HORIZON * RDIM, HORIZON*YDIM, HORIZON * RDIM);
 
-	// Solve Ax = b with ordinary least squares and take the last values
-	linsolve_lup(GAMMATGAMMA, R_vec, b, HORIZON * RDIM);
+	// Copy A and call it AT
+	float AT[HORIZON * RDIM*HORIZON * RDIM];
+	memcpy(AT, GAMMATGAMMA, HORIZON * RDIM*HORIZON * RDIM*sizeof(float)); // A -> AT
+	tran(AT, HORIZON*RDIM, HORIZON*RDIM);
 
-	// Set last R_vec to u - Done
-	for(int i = 0; i < RDIM; i++){
-		*(u + i) = *(R_vec + HORIZON * RDIM - RDIM + i);
+	// Now create c = AT*R_PHI_vec
+	float c[HORIZON * YDIM];
+	//memset(c, 0, HORIZON * YDIM*sizeof(float));
+	mul(AT, R_PHI_vec, c, HORIZON*RDIM, HORIZON*RDIM, 1);
+
+	// Do linear programming now
+	linprog(c, GAMMATGAMMA, b, R_vec, HORIZON*YDIM, HORIZON*RDIM, 0, ITERATION_LIMIT);
+
+	// We select the best input values, depending on if we have integration behavior or not in our model
+	if(has_integration == 1){
+		// Set first R_vec to u - Done
+		for(int i = 0; i < RDIM; i++){
+			*(u + i) = *(R_vec + i);
+		}
+	}else if(has_integration == 0){
+		// Set last R_vec to u - Done
+		for(int i = 0; i < RDIM; i++){
+			*(u + i) = *(R_vec + HORIZON * RDIM - RDIM + i);
+		}
 	}
 
 	// Show the whole input vector
-	print(R_vec, HORIZON, YDIM);
-
-
+	//print(R_vec, HORIZON, YDIM);
 }
 
 
@@ -91,13 +107,13 @@ static void obsv(float* PHI, float* A, float* C, uint8_t ADIM, uint8_t YDIM, uin
 
 	// This matrix will A^(i+1) all the time
 	float A_pow[ADIM*ADIM];
-	memset(A_pow, 0, ADIM * ADIM * sizeof(float));
+	//memset(A_pow, 0, ADIM * ADIM * sizeof(float));
 	float A_copy[ADIM*ADIM];
 	memcpy(A_copy, A, ADIM * ADIM * sizeof(float));
 
 	// Temporary matrix
 	float T[YDIM*ADIM];
-	memset(T, 0, YDIM * ADIM * sizeof(float));
+	//memset(T, 0, YDIM * ADIM * sizeof(float));
 
 	// Regular T = C*A^(1+i)
 	mul(C, A, T, YDIM, ADIM, ADIM);
@@ -122,7 +138,7 @@ static void cab(float* GAMMA, float* PHI, float* A, float* B, float* C, uint8_t 
 
 	// First create the initial C*A^0*B == C*I*B == C*B
 	float CB[YDIM*RDIM];
-	memset(CB, 0, YDIM*RDIM*sizeof(float));
+	//memset(CB, 0, YDIM*RDIM*sizeof(float));
 	mul(C, B, CB, YDIM, ADIM, RDIM);
 
 	// Take the transpose of CB so it will have dimension RDIM*YDIM instead

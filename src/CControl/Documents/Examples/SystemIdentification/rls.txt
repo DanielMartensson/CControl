@@ -58,7 +58,7 @@ int main() {
 	float phi[NP + NZ + NZE];
 	float P[(NP + NZ + NZE) * (NP + NZ + NZE)];
 	float theta[NP + NZ + NZE]; // Remember that total length is POLY_LENGTH*3 - ALWAYS have these dimensions
-	int count = 0; // Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over
+	uint8_t count = 0; // Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over
 	for (int i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
 		rls(NP, NZ, NZE, theta, input[i], output[i], &count, &past_e, &past_y, &past_u, phi, P, Pq, forgetting);
 	}

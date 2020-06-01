@@ -61,7 +61,7 @@ static void opti(float* c, float* A, float* b, float* x, int row_a, int column_a
 	if(max_or_min == 0)
 		memset(x, 0, column_a*sizeof(float));
 	else
-		memset(x, 0, row_a*sizeof(float)); //
+		memset(x, 0, row_a*sizeof(float));
 
 	// Create the tableau with space for the slack variables s and p as well
 	float tableau[(row_a+1)*(column_a+row_a+2)]; // +1 because the extra row for objective function and +2 for the b vector and slackvariable for objective function

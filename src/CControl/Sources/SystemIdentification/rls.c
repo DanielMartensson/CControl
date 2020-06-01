@@ -17,7 +17,7 @@ static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, 
  * Pq > 0
  * 0 < forgetting <= 1
  */
-void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, int* count, float* past_e, float* past_y, float* past_u, float* phi, float* P, float Pq, float forgetting) {
+void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, uint8_t* count, float* past_e, float* past_y, float* past_u, float* phi, float* P, float Pq, float forgetting) {
 
 	// Static values that belongs to this function - OLD CODE, but they have the same size
 	//static float past_e = 0; // The past e
@@ -108,12 +108,12 @@ static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, 
 
 	// Step 1: phiTP = phi'*P - > 1 row matrix
 	float phiTP[NP + NZ + NZE];
-	memset(phiTP, 0, (NP + NZ + NZE)*sizeof(float));
+	//memset(phiTP, 0, (NP + NZ + NZE)*sizeof(float));
 	mul(phi, P, phiTP, 1, NP + NZ + NZE, NP + NZ + NZE); // We pretend that phi is transpose
 
 	// Step 2: Pphi = P*phi -> Vector
 	float Pphi[NP + NZ + NZE];
-	memset(Pphi, 0, (NP + NZ + NZE)*sizeof(float));
+	//memset(Pphi, 0, (NP + NZ + NZE)*sizeof(float));
 	mul(P, phi, Pphi, NP + NZ + NZE, NP + NZ + NZE, 1);
 
 	// Step 3: l + phiTP*phi = l + phi'*P*phi
@@ -125,7 +125,7 @@ static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, 
 
 	// Step 4: Pphi*phiTP = P*phi*phi'*P -> Matrix
 	float PphiphiTP[(NP + NZ + NZE)*(NP + NZ + NZE)];
-	memset(PphiphiTP, 0, (NP + NZ + NP)*(NP + NZ + NZE)*sizeof(float));
+	//memset(PphiphiTP, 0, (NP + NZ + NP)*(NP + NZ + NZE)*sizeof(float));
 	mul(Pphi, phiTP, PphiphiTP, NP + NZ + NZE, 1, NP + NZ + NZE);
 
 
@@ -135,7 +135,7 @@ static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, 
 	}
 
 	// Compute theta = theta + P*phi*error;
-	memset(Pphi, 0, (NP + NZ + NZE)*sizeof(float)); // Clear and reuse
+	//memset(Pphi, 0, (NP + NZ + NZE)*sizeof(float)); // Clear and reuse
 	mul(P, phi, Pphi, NP + NZ + NZE, NP + NZ + NZE, 1);
 
 	// Compute theta = theta + Pphi*error

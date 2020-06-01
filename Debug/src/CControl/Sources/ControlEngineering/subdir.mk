@@ -8,6 +8,7 @@ C_SRCS += \
 ../src/CControl/Sources/ControlEngineering/lqi.c \
 ../src/CControl/Sources/ControlEngineering/mpc.c \
 ../src/CControl/Sources/ControlEngineering/mrac.c \
+../src/CControl/Sources/ControlEngineering/stability.c \
 ../src/CControl/Sources/ControlEngineering/theta2ss.c 
 
 OBJS += \
@@ -15,6 +16,7 @@ OBJS += \
 ./src/CControl/Sources/ControlEngineering/lqi.o \
 ./src/CControl/Sources/ControlEngineering/mpc.o \
 ./src/CControl/Sources/ControlEngineering/mrac.o \
+./src/CControl/Sources/ControlEngineering/stability.o \
 ./src/CControl/Sources/ControlEngineering/theta2ss.o 
 
 C_DEPS += \
@@ -22,6 +24,7 @@ C_DEPS += \
 ./src/CControl/Sources/ControlEngineering/lqi.d \
 ./src/CControl/Sources/ControlEngineering/mpc.d \
 ./src/CControl/Sources/ControlEngineering/mrac.d \
+./src/CControl/Sources/ControlEngineering/stability.d \
 ./src/CControl/Sources/ControlEngineering/theta2ss.d 
 
 

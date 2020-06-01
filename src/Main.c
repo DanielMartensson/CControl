@@ -16,15 +16,17 @@
 #define RDIM 1
 #define YDIM 1
 #define HORIZON 10
+#define ITERATION_LIMIT 200
 
 
 int main() {
 
-	// State space model
-	float A[ADIM * ADIM] = { 1.05216,   1.00000,
-		      	  	  	  	-0.60653,   0.00000};
-	float B[ADIM * RDIM] = { 0.50129,
-		       	   	   	   	 0.42266};
+	// State space model that have integration behavior
+	float A[ADIM * ADIM] = {1.64615,   1.00000,
+		      	  	  	   -0.71653,   0.00000};
+
+	float B[ADIM * RDIM] = { 0.18573,
+							 0.16616};
 	float C[YDIM * ADIM] = { 1, 0 };
 
 	// Print our state space matrix
@@ -37,16 +39,22 @@ int main() {
 	printf("Output matrix: C\n");
 	print(C, YDIM, ADIM);
 
-	float x[ADIM] = { 4, 2};
+	float x[ADIM] = { 0, 0};
 	float u[RDIM] = { 0 };
-	float r[YDIM] = { 12.5 };
+	float r[YDIM] = { 5 };
+	float K[ADIM] = {0, 0};
+	float y[YDIM] = {0};
+	float inputs[200];
 
 	// Do Model Predictive Control where we selecting last u
-	mpc(A, B, C, x, u, r, ADIM, YDIM, RDIM, HORIZON);
+	for(int i = 0; i < 200; i++){
+		mpc(A, B, C, x, u, r, ADIM, YDIM, RDIM, HORIZON, ITERATION_LIMIT, 1);
+		kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM); // Do only state update x = Ax + Bu
+		inputs[i] = u[0];
+	}
 
-	// Print solution
-	printf("Best input\n");
-	print(u, RDIM, 1);
+	printf("Complete inputs:\n");
+	print(inputs, 200, 1);
 
 	return EXIT_SUCCESS;
 }

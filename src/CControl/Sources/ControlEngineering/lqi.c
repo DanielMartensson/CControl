@@ -17,12 +17,12 @@ void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, 
 
 	// First compute the control law: L_vec = L*x
 	float L_vec[RDIM*1];
-	memset(L_vec, 0, RDIM*sizeof(float));
+	//memset(L_vec, 0, RDIM*sizeof(float));
 	mul(L, x, L_vec, RDIM, ADIM, 1);
 
 	// Then compute the integral law: Li_vec = Li*xi
 	float Li_vec[RDIM];
-	memset(Li_vec, 0, RDIM*sizeof(float));
+	//memset(Li_vec, 0, RDIM*sizeof(float));
 	integral(ANTI_WINDUP, xi, r, y, RDIM);
 	mul(Li, xi, Li_vec, RDIM, YDIM, 1);
 
