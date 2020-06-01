@@ -14,6 +14,7 @@ system identification to control engineering.
   - Model predictive Control(MPC)
   - Model Reference Adaptive Control(MRAC)
   - Transfer function to state space
+  - Stability check
   
 - Linear Algebra
   - Balance matrix
