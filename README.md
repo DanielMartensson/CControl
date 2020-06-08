@@ -5,6 +5,8 @@ The purpose with this library is to fit advanced tools for really small embedded
 I have removed the most time consuming parts of the theory. Here you can use basic linear algebra to create everything from
 system identification to control engineering. 
 
+Many examples can be found in the scr folder.
+
 - Artificial Intelligence
   - Astar algorithm for quick path finding
   
