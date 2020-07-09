@@ -26,6 +26,8 @@ static float pythag_float(float a, float b);
  */
 void eig_sym(float* A, uint16_t row, float* d){
 	float e[row];
+	memset(e, 0, row*sizeof(float));
+	memset(d, 0, row*sizeof(float));
 	tridiag(A, row, d, e);
 	tqli(d, e, row, A);
 }
