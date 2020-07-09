@@ -22,6 +22,9 @@ void eig(float* A, float* wr, float* wi, uint16_t row){
 	// Find the eigenvalues
 	balance(A, row);
 	prepare(A, row);
+	// Reset before
+	memset(wr, 0, row*sizeof(float));
+	memset(wi, 0, row*sizeof(float));
 	qr_shift_algorithm(A, wr, wi, row);
 
 }
