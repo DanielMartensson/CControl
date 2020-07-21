@@ -25,14 +25,14 @@
 void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, uint8_t ITERATION_LIMIT, uint8_t has_integration);
 void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
 void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t ANTI_WINDUP);
-void mrac(uint8_t ANTI_WINDUP, float LEARNING, float* y, float* u, float* r, float* K1, float* K2, uint8_t RDIM);
+void mrac(float limit, float gain, float* y, float* u, float* r, float* I1, float* I2, uint8_t RDIM);
 void theta2ss(float* A, float* B, float* C, float* theta, float* K, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t NP, uint8_t NZ, uint8_t NZE);
 uint8_t stability(float* A, uint8_t ADIM);
 
 /*
  * Miscellaneous
  */
-void saturation(float* input, float lower_limit, float upper_limit);
+float saturation(float input, float lower_limit, float upper_limit);
 void cut(float* A, int row, int column, float* B, int start_row, int stop_row, int start_column, int stop_column);
 void insert(float* A, float* B, int row_a, int column_a, int column_b, int startRow_b, int startColumn_b);
 void print(float* A, int row, int column);
