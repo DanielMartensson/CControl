@@ -79,7 +79,7 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, ui
 		*(phi + 0) = *past_y;
 		*(phi + 0 + NP) = *past_u;
 		*(phi + 0 + NP + NZ) = *past_e;
-		*count = *count + 1;
+		*count = 2;
 
 	}
 
