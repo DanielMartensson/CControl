@@ -47,16 +47,13 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, ui
 
 		// Count - We only count to 2
 		*count = 1;
-
 	}else if(*count == 1){
 		// Insert the first values
 		*(phi + 0) = *past_y;
 		*(phi + NP) = *past_u;
 		*(phi + NP+NZ) = *past_e;
 		*count = 2; // No more - Every time when we start rls again from rest, we set k = 0
-
 	}else{
-
 		/*
 		 * Shifting example:
 		 * From [-y(t-1), -y(t-2), -y(t-3), -y(t-4), -y(t-5)...]
@@ -79,24 +76,19 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, ui
 		*(phi + 0) = *past_y;
 		*(phi + 0 + NP) = *past_u;
 		*(phi + 0 + NP + NZ) = *past_e;
-		*count = 2;
-
 	}
-
 	// Call recursive
 	recursive(NP, NZ, NZE, y, phi, theta, P, past_e, forgetting);
 
 	// Set the past values
 	*past_y = -y;
 	*past_u = u;
-
 }
 
 /*
  * This function is the updater for theta, P and past_e
  */
 static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, float* theta, float* P, float* past_e, float forgetting) {
-
 	// Compute error = y - phi'*theta;
 	float sum = 0;
 	for(int i = 0; i < NP + NZ + NZE; i++){
