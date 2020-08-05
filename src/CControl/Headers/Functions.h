@@ -27,7 +27,7 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 void kalman(float* A, float* B, float* C, float* K, float* u, float* x, float* y, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
 void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, float* xi, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t ANTI_WINDUP);
 void mrac(float limit, float gain, float* y, float* u, float* r, float* I1, float* I2, uint8_t RDIM);
-void theta2ss(float* A, float* B, float* C, float* theta, float* K, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t NP, uint8_t NZ, uint8_t NZE);
+void theta2ss(float* A, float* B, float* C, float* theta, float* K, uint8_t ADIM, uint8_t NP, uint8_t NZ, uint8_t NZE, bool integral_action);
 bool stability(float* A, uint8_t ADIM);
 
 /*
