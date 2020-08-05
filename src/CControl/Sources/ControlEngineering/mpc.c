@@ -14,7 +14,7 @@ static void cab(float* GAMMA, float* PHI, float* A, float* B, float* C, uint8_t 
  * Model predictive control
  * Hint: Look up lmpc.m in Matavecontrol
  */
-void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, uint8_t ITERATION_LIMIT, uint8_t has_integration){
+void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, uint8_t ITERATION_LIMIT, bool has_integration){
 	// Create the extended observability matrix
 
 	float PHI[HORIZON*YDIM*ADIM];
@@ -83,12 +83,12 @@ void mpc(float* A, float* B, float* C, float* x, float* u, float* r, uint8_t ADI
 	linprog(c, GAMMATGAMMA, b, R_vec, HORIZON*YDIM, HORIZON*RDIM, 0, ITERATION_LIMIT);
 
 	// We select the best input values, depending on if we have integration behavior or not in our model
-	if(has_integration == 1){
+	if(has_integration == true){
 		// Set first R_vec to u - Done
 		for(int i = 0; i < RDIM; i++){
 			*(u + i) = *(R_vec + i);
 		}
-	}else if(has_integration == 0){
+	}else{
 		// Set last R_vec to u - Done
 		for(int i = 0; i < RDIM; i++){
 			*(u + i) = *(R_vec + HORIZON * RDIM - RDIM + i);
