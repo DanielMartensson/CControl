@@ -57,7 +57,7 @@ void theta2ss(float* A, float* B, float* C, float* theta, float* K, uint8_t ADIM
 		for(uint8_t i = 0; i < ADIM-1; i++){
 			*(K + i) = *(theta + NP + NZ + i) - *(theta + i);
 		}
-		*(K + ADIM-1) = 0;
+		*(K + ADIM-1) = 0; // Last element of K
 	}else{
 		// Insert A = [A]
 		for(uint8_t i = 0; i < ADIM; i++){
