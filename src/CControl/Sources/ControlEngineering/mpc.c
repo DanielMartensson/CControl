@@ -166,4 +166,3 @@ static void cab(float* GAMMA, float* PHI, float* A, float* B, float* C, uint8_t 
 	tran(GAMMA, HORIZON*RDIM, HORIZON*YDIM);
 
 }
-
