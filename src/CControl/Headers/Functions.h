@@ -29,6 +29,7 @@ void lqi(float* y, float* u, float qi, float* r, float* L, float* Li, float* x, 
 void mrac(float limit, float gain, float* y, float* u, float* r, float* I1, float* I2, uint8_t RDIM);
 void theta2ss(float* A, float* B, float* C, float* theta, float* K, uint8_t ADIM, uint8_t NP, uint8_t NZ, uint8_t NZE, bool integral_action);
 bool stability(float* A, uint8_t ADIM);
+void c2d(float A[], float B[], uint8_t ADIM, uint8_t RDIM, float sampleTime);
 
 /*
  * Miscellaneous
