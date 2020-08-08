@@ -65,6 +65,7 @@ void eig(float* A, float* wr, float* wi, uint16_t row);
 void eig_sym(float* A, uint16_t row, float* d);
 void sum(float A[], uint32_t row, uint32_t column, uint8_t l);
 float norm(float A[], uint32_t row, uint32_t column, uint8_t l);
+void expm(float A[], uint32_t row);
 
 /*
  * Optimization
