@@ -17,6 +17,7 @@ Many examples can be found in the scr folder.
   - Model Reference Adaptive Control(MRAC)
   - Transfer function to state space
   - Stability check
+  - Continuous to discrete
   
 - Linear Algebra
   - Balance matrix
@@ -37,6 +38,9 @@ Many examples can be found in the scr folder.
   - Tikanov regularization
   - Transpose
   - Upper triangular
+  - Matrix sum
+  - Norm
+  - Matrix exponential
   
 - Miscellaneous
   - Cut matrix
