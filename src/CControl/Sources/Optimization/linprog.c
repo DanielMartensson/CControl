@@ -140,6 +140,7 @@ static void opti(float* c, float* A, float* b, float* x, int row_a, int column_a
 		// We know where our pivot is. Turn the pivot into 1
 		// 1/pivot * PIVOT_ROW -> PIVOT_ROW
 		pivot = *(tableau + pivotRowIndex*(column_a+row_a+2) + pivotColumIndex); // Our pivot value
+		if(pivot == 0) pivot = FLT_EPSILON;
 		//printf("pivotRowIndex = %i, pivotColumIndex = %i, pivot = %f\n", pivotRowIndex, pivotColumIndex, pivot);
 		for(int i = 0; i < (column_a+row_a+2); i++){
 			value1 = *(tableau + pivotRowIndex*(column_a+row_a+2) + i); // Our row value at pivot row
