@@ -78,10 +78,6 @@ This project is structured as
 - MRAC for replacing PI controllers. MRAC is actually a PI controller, with integration on P
 - RLS for identification due to it's low memory use. For MIMO, please use MataveID if you going to do off-line identification
 
-# TODO
-
-- Implement Gain Scheduling
-
 
 # Fan Controller with Linear Quadratic Integral Control
 
@@ -102,3 +98,12 @@ Simulation process:
 ![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Fan%20Controller/Identification%20and%20simulation/Simulation.png)
 
 
+# Model Predictive Integral Temperature Controller
+
+This is a Model Predictive Controller, with integral action. It uses linear programming instead of quadratic programming for the optimization. This controller works well.
+
+![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Temperature%20Controller/IMPC.jpg | width=48)
+
+![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Temperature%20Controller/IMPC2.jpg | width=48)
+
+![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Temperature%20Controller/Step%20answer%20-%20First%20order.png | width=48)
