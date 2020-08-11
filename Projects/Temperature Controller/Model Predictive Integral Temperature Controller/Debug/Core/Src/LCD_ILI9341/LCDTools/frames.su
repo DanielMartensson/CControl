@@ -1,0 +1,5 @@
+frames.c:11:6:show_main_frame	32	static
+frames.c:52:9:show_num_pad_frame	88	static
+frames.c:233:9:show_question_save_settings_dialog	40	static
+frames.c:262:6:show_plot_frame	80	static
+frames.c:308:13:move	24	static

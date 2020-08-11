@@ -1,0 +1,2 @@
+linprog.c:44:6:linprog	40	static
+linprog.c:58:13:opti	128	dynamic

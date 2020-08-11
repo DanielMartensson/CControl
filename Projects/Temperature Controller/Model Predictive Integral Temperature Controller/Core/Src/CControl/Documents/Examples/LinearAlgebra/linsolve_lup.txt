@@ -1,0 +1,65 @@
+/*
+ ============================================================================
+ Name        : linsolve_lup.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Solve a system Ax=b with LUP-decomposition
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "CControl/Headers/Functions.h"
+
+int main() {
+
+	// Matrix A
+	float A[4*4] = {0.47462,   0.74679,   0.31008,   0.63073,
+				    0.32540,   0.49584,   0.50932,   0.21492,
+				    0.43855,   0.98844,   0.54041,   0.24647,
+				    0.62808,   0.72591,   0.20244,   0.96743};
+
+	// Vector b
+	float b[4] = {0.588964,
+				  0.901248,
+				  0.062029,
+				  0.142180};
+
+	// Solution that need to have the same rows and columns from A
+	float x[4];
+
+	// Do LUP-decomposition and then solve with linsolve_lup
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+	int status = linsolve_lup(A, x, b, 4);
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	// Print x
+	printf("x\n");
+	print(x, 4, 1);
+
+	printf("Status(0 == success, -1 == fail): %d", status);
+
+	return EXIT_SUCCESS;
+}
+
+/*
+ * GNU Octave code:
+ * A = [0.47462,   0.74679,   0.31008,   0.63073,
+		0.32540,   0.49584,   0.50932,   0.21492,
+		0.43855,   0.98844,   0.54041,   0.24647,
+		0.62808,   0.72591,   0.20244,   0.96743];
+
+	b = [0.588964,
+		 0.901248,
+		 0.062029,
+		 0.142180];
+
+	x = linsolve(A, b)
+ *
+ */

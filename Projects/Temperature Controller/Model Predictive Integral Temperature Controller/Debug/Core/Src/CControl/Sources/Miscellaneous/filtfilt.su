@@ -1,0 +1,3 @@
+filtfilt.c:20:6:filtfilt	24	static
+filtfilt.c:37:13:simulation	40	static
+filtfilt.c:47:13:flip	24	static

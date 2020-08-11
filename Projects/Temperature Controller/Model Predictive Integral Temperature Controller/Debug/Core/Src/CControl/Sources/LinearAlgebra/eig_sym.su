@@ -1,0 +1,4 @@
+eig_sym.c:27:6:eig_sym	48	dynamic
+eig_sym.c:37:13:tridiag	64	static
+eig_sym.c:105:14:pythag_float	24	static
+eig_sym.c:114:13:tqli	96	static

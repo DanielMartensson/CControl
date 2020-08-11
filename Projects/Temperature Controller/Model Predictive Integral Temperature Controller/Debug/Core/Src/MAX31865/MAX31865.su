@@ -1,0 +1,6 @@
+MAX31865.c:7:13:MAX31865_write	24	static
+MAX31865.c:20:13:MAX31865_read	24	static
+MAX31865.c:34:7:MAX31865_temperature	48	static
+MAX31865.c:58:10:MAX31865_raw_resistance	24	static
+MAX31865.c:73:9:MAX31865_configuration	24	static
+MAX31865.c:80:6:MAX31865_init	32	static
