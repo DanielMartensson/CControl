@@ -1,0 +1,10 @@
+TSC2046.c:12:17:TSC2046_SendCommand	24	static
+TSC2046.c:33:17:TSC2046_getRaw_X	16	static
+TSC2046.c:37:17:TSC2046_getRaw_Y	16	static
+TSC2046.c:41:17:TSC2046_getRaw_Z	16	static
+TSC2046.c:47:13:TSC2046_TL_point	32	static
+TSC2046.c:52:13:TSC2046_BR_point	32	static
+TSC2046.c:58:16:TSC2046_getOrientation	16	static
+TSC2046.c:63:13:TSC2046_GetRawTouch	16	static
+TSC2046.c:101:6:TSC2046_Calibrate	32	static
+TSC2046.c:161:6:TSC2046_GetTouchData	32	static

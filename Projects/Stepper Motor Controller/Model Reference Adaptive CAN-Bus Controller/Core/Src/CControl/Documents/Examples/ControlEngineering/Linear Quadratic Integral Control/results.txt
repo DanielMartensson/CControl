@@ -1,0 +1,24 @@
+float A[ADIM * ADIM] = {
+0.895595,0.377345,
+-0.377345,0.518249};
+
+float B[ADIM * RDIM] = {
+0.208811,
+0.754690};
+
+float C[YDIM * ADIM] = {
+1.000000,0.000000};
+
+float D[YDIM * RDIM] = {
+0.000000};
+
+float K[ADIM * YDIM] = {
+0.580062,
+-0.223907};
+
+float L[RDIM * ADIM] = {
+1.567665,0.851028};
+
+float Li[RDIM] = {
+0.501345};
+

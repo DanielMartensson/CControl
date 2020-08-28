@@ -1,0 +1,7 @@
+Sonceboz.c:16:13:write_CAN_message	16	static
+Sonceboz.c:32:13:read_CAN_message	24	static
+Sonceboz.c:51:13:send_j1939_TP_CM_BAM	40	static
+Sonceboz.c:72:13:send_j1939_TP_DT	32	static
+Sonceboz.c:95:6:write_1939_CA_names_and_source_address	16	static
+Sonceboz.c:104:6:write_1939_auxiliary_valve_command	40	static
+Sonceboz.c:119:6:read_1939_message	40	static

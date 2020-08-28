@@ -1,0 +1,11 @@
+frames.c:11:6:show_main_frame_mrac	32	static
+frames.c:52:6:show_j1939_main_frame	32	static
+frames.c:85:6:show_j1939_DM1_error_messages_frame	80	static
+frames.c:132:6:show_j1939_CA_names_frame	104	static
+frames.c:186:6:show_j1939_set_CA_names_numpad	120	static
+frames.c:299:6:show_j1939_set_configurations_numpad	64	static
+frames.c:355:6:show_j1939_configurations_frame	88	static
+frames.c:395:9:show_num_pad_frame	88	static
+frames.c:576:9:show_question_save_settings_dialog	40	static
+frames.c:605:6:show_plot_frame	96	static
+frames.c:663:13:move	24	static

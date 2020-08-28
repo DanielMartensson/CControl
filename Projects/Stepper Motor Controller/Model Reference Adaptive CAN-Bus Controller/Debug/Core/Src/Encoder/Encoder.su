@@ -1,0 +1,4 @@
+Encoder.c:16:6:Encoder_init	24	static
+Encoder.c:21:6:Encoder_count	16	static
+Encoder.c:67:7:Encoder_getSpeed	16	static
+Encoder.c:72:10:Encoder_getDifference	16	static

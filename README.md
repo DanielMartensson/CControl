@@ -111,3 +111,12 @@ This predictive controller have a wiring diagram if you want to build the same c
 Step answer of first order model.
 
 ![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Temperature%20Controller/Step%20answer%20-%20First%20order.png)
+
+# Model Reference Adaptive CAN-bus controller
+
+This is a MRAC project, Model Reference Adaptive Controller. This controls the a Sonceboz stepper motor with CAN-bus J1939-21 protocol. The purpose is to control a big wheel with two multivariable hydraulical valves.
+
+See the movie in the project folder. 
+
+![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Stepper%20Motor%20Controller/Picture-CAN-bus.jpg)
+

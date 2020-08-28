@@ -1,0 +1,4 @@
+svd_golub_reinsch.c:54:9:svd_golub_reinsch	64	dynamic
+svd_golub_reinsch.c:67:13:Householders_Reduction_to_Bidiagonal_Form	80	static
+svd_golub_reinsch.c:218:12:Givens_Reduction_to_Diagonal_Form	112	static
+svd_golub_reinsch.c:335:13:Sort_by_Decreasing_Singular_Values	48	static
