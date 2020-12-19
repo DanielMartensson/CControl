@@ -20,7 +20,7 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 	memset(path_x, -1, height * width * sizeof(int));
 	memset(path_y, -1, height * width * sizeof(int));
 
-	// Create map with L2-norm
+	// Create map with a norm
 	heuristic_map(map, x_stop, y_stop, height, width, norm_mode);
 
 	// Set some initial parameters
