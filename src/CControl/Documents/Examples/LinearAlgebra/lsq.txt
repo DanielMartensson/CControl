@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : Least Squares.c
+ Name        : lsq.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
