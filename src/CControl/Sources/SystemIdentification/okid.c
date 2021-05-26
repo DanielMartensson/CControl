@@ -10,7 +10,8 @@
 /*
  * Observer kalman filter identification.
  * This is the basic version! If you need fully version, then look for MataveID at GitHub
- * Convert inputs and outputs into impulse responses
+ * First collect your inputs u and outputs y and create impulse response g, called Markov parameters.
+ * Then you must use era.c algorithm to convert impulse response g into a linear state space model.
  * Data length need to be the same as the column length n!
  * u [m*n]
  * y [m*n]
@@ -25,7 +26,7 @@ void okid(float* u, float* y, float* g, uint16_t row, uint16_t column){
 	 * [u0 	0 	0 	0 	0	0	0]	[g0]	[y0]
 	 * [u1	u0	0	0	0	0	0]	[g1]	[y1]
 	 * [u2	u1	u0	0	0	0	0]	[g2]	[y2]
-	 * [u3	u2	u1	u0	0	0	0] *[g3] = 	[y3]
+	 * [u3	u2	u1	u0	0	0	0]   *  [g3] = 	[y3]
 	 * [u4	u3	u2	u1	u0	0	0]	[g4]	[y4]
 	 * [u5	u4	u3	u2	u1	u0	0]	[g5]	[y5]
 	 * [..	u5	u4	u3	u2	u1	u0]	[g6]	[y6]
