@@ -18,6 +18,11 @@ Many examples can be found in the scr folder.
   - Transfer function to state space
   - Stability check
   - Continuous to discrete
+  - Comming soon: Nonlinear Model Predictive Control
+  - Comming soon: Unscented Kalman Filter
+
+- Dynamics
+  - Comming soon: Runge-Kutta 4th order
   
 - Linear Algebra
   - Balance matrix
