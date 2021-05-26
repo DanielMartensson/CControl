@@ -16,8 +16,8 @@ static void solve(float* A, float* x, float* b, int* P, float* LU, uint16_t row)
  * Finding inverse is very cost expensive. Better to solve Ax=b instead
  * A[m*n]
  * n == m
- * Returns 0 == Success
- * Returns -1 == Fail
+ * Returns 1 == Success
+ * Returns 0 == Fail
  */
 uint8_t inv(float *A, int row) {
 
@@ -33,8 +33,8 @@ uint8_t inv(float *A, int row) {
 	float LU[row * row];
 	int P[row];
 	status = lup(A, LU, P, row);
-	if(status == -1)
-		return -1; // matrix is singular. Determinant 0
+	if(status == 0)
+		return 0; // matrix is singular. Determinant 0
 	// Create the inverse
 	for (int i = 0; i < row; ++i) {
 		tmpvec[i] = 1.0;

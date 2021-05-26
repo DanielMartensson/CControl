@@ -21,6 +21,8 @@ uint8_t linsolve_lup(float *A, float *x, float *b, int row) {
 	float LU[row*row];
 	int P[row];
 	uint8_t status = lup(A, LU, P,row);
+	if(status == 0)
+		return 0;
 
 	// forward substitution with pivoting
 	for (int i = 0; i < row; ++i) {
