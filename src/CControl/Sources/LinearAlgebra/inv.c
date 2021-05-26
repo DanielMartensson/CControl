@@ -19,7 +19,7 @@ static void solve(float* A, float* x, float* b, int* P, float* LU, uint16_t row)
  * Returns 0 == Success
  * Returns -1 == Fail
  */
-int inv(float *A, int row) {
+uint8_t inv(float *A, int row) {
 
 	// Create iA matrix
 	float iA[row * row];
@@ -27,7 +27,7 @@ int inv(float *A, int row) {
 	// Create temporary matrix and variable
 	float tmpvec[row];
 	memset(tmpvec, 0, row * sizeof(float));
-	int status = 0;
+	uint8_t status = 0;
 
 	// Check if the determinant is 0
 	float LU[row * row];
