@@ -44,7 +44,7 @@ void filtfilt(float *y, float *t, uint16_t l, float K);
 /*
  * Linear algebra
  */
-int inv(float* A, int row);
+uint8_t inv(float* A, int row);
 void linsolve_upper_triangular(float* A, float* x, float* b, int column);
 void tran(float* A, int row, int column);
 void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b);
@@ -67,9 +67,7 @@ void eig_sym(float* A, uint16_t row, float* d);
 void sum(float A[], uint32_t row, uint32_t column, uint8_t l);
 float norm(float A[], uint32_t row, uint32_t column, uint8_t l);
 void expm(float A[], uint32_t row);
-
-//least-squares solution
-int linsolve_lsq(float* A, float* x, float* b, int row_a, int col_a);
+uint8_t linsolve_lsq(float* A, float* x, float* b, int row_a, int column_a, float alpha);
 
 /*
  * Optimization
