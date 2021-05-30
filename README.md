@@ -61,13 +61,9 @@ Many examples can be found in the scr folder.
   - Observer Kalman Filter identification(OKID)
   - Eigensystem Realization Algorithm(ERA)
   - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
-  - Comming soon: System Identification Dynamics(SINDy)
 
 - Image
   - Comming soon: Sparse Representation for Classification(SRC)
-
-- Dynamics
-  - Comming soon: Runge-Kutta
 
 
 ### How the project is structured
