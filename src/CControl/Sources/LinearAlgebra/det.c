@@ -18,7 +18,7 @@ float det(float *A, int row) {
 	float LU[row * row];
 	int P[row];
 	int status = lup(A, LU, P, row);
-	if(status == -1)
+	if(status == 0)
 		return 0; // matrix is singular
 
 	for (int i = 0; i < row; ++i)
