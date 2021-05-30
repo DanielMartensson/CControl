@@ -9,7 +9,8 @@
 
 /*
  * Observer kalman filter identification.
- * This is the basic version! If you need fully version, then look for MataveID at GitHub
+ * This is the basic version! The reason is because OKID is very sensitive to noise in the MIMO case.
+ * If you need fully version, then look for MataveID at GitHub
  * First collect your inputs u and outputs y and create impulse response g, called Markov parameters.
  * Then you must use era.c algorithm to convert impulse response g into a linear state space model.
  * Data length need to be the same as the column length n!
