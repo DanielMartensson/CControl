@@ -44,9 +44,6 @@ Many examples can be found in the scr folder.
   - Matrix sum
   - Norm
   - Matrix exponential
-
-- Image
-  - Comming soon: Sparse Representation for Classification(SRC)
   
 - Miscellaneous
   - Cut matrix
@@ -64,7 +61,6 @@ Many examples can be found in the scr folder.
   - Observer Kalman Filter identification(OKID)
   - Eigensystem Realization Algorithm(ERA)
   - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
-  - Comming soon: Space Identification Dynamics(SINDy)
 
 
 ### How the project is structured
