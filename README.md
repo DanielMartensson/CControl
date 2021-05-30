@@ -20,6 +20,7 @@ Many examples can be found in the scr folder.
   - Continuous to discrete
   - Comming soon: Feedback Linearization Control
   - Comming soon: Unscented Kalman Filter
+  - Comming soon: Particle filter
   
 - Linear Algebra
   - Balance matrix
