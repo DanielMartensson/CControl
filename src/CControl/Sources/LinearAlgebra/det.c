@@ -11,6 +11,7 @@
  * Computes the determinant of square matrix A
  * A [m*n]
  * n == m
+ * Return: Determinalt value, or -1 for singular matrix
  */
 float det(float *A, int row) {
 
