@@ -17,9 +17,9 @@ float det(float *A, int row) {
 	float determinant = 1.0;
 	float LU[row * row];
 	int P[row];
-	int status = lup(A, LU, P, row);
+	uint8_t status = lup(A, LU, P, row);
 	if(status == 0)
-		return 0; // matrix is singular
+		return -1; // matrix is singular
 
 	for (int i = 0; i < row; ++i)
 		determinant *= *(LU + row * *(P + i) + i);
