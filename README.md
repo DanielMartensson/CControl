@@ -44,6 +44,7 @@ Many examples can be found in the scr folder.
   - Matrix sum
   - Norm
   - Matrix exponential
+  - Comming soon: Sequential Threshold Least Squares Regression
   
 - Miscellaneous
   - Cut matrix
