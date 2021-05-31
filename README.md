@@ -12,9 +12,9 @@ Many examples can be found in the scr folder.
   
 - Control Engineering
   - Kalman filter update
-  - Linear Quadratic Integral regulator(LQI)
-  - Model predictive Control(MPC)
-  - Model Reference Adaptive Control(MRAC)
+  - Linear Quadratic Integral regulator
+  - Model predictive Control
+  - Model Reference Adaptive Control
   - Transfer function to state space
   - Stability check
   - Continuous to discrete
@@ -56,17 +56,16 @@ Many examples can be found in the scr folder.
 - Optimization
   - Linear programming maximization
   - Linear programming minimization
-  - Comming soon: Sequential Threshold Least Squares Regression(STLSR)
-  - Comming soon: Robust principal component analysis(RPCA)
+  - Comming soon: Sequential Threshold Least Squares
 
 - System Identification
-  - Observer Kalman Filter identification(OKID)
-  - Eigensystem Realization Algorithm(ERA)
-  - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
-  - Comming soon: Sparse Identification Dynamics(SINDy)
+  - Observer Kalman Filter identification
+  - Eigensystem Realization Algorithm
+  - Recursive Least Square with forgetting factor and kalman filter identification
+  - Comming soon: Sparse Identification Dynamics
 
 - Image
-  - Comming soon: Image classification
+  - Comming soon: Sparse Representation Classification
 
 ### How the project is structured
 
