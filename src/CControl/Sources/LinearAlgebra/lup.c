@@ -8,7 +8,7 @@
 #include "../../Headers/Functions.h"
 
 /*
- * Do LU LU-decomposition with partial pivoting
+ * Do LU-decomposition with partial pivoting
  * A [m*n]
  * LU [m*n]
  * P [n]
