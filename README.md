@@ -62,10 +62,6 @@ Many examples can be found in the scr folder.
   - Observer Kalman Filter identification
   - Eigensystem Realization Algorithm
   - Recursive Least Square with forgetting factor and kalman filter identification
-  - Comming soon: Sparse Identification Dynamics
-
-- Image
-  - Comming soon: Sparse Representation Classification
 
 ### How the project is structured
 
