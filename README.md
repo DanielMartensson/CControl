@@ -44,7 +44,7 @@ Many examples can be found in the scr folder.
   - Matrix sum
   - Norm
   - Matrix exponential
-  -   
+
 - Miscellaneous
   - Cut matrix
   - Filtfilt 
