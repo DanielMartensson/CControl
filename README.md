@@ -62,6 +62,9 @@ Many examples can be found in the scr folder.
   - Eigensystem Realization Algorithm(ERA)
   - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
 
+- Image
+  - Comming soon: CNN network classifier
+
 
 ### How the project is structured
 
