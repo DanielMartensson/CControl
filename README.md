@@ -56,15 +56,17 @@ Many examples can be found in the scr folder.
 - Optimization
   - Linear programming maximization
   - Linear programming minimization
-  - Comming soon: Sequential Threshold Least Squares Regression
+  - Comming soon: Sequential Threshold Least Squares Regression(STLSR)
+  - Comming soon: Robust principal component analysis(RPCA)
 
 - System Identification
   - Observer Kalman Filter identification(OKID)
   - Eigensystem Realization Algorithm(ERA)
   - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
+  - Comming soon: Sparse Identification Dynamics(SINDy)
 
 - Image
-  - Comming soon: Sparse Representation for Classification
+  - Comming soon: Image classification
 
 ### How the project is structured
 
