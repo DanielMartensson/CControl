@@ -44,8 +44,7 @@ Many examples can be found in the scr folder.
   - Matrix sum
   - Norm
   - Matrix exponential
-  - Comming soon: Sequential Threshold Least Squares Regression
-  
+  -   
 - Miscellaneous
   - Cut matrix
   - Filtfilt 
@@ -62,9 +61,6 @@ Many examples can be found in the scr folder.
   - Observer Kalman Filter identification(OKID)
   - Eigensystem Realization Algorithm(ERA)
   - Recursive Least Square with forgetting factor and kalman filter identification(RLS)
-
-- Image
-  - Comming soon: Sparse Representation for Classification(SRC)
 
 
 ### How the project is structured
