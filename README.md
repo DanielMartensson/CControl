@@ -23,6 +23,10 @@ Many examples can be found in the scr folder.
   - Comming soon: Unscented Kalman Filter
   - Comming soon: Particle filter
   - Filtfilt 
+
+- Dynamics
+  - Comming soon: Euler Method
+  - Comming soon: Runge-Kutta
   
 - Linear Algebra
   - Balance matrix
