@@ -18,8 +18,11 @@ Many examples can be found in the scr folder.
   - Transfer function to state space
   - Stability check
   - Continuous to discrete
+
+- Filtering
   - Comming soon: Unscented Kalman Filter
   - Comming soon: Particle filter
+  - Filtfilt 
   
 - Linear Algebra
   - Balance matrix
@@ -46,7 +49,6 @@ Many examples can be found in the scr folder.
 
 - Miscellaneous
   - Cut matrix
-  - Filtfilt 
   - Insert sub matrix into matrix
   - Print matrix or vector
   - Saturation
