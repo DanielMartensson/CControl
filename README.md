@@ -61,7 +61,6 @@ Many examples can be found in the scr folder.
 - Optimization
   - Linear programming maximization
   - Linear programming minimization
-  - Comming soon: Sequential Threshold Least Squares
 
 - System Identification
   - Observer Kalman Filter identification
