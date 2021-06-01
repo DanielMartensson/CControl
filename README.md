@@ -18,7 +18,6 @@ Many examples can be found in the scr folder.
   - Transfer function to state space
   - Stability check
   - Continuous to discrete
-  - Comming soon: Gain Scheduling
   - Comming soon: Unscented Kalman Filter
   - Comming soon: Particle filter
   
