@@ -18,19 +18,17 @@ static void flip(float* y, uint16_t l);
  * Returns y as filtered
  */
 void filtfilt(float *y, float *t, uint16_t l, float K) {
-
 	// Simulate
-    simulation(K, y, t, l);
+    	simulation(K, y, t, l);
 
-    // Flip y
-    flip(y, l);
+    	// Flip y
+   	 flip(y, l);
 
-    // Run the simulation again
+   	 // Run the simulation again
 	simulation(K, y, t, l);
 
-    // Flip again - Done
-    flip(y, l);
-
+   	 // Flip again - Done
+   	 flip(y, l);
 }
 
 // Euler method for simple ODE - Low pass filter
