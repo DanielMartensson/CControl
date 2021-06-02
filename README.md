@@ -18,6 +18,7 @@ Many examples can be found in the scr folder.
   - Transfer function to state space
   - Stability check
   - Continuous to discrete
+  - Comming soon: Nonlinear Model Predictive Control
 
 - Filtering
   - Comming soon: Unscented Kalman Filter
@@ -26,7 +27,6 @@ Many examples can be found in the scr folder.
 
 - Dynamics
   - Comming soon: Euler Method
-  - Comming soon: Runge-Kutta
   
 - Linear Algebra
   - Balance matrix
