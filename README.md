@@ -61,8 +61,8 @@ Many examples can be found in the scr folder.
 - Optimization
   - Linear programming maximization
   - Linear programming minimization
-  - Nonlinear mimimization
-  - Nonlinear maximization
+  - Comming soon: Nonlinear mimimization
+  - Comming soon: Nonlinear maximization
 
 - System Identification
   - Observer Kalman Filter identification
