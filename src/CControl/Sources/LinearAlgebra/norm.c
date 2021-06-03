@@ -52,7 +52,10 @@ float norm(float A[], uint32_t row, uint32_t column, uint8_t l){
 			float U[row*column];
 			float S[column];
 			float V[column*column];
-			svd_golub_reinsch(A, row, column, U, S, V);
+			if(row == column)
+				svd_jacobi_one_sided(A, row, 100, U, S, V);
+			else
+				svd_golub_reinsch(A, row, column, U, S, V);
 			float max_singular_value = 0;
 			for(uint32_t i = 0; i < column; i++)
 				if(S[i] > max_singular_value)
