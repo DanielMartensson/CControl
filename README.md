@@ -51,6 +51,7 @@ Many examples can be found in the scr folder.
   - Norm
   - Matrix exponential
   - Comming soon: Nonlinsolve
+  - Comming soon: Linsolve
 
 - Miscellaneous
   - Cut matrix
