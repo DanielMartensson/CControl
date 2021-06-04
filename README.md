@@ -50,6 +50,7 @@ Many examples can be found in the scr folder.
   - Matrix sum
   - Norm
   - Matrix exponential
+  - Comming soon: Nonlinsolve
 
 - Miscellaneous
   - Cut matrix
@@ -61,7 +62,6 @@ Many examples can be found in the scr folder.
 - Optimization
   - Linear programming maximization
   - Linear programming minimization
-  - Comming soon: Nonlinear mimimization
 
 - System Identification
   - Observer Kalman Filter identification
