@@ -1,0 +1,71 @@
+/*
+ ============================================================================
+ Name        : nonlinsolve.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Solving a nonlinear Ax=b system
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+int main() {
+	// Initial parameters
+	uint8_t elements = 3;
+	bool random_guess_active = true;
+	float x[3] = { 0, 0, 0 }; // This is our initial guess if random_guess_active = false
+	float dx[3] = { 0, 0, 0 };
+	float b[3] = { 1, 1, 1 };
+	float min_value = 0;
+	float max_value = 5;
+	float alpha = 0.1; // A smal positive number for tuning
+	/* Create a function on the form dx = Ax - b
+	 * b can contains ones if you want.
+	 * A need to be square, but can still have zero rows, the same for dx
+	 */
+	void func(float* dx, float* b, float* x){
+		dx[0] = 5*x[0] + 2*x[1]*x[2] + 9*x[2]*x[2] - 50*b[0];
+		dx[1] = 2*x[0]*x[1]*x[1] + 6*x[1] - 3*x[2] - 7*b[1];
+		dx[2] = 0*x[0] - 0*x[1] + 0*x[2] - 0*b[0];
+	}
+
+	// Start clock
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	// Do the process with random guess active
+	nonlinsolve(func, b, x, elements, alpha, max_value, min_value, random_guess_active);
+	printf("Solution to func with random_guess_active = true:\n");
+	print(x, 1, elements);
+	func(dx, b, x);
+	printf("Accuracy(lower = better): %0.18f\n", norm(dx, 1, elements, 2));
+
+	// Compute the speed
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	// Start clock
+	start = clock();
+
+	// Do the process with random guess active
+	random_guess_active = false;
+	x[0] = 1;
+	x[1] = 1;
+	x[2] = 1;
+	alpha = 0.01;
+	nonlinsolve(func, b, x, elements, alpha, max_value, min_value, random_guess_active);
+	printf("Solution to func with random_guess_active = false:\n");
+	print(x, 1, elements);
+	func(dx, b, x);
+	printf("Accuracy(lower = better): %0.18f\n", norm(dx, 1, elements, 2));
+
+	// Compute the speed
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
