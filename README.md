@@ -50,8 +50,7 @@ Many examples can be found in the scr folder.
   - Matrix sum
   - Norm
   - Matrix exponential
-  - Comming soon: Nonlinsolve
-  - Comming soon: Linsolve
+  - Nonlinsolve
 
 - Miscellaneous
   - Cut matrix
