@@ -17,16 +17,16 @@ int main() {
 	float x[3] = { 0, 0, 0 }; // This is our initial guess if random_guess_active = false
 	float dx[3] = { 0, 0, 0 };
 	float b[3] = { 1, 1, 1 };
-	float min_value = 0;
+	float min_value = -5;
 	float max_value = 5;
-	float alpha = 0.1; // A smal positive number for tuning
+	float alpha = 0.05; // A smal positive number for tuning
 	/* Create a function on the form dx = Ax - b
 	 * b can contains ones if you want.
 	 * A need to be square, but can still have zero rows, the same for dx
 	 */
 	void func(float* dx, float* b, float* x){
 		dx[0] = 5*x[0] + 2*x[1]*x[2] + 9*x[2]*x[2] - 50*b[0];
-		dx[1] = 2*x[0]*x[1]*x[1] + 6*x[1] - 3*x[2] - 7*b[1];
+		dx[1] = 10*x[0]*x[1]*x[1] + 6*x[1] - 3*x[2] - 7*b[1];
 		dx[2] = 0*x[0] - 0*x[1] + 0*x[2] - 0*b[0];
 	}
 
@@ -36,11 +36,17 @@ int main() {
 	start = clock();
 
 	// Do the process with random guess active
+	start:
 	nonlinsolve(func, b, x, elements, alpha, max_value, min_value, random_guess_active);
 	printf("Solution to func with random_guess_active = true:\n");
 	print(x, 1, elements);
 	func(dx, b, x);
-	printf("Accuracy(lower = better): %0.18f\n", norm(dx, 1, elements, 2));
+	float accuracy = norm(dx, 1, elements, 2);
+	printf("Accuracy(lower = better): %0.18f\n", accuracy);
+	if(accuracy > 0.001){
+		printf("Try again, the accuracy was too low\n\n");
+		goto start;
+	}
 
 	// Compute the speed
 	end = clock();
