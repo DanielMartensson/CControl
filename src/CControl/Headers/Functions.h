@@ -69,6 +69,7 @@ void sum(float A[], uint32_t row, uint32_t column, uint8_t l);
 float norm(float A[], uint32_t row, uint32_t column, uint8_t l);
 void expm(float A[], uint32_t row);
 uint8_t linsolve_lsq(float* A, float* x, float* b, int row_a, int column_a, float alpha);
+void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), float* b, float* x, uint8_t elements, float alpha, float max_value, float min_value);
 
 /*
  * Optimization
