@@ -18,6 +18,7 @@
 #include <math.h>
 #include <float.h>	// required for FLT_EPSILON
 #include <stdbool.h>
+#include <time.h> // For srand, clock
 #define MAX_ITERATION_COUNT_SVD 30   // Maximum number of iterations for svd_jacobi_one_sided.c
 
 /*
