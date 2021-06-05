@@ -9,7 +9,7 @@
 
 static float check_solution(float* dx, float* x, float* past_sqrt_sum_dx, float* best_x, uint8_t* elements);
 
-void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), float* b, float* x, uint8_t elements, float alpha, float max_value, float min_value){
+void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), float* b, float* x, uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active){
 	// Initial parameters and arrays
 	float dx[elements];
 	float best_sqrt_sum_dx = FLT_MAX;
@@ -20,22 +20,24 @@ void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), floa
 	uint8_t break_count = 0;
 
 	// Do random guesses
-	srand(time(NULL));
-	float difference_value = max_value - min_value;
-	for(uint32_t i = 0; i < 2000; i++){
-		// Init x with random values between min_value and max_value
-		for(uint8_t j = 0; j < elements; j++)
-			*(x + j) = difference_value*((float) rand() / RAND_MAX) + min_value;
+	if(random_guess_active){
+		srand(time(NULL));
+		float difference_value = max_value - min_value;
+		for(uint32_t i = 0; i < 20000; i++){
+			// Init x with random values between min_value and max_value
+			for(uint8_t j = 0; j < elements; j++)
+				*(x + j) = difference_value*((float) rand() / RAND_MAX) + min_value;
 
-		// Simulate the nonlinear system
-		(*nonlinear_equation_system)(dx, b, x);
+			// Simulate the nonlinear system
+			(*nonlinear_equation_system)(dx, b, x);
 
-		// Check the solution if it's good or not
-		check_solution(dx, x, &best_sqrt_sum_dx, best_x, &elements);
+			// Check the solution if it's good or not
+			check_solution(dx, x, &best_sqrt_sum_dx, best_x, &elements);
+		}
+
+		// Use gradient to find the best solution, beginning from best_x vector
+		memcpy(x, best_x, sizeof(float)*elements);
 	}
-
-	// Use gradient to find the best solution, beginning from best_x vector
-	memcpy(x, best_x, sizeof(float)*elements);
 	for(uint32_t i = 0; i < 200000; i++){
 		// Simulate the nonlinear system
 		(*nonlinear_equation_system)(dx, b, x);
