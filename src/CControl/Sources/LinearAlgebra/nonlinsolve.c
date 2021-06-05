@@ -1,4 +1,11 @@
-#include "CControl/Headers/Functions.h"
+/*
+ * nonlinsolve.c
+ *
+ *  Created on: 5 june 2021
+ *      Author: Daniel Mårtensson
+ */
+
+#include "../../Headers/Functions.h"
 
 static float check_solution(float* dx, float* x, float* past_sqrt_sum_dx, float* best_x, uint8_t* elements);
 
