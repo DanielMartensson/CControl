@@ -10,7 +10,7 @@
 static float generate_gauss(float mu, float sigma);
 
 /*
- * Compute Gaussian Normal Distribution
+ * Compute Gaussian Distribution
  * Vector: x[length]
  * Mean: mu
  * Standard deviation: sigma
