@@ -40,6 +40,7 @@ void cut(float* A, int row, int column, float* B, int start_row, int stop_row, i
 void insert(float* A, float* B, int row_a, int column_a, int column_b, int startRow_b, int startColumn_b);
 void print(float* A, int row, int column);
 float sign(float number);
+void randn(float* x, uint32_t length, float mu, float sigma);
 
 /*
  * Filtering
