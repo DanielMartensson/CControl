@@ -37,22 +37,26 @@ void particle_filter_collect(float* P, uint16_t column_p, float* x, uint8_t row_
  */
 void particle_filter_estimate(float* P, uint16_t column_p, float* x, uint8_t row_x){
 	// Find the largest index
-	uint16_t max_index;
-	uint16_t max_value;
+	uint16_t index_of_value;
+	uint16_t max_value_index;
+	uint16_t column_value;
+	uint16_t column_index;
 	for(uint8_t i = 0; i < row_x; i++){
 		// Find the largest index
-		max_index = 0;
-		max_value = 0;
+		index_of_value = 0;
+		max_value_index = 0;
+		column_index = (i+i)*column_p;
+		column_value = (i+i+1)*column_p;
 		for(uint16_t j = 0; j < column_p; j++){
-			uint16_t value = *(P + (i+i)*column_p + j);
-			if(value > max_value){
-				max_index = j;
-				max_value = value;
+			uint16_t value = *(P + column_index + j);
+			if(value > max_value_index){
+				index_of_value = j;
+				max_value_index = value;
 			}
 		}
 
 		// Save the value at the specific index
-		*(x + i) = *(P + (i+i+1)*column_p + max_index);
+		*(x + i) = *(P + column_value + index_of_value);
 	}
 }
 
