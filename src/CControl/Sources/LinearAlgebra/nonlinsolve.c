@@ -17,13 +17,14 @@ void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), floa
 	float best_x[elements];
 	float sqrt_sum_dx = 1;
 	uint8_t times_until_break = 10;
+	uint16_t random_iterations = 20000;
 	uint8_t break_count = 0;
 
 	// Do random guesses
 	if(random_guess_active){
 		srand(time(NULL));
 		float difference_value = max_value - min_value;
-		for(uint32_t i = 0; i < 20000; i++){
+		for(uint32_t i = 0; i < random_iterations; i++){
 			// Init x with random values between min_value and max_value
 			for(uint8_t j = 0; j < elements; j++)
 				*(x + j) = difference_value*((float) rand() / RAND_MAX) + min_value;
@@ -38,7 +39,7 @@ void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), floa
 		// Use gradient to find the best solution, beginning from best_x vector
 		memcpy(x, best_x, sizeof(float)*elements);
 	}
-	for(uint32_t i = 0; i < 200000; i++){
+	for(uint32_t i = 0; i < random_iterations; i++){
 		// Simulate the nonlinear system
 		(*nonlinear_equation_system)(dx, b, x);
 
@@ -46,7 +47,7 @@ void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), floa
 		sqrt_sum_dx = check_solution(dx, x, &best_sqrt_sum_dx, best_x, &elements);
 
 		// If sqrt_sum_dx stands still - break
-		if(past_sqrt_sum_dx == sqrt_sum_dx){
+		if(fabsf(past_sqrt_sum_dx - sqrt_sum_dx) <= FLT_EPSILON || past_sqrt_sum_dx == sqrt_sum_dx){
 			break_count++;
 			if(break_count >= times_until_break)
 				break;
