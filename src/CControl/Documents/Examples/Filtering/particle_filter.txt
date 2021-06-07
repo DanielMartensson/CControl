@@ -14,11 +14,11 @@ int main() {
 
 	// Assume that we have a normal distributed vector with dimension row_x = 3
 	uint8_t row_x = 3;
-	float X0[1000];
-	float X1[1000];
-	float X2[1000];
+	float X0[2000];
+	float X1[2000];
+	float X2[2000];
 	float x[3];
-	uint16_t length = 1000;
+	uint16_t length = 2000;
 	randn(X0, length, 20, 1); // Mean 20, Std 1
 	randn(X1, length, -4, 1); // Mean -4, Std 1
 	randn(X2, length, 6, 1); // Mean 6, Sted 1
@@ -29,9 +29,9 @@ int main() {
 	start = clock();
 
 	// Then we create a matrix P with row_x*2*column_p
-	float P[6*250];
-	uint16_t column_p = 250; // You want to keep this small as possible, but still fill every index
-	float index_factor = 10; // Large number gives better precision but it requires larger column_p
+	float P[6*500];
+	uint16_t column_p = 500; // You want to keep this small as possible, but still fill every index
+	float index_factor = 20; // Large number gives better precision but it requires larger column_p
 
 	// Important to clean the P matrix first before filling P matrix with x vector.
 	particle_filter_clean(P, column_p, row_x);
