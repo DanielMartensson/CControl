@@ -46,9 +46,9 @@ void randn(float* x, uint32_t length, float mu, float sigma);
  * Filtering
  */
 void filtfilt(float *y, float *t, uint16_t l, float K);
-void particle_filter_collect(float* P, uint16_t column_p, float* x, uint8_t row_x, float index_factor);
-void particle_filter_estimate(float* P, uint16_t column_p, float* x, uint8_t row_x);
-void particle_filter_clean(float* P, uint16_t column_p, uint8_t row_x);
+void mcs_collect(float* P, uint16_t column_p, float* x, uint8_t row_x, float index_factor);
+void mcs_estimate(float* P, uint16_t column_p, float* x, uint8_t row_x);
+void mcs_clean(float* P, uint16_t column_p, uint8_t row_x);
 
 /*
  * Linear algebra
