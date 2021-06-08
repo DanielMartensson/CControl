@@ -1,5 +1,5 @@
 /*
- * particle_filter.c
+ * mcs.c
  *
  *  Created on: 7 juni 2021
  *      Author: Daniel Mårtensson
@@ -8,12 +8,12 @@
 #include "../../Headers/Functions.h"
 
 /*
- * Particle filter collect
+ * Monte Carlo Simulation collect
  * P[row_x*2*column_p]
  * x[row_x]
  * index_vactor > 0
  */
-void particle_filter_collect(float* P, uint16_t column_p, float* x, uint8_t row_x, float index_factor){
+void mcs_collect(float* P, uint16_t column_p, float* x, uint8_t row_x, float index_factor){
 	// Increase index
 	for(uint8_t i = 0; i < row_x; i++){
 		// Compute index
@@ -31,11 +31,11 @@ void particle_filter_collect(float* P, uint16_t column_p, float* x, uint8_t row_
 }
 
 /*
- * Particle filter estimate
+ * Monte Carlo Simulation estimate
  * P[row_x*2*column_p]
  * x[row_x]
  */
-void particle_filter_estimate(float* P, uint16_t column_p, float* x, uint8_t row_x){
+void mcs_estimate(float* P, uint16_t column_p, float* x, uint8_t row_x){
 	// Find the largest index
 	uint16_t index_of_value;
 	uint16_t max_value_index;
@@ -60,6 +60,6 @@ void particle_filter_estimate(float* P, uint16_t column_p, float* x, uint8_t row
 	}
 }
 
-void particle_filter_clean(float* P, uint16_t column_p, uint8_t row_x){
+void mcs_clean(float* P, uint16_t column_p, uint8_t row_x){
 	memset(P, 0, column_p*row_x*2*sizeof(float));
 }
