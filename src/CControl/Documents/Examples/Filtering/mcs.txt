@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : particle_filter.c
+ Name        : mcs.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Filtering with particle filter
+ Description : Monte Carlo Simulation
  ============================================================================
  */
 
@@ -34,22 +34,22 @@ int main() {
 	float index_factor = 20; // Large number gives better precision but it requires larger column_p
 
 	// Important to clean the P matrix first before filling P matrix with x vector.
-	particle_filter_clean(P, column_p, row_x);
+	mcs_clean(P, column_p, row_x);
 	for(uint16_t i = 0; i < length; i++){
 		x[0] = X0[i];
 		x[1] = X1[i];
 		x[2] = X2[i];
-		particle_filter_collect(P, column_p, x, row_x, index_factor);
+		mcs_collect(P, column_p, x, row_x, index_factor);
 	}
 
 	// Estimate which vector x is most applied in P
-	particle_filter_estimate(P, column_p, x, row_x);
+	mcs_estimate(P, column_p, x, row_x);
 
 	// Print P and try to change index_factor and column_p for best fit.
 	print(P, row_x*2, column_p);
 
 	// Don't forget to clean the filter before you are using it again
-	particle_filter_clean(P, column_p, row_x);
+	mcs_clean(P, column_p, row_x);
 
 	// Print best estimation
 	printf("Final result: x[0] = %f, x[1] = %f, x[2] = %f\n", x[0], x[1], x[2]);
