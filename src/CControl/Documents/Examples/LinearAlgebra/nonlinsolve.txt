@@ -17,6 +17,7 @@ int main() {
 	float x[3] = { 0, 0, 0 }; // This is our initial guess if random_guess_active = false
 	float dx[3] = { 0, 0, 0 };
 	float b[3] = { 1, 1, 1 };
+	// Min max is only for random_guess_active
 	float min_value = -5;
 	float max_value = 5;
 	float alpha = 0.05; // A smal positive number for tuning
