@@ -22,7 +22,7 @@ Many examples can be found in the scr folder.
 
 - Filtering
   - Comming soon: Unscented Kalman Filter
-  - Particle filter
+  - Monte Carlo Simulation
   - Filtfilt 
 
 - Dynamics
