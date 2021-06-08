@@ -2,7 +2,7 @@
  * nonlinsolve.c
  *
  *  Created on: 5 june 2021
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "../../Headers/Functions.h"
@@ -19,6 +19,10 @@ void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), floa
 	uint8_t times_until_break = 10;
 	uint16_t random_iterations = 20000;
 	uint8_t break_count = 0;
+	uint8_t maximum_gradients_index = 30;
+	uint8_t past_gradients[30]; // This is for stochastic gradient descent
+	memset(past_gradients, 0, maximum_gradients_index);
+	uint8_t gradient_index = 0;
 
 	// Do random guesses
 	if(random_guess_active){
@@ -54,9 +58,14 @@ void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), floa
 		}
 		past_sqrt_sum_dx = sqrt_sum_dx;
 
-		// Update the vector x using gradient descent
-		for(uint8_t j = 0; j < elements; j++)
-			*(x + j) = *(x + j) - alpha * *(dx + j); // x = x + alpha * dx
+		// Update the vector x using stochastic gradient descent
+		for(uint8_t j = 0; j < elements; j++){
+			*(x + j) = *(x + j) - (alpha + past_gradients[gradient_index]) * *(dx + j); // x = x + alpha * dx
+		}
+		past_gradients[gradient_index] = alpha * norm(dx, 1, elements, 2); // Save the last for next time.
+		gradient_index++;
+		if(gradient_index >= maximum_gradients_index)
+			gradient_index = 0; // Reset
 	}
 
 	// Copy over our final solution x
