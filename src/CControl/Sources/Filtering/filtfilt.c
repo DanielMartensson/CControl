@@ -44,8 +44,8 @@ static void simulation(float K, float *y, float *t, uint16_t l) {
 // Flip signal
 static void flip(float* y, uint16_t l){
 	for(uint16_t i = 0; i < l/2; i++){
-        float temp = *(y + i);
-        *(y + i) = *(y + l - 1 - i);
-        *(y + l - 1 - i) = temp;
+        	float temp = *(y + i);
+        	*(y + i) = *(y + l - 1 - i);
+        	*(y + l - 1 - i) = temp;
 	}
 }
