@@ -19,6 +19,8 @@ void mcs_collect(float* P, uint16_t column_p, float* x, uint8_t row_x, float ind
 	for(uint8_t i = 0; i < row_x; i++){
 		// Compute index
 		index = fabsf(*(x + i)) * index_factor; // E.g 45 = 78.23 * 0.57
+		if(index >= column_p)
+			printf("Decrease index_factor!\n");
 
 		// Save a count and store the latest value in every second row
 		if(*(x + i) >= 0){
