@@ -15,17 +15,18 @@
  */
 void mcs_collect(float* P, uint16_t column_p, float* x, uint8_t row_x, float index_factor){
 	// Increase index
+	uint16_t index;
 	for(uint8_t i = 0; i < row_x; i++){
 		// Compute index
-		uint16_t index = fabsf(*(x + i)) * index_factor; // E.g 45 = 78.23 * 0.57
+		index = fabsf(*(x + i)) * index_factor; // E.g 45 = 78.23 * 0.57
 
 		// Save a count and store the latest value in every second row
 		if(*(x + i) >= 0){
 			*(P + (i+i)*column_p + index) += 1;
 			*(P + (i+i+1)*column_p + index) = *(x + i); // Start [, , , , 23, , , , .... , , , , ] end
 		}else{
-			*(P + (i+i)*column_p + column_p - index) += 1;
-			*(P + (i+i+1)*column_p + column_p - index) = *(x + i); // Start [, , , , , , , , .... , , , -23 , ] end
+			*(P + (i+i)*column_p + column_p - 1 - index) += 1;
+			*(P + (i+i+1)*column_p + column_p - 1 - index) = *(x + i); // Start [, , , , , , , , .... , , , -23 , ] end
 		}
 	}
 }
