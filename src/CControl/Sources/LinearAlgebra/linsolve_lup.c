@@ -9,8 +9,8 @@
 
 /*
  * This solves Ax=b with LUP-decomposition
- * LU [m*n]
- * P [n]
+ * A [m*n]
+ * x [n]
  * b [m]
  * n == m
  * Returns 1 == Success
