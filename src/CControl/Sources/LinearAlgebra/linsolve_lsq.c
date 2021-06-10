@@ -18,10 +18,8 @@
  * Returns 1 == Success
  * Returns 0 == Fail
  */
-
-
 uint8_t linsolve_lsq(float* A, float* x, float* b, int row_a, int column_a, float alpha){
-	// Compute the tikhonov then solve
+    // Compute the tikhonov then solve
     float ATA[column_a*column_a];
     float ATb[column_a];
     tikhonov(A, b, ATA, ATb, row_a, column_a, alpha);
