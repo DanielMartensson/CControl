@@ -61,6 +61,7 @@ void svd_jacobi_one_sided(float *A, uint16_t row, uint8_t max_iterations, float 
 void dlyap(float* A, float* P, float* Q, int row);
 uint8_t svd_golub_reinsch(float *A, uint16_t row, uint16_t column, float *U, float *singular_values, float *V);
 void qr(float* A, float* Q, float* R, int row_a, int column_a);
+void linsolve_qr(float* A, float* x, float* b, int row, int column);
 void triu(float* A, float* b, int row);
 void linsolve_lower_triangular(float *A, float *x, float *b, int row);
 void tikhonov(float* A, float* b, float* ATA, float* ATb, int row_a, int column_a, float alpha);
