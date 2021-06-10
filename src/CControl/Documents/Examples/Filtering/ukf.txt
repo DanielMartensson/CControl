@@ -1,0 +1,50 @@
+/*
+ ============================================================================
+ Name        : ukf.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Filter with Unscented Kalman Filter
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+#define M 2
+
+int main() {
+
+	// Initial parameters
+	float y[M] = {0, 0};
+	float u[M] = {1, 2};
+	float xhat[M] = {0, 0};
+	float P[M*M] = {1.5, 0, 0, 2.2};
+	float Q[M*M] = {1, 0, 0, 2};
+	float R[M*M] = {1.5, 0, 0, 2};
+	float a = 1;
+	float k = 0;
+	float b = 2;
+	void transistion_function(float* dx, float* x, float* u){
+		dx[0] = -2*x[0]*x[1] + 4*x[1] + 4*u[0];
+		dx[1] = -x[0] - 3*x[1] + 7*u[1];
+	}
+
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	for(uint8_t i = 0; i < 2; i++){
+		ukf(xhat, y, u, P, Q, R, transistion_function, a, k, b, M);
+		memcpy(y, xhat, M*sizeof(float)); // Our observation function y = h(x, u) is y = x
+		printf("Iteration %i done\n", i);
+	}
+
+	printf("Next state vector is:\n");
+	print(xhat, M, 1);
+
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+  
+	return EXIT_SUCCESS;
+}
