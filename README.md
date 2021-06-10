@@ -31,26 +31,24 @@ Many examples can be found in the scr folder.
 - Linear Algebra
   - Balance matrix
   - Cholesky decomposition
+  - QR decomposition
+  - LUP decomposition
   - Determinant
   - Discrete Lyapunov solver
   - Eigenvalues symmetric + Eigenvectors
   - Random real eigenvalues and random imaginary eigenvalues
   - Hankel matrix
   - Inverse
-  - Linear solver
-  - LUP factorization
-  - Multiplication
   - Pseudo inverse
-  - QR-factorization
+  - Linear solver
+  - Nonlinear solver
+  - Multiplication
   - Singular Value Decomposition Golup Reinsch
   - Singular Value Decomposition Jacobi One Sided
-  - Tikanov regularization
   - Transpose
-  - Upper triangular
   - Matrix sum
   - Norm
   - Matrix exponential
-  - Nonlinsolve
 
 - Miscellaneous
   - Cut matrix
