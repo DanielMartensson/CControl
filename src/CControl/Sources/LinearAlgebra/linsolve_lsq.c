@@ -1,7 +1,3 @@
-
-#include "../../Headers/Functions.h"
-
-
 /*
  * linsolve_lsq.c
  *
@@ -10,6 +6,8 @@
  *  Updated on: 2021-05-26
  *  	Author: Daniel Mårtensson
  */
+
+#include "../../Headers/Functions.h"
 
 /*
  * Least-squares solution for Ax=b   -> (A.T A + alpha*I) x = (A.T)*b
