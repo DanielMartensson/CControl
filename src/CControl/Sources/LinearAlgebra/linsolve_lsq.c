@@ -3,7 +3,7 @@
 
 
 /*
- * lsq.c
+ * linsolve_lsq.c
  *
  *  Created on: 2021.05.02
  *      Author: yushb0602@gmail.com
