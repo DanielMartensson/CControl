@@ -8,13 +8,13 @@
  *  Created on: 2021.05.02
  *      Author: yushb0602@gmail.com
  *  Updated on: 2021-05-26
- *  	Author: Daniel Mårtensson
+ *  	Author: Daniel MÃ¥rtensson
  */
 
 /*
- * least-squares solution for Ax=b   -> (A.T A + alpha*I) x = (A.T)*b
+ * Least-squares solution for Ax=b   -> (A.T A + alpha*I) x = (A.T)*b
  * The big consideration is how to reduce the memory space. there is no  A' transpose matrix inside.   
- * in many cases, row_a is times bigger than col_a
+ * In many cases, row_a is times bigger than column_a
  * Returns 1 == Success
  * Returns 0 == Fail
  */
