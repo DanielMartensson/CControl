@@ -62,9 +62,7 @@ void dlyap(float* A, float* P, float* Q, int row);
 uint8_t svd_golub_reinsch(float *A, uint16_t row, uint16_t column, float *U, float *singular_values, float *V);
 void qr(float* A, float* Q, float* R, int row_a, int column_a);
 void linsolve_qr(float* A, float* x, float* b, int row, int column);
-void triu(float* A, float* b, int row);
 void linsolve_lower_triangular(float *A, float *x, float *b, int row);
-void tikhonov(float* A, float* b, float* ATA, float* ATb, int row_a, int column_a, float alpha);
 uint8_t lup(float *A, float *LU, int *P, int row);
 float det(float *A, int row);
 uint8_t linsolve_lup(float *A, float *x, float *b, int row);
@@ -78,8 +76,8 @@ void eig_sym(float* A, uint16_t row, float* d);
 void sum(float A[], uint32_t row, uint32_t column, uint8_t l);
 float norm(float A[], uint32_t row, uint32_t column, uint8_t l);
 void expm(float A[], uint32_t row);
-uint8_t linsolve_lsq(float* A, float* x, float* b, int row_a, int column_a, float alpha);
 void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), float* b, float* x, uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
+void linsolve_gauss(float* A, float* x, float* b, int row, int column, float alpha);
 
 /*
  * Optimization
