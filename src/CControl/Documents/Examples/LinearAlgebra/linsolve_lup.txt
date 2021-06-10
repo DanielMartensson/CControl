@@ -43,7 +43,7 @@ int main() {
 	printf("x\n");
 	print(x, 4, 1);
 
-	printf("Status(0 == success, -1 == fail): %d", status);
+	printf("Status(1 == success, 0 == fail): %d", status);
 
 	return EXIT_SUCCESS;
 }
