@@ -21,7 +21,7 @@ Many examples can be found in the scr folder.
   - Comming soon: Nonlinear Model Predictive Control
 
 - Filtering
-  - Comming soon: Unscented Kalman Filter
+  - Unscented Kalman Filter
   - Monte Carlo Simulation
   - Filtfilt 
 
