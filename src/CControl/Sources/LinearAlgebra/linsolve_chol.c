@@ -17,7 +17,7 @@
  */
 void linsolve_chol(float *A, float *x, float *b, int row) {
 	float L[row*row];
-	uint8_t status = chol(A, L, row);
+	chol(A, L, row);
 	float y[row];
 	linsolve_lower_triangular(L, y, b, row);
 	tran(L, row, row);
