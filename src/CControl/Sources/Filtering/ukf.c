@@ -2,7 +2,7 @@
  * ukf.c
  *
  *  Created on: 9 juni 2021
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "../../Headers/Functions.h"
@@ -159,16 +159,30 @@ static void ukf_compute_sigma_points(float *xi, float *x, float *P, float a, flo
 	uint8_t compensate_column = 2 * M - 1;
 	uint8_t row = M;
 	float c = a * a * (M + k);
+
+	/*
+	 * According to the paper "A New Extension of the Kalman Filter to Nonlinear Systems"
+	 * by Simon J. Julier and Jeffrey K. Uhlmann, they used R = chol(c*P) as "square root",
+	 * instead of computing the square root of c*P. Accuring to them, cholesky decomposition
+	 * was a numerically efficient and a stable method.
+	 */
+	float A[M * M];
+	float L[M * M];
+	memcpy(A, P, row * row * sizeof(float));
+	for(uint8_t i = 0; i < row * row; i++)
+		*(A + i) = c * *(A + i); // A = c*A
+	chol(A, L, row);
+
 	for (uint8_t j = 0; j < column; j++)
 		if (j == 0)
 			for (uint8_t i = 0; i < row; i++)
 				*(xi + i * column + j) = *(x + i); // First sigma vector will become as the previous estimated state
 		else if (j >= 1 && j <= M)
 			for (uint8_t i = 0; i < row; i++)
-				*(xi + i * column + j) = *(x + i) + sqrtf(c * *(P + i * row + j - 1)); // We take the j:th column of P from 0..M-1 where j >= 1
+				*(xi + i * column + j) = *(x + i) + *(L + i * row + j - 1); // We take the j:th column of P from 0..M-1 where j >= 1
 		else
 			for (uint8_t i = 0; i < row; i++)
-				*(xi + i * column + j) = *(x + i) - sqrtf(c * *(P + i * row + j - compensate_column)); // Same here. P have not the same amount of columns as xi
+				*(xi + i * column + j) = *(x + i) - *(L + i * row + j - compensate_column); // Same here. P have not the same amount of columns as xi
 }
 
 /*
