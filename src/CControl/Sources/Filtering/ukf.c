@@ -2,7 +2,7 @@
  * ukf.c
  *
  *  Created on: 9 juni 2021
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "../../Headers/Functions.h"
@@ -100,8 +100,14 @@ void ukf(float *xhat, float *y, float *u, float *P, float* Q, float* R, void (*t
 	// PREDICT: Step 2 - Combine the predicted states to obtain the predicted states at time
 	ukf_multiply_weights(xhat, xhati, WM, M);
 
+	printf("xhat\n");
+	print(xhat, M, 1);
+
 	// PREDICT: Step 3 - Compute the covariance of the predicted state
 	ukf_estimate_covariance(P, xhati, xhat, Wc, Q, M);
+
+	printf("P\n");
+	print(P, M, M);
 }
 
 /*
@@ -150,6 +156,7 @@ static void ukf_multiply_weights(float *x, float *xi, float* W, uint8_t M) {
  */
 static void ukf_compute_sigma_points(float *xi, float *x, float *P, float a, float k, uint8_t M) {
 	uint8_t column = 2 * M + 1;
+	uint8_t compensate_column = 2*M - 1;
 	uint8_t row = M;
 	float c = a * a * (M + k);
 	for (uint8_t j = 0; j < column; j++)
@@ -158,11 +165,10 @@ static void ukf_compute_sigma_points(float *xi, float *x, float *P, float a, flo
 				*(xi + i * column + j) = *(x + i); // First sigma vector will become as the previous estimated state
 		else if (j >= 1 && j <= M)
 			for (uint8_t i = 0; i < row; i++)
-				*(xi + i * column + j) = *(x + i) + sqrtf(c * *(P + i * row + j));
+				*(xi + i * column + j) = *(x + i) + sqrtf(c * *(P + i * row + j - 1)); // We take the j:th column of P from 0..M-1 where j >= 1
 		else
 			for (uint8_t i = 0; i < row; i++)
-				*(xi + i * column + j) = *(x + i) - sqrtf(c * *(P + i * row + j));
-
+				*(xi + i * column + j) = *(x + i) - sqrtf(c * *(P + i * row + j - compensate_column)); // Same here. P have not the same amount of columns as xi
 }
 
 /*
@@ -191,8 +197,6 @@ static void ukf_estimate_covariance(float* P, float* xi, float* x, float* W, flo
 	}
 	for(uint8_t i = 0; i < row*row; i++)
 		*(P + i) += *(O + i);
-
-
 }
 
 /*
@@ -234,15 +238,16 @@ static void ukf_estimate_cross_covariance(float* P, float* xi, float* x, float* 
  * M = Dimension of the vectors
  */
 static void ukf_create_kalman_K(float* K, float* Py, float* Pxy, uint8_t M) {
+	uint8_t column = M;
 	uint8_t row = M;
 	float b[row];
 	float x[row];
-	for (uint8_t i = 0; i < row; i++) {
-		for (uint8_t j = 0; j < row; j++)
-			*(b + j) = *(Pxy + j * row + i); // For every column
+	for (uint8_t j = 0; j < column; j++) {
+		for (uint8_t i = 0; i < row; i++)
+			*(b + i) = *(Pxy + i * row + j); // For every column
 		linsolve_chol(Py, x, b, row); // Cholesky decomposition because Py is symmetric and positive definite
-		for (uint8_t j = 0; j < row; j++)
-			*(K + j * row + i) = *(x + j); // Add column to the kalman K matrix
+		for (uint8_t i = 0; i < row; i++)
+			*(K + i * row + j) = *(x + i); // Add column to the kalman K matrix
 	}
 }
 
