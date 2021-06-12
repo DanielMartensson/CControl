@@ -39,57 +39,34 @@ void ukf(float *xhat, float *y, float *u, float *P, float *Q, float *R, void (*t
 	// Step 0 - Create the weights
 	float Wc[column];
 	float WM[column];
-	ukf_create_weights(Wc, WM, a, b, k, M);
+	ukf_create_weights(Wc, WM, a, b, k, row);
 
 	// UPDATE: Step 1 - Compute sigma points
 	float xhati[row * column];
 	ukf_compute_sigma_points(xhati, xhat, P, a, k, row);
 
-	printf("xhati\n");
-	print(xhati, M, 1);
-
 	// UPDATE: Step 2 - Use the nonlinear measurement function to compute the predicted measurements for each of the sigma points.
 	float yhati[row * column];
 	memcpy(yhati, xhati, row * column * sizeof(float)); // Here we assume that the observation function y = h(x, u) = x
-
-	printf("yhati\n");
-	print(yhati, M, 1);
 
 	// UPDATE: Step 3 - Combine the predicted measurements to obtain the predicted measurement
 	float yhat[row];
 	ukf_multiply_weights(yhat, yhati, WM, row);
 
-	printf("yhat\n");
-	print(yhat, M, 1);
-
 	// UPDATE: Step 4 - Estimate the covariance of the predicted measurement
 	float Py[row * row];
 	ukf_estimate_covariance(Py, yhati, yhat, Wc, R, row);
-
-	printf("Py\n");
-	print(Py, M, M);
 
 	// UPDATE: Step 5 - Estimate the cross-covariance between xhat and yhat. Here i begins at 1 because xhati(0) - xhat(0) = 0
 	float Pxy[row * row];
 	ukf_estimate_cross_covariance(Pxy, xhati, xhat, yhati, yhat, a, k, M);
 
-	printf("Pxy\n");
-	print(Pxy, M, M);
-
 	// UPDATE: Step 6 - Find kalman K matrix
 	float K[row * row];
 	ukf_create_kalman_K(K, Py, Pxy, M);
 
-	printf("K\n");
-	print(K, M, M);
-
 	// UPDATE: Step 7 - Obtain the estimated state and state estimation error covariance at time step
 	ukf_state_update(K, Py, P, xhat, y, yhat, M);
-
-	printf("P\n");
-	print(P, M, M);
-	printf("xhat\n");
-	print(xhat, M, 1);
 
 	// PREDICT: Step 0 - Predict the state and state estimation error covariance at the next time step
 	ukf_compute_sigma_points(xhati, xhat, P, a, k, M);
@@ -100,14 +77,9 @@ void ukf(float *xhat, float *y, float *u, float *P, float *Q, float *R, void (*t
 	// PREDICT: Step 2 - Combine the predicted states to obtain the predicted states at time
 	ukf_multiply_weights(xhat, xhati, WM, M);
 
-	printf("xhat\n");
-	print(xhat, M, 1);
-
 	// PREDICT: Step 3 - Compute the covariance of the predicted state
 	ukf_estimate_covariance(P, xhati, xhat, Wc, Q, M);
 
-	printf("P\n");
-	print(P, M, M);
 }
 
 /*
@@ -117,16 +89,15 @@ void ukf(float *xhat, float *y, float *u, float *P, float *Q, float *R, void (*t
  */
 static void ukf_create_weights(float *Wc, float *WM, float a, float b, float k, uint8_t M) {
 	uint8_t column = 2 * M + 1;
-	for (uint8_t i = 0; i < column; i++)
-		if (i == 0)
+	for (uint8_t i = 0; i < column; i++){
+		if (i == 0){
 			*Wc = (2 - a * a + b) - M / (a * a * (M + k));
-		else
-			*(Wc + i) = 1 / (2 * a * a * (M + k));
-	for (uint8_t i = 0; i < column; i++)
-		if (i == 0)
 			*WM = 1 - M / (a * a * (M + k));
-		else
+		}else{
+			*(Wc + i) = 1 / (2 * a * a * (M + k));
 			*(WM + i) = 1 / (2 * a * a * (M + k));
+		}
+	}
 }
 
 /*
@@ -162,7 +133,7 @@ static void ukf_compute_sigma_points(float *xi, float *x, float *P, float a, flo
 
 	/*
 	 * According to the paper "A New Extension of the Kalman Filter to Nonlinear Systems"
-	 * by Simon J. Julier and Jeffrey K. Uhlmann, they used R = chol(c*P) as "square root",
+	 * by Simon J. Julier and Jeffrey K. Uhlmann, they used L = chol(c*P) as "square root",
 	 * instead of computing the square root of c*P. Accuring to them, cholesky decomposition
 	 * was a numerically efficient and a stable method.
 	 */
@@ -177,7 +148,7 @@ static void ukf_compute_sigma_points(float *xi, float *x, float *P, float a, flo
 		if (j == 0)
 			for (uint8_t i = 0; i < row; i++)
 				*(xi + i * column + j) = *(x + i); // First sigma vector will become as the previous estimated state
-		else if (j >= 1 && j <= M)
+		else if (j >= 1 && j <= row)
 			for (uint8_t i = 0; i < row; i++)
 				*(xi + i * column + j) = *(x + i) + *(L + i * row + j - 1); // We take the j:th column of P from 0..M-1 where j >= 1
 		else
@@ -227,6 +198,7 @@ static void ukf_estimate_covariance(float *P, float *xi, float *x, float *W, flo
 static void ukf_estimate_cross_covariance(float *P, float *xi, float *x, float *yi, float *y, float a, float k, uint8_t M) {
 	uint8_t column = 2 * M + 1;
 	uint8_t row = M;
+	float c = 1 / (2 * a * a * (M + k));
 	float diffx[row];
 	float diffyT[row];
 	float diffx_diffyT[row * row];
@@ -241,7 +213,7 @@ static void ukf_estimate_cross_covariance(float *P, float *xi, float *x, float *
 			*(P + i) += *(diffx_diffyT + i); // Sum P = sum(diffx*diffyT)
 	}
 	for (uint8_t i = 0; i < row * row; i++)
-		*(P + i) *= 1 / (2 * a * a * (M + k)); // Multiply with the weight
+		*(P + i) *= c; // Multiply with the weight
 }
 
 /*
@@ -302,7 +274,7 @@ static void ukf_state_update(float *K, float *Py, float *P, float *xhat, float *
 	// Multiply K times PyKT, we borrow matrix KT but we call it KPyKT
 	mul(K, PyKT, KT, row, row, row);
 
-	// Update P = P + KPyKT
+	// Update P = P - KPyKT
 	for (uint8_t i = 0; i < row * row; i++)
 		*(P + i) -= *(KT + i); // KT == KPyKT
 }
