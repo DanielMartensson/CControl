@@ -8,47 +8,128 @@
  ============================================================================
  */
 
-
 #include "CControl/Headers/Functions.h"
-
-#define M 2
 
 int main() {
 
 	// Initial parameters
-	float y[M] = {0, 0};
-	float u[M] = {1, 2};
-	float xhat[M] = {0, 0};
-	float P[M*M] = {5, 0, 0, 2};
-	float Q[M*M] = {1, 0, 0, 2};
-	float R[M*M] = {1.5, 0, 0, 2};
-	float a = 1;
-	float k = 2;
-	float b = 3;
+	uint8_t L = 1; 				// How many states we have
+	float a = 0.5; 				// Alpha value
+	float b = 2; 				// Beta value
+	float k = 1; 				// Kappa value
+	float Q[1 * 1] = { 0.0001 }; 	// Initial disturbance covariance matrix
+	float R[1 * 1] = { 2 }; 		// Initial noise covariance matrix
+	float P[1 * 1] = { 1 }; 		// Initial covariance matrix
+	float xhat[1] = { 15 }; // Initial estimated state, a rule of thumb: Use a regular measurement only
+	float zk[1] = { 0 };			// This is our measurement
+	float u[1] = { 0 }; // u is not used in this example due to the transition function not using a input signal
 
-	void transistion_function(float* dx, float* x, float* u){
-		dx[0] = -2*x[0]*x[1] + 4*x[1] + 4*u[0];
-		dx[1] = -x[0] - 3*x[1] + 7*u[1];
+	// Our transition function is a random variable
+	void ukf_transition(float *x, float *s, float *u, uint8_t L) {
+		uint8_t N = 2 * L + 1;
+		float a[L];
+		float r[1];
+		for (uint8_t j = 0; j < N; j++) {
+			for (uint8_t i = 0; i < L; i++)
+				*(a + i) = *(s + i * N + j); // Extract one column from matrix s
+			randn(r, 1, 0, 1); // Create one random value with mean 0 and deviation 1
+			*(x + j) = std(a, L) * *r + mean(a, L);
+		}
 	}
+
+	// Data of a laser measurement with mean 14 and deviation 1
+	float X[500]; // Estimated
+	float data[500] = { 15, 14, 13, 14, 15, 14, 16, 14, 15, 14, 13, 15, 14, 15,
+			13, 14, 16, 14, 15, 14, 15, 14, 15, 14, 15, 14, 15, 16, 15, 14, 13,
+			14, 15, 13, 14, 13, 14, 15, 14, 15, 13, 15, 14, 16, 14, 13, 14, 15,
+			13, 15, 14, 15, 13, 14, 15, 13, 15, 14, 13, 14, 15, 16, 13, 15, 14,
+			13, 15, 14, 16, 14, 16, 15, 17, 14, 16, 14, 13, 16, 13, 15, 16, 15,
+			14, 15, 14, 12, 15, 13, 14, 13, 12, 15, 13, 12, 14, 15, 14, 13, 14,
+			15, 14, 13, 16, 15, 13, 14, 15, 14, 15, 12, 16, 15, 17, 15, 14, 13,
+			14, 15, 13, 14, 16, 14, 15, 14, 15, 13, 15, 14, 15, 13, 15, 13, 15,
+			16, 13, 14, 15, 16, 14, 13, 15, 13, 16, 15, 13, 15, 16, 15, 14, 15,
+			13, 14, 15, 14, 13, 15, 14, 15, 14, 13, 14, 15, 14, 15, 16, 15, 14,
+			15, 14, 15, 14, 16, 14, 13, 14, 15, 14, 15, 14, 15, 14, 15, 14, 13,
+			14, 15, 14, 13, 14, 17, 14, 15, 14, 15, 13, 14, 13, 14, 16, 14, 15,
+			14, 13, 15, 13, 12, 13, 14, 15, 14, 15, 13, 14, 15, 14, 13, 14, 16,
+			14, 13, 14, 15, 16, 13, 14, 15, 13, 14, 13, 15, 14, 15, 16, 13, 14,
+			13, 14, 13, 14, 12, 15, 14, 15, 16, 14, 13, 15, 14, 15, 14, 15, 14,
+			13, 15, 13, 14, 13, 14, 15, 14, 15, 14, 15, 13, 14, 15, 13, 14, 16,
+			14, 15, 14, 13, 15, 14, 15, 14, 16, 15, 13, 16, 15, 13, 15, 14, 15,
+			16, 14, 15, 13, 14, 15, 14, 15, 12, 15, 13, 14, 16, 15, 13, 14, 15,
+			14, 15, 14, 15, 13, 14, 15, 14, 15, 14, 13, 15, 12, 14, 15, 13, 15,
+			12, 15, 14, 15, 14, 13, 15, 14, 15, 13, 14, 15, 14, 15, 12, 13, 15,
+			14, 15, 14, 13, 14, 15, 13, 16, 15, 14, 15, 14, 15, 13, 14, 15, 16,
+			15, 14, 15, 14, 15, 14, 15, 14, 16, 13, 15, 14, 16, 15, 14, 13, 14,
+			13, 14, 15, 14, 15, 14, 15, 14, 15, 13, 16, 13, 14, 13, 14, 15, 13,
+			15, 14, 16, 14, 15, 14, 15, 13, 15, 13, 14, 15, 14, 15, 14, 13, 14,
+			13, 14, 15, 13, 14, 15, 14, 15, 14, 15, 14, 15, 14, 15, 13, 15, 14,
+			15, 16, 14, 15, 14, 12, 14, 16, 14, 15, 14, 15, 14, 15, 13, 14, 13,
+			14, 12, 14, 13, 14, 15, 14, 15, 14, 15, 13, 15, 13, 16, 14, 15, 14,
+			15, 14, 15, 14, 15, 16, 14, 15, 13, 15, 13, 16, 14, 13, 14, 15, 13,
+			15, 13, 16, 15, 12, 14, 13, 16, 15, 14, 13, 14, 15, 17, 15, 14, 13,
+			14, 16, 15, 14, 13, 15, 14, 16, 15, 14 };
 
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	for(uint8_t i = 0; i < 1; i++){
-		ukf(xhat, y, u, P, Q, R, transistion_function, a, k, b, M);
-		memcpy(y, xhat, M*sizeof(float)); // Our observation function y = h(x, u) is y = x
-		printf("Iteration %i done\n", i);
+	// Do UKF
+	for (uint32_t i = 0; i < 500; i++) {
+		zk[0] = data[i];
+		X[i] = xhat[0];
+		ukf(xhat, zk, u, P, Q, R, a, k, b, L, ukf_transition);
 	}
-
-	printf("Next state vector is:\n");
-	print(xhat, M, 1);
 
 	end = clock();
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-
+	// Here is the filtered data
+	print(X, 500, 1);
 
 	return EXIT_SUCCESS;
 }
+
+/*
+ * GNU Octave code:
+ *
+function Unscented_Kalman_Filter()
+
+  % Initial parameters
+  L = 1;
+  a = 0.5;
+  b = 2;
+  k = 1;
+  Q = 0.0001;
+  R = 2;
+  P = 1;
+  xhat = 15;
+  zk = 13;
+
+  % Read the data - The log.txt file can be found at
+  % https://github.com/DanielMartensson/STM32-Libraries/tree/master/VL6180X/Distribution
+  fid = csvread('log.txt')';
+  l = 500;
+
+  % Filtered data
+  X = zeros(1, l);
+
+  for i = 1:l
+
+    % Get measurement
+    zk = fid(i);
+
+    % Save UKF value
+    X(i) = xhat;
+
+    % UKF filter
+    [xhat, P] = ukf(xhat, zk, P, Q, R, a, k, b, L);
+  end
+
+  close all
+  plot(1:l, X, 'r', 1:l, fid(1:l), 'b');
+  legend('UKF', 'Real')
+  grid on
+end
+ */
