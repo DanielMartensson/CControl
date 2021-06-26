@@ -8,13 +8,13 @@
 #include "../../Headers/Functions.h"
 
 /*
- * Compute the mean of vector a
- * a[L] Vector with values
- * L = Length of vector a
+ * Compute the mean of vector x
+ * x[L] Vector with values
+ * L = Length of vector x
  */
-float mean(float* a, uint32_t L) {
+float mean(float* x, uint32_t length) {
 	float s = 0;
-	for(uint32_t i = 0; i < L; i++)
-		s += *(a + i);
-	return s/((float) L);
+	for(uint32_t i = 0; i < length; i++)
+		s += *(x + i);
+	return s/((float) length);
 }
