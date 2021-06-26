@@ -57,6 +57,8 @@ Many examples can be found in the scr folder.
   - Saturation
   - Sign
   - Gaussian distribution vector generator
+  - Mean
+  - Standard deviation
   
 - Optimization
   - Linear programming maximization
