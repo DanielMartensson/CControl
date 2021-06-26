@@ -42,6 +42,7 @@ void print(float* A, int row, int column);
 float sign(float number);
 void randn(float* x, uint32_t length, float mu, float sigma);
 float mean(float* x, uint32_t length);
+float std(float* x, uint32_t length);
 
 /*
  * Filtering
