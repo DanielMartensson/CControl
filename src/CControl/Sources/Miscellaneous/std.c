@@ -7,6 +7,12 @@
 
 #include "../../Headers/Functions.h"
 
+
+/*
+ * Compute Standard deviation
+ * x[L] Vector with values
+ * L = Length of vector x
+ */
 float std(float* x, uint32_t length) {
 	float mu = mean(x, length);
 	float sigma = 0;
