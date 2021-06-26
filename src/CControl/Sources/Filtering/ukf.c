@@ -135,10 +135,10 @@ static void ukf_compute_sigma_points(float *s, float *x, float *P, float a, floa
 	for (uint8_t j = 0; j < N; j++)
 		if (j == 0)
 			for (uint8_t i = 0; i < L; i++)
-				*(s + i * N + j) = *(x + i); 										// First sigma vector will become as the previous estimated state
+				*(s + i * N + j) = *(x + i); 					    // First sigma vector will become as the previous estimated state
 		else if (j >= 1 && j <= L)
 			for (uint8_t i = 0; i < L; i++)
-				*(s + i * N + j) = *(x + i) + *(A + i * L + j - 1); 				// We take the j:th column of A from 0..L-1 where j >= 1
+				*(s + i * N + j) = *(x + i) + *(A + i * L + j - 1); 		    // We take the j:th column of A from 0..L-1 where j >= 1
 		else
 			for (uint8_t i = 0; i < L; i++)
 				*(s + i * N + j) = *(x + i) - *(A + i * L + j - compensate_column); // Same here. A have not the same amount of columns as s
