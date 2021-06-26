@@ -51,7 +51,7 @@ void filtfilt(float *y, float *t, uint16_t l, float K);
 void mcs_collect(float* P, uint16_t column_p, float* x, uint8_t row_x, float index_factor);
 void mcs_estimate(float* P, uint16_t column_p, float* x, uint8_t row_x);
 void mcs_clean(float* P, uint16_t column_p, uint8_t row_x);
-void ukf(float *xhat, float *y, float *u, float *P, float* Q, float* R, void (*transistion_function)(float*, float*, float*), float a, float k, float b, uint8_t M);
+void ukf(float* xhat, float* zk, float* u, float* P, float* Q, float* R, float a, float k, float b,  uint8_t L, void (*ukf_transition)(float*, float*, float*, uint8_t));
 
 /*
  * Linear algebra
