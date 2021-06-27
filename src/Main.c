@@ -55,6 +55,5 @@ int main() {
 
 	printf("Complete inputs:\n");
 	print(inputs, 200, 1);
-
 	return EXIT_SUCCESS;
 }
