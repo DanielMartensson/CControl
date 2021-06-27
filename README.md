@@ -80,13 +80,11 @@ This project is structured as
  * Main focusing on: Control engineering, linear algebra, optimization, AI algorithms, system identification and classification
 ```
 
-### What I recommend
+# What I recommend for control engineering
 
-- MPC for slow temperature/water lever systems
-- LQI for fast mechanical systems
-- MRAC for replacing PI controllers. MRAC is actually a PI controller, with integration on P
-- RLS for identification due to it's low memory use. For MIMO, please use MataveID if you going to do off-line identification
-
+- Nonlinear Model Predictive Control for MIMO systems (Coming soon)
+- Unscented Kalman Filter
+- Model Reference Adaptive Control for slow SISO systems
 
 # Fan Controller with Linear Quadratic Integral Control
 
