@@ -38,7 +38,7 @@ void c2d(float A[], float B[], uint8_t ADIM, uint8_t RDIM, float sampleTime);
 float saturation(float input, float lower_limit, float upper_limit);
 void cut(float* A, int row, int column, float* B, int start_row, int stop_row, int start_column, int stop_column);
 void insert(float* A, float* B, int row_a, int column_a, int column_b, int startRow_b, int startColumn_b);
-void print(float A[], int row, int column);
+void print(float A[], uint32_t row, uint32_t column);
 float sign(float number);
 void randn(float x[], uint32_t length, float mu, float sigma);
 float mean(float x[], uint32_t length);
