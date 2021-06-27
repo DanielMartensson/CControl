@@ -13,21 +13,21 @@
  * B [column_a*column_b]
  * C [row_a*column_b]
  */
-void mul(float A[], float B[], float C[], int row_a, int column_a, int column_b) {
+void mul(float A[], float B[], float C[], uint32_t row_a, uint32_t column_a, uint32_t column_b) {
 
 	// Data matrix
 	float* data_a;
 	float* data_b;
 
-	for (int i = 0; i < row_a; i++) {
+	for (uint32_t i = 0; i < row_a; i++) {
 		// Then we go through every column of b
-		for (int j = 0; j < column_b; j++) {
+		for (uint32_t j = 0; j < column_b; j++) {
 			data_a = &A[i * column_a];
 			data_b = &B[j];
 
 			*C = 0; // Reset
 			// And we multiply rows from a with columns of b
-			for (int k = 0; k < column_a; k++) {
+			for (uint32_t k = 0; k < column_a; k++) {
 				*C += *data_a * *data_b;
 				data_a++;
 				data_b += column_b;
