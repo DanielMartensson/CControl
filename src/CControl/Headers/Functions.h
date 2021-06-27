@@ -5,8 +5,8 @@
  *      Author: Daniel Mårtensson
  */
 
-#ifndef CCONTROL_FUNCTIONS_H_
-#define CCONTROL_FUNCTIONS_H_
+#ifndef CCONTROL_HEADERS_FUNCTIONS_H_
+#define CCONTROL_HEADERS_FUNCTIONS_H_
 
 /* Necessary libraries */
 #include <string.h>						// For memcpy, memset etc
@@ -83,4 +83,4 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, u
 void okid(float u[], float y[], float g[], uint16_t row, uint16_t column);
 void era(float u[], float y[], uint16_t row, uint16_t column, float A[], float B[], float C[], uint8_t row_a, uint8_t inputs_outputs);
 
-#endif /* CCONTROL_FUNCTIONS_H_ */
+#endif /* CCONTROL_HEADERS_FUNCTIONS_H_ */
