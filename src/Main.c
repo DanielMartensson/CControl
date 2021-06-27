@@ -1,7 +1,7 @@
 /*
  ============================================================================
  Name        : Model_Predictive_Control.c
- Author      : Daniel MÃ¥rtensson
+ Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
  Description : Model Predictive Control
