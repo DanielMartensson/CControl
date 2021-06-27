@@ -29,7 +29,7 @@ static void ukf_state_update(float K[], float Shat[], float P[], float xhat[], f
  * L = Number of states, or sensors in practice.
  * This follows wikipedia article: https://en.wikipedia.org/wiki/Kalman_filter#Unscented_Kalman_filter
  */
-void ukf(float xhat[], float zk[], float u[], float P[], float Q[], float R[], float a, float k, float b,  uint8_t L, void (*ukf_transition)(float*, float*, float*, uint8_t)) {
+void ukf(float xhat[], float zk[], float u[], float P[], float Q[], float R[], float a, float k, float b,  uint8_t L, void (*ukf_transition)(float[], float[], float[], uint8_t)) {
 	// Column
 	uint8_t N = 2 * L + 1;
 
