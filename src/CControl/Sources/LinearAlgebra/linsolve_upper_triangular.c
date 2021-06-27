@@ -11,23 +11,26 @@
 
 /*
  * This solves Ax = b.
- * A need to be square and upper triangular. R matrix from QR is an exception.
- * Use qr or triu before.
+ * A need to be square and upper triangular.
  * A [m*n]
  * b [m]
  * m == n
  */
-void linsolve_upper_triangular(float* A, float* x, float* b, int column) {
+void linsolve_upper_triangular(float A[], float x[], float b[], uint16_t column) {
 
 	// Time to solve x from Ax = b.
 	memset(x, 0, column*sizeof(float));
 	float sum;
-	for(int i = column-1; i >= 0; i--){ // Column
+	for(uint16_t i = column-1; i >= 0; i--){ // Column
 		sum = 0.0; // This is our sum
-		for(int j = i; j < column; j++){ // Row
-			sum += *(A + i*column + j)* * (x + j);
+		for(uint16_t j = i; j < column; j++){ // Row
+			sum += A[i*column + j] * x[j];
 		}
-		*(x + i) = (*(b + i) - sum) / *(A + i*column + i);
+		x[i] = (b[i] - sum) / A[i*column + i];
+
+		// For backwards unsigned for-loops, important because uint16 i = -1 is actually 65535
+		if(i == 0)
+			break;
 	}
 
 }

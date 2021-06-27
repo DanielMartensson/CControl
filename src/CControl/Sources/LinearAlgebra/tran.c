@@ -10,15 +10,15 @@
 /*
  * Turn A into transponse A^T
  */
-void tran(float A[], uint32_t row, uint32_t column) {
+void tran(float A[], uint16_t row, uint16_t column) {
 
 	float B[row*column];
 	float* transpose;
 	float* ptr_A = A;
 
-	for (uint32_t i = 0; i < row; i++) {
+	for (uint16_t i = 0; i < row; i++) {
 		transpose = &B[i];
-		for (uint32_t j = 0; j < column; j++) {
+		for (uint16_t j = 0; j < column; j++) {
 			*transpose = *ptr_A;
 			ptr_A++;
 			transpose += row;

@@ -8,16 +8,13 @@
  ============================================================================
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include "CControl/Headers/Functions.h"
 
 #define height_map 15
 #define width_map 10
 
 // This function is here only for illustration. Not needed
-void print_int(int *A, int row, int column) {
+void print_int(int A[], int row, int column) {
 	for (int i = 0; i < row; i++) {
 		for (int j = 0; j < column; j++) {
 			printf("%d\t", *(A++));
@@ -28,12 +25,12 @@ void print_int(int *A, int row, int column) {
 }
 
 // This function is here only for illustration. Not needed
-void show_path(int *map, int *path_x, int *path_y, int height, int width) {
+void show_path(int map[], int path_x[], int path_y[], int height, int width) {
 	for (int k = 0; k < height * width; k++) {
-		int x = *(path_x + k);
-		int y = *(path_y + k);
+		int x = path_x[k];
+		int y = path_y[k];
 		if (x != -1 && y != -1)
-			*(map + y * width + x) = -100 - k;
+			map[ y * width + x] = -100 - k;
 	}
 	print_int(map, height, width);
 }
@@ -76,7 +73,7 @@ int main() {
 									 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
 									 -1,  0,  0,  0,  0,  0, -1, -1,  0, -1,
 									 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
-					 
+
 	// Or an alternative map
 	/*
 	// Map size

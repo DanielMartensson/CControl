@@ -8,8 +8,6 @@
  ============================================================================
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "CControl/Headers/Functions.h"
 
 #define ADIM 2

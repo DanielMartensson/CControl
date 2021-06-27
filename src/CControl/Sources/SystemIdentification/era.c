@@ -15,7 +15,7 @@
  * B [ADIM*inputs_outputs] // Input matrix with dimension ADIM*inputs_outputs
  * C [inputs_outputs*ADIM] // Output matrix with dimension inputs_outputs*ADMIN
  */
-void era(float* u, float* y, uint16_t row, uint16_t column, float* A, float* B, float* C, uint8_t row_a, uint8_t inputs_outputs) {
+void era(float u[], float y[], uint16_t row, uint16_t column, float A[], float B[], float C[], uint8_t row_a, uint8_t inputs_outputs) {
 
 	// Markov parameters - Impulse response
 	float g[row * column];
@@ -41,10 +41,10 @@ void era(float* u, float* y, uint16_t row, uint16_t column, float* A, float* B, 
 	// Create C and B matrix
 	for(uint8_t i = 0; i < row_a; i++){
 		for(uint8_t j = 0; j < inputs_outputs; j++)
-			*(C + j*row_a + i) = U[j*column_h + i]*sqrtf(S[i]); // C = U*S^(1/2)
+			C[j*row_a + i] = U[j*column_h + i]*sqrtf(S[i]); // C = U*S^(1/2)
 
 		for(uint8_t j = 0; j < inputs_outputs; j++)
-			*(B + i*inputs_outputs + j) = sqrtf(S[i])*V[j*column_h + i]; // B = S^(1/2)*V^T
+			B[i*inputs_outputs + j] = sqrtf(S[i])*V[j*column_h + i]; // B = S^(1/2)*V^T
 	}
 
 	// A = S^(-1/2)*U^T*H*V*S^(-1/2)

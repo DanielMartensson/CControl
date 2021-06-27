@@ -16,7 +16,7 @@
  * If you have a matrix A 5 x 6 and you want to cut the values from A to matrix B with size 3 x 3 and you want to start at 0,0 and end at 3,3
  * Code: cut(A, 5, 6, B, 0, 2, 0, 2); // Because indexing from zero
  */
-void cut(float* A, int row, int column, float* B, int start_row, int stop_row, int start_column, int stop_column) {
+void cut(float A[], uint16_t row, uint16_t column, float B[], uint16_t start_row, uint16_t stop_row, uint16_t start_column, uint16_t stop_column) {
 
 	int in_columns = column;
 	float* data = A + start_row * in_columns + start_column;

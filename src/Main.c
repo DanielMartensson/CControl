@@ -1,56 +1,42 @@
 /*
  ============================================================================
- Name        : Model_Predictive_Control.c
- Author      : Daniel Mårtensson
+ Name        : insert.c
+ Author      : Daniel MÃ¥rtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Model Predictive Control
+ Description : Insert into a matrix
  ============================================================================
  */
 
 #include "CControl/Headers/Functions.h"
 
-#define ADIM 2
-#define RDIM 1
-#define YDIM 1
-#define HORIZON 10
-#define ITERATION_LIMIT 200
-
 int main() {
 
-	// State space model that have integration behavior
-	float A[ADIM * ADIM] = {1.64615,   1.00000,
-		      	  	  	   -0.71653,   0.00000};
+	// Matrix A
+	float A[5*5] = {0.87508,   0.48607,   0.30560,   0.32509,   0.23096,
+				    0.12308,   0.84311,   0.42221,   0.20273,   0.87377,
+				    0.42986,   0.11245,   0.40494,   0.27304,   0.59772,
+				    0.85124,   0.99245,   0.56873,   0.19438,   0.11308,
+				    0.97190,   0.22475,   0.24501,   0.85403,   0.54691};
 
-	float B[ADIM * RDIM] = { 0.18573,
-							 0.16616};
-	float C[YDIM * ADIM] = { 1, 0 };
+	// Matrix B
+	float B[2*3] = {1, 1, 1,
+					2, 2, 2};
 
-	// Print our state space matrix
-	printf("System matrix: A\n");
-	print(A, ADIM, ADIM);
 
-	printf("Input matrix: B\n");
-	print(B, ADIM, RDIM);
+	// Insert B into A at a specific row and column
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+	insert(B, A, 2, 3, 5, 3, 2);
+	cut(A, 5, 5, B, 3, 4, 2, 4); // We want to B = A(4:5, 3:5)
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	printf("Output matrix: C\n");
-	print(C, YDIM, ADIM);
+	// Print A
+	printf("A\n");
+	print(A, 5, 5);
 
-	float x[ADIM] = { 0, 0};
-	float u[RDIM] = { 0 };
-	float r[YDIM] = { 5 };
-	float K[ADIM] = {0, 0};
-	float y[YDIM] = {0};
-	float inputs[200];
-
-	// Do Model Predictive Control where we selecting last u
-	for(int i = 0; i < 200; i++){
-		mpc(A, B, C, x, u, r, ADIM, YDIM, RDIM, HORIZON, ITERATION_LIMIT, 1);
-		kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM); // Do only state update x = Ax + Bu
-		inputs[i] = u[0];
-	}
-
-	printf("Complete inputs:\n");
-	print(inputs, 200, 1);
 	return EXIT_SUCCESS;
 }

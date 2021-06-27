@@ -12,9 +12,9 @@
  * x[L] Vector with values
  * L = Length of vector x
  */
-float mean(float x[], uint32_t length) {
+float mean(float x[], uint16_t length) {
 	float s = 0;
-	for(uint32_t i = 0; i < length; i++)
+	for(uint16_t i = 0; i < length; i++)
 		s += x[i];
 	return s/((float) length);
 }

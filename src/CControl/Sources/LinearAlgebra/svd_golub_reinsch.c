@@ -51,15 +51,15 @@ static void Sort_by_Decreasing_Singular_Values(uint16_t nrows, uint16_t ncols, f
  * Return 1 = Success.
  * Return 0 = Fail.
  */
-uint8_t svd_golub_reinsch(float *A, uint16_t row, uint16_t column, float *U, float *singular_values, float *V) {
+uint8_t svd_golub_reinsch(float A[], uint16_t row, uint16_t column, float U[], float S[], float V[]) {
 	float dummy_array[column];
 
-	Householders_Reduction_to_Bidiagonal_Form(A, row, column, U, V, singular_values, dummy_array);
+	Householders_Reduction_to_Bidiagonal_Form(A, row, column, U, V, S, dummy_array);
 
-	if (Givens_Reduction_to_Diagonal_Form(row, column, U, V, singular_values, dummy_array) < 0)
+	if (Givens_Reduction_to_Diagonal_Form(row, column, U, V, S, dummy_array) < 0)
 		return 0; // Fail
 
-	Sort_by_Decreasing_Singular_Values(row, column, singular_values, U, V);
+	Sort_by_Decreasing_Singular_Values(row, column, S, U, V);
 
 	return 1; // Solved
 }

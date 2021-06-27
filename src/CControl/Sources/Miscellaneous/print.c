@@ -10,9 +10,9 @@
 /*
  * Print matrix or vector - Just for error check
  */
-void print(float A[], uint32_t row, uint32_t column) {
-	for (uint32_t i = 0; i < row; i++) {
-		for (uint32_t j = 0; j < column; j++) {
+void print(float A[], uint16_t row, uint16_t column) {
+	for (uint16_t i = 0; i < row; i++) {
+		for (uint16_t j = 0; j < column; j++) {
 			printf("%0.18f\t", *(A++));
 		}
 		printf("\n");

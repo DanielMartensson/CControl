@@ -15,9 +15,9 @@ static float generate_gauss(float mu, float sigma);
  * Mean: mu
  * Standard deviation: sigma
  */
-void randn(float x[], uint32_t length, float mu, float sigma){
+void randn(float x[], uint16_t length, float mu, float sigma){
 	srand(time(NULL));
-	for(uint32_t i = 0; i < length; i++)
+	for(uint16_t i = 0; i < length; i++)
 		x[i] = generate_gauss(mu, sigma);
 }
 

@@ -14,12 +14,12 @@
  * L [m*n]
  * n == m
  */
-void chol(float A[], float L[], uint32_t row) {
+void chol(float A[], float L[], uint16_t row) {
 	memset(L, 0, row*row*sizeof(float));
-	for (uint32_t i = 0; i < row; i++)
-		for (uint32_t j = 0; j < (i + 1); j++) {
+	for (uint16_t i = 0; i < row; i++)
+		for (uint16_t j = 0; j < (i + 1); j++) {
 			float s = 0;
-			for (uint32_t k = 0; k < j; k++)
+			for (uint16_t k = 0; k < j; k++)
 				s += L[row * i + k] * L[row * j + k];
 
 			// We cannot divide with zero

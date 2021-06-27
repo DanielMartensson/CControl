@@ -1,15 +1,13 @@
 /*
  ============================================================================
  Name        : Kalman.c
- Author      : Daniel MÃ¥rtensson
+ Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
  Description : Kalman filter estimation example
  ============================================================================
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "CControl/Headers/Functions.h"
 
 #define ADIM 2

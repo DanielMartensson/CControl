@@ -8,9 +8,6 @@
  ============================================================================
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include "CControl/Headers/Functions.h"
 
 int main() {
@@ -39,9 +36,6 @@ int main() {
 	// Print eigenvectors of A
 	printf("A:\n");
 	print(A, 5, 5);
-
-
-
 
 	return EXIT_SUCCESS;
 }

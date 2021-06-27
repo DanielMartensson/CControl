@@ -24,7 +24,7 @@ static float pythag_float(float a, float b);
  * d [m] // Eigenvalues
  * A will become eigenvectors!
  */
-void eig_sym(float* A, uint16_t row, float* d){
+void eig_sym(float* A, uint16_t row, float d[]){
 	float e[row];
 	memset(e, 0, row*sizeof(float));
 	memset(d, 0, row*sizeof(float));

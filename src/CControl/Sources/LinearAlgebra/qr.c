@@ -19,10 +19,11 @@
  * Q [m*m]
  * R [m*n]
  */
-void qr(float* A, float* Q, float* R, int row_a, int column_a){
+void qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a){
 	// Turn Q into identity matrix
 	memset(Q, 0, row_a*row_a*sizeof(float));
-	for(int i = 0; i < row_a; i++) *(Q + row_a*i + i) = 1;
+	for(uint16_t i = 0; i < row_a; i++)
+		Q[row_a*i + i] = 1;
 
 	// Give A to R
 	memcpy(R, A, row_a*column_a*sizeof(float));
@@ -35,25 +36,24 @@ void qr(float* A, float* Q, float* R, int row_a, int column_a){
 	float temp[column_a]; // This is for holding values for Q and R
 
 	// This make sure that we can use A transpose as well
-	int loops = row_a <= column_a ? row_a : column_a;
+	uint16_t loops = row_a <= column_a ? row_a : column_a;
 
 	// H = I-tau*w*w’ to put zeros below R(j,j)
-	for(int j = 0; j < loops; j++){
+	for(uint16_t j = 0; j < loops; j++){
 		// Do the euclidean norm
 		normx = 0;
-		for(int i = j; i < row_a; i++){
-			normx += *(R + column_a*i + j) * *(R + column_a*i + j);
-		}
+		for(uint16_t i = j; i < row_a; i++)
+			normx += R[column_a*i + j] * R[column_a*i + j];
 		normx = sqrtf(normx);
 
 		// Do reversed sign!
-		s = -sign(*(R + column_a*j + j));
+		s = -sign(R[column_a*j + j]);
 
 		// Now create Q and R
-		u1 = *(R + column_a*j + j) - s*normx;
+		u1 = R[column_a*j + j] - s*normx;
 		float w[row_a - j];
-		for(int i = 0; i < row_a-j; i++)
-			w[i] = *(R + column_a*(i+j) + j)/u1;
+		for(uint16_t i = 0; i < row_a-j; i++)
+			w[i] = R[column_a*(i+j) + j]/u1;
 		w[0] = 1;
 		tau = -s*u1/normx;
 
@@ -85,13 +85,13 @@ void qr(float* A, float* Q, float* R, int row_a, int column_a){
 		mul(D, C, E, row_a, row_a-j, row_a-j);
 
 		// Find now Q and R
-		for(int i = 0; i < row_a-j; i++)
-			for(int a = 0; a < column_a; a++)
-				*(R + column_a*(i+j) + a) += -tau*B[column_a*i + a];
+		for(uint16_t i = 0; i < row_a-j; i++)
+			for(uint16_t a = 0; a < column_a; a++)
+				R[column_a*(i+j) + a] += -tau*B[column_a*i + a];
 
-		for(int i = 0; i < row_a; i++)
-			for(int a = 0; a < row_a-j; a++)
-				*(Q + row_a*i + (a+j)) += -tau*E[(row_a-j)*i + a];
+		for(uint16_t i = 0; i < row_a; i++)
+			for(uint16_t a = 0; a < row_a-j; a++)
+				Q[row_a*i + (a+j)] += -tau*E[(row_a-j)*i + a];
 	}
 }
 

@@ -8,8 +8,6 @@
  ============================================================================
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "CControl/Headers/Functions.h"
 
 // Dimensions for input and output
@@ -20,6 +18,7 @@
 #define NP 5
 #define NZ 5
 #define NZE 5
+#define ADIM NP
 #define forgetting 0.99
 #define Pq 1000
 
@@ -59,7 +58,7 @@ int main() {
 	float P[(NP + NZ + NZE) * (NP + NZ + NZE)];
 	float theta[NP + NZ + NZE]; // Remember that total length is POLY_LENGTH*3 - ALWAYS have these dimensions
 	uint8_t count = 0; // Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over
-	for (int i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
+	for (uint8_t i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
 		rls(NP, NZ, NZE, theta, input[i], output[i], &count, &past_e, &past_y, &past_u, phi, P, Pq, forgetting);
 	}
 
@@ -68,7 +67,8 @@ int main() {
 	float B[NP * RDIM];
 	float C[YDIM * NP];
 	float K[NP * YDIM];
-	theta2ss(A, B, C, theta, K, NP, YDIM, RDIM, NP, NZ, NZE);
+	bool integral_action = false;
+	theta2ss(A, B, C, theta, K, ADIM, NP, NZ, NZE, integral_action);
 
 	// Print our state space matrix
 	printf("System matrix: A\n");
@@ -90,32 +90,32 @@ int main() {
 
 	%% Example made by Daniel Mårtensson - 2019-10-08
 	%% To run this example. You need to install Matavecontrol and Mataveid
-	
+
 	% Real life model of a water tank
-	G = tf([1], [1 2 1]); 
-	
+	G = tf([1], [1 2 1]);
+
 	% Time
 	t = linspace(0, 10, 100);
-	
+
 	% Input signals
 	u1 = linspace(1, 1, 50);
 	u2 = linspace(2, 2, 50);
 	u = [u1 u2];
-	
+
 	% Simulation of the model - It will give you a graphical plot what type of data you need
 	y = lsim(G, u, t);
-	
+
 	% Put some noise to output
 	%y = y + 0.03*randn(1, length(y));
-	
+
 	% Identification with recursive least squares and model order 5 and delay 0 and lambda 0.99
 	[Gd, Hd, sysd, K] = rls(u, y, 5, 5, 5, t(2)-t(1), 0, 0.99); % sysd contains K at column 2 of B
-	
+
 	% Transfer function to state space
 	sysd = tf2ss(Gd)
 
 	disp('Kalman K')
 	K
 
- 
+
 */

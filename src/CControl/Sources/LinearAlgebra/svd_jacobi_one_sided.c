@@ -2,7 +2,7 @@
  * svd_jacobi_one_sided.c
  *
  *  Created on: 1 mars 2020
- *      Author: hp
+ *      Author: Daniel Mårtensson
  */
 
 #include "../../Headers/Functions.h"
@@ -19,7 +19,7 @@
  * V [n*n]
  * n == m
  */
-void svd_jacobi_one_sided(float *A, uint16_t row, uint8_t max_iterations, float *U, float *S, float *V) {
+void svd_jacobi_one_sided(float A[], uint16_t row, uint8_t max_iterations, float U[], float S[], float V[]) {
 	// i and j are the indices of the point we've chosen to zero out
 	float al, b, c, l, t, cs, sn, tmp, sign;
 	int i, j, p, k;

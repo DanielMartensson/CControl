@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, float* theta, float* P, float* past_e, float forgetting);
+static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float phi[], float theta[], float P[], float* past_e, float forgetting);
 
 /*
  * Recursive least square. We estimate A(q)y(t) = B(q) + C(q)e(t)
@@ -17,7 +17,7 @@ static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, 
  * Pq > 0
  * 0 < forgetting <= 1
  */
-void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, uint8_t* count, float* past_e, float* past_y, float* past_u, float* phi, float* P, float Pq, float forgetting) {
+void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, uint8_t* count, float* past_e, float* past_y, float* past_u, float phi[], float P[], float Pq, float forgetting) {
 
 	// Static values that belongs to this function - OLD CODE, but they have the same size
 	//static float past_e = 0; // The past e
@@ -32,8 +32,8 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, ui
 
 		// Init P with zeros and then create P as an identify matrix with q as diagonal
 		memset(P, 0, (NP + NZ + NZE)*(NP + NZ + NZE) * sizeof(float)); // Initial P with zeros
-		for(int i = 0; i < NP + NZ + NZE; i++){
-			*(P + i*(NP + NZ + NZE) + i) = Pq;
+		for(uint8_t i = 0; i < NP + NZ + NZE; i++){
+			P[i*(NP + NZ + NZE) + i] = Pq;
 		}
 
 		// Reset the past
@@ -49,9 +49,9 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, ui
 		*count = 1;
 	}else if(*count == 1){
 		// Insert the first values
-		*(phi + 0) = *past_y;
-		*(phi + NP) = *past_u;
-		*(phi + NP+NZ) = *past_e;
+		phi[0] = *past_y;
+		phi[NP] = *past_u;
+		phi[NP+NZ] = *past_e;
 		*count = 2; // No more - Every time when we start rls again from rest, we set k = 0
 	}else{
 		/*
@@ -60,22 +60,28 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, ui
 		 * To [-y(t-1), -y(t-1), -y(t-2), -y(t-3), -y(t-4)...]
 		 */
 		// Shift 1 step for y
-		for(int i = NP - 2; i >= 0; i--){
-			*(phi + i + 1) = *(phi + i);
+		for(uint8_t i = NP - 2; i >= 0; i--){
+			phi[i + 1] = phi[i];
+			if(i == 0)
+				break;
 		}
 		// Shift 1 step for u
-		for(int i = NZ - 2; i >= 0; i--){
-			*(phi + i + NP + 1) = *(phi + i + NP);
+		for(uint8_t i = NZ - 2; i >= 0; i--){
+			phi[i + NP + 1] = phi[i + NP];
+			if(i == 0)
+				break;
 		}
 		// Shift 1 step for e
-		for(int i = NZE - 2; i >= 0; i--){
-			*(phi + i + NP + NZ + 1) = *(phi + i + NP + NZ);
+		for(uint8_t i = NZE - 2; i >= 0; i--){
+			phi[i + NP + NZ + 1] = phi[i + NP + NZ];
+			if(i == 0)
+				break;
 		}
 
 		// Insert the values at first e.g y(t) = -y(t-1)
-		*(phi + 0) = *past_y;
-		*(phi + 0 + NP) = *past_u;
-		*(phi + 0 + NP + NZ) = *past_e;
+		phi[0] = *past_y;
+		phi[0 + NP] = *past_u;
+		phi[0 + NP + NZ] = *past_e;
 	}
 	// Call recursive
 	recursive(NP, NZ, NZE, y, phi, theta, P, past_e, forgetting);
@@ -88,51 +94,43 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float* theta, float u, float y, ui
 /*
  * This function is the updater for theta, P and past_e
  */
-static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float* phi, float* theta, float* P, float* past_e, float forgetting) {
+static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float phi[], float theta[], float P[], float* past_e, float forgetting) {
 	// Compute error = y - phi'*theta;
 	float sum = 0;
-	for(int i = 0; i < NP + NZ + NZE; i++){
-		sum += *(phi + i) * *(theta + i);
-	}
+	for(uint8_t i = 0; i < NP + NZ + NZE; i++)
+		sum += phi[i] * theta[i];
 	*past_e = y - sum;
 
-	// Compute P = 1/l*(P - P*phi*phi'*P/(l + phi'*P*phi));
+	/* Compute: P = 1/l*(P - P*phi*phi'*P/(l + phi'*P*phi)); */
 
 	// Step 1: phiTP = phi'*P - > 1 row matrix
 	float phiTP[NP + NZ + NZE];
-	//memset(phiTP, 0, (NP + NZ + NZE)*sizeof(float));
 	mul(phi, P, phiTP, 1, NP + NZ + NZE, NP + NZ + NZE); // We pretend that phi is transpose
 
 	// Step 2: Pphi = P*phi -> Vector
 	float Pphi[NP + NZ + NZE];
-	//memset(Pphi, 0, (NP + NZ + NZE)*sizeof(float));
 	mul(P, phi, Pphi, NP + NZ + NZE, NP + NZ + NZE, 1);
 
 	// Step 3: l + phiTP*phi = l + phi'*P*phi
 	sum = 0;
-	for(int i = 0; i < NP + NZ + NZE; i++){
-		sum += *(phiTP + i) * *(phi + i);
-	}
+	for(uint8_t i = 0; i < NP + NZ + NZE; i++)
+		sum += phiTP[i] * phi[i];
 	sum += forgetting; // Our LAMBDA
 
 	// Step 4: Pphi*phiTP = P*phi*phi'*P -> Matrix
 	float PphiphiTP[(NP + NZ + NZE)*(NP + NZ + NZE)];
-	//memset(PphiphiTP, 0, (NP + NZ + NP)*(NP + NZ + NZE)*sizeof(float));
 	mul(Pphi, phiTP, PphiphiTP, NP + NZ + NZE, 1, NP + NZ + NZE);
 
-
 	// Step 5: Compute P = 1/l*(P - 1/sum*PphiphiTP);
-	for(int i = 0; i < (NP + NZ + NZE)*(NP + NZ + NZE); i++){
-		*(P + i) = 1/forgetting * (*(P + i) - 1/sum * *(PphiphiTP + i));
-	}
+	for(int i = 0; i < (NP + NZ + NZE)*(NP + NZ + NZE); i++)
+		P[i] = 1/forgetting * (P[i] - 1/sum * PphiphiTP[i]);
 
 	// Compute theta = theta + P*phi*error;
-	//memset(Pphi, 0, (NP + NZ + NZE)*sizeof(float)); // Clear and reuse
 	mul(P, phi, Pphi, NP + NZ + NZE, NP + NZ + NZE, 1);
 
 	// Compute theta = theta + Pphi*error
 	for(int i = 0; i < NP + NZ + NZE; i++){
-		*(theta + i) = *(theta + i) + *(Pphi + i) * *past_e;
+		theta[i] = theta[i] + Pphi[i] * *past_e;
 	}
 }
 

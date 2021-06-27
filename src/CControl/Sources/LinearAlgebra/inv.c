@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static void solve(float* A, float* x, float* b, int* P, float* LU, uint16_t row);
+static void solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint16_t row);
 
 /*
  * A to A^(-1)
@@ -19,7 +19,7 @@ static void solve(float* A, float* x, float* b, int* P, float* LU, uint16_t row)
  * Returns 1 == Success
  * Returns 0 == Fail
  */
-uint8_t inv(float *A, int row) {
+uint8_t inv(float A[], uint16_t row) {
 
 	// Create iA matrix
 	float iA[row * row];
@@ -31,12 +31,12 @@ uint8_t inv(float *A, int row) {
 
 	// Check if the determinant is 0
 	float LU[row * row];
-	int P[row];
+	uint8_t P[row];
 	status = lup(A, LU, P, row);
 	if(status == 0)
 		return 0; // matrix is singular. Determinant 0
 	// Create the inverse
-	for (int i = 0; i < row; ++i) {
+	for (uint16_t i = 0; i < row; ++i) {
 		tmpvec[i] = 1.0;
 		solve(A, &iA[row * i], tmpvec, P, LU, row);
 		tmpvec[i] = 0.0;
@@ -51,21 +51,21 @@ uint8_t inv(float *A, int row) {
 	return status;
 }
 
-static void solve(float* A, float* x, float* b, int* P, float* LU, uint16_t row){
+static void solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint16_t row){
 	// forward substitution with pivoting
 	for (uint16_t i = 0; i < row; ++i) {
-		*(x + i) = *(b + *(P + i));
+		x[i] = b[P[i]];
 
 		for (uint16_t j = 0; j < i; ++j)
-			*(x + i) = *(x + i) - *(LU + row * *(P + i) + j) * *(x + j);
+			x[i] = x[i] - LU[row * P[i] + j] * x[j];
 	}
 
 	// backward substitution with pivoting
 	for (int16_t i = row - 1; i >= 0; --i) {
 		for (int16_t j = i + 1; j < row; ++j)
-			*(x + i) = *(x + i) - *(LU + row * *(P + i) + j) * *(x + j);
+			x[i] = x[i] - LU[row * P[i] + j] * x[j];
 
-		*(x + i) = *(x + i) / *(LU + row * *(P + i) + i);
+		x[i] = x[i] / LU[row * P[i] + i];
 	}
 }
 

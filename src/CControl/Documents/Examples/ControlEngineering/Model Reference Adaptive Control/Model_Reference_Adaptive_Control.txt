@@ -8,12 +8,10 @@
  ============================================================================
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "CControl/Headers/Functions.h"
 
 #define RDIM 1
-#define ANTI_WINDUP 0
+#define LIMIT 1
 #define LEARNING 0.001
 
 int main() {
@@ -27,13 +25,13 @@ int main() {
 	 */
 
 	float y[RDIM] = {7};
-	float u[RDIM] = {0};
+	float u[RDIM] = {5};
 	float r[RDIM] = {51};
-	float K1[RDIM] = {3.1};
-	float K2[RDIM] = {4.1};
+	float I1[RDIM] = {3.1};
+	float I2[RDIM] = {4.1};
 
 	// Compute now
-	mrac(ANTI_WINDUP, LEARNING, y, u, r, K1, K2, RDIM);
+	mrac(LIMIT, LEARNING, y, u, r, I1, I2, RDIM);
 
 	// Show input signal
 	printf("Our output signal\n");

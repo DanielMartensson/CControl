@@ -18,7 +18,7 @@ static void prepare(float* A, uint16_t row);
  * wi [m] // Imaginary eigenvalues
  * n == m
  */
-void eig(float* A, float* wr, float* wi, uint16_t row){
+void eig(float A[], float wr[], float wi[], uint16_t row){
 	// Find the eigenvalues
 	balance(A, row);
 	prepare(A, row);

@@ -13,7 +13,7 @@
  * b[m]
  * x[n]
  */
-void linsolve_qr(float* A, float* x, float* b, int row, int column){
+void linsolve_qr(float A[], float x[], float b[], uint16_t row, uint16_t column){
 	// QR-decomposition
 	float Q[row*row];
 	float R[row*column];

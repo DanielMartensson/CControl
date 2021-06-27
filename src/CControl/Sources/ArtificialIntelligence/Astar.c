@@ -2,12 +2,12 @@
  * Astar.c
  *
  *  Created on: 23 Feb. 2020
- *      Author: Daniel MÃ¥rtensson
+ *      Author: Daniel Mårtensson
  */
 
 #include "../../Headers/Functions.h"
 
-static void heuristic_map(int *map, int x_stop, int y_stop, int height, int width, int norm_mode);
+static void heuristic_map(int *map, int x_stop, int y_stop, int height, int width, uint8_t norm_mode);
 
 /*
  * This is A* algorithm. An AI-algorithm in other words.
@@ -15,7 +15,7 @@ static void heuristic_map(int *map, int x_stop, int y_stop, int height, int widt
  * See working example how to use.
  * I wrote this C code because I don't like calloc, malloc and recalloc in embedded.
  */
-void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_stop, int y_stop, int height, int width, int norm_mode, int* steps) {
+void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps) {
 	// Clear first our path
 	memset(path_x, -1, height * width * sizeof(int));
 	memset(path_y, -1, height * width * sizeof(int));
@@ -37,7 +37,7 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 	for (int k = 0; k < height * width; k++) {
 		// Look to the left, right, up and down
 		for (int index = 0; index < 4; index++)
-			direction[index] = *(map + (y + y_directions[index]) * width + x + x_directions[index]);
+			direction[index] = map[(y + y_directions[index]) * width + x + x_directions[index]];
 
 		// Take the decision where to go by looking at direction array
 		minValue = direction[0];
@@ -56,11 +56,11 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 			}
 		}
 		// Prevent repeating by increasing the weights
-		*(map + y * width + x) += *(map + y * width + x);
+		map[y * width + x] += map[y * width + x];
 
 		// Save path
-		*(path_x + k) = x;
-		*(path_y + k) = y;
+		path_x[k] = x;
+		path_y[k] = y;
 
 		// Where to go - position variable tells
 		if (position == 0) x--; // Go one step left
@@ -70,23 +70,22 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 
 		// Check if we are at our goal
 		if (*(map + y * width + x) == 0) {
-			*(path_x + k + 1) = x;
-			*(path_y + k + 1) = y;
+			path_x[k + 1] = x;
+			path_y[k + 1] = y;
 			break;
 		}
 
 	}
-	//printf("Current goal coordinate: x = %d, y = %d\n", x, y);
 
 	// Filter the path_x and path_y from duplicates
 	for (int i = 0; i < height * width; i++) {
 		position = 0;
-		x = *(path_x + i);
-		y = *(path_y + i);
+		x = path_x[i];
+		y = path_y[i];
 		if (x != -1 && y != -1) {
 			// Search for the last same x and y in path_x and path_y
 			for (int j = i + 1; j < height * width; j++) {
-				if (x == *(path_x + j) && y == *(path_y + j)) {
+				if (x == path_x[j] && y == path_y[j]) {
 					position = j; // Remember this position
 				}
 			}
@@ -97,7 +96,6 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 				i = position; // Jump
 			}
 		} else {
-			//printf("Break at %i\n", i);
 			position = i; // Remember that too
 			break; // The rest is just -1's
 		}
@@ -106,14 +104,14 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 	// Pack path_x and path_y together now
 	for (int i = 0; i < position; i++) {
 		// If we have a deleted coordinate
-		if (*(path_x + i) == -1 && *(path_y + i) == -1) {
+		if (path_x[i] == -1 && path_y[i] == -1) {
 			// Move them up
 			for (int j = i; j < height * width; j++) {
-				if (*(path_x + j) != -1 && *(path_y + j) != -1) {
-					*(path_x + i) = *(path_x + j);
-					*(path_x + j) = -1;
-					*(path_y + i) = *(path_y + j);
-					*(path_y + j) = -1;
+				if (path_x[j] != -1 && path_y[j] != -1) {
+					path_x[i] = path_x[j];
+					path_x[j] = -1;
+					path_y[i] = path_y[j];
+					path_y[j] = -1;
 					break;
 				}
 			}
@@ -123,13 +121,13 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 	// Filter the path_x and path_y from zigzag
 	for (int i = 0; i < height * width; i++) {
 		position = 0;
-		x = *(path_x + i);
-		y = *(path_y + i);
+		x = path_x[i];
+		y = path_y[i];
 		if (x != -1 && y != -1) {
 			// Search for a jump
 			for (int index = 0; index < 4; index++) {
 				for (int j = i + 1; j < height * width; j++) {
-					if (x + x_directions[index] == *(path_x + j) && y + y_directions[index] == *(path_y + j)) {
+					if (x + x_directions[index] == path_x[j] && y + y_directions[index] == path_y[j]) {
 						if (j > position)
 							position = j; // We want to have the largest "gap", which is the zigzag
 					}
@@ -143,7 +141,6 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 			}
 
 		} else {
-			//printf("Break at %i\n", i);
 			position = i; // Remember that too
 			break; // The rest is just -1's
 		}
@@ -152,14 +149,14 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 	// Pack path_x and path_y together again
 	for (int i = 0; i < position; i++) {
 		// If we have a deleted coordinate
-		if (*(path_x + i) == -1 && *(path_y + i) == -1) {
+		if (path_x[i] == -1 && path_y[i] == -1) {
 			// Move them up
 			for (int j = i; j < height * width; j++) {
-				if (*(path_x + j) != -1 && *(path_y + j) != -1) {
-					*(path_x + i) = *(path_x + j);
-					*(path_x + j) = -1;
-					*(path_y + i) = *(path_y + j);
-					*(path_y + j) = -1;
+				if (path_x[j] != -1 && path_y[j] != -1) {
+					path_x[i] = path_x[j];
+					path_x[j] = -1;
+					path_y[i] = path_y[j];
+					path_y[j] = -1;
 					break;
 				}
 			}
@@ -175,16 +172,16 @@ void Astar(int *map, int *path_x, int *path_y, int x_start, int y_start, int x_s
 
 // norm_mode = 2 -> L2 norm
 // norm_mode = 1 -> L1 norm
-static void heuristic_map(int *map, int x_stop, int y_stop, int height, int width, int norm_mode) {
+static void heuristic_map(int map[], int x_stop, int y_stop, int height, int width, uint8_t norm_mode) {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
-			if (*(map + j * width + i) != -1) {
+			if (map[j * width + i] != -1) {
 				int dx = (j + x_stop) - (j + i); 	// Distance we want to go in x-axis
 				int dy = (y_stop + i) - (j + i);  	// Distance we want to go in y-axis
 				if (norm_mode == 1)
-					*(map + j * width + i) = abs(dx) + abs(dy); // L1-Norm
+					map[j * width + i] = abs(dx) + abs(dy); // L1-Norm
 				if (norm_mode == 2)
-					*(map + j * width + i) = dx * dx + dy * dy; // L2-Norm (without square root, not needed due to integers)
+					map[j * width + i] = dx * dx + dy * dy; // L2-Norm (without square root, not needed due to integers)
 				// You can add more heuristic here!
 			}
 		}

@@ -15,7 +15,7 @@
  * b [m]
  * n == m
  */
-void linsolve_chol(float A[], float x[], float b[], uint32_t row) {
+void linsolve_chol(float A[], float x[], float b[], uint16_t row) {
 	float L[row*row];
 	chol(A, L, row);
 	float y[row];
