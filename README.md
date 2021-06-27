@@ -1,9 +1,9 @@
 # CControl
 
-CControl is a library written in C only. 
-The purpose with this library is to fit advanced tools for really small embedded systems. So these tools are very slim and
-I have removed the most time consuming parts of the theory. Here you can use basic linear algebra to create everything from
-system identification to control engineering. 
+CControl is a library written in 100% C code. No external libraries and 100% platform independent.
+The purpose with this library is to fit advanced tools for really small embedded systems or desktop as well.
+Here I have focused on practical numerical methods and selected the methods that works best in practice. It has
+been a lot of work finding the best methods and best algorithms.
 
 Many examples can be found in the scr folder.
 
