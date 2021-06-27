@@ -59,7 +59,7 @@ void ukf(float xhat[], float zk[], float u[], float P[], float Q[], float R[], f
 uint8_t inv(float* A, int row);
 void linsolve_upper_triangular(float* A, float* x, float* b, int column);
 void tran(float* A, int row, int column);
-void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b);
+void mul(float A[], float B[], float C[], int row_a, int column_a, int column_b);
 void svd_jacobi_one_sided(float *A, uint16_t row, uint8_t max_iterations, float *U, float *S, float *V);
 void dlyap(float* A, float* P, float* Q, int row);
 uint8_t svd_golub_reinsch(float *A, uint16_t row, uint16_t column, float *U, float *singular_values, float *V);
