@@ -2,18 +2,18 @@
  * ukf.c
  *
  *  Created on: 9 juni 2021
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "../../Headers/Functions.h"
 
-static void ukf_create_weights(float *Wa, float *Wc, float a, float b, float k, uint8_t L);
-static void ukf_compute_sigma_points(float *s, float *x, float *P, float a, float k, uint8_t L);
-static void ukf_multiply_weights(float *x, float *xi, float *W, uint8_t L);
-static void ukf_estimate_covariance(float *P, float *xi, float *x, float *W, float *O, uint8_t L);
-static void ukf_estimate_cross_covariance(float* Csz, float* s, float* xhat, float* z, float* zhat, float* Wc, uint8_t L);
-static void ukf_create_kalman_K(float *K, float *Shat, float *Csz, uint8_t L);
-static void ukf_state_update(float *K, float *Shat, float *P, float *xhat, float *zk, float *zhat, uint8_t L);
+static void ukf_create_weights(float Wa[], float Wc[], float a, float b, float k, uint8_t L);
+static void ukf_compute_sigma_points(float s[], float x[], float P[], float a, float k, uint8_t L);
+static void ukf_multiply_weights(float x[], float xi[], float W[], uint8_t L);
+static void ukf_estimate_covariance(float P[], float xi[], float x[], float W[], float O[], uint8_t L);
+static void ukf_estimate_cross_covariance(float Csz[], float s[], float xhat[], float z[], float zhat[], float Wc[], uint8_t L);
+static void ukf_create_kalman_K(float K[], float Shat[], float Csz[], uint8_t L);
+static void ukf_state_update(float K[], float Shat[], float P[], float xhat[], float zk[], float zhat[], uint8_t L);
 
 /*
  * Unscented Kalman Filter
@@ -29,7 +29,7 @@ static void ukf_state_update(float *K, float *Shat, float *P, float *xhat, float
  * L = Number of states, or sensors in practice.
  * This follows wikipedia article: https://en.wikipedia.org/wiki/Kalman_filter#Unscented_Kalman_filter
  */
-void ukf(float* xhat, float* zk, float* u, float* P, float* Q, float* R, float a, float k, float b,  uint8_t L, void (*ukf_transition)(float*, float*, float*, uint8_t)) {
+void ukf(float xhat[], float zk[], float u[], float P[], float Q[], float R[], float a, float k, float b,  uint8_t L, void (*ukf_transition)(float*, float*, float*, uint8_t)) {
 	// Column
 	uint8_t N = 2 * L + 1;
 
@@ -85,15 +85,15 @@ void ukf(float* xhat, float* zk, float* u, float* P, float* Q, float* R, float a
  * k = Usually set to 0
  * L = how many states we have
  */
-static void ukf_create_weights(float *Wa, float *Wc, float a, float b, float k, uint8_t L) {
+static void ukf_create_weights(float Wa[], float Wc[], float a, float b, float k, uint8_t L) {
 	uint8_t N = 2 * L + 1;
 	for (uint8_t i = 0; i < N; i++){
 		if (i == 0){
-			*Wa = (a*a*k-L)/(a*a*k);
-			*Wc = *Wa + 1 - a*a + b;
+			Wa[0] = (a*a*k-L)/(a*a*k);
+			Wc[0] = *Wa + 1 - a*a + b;
 		}else{
-			*(Wa + i) = 1/(2*a*a*k);
-			*(Wc + i) = *(Wa + i);
+			Wa[i] = 1/(2*a*a*k);
+			Wc[i] = *(Wa + i);
 		}
 	}
 }
@@ -105,12 +105,12 @@ static void ukf_create_weights(float *Wa, float *Wc, float a, float b, float k, 
  * W[2*L+1] = Weight vector
  * L = Dimension of the vectors
  */
-static void ukf_multiply_weights(float *x, float *xi, float *W, uint8_t L) {
+static void ukf_multiply_weights(float x[], float xi[], float W[], uint8_t L) {
 	uint8_t N = 2 * L + 1;
 	memset(x, 0, L * sizeof(float));
 	for (uint8_t j = 0; j < N; j++)
 		for (uint8_t i = 0; i < L; i++)
-			*(x + i) += *(W + j) * *(xi + i * N + j);
+			x[i] += W[j] * xi[i * N + j];
 }
 
 /*
@@ -131,17 +131,17 @@ static void ukf_compute_sigma_points(float *s, float *x, float *P, float a, floa
 	float A[L * L];
 	chol(P, A, L);
 	for(uint8_t i = 0; i < L * L; i++)
-		*(A + i) = c * *(A + i); // A = c*A
+		A[i] *= c; // A = c*A
 	for (uint8_t j = 0; j < N; j++)
 		if (j == 0)
 			for (uint8_t i = 0; i < L; i++)
-				*(s + i * N + j) = *(x + i); 					    // First sigma vector will become as the previous estimated state
+				s[i * N + j] = x[i]; 					    // First sigma vector will become as the previous estimated state
 		else if (j >= 1 && j <= L)
 			for (uint8_t i = 0; i < L; i++)
-				*(s + i * N + j) = *(x + i) + *(A + i * L + j - 1); 		    // We take the j:th column of A from 0..L-1 where j >= 1
+				s[i * N + j] = x[i] + A[i * L + j - 1]; 		    // We take the j:th column of A from 0..L-1 where j >= 1
 		else
 			for (uint8_t i = 0; i < L; i++)
-				*(s + i * N + j) = *(x + i) - *(A + i * L + j - compensate_column); // Same here. A have not the same amount of columns as s
+				s[i * N + j] = x[i] - A[i * L + j - compensate_column]; // Same here. A have not the same amount of columns as s
 }
 
 /*
@@ -153,7 +153,7 @@ static void ukf_compute_sigma_points(float *s, float *x, float *P, float a, floa
  * O[L*L] = Tuning matrix
  * L = Dimension of the vectors
  */
-static void ukf_estimate_covariance(float *P, float *xi, float *x, float *W, float *O, uint8_t L) {
+static void ukf_estimate_covariance(float P[], float xi[], float x[], float W[], float O[], uint8_t L) {
 	uint8_t N = 2 * L + 1;
 	float diff[L];
 	float diffT[L];
@@ -161,14 +161,14 @@ static void ukf_estimate_covariance(float *P, float *xi, float *x, float *W, flo
 	memset(P, 0, L * L * sizeof(float));
 	for (uint8_t j = 0; j < N; j++) {
 		for (uint8_t i = 0; i < L; i++)
-			*(diff + i) = *(xi + i * N + j) - *(x + i); // Create the difference vector xi - x
+			diff[i] = xi[i * N + j] - x[i]; // Create the difference vector xi - x
 		memcpy(diffT, diff, L * sizeof(float)); // We need to transpose difference vector as well
 		mul(diff, diffT, diff_diffT, L, 1, L); // Create the matrix diff_diffT
 		for (uint8_t i = 0; i < L * L; i++)
-			*(P + i) += *(W + j) * *(diff_diffT + i); // P = sum(W*diff*diffT)
+			P[i] += W[j] * diff_diffT[i]; // P = sum(W*diff*diffT)
 	}
 	for (uint8_t i = 0; i < L * L; i++)
-		*(P + i) += *(O + i); // Add the O matrix, which can be R or Q matrix
+		P[i] += O[i]; // Add the O matrix, which can be R or Q matrix
 }
 
 /*
@@ -181,7 +181,7 @@ static void ukf_estimate_covariance(float *P, float *xi, float *x, float *W, flo
  * Wc = Weight vector
  * L = Dimension of the vectors
  */
-static void ukf_estimate_cross_covariance(float* Csz, float* s, float* xhat, float* z, float* zhat, float* Wc, uint8_t L) {
+static void ukf_estimate_cross_covariance(float Csz[], float s[], float xhat[], float z[], float zhat[], float Wc[], uint8_t L) {
 	uint8_t N = 2 * L + 1;
 	float diffx[L];
 	float diffyT[L];
@@ -189,12 +189,12 @@ static void ukf_estimate_cross_covariance(float* Csz, float* s, float* xhat, flo
 	memset(Csz, 0, L * L * sizeof(float));
 	for (uint8_t j = 1; j < N; j++) {
 		for (uint8_t i = 0; i < L; i++) {
-			*(diffx + i) = *(s + i * N + j) - *(xhat + i);  // Create the difference vector s - xhat
-			*(diffyT + i) = *(z + i * N + j) - *(zhat + i); // Create the difference vector z - zhat
+			diffx[i] = s[i * N + j] - xhat[i];  // Create the difference vector s - xhat
+			diffyT[i] = z[i * N + j] - zhat[i]; // Create the difference vector z - zhat
 		}
 		mul(diffx, diffyT, diffx_diffyT, L, 1, L); // Create the matrix diffx_diffyT
 		for (uint8_t i = 0; i < L * L; i++)
-			*(Csz + i) += *(Wc + j) * *(diffx_diffyT + i); // Sum P = sum(Wc*diffx*diffyT)
+			Csz[i] += Wc[j] * diffx_diffyT[i]; // Sum P = sum(Wc*diffx*diffyT)
 	}
 }
 
@@ -205,15 +205,15 @@ static void ukf_estimate_cross_covariance(float* Csz, float* s, float* xhat, flo
  * Csz[L*L] = Cross Covaraince matrix
  * L = Dimension of the vectors
  */
-static void ukf_create_kalman_K(float *K, float *Shat, float *Csz, uint8_t L) {
+static void ukf_create_kalman_K(float K[], float Shat[], float Csz[], uint8_t L) {
 	float b[L];
 	float x[L];
 	for (uint8_t j = 0; j < L; j++) {
 		for (uint8_t i = 0; i < L; i++)
-			*(b + i) = *(Csz + i * L + j); // For every column
+			b[i] = Csz[i * L + j]; // For every column
 		linsolve_chol(Shat, x, b, L); // Cholesky decomposition because Shat is symmetric and positive definite
 		for (uint8_t i = 0; i < L; i++)
-			*(K + i * L + j) = *(x + i); // Add column to the kalman K matrix
+			K[i * L + j] = x[i]; // Add column to the kalman K matrix
 	}
 }
 
@@ -227,17 +227,17 @@ static void ukf_create_kalman_K(float *K, float *Shat, float *Csz, uint8_t L) {
  * zhat[L] = Estimated vector
  * L = Dimension of the vectors
  */
-static void ukf_state_update(float *K, float *Shat, float *P, float *xhat, float *zk, float *zhat, uint8_t L) {
+static void ukf_state_update(float K[], float Shat[], float P[], float xhat[], float zk[], float zhat[], uint8_t L) {
 	// K_zdiff = K*(zk - zhat)
 	float zdiff[L];
 	for (uint8_t i = 0; i < L; i++)
-		*(zdiff + i) = *(zk + i) - *(zhat + i);
+		zdiff[i] = zk[i] - zhat[i];
 	float K_zdiff[L];
 	mul(K, zdiff, K_zdiff, L, L, 1);
 
 	// Final state update: xhat = xhat + K_zdiff
 	for (uint8_t i = 0; i < L; i++)
-		*(xhat + i) = *(xhat + i) + *(K_zdiff + i);
+		xhat[i] += K_zdiff[i];
 
 	// Solve P = P - K*Shat*K'
 	// Transpose of K -> K'
@@ -254,7 +254,7 @@ static void ukf_state_update(float *K, float *Shat, float *P, float *xhat, float
 
 	// Update P = P - KShatKT
 	for (uint8_t i = 0; i < L * L; i++)
-		*(P + i) -= *(KT + i); // KT == KShatKT
+		P[i] -= KT[i]; // KT == KShatKT
 }
 
 /*
