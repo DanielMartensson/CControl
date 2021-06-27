@@ -12,7 +12,7 @@
  * Return true if A is stable.
  * Return false is A is unstable
  */
-bool stability(float* A, uint8_t ADIM){
+bool stability(float A[], uint8_t ADIM){
 	float wr[ADIM]; // Real eigenvalues
 	float wi[ADIM]; // Imaginary eigenvalues
 	eig(A, wr, wi, ADIM);
