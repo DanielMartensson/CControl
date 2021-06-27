@@ -69,7 +69,7 @@ void linsolve_lower_triangular(float *A, float *x, float *b, int row);
 uint8_t lup(float *A, float *LU, int *P, int row);
 float det(float *A, int row);
 uint8_t linsolve_lup(float *A, float *x, float *b, int row);
-void chol(float A[], float L[], int uint32_t);
+void chol(float A[], float L[], uint32_t row);
 void linsolve_chol(float A[], float x[], float b[], int uint32_t);
 void pinv(float* A, int row, int column);
 void hankel(float* V, float* H, uint16_t row_v, uint16_t column_v, uint16_t row_h, uint16_t column_h, uint16_t shift);
