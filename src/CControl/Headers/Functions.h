@@ -79,7 +79,7 @@ void eig_sym(float* A, uint16_t row, float* d);
 void sum(float A[], uint32_t row, uint32_t column, uint8_t l);
 float norm(float A[], uint32_t row, uint32_t column, uint8_t l);
 void expm(float A[], uint32_t row);
-void nonlinsolve(void (*nonlinear_equation_system)(float*, float*, float*), float* b, float* x, uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
+void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
 void linsolve_gauss(float* A, float* x, float* b, int row, int column, float alpha);
 
 /*
