@@ -13,7 +13,7 @@
  * B [column_a*column_b]
  * C [row_a*column_b]
  */
-void mul(float* A, float* B, float* C, int row_a, int column_a, int column_b) {
+void mul(float A[], float B[], float C[], int row_a, int column_a, int column_b) {
 
 	// Data matrix
 	float* data_a;
