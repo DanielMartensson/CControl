@@ -8,8 +8,6 @@
  ============================================================================
  */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "CControl/Headers/Functions.h"
 
 #define ADIM 2
@@ -17,7 +15,6 @@
 #define YDIM 1
 #define HORIZON 10
 #define ITERATION_LIMIT 200
-
 
 int main() {
 
