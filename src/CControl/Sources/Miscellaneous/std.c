@@ -13,10 +13,10 @@
  * x[L] Vector with values
  * L = Length of vector x
  */
-float std(float* x, uint32_t length) {
+float std(float x[], uint32_t length) {
 	float mu = mean(x, length);
 	float sigma = 0;
 	for(uint32_t i = 0; i < length; i++)
-		sigma += (*(x + i) - mu) * (*(x + i) - mu);
+		sigma += (x[i] - mu) * (x[i] - mu);
 	return sqrtf(sigma/((float) length));
 }
