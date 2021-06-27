@@ -25,15 +25,15 @@ int main() {
 	float u[1] = { 0 }; // u is not used in this example due to the transition function not using a input signal
 
 	// Our transition function is a random variable
-	void ukf_transition(float *x, float *s, float *u, uint8_t L) {
+	void ukf_transition(float x[], float s[], float u[], uint8_t L) {
 		uint8_t N = 2 * L + 1;
 		float a[L];
 		float r[1];
 		for (uint8_t j = 0; j < N; j++) {
 			for (uint8_t i = 0; i < L; i++)
-				*(a + i) = *(s + i * N + j); // Extract one column from matrix s
+				a[i] = s[i * N + j]; // Extract one column from matrix s
 			randn(r, 1, 0, 1); // Create one random value with mean 0 and deviation 1
-			*(x + j) = std(a, L) * *r + mean(a, L);
+			x[j] = std(a, L) * r[0] + mean(a, L);
 		}
 	}
 
