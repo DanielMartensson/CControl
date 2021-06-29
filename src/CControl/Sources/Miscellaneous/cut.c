@@ -22,7 +22,6 @@ void cut(float A[], uint16_t row, uint16_t column, float B[], uint16_t start_row
 	float* data = A + start_row * in_columns + start_column;
 
 	// Create the output
-	//double* ptr = B;
 	int out_columns = stop_column - start_column + 1;
 
 	// Instead of having two for loops, we just copy the whole row at once.

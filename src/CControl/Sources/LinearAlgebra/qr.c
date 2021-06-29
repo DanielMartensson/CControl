@@ -38,7 +38,7 @@ void qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a){
 	// This make sure that we can use A transpose as well
 	uint16_t loops = row_a <= column_a ? row_a : column_a;
 
-	// H = I-tau*w*wâ€™ to put zeros below R(j,j)
+	// H = I-tau*w*w’ to put zeros below R(j,j)
 	for(uint16_t j = 0; j < loops; j++){
 		// Do the euclidean norm
 		normx = 0;
@@ -62,7 +62,6 @@ void qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a){
 		// Do temp = w'*B
 		// B = R(j:end, :)
 		float B[(row_a-j)*column_a];
-		memset(B, 0, (row_a-j)*column_a*sizeof(float));
 		cut(R, row_a, column_a, B, j, row_a-1, 0, column_a-1);
 		mul(w, B, temp, 1, row_a - j, column_a);
 
@@ -71,17 +70,14 @@ void qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a){
 
 		// Do C = w*w'
 		float C[(row_a - j)*(row_a - j)];
-		memset(C, 0, (row_a - j)*(row_a - j)*sizeof(float));
 		mul(w, w, C, row_a - j, 1, row_a - j);
 
 		// Create D = Q(:,j:end)
 		float D[row_a*(row_a-j)];
-		memset(D, 0, row_a*(row_a-j)*sizeof(float));
 		cut(Q, row_a, row_a, D, 0, row_a-1, j, row_a-1);
 
 		// Do E = D*C
 		float E[row_a*(row_a - j)];
-		memset(E, 0, row_a*(row_a - j)*sizeof(float));
 		mul(D, C, E, row_a, row_a-j, row_a-j);
 
 		// Find now Q and R
@@ -98,7 +94,7 @@ void qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a){
 /*
  * GNU Octave code:
  *  function [Q,R] = qr(A)
-	  % Compute the QR decomposition of an m-by-n matrix A using% Householder transformations.
+	  % Compute the QR decomposition of an m-by-n matrix A using Householder transformations.
 	  [m,n] = size(A);
 
 	  Q = eye(m);      % Orthogonal transform so farR = A;
@@ -109,7 +105,7 @@ void qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a){
 		n = m;
 	  end
 
-	  for j = 1:n % -- Find H = I-tau*w*wâ€™ to put zeros below R(j,j)
+	  for j = 1:n % -- Find H = I-tau*w*w’ to put zeros below R(j,j)
 		normx = norm(R(j:end,j));
 		s     = -sign(R(j,j));
 		u1    = R(j,j) - s*normx;
