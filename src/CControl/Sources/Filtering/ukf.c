@@ -2,7 +2,7 @@
  * ukf.c
  *
  *  Created on: 9 juni 2021
- *      Author: Daniel MÃ¥rtensson
+ *      Author: Daniel Mårtensson
  */
 
 #include "../../Headers/Functions.h"
