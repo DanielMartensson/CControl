@@ -17,7 +17,7 @@ int main() {
 	start = clock();
 
 	/*
-	 * Do your logic here
+	 * Do your logic here. Have a look at the examples as well i CControl -> Documents -> Examples
 	 */
 
 	end = clock();
