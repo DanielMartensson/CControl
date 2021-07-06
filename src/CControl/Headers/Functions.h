@@ -2,7 +2,7 @@
  * Functions.h
  *
  *  Created on: 5 oct. 2019
- *      Author: Daniel Mårtensson
+ *      Author: Daniel Mï¿½rtensson
  */
 
 #ifndef CCONTROL_HEADERS_FUNCTIONS_H_
@@ -70,7 +70,7 @@ void sum(float A[], uint16_t row, uint16_t column, uint8_t l);
 float norm(float A[], uint16_t row, uint16_t column, uint8_t l);
 void expm(float A[], uint16_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
-void linsolve_gauss(float* A, float* x, float* b, int row, int column, float alpha);
+void linsolve_gauss(float* A, float* x, float* b, uint16_t row, uint16_t column, float alpha);
 
 /* Optimization */
 void linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min, uint8_t iteration_limit);

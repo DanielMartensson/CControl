@@ -7,8 +7,8 @@
 
 #include "../../Headers/Functions.h"
 
-static void triu(float* A, float* b, int row);
-static void tikhonov(float* A, float* b, float* ATA, float* ATb, int row_a, int column_a, float alpha);
+static void triu(float* A, float* b, uint16_t row);
+static void tikhonov(float* A, float* b, float* ATA, float* ATb, uint16_t row_a, uint16_t column_a, float alpha);
 
 /*
  * This is gaussian elemination
@@ -23,16 +23,16 @@ static void tikhonov(float* A, float* b, float* ATA, float* ATb, int row_a, int 
  * x[n]
  * m =/= n
  */
-void linsolve_gauss(float* A, float* x, float* b, int row, int column, float alpha){
-	if(alpha <= 0){
-		  triu(A, b, row);
-		  linsolve_upper_triangular(A, x, b, column);
+void linsolve_gauss(float* A, float* x, float* b, uint16_t row, uint16_t column, float alpha){
+	if(alpha <= 0 && row == column){
+		triu(A, b, row);
+		linsolve_upper_triangular(A, x, b, column);
 	}else{
 	    float ATA[column*column];
 	    float ATb[column];
-		  tikhonov(A, b, ATA, ATb, row, column, alpha);
-		  triu(ATA, ATb, column);
-		  linsolve_upper_triangular(ATA, x, ATb, column);
+	    tikhonov(A, b, ATA, ATb, row, column, alpha);
+		triu(ATA, ATb, column);
+		linsolve_upper_triangular(ATA, x, ATb, column);
 	}
 }
 
@@ -43,18 +43,16 @@ void linsolve_gauss(float* A, float* x, float* b, int row, int column, float alp
  * b [m]
  * n == m
  */
-static void triu(float* A, float* b, int row) {
-
+static void triu(float* A, float* b, uint16_t row) {
 	// Make A to upper triangular. Also change b as well.
 	float pivot = 0.0;
-	for(int j = 0; j < row; j++){ // Column
-		for(int i = 0; i < row; i++){ // row
+	for(uint16_t j = 0; j < row; j++){ // Column
+		for(uint16_t i = 0; i < row; i++){ // row
 			if(i > j){
-				pivot = *(A + i*row + j) / *(A + j*row + j);
-				for(int k = 0; k < row; k++){
-					*(A + i*row + k) = *(A + i*row + k) - pivot * *(A + j*row + k);
-				}
-				*(b + i) = *(b + i) - pivot * *(b + j);
+				pivot = A[i*row + j] /A[j*row + j];
+				for(uint16_t k = 0; k < row; k++)
+					A[i*row + k] = A[i*row + k] - pivot * A[j*row + k];
+				b[i] = b[i] - pivot * b[j];
 			}
 		}
 	}
@@ -87,7 +85,7 @@ static void triu(float* A, float* b, int row) {
  * m = row
  * n = column
  */
-static void tikhonov(float* A, float* b, float* ATA, float* ATb, int row_a, int column_a, float alpha){
+static void tikhonov(float* A, float* b, float* ATA, float* ATb, uint16_t row_a, uint16_t column_a, float alpha){
 	// AT - Transpose A
 	float AT[column_a*row_a]; // Same dimension as A, just swapped rows and column
 	memcpy(AT, A, column_a*row_a*sizeof(float)); // Copy A -> AT
@@ -102,9 +100,9 @@ static void tikhonov(float* A, float* b, float* ATA, float* ATb, int row_a, int 
 	mul(AT, A, ATA, column_a, row_a, column_a);
 
 	// ATA = ATA + alpha*I. Don't need identity matrix here because we only add on diagonal
-	for(int i = 0; i < column_a; i++){
-		*(ATA + i*column_a + i) = *(ATA + i*column_a + i) + alpha;
-	}
+	for(uint16_t i = 0; i < column_a; i++)
+		ATA[i*column_a + i] = ATA[i*column_a + i] + alpha;
+
 	// Now we have our ATA = (A^T*A + alpha*I) and ATb = A^T*b
 
 }
