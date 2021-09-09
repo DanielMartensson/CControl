@@ -34,7 +34,7 @@ static void prepare(float* A, uint16_t row){
 	int i, j, m;
 	float y, x, t;
 
-	for (m = 1; m < row - 1; m++) {
+	for (m = 1; m < row; m++) {
 		x = 0.0;
 		i = m;
 		for (j = m; j < row; j++) {
