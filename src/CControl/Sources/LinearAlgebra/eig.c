@@ -84,7 +84,7 @@ static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row){
 			anorm += fabsf(*(A + row*i + j));
 	nn = row - 1;
 	t = 0.0;
-	while (nn >= 1) {
+	while (nn >= 0) {
 		its = 0;
 		do {
 			for (l = nn; l > 0; l--) {
