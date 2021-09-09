@@ -84,7 +84,7 @@ static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row){
 			anorm += fabsf(*(A + row*i + j));
 	nn = row - 1;
 	t = 0.0;
-	while (nn >= 0) {
+	while (nn >= 1) {
 		its = 0;
 		do {
 			for (l = nn; l > 0; l--) {
@@ -121,7 +121,7 @@ static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row){
 					nn -= 2;
 				} else {
 					if (its == 30) {
-						//fprintf(stderr, "[hqr] too many iterations.\n");
+						printf("foo many iterations in eig.c");
 						break;
 					}
 					if (its == 10 || its == 20) {
@@ -161,7 +161,7 @@ static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row){
 							p = *(A + row*k + k-1);
 							q = *(A + row*(k+1) + k-1);
 							r = 0.0;
-							if (k + 1 != nn)
+							if (k != nn - 1)
 								r = *(A + row*(k+2) + k-1);
 							if ((x = fabsf(p) + fabsf(q) + fabsf(r)) != 0.0) {
 								p /= x;
@@ -183,7 +183,7 @@ static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row){
 							r /= p;
 							for (j = k; j < nn + 1; j++) {
 								p = *(A + row*k + j) + q * *(A + row*(k+1) + j);
-								if (k + 1 != nn) {
+								if (k != nn-1) {
 									p += r * *(A + row*(k+2) + j);
 									*(A + row*(k+2) + j) -= p * z;
 								}
@@ -193,7 +193,7 @@ static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row){
 							mmin = nn < k + 3 ? nn : k + 3;
 							for (i = l; i < mmin + 1; i++) {
 								p = x * *(A + row*i + k) + y * *(A + row*i + k+1);
-								if (k != (nn)) {
+								if (k != (nn-1)) {
 									p += z * *(A + row*i + k+2);
 									*(A + row*i + k+2) -= p * r;
 								}
@@ -204,6 +204,6 @@ static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row){
 					}
 				}
 			}
-		} while (l + 1 < nn);
+		} while (l < nn - 1);
 	}
 }
