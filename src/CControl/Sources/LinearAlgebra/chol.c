@@ -9,17 +9,19 @@
 
 /*
  * Create A = L*L^T
- * A need to be symmetric
+ * A need to be symmetric positive definite
  * A [m*n]
  * L [m*n]
  * n == m
  */
 void chol(float A[], float L[], uint16_t row) {
 	memset(L, 0, row*row*sizeof(float));
-	for (uint16_t i = 0; i < row; i++)
-		for (uint16_t j = 0; j < (i + 1); j++) {
-			float s = 0;
-			for (uint16_t k = 0; k < j; k++)
+	float s;
+	uint16_t i, j, k;
+	for (i = 0; i < row; i++)
+		for (j = 0; j <= i; j++) {
+			s = 0;
+			for (k = 0; k < j; k++)
 				s += L[row * i + k] * L[row * j + k];
 
 			// We cannot divide with zero

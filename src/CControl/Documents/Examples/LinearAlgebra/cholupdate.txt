@@ -1,0 +1,42 @@
+/*
+ ============================================================================
+ Name        : cholupdate.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute the Cholesky update
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+int main() {
+
+	float A[5*5] = {1055,    865,    695,    770,    840,
+					865,   1105,    815,    670,    770,
+					695,    815,   1205,    815,    695,
+					770,    670,    815,   1105,    865,
+					840,    770,    695,    865,   1055};
+
+	float x[5] = {435,
+		     	 	0,
+					0,
+					0,
+					423};
+
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	bool rank_one_update = false; /* false = rank_one_downdate */
+	cholupdate(A, x, 5, rank_one_update);
+
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	/* Result */
+	print(A, 5,5);
+
+	return EXIT_SUCCESS;
+}

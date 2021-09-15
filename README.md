@@ -31,6 +31,7 @@ Many examples can be found in the scr folder.
 - Linear Algebra
   - Balance matrix
   - Cholesky decomposition
+  - Cholesky update
   - QR decomposition
   - LUP decomposition
   - Determinant
