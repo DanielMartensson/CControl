@@ -57,7 +57,7 @@ Many examples can be found in the scr folder.
   - Print matrix or vector
   - Saturation
   - Sign
-  - Gaussian distribution vector generator
+  - Randn
   - Mean
   - Standard deviation
   
