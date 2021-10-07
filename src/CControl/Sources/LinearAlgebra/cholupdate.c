@@ -26,11 +26,11 @@ void cholupdate(float A[], float x[], uint16_t row, bool rank_one_update) {
 		r = sqrtf(a * a + F * b * b);
 		c = r / a;
 		s = b / a;
-		A[k * row + k] = r;
+		A[k * row + k] = -r;
 		if (k < row) {
 			for (i = k + 1; i < row; i++) {
-				A[k * row + i] = (A[k * row + i] + F * s * x[i]) / c;
-				x[i] = c * x[i] - s * A[k * row + i];
+				A[k * row + i] = -(A[k * row + i] + F * s * x[i]) / c;
+				x[i] = -c * x[i] - s * A[k * row + i];
 			}
 		}
 	}
@@ -51,11 +51,11 @@ void cholupdate(float A[], float x[], uint16_t row, bool rank_one_update) {
 		  r = sqrt(a*a + F * b*b);
 		  c = r / a;
 		  s = b / a;
-		  L(k, k) = r;
+		  L(k, k) = -r;
 		  if k < n
 			  for i = k+1:n
-				L(k, i) = (L(k,i) + F * s * x(i)) / c;
-				x(i) = c * x(i) - s * L(k, i);
+				L(k, i) = -(L(k,i) + F * s * x(i)) / c;
+				x(i) = -c * x(i) - s * L(k, i);
 			  end
 		  end
 	  end

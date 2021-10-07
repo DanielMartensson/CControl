@@ -12,31 +12,44 @@
 
 int main() {
 
-	float A[5*5] = {1055,    865,    695,    770,    840,
-					865,   1105,    815,    670,    770,
-					695,    815,   1205,    815,    695,
-					770,    670,    815,   1105,    865,
-					840,    770,    695,    865,   1055};
+	float A[4*4] = {-3.2462,    2.1783,     2.4925,    		0,
+						   0,  -3.3096,    -1.4982,   		0,
+					       0,   	 0,	   -5.8431,   -1.0139,
+						   0,    	 0,          0,   -4.8889};
 
-	float x[5] = {435,
-		     	 	0,
-					0,
-					0,
-					423};
+	float x[4] = {-3.0105,
+		     	 	2.2319,
+					2.5538,
+				         0};
 
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	bool rank_one_update = false; /* false = rank_one_downdate */
-	cholupdate(A, x, 5, rank_one_update);
+	bool rank_one_update = true; /* false = rank_one_downdate */
+	cholupdate(A, x, 4, rank_one_update);
 
 	end = clock();
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 	/* Result */
-	print(A, 5,5);
+	print(A, 4,4);
 
 	return EXIT_SUCCESS;
 }
+
+/* GNU Octave code:
+ *
+	 A = [-3.2462,  2.1783,      2.4925, 	      0;
+			    0, -3.3096,      -1.4982,         0;
+		    	0,   	 0,      -5.8431,   -1.0139;
+				0,       0,            0,   -4.8889];
+
+	x =  [-3.0105,
+		   2.2319,
+		   2.5538,
+				0];
+
+	cholupdate2(A, x, '+')  // or '-' (see the MATLAB code in cholupdate function above)
+ */
