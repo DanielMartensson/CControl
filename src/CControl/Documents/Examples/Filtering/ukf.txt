@@ -33,7 +33,7 @@ int main() {
 			for (uint8_t i = 0; i < L; i++)
 				a[i] = s[i * N + j]; // Extract one column from matrix s
 			randn(r, 1, 0, 1); // Create one random value with mean 0 and deviation 1
-			x[j] = std(a, L) * r[0] + mean(a, L);
+			x[j] = stddev(a, L) * r[0] + mean(a, L);
 		}
 	}
 

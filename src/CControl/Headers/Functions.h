@@ -40,7 +40,7 @@ void print(float A[], uint16_t row, uint16_t column);
 float sign(float number);
 void randn(float x[], uint16_t length, float mu, float sigma);
 float mean(float x[], uint16_t length);
-float std(float x[], uint16_t length);
+float stddev(float x[], uint16_t length);
 
 /* Filtering */
 void filtfilt(float y[], float t[], uint16_t l, float K);

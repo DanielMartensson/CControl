@@ -13,7 +13,7 @@
  * x[L] Vector with values
  * L = Length of vector x
  */
-float std(float x[], uint16_t length) {
+float stddev(float x[], uint16_t length) {
 	float mu = mean(x, length);
 	float sigma = 0;
 	for(uint16_t i = 0; i < length; i++)
