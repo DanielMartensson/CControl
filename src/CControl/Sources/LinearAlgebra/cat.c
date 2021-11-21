@@ -9,18 +9,18 @@ void cat(uint16_t  dim, float A[], float B[], float C[], uint16_t  rowA,
 		assert(colA == colB);
 		assert(rowA + rowB == rowC);
 
-		memcpy(C, A, rowA * colA * sizeof(double));
-		memcpy(C + rowA * colA, B, rowB * colB * sizeof(double));
+		memcpy(C, A, rowA * colA * sizeof(float));
+		memcpy(C + rowA * colA, B, rowB * colB * sizeof(float));
 	}
 	else if (dim == 2) /* C = [A, B] */
 	{
 		assert(rowA == rowB);
 		assert(colA + colB == colC);
 
-		memcpy(C, A, colA * sizeof(double));
-		memcpy(C + colA, B, colB * sizeof(double));
-		memcpy(C + colA + colB, A + colA, colA * sizeof(double));
-		memcpy(C + colA + colB + colA, B + colB, colB * sizeof(double));
+		memcpy(C, A, colA * sizeof(float));
+		memcpy(C + colA, B, colB * sizeof(float));
+		memcpy(C + colA + colB, A + colA, colA * sizeof(float));
+		memcpy(C + colA + colB + colA, B + colB, colB * sizeof(float));
 	}
 
 }
