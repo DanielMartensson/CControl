@@ -76,6 +76,7 @@ float norm(float A[], uint16_t row, uint16_t column, uint8_t l);
 void expm(float A[], uint16_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
 void linsolve_gauss(float* A, float* x, float* b, uint16_t row, uint16_t column, float alpha);
+void cat(uint16_t  dim, float A[], float B[], float C[], uint16_t  rowA, uint16_t  colA, uint16_t  rowB, uint16_t  colB, uint16_t  rowC, uint16_t  colC);
 
 /* Optimization */
 void linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min, uint8_t iteration_limit);
