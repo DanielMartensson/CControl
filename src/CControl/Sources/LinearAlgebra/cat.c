@@ -1,8 +1,8 @@
 #include <assert.h>
 #include "../../Headers/Functions.h"
 
-void cat(uint16_t  dim, float A[], float B[], float C[], uint16_t  rowA,
-		uint16_t  colA, uint16_t  rowB, uint16_t  colB, uint16_t  rowC, uint16_t  colC)
+void cat(uint8_t dim, float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, 
+	 uint16_t row_b, uint16_t column_b, uint16_t row_c, uint16_t column_c);
 {
 	if (dim == 1) /* C = [A;B] */
 	{
