@@ -11,7 +11,7 @@
  * Create A = cholupdate(A, x, rank_one_update)
  * A need to be symmetric positive definite
  * A [m*n]
- * L [m*n]
+ * x [m]
  * n == m
  */
 void cholupdate(float A[], float x[], uint16_t row, bool rank_one_update) {
