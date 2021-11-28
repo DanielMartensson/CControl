@@ -24,9 +24,8 @@ uint8_t inv(float A[], uint16_t row) {
 	// Create iA matrix
 	float iA[row * row];
 
-	// Create temporary matrix and variable
+	// Create temporary matrix and status variable
 	float tmpvec[row];
-	memset(tmpvec, 0, row * sizeof(float));
 	uint8_t status = 0;
 
 	// Check if the determinant is 0
@@ -36,7 +35,7 @@ uint8_t inv(float A[], uint16_t row) {
 	if(status == 0)
 		return 0; // matrix is singular. Determinant 0
 	// Create the inverse
-	for (uint16_t i = 0; i < row; ++i) {
+	for (uint16_t i = 0; i < row; i++) {
 		tmpvec[i] = 1.0;
 		solve(A, &iA[row * i], tmpvec, P, LU, row);
 		tmpvec[i] = 0.0;
