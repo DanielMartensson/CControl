@@ -83,8 +83,8 @@ static void create_weights(float Wc[], float Wm[], float alpha, float beta, floa
 	float lambda = alpha * alpha * (L + kappa) - L;
 
 	/* Insert at first index */
-	Wc[0] = lambda/(L + lambda) + 1 - alpha * alpha + beta;
 	Wm[0] = lambda/(L + lambda);
+	Wc[0] = Wm[0] + 1 - alpha * alpha + beta;
 
 	/* The rest of the indexes are the same */
 	for(uint8_t i = 1; i < N; i++){
@@ -94,8 +94,9 @@ static void create_weights(float Wc[], float Wm[], float alpha, float beta, floa
 }
 
 static void create_sigma_point_matrix(float X[], float x[], float S[], float alpha, float kappa, uint8_t L){
-	/* Create the size N */
+	/* Create the size N and K */
 	uint8_t N = 2 * L + 1;
+	uint8_t K = L + 1;
 
 	/* Compute lambda and gamma parameters */
 	float lambda = alpha * alpha * (L + kappa) - L;
@@ -106,14 +107,14 @@ static void create_sigma_point_matrix(float X[], float x[], float S[], float alp
 		X[i * N] = x[i];
 
 	/* Insert in to the middle of the columns - Positive */
-	for(uint8_t j = 1; j < L + 1; j++)
+	for(uint8_t j = 1; j < K; j++)
 		for(uint8_t i = 0; i < L; i++)
 			X[i * N + j] = x[i] + gamma * S[i * L + j - 1];
 
 	/* Insert in the rest of the columns - Negative */
-	for(uint8_t j = L + 1; j < N; j++)
+	for(uint8_t j = K; j < N; j++)
 		for(uint8_t i = 0; i < L; i++)
-			X[i * N + j] = x[i] - gamma * S[i * L + j - 1 - L];
+			X[i * N + j] = x[i] - gamma * S[i * L + j - K];
 
 }
 
@@ -188,7 +189,7 @@ static void create_state_cross_covariance_matrix(float P[], float W[], float X[]
 	for(uint8_t j = 0; j < N; j++){
 		/* Create the vectors and the matrix */
 		float a[L];
-		float b[L];
+		float b[L];	/* This is transpose */
 		float c[K];
 
 		/* Fill the vectors */
@@ -216,22 +217,12 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 	float SyTSy[L * L];
 	mul(SyT, Sy, SyTSy, L, L, L);
 
-	/* Compute kalman gain K from Sy'Sy * K = Pxy */
+	/* Take inverse of Sy'Sy - Inverse is using LUP-decomposition */
+	inv(SyTSy, L);
+
+	/* Compute kalman gain K from Sy'Sy * K = Pxy => K = Pxy * inv(SyTSy) */
 	float K[L * L];
-	for(uint8_t j = 0; j < L; j++){
-		/* Fill b vector */
-		float b[L];
-		for(uint8_t i = 0; i < L; i++)
-			b[i] = SyTSy[i * L + j];
-
-		/* Compute x */
-		float x[L];
-		linsolve_lup(Pxy, x, b, L);
-
-		/* Fill K matrix */
-		for(uint8_t i = 0; i < L; i++)
-			K[i * L + j] = b[i];
-	}
+	mul(Pxy, SyTSy, K, L, L, L);
 
 	/* Compute xhat = xhat + K*(y - yhat) */
 	float yyhat[L];

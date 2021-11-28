@@ -74,8 +74,9 @@ static void create_weights(float Wc[], float Wm[], float alpha, float beta, floa
 	float lambda = alpha * alpha * (L + kappa) - L;
 
 	/* Insert at first index */
-	Wc[0] = lambda/(L + lambda) + 1 - alpha * alpha + beta;
 	Wm[0] = lambda/(L + lambda);
+	Wc[0] = Wm[0] + 1 - alpha * alpha + beta;
+
 
 	/* The rest of the indexes are the same */
 	for(uint8_t i = 1; i < N; i++){
@@ -94,8 +95,9 @@ static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, uint8_
 }
 
 static void create_sigma_point_matrix(float W[], float w[], float Sw[], float alpha, float kappa, uint8_t L){
-	/* Create the size N */
+	/* Create the size N and K */
 	uint8_t N = 2 * L + 1;
+	uint8_t K = L + 1;
 
 	/* Compute lambda and gamma parameters */
 	float lambda = alpha * alpha * (L + kappa) - L;
@@ -106,14 +108,14 @@ static void create_sigma_point_matrix(float W[], float w[], float Sw[], float al
 		W[i * N] = w[i];
 
 	/* Insert in to the middle of the columns - Positive */
-	for(uint8_t j = 1; j < L + 1; j++)
+	for(uint8_t j = 1; j < K; j++)
 		for(uint8_t i = 0; i < L; i++)
 			W[i * N + j] = w[i] + gamma * Sw[i * L + j - 1];
 
 	/* Insert in the rest of the columns - Negative */
-	for(uint8_t j = L + 1; j < N; j++)
+	for(uint8_t j = K; j < N; j++)
 		for(uint8_t i = 0; i < L; i++)
-			W[i * N + j] = w[i] - gamma * Sw[i * L + j - 1 - L];
+			W[i * N + j] = w[i] - gamma * Sw[i * L + j - K];
 
 }
 
@@ -180,7 +182,7 @@ static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float 
 	for(uint8_t j = 0; j < N; j++){
 		/* Create the vectors and the matrix */
 		float a[L];
-		float b[L];
+		float b[L]; /* This is transpose */
 		float c[K];
 
 		/* Fill the vectors */
@@ -199,7 +201,7 @@ static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float 
 }
 
 static void update_state_covarariance_matrix_and_state_estimation_vector(float Sw[], float what[], float dhat[], float d[], float Sd[], float Pwd[], uint8_t L){
-	/* Transpose of Syd*/
+	/* Transpose of Sd */
 	float SdT[L * L];
 	memcpy(SdT, Sd, L * L * sizeof(float));
 	tran(SdT, L, L);
@@ -208,22 +210,12 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 	float SdTSd[L * L];
 	mul(SdT, Sd, SdTSd, L, L, L);
 
-	/* Compute kalman gain K from Sd'Sd * K = Pwd */
+	/* Take inverse of Sd'Sd - Inverse is using LUP-decomposition */
+	inv(SdTSd, L);
+
+	/* Compute kalman gain K from Sd'Sd * K = Pwd => K = Pwd * inv(SdTSd) */
 	float K[L * L];
-	for(uint8_t j = 0; j < L; j++){
-		/* Fill b vector */
-		float b[L];
-		for(uint8_t i = 0; i < L; i++)
-			b[i] = SdTSd[i * L + j];
-
-		/* Compute x */
-		float x[L];
-		linsolve_lup(Pwd, x, b, L);
-
-		/* Fill K matrix */
-		for(uint8_t i = 0; i < L; i++)
-			K[i * L + j] = b[i];
-	}
+	mul(Pwd, SdTSd, K, L, L, L);
 
 	/* Compute what = what + K*(d - dhat) */
 	float ddhat[L];
