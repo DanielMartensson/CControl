@@ -24,6 +24,7 @@ Many examples can be found in the scr folder.
   - Unscented Kalman Filter
   - Monte Carlo Simulation
   - Filtfilt 
+  - Square root Unscented Kalman Filter
 
 - Dynamics
   - Comming soon: Euler Method
@@ -52,6 +53,7 @@ Many examples can be found in the scr folder.
   - Matrix exponential
 
 - Miscellaneous
+  - Concatenate
   - Cut matrix
   - Insert sub matrix into matrix
   - Print matrix or vector
@@ -69,17 +71,18 @@ Many examples can be found in the scr folder.
   - Observer Kalman Filter identification
   - Eigensystem Realization Algorithm
   - Recursive Least Square with forgetting factor and kalman filter identification
+  - Square root Unscented Kalman Filter for parameter estimation
 
 ### How the project is structured
 
 This project is structured as
-```
- * No malloc, calloc or free - No dynamic memory allocation in other words
- * Use pointers as much as you can
- * Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct
- * I'm focusing on real practical controllers or methods that are cost effective and don't require "a lot of tuning"
- * Main focusing on: Control engineering, linear algebra, optimization, AI algorithms, system identification and classification
-```
+
+ - No malloc, calloc or free - No dynamic memory allocation in other words
+ - Use pointers as much as you can
+ - Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct
+ - I'm focusing on real practical controllers or methods that are cost effective and don't require "a lot of tuning"
+ - Main focusing on: Control engineering, linear algebra, optimization, AI algorithms, system identification and classification
+
 
 # What I recommend for control engineering
 

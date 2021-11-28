@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : ukf.c
+ Name        : sr_ukf_state_estimation.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Filter with Unscented Kalman Filter
+ Description : Filter with Square Root Unscented Kalman Filter
  ============================================================================
  */
 
@@ -14,26 +14,26 @@ int main() {
 
 	// Initial parameters
 	uint8_t L = 1; 							// How many states we have
-	float a = 0.5; 							// Alpha value
-	float b = 2; 							// Beta value
-	float k = 1; 							// Kappa value
-	float Q[1 * 1] = { 0.0001 }; 			// Initial disturbance covariance matrix
-	float R[1 * 1] = { 2 }; 				// Initial noise covariance matrix
-	float P[1 * 1] = { 1 }; 				// Initial covariance matrix
+	float alpha = 0.1; 						// Alpha value
+	float beta = 2; 						// Beta value
+	float kappa = 0; 						// Kappa value
+	float Rv[1 * 1] = { 0.0001 }; 			// Initial disturbance covariance matrix
+	float Rn[1 * 1] = { 2 }; 				// Initial noise covariance matrix
+	float S[1 * 1] = { 1 }; 				// Initial covariance matrix
 	float xhat[1] = { 15 }; 				// Initial estimated state, a rule of thumb: Use a regular measurement only
-	float zk[1] = { 0 };					// This is our measurement
+	float y[1] = { 0 };						// This is our measurement
 	float u[1] = { 0 }; 					// u is not used in this example due to the transition function not using a input signal
 
-	// Our transition function is a random variable
-	void ukf_transition(float x[], float s[], float u[], uint8_t L) {
+	// Our transition function is a random variable float
+	void F(float Xstar[], float X[], float u[], uint8_t L) {
 		uint8_t N = 2 * L + 1;
 		float a[L];
 		float r[1];
 		for (uint8_t j = 0; j < N; j++) {
 			for (uint8_t i = 0; i < L; i++)
-				a[i] = s[i * N + j]; // Extract one column from matrix s
+				a[i] = X[i * N + j]; // Extract one column from matrix X
 			randn(r, 1, 0, 1); // Create one random value with mean 0 and deviation 1
-			x[j] = stddev(a, L) * r[0] + mean(a, L);
+			Xstar[j] = stddev(a, L) * r[0] + mean(a, L);
 		}
 	}
 
@@ -74,11 +74,11 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	// Do UKF
+	// Do SR-UKF
 	for (uint32_t i = 0; i < 500; i++) {
-		zk[0] = data[i];
+		y[0] = data[i];
 		X[i] = xhat[0];
-		ukf(xhat, zk, u, P, Q, R, a, k, b, L, ukf_transition);
+		sr_ukf_state_estimation(y, xhat, Rn, Rv, u, F, S, alpha, beta, kappa, L);
 	}
 
 	end = clock();
@@ -90,46 +90,3 @@ int main() {
 
 	return EXIT_SUCCESS;
 }
-
-/*
- * GNU Octave code:
- *
-function Unscented_Kalman_Filter()
-
-  % Initial parameters
-  L = 1;
-  a = 0.5;
-  b = 2;
-  k = 1;
-  Q = 0.0001;
-  R = 2;
-  P = 1;
-  xhat = 15;
-  zk = 13;
-
-  % Read the data - The log.txt file can be found at
-  % https://github.com/DanielMartensson/STM32-Libraries/tree/master/VL6180X/Distribution
-  fid = csvread('log.txt')';
-  l = 500;
-
-  % Filtered data
-  X = zeros(1, l);
-
-  for i = 1:l
-
-    % Get measurement
-    zk = fid(i);
-
-    % Save UKF value
-    X(i) = xhat;
-
-    % UKF filter
-    [xhat, P] = ukf(xhat, zk, P, Q, R, a, k, b, L);
-  end
-
-  close all
-  plot(1:l, X, 'r', 1:l, fid(1:l), 'b');
-  legend('UKF', 'Real')
-  grid on
-end
- */

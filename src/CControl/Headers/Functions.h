@@ -33,6 +33,7 @@ bool stability(float A[], uint8_t ADIM);
 void c2d(float A[], float B[], uint8_t ADIM, uint8_t RDIM, float sampleTime);
 
 /* Miscellaneous */
+void cat(uint8_t dim, float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uint16_t row_b, uint16_t column_b, uint16_t row_c, uint16_t column_c);
 float saturation(float input, float lower_limit, float upper_limit);
 void cut(float A[], uint16_t row, uint16_t column, float B[], uint16_t start_row, uint16_t stop_row, uint16_t start_column, uint16_t stop_column);
 void insert(float A[], float B[], uint16_t row_a, uint16_t column_a, uint16_t column_b, uint16_t startRow_b, uint16_t startColumn_b);
@@ -48,6 +49,7 @@ void mcs_collect(float P[], uint16_t column_p, float x[], uint8_t row_x, float i
 void mcs_estimate(float P[], uint16_t column_p, float x[], uint8_t row_x);
 void mcs_clean(float P[], uint16_t column_p, uint8_t row_x);
 void ukf(float xhat[], float zk[], float u[], float P[], float Q[], float R[], float a, float k, float b,  uint8_t L, void (*ukf_transition)(float[], float[], float[], uint8_t));
+void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[], uint8_t), float S[], float alpha, float beta, float kappa, uint8_t L);
 
 /* Linear algebra */
 uint8_t inv(float* A, uint16_t row);
@@ -76,7 +78,6 @@ float norm(float A[], uint16_t row, uint16_t column, uint8_t l);
 void expm(float A[], uint16_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
 void linsolve_gauss(float* A, float* x, float* b, uint16_t row, uint16_t column, float alpha);
-void cat(uint8_t dim, float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uint16_t row_b, uint16_t column_b, uint16_t row_c, uint16_t column_c);
   
 /* Optimization */
 void linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min, uint8_t iteration_limit);
@@ -88,6 +89,7 @@ void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int 
 void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, uint8_t* count, float* past_e, float* past_y, float* past_u, float phi[], float P[], float Pq, float forgetting);
 void okid(float u[], float y[], float g[], uint16_t row, uint16_t column);
 void era(float u[], float y[], uint16_t row, uint16_t column, float A[], float B[], float C[], uint8_t row_a, uint8_t inputs_outputs);
+void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float Rv[], float x[], void (*G)(float[], float[], float[], uint8_t), float lambda_rls, float Sw[], float alpha, float beta, float kappa, uint8_t L);
 
 #ifdef __cplusplus
 }
