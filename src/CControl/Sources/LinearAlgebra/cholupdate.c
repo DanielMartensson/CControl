@@ -8,29 +8,29 @@
 #include "../../Headers/Functions.h"
 
 /*
- * Create A = cholupdate(A, x, rank_one_update)
- * A need to be symmetric positive definite
+ * Create L = cholupdate(L, x, rank_one_update)
+ * L is a lower triangular matrix with real and positive diagonal entries from cholesky decomposition L = chol(A)
  * A [m*n]
  * x [m]
  * n == m
  */
-void cholupdate(float A[], float x[], uint16_t row, bool rank_one_update) {
+void cholupdate(float L[], float x[], uint16_t row, bool rank_one_update) {
 	uint16_t k, i;
 	int8_t F = -1;
 	float r, c, s, a, b;
 	if (rank_one_update)
 		F = 1;
 	for (k = 0; k < row; k++) {
-		a = A[k * row + k];
+		a = L[k * row + k];
 		b = x[k];
 		r = sqrtf(a * a + F * b * b);
 		c = r / a;
 		s = b / a;
-		A[k * row + k] = -r;
+		L[k * row + k] = r;
 		if (k < row) {
 			for (i = k + 1; i < row; i++) {
-				A[k * row + i] = -(A[k * row + i] + F * s * x[i]) / c;
-				x[i] = -c * x[i] - s * A[k * row + i];
+				L[k * row + i] = (L[k * row + i] + F * s * x[i]) / c;
+				x[i] = c * x[i] - s * L[k * row + i];
 			}
 		}
 	}
@@ -51,11 +51,11 @@ void cholupdate(float A[], float x[], uint16_t row, bool rank_one_update) {
 		  r = sqrt(a*a + F * b*b);
 		  c = r / a;
 		  s = b / a;
-		  L(k, k) = -r;
+		  L(k, k) = r;
 		  if k < n
 			  for i = k+1:n
-				L(k, i) = -(L(k,i) + F * s * x(i)) / c;
-				x(i) = -c * x(i) - s * L(k, i);
+				L(k, i) = (L(k,i) + F * s * x(i)) / c;
+				x(i) = c * x(i) - s * L(k, i);
 			  end
 		  end
 	  end

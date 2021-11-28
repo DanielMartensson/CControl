@@ -66,7 +66,7 @@ uint8_t lup(float A[], float LU[], uint8_t P[], uint16_t row);
 float det(float A[], uint16_t row);
 uint8_t linsolve_lup(float A[], float x[], float b[], uint16_t row);
 void chol(float A[], float L[], uint16_t row);
-void cholupdate(float A[], float x[], uint16_t row, bool rank_one_update);
+void cholupdate(float L[], float x[], uint16_t row, bool rank_one_update);
 void linsolve_chol(float A[], float x[], float b[], uint16_t row);
 void pinv(float A[], uint16_t row, uint16_t column);
 void hankel(float V[], float H[], uint16_t row_v, uint16_t column_v, uint16_t row_h, uint16_t column_h, uint16_t shift);
