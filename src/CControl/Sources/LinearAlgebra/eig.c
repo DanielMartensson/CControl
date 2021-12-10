@@ -2,7 +2,7 @@
  * eig.c
  *
  *  Created on: 25 mars 2020
- *      Author: hp
+ *      Author: Daniel Mårtensson
  */
 
 #include "../../Headers/Functions.h"
