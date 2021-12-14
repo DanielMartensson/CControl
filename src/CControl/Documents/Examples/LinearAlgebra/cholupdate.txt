@@ -17,16 +17,16 @@ int main() {
 				    1,   2,   1,   0,
 				    1,   3,   3,   1};
 
-	float x[4] = {0,
-		          0,
-		          0,
-		       1/sqrtf(2)};
+	float x[4] = {0.1,
+		          0.2,
+		          0.3,
+		       -1/sqrtf(2)};
 
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	bool rank_one_update = false; /* false = rank_one_downdate */
+	bool rank_one_update = true; /* false = rank_one_downdate */
 	cholupdate(L, x, 4, rank_one_update);
 
 	end = clock();
@@ -43,6 +43,6 @@ int main() {
  *
 	A = pascal(4);
 	A = chol(A, 'lower');
-	x =  [0;0;0;1/sqrt(2)];
+	x =  [0.1;0.2;0.3;-1/sqrt(2)];
 	cholupdate2(A, x, '-')  % or '-' (see the MATLAB code in cholupdate function)
  */
