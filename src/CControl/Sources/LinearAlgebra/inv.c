@@ -37,9 +37,9 @@ uint8_t inv(float A[], uint16_t row) {
 		return 0; // matrix is singular. Determinant 0
 	// Create the inverse
 	for (uint16_t i = 0; i < row; i++) {
-		tmpvec[i] = 1.0;
+		tmpvec[i] = 1.0f;
 		solve(A, &iA[row * i], tmpvec, P, LU, row);
-		tmpvec[i] = 0.0;
+		tmpvec[i] = 0.0f;
 	}
 
 	// Transpose of iA
