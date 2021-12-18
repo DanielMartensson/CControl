@@ -26,6 +26,7 @@ uint8_t inv(float A[], uint16_t row) {
 
 	// Create temporary matrix and status variable
 	float tmpvec[row];
+	memset(tmpvec, 0, row*sizeof(float));
 	uint8_t status = 0;
 
 	// Check if the determinant is 0
