@@ -7,114 +7,112 @@
 
 #include "../../Headers/Functions.h"
 
+#include "../../Headers/Functions.h"
+
 /*
- * Householder QR-decomposition.
- * Example how to solve Ax=b with QR
- * 1: Ax = b
- * 2: A = QR
- * 3: QRx = b
- * 4: Rx = Q^Tb <- Solve this by using linsolve_upper_triangular.c
- *
+ * Householder QR-decomposition
  * A [m*n]
  * Q [m*m]
  * R [m*n]
+ *
+ * Returns 1 == Success
+ * Returns 0 == Fail
  */
-void qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a){
-	// Turn Q into identity matrix
-	memset(Q, 0, row_a*row_a*sizeof(float));
-	for(uint16_t i = 0; i < row_a; i++)
-		Q[row_a*i + i] = 1;
+uint8_t qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a, bool only_compute_R){
+
+	// Declare
+	uint16_t row_a_row_a = row_a*row_a;
+	uint16_t l = row_a - 1 < column_a ? row_a - 1 : column_a;
+	float s, Rk, r, W[row_a], WW[row_a_row_a], Hi[row_a_row_a], H[row_a_row_a], HiH[row_a_row_a], HiR[row_a*column_a];
 
 	// Give A to R
 	memcpy(R, A, row_a*column_a*sizeof(float));
 
-	// Parameters
-	float normx;
-	float s;
-	float u1;
-	float tau;
-	float temp[column_a]; // This is for holding values for Q and R
+	// Turn H into identity matrix
+	memset(H, 0, row_a_row_a*sizeof(float));
+	for(uint16_t i = 0; i < row_a; i++)
+		H[row_a*i + i] = 1;
 
-	// This make sure that we can use A transpose as well
-	uint16_t loops = row_a <= column_a ? row_a : column_a;
+	// Do house holder transformations
+	for(uint16_t k = 0; k < l; k++){
+		// Do L2 norm
+		s = 0;
+		for(uint16_t i = k; i < row_a; i++)
+			s += R[i*column_a + k] * R[i*column_a + k];
+		s = sqrtf(s);
 
-	// H = I-tau*w*w’ to put zeros below R(j,j)
-	for(uint16_t j = 0; j < loops; j++){
-		// Do the euclidean norm
-		normx = 0;
-		for(uint16_t i = j; i < row_a; i++)
-			normx += R[column_a*i + j] * R[column_a*i + j];
-		normx = sqrtf(normx);
+		// Find Rk
+		Rk = R[k*column_a + k];
 
-		// Do reversed sign!
-		s = -sign(R[column_a*j + j]);
+		// Do sign
+		if(Rk < 0)
+			s = -s;
 
-		// Now create Q and R
-		u1 = R[column_a*j + j] - s*normx;
-		float w[row_a - j];
-		for(uint16_t i = 0; i < row_a-j; i++)
-			w[i] = R[column_a*(i+j) + j]/u1;
-		w[0] = 1;
-		tau = -s*u1/normx;
+		// Compute r
+		r = sqrtf(2*s*(Rk + s));
 
-		// R = HR, Q := QH
+		// Fill W
+		memset(W, 0, row_a*sizeof(float));
+		W[k] = (Rk+s)/r;
+		for(uint16_t i = k+1; i < row_a; i++)
+			W[i] = R[i*column_a + k] / r;
 
-		// Do temp = w'*B
-		// B = R(j:end, :)
-		float B[(row_a-j)*column_a];
-		cut(R, row_a, column_a, B, j, row_a-1, 0, column_a-1);
-		mul(w, B, temp, 1, row_a - j, column_a);
+		// WW = W*W'
+		mul(W, W, WW, row_a, 1, row_a);
 
-		// Do B = w*temp
-		mul(w, temp, B, row_a - j, 1, column_a);
+		// Fill Hi matrix
+		for(uint16_t i = 0; i < row_a_row_a; i++)
+			Hi[i] = -2*WW[i];
 
-		// Do C = w*w'
-		float C[(row_a - j)*(row_a - j)];
-		mul(w, w, C, row_a - j, 1, row_a - j);
-
-		// Create D = Q(:,j:end)
-		float D[row_a*(row_a-j)];
-		cut(Q, row_a, row_a, D, 0, row_a-1, j, row_a-1);
-
-		// Do E = D*C
-		float E[row_a*(row_a - j)];
-		mul(D, C, E, row_a, row_a-j, row_a-j);
-
-		// Find now Q and R
-		for(uint16_t i = 0; i < row_a-j; i++)
-			for(uint16_t a = 0; a < column_a; a++)
-				R[column_a*(i+j) + a] += -tau*B[column_a*i + a];
-
+		// Use identity matrix on Hi
 		for(uint16_t i = 0; i < row_a; i++)
-			for(uint16_t a = 0; a < row_a-j; a++)
-				Q[row_a*i + (a+j)] += -tau*E[(row_a-j)*i + a];
+			Hi[i*row_a + i] += 1;
+
+		// HiH = Hi * H -> HiH = H
+		if(!only_compute_R) {
+			mul(Hi, H, HiH, row_a, row_a, row_a);
+			memcpy(H, HiH, row_a_row_a*sizeof(float));
+		}
+
+		// HiR = Hi * R -> HiR = R
+		mul(Hi, R, HiR, row_a, row_a, column_a);
+		memcpy(R, HiR, row_a*column_a*sizeof(float));
 	}
+
+	// Do inverse on H and give it to Q
+	uint8_t status = 1;
+	if(!only_compute_R) {
+		status = inv(H, row_a);
+		memcpy(Q, H, row_a_row_a*sizeof(float));
+	}
+	return status;
 }
 
 /*
  * GNU Octave code:
  *  function [Q,R] = qr(A)
-	  % Compute the QR decomposition of an m-by-n matrix A using Householder transformations.
+	  % Perform QR decompostion by using Householder transformation
+	  % Input  - A is an m x n matrix
+	  % Output - Q, R : QR decomposition results
 	  [m,n] = size(A);
-
-	  Q = eye(m);      % Orthogonal transform so farR = A;
-	  R = A;           % Transformed matrix so far
-
-	  % This make sure that we can use A transpose as well
-	  if(m <= n)
-		n = m;
+	  R = A;
+	  H = eye(m);
+	  for k = 1:min(m-1,n)
+		  s = norm(R(k:m,k));
+		  Rk = R(k,k);
+		  if (Rk < 0)
+			  s=-s;
+		  end
+		  r = sqrt(2*s*(Rk+s));
+		  W = zeros(m,1);
+		  W(k) = (Rk+s)/r;
+		  W(k+1:m) = R(k+1:m,k)/r;
+		  Hi=eye(m)-2*W*W';
+		  HiH=Hi*H;
+		  H = HiH;
+		  HiR = Hi*R;
+		  R = HiR;
 	  end
-
-	  for j = 1:n % -- Find H = I-tau*w*w’ to put zeros below R(j,j)
-		normx = norm(R(j:end,j));
-		s     = -sign(R(j,j));
-		u1    = R(j,j) - s*normx;
-		w     = R(j:end,j)/u1;
-		w(1)  = 1;
-		tau   = -s*u1/normx;
-		% Find Q and R now
-		R(j:end,:) = R(j:end,:)-(tau*w)*(w'*R(j:end,:));
-		Q(:,j:end) = Q(:,j:end)-(Q(:,j:end)*w)*(tau*w)';
-	  end
+	  Q = inv(H);
 	end
  */

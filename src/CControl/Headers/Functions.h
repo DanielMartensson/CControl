@@ -49,7 +49,7 @@ void mcs_collect(float P[], uint16_t column_p, float x[], uint8_t row_x, float i
 void mcs_estimate(float P[], uint16_t column_p, float x[], uint8_t row_x);
 void mcs_clean(float P[], uint16_t column_p, uint8_t row_x);
 void ukf(float xhat[], float zk[], float u[], float P[], float Q[], float R[], float a, float k, float b,  uint8_t L, void (*ukf_transition)(float[], float[], float[], uint8_t));
-void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[], uint8_t), float S[], float alpha, float beta, float kappa, uint8_t L);
+void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, float kappa, uint8_t L);
 
 /* Linear algebra */
 uint8_t inv(float* A, uint16_t row);
@@ -59,7 +59,7 @@ void mul(float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uin
 void svd_jacobi_one_sided(float A[], uint16_t row, uint8_t max_iterations, float U[], float S[], float V[]);
 void dlyap(float A[], float P[], float Q[], uint16_t row);
 uint8_t svd_golub_reinsch(float A[], uint16_t row, uint16_t column, float U[], float S[], float V[]);
-void qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a);
+uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, bool only_compute_R);
 void linsolve_qr(float A[], float x[], float b[], uint16_t row, uint16_t column);
 void linsolve_lower_triangular(float A[], float x[], float b[], uint16_t row);
 uint8_t lup(float A[], float LU[], uint8_t P[], uint16_t row);
