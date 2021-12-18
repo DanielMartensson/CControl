@@ -45,7 +45,7 @@ uint8_t qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a, bool
 		Rk = R[k*column_a + k];
 
 		// Do sign
-		if(Rk < 0)
+		if(Rk < 0.0f)
 			s = -s;
 
 		// Compute r
