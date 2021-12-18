@@ -31,7 +31,7 @@ uint8_t qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a, bool
 	// Turn H into identity matrix
 	memset(H, 0, row_a_row_a*sizeof(float));
 	for(uint16_t i = 0; i < row_a; i++)
-		H[row_a*i + i] = 1;
+		H[row_a*i + i] = 1.0f;
 
 	// Do house holder transformations
 	for(uint16_t k = 0; k < l; k++){
@@ -62,11 +62,11 @@ uint8_t qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a, bool
 
 		// Fill Hi matrix
 		for(uint16_t i = 0; i < row_a_row_a; i++)
-			Hi[i] = -2*WW[i];
+			Hi[i] = -2.0f*WW[i];
 
 		// Use identity matrix on Hi
 		for(uint16_t i = 0; i < row_a; i++)
-			Hi[i*row_a + i] += 1;
+			Hi[i*row_a + i] += 1.0f;
 
 		// HiH = Hi * H -> HiH = H
 		if(!only_compute_R) {
