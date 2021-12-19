@@ -158,7 +158,7 @@ static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc
 	tran(AT, L, M);
 
 	/* Solve [Q, R_] = qr(A') */
-	qr(AT, Q, R_, M, L);
+	qr(AT, Q, R_, M, L, true);
 
 	/* Get the upper triangular of R_ according to the SR-UKF paper */
 	memcpy(Sd, R_, L * L * sizeof(float));
