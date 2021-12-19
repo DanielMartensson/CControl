@@ -76,16 +76,18 @@ This project is structured as
 
  - No malloc, calloc or free - No dynamic memory allocation in other words
  - Use pointers as much as you can
- - Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct
- - I'm focusing on real practical controllers or methods that are cost effective and don't require "a lot of tuning"
+ - Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct. For windows users, `Dr.Memory` works too
  - Main focusing on: Control engineering, linear algebra, optimization, AI algorithms, system identification and classification
 
+# How to help to build on this library
 
-# What I recommend for control engineering
+Find a good pratical function that always comes in handy. An algorithm for example. When you writing your code, remember these steps:
 
-- Nonlinear Model Predictive Control for MIMO systems (Coming soon)
-- Unscented Kalman Filter
-- Model Reference Adaptive Control for slow SISO systems
+ - `1D` arrays are only allowed. When you are indexing an `1D`, then you using `my_array[i*column_length + j]` where `i` is row index and `j` is column index and `column_length` is column length of `my_array`
+ - Only `floats` are allowed because some processors don't have `double` implemented
+ - `C99` standard is only allowed because I want it to follow `MISRA C` standard
+ - Your code must come with an example
+ - Write `clean code`, that means no slack variables, don't try to compute everything in one single functions, minimize input arguments if it's possible, focus on practical implementation, focus on memory
 
 # Fan Controller with Linear Quadratic Integral Control
 
