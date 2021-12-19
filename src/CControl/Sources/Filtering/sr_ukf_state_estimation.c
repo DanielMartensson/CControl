@@ -20,7 +20,7 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
  * Square Root Unscented Kalman Filter For State Estimation (A better version than regular UKF)
  * L = Number of states, or sensors in practice.
  * beta = used to incorporate prior knowledge of the distribution of x (for Gaussian distributions, beta = 2 is optimal)
- * alpha = determines the spread of the sigma points around xhat and alpha is usually set to 0.001 <= alpha <= 1
+ * alpha = determines the spread of the sigma points around xhat and alpha is usually set to 0.01 <= alpha <= 1
  * S[L * L] = State estimate error covariance
  * F(float dx[L], float x[L], float u[L]) = Transition function
  * u[L] = Input signal
