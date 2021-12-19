@@ -34,23 +34,23 @@ void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], fl
 	/* Create the size N */
 	uint8_t N = 2 * L + 1;
 
-	/* OK: Predict: Create the weights */
+	/* Predict: Create the weights */
 	float Wc[N];
 	float Wm[N];
 	create_weights(Wc, Wm, alpha, beta, kappa, L);
 
-	/* OK: Predict: Create sigma point matrix for F function  */
+	/* Predict: Create sigma point matrix for F function  */
 	float X[L * N];
 	create_sigma_point_matrix(X, xhat, S, alpha, kappa, L);
 
-	/* OK: Predict: Compute the transition function F */
+	/* Predict: Compute the transition function F */
 	float Xstar[L * N];
 	compute_transistion_function(Xstar, X, u, F, L);
 
-	/* OK: Predict: Multiply sigma points to weights for xhat */
+	/* Predict: Multiply sigma points to weights for xhat */
 	multiply_sigma_point_matrix_to_weights(xhat, Xstar, Wm, L);
 
-	/* OK: Predict: Create state estimate error covariance  */
+	/* Predict: Create state estimate error covariance  */
 	create_state_estimation_error_covariance_matrix(S, Wc, Xstar, xhat, Rv, L);
 
 	/* Predict: Create sigma point matrix for H function. This is the updated version of SR-UKF paper. The old SR-UKF paper don't have this */
@@ -64,7 +64,7 @@ void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], fl
 	float yhat[L];
 	multiply_sigma_point_matrix_to_weights(yhat, Y, Wm, L);
 
-	/* OK: Update: Create measurement covariance matrix */
+	/* Update: Create measurement covariance matrix */
 	float Sy[L * L];
 	create_state_estimation_error_covariance_matrix(Sy, Wc, Y, yhat, Rn, L);
 
