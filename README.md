@@ -131,8 +131,14 @@ Library for SAE J1939 https://github.com/DanielMartensson/Open-SAE-J1939
 ![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Stepper%20Motor%20Controller/Picture%20CAN-bus.jpg)
 
 
-# Square Root Uncented Kalman Filter
+# Square Root Uncented Kalman Filter for state estimation and parameter estimation (system identification)
 
 This is the latest Uncented Kalman Filter. MATLAB is using the same algorithm. A `.m` file is available at the `SR-UKF` folder.
 
-![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/SR-UKF/sr-ukf.png)
+For state estimation
+
+![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/SR-UKF/sr-ukf-state-estimation.png)
+
+For parameter estimation
+
+![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/SR-UKF/sr-ukf-parameter-estimation.png)

@@ -9,34 +9,35 @@
 
 static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, uint8_t L);
 static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, uint8_t L);
-static void create_sigma_point_matrix(float W[], float w[], float Sw[], float alpha, float kappa, uint8_t L);
+static void create_sigma_point_matrix(float W[], float what[], float Sw[], float alpha, float kappa, uint8_t L);
+static void compute_transistion_function(float D[], float W[], float x[], void (*G)(float[], float[], float[]), uint8_t L);
 static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], float Wm[], uint8_t L);
 static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc[], float D[], float dhat[], float Re[], uint8_t L);
 static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float W[], float D[], float what[], float dhat[], uint8_t L);
 static void update_state_covarariance_matrix_and_state_estimation_vector(float Sw[], float what[], float dhat[], float d[], float Sd[], float Pwd[], uint8_t L);
 
-
 /*
- * Square Root Unscented Kalman Filter For Parameter Estimation§§
- * L = Number of states, or sensors in practice.§§§
- * kappa = 0 for state estimation, 3 - L for parameter estimation
+ * Square Root Unscented Kalman Filter For Parameter Estimation (A better version than regular UKF)
+ * L = Number of states, or sensors in practice.
  * beta = used to incorporate prior knowledge of the distribution of x (for Gaussian distributions, beta = 2 is optimal)
- * alpha = determines the spread of the sigma points around xhat and alpha is usually set to 0.0001 <= alpha <= 1
+ * alpha = determines the spread of the sigma points around what and alpha is usually set to 0.01 <= alpha <= 1
  * Sw[L * L] = Parameter estimate error covariance
  * lambda_rls = Scalar factor 0 <= lambda_rls <= 1. A good number is close to 1 like 0.995
- * G(D[L * (2 * L + 1)], x[L], W[L * (2 * L + 1)], uint8_t L) = Model
+ * G(float dw[L], float x[L], float w[L]) = Transition function with unknown parameters
  * x[L] = State vector
+ * w[L] = Parameter vector
  * Re[L * L] = Measurement noise covariance matrix
  * what[L] = Estimated parameter (our input)
  * d[L] = Measurement parameter (our output)
  */
-void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float Rv[], float x[], void (*G)(float[], float[], float[], uint8_t), float lambda_rls, float Sw[], float alpha, float beta, float kappa, uint8_t L){
+void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float x[], void (*G)(float[], float[], float[]), float lambda_rls, float Sw[], float alpha, float beta, uint8_t L){
 	/* Create the size N */
 	uint8_t N = 2 * L + 1;
 
 	/* Predict: Create the weights */
 	float Wc[N];
 	float Wm[N];
+	float kappa = 3.0f - L; /* kappa is 3 - L for parameter estimation */
 	create_weights(Wc, Wm, alpha, beta, kappa, L);
 
 	/* Predict: Scale Sw with lambda_rls */
@@ -46,9 +47,9 @@ void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float Rv[]
 	float W[L * N];
 	create_sigma_point_matrix(W, what, Sw, alpha, kappa, L);
 
-	/* Predict: Compute the model F */
+	/* Predict: Compute the model D */
 	float D[L * N];
-	G(D, x, W, L);
+	compute_transistion_function(D, W, x, G, L);
 
 	/* Predict: Multiply sigma points to weights for dhat */
 	float dhat[L];
@@ -77,10 +78,9 @@ static void create_weights(float Wc[], float Wm[], float alpha, float beta, floa
 	Wm[0] = lambda/(L + lambda);
 	Wc[0] = Wm[0] + 1 - alpha * alpha + beta;
 
-
 	/* The rest of the indexes are the same */
 	for(uint8_t i = 1; i < N; i++){
-		Wc[i] = 1/(2 * (L + lambda));
+		Wc[i] = 0.5f / (L + lambda);
 		Wm[i] = Wc[i];
 	}
 }
@@ -91,10 +91,10 @@ static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, uint8_
 
 	/* Apply scalar factor to Sw */
 	for(uint8_t i = 0; i < M; i++)
-		Sw[i] *= 1/sqrtf(lambda_rls);
+		Sw[i] *= 1.0f/sqrtf(lambda_rls);
 }
 
-static void create_sigma_point_matrix(float W[], float w[], float Sw[], float alpha, float kappa, uint8_t L){
+static void create_sigma_point_matrix(float W[], float what[], float Sw[], float alpha, float kappa, uint8_t L){
 	/* Create the size N and K */
 	uint8_t N = 2 * L + 1;
 	uint8_t K = L + 1;
@@ -105,18 +105,41 @@ static void create_sigma_point_matrix(float W[], float w[], float Sw[], float al
 
 	/* Insert first column in W */
 	for(uint8_t i = 0; i < L; i++)
-		W[i * N] = w[i];
+		W[i * N] = what[i];
 
 	/* Insert in to the middle of the columns - Positive */
 	for(uint8_t j = 1; j < K; j++)
 		for(uint8_t i = 0; i < L; i++)
-			W[i * N + j] = w[i] + gamma * Sw[i * L + j - 1];
+			W[i * N + j] = what[i] + gamma * Sw[i * L + j - 1];
 
 	/* Insert in the rest of the columns - Negative */
 	for(uint8_t j = K; j < N; j++)
 		for(uint8_t i = 0; i < L; i++)
-			W[i * N + j] = w[i] - gamma * Sw[i * L + j - K];
+			W[i * N + j] = what[i] - gamma * Sw[i * L + j - K];
 
+}
+
+static void compute_transistion_function(float D[], float W[], float x[], void (*G)(float[], float[], float[]), uint8_t L){
+	/* Create the size N */
+	uint8_t N = 2 * L + 1;
+
+	/* Create the derivative state and state vector */
+	float dw[L];
+	float w[L];
+
+	/* Call the F transition function with W matrix */
+	for(uint8_t j = 0; j < N; j++){
+		/* Fill the state vector w with every row from W */
+		for(uint8_t i = 0; i < L; i++)
+			w[i] = W[i*N + j];
+
+		/* Call the transition function */
+		G(dw, w, x);
+
+		/* Get dw into D */
+		for(uint8_t i = 0; i < L; i++)
+			D[i*N + j] = dw[i];
+	}
 }
 
 static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], float Wm[], uint8_t L){
@@ -126,38 +149,39 @@ static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], floa
 	/* Clear dhat */
 	memset(dhat, 0, L * sizeof(float));
 
-	/* Multiply x = W*X */
+	/* Multiply dhat = Wm*D */
 	for(uint8_t j = 0; j < N; j++)
 		for(uint8_t i = 0; i < L; i++)
-			dhat[i] += Wm[i] * D[i * N + j];
+			dhat[i] += Wm[j] * D[i * N + j];
+
 }
 
 static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc[], float D[], float dhat[], float Re[], uint8_t L){
 	/* Create the size N, M and K */
 	uint8_t N = 2 * L + 1;
-	uint8_t M = 3 * L;
+	uint8_t M = 2 * L + L;
 	uint8_t K = 2 * L;
 
 	/* Square root parameter of index 1 */
-	float weight1 = sqrtf(Wc[1]);
-	float weight0 = sqrtf(Wc[0]);
+	float weight1 = sqrtf(fabsf(Wc[1]));
 
 	/* Create [Q, R_] = qr(A') */
 	float AT[L * M];
 	float Q[M * M];
 	float R_[M * L];
-	uint8_t j = 0;
-	for(; j < K; j++)
+	for(uint8_t j = 0; j < K; j++){
+		for(uint8_t i = 0; i < L; i++){
+			AT[i*M + j] = weight1 * (D[i * N + j+1] - dhat[i]);
+		}
+	}
+	for(uint8_t j = K; j < M; j++)
 		for(uint8_t i = 0; i < L; i++)
-			AT[i*M + j] = weight1 * (D[i * N + j + 1] - dhat[i]);
-	for(; j < M; j++)
-		for(uint8_t i = 0; i < L; i++)
-			AT[i*M + j] = Re[i * L + j - K];
+			AT[i*M + j] = sqrtf(Re[i * L + j - K]);
 
 	/* We need to do transpose on A according to the SR-UKF paper */
 	tran(AT, L, M);
 
-	/* Solve [Q, R_] = qr(A') */
+	/* Solve [Q, R_] = qr(A') but we only need R_ matrix */
 	qr(AT, Q, R_, M, L, true);
 
 	/* Get the upper triangular of R_ according to the SR-UKF paper */
@@ -167,7 +191,7 @@ static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc
 	float b[L];
 	for(uint8_t i = 0; i < L; i++)
 		b[i] = D[i * N] - dhat[i];
-	bool rank_one_update = weight0 < 0 ? false : true;
+	bool rank_one_update = Wc[0] < 0.0f ? false : true;
 	cholupdate(Sd, b, L, rank_one_update);
 }
 
@@ -176,30 +200,31 @@ static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float 
 	uint8_t N = 2 * L + 1;
 	uint8_t K = 2 * L;
 
-	/* clear Pwd */
+	/* clear P */
 	memset(Pwd, 0, K * sizeof(float));
 
+	/* Subtract the matrices */
 	for(uint8_t j = 0; j < N; j++){
-		/* Create the vectors and the matrix */
-		float a[L];
-		float b[L]; /* This is transpose */
-		float c[K];
-
-		/* Fill the vectors */
 		for(uint8_t i = 0; i < L; i++){
-			a[j] = W[i * N + j] - what[i];
-			b[j] = D[i * N + j] - dhat[i];
+			W[i * N + j] -= what[i];
+			D[i * N + j] -= dhat[i];
 		}
-
-		/* Compute the matrix - We don't need to take transpose on b in this C code because vector^T = vector in C*/
-		mul(a, b, c, L, 1, L);
-
-		/* Do the sum */
-		for(uint8_t k = 0; k < K; k++)
-			Pwd[k] += Wc[j] * c[k];
 	}
+
+	/* Create diagonal matrix */
+	float diagonal_W[N*N];
+	memset(diagonal_W, 0, N*N*sizeof(float));
+	for(uint8_t i = 0; i < N; i++)
+		diagonal_W[i*N + i] = Wc[i];
+
+	/* Do Pwd = W*diagonal_W*D' */
+	tran(D, L, N);
+	float diagonal_WD[N*L];
+	mul(diagonal_W, D, diagonal_WD, N, N, L);
+	mul(W, diagonal_WD, Pwd, L, N, L);
 }
 
+// Sw, what, dhat, d, Sd, Pwd, L
 static void update_state_covarariance_matrix_and_state_estimation_vector(float Sw[], float what[], float dhat[], float d[], float Sd[], float Pwd[], uint8_t L){
 	/* Transpose of Sd */
 	float SdT[L * L];
@@ -227,9 +252,14 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 		what[i] = what[i] + Kd[i];
 
 	/* Compute U = K*Sd */
-	float U[L];
-	mul(K, Sd, U, L, 1, L);
+	float U[L*L];
+	mul(K, Sd, U, L, L, L);
 
-	/* Compute Sw = cholupdate(Sw, U, -1) */
-	cholupdate(Sw, U, L, false);
+	/* Compute Sw = cholupdate(Sw, Uk, -1) because Uk is a vector and U is a matrix */
+	float Uk[L];
+	for(uint8_t j = 0; j < L; j++){
+		for(uint8_t i = 0; i < L; i++)
+			Uk[i] = U[i*L + j];
+		cholupdate(Sw, Uk, L, false);
+	}
 }

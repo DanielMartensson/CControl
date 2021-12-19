@@ -206,5 +206,7 @@ xhat = [0.043327968567609787	0.124450787901878360	0.483852028846740720
 for k = 1:N                                 
   subplot(3,1,k);
   plot(1:M, x(:,k), '-', 1:M, xhat(:,k), '--');
+  title(sprintf('State estimation for state x%i', k));
+  ylabel(sprintf('x%i', k));
   legend('Actual state', 'Estimated state');
 end

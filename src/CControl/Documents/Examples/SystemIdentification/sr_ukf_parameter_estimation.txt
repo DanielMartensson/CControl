@@ -1,0 +1,82 @@
+/*
+ ============================================================================
+ Name        : sr_ukf_parameter_estimation.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Estimate parameters with Square Root Unscented Kalman Filter
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+int main() {
+
+	/*
+	 * Hello! This is Square Root Uncented Kalman Filter (SR-UKF) for parameter estimation (system identification) and this algorithm is successor of Uncented Kalman Filter(UKF)
+	 * because UKF had some issues with the cholesky decomposition when it going to find the square root.
+	 * SR-UKF come in two papers. The first paper and the second paper. The first paper does not re-compute sigma point matrix for the
+	 * observability function H. The second paper re-compute sigma point matrix for the observability function H.
+	 * In this algorithm, I assume that the output y and the state has the same dimension and observability function is just an identity matrix.
+	 * That's because I want to minimize the input arguments for the SR-UKF function. Less turning parameters, function, constants and so on makes
+	 * it easier to use SR-UKF.
+	 */
+
+	/* Initial parameters */
+	uint8_t L = 3; 																// How many states we have
+	float e = 0.1f;																// Tuning factor for noise
+	float alpha = 0.1f; 														// Alpha value - A small number like 0.01 -> 1.0
+	float beta = 2.0f; 															// Beta value - Normally 2 for gaussian noise
+	float Re[3 * 3] = {e, 0, 0, 0, e, 0, 0, 0, e}; 								// Initial noise covariance matrix - Recommended to use identity matrix
+	float Sw[3 * 3] = {1, 0, 0, 0, 1, 0, 0, 0, 1}; 								// Initial covariance matrix - Recommended to use identity matrix
+	float what[3] = {0, 0, 0}; 													// Estimated parameter vector
+	float d[3] = {0, 0, 0};														// This is our measurement
+	float x[3] = {0.4f, 0.1f, 0.2f}; 											// State vector
+	float lambda_rls = 0.999f;													// RLS forgetting parameter between 0.0 and 1.0, but very close to 1.0
+
+	/* Our transition function */
+	void G(float dw[], float x[], float w[]) {
+		dw[0] = w[1]*x[1];
+		dw[1] = w[2]*x[2];
+		dw[2] = w[2]*x[0]*(w[0]*x[1] + w[2]*x[2]);
+	}
+
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Do SR-UKF */
+	float WHAT[100*3];
+	float D[100*3];
+	float noise[3];
+	for (uint32_t i = 0; i < 100; i++) {
+		/* Create measurement */
+		randn(noise, L, 1.0f, 1.0f);
+		for(uint8_t j = 0; j < L; j++)
+			d[j] = x[j] + e*noise[j];	/* We assume that the observability matrix is an identity matrix */
+
+		/* Estimate new parameter - Here we are assuming that our state x is also our measurement d because we don't have a transition function to begin with */
+		sr_ukf_parameter_estimation(d, what, Re, d, G, lambda_rls, Sw, alpha, beta, L);
+
+		/* Save the estimated parameter */
+		for(uint8_t j = 0; j < L; j++)
+			WHAT[i*3 + j] = what[j];
+
+		/* Save the input with the noise */
+		for(uint8_t j = 0; j < L; j++)
+			D[i*3 + j] = d[j];
+
+	}
+
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	printf("Estimated parameters: \n");
+	print(WHAT, 100, 3);
+
+	printf("Inputs: \n");
+	print(D, 100, 3);
+
+	return EXIT_SUCCESS;
+}

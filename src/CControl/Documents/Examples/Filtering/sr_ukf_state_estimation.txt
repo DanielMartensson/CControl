@@ -4,7 +4,7 @@
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Filter with Square Root Unscented Kalman Filter
+ Description : Estimate states with Square Root Unscented Kalman Filter
  ============================================================================
  */
 
@@ -13,7 +13,7 @@
 int main() {
 
 	/*
-	 * Hello! This is Square Root Uncented Kalman Filter (SR-UKF) and this algorithm is successor of Uncented Kalman Filter(UKF)
+	 * Hello! This is Square Root Uncented Kalman Filter (SR-UKF) for state estimation (filtering) and this algorithm is successor of Uncented Kalman Filter(UKF)
 	 * because UKF had some issues with the cholesky decomposition when it going to find the square root.
 	 * SR-UKF come in two papers. The first paper and the second paper. The first paper does not re-compute sigma point matrix for the
 	 * observability function H. The second paper re-compute sigma point matrix for the observability function H.

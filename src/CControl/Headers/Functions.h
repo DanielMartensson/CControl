@@ -48,7 +48,7 @@ void filtfilt(float y[], float t[], uint16_t l, float K);
 void mcs_collect(float P[], uint16_t column_p, float x[], uint8_t row_x, float index_factor);
 void mcs_estimate(float P[], uint16_t column_p, float x[], uint8_t row_x);
 void mcs_clean(float P[], uint16_t column_p, uint8_t row_x);
-void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, float kappa, uint8_t L);
+void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, uint8_t L);
 
 /* Linear algebra */
 uint8_t inv(float* A, uint16_t row);
@@ -88,7 +88,7 @@ void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int 
 void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, uint8_t* count, float* past_e, float* past_y, float* past_u, float phi[], float P[], float Pq, float forgetting);
 void okid(float u[], float y[], float g[], uint16_t row, uint16_t column);
 void era(float u[], float y[], uint16_t row, uint16_t column, float A[], float B[], float C[], uint8_t row_a, uint8_t inputs_outputs);
-void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float Rv[], float x[], void (*G)(float[], float[], float[], uint8_t), float lambda_rls, float Sw[], float alpha, float beta, float kappa, uint8_t L);
+void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float x[], void (*G)(float[], float[], float[]), float lambda_rls, float Sw[], float alpha, float beta, uint8_t L);
 
 #ifdef __cplusplus
 }
