@@ -176,7 +176,7 @@ static void create_state_estimation_error_covariance_matrix(float S[], float W[]
 	}
 	for(uint8_t j = K; j < M; j++)
 		for(uint8_t i = 0; i < L; i++)
-			AT[i*M + j] = R[i * L + j - K];
+			AT[i*M + j] = sqrtf(R[i * L + j - K]);
 
 	/* We need to do transpose on A according to the SR-UKF paper */
 	tran(AT, L, M);
