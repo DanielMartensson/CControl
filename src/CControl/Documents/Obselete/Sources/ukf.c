@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../../Headers/Functions.h"
 
 static void ukf_create_weights(float Wa[], float Wc[], float a, float b, float k, uint8_t L);
 static void ukf_compute_sigma_points(float s[], float x[], float P[], float a, float k, uint8_t L);
