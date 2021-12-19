@@ -21,13 +21,10 @@ Many examples can be found in the scr folder.
   - Comming soon: Nonlinear Model Predictive Control
 
 - Filtering
-  - Unscented Kalman Filter
   - Monte Carlo Simulation
+  - Comming soon: Particle filter
   - Filtfilt 
-  - Square root Unscented Kalman Filter
-
-- Dynamics
-  - Comming soon: Euler Method
+  - Square Root Unscented Kalman Filter
   
 - Linear Algebra
   - Balance matrix
@@ -71,7 +68,7 @@ Many examples can be found in the scr folder.
   - Observer Kalman Filter identification
   - Eigensystem Realization Algorithm
   - Recursive Least Square with forgetting factor and kalman filter identification
-  - Square root Unscented Kalman Filter for parameter estimation
+  - Square Root Unscented Kalman Filter for parameter estimation
 
 ### How the project is structured
 

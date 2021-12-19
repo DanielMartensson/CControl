@@ -24,13 +24,13 @@ int main() {
 
 	/* Initial parameters */
 	uint8_t L = 3; 																// How many states we have
-	float r = 0.1;																// Tuning factor for noise
-	float q = 0.1;																// Tuning factor for disturbance
-	float alpha = 0.01; 														// Alpha value - A small number like 0.01 -> 1.0
+	float r = 0.1f;																// Tuning factor for noise
+	float q = 0.1f;																// Tuning factor for disturbance
+	float alpha = 0.01f; 														// Alpha value - A small number like 0.01 -> 1.0
 	float beta = 2; 															// Beta value - Normally 2 for gaussian noise
 	float kappa = 0; 															// Kappa value - Normally 0 or L - 3 for parameter estimation(that's another algorithm)
-	float Rv[3 * 3] = {q, 0, 0, 0, q, 0.0, 0, 0, q}; 							// Initial disturbance covariance matrix - Recommended to use identity matrix
-	float Rn[3 * 3] = {r, 0, 0, 0, r, 0.0, 0, 0, r}; 							// Initial noise covariance matrix - Recommended to use identity matrix
+	float Rv[3 * 3] = {q, 0, 0, 0, q, 0, 0, 0, q}; 								// Initial disturbance covariance matrix - Recommended to use identity matrix
+	float Rn[3 * 3] = {r, 0, 0, 0, r, 0, 0, 0, r}; 								// Initial noise covariance matrix - Recommended to use identity matrix
 	float S[3 * 3] = {1, 0, 0, 0, 1, 0, 0, 0, 1}; 								// Initial covariance matrix - Recommended to use identity matrix
 	float xhat[3] = {0, 0, 0}; 													// Estimated state vector
 	float y[3] = {0, 0, 0};														// This is our measurement

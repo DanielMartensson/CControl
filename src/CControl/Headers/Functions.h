@@ -2,7 +2,7 @@
  * Functions.h
  *
  *  Created on: 5 oct. 2019
- *      Author: Daniel M�rtensson
+ *      Author: Daniel Mårtensson
  */
 
 #ifndef CCONTROL_HEADERS_FUNCTIONS_H_
@@ -48,7 +48,6 @@ void filtfilt(float y[], float t[], uint16_t l, float K);
 void mcs_collect(float P[], uint16_t column_p, float x[], uint8_t row_x, float index_factor);
 void mcs_estimate(float P[], uint16_t column_p, float x[], uint8_t row_x);
 void mcs_clean(float P[], uint16_t column_p, uint8_t row_x);
-void ukf(float xhat[], float zk[], float u[], float P[], float Q[], float R[], float a, float k, float b,  uint8_t L, void (*ukf_transition)(float[], float[], float[], uint8_t));
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, float kappa, uint8_t L);
 
 /* Linear algebra */
