@@ -23,6 +23,7 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
  * alpha = determines the spread of the sigma points around xhat and alpha is usually set to 0.01 <= alpha <= 1
  * S[L * L] = State estimate error covariance
  * F(float dx[L], float x[L], float u[L]) = Transition function
+ * x[L] = State vector
  * u[L] = Input signal
  * Rv[L * L] = Process noise covariance matrix
  * Rn[L * L] = Measurement noise covariance matrix
