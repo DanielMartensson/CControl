@@ -19,24 +19,24 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 /*
  * Square Root Unscented Kalman Filter For State Estimation (A better version than regular UKF)
  * L = Number of states, or sensors in practice.
- * kappa = 0 for state estimation, 3 - L for parameter estimation
  * beta = used to incorporate prior knowledge of the distribution of x (for Gaussian distributions, beta = 2 is optimal)
  * alpha = determines the spread of the sigma points around xhat and alpha is usually set to 0.001 <= alpha <= 1
  * S[L * L] = State estimate error covariance
- * F(float dX[L], float x[L], float u[L]) = Transition function
+ * F(float dx[L], float x[L], float u[L]) = Transition function
  * u[L] = Input signal
  * Rv[L * L] = Process noise covariance matrix
  * Rn[L * L] = Measurement noise covariance matrix
  * xhat[L] = Estimated state (our input)
  * y[L] = Measurement state (our output)
  */
-void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, float kappa, uint8_t L){
+void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, uint8_t L){
 	/* Create the size N */
 	uint8_t N = 2 * L + 1;
 
 	/* Predict: Create the weights */
 	float Wc[N];
 	float Wm[N];
+	float kappa = 0.0f; /* kappa is 0 for state estimation */
 	create_weights(Wc, Wm, alpha, beta, kappa, L);
 
 	/* Predict: Create sigma point matrix for F function  */
