@@ -15,8 +15,14 @@ static float generate_gauss(float mu, float sigma);
  * Mean: mu
  * Standard deviation: sigma
  */
+
+static bool has_been_called = false;
+
 void randn(float x[], uint16_t length, float mu, float sigma){
-	srand(time(NULL));
+	if(!has_been_called){
+		srand(time(NULL));
+		has_been_called = true;
+	}
 	for(uint16_t i = 0; i < length; i++)
 		x[i] = generate_gauss(mu, sigma);
 }
