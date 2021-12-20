@@ -47,7 +47,7 @@ void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float x[],
 	float W[L * N];
 	create_sigma_point_matrix(W, what, Sw, alpha, kappa, L);
 
-	/* Predict: Compute the model D */
+	/* Predict: Compute the model G */
 	float D[L * N];
 	compute_transistion_function(D, W, x, G, L);
 
