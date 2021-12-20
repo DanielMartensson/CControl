@@ -168,7 +168,7 @@ static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc
 	/* Create [Q, R_] = qr(A') */
 	float AT[L * M];
 	float Q[M * M];
-	float R_[M * L];
+	float R[M * L];
 	for(uint8_t j = 0; j < K; j++){
 		for(uint8_t i = 0; i < L; i++){
 			AT[i*M + j] = weight1 * (D[i * N + j+1] - dhat[i]);
@@ -181,11 +181,11 @@ static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc
 	/* We need to do transpose on A according to the SR-UKF paper */
 	tran(AT, L, M);
 
-	/* Solve [Q, R_] = qr(A') but we only need R_ matrix */
-	qr(AT, Q, R_, M, L, true);
+	/* Solve [Q, R] = qr(A') but we only need R matrix */
+	qr(AT, Q, R, M, L, true);
 
-	/* Get the upper triangular of R_ according to the SR-UKF paper */
-	memcpy(Sd, R_, L * L * sizeof(float));
+	/* Get the upper triangular of R according to the SR-UKF paper */
+	memcpy(Sd, R, L * L * sizeof(float));
 
 	/* Perform cholesky update on Sd */
 	float b[L];
