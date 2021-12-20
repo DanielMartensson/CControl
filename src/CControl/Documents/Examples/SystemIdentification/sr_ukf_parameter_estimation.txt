@@ -55,8 +55,8 @@ int main() {
 		for(uint8_t j = 0; j < L; j++)
 			d[j] = x[j] + e*noise[j];	/* We assume that the observability matrix is an identity matrix */
 
-		/* Estimate new parameter - Here we are assuming that our state x is also our measurement d because we don't have a transition function to begin with */
-		sr_ukf_parameter_estimation(d, what, Re, d, G, lambda_rls, Sw, alpha, beta, L);
+		/* Estimate new parameter - We assume that our x state vector remains constant */
+		sr_ukf_parameter_estimation(d, what, Re, x, G, lambda_rls, Sw, alpha, beta, L);
 
 		/* Save the estimated parameter */
 		for(uint8_t j = 0; j < L; j++)
