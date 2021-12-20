@@ -134,7 +134,7 @@ static void compute_transistion_function(float D[], float W[], float x[], void (
 			w[i] = W[i*N + j];
 
 		/* Call the transition function */
-		G(dw, w, x);
+		G(dw, x, w);
 
 		/* Get dw into D */
 		for(uint8_t i = 0; i < L; i++)

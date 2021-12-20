@@ -31,14 +31,16 @@ int main() {
 	float Sw[3 * 3] = {1, 0, 0, 0, 1, 0, 0, 0, 1}; 								// Initial covariance matrix - Recommended to use identity matrix
 	float what[3] = {0, 0, 0}; 													// Estimated parameter vector
 	float d[3] = {0, 0, 0};														// This is our measurement
-	float x[3] = {0.4f, 0.1f, 0.2f}; 											// State vector
-	float lambda_rls = 0.999f;													// RLS forgetting parameter between 0.0 and 1.0, but very close to 1.0
+	float x[3] = {4.4f, 6.2f, 1.0f}; 											// State vector
+	float lambda_rls = 1.0f;													// RLS forgetting parameter between 0.0 and 1.0, but very close to 1.0
 
-	/* Our transition function */
+	/* Our transition function - This is the orifice equation Q = a*sqrt(P2 - P1) for hydraulics */
 	void G(float dw[], float x[], float w[]) {
-		dw[0] = w[1]*x[1];
-		dw[1] = w[2]*x[2];
-		dw[2] = w[2]*x[0]*(w[0]*x[1] + w[2]*x[2]);
+		dw[0] = w[0]*sqrtf(x[1] - x[0]);
+
+		/* We only need to use w[0] so we assume that w[1] and w[2] will become close to 1.0 */
+		dw[1] = w[1]*x[1];
+		dw[2] = w[2]*x[2];
 	}
 
 	clock_t start, end;
@@ -47,13 +49,19 @@ int main() {
 
 	/* Do SR-UKF */
 	float WHAT[100*3];
-	float D[100*3];
-	float noise[3];
+	float E[100*3];
+	float noise[1];
+	float dw[3];
 	for (uint32_t i = 0; i < 100; i++) {
-		/* Create measurement */
-		randn(noise, L, 1.0f, 1.0f);
-		for(uint8_t j = 0; j < L; j++)
-			d[j] = x[j] + e*noise[j];	/* We assume that the observability matrix is an identity matrix */
+		/* Create 1 noise */
+		randn(noise, 1, 1.0f, 1.0f);
+
+		/* Assume that this is our measurement */
+		d[0] = 5.0f + e*noise[0];
+
+		/* This is just to make sure w[1] and w[2] becomes close to 1.0 */
+		d[1] = x[1];
+		d[2] = x[2];
 
 		/* Estimate new parameter - We assume that our x state vector remains constant */
 		sr_ukf_parameter_estimation(d, what, Re, x, G, lambda_rls, Sw, alpha, beta, L);
@@ -62,9 +70,10 @@ int main() {
 		for(uint8_t j = 0; j < L; j++)
 			WHAT[i*3 + j] = what[j];
 
-		/* Save the input with the noise */
+		/* Measure the error */
+		G(dw, x, what);
 		for(uint8_t j = 0; j < L; j++)
-			D[i*3 + j] = d[j];
+			E[i*3 + j] = fabsf(d[j] - dw[j]);
 
 	}
 
@@ -75,8 +84,8 @@ int main() {
 	printf("Estimated parameters: \n");
 	print(WHAT, 100, 3);
 
-	printf("Inputs: \n");
-	print(D, 100, 3);
+	printf("Error: \n");
+	print(E, 100, 3);
 
 	return EXIT_SUCCESS;
 }
