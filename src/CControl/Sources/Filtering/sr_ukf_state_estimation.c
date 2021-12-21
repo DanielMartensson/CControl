@@ -61,7 +61,7 @@ void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], fl
 	float Y[L * N];
 	H(Y, X, L);
 
-	/* Predict: Multiply sigma points to weights for yhat_ */
+	/* Predict: Multiply sigma points to weights for yhat */
 	float yhat[L];
 	multiply_sigma_point_matrix_to_weights(yhat, Y, Wm, L);
 
