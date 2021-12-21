@@ -24,8 +24,8 @@ int main() {
 
 	/* Initial parameters */
 	uint8_t L = 3; 																// How many states we have
-	float r = 0.1f;																// Tuning factor for noise
-	float q = 0.1f;																// Tuning factor for disturbance
+	float r = 0.2f;																// Tuning factor for noise
+	float q = 30.0f;															// Tuning factor for disturbance
 	float alpha = 0.01f; 														// Alpha value - A small number like 0.01 -> 1.0
 	float beta = 2.0f; 															// Beta value - Normally 2 for gaussian noise
 	float Rv[3 * 3] = {q, 0, 0, 0, q, 0, 0, 0, q}; 								// Initial disturbance covariance matrix - Recommended to use identity matrix
@@ -34,7 +34,7 @@ int main() {
 	float xhat[3] = {0, 0, 0}; 													// Estimated state vector
 	float y[3] = {0, 0, 0};														// This is our measurement
 	float u[3] = {0, 0, 0}; 													// u is not used in this example due to the transition function not using an input signal
-	float x[3] = {0, 0, 1};														// State vector for the system (unknown in reality)
+	float x[3] = {0, 0, 0};														// State vector for the system (unknown in reality)
 
 	/* Our transition function */
 	void F(float dx[], float x[], float u[]) {
@@ -48,15 +48,21 @@ int main() {
 	start = clock();
 
 	/* Do SR-UKF */
-	float X[100*3];
-	float XHAT[100*3];
+	float X[200*3];
+	float XHAT[200*3];
+	float Y[200*3];
 	float noise[3];
-	float dx[3];
-	for (uint32_t i = 0; i < 100; i++) {
-		/* Create measurement */
+	float phase[3] = {90, 180, 140};
+	float amplitude[3] = {1.5f, 2.5f, 3.5f};
+	for (uint32_t i = 0; i < 200; i++) {
+		/* Create noise for the measurement */
 		randn(noise, L, 1.0f, 1.0f);
 		for(uint8_t j = 0; j < L; j++)
 			y[j] = x[j] + r*noise[j];
+
+		/* Save measurement */
+		for(uint8_t j = 0; j < L; j++)
+			Y[i*3 + j] = y[j];
 
 		/* Save actual state */
 		for(uint8_t j = 0; j < L; j++)
@@ -69,11 +75,9 @@ int main() {
 		for(uint8_t j = 0; j < L; j++)
 			XHAT[i*3 + j] = xhat[j];
 
-		/* Update process */
-		F(dx, x, u);
-		randn(noise, L, 0.0f, 1.0f);
+		/* Update the state */
 		for(uint8_t j = 0; j < L; j++)
-			x[j] = dx[j] + q*noise[j];
+			x[j] = amplitude[j]*sinf(i + phase[j]);
 
 	}
 
@@ -81,12 +85,15 @@ int main() {
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	// Here is the filtered data
+	/* Data */
 	printf("Actual state\n");
-	print(X, 100, 3);
+	print(X, 200, 3);
 
 	printf("Estimated state\n");
-	print(XHAT, 100, 3);
+	print(XHAT, 200, 3);
+
+	printf("Measurement\n");
+	print(Y, 200, 3);
 
 	return EXIT_SUCCESS;
 }
