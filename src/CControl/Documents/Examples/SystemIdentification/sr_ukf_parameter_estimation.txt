@@ -54,7 +54,7 @@ int main() {
 	float dw[3];
 	for (uint32_t i = 0; i < 100; i++) {
 		/* Create 1 noise */
-		randn(noise, 1, 1.0f, 1.0f);
+		randn(noise, 1, 0.0f, 1.0f);
 
 		/* Assume that this is our measurement */
 		d[0] = 5.0f + e*noise[0];
