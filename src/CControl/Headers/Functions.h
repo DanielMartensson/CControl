@@ -42,6 +42,8 @@ float sign(float number);
 void randn(float x[], uint16_t length, float mu, float sigma);
 float mean(float x[], uint16_t length);
 float stddev(float x[], uint16_t length);
+float vmax(float a, float b);
+float vmin(float a, float b);
 
 /* Filtering */
 void filtfilt(float y[], float t[], uint16_t l, float K);

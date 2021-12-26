@@ -59,6 +59,8 @@ Many examples can be found in the scr folder.
   - Randn
   - Mean
   - Standard deviation
+  - Value min
+  - Value max
   
 - Optimization
   - Linear programming maximization
