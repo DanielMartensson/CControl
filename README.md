@@ -9,6 +9,7 @@ Many examples can be found in the scr folder.
 
 - Artificial Intelligence
   - Astar algorithm for quick path finding
+  - Point-in-polygon algorithm for checking if a point is inside the area
   
 - Control Engineering
   - Kalman filter update

@@ -85,6 +85,7 @@ void linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t 
 
 /* AI-algorithms */
 void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps);
+bool point_in_polygon(float x, float y, float px[], float py[], uint8_t p);
 
 /* System identification */
 void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, uint8_t* count, float* past_e, float* past_y, float* past_u, float phi[], float P[], float Pq, float forgetting);
