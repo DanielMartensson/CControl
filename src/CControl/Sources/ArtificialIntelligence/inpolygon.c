@@ -1,5 +1,5 @@
 /*
- * point_in_polygon.c
+ * inpolygon.c
  *
  *  Created on: 27 dec. 2021
  *      Author: Daniel Mårtensson
@@ -11,9 +11,9 @@
  * Check if the coordinates x and y are inside the polygon px and py
  * px[p] - Points in x-axis
  * py[p] - Points in y-axis
- * Return true or false if the coordinate x,y is inside the polygon px, py
+ * Return 1 or 0 if the coordinate x,y is inside the polygon px, py
  */
-bool point_in_polygon(float x, float y, float px[], float py[], uint8_t p){
+uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p){
 	/* Get the max y, min y, max x, min y */
 	float max_y = py[0];
 	float max_x = px[0];

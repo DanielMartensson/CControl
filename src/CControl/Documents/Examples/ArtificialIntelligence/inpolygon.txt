@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : point_in_polygon.c
+ Name        : inpolygon.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
@@ -26,7 +26,7 @@ int main() {
 	start = clock();
 
 	/* Perform algorithm */
-	bool is_inside = point_in_polygon(x, y, px, py, p);
+	uint8_t is_inside = inpolygon(x, y, px, py, p);
 	printf("Is inside? %i", is_inside);
 
 	end = clock();
