@@ -32,7 +32,7 @@ uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p){
 	}
 
 	/* Do a better check */
-	uint8_t ok = false;
+	uint8_t ok = 0;
 	uint8_t i = 0;
 	uint8_t j = p - 1;
 	while (i < p) {
