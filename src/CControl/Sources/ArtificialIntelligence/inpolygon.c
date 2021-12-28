@@ -28,7 +28,7 @@ uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p){
 
 	/* Check if we are outside the polygon */
 	if (y < min_y || y > max_y || x < min_x || x > max_x) {
-		return false;
+		return 0;
 	}
 
 	/* Do a better check */
