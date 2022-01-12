@@ -38,7 +38,8 @@ uint8_t inv(float A[], uint16_t row) {
 	// Create the inverse
 	for (uint16_t i = 0; i < row; i++) {
 		tmpvec[i] = 1.0f;
-		solve(A, &iA[row * i], tmpvec, P, LU, row);
+		if(!solve(A, &iA[row * i], tmpvec, P, LU, row))
+			return 0; // We divided with zero
 		tmpvec[i] = 0.0f;
 	}
 
@@ -51,7 +52,7 @@ uint8_t inv(float A[], uint16_t row) {
 	return status;
 }
 
-static void solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint16_t row){
+static uint8_t solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint16_t row){
 	// forward substitution with pivoting
 	for (uint16_t i = 0; i < row; ++i) {
 		x[i] = b[P[i]];
@@ -64,9 +65,15 @@ static void solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint
 	for (int16_t i = row - 1; i >= 0; --i) {
 		for (int16_t j = i + 1; j < row; ++j)
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
-
-		x[i] = x[i] / LU[row * P[i] + i];
+		
+		// Just in case if we divide with zero
+		if(fabsf(LU[row * P[i] + i]) > FLT_EPSILON)
+			x[i] = x[i] / LU[row * P[i] + i];
+		else
+			return 0;
 	}
+	
+	return 1; // No problems
 }
 
 /*
