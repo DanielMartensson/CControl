@@ -18,6 +18,9 @@
  */
 uint8_t lup(float A[], float LU[], uint8_t P[], uint16_t row) {
 
+	// Variables
+	uint16_t ind_max, tmp_int;
+	
 	// If not the same
 	if (A != LU) memcpy(LU, A, row*row*sizeof(float));
 
@@ -26,8 +29,6 @@ uint8_t lup(float A[], float LU[], uint8_t P[], uint16_t row) {
 		P[i] = i;
 
 	for (uint16_t i = 0; i < row - 1; ++i) {
-		uint16_t ind_max, tmp_int;
-
 		ind_max = i;
 		for (uint16_t j = i + 1; j < row; ++j)
 			if (fabsf(LU[row * P[j] + i]) > fabsf(LU[row * P[ind_max] + i]))
