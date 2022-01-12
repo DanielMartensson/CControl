@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static void solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint16_t row);
+static uint8_t solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint16_t row);
 
 /*
  * A to A^(-1)
