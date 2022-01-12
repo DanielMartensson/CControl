@@ -26,7 +26,7 @@ uint8_t lup(float A[], float LU[], uint8_t P[], uint16_t row) {
 		P[i] = i;
 
 	for (uint16_t i = 0; i < row - 1; ++i) {
-		int ind_max, tmp_int;
+		uint16_t ind_max, tmp_int;
 
 		ind_max = i;
 		for (uint16_t j = i + 1; j < row; ++j)
