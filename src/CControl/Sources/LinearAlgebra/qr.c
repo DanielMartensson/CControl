@@ -7,8 +7,6 @@
 
 #include "../../Headers/Functions.h"
 
-#include "../../Headers/Functions.h"
-
 /*
  * Householder QR-decomposition
  * A [m*n]
