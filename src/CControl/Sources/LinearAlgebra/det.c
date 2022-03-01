@@ -2,7 +2,7 @@
  * det.c
  *
  *  Created on: 2 mars 2020
- *      Author: hp
+ *      Author: Daniel Mårtensson
  */
 
 #include "../../Headers/Functions.h"
