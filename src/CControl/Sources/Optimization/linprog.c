@@ -68,38 +68,38 @@ static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 	memset(tableau, 0, (row_a+1)*(column_a+row_a+2)*sizeof(float));
 
 	// Load the constraints
-	int j = 0;
+	uint8_t j = 0;
 	for(uint8_t i = 0; i < row_a; i++){
 		// First row
 		memcpy(tableau + i*(column_a+row_a+2), A + i*column_a, column_a*sizeof(float));
 
 		// Slack variable s
 		j = column_a + i;
-		tableau[i*(column_a+row_a+2) + j] = 1;
+		tableau[i*(column_a+row_a+2) + j] = 1.0f;
 
 		// Add b vector
-		tableau[i*(column_a+row_a+2) + (column_a+row_a+2-1)] = *(b+i);
+		tableau[i*(column_a+row_a+2) + (column_a+row_a+2-1)] = b[i];
 	}
 
 	// Negative objective function
-	for(int i = 0; i < column_a; i++)
-		tableau[(row_a+1-1)*(column_a+row_a+2) + i] = -*(c +i);
+	for(uint8_t i = 0; i < column_a; i++)
+		tableau[(row_a+1-1)*(column_a+row_a+2) + i] = -c[i];
 
 	// Slack variable for the objective function
-	tableau[(row_a+1-1)*(column_a+row_a+2) + (column_a+row_a+2-2)] = 1;
+	tableau[(row_a+1-1)*(column_a+row_a+2) + (column_a+row_a+2-2)] = 1.0f;
 	// Done!
 
 
 	// Do row operations
 	float entry = 0.0;
-	int pivotColumIndex = 0;
-	int pivotRowIndex = 0;
+	uint8_t pivotColumIndex = 0;
+	uint8_t pivotRowIndex = 0;
 	float pivot = 0.0;
 	float value1 = 0.0;
 	float value2 = 0.0;
 	float value3 = 0.0;
 	float smallest = 0.0;
-	int count = 0;
+	uint8_t count = 0;
 	do{
 		// Find our pivot column
 		pivotColumIndex = 0;
@@ -117,11 +117,11 @@ static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 
 		// Find our pivot row
 		pivotRowIndex = 0;
-		value1 = *(tableau + 0*(column_a+row_a+2) + pivotColumIndex); // Value in pivot column
+		value1 = tableau[0*(column_a+row_a+2) + pivotColumIndex]; // Value in pivot column
 		if(value1 == 0) value1 = FLT_EPSILON; // Make sure that we don't divide by zero
 		value2 = tableau[0*(column_a+row_a+2) + (column_a+row_a+2-1)]; // Value in the b vector
 		smallest = value2/value1; // Initial smallest value
-		for(int i = 1; i < row_a; i++){
+		for(uint8_t i = 1; i < row_a; i++){
 			value1 = tableau[i*(column_a+row_a+2) + pivotColumIndex]; // Value in pivot column
 			if(value1 == 0) value1 = FLT_EPSILON;
 			value2 = tableau[i*(column_a+row_a+2) + (column_a+row_a+2-1)]; // Value in the b vector
@@ -143,10 +143,10 @@ static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 
 		// Turn all other values in pivot column into 0. Jump over pivot row
 		// -value1* PIVOT_ROW + ROW -> ROW
-		for(int i = 0; i < row_a + 1; i++){
+		for(uint8_t i = 0; i < row_a + 1; i++){
 			if(i != pivotRowIndex){
 				value1 = tableau[i*(column_a+row_a+2) + pivotColumIndex]; // This is at pivot column
-				for(int j = 0; j < (column_a+row_a+2); j++){
+				for(uint8_t j = 0; j < (column_a+row_a+2); j++){
 					value2 = tableau[pivotRowIndex*(column_a+row_a+2) + j]; // This is at pivot row
 					value3 = tableau[i*(column_a+row_a+2) + j]; // This is at the row we want to be 0 at pivot column
 					tableau[i*(column_a+row_a+2) + j] = -value1*value2 + value3;
