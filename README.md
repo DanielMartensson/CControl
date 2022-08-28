@@ -77,8 +77,23 @@ Main focuses are:
 
 1. I'd recommend `Eclipse IDE` for compiling this software. (Yes, I'm boring)
 ![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Eclipse%20installation%20intro.png?raw=true)
-2. Once you have `Eclipse IDE` installed. Clone the `CControl` project inside `Eclipse IDE`.
-
+2. Once you have `Eclipse IDE` installed. Show Git perspective.
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Eclipse%20git.png?raw=true)
+3. Select `Git`
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Select%20git.png?raw=true)
+4. Copy ssh 
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Copy%20ssh.png?raw=true)
+5. Clone git. Just press next and end with finish
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Clone%20git.png?raw=true)
+6. Import project
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Import%20project.png?raw=true)
+7. Show view
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Show%20view.png?raw=true)
+8. Select `Git staging`
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Git%20staging.png?raw=true)
+9. Every time you change a file and you want to update your repository
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Push%20git.png?raw=true)
+10. If you don't have a `C-compiler`, here is a ![video](https://www.youtube.com/watch?v=D2oAUDPWkkA&ab_channel=DanielGrissom) how to set up a compiler 
 
 1. Begin with your `main.c` file
 
