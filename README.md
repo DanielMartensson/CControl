@@ -5,7 +5,7 @@ The purpose with this library is to fit advanced tools for really small embedded
 Here I have focused on practical numerical methods and selected the methods that works best in practice. It has
 been a lot of work finding the best methods and best algorithms.
 
-Many examples can be found in the scr folder.
+Main focuses are:
 
 - Artificial Intelligence
   - Astar algorithm for quick path finding
@@ -73,26 +73,61 @@ Many examples can be found in the scr folder.
   - Recursive Least Square with forgetting factor and kalman filter identification
   - Square Root Unscented Kalman Filter for parameter estimation
 
-### How the project is structured
+# How to use this library
 
-This project is structured as
+1. I'd recommend `Eclipse IDE` for compiling this software. (Yes, I'm boring)
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Eclipse%20installation%20intro.png?raw=true)
+2. Once you have `Eclipse IDE` installed. Clone the `CControl` project inside `Eclipse IDE`.
 
- - No malloc, calloc or free - No dynamic memory allocation in other words
- - Use pointers as much as you can
- - Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct. For windows users, `Dr.Memory` works too
- - Main focusing on: Control engineering, linear algebra, optimization, AI algorithms, system identification and classification
+
+1. Begin with your `main.c` file
+
+```c
+/*
+ ============================================================================
+ Name        : Main.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Initial template
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Your logic here */
+
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+
+	return EXIT_SUCCESS;
+}
+```
+
 
 # How to help to build on this library
 
 Find a good pratical function that always comes in handy. An algorithm for example. When you writing your code, remember these steps:
 
+ - Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct. For windows users, `Dr.Memory` works too
+ - Use pointers/arrays as much as you can
+ - No malloc, calloc or free - No dynamic memory allocation in other words
  - `1D` arrays are only allowed. When you are indexing an `1D`, then you using `my_array[i*column_length + j]` where `i` is row index and `j` is column index and `column_length` is column length of `my_array`
  - Only `floats` are allowed because some processors don't have `double` implemented
- - `C99` standard is only allowed because I want it to follow `MISRA C` standard
+ - `C99` standard is only allowed because I want it to follow `MISRA C` standard as much as possible
  - Your code must come with an example
- - Write `clean code`, that means no slack variables, don't try to compute everything in one single functions, minimize input arguments if it's possible, focus on practical implementation, focus on memory
+ - Write `clean code`, that means no slack variables or unnecessary #defines, don't try to compute everything in one single functions, minimize input arguments if it's possible, focus on practical implementation, focus on memory
 
-# Fan Controller with Linear Quadratic Integral Control
+# Projects made with CControl
+
+## Fan Controller with Linear Quadratic Integral Control
 
 I have created a controller for a fan. The controller works as it read the temperature sensor and it compare the temperature sensor with the potentiometer, which is the reference set point. If the error is large between the temperature sensor and the potentiometer, then the fan is going to turn on high, or low, depending on if the error is negative or positive. 
 
@@ -111,7 +146,7 @@ Simulation process:
 ![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Fan%20Controller/Identification%20and%20simulation/Simulation.png)
 
 
-# Model Predictive Integral Temperature Controller
+## Model Predictive Integral Temperature Controller
 
 This is a Model Predictive Controller, with integral action. It uses linear programming instead of quadratic programming for the optimization. This controller works well.
 
@@ -125,7 +160,7 @@ Step answer of first order model.
 
 ![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Temperature%20Controller/Step%20answer%20-%20First%20order.png)
 
-# Model Reference Adaptive CAN-bus controller
+## Model Reference Adaptive CAN-bus controller
 
 This is a MRAC project, Model Reference Adaptive Controller. This controls the a Sonceboz stepper motor with CAN-bus J1939-21 protocol. The purpose is to control a big wheel with two multivariable hydraulical valves.
 
@@ -136,7 +171,7 @@ Library for SAE J1939 https://github.com/DanielMartensson/Open-SAE-J1939
 ![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/Stepper%20Motor%20Controller/Picture%20CAN-bus.jpg)
 
 
-# Square Root Uncented Kalman Filter for state estimation and parameter estimation
+## Square Root Uncented Kalman Filter for state estimation and parameter estimation
 
 This is the latest Uncented Kalman Filter. MATLAB is using the same algorithm. A `.m` file is available at the `SR-UKF` folder.
 
