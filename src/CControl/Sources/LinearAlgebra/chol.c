@@ -25,10 +25,10 @@ void chol(float A[], float L[], uint16_t row) {
 				s += L[row * i + k] * L[row * j + k];
 
 			// We cannot divide with zero
-			if (L[row * j + j] == 0) {
+			if (L[row * j + j] == 0.0f) {
 				L[row * j + j] = FLT_EPSILON; // Same as eps command in MATLAB
 			}
-			L[row * i + j] = (i == j) ? sqrtf(A[row * i + i] - s) : (1.0 / L[row * j + j] * (A[row * i + j] - s));
+			L[row * i + j] = (i == j) ? sqrtf(A[row * i + i] - s) : (1.0f / L[row * j + j] * (A[row * i + j] - s));
 		}
 }
 
