@@ -111,7 +111,7 @@ Main focuses are:
 
 ![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Push%20git.png?raw=true)
 
-10. If you don't have a `C-compiler`, here is a ![video](https://www.youtube.com/watch?v=D2oAUDPWkkA&ab_channel=DanielGrissom) how to set up a compiler 
+10. If you don't have a `C-compiler`, here is a [video](https://www.youtube.com/watch?v=D2oAUDPWkkA&ab_channel=DanielGrissom) how to set up a compiler 
 
 11. Begin with your `main.c` file. Then go to `src/CControl/Documents/Examples/` and select a `.txt` file and paste it into `main.c` file and press ![the green circle with a white triangle inside](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Run.png?raw=true)
 
