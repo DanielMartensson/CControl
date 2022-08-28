@@ -20,7 +20,7 @@ void chol(float A[], float L[], uint16_t row) {
 	uint16_t i, j, k;
 	for (i = 0; i < row; i++)
 		for (j = 0; j <= i; j++) {
-			s = 0;
+			s = 0.0f;
 			for (k = 0; k < j; k++)
 				s += L[row * i + k] * L[row * j + k];
 
