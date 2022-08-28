@@ -93,26 +93,23 @@ int main() {
 	start = clock();
 	// Do a maximization problem:
 	uint8_t max_or_min = 0;
-	linprog(c, bounds_A, bounds_b, x, 6*2, 4, max_or_min, 200);
+	bool solution_max = linprog(c, bounds_A, bounds_b, x, 6*2, 4, max_or_min);
 
 	// Do a minimization problem:
 	max_or_min = 1;
-	linprog(C2, A2, B2, y, 3, 2, max_or_min, 200);
+	bool solution_min = linprog(C2, A2, B2, y, 3, 2, max_or_min);
 
 	end = clock();
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 	// Print x
-	printf("x\n");
+	printf("x: solution %s\n", solution_max == true ? "yes" : "no");
 	print(x, 4, 1);
 
 	// Print y
-	printf("y\n");
+	printf("y: solution %s\n", solution_min == false ? "no" : "yes");
 	print(y, 2, 1);
-
-	// GNU Octave do the same thing - Try it.
-	// x = glpk(c', bounds_A, bounds_b, [0;0;0;0], [], "UUUUUUUUUUUU", "CCCC", -1) % -1 is for maximize
 
 	return EXIT_SUCCESS;
 }

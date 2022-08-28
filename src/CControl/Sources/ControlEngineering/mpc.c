@@ -2,7 +2,7 @@
  * mpc.c
  *
  *  Created on: 1 mars 2020
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "../../Headers/Functions.h"
@@ -14,7 +14,7 @@ static void cab(float GAMMA[], float PHI[], float A[], float B[], float C[], uin
  * Model predictive control
  * Hint: Look up lmpc.m in Matavecontrol
  */
-void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, uint8_t ITERATION_LIMIT, bool has_integration){
+void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, bool has_integration){
 	// Create the extended observability matrix
 
 	float PHI[HORIZON*YDIM*ADIM];
@@ -70,7 +70,7 @@ void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8
 	mul(AT, R_PHI_vec, c, HORIZON*RDIM, HORIZON*RDIM, 1);
 
 	// Do linear programming now
-	linprog(c, GAMMATGAMMA, b, R_vec, HORIZON*YDIM, HORIZON*RDIM, 0, ITERATION_LIMIT);
+	linprog(c, GAMMATGAMMA, b, R_vec, HORIZON*YDIM, HORIZON*RDIM, 0);
 
 	// We select the best input values, depending on if we have integration behavior or not in our model
 	if(has_integration == true){

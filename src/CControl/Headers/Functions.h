@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 /* Control engineering */
-void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, uint8_t ITERATION_LIMIT, bool has_integration);
+void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, bool has_integration);
 void kalman(float A[], float B[], float C[], float K[], float u[], float x[], float y[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
 void lqi(float y[], float u[], float qi, float r[], float L[], float Li[], float x[], float xi[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t ANTI_WINDUP);
 void mrac(float limit, float gain, float y[], float u[], float r[], float I1[], float I2[], uint8_t RDIM);
@@ -78,10 +78,11 @@ void sum(float A[], uint16_t row, uint16_t column, uint8_t l);
 float norm(float A[], uint16_t row, uint16_t column, uint8_t l);
 void expm(float A[], uint16_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
-void linsolve_gauss(float* A, float* x, float* b, uint16_t row, uint16_t column, float alpha);
+void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t column, float alpha);
   
 /* Optimization */
-void linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min, uint8_t iteration_limit);
+bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min);
+bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a);
 
 /* AI-algorithms */
 void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps);

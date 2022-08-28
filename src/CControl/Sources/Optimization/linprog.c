@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min, uint8_t iteration_limit);
+static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min);
 
 
 /**
@@ -41,21 +41,20 @@ static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
  * Source Simplex method: https://www.youtube.com/watch?v=yL7JByLlfrw
  * Source Simplex Dual method: https://www.youtube.com/watch?v=8_D3gkrgeK8
  */
-void linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min, uint8_t iteration_limit){
+bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min){
 
 	if(max_or_min == 0){
 		// Maximization
-		opti(c, A, b, x, row_a, column_a, max_or_min, iteration_limit);
+		return opti(c, A, b, x, row_a, column_a, max_or_min);
 	}else{
 		// Minimization
 		tran(A, row_a, column_a);
-
-		opti(b, A, c, x, column_a, row_a, max_or_min, iteration_limit);
+		return opti(b, A, c, x, column_a, row_a, max_or_min);
 	}
 
 }
 // This is Simplex method with the Dual included
-static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min, uint8_t iteration_limit){
+static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min){
 
 	// Clear the solution
 	if(max_or_min == 0)
@@ -99,7 +98,7 @@ static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 	float value2 = 0.0;
 	float value3 = 0.0;
 	float smallest = 0.0;
-	uint8_t count = 0;
+	uint8_t count = 0; // Iterations
 	do{
 		// Find our pivot column
 		pivotColumIndex = 0;
@@ -112,8 +111,12 @@ static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 			}
 		}
 		// If the smallest entry is equal to 0 or larger than 0, break
-		if(entry >= 0.0 || count >= iteration_limit)
+		if(entry >= 0.0)
 			break;
+
+		// If we found no solution
+		if(count == 255)
+			return false;
 
 		// Find our pivot row
 		pivotRowIndex = 0;
@@ -179,6 +182,9 @@ static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 			x[i] = tableau[row_a*(column_a+row_a+2) + i + column_a]; // We take only the bottom row at start index column_a
 		}
 	}
+
+	// We found solution
+	return true;
 }
 
 /*
@@ -211,27 +217,27 @@ static void opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 
  */
 
-/* More Octave code:
+/* GNU Octave code:
 
 % This simplex method has been written as it was C code
-function [x] = linprog2(c, A, b, max_or_min, iteration_limit)
+function [x, solution] = linprog(c, A, b, max_or_min)
   row_a = size(A, 1);
   column_a = size(A, 2);
 
   if(max_or_min == 0)
     % Maximization
-    x = opti(c, A, b, row_a, column_a, max_or_min, iteration_limit);
+    [x, solution] = opti(c, A, b, row_a, column_a, max_or_min);
   else
     % Minimization
-    x = opti(b, A', c, column_a, row_a, max_or_min, iteration_limit);
+    [x, solution] = opti(b, A', c, column_a, row_a, max_or_min);
   end
 end
 
 
-function [x] = opti(c, A, b, row_a, column_a, max_or_min, iteration_limit)
+function [x, solution] = opti(c, A, b, row_a, column_a, max_or_min)
 
   % Clear the solution
-	if(max_or_min == 0)
+  if(max_or_min == 0)
 		x = zeros(column_a, 1);
 	else
 		x = zeros(row_a, 1);
@@ -268,6 +274,7 @@ function [x] = opti(c, A, b, row_a, column_a, max_or_min, iteration_limit)
 	value3 = 0.0;
 	smallest = 0.0;
 	count = 0;
+	solution = true;
   while(entry < 0) % Continue if we have still negative entries
     % Find our pivot column
     pivotColumIndex = 1;
@@ -281,9 +288,16 @@ function [x] = opti(c, A, b, row_a, column_a, max_or_min, iteration_limit)
     end
 
     % If the smallest entry is equal to 0 or larger than 0, break
-    if(or(entry >= 0.0, count >= iteration_limit))
+    if(entry >= 0.0)
       break;
     end
+
+    % If we found no solution
+	if(count == 255)
+		solution = false;
+		return;
+	end
+
 
     % Find our pivot row
     pivotRowIndex = 1;
