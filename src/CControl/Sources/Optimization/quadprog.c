@@ -31,6 +31,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	/* Use gaussian elimination to solve x from Qx = c because Q is square and symmetric */
 	linsolve_gauss(Q, x, c, column_a, column_a, 0.0f);
 
+	// Save address
+	float *Ai = A;
+
 	/* Turn x negative */
 	for(uint8_t i = 0; i < column_a; i++)
 		x[i] = -x[i];
@@ -42,8 +45,11 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 
 		/* Check how many rows are A*x > b */
 		value = 0.0f;
-		for(uint8_t j = 0; j < column_a; j++)
-			value += A[i*column_a + j]*x[j];
+		for(uint8_t j = 0; j < column_a; j++){
+			value += Ai[j] * x[j];
+			Ai += column_a;
+			//value += A[i*column_a + j]*x[j];
+		}
 		if(value > b[i])
 			k++;
 	}
@@ -60,6 +66,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 
 	/* Multiply P = A*X */
 	float P[row_a * row_a];
+	float *Pj;
 	mul(A, X, P, row_a, column_a, row_a);
 
 	/* Multiply d = A*Y + b (Notice that we are using A*x where x is negative (see above), but then later d = -d + b) */
@@ -77,15 +84,21 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 		/* Update */
 		memcpy(lambda_p, lambda, row_a * sizeof(float));
 
+		Pj = P;
 		for(uint8_t j = 0; j < row_a; j++){
 			/* Do w = P(i, :)*lambda - P(i, i)*lambda(i, 1) + d(i, 1) */
 			w = 0.0f;
-			for(uint8_t k = 0; k < row_a; k++)
-				w += P[j*row_a + k] * lambda[k];
-			w = w - P[j*row_a + j]*lambda[j] + d[j];
+			for(uint8_t k = 0; k < row_a; k++){
+				w += Pj[k] * lambda[k];
+				//w += P[j*row_a + k] * lambda[k];
+			}
+			w = w - Pj[j] * lambda[j] + d[j];
+			//w = w - P[j*row_a + j]*lambda[j] + d[j];
 
 			/* Find maximum */
-			lambda[j] = vmax(0, -w/P[j*row_a + j]);
+			lambda[j] = vmax(0, -w / Pj[j]);
+			//lambda[j] = vmax(0, -w/P[j*row_a + j]);
+			Pj += row_a;
 		}
 
 		/* Check if we should break - Found the optimal solution */
