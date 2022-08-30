@@ -33,15 +33,10 @@ uint8_t linsolve_lup(float A[], float x[], float b[], uint16_t row) {
 	}
 
 	// backward substitution with pivoting
-	for (uint16_t i = row - 1; i >= 0; --i) {
+	for (int32_t i = row - 1; i >= 0; --i) {
 		for (uint16_t j = i + 1; j < row; ++j)
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
-
 		x[i] = x[i] / LU[row * P[i] + i];
-
-		// Important because when i = -1, then i will become 65535
-		if(i == 0)
-			break;
 	}
 
 	return status;

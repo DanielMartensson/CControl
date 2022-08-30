@@ -28,14 +28,14 @@ void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8
 void kalman(float A[], float B[], float C[], float K[], float u[], float x[], float y[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
 void lqi(float y[], float u[], float qi, float r[], float L[], float Li[], float x[], float xi[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t ANTI_WINDUP);
 void mrac(float limit, float gain, float y[], float u[], float r[], float I1[], float I2[], uint8_t RDIM);
-void theta2ss(float A[], float B[], float C[], float theta[], float K[], uint8_t ADIM, uint8_t NP, uint8_t NZ, uint8_t NZE, bool integral_action);
+void theta2ss(float A[], float B[], float C[], float theta[], float K[], uint8_t ADIM, uint8_t NP, uint8_t NZ, bool integral_action);
 bool stability(float A[], uint8_t ADIM);
 void c2d(float A[], float B[], uint8_t ADIM, uint8_t RDIM, float sampleTime);
 
 /* Miscellaneous */
 void cat(uint8_t dim, float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uint16_t row_b, uint16_t column_b, uint16_t row_c, uint16_t column_c);
 float saturation(float input, float lower_limit, float upper_limit);
-void cut(float A[], uint16_t row, uint16_t column, float B[], uint16_t start_row, uint16_t stop_row, uint16_t start_column, uint16_t stop_column);
+void cut(float A[], uint16_t column, float B[], uint16_t start_row, uint16_t stop_row, uint16_t start_column, uint16_t stop_column);
 void insert(float A[], float B[], uint16_t row_a, uint16_t column_a, uint16_t column_b, uint16_t startRow_b, uint16_t startColumn_b);
 void print(float A[], uint16_t row, uint16_t column);
 float sign(float number);

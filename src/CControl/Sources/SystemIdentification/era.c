@@ -69,7 +69,7 @@ void era(float u[], float y[], uint16_t row, uint16_t column, float A[], float B
 	mul(U, Temp, V, column_h, row_h, column_h);
 
 	// Get the elements of V -> A
-	cut(V, column_h, column_h, A, 0, row_a-1, 0, row_a-1);
+	cut(V, column_h, A, 0, row_a-1, 0, row_a-1);
 
 }
 

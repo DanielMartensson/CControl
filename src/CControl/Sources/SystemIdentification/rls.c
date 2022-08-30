@@ -60,22 +60,16 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, u
 		 * To [-y(t-1), -y(t-1), -y(t-2), -y(t-3), -y(t-4)...]
 		 */
 		// Shift 1 step for y
-		for(uint8_t i = NP - 2; i >= 0; i--){
+		for(int16_t i = NP - 2; i >= 0; i--){
 			phi[i + 1] = phi[i];
-			if(i == 0)
-				break;
 		}
 		// Shift 1 step for u
-		for(uint8_t i = NZ - 2; i >= 0; i--){
+		for(int16_t i = NZ - 2; i >= 0; i--){
 			phi[i + NP + 1] = phi[i + NP];
-			if(i == 0)
-				break;
 		}
 		// Shift 1 step for e
-		for(uint8_t i = NZE - 2; i >= 0; i--){
+		for(int16_t i = NZE - 2; i >= 0; i--){
 			phi[i + NP + NZ + 1] = phi[i + NP + NZ];
-			if(i == 0)
-				break;
 		}
 
 		// Insert the values at first e.g y(t) = -y(t-1)

@@ -16,7 +16,7 @@
  * Returns 1 == Success
  * Returns 0 == Fail
  */
-uint8_t qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a, bool only_compute_R){
+uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, bool only_compute_R){
 
 	// Declare
 	uint16_t row_a_row_a = row_a*row_a;
@@ -26,34 +26,54 @@ uint8_t qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a, bool
 	// Give A to R
 	memcpy(R, A, row_a*column_a*sizeof(float));
 
+	// Save address
+	float *Ri, *kR, *iH, *iHi;
+
 	// Turn H into identity matrix
 	memset(H, 0, row_a_row_a*sizeof(float));
-	for(uint16_t i = 0; i < row_a; i++)
-		H[row_a*i + i] = 1.0f;
+	iH = H;
+	for(uint16_t i = 0; i < row_a; i++){
+		iH[i] = 1.0f;
+		iH += row_a;
+		//H[i*row_a + i] = 1.0f;
+	}
 
 	// Do house holder transformations
+	kR = R;
 	for(uint16_t k = 0; k < l; k++){
 		// Do L2 norm
-		s = 0;
-		for(uint16_t i = k; i < row_a; i++)
-			s += R[i*column_a + k] * R[i*column_a + k];
+		s = 0.0f;
+		Ri = R;
+		Ri += column_a*k;
+		for(uint16_t i = k; i < row_a; i++){
+			s += Ri[k] * Ri[k];
+			Ri += column_a;
+			//s += R[i*column_a + k] * R[i*column_a + k];
+		}
 		s = sqrtf(s);
 
 		// Find Rk
-		Rk = R[k*column_a + k];
+		Rk = kR[k];
+		kR += column_a;
+		//Rk = R[k*column_a + k];
 
 		// Do sign
 		if(Rk < 0.0f)
 			s = -s;
 
 		// Compute r
-		r = sqrtf(2*s*(Rk + s));
+		r = sqrtf(2 * s * (Rk + s));
 
 		// Fill W
 		memset(W, 0, row_a*sizeof(float));
-		W[k] = (Rk+s)/r;
-		for(uint16_t i = k+1; i < row_a; i++)
-			W[i] = R[i*column_a + k] / r;
+		W[k] = (Rk + s) / r;
+		Ri = R;
+		Ri += column_a*k;
+		for(uint16_t i = k+1; i < row_a; i++){
+			Ri += column_a;
+			W[i] = Ri[k] / r;
+			//W[i] = R[i*column_a + k] / r;
+		}
 
 		// WW = W*W'
 		mul(W, W, WW, row_a, 1, row_a);
@@ -63,8 +83,12 @@ uint8_t qr(float* A, float* Q, float* R, uint16_t row_a, uint16_t column_a, bool
 			Hi[i] = -2.0f*WW[i];
 
 		// Use identity matrix on Hi
-		for(uint16_t i = 0; i < row_a; i++)
-			Hi[i*row_a + i] += 1.0f;
+		iHi = Hi;
+		for(uint16_t i = 0; i < row_a; i++){
+			iHi[i] += 1.0f;
+			iHi += row_a;
+			//Hi[i*row_a + i] += 1.0f;
+		}
 
 		// HiH = Hi * H -> HiH = H
 		if(!only_compute_R) {

@@ -26,7 +26,7 @@
  * C [1*(ADIM+1)]
  * K [(ADIM+1)*1]
  */
-void theta2ss(float A[], float B[], float C[], float theta[], float K[], uint8_t ADIM, uint8_t NP, uint8_t NZ, uint8_t NZE, bool integral_action){
+void theta2ss(float A[], float B[], float C[], float theta[], float K[], uint8_t ADIM, uint8_t NP, uint8_t NZ, bool integral_action){
 	// Clear A, C
 	memset(A, 0, ADIM*ADIM*sizeof(float));
 
