@@ -68,7 +68,7 @@ int main() {
 	float C[YDIM * NP];
 	float K[NP * YDIM];
 	bool integral_action = false;
-	theta2ss(A, B, C, theta, K, ADIM, NP, NZ, NZE, integral_action);
+	theta2ss(A, B, C, theta, K, ADIM, NP, NZ, integral_action);
 
 	// Print our state space matrix
 	printf("System matrix: A\n");
