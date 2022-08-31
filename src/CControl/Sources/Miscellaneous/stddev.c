@@ -18,5 +18,5 @@ float stddev(float x[], uint16_t length) {
 	float sigma = 0;
 	for(uint16_t i = 0; i < length; i++)
 		sigma += (x[i] - mu) * (x[i] - mu);
-	return sqrtf(sigma/((float) length));
+	return sqrtf(sigma/((float) length - 1)); // This is Bessel's std
 }
