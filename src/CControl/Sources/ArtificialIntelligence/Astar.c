@@ -2,7 +2,7 @@
  * Astar.c
  *
  *  Created on: 23 Feb. 2020
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "../../Headers/Functions.h"
@@ -119,6 +119,7 @@ void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int 
 	}
 
 	// Filter the path_x and path_y from zigzag
+	*steps = 0;
 	for (int i = 0; i < height * width; i++) {
 		position = 0;
 		x = path_x[i];
@@ -137,9 +138,10 @@ void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int 
 					memset(path_x + i + 1, -1, (position - i - 1) * sizeof(int));
 					memset(path_y + i + 1, -1, (position - i - 1) * sizeof(int));
 					i = position; // Jump
+					*steps += 1;
 				}
 			}
-
+			*steps += 1;
 		} else {
 			position = i; // Remember that too
 			break; // The rest is just -1's
@@ -162,12 +164,6 @@ void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int 
 			}
 		}
 	}
-
-	// How many steps have we done
-	//printf("position is = %d\n", position);
-	*steps = position;
-
-	//printf("Done\n");
 }
 
 // norm_mode = 2 -> L2 norm
