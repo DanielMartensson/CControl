@@ -7,8 +7,8 @@
 
 #include "../../Headers/Functions.h"
 
-static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON);
-static void cab(float GAMMA[], float PHI[], float A[], float B[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON);
+static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t HORIZON);
+static void cab(float GAMMA[], float PHI[], float B[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON);
 
 /*
  * Model predictive control
@@ -18,12 +18,12 @@ void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8
 	// Create the extended observability matrix
 
 	float PHI[HORIZON*YDIM*ADIM];
-	obsv(PHI, A, C, ADIM, YDIM, RDIM, HORIZON);
+	obsv(PHI, A, C, ADIM, YDIM, HORIZON);
 
 	// Create the lower triangular toeplitz matrix
 	float GAMMA[HORIZON*YDIM*HORIZON*RDIM];
 	memset(GAMMA, 0, HORIZON*YDIM*HORIZON*RDIM*sizeof(float)); // We need memset here
-	cab(GAMMA, PHI, A, B, C, ADIM, YDIM, RDIM, HORIZON);
+	cab(GAMMA, PHI, B, C, ADIM, YDIM, RDIM, HORIZON);
 
 	// Find the input value from GAMMA and PHI
 	// R_vec = R*r
@@ -84,14 +84,13 @@ void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8
 			u[i] = R_vec[HORIZON * RDIM - RDIM + i];
 		}
 	}
-
 }
 
 
 /*
  * [C*A^1; C*A^2; C*A^3; ... ; C*A^HORIZON] % Extended observability matrix
  */
-static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON) {
+static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t HORIZON) {
 
 	// This matrix will A^(i+1) all the time
 	float A_copy[ADIM*ADIM];
@@ -121,7 +120,7 @@ static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, 
  * Lower triangular toeplitz of extended observability matrix
  * CAB stands for C*A^i*B because every element is C*A*B
  */
-static void cab(float GAMMA[], float PHI[], float A[], float B[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON){
+static void cab(float GAMMA[], float PHI[], float B[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON){
 
 	// First create the initial C*A^0*B == C*I*B == C*B
 	float CB[YDIM*RDIM];

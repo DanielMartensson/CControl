@@ -13,8 +13,8 @@
 void tran(float A[], uint16_t row, uint16_t column) {
 
 	float B[row*column];
-	float* transpose;
-	float* ptr_A = A;
+	float *transpose;
+	float *ptr_A = A;
 
 	for (uint16_t i = 0; i < row; i++) {
 		transpose = &B[i];

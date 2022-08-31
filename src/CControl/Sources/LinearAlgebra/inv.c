@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static uint8_t solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint16_t row);
+static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row);
 
 /*
  * A to A^(-1)
@@ -38,7 +38,7 @@ uint8_t inv(float A[], uint16_t row) {
 	// Create the inverse
 	for (uint16_t i = 0; i < row; i++) {
 		tmpvec[i] = 1.0f;
-		if(!solve(A, &iA[row * i], tmpvec, P, LU, row))
+		if(!solve(&iA[row * i], tmpvec, P, LU, row))
 			return 0; // We divided with zero
 		tmpvec[i] = 0.0f;
 	}
@@ -52,7 +52,7 @@ uint8_t inv(float A[], uint16_t row) {
 	return status;
 }
 
-static uint8_t solve(float A[], float x[], float b[], uint8_t P[], float LU[], uint16_t row){
+static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row){
 	// forward substitution with pivoting
 	for (uint16_t i = 0; i < row; ++i) {
 		x[i] = b[P[i]];
@@ -62,8 +62,8 @@ static uint8_t solve(float A[], float x[], float b[], uint8_t P[], float LU[], u
 	}
 
 	// backward substitution with pivoting
-	for (int16_t i = row - 1; i >= 0; --i) {
-		for (int16_t j = i + 1; j < row; ++j)
+	for (int32_t i = row - 1; i >= 0; --i) {
+		for (uint16_t j = i + 1; j < row; ++j)
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
 		
 		// Just in case if we divide with zero
