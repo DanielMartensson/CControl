@@ -96,7 +96,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 			//w = w - P[j*row_a + j]*lambda[j] + d[j];
 
 			/* Find maximum */
-			lambda[j] = vmax(0, -w / Pj[j]);
+			lambda[j] = vmax(0.0f, -w / Pj[j]);
 			//lambda[j] = vmax(0, -w/P[j*row_a + j]);
 			Pj += row_a;
 		}
