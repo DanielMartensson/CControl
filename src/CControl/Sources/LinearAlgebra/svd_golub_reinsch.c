@@ -225,6 +225,7 @@ static int Givens_Reduction_to_Diagonal_Form(uint16_t nrows, uint16_t ncols, flo
 	int i, j, k, m;
 	int rotation_test;
 	int iteration_count;
+	const uint8_t max_iterations = 255;
 
 	for (i = 0, x = 0.0; i < ncols; i++) {
 		y = fabsf(diagonal[i]) + fabsf(superdiagonal[i]);
@@ -274,7 +275,7 @@ static int Givens_Reduction_to_Diagonal_Form(uint16_t nrows, uint16_t ncols, flo
 				}
 				break;
 			} else {
-				if (iteration_count >= MAX_ITERATION_COUNT_SVD)
+				if (iteration_count >= max_iterations)
 					return -1;
 				iteration_count++;
 				x = diagonal[m];
