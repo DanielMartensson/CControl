@@ -19,9 +19,9 @@
  * V [n*n]
  * n == m
  */
-void svd_jacobi_one_sided(float A[], uint16_t row, uint8_t max_iterations, float U[], float S[], float V[]) {
+void svd_jacobi_one_sided(float A[], uint16_t row, float U[], float S[], float V[]) {
 	// i and j are the indices of the point we've chosen to zero out
-	float al, b, c, l, t, cs, sn, tmp, sign;
+	float al, b, c, l, t, cs, sn, tmp, sign, error;
 	uint16_t i, j, p, k;
 
 	// Save address
@@ -43,8 +43,10 @@ void svd_jacobi_one_sided(float A[], uint16_t row, uint8_t max_iterations, float
 	}
 
 	// Apply max_iterations times. That should be good enough
-	for (p = 0; p < max_iterations; p++) {
+	bool exit = false;
+	for (p = 0; p < 100; p++) {
 		// For all pairs i < j
+		error = 0.0f;
 		for (i = 0; i < row; i++) {
 			for (j = i + 1; j < row; j++) {
 				al = b = c = l = t = cs = sn = tmp = sign = 0.0f;
@@ -58,6 +60,13 @@ void svd_jacobi_one_sided(float A[], uint16_t row, uint8_t max_iterations, float
 					//al += A[row*k + i] * A[row*k + i];
 					//b += A[row*k + j] * A[row*k + j];
 					//c += A[row*k + i] * A[row*k + j];
+				}
+
+				// Compute the error
+				error = vmax(error, fabsf(c)/sqrtf(al*b));
+				if(error < FLT_EPSILON){
+					exit = true;
+					break;
 				}
 
 				// Compute Jacobi rotation
@@ -93,6 +102,12 @@ void svd_jacobi_one_sided(float A[], uint16_t row, uint8_t max_iterations, float
 					//V[row*k + j] = sn * tmp + cs * V[row*k + j];
 				}
 			}
+			if(exit){
+				break;
+			}
+		}
+		if(exit){
+			break;
 		}
 	}
 

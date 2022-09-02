@@ -17,7 +17,6 @@
 #include <float.h>						// Required for FLT_EPSILON
 #include <stdbool.h>					// For bool datatype
 #include <time.h> 						// For srand, clock
-#define MAX_ITERATION_COUNT_SVD 30   	// Maximum number of iterations for svd_jacobi_one_sided.c
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,7 +56,7 @@ uint8_t inv(float* A, uint16_t row);
 void linsolve_upper_triangular(float* A, float* x, float* b, uint16_t column);
 void tran(float A[], uint16_t row, uint16_t column);
 void mul(float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uint16_t column_b);
-void svd_jacobi_one_sided(float A[], uint16_t row, uint8_t max_iterations, float U[], float S[], float V[]);
+void svd_jacobi_one_sided(float A[], uint16_t row, float U[], float S[], float V[]);
 void dlyap(float A[], float P[], float Q[], uint16_t row);
 uint8_t svd_golub_reinsch(float A[], uint16_t row, uint16_t column, float U[], float S[], float V[]);
 uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, bool only_compute_R);
