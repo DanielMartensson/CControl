@@ -48,3 +48,20 @@ void okid(float u[], float y[], float g[], uint16_t row, uint16_t column){
 	}
 
 }
+
+/* 
+ * GNU Octave code:
+ 
+ g = zeros(row, column);
+for k = 1:row
+  for i = 1:column
+  % Find markov parameter
+  sum = 0;
+    for j = 1:i-1
+      sum = sum + u(k, i-j+1) * g(k, j);
+    end
+    g(k, i) = (y(k, i) - sum) / u(1,1);
+  end
+end
+*/
+ 
