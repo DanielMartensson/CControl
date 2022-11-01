@@ -22,8 +22,7 @@ Main focuses are:
   - Continuous to discrete
 
 - Filtering
-  - Monte Carlo Simulation
-  - Comming soon: Particle filter
+  - Particle filter
   - Filtfilt 
   - Square Root Unscented Kalman Filter
   
@@ -62,6 +61,7 @@ Main focuses are:
   - Standard deviation
   - Value min
   - Value max
+  - Sort
   
 - Optimization
   - Linear programming maximization
