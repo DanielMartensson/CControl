@@ -56,7 +56,11 @@ void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], 
 		 * If P[i*p + index] = 1 (100%), then ratio = 0.5 (Good)
 		 * If P[i*p + index] = 0 (0%), then ratio = 1.0 (Problem, bad kernel density estimation...)
 		 */
-		ratio = x[i]/(x[i] + x[i]*P0[index]);
+		if(fabsf(x[i]) > 0.0f){
+			ratio = x[i]/(x[i] + x[i]*P0[index]);
+		}else{
+			ratio = 0.5f;
+		}
 
 		// Difference between old and new
 		diff = x[i] - xhatp[i];
