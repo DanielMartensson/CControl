@@ -1,0 +1,143 @@
+/*
+ ============================================================================
+ Name        : pf.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Particle filtering
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+#define n 63
+#define m 1
+#define p 5 // Length of the horizon (Change this)
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	float y[m*n] = {10,
+				10,
+				9,
+				8,
+				7,
+				6,
+				4,
+				6,
+				7,
+				8,
+				20,
+				3,
+				2,
+				4,
+				6,
+				5,
+				3,
+				7,
+				8,
+				9,
+				34,
+				1,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				6,
+				2,
+				6,
+				7,
+				9,
+				10,
+				2,
+				3,
+				5,
+				6,
+				13,
+				15,
+				12,
+				3,
+				10,
+				12,
+				14,
+				15,
+				17,
+				18,
+				19,
+				25,
+				30,
+				15,
+				35,
+				38,
+				38,
+				35,
+				33,
+				35,
+				31,
+				32,
+				37,
+				32,
+				33};
+
+	// Particle filter - No tuning
+	float yf[m*n]; 				// Dimension of the output state and length n
+	float horizon[m*p]; 		// Horizon matrix
+	float xhatp[m]; 			// Past estimated state
+	float xhat[m];				// Estimated state
+	uint8_t k = 0;				// Horizon counting (will be counted to p-1. Do not change this)
+	float x[m];					// State vector measurement
+	float noise[m*p]; 			// Random noise, not normal distributed
+	randn(noise, p, 0, 1);
+
+	// Do particle filtering
+	for(uint8_t i = 0; i < n; i++){
+		x[0] = y[i];
+		pf(x, xhat, xhatp, horizon, noise, m, p, &k);
+		yf[i] = xhat[0];
+		xhatp[0] = xhat[0];
+	}
+
+	/* Print the filtrated y */
+	print(yf, n, m);
+
+
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+
+	return EXIT_SUCCESS;
+}
+
+/*
+ * GNU Octave code:
+ *
+ *  y = [10 10 9 8 7 6 4 6 7 8 20 3 2 4 6 5 3 7 8 9 34 1 4 5 6 7 8 9 6 2 6 7  9 10 2 3 5 6 13 15 12 3 10 12 14 15 17 18 19 25 30 15 35 38 38 35 33 35 31 32 37 32 33];
+	t = 1:length(y);
+
+	% Do particle filtering - Tuning parameters
+	p = 5;                                                                      % Length of the horizon (Change this)
+
+	% Particle filter - No tuning
+	[m, n] = size(y);                                                      % Dimension of the output state and length n
+	yf = zeros(m, n);                                                     % Filtered outputs
+	horizon = zeros(m, p);                                            % Horizon matrix
+	xhatp = zeros(m, 1);                                               % Past estimated state
+	k = 1;                                                                      % Horizon counting (will be counted to p. Do not change this)
+	noise = randn(m, p);                                               % Random noise, not normal distributed
+
+	% Particle filter - Simulation
+	for i = 1:n
+	  x = y(:, i);                                                              % Get the state
+	  [xhat, horizon, k, noise] = pf(x, xhatp, k, horizon, noise);
+	  yf(:, i) = xhat;                                                        % Estimated state
+	  xhatp = xhat;                                                         % This is the past estimated state
+	end
+
+	% Show the results
+	yf'
+ */

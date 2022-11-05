@@ -19,28 +19,38 @@ static void insertion_sort(float X[], uint16_t n, uint8_t mode);
  */
 
 void sort(float X[], uint16_t row, uint16_t column, uint8_t dim, uint8_t mode){
+	// Save address
+	float *X0 = X;
+
 	// Declare outsider array Y
 	float Y[row];
 
 	switch(dim){
 	case 1:
 		for(uint16_t j = 0; j < column; j++){
+			X0 = X; // Reset
 			for(uint16_t i = 0; i < row; i++){
-				Y[i] = X[i*column + j];
+				//Y[i] = X[i*column + j];
+				Y[i] = X0[j];
+				X0 += column;
 			}
 
 			// Sort Y
 			insertion_sort(Y, row, mode);
 
 			// Place back
+			X0 = X; // Reset
 			for(uint16_t i = 0; i < row; i++){
-				X[i*column + j] = Y[i];
+				//X[i*column + j] = Y[i];
+				X0[j] = Y[i];
+				X0 += column;
 			}
 		}
 		break;
 	case 2:
 		for(uint16_t i = 0; i < row; i++) {
-			insertion_sort(&X[i*column], column, mode);
+			insertion_sort(&X0[0], column, mode);
+			X0 += column;
 		}
 		break;
 	}

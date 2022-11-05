@@ -18,6 +18,8 @@
 #include <stdbool.h>					// For bool datatype
 #include <time.h> 						// For srand, clock
 
+#define PI 2*acosf(0.0f)				// acos(0) is pi/2
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -44,6 +46,7 @@ float stddev(float x[], uint16_t length);
 float vmax(float a, float b);
 float vmin(float a, float b);
 void sort(float X[], uint16_t row, uint16_t column, uint8_t dim, uint8_t mode);
+void sum(float x[], float y[], uint16_t row, uint16_t column, uint8_t dim);
 
 /* Filtering */
 void filtfilt(float y[], float t[], uint16_t l, float K);
@@ -72,7 +75,6 @@ void hankel(float V[], float H[], uint16_t row_v, uint16_t column_v, uint16_t ro
 void balance(float A[], uint16_t row);
 void eig(float A[], float wr[], float wi[], uint16_t row);
 void eig_sym(float A[], uint16_t row, float d[]);
-void sum(float A[], uint16_t row, uint16_t column, uint8_t l);
 float norm(float A[], uint16_t row, uint16_t column, uint8_t l);
 void expm(float A[], uint16_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);

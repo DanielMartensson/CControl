@@ -45,7 +45,6 @@ Main focuses are:
   - Singular Value Decomposition Golup Reinsch
   - Singular Value Decomposition Jacobi One Sided
   - Transpose
-  - Matrix sum
   - Norm
   - Matrix exponential
 
@@ -62,6 +61,7 @@ Main focuses are:
   - Value min
   - Value max
   - Sort
+  - Sum
   
 - Optimization
   - Linear programming maximization
