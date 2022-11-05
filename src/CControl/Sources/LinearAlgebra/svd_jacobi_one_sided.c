@@ -170,33 +170,54 @@ void svd_jacobi_one_sided(float A[], uint16_t row, float U[], float S[], float V
 
 /*
  * GNU Octave code:
- *  >> A
-	A =
+ *  function [U,S,V] = svd(A)
+	% Jacobi One Sided SVD program
+	%
+	% A simple program that demonstrates how to use the jacobi method to obtain SVD
+	% A may be rectangular and complex.
+	%
+	% usage: [U,S,V]= svd(A)
+	%     or      S = svd(A)
+	%
+	% with A = U*S*V' , S>=0 , U'*U = Iu  , and V'*V = Iv
+	error = 1;
+	n = size(A, 2);
+	V = eye(n); S = eye(n);
+	while error > 1e-6
+	    error = 0;
+	    for i = 1:n-1
+		for j = i+1:n
+		    x = A(:,i);
+		    y = A(:,j);
+		    a = x'*x;
+		    b = y'*y;
+		    c = x'*y;
 
-	   3   4   5
-	   2   5   6
-	   5   6   7
+		    error = max(error,abs(c)/sqrt(a*b))
 
-	>> [u, s, v] = svd(A)
-	u =
+		    %Jacobi rotation
+		    e = (b - a)/(2*c);
+		    t = sign(e)/(abs(e) + sqrt(1 + e^2));
+		    cs = 1/sqrt(1+t^2);
+		    sn = cs*t;
 
-	  -0.47384   0.10757  -0.87402
-	  -0.53340  -0.82478   0.18767
-	  -0.70069   0.55512   0.44819
+		    % update G
+		    x = A(:,i);
+		    A(:,i) = cs*x - sn*A(:,j);
+		    A(:,j) = sn*x + cs*A(:,j);
 
-	s =
+		    % update V
+		    x = V(:,i);
+		    V(:,i) = cs*x - sn*V(:,j);
+		    V(:,j) = sn*x + cs*V(:,j);
 
-	Diagonal Matrix
+		end
+	    end
+	end
 
-	   14.91526          0          0
-			  0    1.58310          0
-			  0          0    0.16940
-
-	v =
-
-	  -0.401719   0.915134  -0.033930
-	  -0.587752  -0.229240   0.775885
-	  -0.702260  -0.331630  -0.629962
-
-	>>
+	U = A;
+	for i = 1:n
+	    S(i,i) = norm(A(:,i));
+	    U(:,i) = A(:,i)/S(i,i);
+	end
  */

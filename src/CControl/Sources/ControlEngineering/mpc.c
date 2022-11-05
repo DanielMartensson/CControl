@@ -11,12 +11,11 @@ static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, 
 static void cab(float GAMMA[], float PHI[], float B[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON);
 
 /*
- * Model predictive control
+ * Model predictive control with linear programming
  * Hint: Look up lmpc.m in Matavecontrol
  */
-void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, bool has_integration){
+void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, bool has_integration){
 	// Create the extended observability matrix
-
 	float PHI[HORIZON*YDIM*ADIM];
 	obsv(PHI, A, C, ADIM, YDIM, HORIZON);
 
@@ -52,12 +51,10 @@ void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8
 
 	// b = GAMMAT*R_PHI_vec
 	float b[HORIZON * YDIM];
-	//memset(b, 0, HORIZON * YDIM * sizeof(float));
 	mul(GAMMAT, R_PHI_vec, b, HORIZON * RDIM, HORIZON*YDIM, 1);
 
 	// GAMMATGAMMA = GAMMAT*GAMMA = A
 	float GAMMATGAMMA[HORIZON * RDIM*HORIZON * RDIM];
-	//memset(GAMMATGAMMA, 0, HORIZON * RDIM*HORIZON * RDIM * sizeof(float));
 	mul(GAMMAT, GAMMA, GAMMATGAMMA, HORIZON * RDIM, HORIZON*YDIM, HORIZON * RDIM);
 
 	// Copy A and call it AT

@@ -18,12 +18,14 @@
 #include <stdbool.h>					// For bool datatype
 #include <time.h> 						// For srand, clock
 
+#define PI 2*acosf(0.0f)				// acos(0) is pi/2
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* Control engineering */
-void mpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, bool has_integration);
+void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, bool has_integration);
 void kalman(float A[], float B[], float C[], float K[], float u[], float x[], float y[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM);
 void lqi(float y[], float u[], float qi, float r[], float L[], float Li[], float x[], float xi[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t ANTI_WINDUP);
 void mrac(float limit, float gain, float y[], float u[], float r[], float I1[], float I2[], uint8_t RDIM);
@@ -43,12 +45,12 @@ float mean(float x[], uint16_t length);
 float stddev(float x[], uint16_t length);
 float vmax(float a, float b);
 float vmin(float a, float b);
+void sort(float X[], uint16_t row, uint16_t column, uint8_t dim, uint8_t mode);
+void sum(float x[], float y[], uint16_t row, uint16_t column, uint8_t dim);
 
 /* Filtering */
 void filtfilt(float y[], float t[], uint16_t l, float K);
-void mcs_collect(float P[], uint16_t column_p, float x[], uint8_t row_x, float index_factor);
-void mcs_estimate(float P[], uint16_t column_p, float x[], uint8_t row_x);
-void mcs_clean(float P[], uint16_t column_p, uint8_t row_x);
+void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], uint8_t m, uint8_t p, uint8_t *k);
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, uint8_t L);
 
 /* Linear algebra */
@@ -73,7 +75,6 @@ void hankel(float V[], float H[], uint16_t row_v, uint16_t column_v, uint16_t ro
 void balance(float A[], uint16_t row);
 void eig(float A[], float wr[], float wi[], uint16_t row);
 void eig_sym(float A[], uint16_t row, float d[]);
-void sum(float A[], uint16_t row, uint16_t column, uint8_t l);
 float norm(float A[], uint16_t row, uint16_t column, uint8_t l);
 void expm(float A[], uint16_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);

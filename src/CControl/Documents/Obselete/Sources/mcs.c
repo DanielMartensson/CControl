@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../../Headers/Functions.h"
 
 /*
  * Monte Carlo Simulation collect

@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : Model_Predictive_Control.c
+ Name        : Linear_Model_Predictive_Control.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Model Predictive Control
+ Description : Model Predictive Control with linear programming algorithm: linprog
  ============================================================================
  */
 
@@ -14,8 +14,6 @@
 #define RDIM 1
 #define YDIM 1
 #define HORIZON 20
-#define ITERATION_LIMIT 200
-
 
 int main() {
 
@@ -46,7 +44,7 @@ int main() {
 
 	// Do Model Predictive Control where we selecting last u
 	for(int i = 0; i < 200; i++){
-		mpc(A, B, C, x, u, r, ADIM, YDIM, RDIM, HORIZON, ITERATION_LIMIT, 1);
+		mpc(A, B, C, x, u, r, ADIM, YDIM, RDIM, HORIZON, 1);
 		kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM); // Do only state update x = Ax + Bu
 		inputs[i] = u[0];
 	}

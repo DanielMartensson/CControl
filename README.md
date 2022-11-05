@@ -14,15 +14,15 @@ Main focuses are:
 - Control Engineering
   - Kalman filter update
   - Linear Quadratic Integral regulator
-  - Model predictive Control
+  - Model Predictive Control with linear programming
+  - Model Predictive Control with quadratic programming
   - Model Reference Adaptive Control
   - Transfer function to state space
   - Stability check
   - Continuous to discrete
 
 - Filtering
-  - Monte Carlo Simulation
-  - Comming soon: Particle filter
+  - Particle filter
   - Filtfilt 
   - Square Root Unscented Kalman Filter
   
@@ -45,7 +45,6 @@ Main focuses are:
   - Singular Value Decomposition Golup Reinsch
   - Singular Value Decomposition Jacobi One Sided
   - Transpose
-  - Matrix sum
   - Norm
   - Matrix exponential
 
@@ -61,6 +60,8 @@ Main focuses are:
   - Standard deviation
   - Value min
   - Value max
+  - Sort
+  - Sum
   
 - Optimization
   - Linear programming maximization
