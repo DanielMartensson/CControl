@@ -32,14 +32,15 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	linsolve_gauss(Q, x, c, column_a, column_a, 0.0f);
 
 	// Save address
-	float *Ai = A;
+	float* Ai = A;
 
 	/* Turn x negative */
 	for(uint8_t i = 0; i < column_a; i++)
 		x[i] = -x[i];
 
 	/* Count how many constraints A*x > b */
-	uint8_t k = 0;
+	float K[row_a];
+	uint8_t violations = 0;
 	float value;
 	for(uint8_t i = 0; i < row_a; i++){
 
@@ -47,35 +48,34 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 		value = 0.0f;
 		for(uint8_t j = 0; j < column_a; j++){
 			value += Ai[j] * x[j];
-			Ai += column_a;
 			//value += A[i*column_a + j]*x[j];
 		}
-		if(value > b[i])
-			k++;
+		Ai += column_a;
+
+		/* Constraints difference */
+		K[i] = b[i] - value;
+
+		/* Count violation */
+		if(K[i] <= 0.0f)
+			violations++;
 	}
 
-	/* If none - We have an optimal solution already */
-	if(k == 0)
+	/* Check constraint violation */
+	if(violations == 0)
 		return true;
 
-	/* Solve QX = A' (Notice that we are using a little trick here so we can avoid A') */
-	float X[row_a * column_a];
+	/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
+	float P[row_a * column_a];
 	for(uint8_t i = 0; i < row_a; i++)
-		linsolve_gauss(Q, &X[i*column_a], &A[i*column_a], column_a, column_a, 0.0f);
-	tran(X, row_a, column_a);
+		linsolve_gauss(Q, &P[i*column_a], &A[i*column_a], column_a, column_a, 0.0f);
+	tran(P, row_a, column_a);
 
-	/* Multiply P = A*X */
-	float P[row_a * row_a];
-	float *Pj;
-	mul(A, X, P, row_a, column_a, row_a);
+	/* Multiply H = A*Q*A' */
+	float H[row_a * row_a];
+	float *Hj;
+	mul(A, P, H, row_a, column_a, row_a);
 
-	/* Multiply d = A*Y + b (Notice that we are using A*x where x is negative (see above), but then later d = -d + b) */
-	float d[row_a];
-	mul(A, x, d, row_a, column_a, 1);
-	for(uint8_t i = 0; i < row_a; i++)
-		d[i] = -d[i] + b[i];
-
-	/* Time to find the optimal solution */
+	/* Solve lambda from H*lambda = -K, where lambda >= 0 */
 	float lambda[row_a];
 	memset(lambda, 0, row_a * sizeof(float));
 	float lambda_p[row_a];
@@ -84,21 +84,19 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 		/* Update */
 		memcpy(lambda_p, lambda, row_a * sizeof(float));
 
-		Pj = P;
-		for(uint8_t j = 0; j < row_a; j++){
-			/* Do w = P(i, :)*lambda - P(i, i)*lambda(i, 1) + d(i, 1) */
+		/* Use Gauss Seidel */
+		Hj = H;
+		for (uint8_t j = 0; j < row_a; j++) {
+			/* w = H(i, :)*lambda */
 			w = 0.0f;
-			for(uint8_t k = 0; k < row_a; k++){
-				w += Pj[k] * lambda[k];
-				//w += P[j*row_a + k] * lambda[k];
+			for (uint8_t k = 0; k < row_a; k++) {
+				w += Hj[k] * lambda[k];
 			}
-			w = w - Pj[j] * lambda[j] + d[j];
-			//w = w - P[j*row_a + j]*lambda[j] + d[j];
-
-			/* Find maximum */
-			lambda[j] = vmax(0.0f, -w / Pj[j]);
-			//lambda[j] = vmax(0, -w/P[j*row_a + j]);
-			Pj += row_a;
+			
+			/* Find a solution */
+			w = -1.0f / Hj[j] * (K[j] + w - Hj[j]*lambda[j]);
+			Hj += row_a;
+			lambda[j] = vmax(0.0f, w);
 		}
 
 		/* Check if we should break - Found the optimal solution */
@@ -111,9 +109,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 			return false; // No solution found
 	}
 
-	/* Solve x = x + X*lambda (Notice that x is negative (see above)) */
+	/* Solve x = x + P*lambda (Notice that x is negative (see above)) */
 	float Xlambda[column_a];
-	mul(X, lambda, Xlambda, column_a, row_a, 1);
+	mul(P, lambda, Xlambda, column_a, row_a, 1);
 	for(uint8_t i = 0; i < column_a; i++)
 		x[i] -= Xlambda[i];
 	return true;
@@ -121,46 +119,59 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 
 /* GNU Octave code:
  *
- *
  * function [x, solution] = quadprog(Q, c, A, b)
-	  x = -linsolve(Q, c);
+	  % Assume that the solution is false
 	  solution = true;
 
-	  [n1,m1]=size(A);
-	  k = 0;
-	  for i=1:n1
-		if (A(i,:)*x > b(i))
-		  k = k +1;
+	  % Set number of iterations
+	  number_of_iterations = 255;
+
+	  % Same as in C code
+	  FLT_EPSILON = 1.19209290e-07;
+
+	  % Unconstrained solution
+	  x = -linsolve(Q, c);
+
+	  % Constraints difference
+	  K = b - A*x;
+
+	  % Check constraint violation
+	  if(sum(K <= 0) == 0)
+		return; % No violation
+	  end
+
+	  % Create P
+	  P = linsolve(Q, A');
+
+	  % Create H = A*Q*A'
+	  H = A*P;
+
+	  % Solve lambda from H*lambda = -K, where lambda >= 0
+	  [m, n] = size(K);
+	  lambda = zeros(m, n);
+	  for km = 1:number_of_iterations
+		lambda_p = lambda;
+
+		% Use Gauss Seidel
+		for i = 1:m
+		  w = -1.0/H(i,i)*(K(i) + H(i,:)*lambda - H(i,i)*lambda(i));
+		  lambda(i) = max(0, w);
 		end
-	  end
-	  if (k==0)
-		return;
-	  end
 
-	  X = linsolve(Q, A');
-	  P = A*X;
+		% Check if the minimum convergence has been reached
+		w = (lambda - lambda_p)'*(lambda - lambda_p);
+		if (w < FLT_EPSILON)
+		  break;
+		end
 
-	  d = A*x;
-	  d = -d + b;
-
-	  [n,m] = size(d);
-	  lambda = zeros(n,m);
-	  for km = 1:255
-	   lambda_p = lambda;
-	   for i=1:n
-		w = P(i,:)*lambda - P(i,i)*lambda(i,1) + d(i, 1);
-		lambda(i,1) = max(0,-w/P(i,i));
-	   end
-	   w = (lambda - lambda_p)'*(lambda - lambda_p);
-	   if (w < 10e-8)
-		   break;
-	   end
-	   if(km == 255)
+		% Check if the maximum iteration have been reached
+		if(km == 255)
 		  solution = false;
 		  return;
 		end
 	  end
 
-	  x = x - X*lambda;
+	  % Find the solution: x = -inv(Q)*c - inv(Q)*A'*lambda
+	  x = x - P*lambda;
 	end
  */
