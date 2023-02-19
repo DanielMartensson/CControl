@@ -112,10 +112,10 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	}
 
 	/* Solve x = x + P*lambda (Notice that x is negative (see above)) */
-	float Xlambda[column_a];
-	mul(P, lambda, Xlambda, column_a, row_a, 1);
+	float Plambda[column_a];
+	mul(P, lambda, Plambda, column_a, row_a, 1);
 	for(uint8_t i = 0; i < column_a; i++)
-		x[i] -= Xlambda[i];
+		x[i] -= Plambda[i];
 	return true;
 }
 
