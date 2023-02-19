@@ -101,8 +101,10 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 
 		/* Check if we should break - Found the optimal solution */
 		w = 0.0f;
-		for(uint8_t j = 0; j < row_a; j++)
-			w += (lambda[j] - lambda_p[j])*(lambda[j] - lambda_p[j]);
+		for (uint8_t j = 0; j < row_a; j++) {
+			value = lambda[j] - lambda_p[j];
+			w += value * value;
+		}
 		if(w < FLT_EPSILON)
 			break;
 		if(i == 255)
