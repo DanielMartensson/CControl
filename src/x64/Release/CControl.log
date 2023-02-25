@@ -1,9 +1,1 @@
-﻿  Main.c
-C:\Users\dmn\GitHub\CControl\src\Main.c(18,1): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\dmn\GitHub\CControl\src\Main.c(86,1): warning C4305: 'initializing': truncation from 'double' to 'float'
-  Generating code
-  14 of 18 functions (77.8%) were compiled, the rest were copied from previous compilation.
-    3 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Release\CControl.exe
+﻿  CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Release\CControl.exe

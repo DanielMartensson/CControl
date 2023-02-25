@@ -12,15 +12,13 @@
  */
 void tran(float A[], uint16_t row, uint16_t column) {
 
-	// Decleration
-	float *B = (float*)malloc(row * column * sizeof(float));
-	float* transpose = NULL;
+	float B[row*column];
+	float *transpose;
 	float *ptr_A = A;
-	uint16_t i, j;
 
-	for (i = 0; i < row; i++) {
+	for (uint16_t i = 0; i < row; i++) {
 		transpose = &B[i];
-		for (j = 0; j < column; j++) {
+		for (uint16_t j = 0; j < column; j++) {
 			*transpose = *ptr_A;
 			ptr_A++;
 			transpose += row;
@@ -29,9 +27,6 @@ void tran(float A[], uint16_t row, uint16_t column) {
 
 	// Copy!
 	memcpy(A, B, row*column*sizeof(float));
-
-	// Free
-	free(B);
 }
 
 /*

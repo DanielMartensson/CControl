@@ -30,15 +30,12 @@ static void findinput(float u[], float r[], float I1[], float y[], float I2[], u
 void mrac(float limit, float gain, float y[], float u[], float r[], float I1[], float I2[], uint8_t RDIM){
 
 	// Find the model error
-	float *e = (float*)malloc(RDIM * sizeof(float));
+	float e[RDIM];
 	modelerror(e, y, r, RDIM);
 
 	// Integrate
 	integral(I1, -gain, r, e, RDIM); // I1 = I1 - gain*r*e
 	integral(I2, gain, y, e, RDIM); // I2 = I2 + gain*y*e
-
-	/* Free */
-	free(e);
 
 	// Saturate
 	saturate(I1, limit, RDIM);
@@ -49,25 +46,21 @@ void mrac(float limit, float gain, float y[], float u[], float r[], float I1[], 
 }
 
 static void integral(float I[], float gain, float x[], float e[], uint8_t RDIM){
-	uint8_t i;
-	for(i = 0; i < RDIM; i++)
+	for(uint8_t i = 0; i < RDIM; i++)
 		I[i] += gain * x[i] * e[i];
 }
 
 static void saturate(float I[], float limit, uint8_t RDIM){
-	uint8_t i;
-	for(i = 0; i < RDIM; i++)
+	for(uint8_t i = 0; i < RDIM; i++)
 		I[i] = saturation(I[i], -limit, limit);
 }
 
 static void modelerror(float e[], float y[], float r[], uint8_t RDIM){
-	uint8_t i;
-	for(i = 0; i < RDIM; i++)
+	for(uint8_t i = 0; i < RDIM; i++)
 		e[i] = y[i] - r[i];
 }
 
 static void findinput(float u[], float r[], float I1[], float y[], float I2[], uint8_t RDIM){
-	uint8_t i;
-	for(i = 0; i < RDIM; i++)
+	for(uint8_t i = 0; i < RDIM; i++)
 		u[i] = r[i] * I1[i] - y[i] * I2[i];
 }

@@ -14,7 +14,8 @@ Main focuses are:
 - Control Engineering
   - Kalman filter update
   - Linear Quadratic Integral regulator
-  - Model Predictive Control (Ongoing)
+  - Model Predictive Control with linear programming
+  - Model Predictive Control with quadratic programming
   - Model Reference Adaptive Control
   - Transfer function to state space
   - Stability check
@@ -63,7 +64,8 @@ Main focuses are:
   - Sum
   
 - Optimization
-  - Linear programming
+  - Linear programming maximization
+  - Linear programming minimization
   - Quadratic programming
 
 - System Identification
@@ -150,8 +152,10 @@ Find a good pratical function that always comes in handy. An algorithm for examp
 
  - Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct. For windows users, `Dr.Memory` works too
  - Use pointers/arrays as much as you can
+ - No malloc, calloc or free - No dynamic memory allocation in other words
  - `1D` arrays are only allowed. When you are indexing an `1D`, then you using `my_array[i*column_length + j]` where `i` is row index and `j` is column index and `column_length` is column length of `my_array`
  - Only `floats` are allowed because some processors don't have `double` implemented
+ - `C99` standard is only allowed because I want it to follow `MISRA C` standard as much as possible
  - Your code must come with an example
  - Write `clean code`, that means no slack variables or unnecessary #defines, don't try to compute everything in one single functions, minimize input arguments if it's possible, focus on practical implementation, focus on memory
 
