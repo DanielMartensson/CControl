@@ -17,25 +17,28 @@
  * n == m
  */
 void dlyap(float* A, float* P, float* Q, uint16_t row){
+	/* Decleration */
+	uint16_t k, l, i, j;
+
 	// Create an zero large matrix M
-	float M[row*row*row*row]; // row_a^2 * row_a^2
+	float *M = (float*)malloc(row * row * row * row * sizeof(float)); // row_a^2 * row_a^2
 
 	// Create a temporary B matrix
-	float B[row*row];
+	float *B = (float*)malloc(row * row * sizeof(float));
 
 	// Fill the M matrix
-	for(uint16_t k = 0; k < row; k++){
-		for(uint16_t l = 0; l < row; l++){
+	for(k = 0; k < row; k++){
+		for(l = 0; l < row; l++){
 			memcpy(B, A, row*row*sizeof(float)); // B = A*A(k, l);
-			for(uint16_t i = 0; i < row*row; i++)
+			for(i = 0; i < row*row; i++)
 				B[i] *= A[row*k + l];
 			insert(B, M, row, row, row*row, row*k, row*l);
 		}
 	}
 
 	// Turn M negative but add +1 on diagonals
-	for(uint16_t i = 0; i < row*row; i++)
-		for(uint16_t j = 0; j < row*row; j++)
+	for(i = 0; i < row*row; i++)
+		for(j = 0; j < row*row; j++)
 			if(i == j)
 				M[row*row*i + j] = - M[row*row*i + j] + 1;
 			else
@@ -46,6 +49,10 @@ void dlyap(float* A, float* P, float* Q, uint16_t row){
 	 * MP=Q, where P is our solution
 	 */
 	linsolve_lup(M, P, Q, row*row);
+
+	/* Free */
+	free(M);
+	free(B);
 }
 
 /*

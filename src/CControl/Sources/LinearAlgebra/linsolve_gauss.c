@@ -27,20 +27,28 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
 	/* Solve now */
 	if(alpha <= 0.0f && row == column){
 		/* Create two copies of A and b */
-		float Ac[row*column];
+		float *Ac = (float*)malloc(row * column * sizeof(float));
 		memcpy(Ac, A, row*column*sizeof(float));
-		float bc[column];
+		float *bc = (float*)malloc(column);
 		memcpy(bc, b, column*sizeof(float));
 
 		/* Solve */
 		triu(Ac, bc, row);
 		linsolve_upper_triangular(Ac, x, bc, column);
+
+		/* Free */
+		free(Ac);
+		free(bc);
 	}else{
-		float ATA[column*column];
-		float ATb[column];
+		float *ATA = (float*)malloc(column * column * sizeof(float));
+		float *ATb = (float*)malloc(column);
 		tikhonov(A, b, ATA, ATb, row, column, alpha);
 		triu(ATA, ATb, column);
 		linsolve_upper_triangular(ATA, x, ATb, column);
+
+		/* Free */
+		free(ATA);
+		free(ATb);
 	}
 }
 
@@ -104,7 +112,7 @@ static void triu(float A[], float b[], uint16_t row) {
  */
 static void tikhonov(float A[], float b[], float ATA[], float ATb[], uint16_t row_a, uint16_t column_a, float alpha){
 	// AT - Transpose A
-	float AT[column_a*row_a]; // Same dimension as A, just swapped rows and column
+	float *AT = (float*)malloc(column_a * row_a * sizeof(float)); // Same dimension as A, just swapped rows and column
 	memcpy(AT, A, column_a*row_a*sizeof(float)); // Copy A -> AT
 	tran(AT, row_a, column_a); // Now turn the values of AT to transpose
 
@@ -123,9 +131,10 @@ static void tikhonov(float A[], float b[], float ATA[], float ATb[], uint16_t ro
 		ATA0 += column_a;
 		//ATA[i*column_a + i] = ATA[i*column_a + i] + alpha;
 	}
+	/* Now we have our ATA = (A ^ T * A + alpha * I) and ATb = A ^ T * b */
 
-	// Now we have our ATA = (A^T*A + alpha*I) and ATb = A^T*b
-
+	/* Free */
+	free(AT);
 }
 
 /*

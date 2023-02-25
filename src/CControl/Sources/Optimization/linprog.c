@@ -63,12 +63,13 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 		memset(x, 0, row_a*sizeof(float));
 
 	// Create the tableau with space for the slack variables s and p as well
-	float tableau[(row_a+1)*(column_a+row_a+2)]; // +1 because the extra row for objective function and +2 for the b vector and slackvariable for objective function
+	float *tableau = (float*)malloc((row_a + 1) * (column_a + row_a + 2) * sizeof(float)); // +1 because the extra row for objective function and +2 for the b vector and slackvariable for objective function
 	memset(tableau, 0, (row_a+1)*(column_a+row_a+2)*sizeof(float));
 
 	// Load the constraints
 	uint8_t j = 0;
-	for(uint8_t i = 0; i < row_a; i++){
+	uint8_t i;
+	for(i = 0; i < row_a; i++){
 		// First row
 		memcpy(tableau + i*(column_a+row_a+2), A + i*column_a, column_a*sizeof(float));
 
@@ -124,7 +125,7 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 		if(value1 == 0) value1 = FLT_EPSILON; // Make sure that we don't divide by zero
 		value2 = tableau[0*(column_a+row_a+2) + (column_a+row_a+2-1)]; // Value in the b vector
 		smallest = value2/value1; // Initial smallest value
-		for(uint8_t i = 1; i < row_a; i++){
+		for(i = 1; i < row_a; i++){
 			value1 = tableau[i*(column_a+row_a+2) + pivotColumIndex]; // Value in pivot column
 			if(value1 == 0) value1 = FLT_EPSILON;
 			value2 = tableau[i*(column_a+row_a+2) + (column_a+row_a+2-1)]; // Value in the b vector
@@ -139,14 +140,14 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 		// 1/pivot * PIVOT_ROW -> PIVOT_ROW
 		pivot = tableau[pivotRowIndex*(column_a+row_a+2) + pivotColumIndex]; // Our pivot value
 		if(pivot == 0) pivot = FLT_EPSILON;
-		for(uint8_t i = 0; i < (column_a+row_a+2); i++){
+		for(i = 0; i < (column_a+row_a+2); i++){
 			value1 = tableau[pivotRowIndex*(column_a+row_a+2) + i]; // Our row value at pivot row
 			tableau[pivotRowIndex*(column_a+row_a+2) + i] = value1 * 1/pivot; // When value1 = pivot, then pivot will be 1
 		}
 
 		// Turn all other values in pivot column into 0. Jump over pivot row
 		// -value1* PIVOT_ROW + ROW -> ROW
-		for(uint8_t i = 0; i < row_a + 1; i++){
+		for(i = 0; i < row_a + 1; i++){
 			if(i != pivotRowIndex){
 				value1 = tableau[i*(column_a+row_a+2) + pivotColumIndex]; // This is at pivot column
 				for(uint8_t j = 0; j < (column_a+row_a+2); j++){
@@ -164,9 +165,9 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 	// If max_or_min == 0 -> Maximization problem
 	if(max_or_min == 0){
 		// Now when we have shaped our tableau. Let's find the optimal solution. Sum the columns
-		for(uint8_t i = 0; i < column_a; i++){
+		for(i = 0; i < column_a; i++){
 			value1 = 0; // Reset
-			for(uint8_t j = 0; j < row_a + 1; j++){
+			for(j = 0; j < row_a + 1; j++){
 				value1 += tableau[j*(column_a+row_a+2) + i]; // Summary
 				value2 = tableau[j*(column_a+row_a+2) + i]; // If this is 1 then we are on the selected
 
@@ -178,10 +179,13 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 		}
 	}else{
 		// Minimization (The Dual method) - Only take the bottom rows on the slack variables
-		for(uint8_t i = 0; i < row_a; i++){
+		for(i = 0; i < row_a; i++){
 			x[i] = tableau[row_a*(column_a+row_a+2) + i + column_a]; // We take only the bottom row at start index column_a
 		}
 	}
+
+	/* Free */
+	free(tableau);
 
 	// We found solution
 	return true;
