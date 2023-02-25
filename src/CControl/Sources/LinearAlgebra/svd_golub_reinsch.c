@@ -52,7 +52,7 @@ static void Sort_by_Decreasing_Singular_Values(uint16_t nrows, uint16_t ncols, f
  * Return 0 = Fail.
  */
 uint8_t svd_golub_reinsch(float A[], uint16_t row, uint16_t column, float U[], float S[], float V[]) {
-	float dummy_array[column];
+	float *dummy_array = (float*)malloc(column*sizeof(float));
 
 	Householders_Reduction_to_Bidiagonal_Form(A, row, column, U, V, S, dummy_array);
 
@@ -60,6 +60,8 @@ uint8_t svd_golub_reinsch(float A[], uint16_t row, uint16_t column, float U[], f
 		return 0; // Fail
 
 	Sort_by_Decreasing_Singular_Values(row, column, S, U, V);
+
+	free(dummy_array);
 
 	return 1; // Solved
 }
