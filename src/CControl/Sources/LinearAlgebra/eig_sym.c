@@ -25,11 +25,12 @@ static float pythag_float(float a, float b);
  * A will become eigenvectors!
  */
 void eig_sym(float A[], uint16_t row, float d[]){
-	float e[row];
+	float *e = (float*)malloc(row * sizeof(float));
 	memset(e, 0, row*sizeof(float));
 	memset(d, 0, row*sizeof(float));
 	tridiag(A, row, d, e);
 	tqli(d, e, row, A);
+	free(e);
 }
 
 

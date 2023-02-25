@@ -22,21 +22,22 @@ static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row
 uint8_t inv(float A[], uint16_t row) {
 
 	// Create iA matrix
-	float iA[row * row];
+	float *iA = (float*)malloc(row * row * sizeof(float));
 
 	// Create temporary matrix and status variable
-	float tmpvec[row];
+	float *tmpvec = (float*)malloc(row * sizeof(float));
 	memset(tmpvec, 0, row*sizeof(float));
 	uint8_t status = 0;
 
 	// Check if the determinant is 0
-	float LU[row * row];
-	uint8_t P[row];
+	float *LU = (float*)malloc(row * row * sizeof(float));
+	uint8_t *P = (uint8_t*)malloc(row * sizeof(uint8_t));
 	status = lup(A, LU, P, row);
 	if(status == 0)
 		return 0; // matrix is singular. Determinant 0
 	// Create the inverse
-	for (uint16_t i = 0; i < row; i++) {
+	uint16_t i;
+	for (i = 0; i < row; i++) {
 		tmpvec[i] = 1.0f;
 		if(!solve(&iA[row * i], tmpvec, P, LU, row))
 			return 0; // We divided with zero
@@ -48,6 +49,11 @@ uint8_t inv(float A[], uint16_t row) {
 
 	// Copy over iA -> A
 	memcpy(A, iA, row * row * sizeof(float));
+
+	/* Free */
+	free(iA);
+	free(LU);
+	free(P);
 
 	return status;
 }

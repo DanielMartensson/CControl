@@ -29,7 +29,7 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
 		/* Create two copies of A and b */
 		float *Ac = (float*)malloc(row * column * sizeof(float));
 		memcpy(Ac, A, row*column*sizeof(float));
-		float *bc = (float*)malloc(column);
+		float *bc = (float*)malloc(column * sizeof(float));
 		memcpy(bc, b, column*sizeof(float));
 
 		/* Solve */
@@ -41,7 +41,7 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
 		free(bc);
 	}else{
 		float *ATA = (float*)malloc(column * column * sizeof(float));
-		float *ATb = (float*)malloc(column);
+		float *ATb = (float*)malloc(column * sizeof(float));
 		tikhonov(A, b, ATA, ATb, row, column, alpha);
 		triu(ATA, ATb, column);
 		linsolve_upper_triangular(ATA, x, ATb, column);
@@ -66,13 +66,14 @@ static void triu(float A[], float b[], uint16_t row) {
 
 	// Make A to upper triangular. Also change b as well.
 	float pivot;
-	for(uint16_t j = 0; j < row; j++){ // Column
+	uint16_t i, j, k;
+	for(j = 0; j < row; j++){ // Column
 		Ai = &A[0];
-		for(uint16_t i = 0; i < row; i++){ // row
+		for(i = 0; i < row; i++){ // row
 			if(i > j){
 				pivot = Ai[j] / Aj[j];
 				//pivot = A[i*row + j] / A[j*row + j];
-				for(uint16_t k = 0; k < row; k++)
+				for(k = 0; k < row; k++)
 					Ai[k] -= pivot * Aj[k];
 					//A[i*row + k] = A[i*row + k] - pivot * A[j*row + k];
 				b[i] = b[i] - pivot * b[j];
@@ -117,7 +118,7 @@ static void tikhonov(float A[], float b[], float ATA[], float ATb[], uint16_t ro
 	tran(AT, row_a, column_a); // Now turn the values of AT to transpose
 
 	// ATb = AT*b
-	memset(ATb, 0, row_a * sizeof(float));
+	memset(ATb, 0, column_a * sizeof(float));
 	mul(AT, b, ATb, column_a, row_a, 1);
 
 	// ATA = AT*A
@@ -126,7 +127,8 @@ static void tikhonov(float A[], float b[], float ATA[], float ATb[], uint16_t ro
 
 	// ATA = ATA + alpha*I. Don't need identity matrix here because we only add on diagonal
 	float *ATA0 = &ATA[0];
-	for(uint16_t i = 0; i < column_a; i++){
+	uint16_t i;
+	for(i = 0; i < column_a; i++){
 		ATA0[i] += alpha;
 		ATA0 += column_a;
 		//ATA[i*column_a + i] = ATA[i*column_a + i] + alpha;

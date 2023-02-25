@@ -35,17 +35,17 @@ void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], fl
 	uint8_t N = 2 * L + 1;
 
 	/* Predict: Create the weights */
-	float Wc[N];
-	float Wm[N];
+	float *Wc = (float*)malloc(N * sizeof(float));
+	float *Wm = (float*)malloc(N * sizeof(float));
 	float kappa = 0.0f; /* kappa is 0 for state estimation */
 	create_weights(Wc, Wm, alpha, beta, kappa, L);
 
 	/* Predict: Create sigma point matrix for F function  */
-	float X[L * N];
+	float *X = (float*)malloc(L * N * sizeof(float));
 	create_sigma_point_matrix(X, xhat, S, alpha, kappa, L);
 
 	/* Predict: Compute the transition function F */
-	float Xstar[L * N];
+	float *Xstar = (float*)malloc(L * N * sizeof(float));
 	compute_transistion_function(Xstar, X, u, F, L);
 
 	/* Predict: Multiply sigma points to weights for xhat */
@@ -58,23 +58,33 @@ void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], fl
 	create_sigma_point_matrix(X, xhat, S, alpha, kappa, L);
 
 	/* Predict: Compute the observability function H */
-	float Y[L * N];
+	float *Y = (float*)malloc(L * N * sizeof(float));
 	H(Y, X, L);
 
 	/* Predict: Multiply sigma points to weights for yhat */
-	float yhat[L];
+	float *yhat = (float*)malloc(L * sizeof(float));
 	multiply_sigma_point_matrix_to_weights(yhat, Y, Wm, L);
 
 	/* Update: Create measurement covariance matrix */
-	float Sy[L * L];
+	float *Sy = (float*)malloc(L * L * sizeof(float));
 	create_state_estimation_error_covariance_matrix(Sy, Wc, Y, yhat, Rn, L);
 
 	/* Update: Create state covariance matrix */
-	float Pxy[L * L];
+	float *Pxy = (float*)malloc(L * L * sizeof(float));
 	create_state_cross_covariance_matrix(Pxy, Wc, X, Y, xhat, yhat, L);
 
 	/* Update: Perform state update and covariance update */
 	update_state_covarariance_matrix_and_state_estimation_vector(S, xhat, yhat, y, Sy, Pxy, L);
+
+	/* Free */
+	free(Wc);
+	free(Wm);
+	free(X);
+	free(Xstar);
+	free(Y);
+	free(yhat);
+	free(Sy);
+	free(Pxy);
 }
 
 static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, uint8_t L){
@@ -96,6 +106,9 @@ static void create_weights(float Wc[], float Wm[], float alpha, float beta, floa
 }
 
 static void create_sigma_point_matrix(float X[], float x[], float S[], float alpha, float kappa, uint8_t L){
+	/* Decleration */
+	uint8_t i, j;
+
 	/* Create the size N and K */
 	uint8_t N = 2 * L + 1;
 	uint8_t K = L + 1;
@@ -105,45 +118,55 @@ static void create_sigma_point_matrix(float X[], float x[], float S[], float alp
 	float gamma = sqrtf(L + lambda);
 
 	/* Insert first column in X */
-	for(uint8_t i = 0; i < L; i++)
+	for(i = 0; i < L; i++)
 		X[i * N] = x[i];
 
 	/* Insert in to the middle of the columns - Positive */
-	for(uint8_t j = 1; j < K; j++)
-		for(uint8_t i = 0; i < L; i++)
+	for(j = 1; j < K; j++)
+		for(i = 0; i < L; i++)
 			X[i * N + j] = x[i] + gamma * S[i * L + j - 1];
 
 	/* Insert in the rest of the columns - Negative */
-	for(uint8_t j = K; j < N; j++)
-		for(uint8_t i = 0; i < L; i++)
+	for(j = K; j < N; j++)
+		for(i = 0; i < L; i++)
 			X[i * N + j] = x[i] - gamma * S[i * L + j - K];
 
 }
 
 static void compute_transistion_function(float Xstar[], float X[], float u[], void (*F)(float[], float[], float[]), uint8_t L){
+	/* Decleration */
+	uint8_t i, j;
+	
 	/* Create the size N */
 	uint8_t N = 2 * L + 1;
 
 	/* Create the derivative state and state vector */
-	float dx[L];
-	float x[L];
+	float *dx = (float*)malloc(L * sizeof(float));
+	float *x = (float*)malloc(L * sizeof(float));
 
 	/* Call the F transition function with X matrix */
-	for(uint8_t j = 0; j < N; j++){
+	for(j = 0; j < N; j++){
 		/* Fill the state vector x with every row from X */
-		for(uint8_t i = 0; i < L; i++)
+		for(i = 0; i < L; i++)
 			x[i] = X[i*N + j];
 
 		/* Call the transition function */
 		F(dx, x, u);
 
 		/* Get dx into Xstar */
-		for(uint8_t i = 0; i < L; i++)
+		for(i = 0; i < L; i++)
 			Xstar[i*N + j] = dx[i];
 	}
+
+	/* Free */
+	free(dx);
+	free(x);
 }
 
 static void multiply_sigma_point_matrix_to_weights(float x[], float X[], float W[], uint8_t L){
+	/* Decleration */
+	uint8_t i, j;
+	
 	/* Create the size N */
 	uint8_t N = 2 * L + 1;
 
@@ -151,13 +174,16 @@ static void multiply_sigma_point_matrix_to_weights(float x[], float X[], float W
 	memset(x, 0, L * sizeof(float));
 
 	/* Multiply x = W*X */
-	for(uint8_t j = 0; j < N; j++)
-		for(uint8_t i = 0; i < L; i++)
+	for(j = 0; j < N; j++)
+		for(i = 0; i < L; i++)
 			x[i] += W[j] * X[i * N + j];
 
 }
 
 static void create_state_estimation_error_covariance_matrix(float S[], float W[], float X[], float x[], float R[], uint8_t L){
+	/* Decleration */
+	uint8_t i, j;
+	
 	/* Create the size N, M and K */
 	uint8_t N = 2 * L + 1;
 	uint8_t M = 2 * L + L;
@@ -167,16 +193,16 @@ static void create_state_estimation_error_covariance_matrix(float S[], float W[]
 	float weight1 = sqrtf(fabsf(W[1]));
 
 	/* Create [Q, R_] = qr(A') */
-	float AT[L * M];
-	float Q[M * M];
-	float R_[M * L];
-	for(uint8_t j = 0; j < K; j++){
-		for(uint8_t i = 0; i < L; i++){
+	float *AT = (float*)malloc(L * M * sizeof(float));
+	float *Q = (float*)malloc(M * M * sizeof(float));
+	float *R_ = (float*)malloc(M * L * sizeof(float));
+	for(j = 0; j < K; j++){
+		for(i = 0; i < L; i++){
 			AT[i*M + j] = weight1 * (X[i * N + j+1] - x[i]);
 		}
 	}
-	for(uint8_t j = K; j < M; j++)
-		for(uint8_t i = 0; i < L; i++)
+	for(j = K; j < M; j++)
+		for(i = 0; i < L; i++)
 			AT[i*M + j] = sqrtf(R[i * L + j - K]);
 
 	/* We need to do transpose on A according to the SR-UKF paper */
@@ -189,11 +215,17 @@ static void create_state_estimation_error_covariance_matrix(float S[], float W[]
 	memcpy(S, R_, L * L * sizeof(float));
 
 	/* Perform cholesky update on S */
-	float b[L];
-	for(uint8_t i = 0; i < L; i++)
+	float *b = (float*)malloc(L * sizeof(float));
+	for(i = 0; i < L; i++)
 		b[i] = X[i * N] - x[i];
 	bool rank_one_update = W[0] < 0.0f ? false : true;
 	cholupdate(S, b, L, rank_one_update);
+
+	/* Free */
+	free(AT);
+	free(Q);
+	free(R_);
+	free(b);
 }
 
 static void H(float Y[], float X[], uint8_t L){
@@ -205,6 +237,9 @@ static void H(float Y[], float X[], uint8_t L){
 }
 
 static void create_state_cross_covariance_matrix(float P[], float W[], float X[], float Y[], float x[], float y[], uint8_t L){
+	/* Decleration */
+	uint8_t i, j;
+	
 	/* Create the size N and K */
 	uint8_t N = 2 * L + 1;
 	uint8_t K = 2 * L;
@@ -213,61 +248,77 @@ static void create_state_cross_covariance_matrix(float P[], float W[], float X[]
 	memset(P, 0, K * sizeof(float));
 
 	/* Subtract the matrices */
-	for(uint8_t j = 0; j < N; j++){
-		for(uint8_t i = 0; i < L; i++){
+	for(j = 0; j < N; j++){
+		for(i = 0; i < L; i++){
 			X[i * N + j] -= x[i];
 			Y[i * N + j] -= y[i];
 		}
 	}
 
 	/* Create diagonal matrix */
-	float diagonal_W[N*N];
+	float *diagonal_W = (float*)malloc(N * N * sizeof(float));
 	memset(diagonal_W, 0, N*N*sizeof(float));
-	for(uint8_t i = 0; i < N; i++)
+	for(i = 0; i < N; i++)
 		diagonal_W[i*N + i] = W[i];
 
 	/* Do P = X*diagonal_W*Y' */
 	tran(Y, L, N);
-	float diagonal_WY[N*L];
+	float *diagonal_WY = (float*)malloc(N * L * sizeof(float));
 	mul(diagonal_W, Y, diagonal_WY, N, N, L);
 	mul(X, diagonal_WY, P, L, N, L);
+
+	/* Free */
+	free(diagonal_W);
+	free(diagonal_WY);
 }
 
 static void update_state_covarariance_matrix_and_state_estimation_vector(float S[], float xhat[], float yhat[], float y[], float Sy[], float Pxy[], uint8_t L){
+	/* Decleration */
+	uint8_t i, j;
+	
 	/* Transpose of Sy */
-	float SyT[L * L];
+	float *SyT = (float*)malloc(L * L * sizeof(float));
 	memcpy(SyT, Sy, L * L * sizeof(float));
 	tran(SyT, L, L);
 
 	/* Multiply Sy and Sy' to Sy'Sy */
-	float SyTSy[L * L];
+	float *SyTSy = (float*)malloc(L * L * sizeof(float));
 	mul(SyT, Sy, SyTSy, L, L, L);
 
 	/* Take inverse of Sy'Sy - Inverse is using LUP-decomposition */
 	inv(SyTSy, L);
 
 	/* Compute kalman gain K from Sy'Sy * K = Pxy => K = Pxy * inv(SyTSy) */
-	float K[L * L];
+	float *K = (float*)malloc(L * L * sizeof(float));
 	mul(Pxy, SyTSy, K, L, L, L);
 
 	/* Compute xhat = xhat + K*(y - yhat) */
-	float yyhat[L];
-	float Ky[L];
+	float *yyhat = (float*)malloc(L * sizeof(float));
+	float *Ky = (float*)malloc(L * sizeof(float));
 	for(uint8_t i = 0; i < L; i++)
 		yyhat[i] = y[i] - yhat[i];
 	mul(K, yyhat, Ky, L, L, 1);
-	for(uint8_t i = 0; i < L; i++)
+	for(i = 0; i < L; i++)
 		xhat[i] = xhat[i] + Ky[i];
 
 	/* Compute U = K*Sy */
-	float U[L*L];
+	float *U = (float*)malloc(L * L * sizeof(float));
 	mul(K, Sy, U, L, L, L);
 
 	/* Compute S = cholupdate(S, Uk, -1) because Uk is a vector and U is a matrix */
-	float Uk[L];
-	for(uint8_t j = 0; j < L; j++){
-		for(uint8_t i = 0; i < L; i++)
+	float *Uk = (float*)malloc(L * sizeof(float));
+	for(j = 0; j < L; j++){
+		for(i = 0; i < L; i++)
 			Uk[i] = U[i*L + j];
 		cholupdate(S, Uk, L, false);
 	}
+
+	/* Free */
+	free(SyT);
+	free(SyTSy);
+	free(K);
+	free(yyhat);
+	free(Ky);
+	free(U);
+	free(Uk);
 }

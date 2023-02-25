@@ -16,10 +16,12 @@
  * n == m
  */
 void linsolve_chol(float A[], float x[], float b[], uint16_t row) {
-	float L[row*row];
+	float *L = (float*)malloc(row * row * sizeof(float));
 	chol(A, L, row);
-	float y[row];
+	float *y = (float*)malloc(row * sizeof(float));
 	linsolve_lower_triangular(L, y, b, row);
 	tran(L, row, row);
 	linsolve_upper_triangular(L, x, y, row);
+	free(L);
+	free(y);
 }

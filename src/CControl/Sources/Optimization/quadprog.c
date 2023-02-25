@@ -28,6 +28,9 @@
  * x [n] // Solution
  */
 bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a){
+	/* Declare */
+	uint8_t i, j, k;
+	
 	/* Use gaussian elimination to solve x from Qx = c because Q is square and symmetric */
 	linsolve_gauss(Q, x, c, column_a, column_a, 0.0f);
 
@@ -35,18 +38,18 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	float* Ai = A;
 
 	/* Turn x negative */
-	for(uint8_t i = 0; i < column_a; i++)
+	for(i = 0; i < column_a; i++)
 		x[i] = -x[i];
 
 	/* Count how many constraints A*x > b */
-	float K[row_a];
+	float *K = (float*)malloc(row_a * sizeof(float));
 	uint8_t violations = 0;
 	float value;
-	for(uint8_t i = 0; i < row_a; i++){
+	for(i = 0; i < row_a; i++){
 
 		/* Check how many rows are A*x > b */
 		value = 0.0f;
-		for(uint8_t j = 0; j < column_a; j++){
+		for(j = 0; j < column_a; j++){
 			value += Ai[j] * x[j];
 			//value += A[i*column_a + j]*x[j];
 		}
@@ -65,31 +68,31 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 		return true;
 
 	/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
-	float P[row_a * column_a];
-	for(uint8_t i = 0; i < row_a; i++)
+	float *P = (float*)malloc(row_a * column_a * sizeof(float));
+	for(i = 0; i < row_a; i++)
 		linsolve_gauss(Q, &P[i*column_a], &A[i*column_a], column_a, column_a, 0.0f);
 	tran(P, row_a, column_a);
 
 	/* Multiply H = A*Q*A' */
-	float H[row_a * row_a];
+	float *H = (float*)malloc(row_a * row_a * sizeof(float));
 	float *Hj;
 	mul(A, P, H, row_a, column_a, row_a);
 
 	/* Solve lambda from H*lambda = -K, where lambda >= 0 */
-	float lambda[row_a];
+	float *lambda = (float*)malloc(row_a * sizeof(float));
 	memset(lambda, 0, row_a * sizeof(float));
-	float lambda_p[row_a];
+	float *lambda_p = (float*)malloc(row_a * sizeof(float));
 	float w;
-	for(uint8_t i = 0; i < 255; i++){
+	for(i = 0; i < 255; i++){
 		/* Update */
 		memcpy(lambda_p, lambda, row_a * sizeof(float));
 
 		/* Use Gauss Seidel */
 		Hj = H;
-		for (uint8_t j = 0; j < row_a; j++) {
+		for (j = 0; j < row_a; j++) {
 			/* w = H(i, :)*lambda */
 			w = 0.0f;
-			for (uint8_t k = 0; k < row_a; k++) {
+			for (k = 0; k < row_a; k++) {
 				w += Hj[k] * lambda[k];
 			}
 			
@@ -101,7 +104,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 
 		/* Check if we should break - Found the optimal solution */
 		w = 0.0f;
-		for (uint8_t j = 0; j < row_a; j++) {
+		for (j = 0; j < row_a; j++) {
 			value = lambda[j] - lambda_p[j];
 			w += value * value;
 		}
@@ -112,10 +115,18 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	}
 
 	/* Solve x = x + P*lambda (Notice that x is negative (see above)) */
-	float Plambda[column_a];
+	float *Plambda = (float*)malloc(column_a * sizeof(float));
 	mul(P, lambda, Plambda, column_a, row_a, 1);
 	for(uint8_t i = 0; i < column_a; i++)
 		x[i] -= Plambda[i];
+
+	/* Free */
+	free(K);
+	free(P);
+	free(H);
+	free(lambda);
+	free(lambda_p);
+	free(Plambda);
 	return true;
 }
 

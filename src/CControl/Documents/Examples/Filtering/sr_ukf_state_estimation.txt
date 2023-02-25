@@ -10,6 +10,13 @@
 
 #include "CControl/Headers/Functions.h"
 
+ /* Our transition function */
+void F(float dx[], float x[], float u[]) {
+	dx[0] = x[1];
+	dx[1] = x[2];
+	dx[2] = 0.05 * x[0] * (x[1] + x[2]);
+}
+
 int main() {
 
 	/*
@@ -22,42 +29,35 @@ int main() {
 	 * it easier to use SR-UKF.
 	 */
 
-	/* Initial parameters */
+	 /* Initial parameters */
 	uint8_t L = 3; 																// How many states we have
 	float r = 1.5f;																// Tuning factor for noise
 	float q = 0.2f;															// Tuning factor for disturbance
 	float alpha = 0.1f; 														// Alpha value - A small number like 0.01 -> 1.0
 	float beta = 2.0f; 															// Beta value - Normally 2 for gaussian noise
-	float Rv[3 * 3] = {q, 0, 0, 0, q, 0, 0, 0, q}; 								// Initial disturbance covariance matrix - Recommended to use identity matrix
-	float Rn[3 * 3] = {r, 0, 0, 0, r, 0, 0, 0, r}; 								// Initial noise covariance matrix - Recommended to use identity matrix
-	float S[3 * 3] = {1, 0, 0, 0, 1, 0, 0, 0, 1}; 								// Initial covariance matrix - Recommended to use identity matrix
-	float xhat[3] = {0, 0, 1}; 													// Estimated state vector
-	float y[3] = {0, 0, 0};														// This is our measurement
-	float u[3] = {0, 0, 0}; 													// u is not used in this example due to the transition function not using an input signal
-	float x[3] = {0, 0, 0};														// State vector for the system (unknown in reality)
-
-	/* Our transition function */
-	void F(float dx[], float x[], float u[]) {
-		dx[0] = x[1];
-		dx[1] = x[2];
-		dx[2] = 0.05*x[0]*(x[1] + x[2]);
-	}
+	float Rv[3 * 3] = { q, 0, 0, 0, q, 0, 0, 0, q }; 								// Initial disturbance covariance matrix - Recommended to use identity matrix
+	float Rn[3 * 3] = { r, 0, 0, 0, r, 0, 0, 0, r }; 								// Initial noise covariance matrix - Recommended to use identity matrix
+	float S[3 * 3] = { 1, 0, 0, 0, 1, 0, 0, 0, 1 }; 								// Initial covariance matrix - Recommended to use identity matrix
+	float xhat[3] = { 0, 0, 1 }; 													// Estimated state vector
+	float y[3] = { 0, 0, 0 };														// This is our measurement
+	float u[3] = { 0, 0, 0 }; 													// u is not used in this example due to the transition function not using an input signal
+	float x[3] = { 0, 0, 0 };														// State vector for the system (unknown in reality)
 
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
 	/* Save arrays */
-	float X[200*3];
-	float XHAT[200*3];
-	float Y[200*3];
+	float X[200 * 3];
+	float XHAT[200 * 3];
+	float Y[200 * 3];
 
 	/* Measurement noise */
 	float noise[3];
 
 	/* Disturbances */
-	float phase[3] = {90, 180, 140};
-	float amplitude[3] = {1.5f, 2.5f, 3.5f};
+	float phase[3] = { 90, 180, 140 };
+	float amplitude[3] = { 1.5f, 2.5f, 3.5f };
 
 	/* Derivative */
 	float dx[3];
@@ -66,33 +66,33 @@ int main() {
 	for (uint32_t i = 0; i < 200; i++) {
 		/* Create noise for the measurement */
 		randn(noise, L, 0.0f, 1.0f);
-		for(uint8_t j = 0; j < L; j++)
-			y[j] = x[j] + r*noise[j];
+		for (uint8_t j = 0; j < L; j++)
+			y[j] = x[j] + r * noise[j];
 
 		/* Save measurement */
-		for(uint8_t j = 0; j < L; j++)
-			Y[i*3 + j] = y[j];
+		for (uint8_t j = 0; j < L; j++)
+			Y[i * 3 + j] = y[j];
 
 		/* Save actual state */
-		for(uint8_t j = 0; j < L; j++)
-			X[i*3 + j] = x[j];
+		for (uint8_t j = 0; j < L; j++)
+			X[i * 3 + j] = x[j];
 
 		/* Estimate new state */
 		sr_ukf_state_estimation(y, xhat, Rn, Rv, u, F, S, alpha, beta, L);
 
 		/* Save the estimated state */
-		for(uint8_t j = 0; j < L; j++)
-			XHAT[i*3 + j] = xhat[j];
+		for (uint8_t j = 0; j < L; j++)
+			XHAT[i * 3 + j] = xhat[j];
 
 		/* Update the state with disturbance */
 		F(dx, x, u);
-		for(uint8_t j = 0; j < L; j++)
-			x[j] = dx[j] + q*amplitude[j]*sinf(i + phase[j]);
+		for (uint8_t j = 0; j < L; j++)
+			x[j] = dx[j] + q * amplitude[j] * sinf(i + phase[j]);
 
 	}
 
 	end = clock();
-	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 	/* Data */
