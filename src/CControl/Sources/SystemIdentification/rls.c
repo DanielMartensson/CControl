@@ -26,13 +26,16 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, u
 	//static float phi[NP + NZ + NZE];
 	//static float P[(NP + NZ + NZE)*(NP + NZ + NZE)];
 
+	/* Decleration */
+	int8_t i; /* This must be signed */
+
 	if(*count == 0){
 		// Nothing here - Leave phi with only zeros - Important to have phi as zeros
 		memset(phi, 0, (NP + NZ + NZE) * sizeof(float));
 
 		// Init P with zeros and then create P as an identify matrix with q as diagonal
 		memset(P, 0, (NP + NZ + NZE)*(NP + NZ + NZE) * sizeof(float)); // Initial P with zeros
-		for(uint8_t i = 0; i < NP + NZ + NZE; i++){
+		for(i = 0; i < NP + NZ + NZE; i++){
 			P[i*(NP + NZ + NZE) + i] = Pq;
 		}
 
@@ -60,15 +63,15 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, u
 		 * To [-y(t-1), -y(t-1), -y(t-2), -y(t-3), -y(t-4)...]
 		 */
 		// Shift 1 step for y
-		for(int16_t i = NP - 2; i >= 0; i--){
+		for(i = NP - 2; i >= 0; i--){
 			phi[i + 1] = phi[i];
 		}
 		// Shift 1 step for u
-		for(int16_t i = NZ - 2; i >= 0; i--){
+		for(i = NZ - 2; i >= 0; i--){
 			phi[i + NP + 1] = phi[i + NP];
 		}
 		// Shift 1 step for e
-		for(int16_t i = NZE - 2; i >= 0; i--){
+		for(i = NZE - 2; i >= 0; i--){
 			phi[i + NP + NZ + 1] = phi[i + NP + NZ];
 		}
 
@@ -89,43 +92,51 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, u
  * This function is the updater for theta, P and past_e
  */
 static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float phi[], float theta[], float P[], float* past_e, float forgetting) {
+	/* Decleration */
+	uint8_t i;
+	
 	// Compute error = y - phi'*theta;
 	float sum = 0;
-	for(uint8_t i = 0; i < NP + NZ + NZE; i++)
+	for(i = 0; i < NP + NZ + NZE; i++)
 		sum += phi[i] * theta[i];
 	*past_e = y - sum;
 
 	/* Compute: P = 1/l*(P - P*phi*phi'*P/(l + phi'*P*phi)); */
 
 	// Step 1: phiTP = phi'*P - > 1 row matrix
-	float phiTP[NP + NZ + NZE];
+	float *phiTP = (float*)malloc((NP + NZ + NZE)*sizeof(float));
 	mul(phi, P, phiTP, 1, NP + NZ + NZE, NP + NZ + NZE); // We pretend that phi is transpose
 
 	// Step 2: Pphi = P*phi -> Vector
-	float Pphi[NP + NZ + NZE];
+	float *Pphi = (float*)malloc((NP + NZ + NZE) * sizeof(float));
 	mul(P, phi, Pphi, NP + NZ + NZE, NP + NZ + NZE, 1);
 
 	// Step 3: l + phiTP*phi = l + phi'*P*phi
 	sum = 0;
-	for(uint8_t i = 0; i < NP + NZ + NZE; i++)
+	for(i = 0; i < NP + NZ + NZE; i++)
 		sum += phiTP[i] * phi[i];
 	sum += forgetting; // Our LAMBDA
 
 	// Step 4: Pphi*phiTP = P*phi*phi'*P -> Matrix
-	float PphiphiTP[(NP + NZ + NZE)*(NP + NZ + NZE)];
+	float *PphiphiTP = (float*)malloc((NP + NZ + NZE)*(NP + NZ + NZE)*sizeof(float));
 	mul(Pphi, phiTP, PphiphiTP, NP + NZ + NZE, 1, NP + NZ + NZE);
 
 	// Step 5: Compute P = 1/l*(P - 1/sum*PphiphiTP);
-	for(int i = 0; i < (NP + NZ + NZE)*(NP + NZ + NZE); i++)
+	for(i = 0; i < (NP + NZ + NZE)*(NP + NZ + NZE); i++)
 		P[i] = 1/forgetting * (P[i] - 1/sum * PphiphiTP[i]);
 
 	// Compute theta = theta + P*phi*error;
 	mul(P, phi, Pphi, NP + NZ + NZE, NP + NZ + NZE, 1);
 
 	// Compute theta = theta + Pphi*error
-	for(int i = 0; i < NP + NZ + NZE; i++){
+	for(i = 0; i < NP + NZ + NZE; i++){
 		theta[i] = theta[i] + Pphi[i] * *past_e;
 	}
+
+	/* Free */
+	free(phiTP);
+	free(Pphi);
+	free(PphiphiTP);
 }
 
 /*

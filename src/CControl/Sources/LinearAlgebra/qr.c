@@ -21,7 +21,14 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 	// Declare
 	uint16_t row_a_row_a = row_a*row_a;
 	uint16_t l = row_a - 1 < column_a ? row_a - 1 : column_a;
-	float s, Rk, r, W[row_a], WW[row_a_row_a], Hi[row_a_row_a], H[row_a_row_a], HiH[row_a_row_a], HiR[row_a*column_a];
+	uint16_t i, k;
+	float s, Rk, r;
+	float *W = (float*)malloc(row_a * sizeof(float));
+	float *WW = (float*)malloc(row_a_row_a * sizeof(float));
+	float *Hi = (float*)malloc(row_a_row_a * sizeof(float));
+	float *H = (float*)malloc(row_a_row_a * sizeof(float));
+	float *HiH = (float*)malloc(row_a_row_a * sizeof(float));
+	float *HiR = (float*)malloc(row_a * column_a * sizeof(float)); 
 
 	// Give A to R
 	memcpy(R, A, row_a*column_a*sizeof(float));
@@ -32,7 +39,7 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 	// Turn H into identity matrix
 	memset(H, 0, row_a_row_a*sizeof(float));
 	iH = H;
-	for(uint16_t i = 0; i < row_a; i++){
+	for(i = 0; i < row_a; i++){
 		iH[i] = 1.0f;
 		iH += row_a;
 		//H[i*row_a + i] = 1.0f;
@@ -40,12 +47,12 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 
 	// Do house holder transformations
 	kR = R;
-	for(uint16_t k = 0; k < l; k++){
+	for(k = 0; k < l; k++){
 		// Do L2 norm
 		s = 0.0f;
 		Ri = R;
 		Ri += column_a*k;
-		for(uint16_t i = k; i < row_a; i++){
+		for(i = k; i < row_a; i++){
 			s += Ri[k] * Ri[k];
 			Ri += column_a;
 			//s += R[i*column_a + k] * R[i*column_a + k];
@@ -69,7 +76,7 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 		W[k] = (Rk + s) / r;
 		Ri = R;
 		Ri += column_a*k;
-		for(uint16_t i = k+1; i < row_a; i++){
+		for(i = k+1; i < row_a; i++){
 			Ri += column_a;
 			W[i] = Ri[k] / r;
 			//W[i] = R[i*column_a + k] / r;
@@ -79,12 +86,12 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 		mul(W, W, WW, row_a, 1, row_a);
 
 		// Fill Hi matrix
-		for(uint16_t i = 0; i < row_a_row_a; i++)
+		for(i = 0; i < row_a_row_a; i++)
 			Hi[i] = -2.0f*WW[i];
 
 		// Use identity matrix on Hi
 		iHi = Hi;
-		for(uint16_t i = 0; i < row_a; i++){
+		for(i = 0; i < row_a; i++){
 			iHi[i] += 1.0f;
 			iHi += row_a;
 			//Hi[i*row_a + i] += 1.0f;
@@ -107,6 +114,15 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 		status = inv(H, row_a);
 		memcpy(Q, H, row_a_row_a*sizeof(float));
 	}
+
+	/* Free */
+	free(W);
+	free(WW); 
+	free(Hi); 
+	free(H); 
+	free(HiH);
+	free(HiR);
+
 	return status;
 }
 
