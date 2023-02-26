@@ -16,8 +16,8 @@ int main() {
 	start = clock();
 
 	// Objective function - Q MUST be symmetric
-	float Q[2 * 2] = { 10, -1,
-				   -1,  10 };
+	float Q[2 * 2] = { 1.200, - 5.1000,
+					- 5.1000,   26.0000 };
 
 	float c[2] = { -2,
 				  -6 };
@@ -56,8 +56,8 @@ int main() {
 
 /*
  * GNU Octave code:
-     % Objective function
-  Q = [1 -1; -1 10];
+	 % Objective function
+  Q = [1.200 -5.1000; -5.1000 26.0000];
   c = [-2; -6];
 
   % Constraints
@@ -72,13 +72,13 @@ int main() {
 
   x =
 
-   0.2626
-   0.6263
+   1.2842
+   0.4315
 
   x =
 
-   0.2626
-   0.6263
+   1.2842
+   0.4315
 
   info =
 
