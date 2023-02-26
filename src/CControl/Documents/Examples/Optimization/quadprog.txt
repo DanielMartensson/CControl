@@ -15,8 +15,8 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	// Objective function
-	float Q[2 * 2] = { 1, -1,
+	// Objective function - Q MUST be symmetric
+	float Q[2 * 2] = { 10, -1,
 				   -1,  10 };
 
 	float c[2] = { -2,
@@ -72,18 +72,18 @@ int main() {
 
   x =
 
-   1.1778
-   0.6444
+   0.2626
+   0.6263
 
   x =
 
-   1.1778
-   0.6444
+   0.2626
+   0.6263
 
   info =
 
   scalar structure containing the fields:
 
-	solveiter = 3
+	solveiter = 2
 	info = 0
  */

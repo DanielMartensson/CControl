@@ -64,8 +64,10 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	}
 
 	/* Check constraint violation */
-	if(violations == 0)
+	if (violations == 0) {
+		free(K);
 		return true;
+	}
 
 	/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
 	float *P = (float*)malloc(row_a * column_a * sizeof(float));
@@ -108,17 +110,16 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 			value = lambda[j] - lambda_p[j];
 			w += value * value;
 		}
-		if(w < FLT_EPSILON)
+		if (w < FLT_EPSILON) {
 			break;
-		if(i == 255)
-			return false; // No solution found
+		}
 	}
 
 	/* Solve x = x + P*lambda (Notice that x is negative (see above)) */
 	float *Plambda = (float*)malloc(column_a * sizeof(float));
 	mul(P, lambda, Plambda, column_a, row_a, 1);
-	for(uint8_t i = 0; i < column_a; i++)
-		x[i] -= Plambda[i];
+	for(j = 0; j < column_a; j++)
+		x[j] -= Plambda[j];
 
 	/* Free */
 	free(K);
@@ -127,7 +128,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	free(lambda);
 	free(lambda_p);
 	free(Plambda);
-	return true;
+	return i < 255 ? true : false; /* If i was 255, then it did not find a solution */
 }
 
 /* GNU Octave code:
