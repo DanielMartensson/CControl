@@ -1,7 +1,7 @@
 /*
  ============================================================================
  Name        : Kalman.c
- Author      : Daniel Mårtensson
+ Author      : Daniel MÃ¥rtensson
  Version     : 1.0
  Copyright   : MIT
  Description : Kalman filter estimation example
@@ -16,7 +16,7 @@
 
 int main() {
 
-	// Create our matrices
+	/* Create our matrices */
 	float A[ADIM * ADIM] = {0.79499,   0.33654,
 		                   -0.70673,   0.35749};
 	float B[ADIM * RDIM] = {0.2050072,   0.0097622,
@@ -41,7 +41,7 @@ int main() {
 	printf("Kalman gain matrix: K\n");
 	print(K, ADIM, YDIM);
 
-	// Create input u, output y and state vector x
+	/* Create input u, output y and state vector x */
 	float u[RDIM] = {2.2,
 			         4.3};
 	float y[YDIM] = {5.134,
@@ -49,7 +49,7 @@ int main() {
 	float x[ADIM] = {2.32,
 			         4.12};
 
-	// Call kalman function and estimate our future state at x(k+1)
+	/* Call kalman function and estimate our future state at x(k+1) */
 	printf("Our current state vector is:\n");
     print(x, ADIM, 1);
 	kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM);

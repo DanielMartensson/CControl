@@ -23,7 +23,8 @@ void randn(float x[], uint16_t length, float mu, float sigma){
 		srand(time(NULL));
 		has_been_called = true;
 	}
-	for(uint16_t i = 0; i < length; i++)
+	uint16_t i;
+	for(i = 0; i < length; i++)
 		x[i] = generate_gauss(mu, sigma);
 }
 
@@ -37,14 +38,14 @@ static float generate_gauss(float mu, float sigma) {
 		return (mu + sigma * (float) X2);
 	}
 
-	// Compute the uniform norm
+	/* Compute the uniform norm */
 	do {
 		U1 = -1 + ((float) rand() / RAND_MAX) * 2;
 		U2 = -1 + ((float) rand() / RAND_MAX) * 2;
-		W = pow(U1, 2) + pow(U2, 2);
+		W = powf(U1, 2) + powf(U2, 2);
 	} while (W >= 1 || W == 0);
 
-	scalar = sqrt((-2 * log(W)) / W);
+	scalar = sqrtf((-2 * logf(W)) / W);
 	X1 = U1 * scalar;
 	X2 = U2 * scalar;
 

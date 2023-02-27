@@ -1,6 +1,6 @@
 # CControl
 
-CControl is a library written in 100% C code. No external libraries and 100% platform independent.
+CControl is a library written in 100% ANSI C (C89) code. No external libraries and 100% platform independent.
 The purpose with this library is to fit advanced tools for really small embedded systems or desktop as well.
 Here I have focused on practical numerical methods and selected the methods that works best in practice. It has
 been a lot of work finding the best methods and best algorithms.
@@ -132,7 +132,7 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Your logic here */
+	/* Your ANSI C logic here */
 
 	end = clock();
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
@@ -154,6 +154,7 @@ Find a good pratical function that always comes in handy. An algorithm for examp
  - Only `floats` are allowed because some processors don't have `double` implemented
  - Your code must come with an example
  - Write `clean code`, that means no slack variables or unnecessary #defines, don't try to compute everything in one single functions, minimize input arguments if it's possible, focus on practical implementation, focus on memory
+ - ANSI C (C89) standard is used in this project
 
 # Projects made with CControl
 

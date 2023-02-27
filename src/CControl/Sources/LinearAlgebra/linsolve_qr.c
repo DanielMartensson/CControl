@@ -14,13 +14,13 @@
  * x[n]
  */
 void linsolve_qr(float A[], float x[], float b[], uint16_t row, uint16_t column){
-	// QR-decomposition
+	/* QR-decomposition */
 	float *Q = (float*)malloc(row * row * sizeof(float));
 	float *R = (float*)malloc(row * column * sizeof(float));
 	qr(A, Q, R, row, column, false);
-	tran(Q, row, row); // Do transpose Q -> Q^T
+	tran(Q, row, row); /* Do transpose Q -> Q^T */
 	float *QTb = (float*)malloc(row * sizeof(float));
-	mul(Q, b, QTb, row, row, 1); // Q^Tb = Q^T*b
+	mul(Q, b, QTb, row, row, 1); /* Q^Tb = Q^T*b */
 	linsolve_upper_triangular(R, x, QTb, column);
 
 	/* Free */

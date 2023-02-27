@@ -9,7 +9,7 @@
 
 static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row);
 static void prepare(float* A, uint16_t row);
-#define abs_sign(a,b) ((b) >= 0.0 ? fabsf(a) : -fabsf(a)) // Special case for qr_hess function
+#define abs_sign(a,b) ((b) >= 0.0 ? fabsf(a) : -fabsf(a)) /* Special case for qr_hess function */
 
 /*
  * Find eigenvalues from a general matrix
@@ -19,17 +19,17 @@ static void prepare(float* A, uint16_t row);
  * n == m
  */
 void eig(float A[], float wr[], float wi[], uint16_t row){
-	// Find the eigenvalues
+	/* Find the eigenvalues */
 	balance(A, row);
 	prepare(A, row);
-	// Reset before
+	/* Reset before */
 	memset(wr, 0, row*sizeof(float));
 	memset(wi, 0, row*sizeof(float));
 	qr_shift_algorithm(A, wr, wi, row);
 
 }
 
-// Prepare the matrix A for the QR algorithm
+/* Prepare the matrix A for the QR algorithm */
 static void prepare(float* A, uint16_t row){
 	int i, j, m;
 	float y, x, t;
@@ -45,13 +45,13 @@ static void prepare(float* A, uint16_t row){
 		}
 		if (i != m) {
 			for (j = m - 1; j < row; j++){
-				// Do swap
+				/* Do swap */
 				t = *(A + row*i + j);
 				*(A + row*i + j) = *(A + row*m + j);
 				*(A + row*m + j) = t;
 			}
 			for (j = 0; j < row; j++){
-				// Do swap
+				/* Do swap */
 				t = *(A + row*j + i);
 				*(A + row*j + i) = *(A + row*j + m);
 				*(A + row*j + m) = t;
@@ -72,7 +72,7 @@ static void prepare(float* A, uint16_t row){
 	}
 }
 
-// Shifted QR
+/* Shifted QR */
 static void qr_shift_algorithm(float* A, float* wr, float* wi, uint16_t row){
 	int nn, m, l, k, j, its, i, mmin;
 	float z, y, x, w, v, u, t, s, r, q, p, anorm;

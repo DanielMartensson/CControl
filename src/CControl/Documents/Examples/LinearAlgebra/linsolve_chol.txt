@@ -12,24 +12,24 @@
 
 int main() {
 
-	// Matrix A
+	/* Matrix A */
 	float A[5*5] = {1.1000,    2.0000,    3.0000,    4.0000,    5.0000,
 					2.0000,    4.1000,    6.0000,    8.0000,   10.0000,
 					3.0000,    6.0000,    9.1000,   12.0000,   15.0000,
 					4.0000,    8.0000,   12.0000,   16.1000,   20.0000,
 					5.0000,   10.0000,   15.0000,   20.0000,   25.1000};
 
-	// Vector b
+	/* Vector b */
 	float b[5] = {5,
 			      3,
 			      2,
 			      5,
 			      7};
 
-	// Solution that need to have the same rows and columns from A
+	/* Solution that need to have the same rows and columns from A */
 	float x[5];
 
-	// Do Cholesky decomposition and then solve with linsolve_chol
+	/* Do Cholesky decomposition and then solve with linsolve_chol */
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
@@ -38,7 +38,7 @@ int main() {
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	// Print x
+	/* Print x */
 	printf("x\n");
 	print(x, 5, 1);
 

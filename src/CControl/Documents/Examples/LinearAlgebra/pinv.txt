@@ -34,12 +34,12 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	// When row > column
+	/* When row > column */
 	pinv(A, 10, 5);
 	printf("A:\n");
 	print(A, 5, 10);
 
-	// When row == column
+	/* When row == column */
 	pinv(B, 5, 5);
 	printf("B:\n");
 	print(B, 5, 5);

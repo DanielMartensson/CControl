@@ -60,22 +60,22 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
  * n == m
  */
 static void triu(float A[], float b[], uint16_t row) {
-	// Save address
+	/* Save address */
 	float *Ai;
 	float *Aj = &A[0];
 
-	// Make A to upper triangular. Also change b as well.
+	/* Make A to upper triangular. Also change b as well */
 	float pivot;
 	uint16_t i, j, k;
-	for(j = 0; j < row; j++){ // Column
+	for(j = 0; j < row; j++){ /* Column */
 		Ai = &A[0];
-		for(i = 0; i < row; i++){ // row
+		for(i = 0; i < row; i++){ /* row */
 			if(i > j){
 				pivot = Ai[j] / Aj[j];
-				//pivot = A[i*row + j] / A[j*row + j];
+				/* pivot = A[i*row + j] / A[j*row + j]; */
 				for(k = 0; k < row; k++)
 					Ai[k] -= pivot * Aj[k];
-					//A[i*row + k] = A[i*row + k] - pivot * A[j*row + k];
+					/* A[i*row + k] = A[i*row + k] - pivot * A[j*row + k]; */
 				b[i] = b[i] - pivot * b[j];
 			}
 			Ai += row;
@@ -112,26 +112,26 @@ static void triu(float A[], float b[], uint16_t row) {
  * n = column
  */
 static void tikhonov(float A[], float b[], float ATA[], float ATb[], uint16_t row_a, uint16_t column_a, float alpha){
-	// AT - Transpose A
-	float *AT = (float*)malloc(column_a * row_a * sizeof(float)); // Same dimension as A, just swapped rows and column
-	memcpy(AT, A, column_a*row_a*sizeof(float)); // Copy A -> AT
-	tran(AT, row_a, column_a); // Now turn the values of AT to transpose
+	/* AT - Transpose A */
+	float *AT = (float*)malloc(column_a * row_a * sizeof(float)); /* Same dimension as A, just swapped rows and column */
+	memcpy(AT, A, column_a*row_a*sizeof(float)); /* Copy A -> AT */
+	tran(AT, row_a, column_a); /* Now turn the values of AT to transpose */
 
-	// ATb = AT*b
+	/* ATb = AT*b */
 	memset(ATb, 0, column_a * sizeof(float));
 	mul(AT, b, ATb, column_a, row_a, 1);
 
-	// ATA = AT*A
+	/* ATA = AT*A */
 	memset(ATA, 0, column_a*column_a * sizeof(float));
 	mul(AT, A, ATA, column_a, row_a, column_a);
 
-	// ATA = ATA + alpha*I. Don't need identity matrix here because we only add on diagonal
+	/* ATA = ATA + alpha*I. Don't need identity matrix here because we only add on diagonal */
 	float *ATA0 = &ATA[0];
 	uint16_t i;
 	for(i = 0; i < column_a; i++){
 		ATA0[i] += alpha;
 		ATA0 += column_a;
-		//ATA[i*column_a + i] = ATA[i*column_a + i] + alpha;
+		/* ATA[i*column_a + i] = ATA[i*column_a + i] + alpha; */
 	}
 	/* Now we have our ATA = (A ^ T * A + alpha * I) and ATb = A ^ T * b */
 

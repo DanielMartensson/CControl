@@ -15,7 +15,7 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Your logic here */
+	/* Your ANSI C logic here */
 
 	end = clock();
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;

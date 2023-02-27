@@ -15,7 +15,7 @@
  * n == m
  */
 void chol(float A[], float L[], uint16_t row) {
-	// Save address
+	/* Save address */
 	float *Li = L;
 	float *Lj;
 	float *Ai = A;
@@ -28,17 +28,16 @@ void chol(float A[], float L[], uint16_t row) {
 		for (j = 0; j <= i; j++) {
 			s = 0.0f;
 			for (k = 0; k < j; k++){
-				s += Li[k] * Lj[k];
-				//s += L[row * i + k] * L[row * j + k];
+				s += Li[k] * Lj[k]; /* s += L[row * i + k] * L[row * j + k]; */
 			}
 
-			// We cannot divide with zero L[row * j + j]
+			/* We cannot divide with zero L[row * j + j] */
 			if (Lj[j] == 0.0f) {
 				Lj[j] = FLT_EPSILON;
-				//L[row * j + j] = FLT_EPSILON; // Same as eps command in MATLAB
+				/* L[row * j + j] = FLT_EPSILON; // Same as eps command in MATLAB */
 			}
 			Li[j] = (i == j) ? sqrtf(Ai[i] - s) : (1.0f / Lj[j] * (Ai[j] - s));
-			//L[row * i + j] = (i == j) ? sqrtf(A[row * i + i] - s) : (1.0f / L[row * j + j] * (A[row * i + j] - s));
+			/* L[row * i + j] = (i == j) ? sqrtf(A[row * i + i] - s) : (1.0f / L[row * j + j] * (A[row * i + j] - s)); */
 			Lj += row;
 		}
 		Li += row;

@@ -10,11 +10,11 @@
 
 #include "CControl/Headers/Functions.h"
 
-// Dimensions for input and output
+/* Dimensions for input and output */
 #define YDIM 1
 #define RDIM 1
 
-// Recursive Least Squares with kalman filter - It's recommended to have NP = NZ = NZE
+/* Recursive Least Squares with kalman filter - It's recommended to have NP = NZ = NZE */
 #define NP 5
 #define NZ 5
 #define NZE 5
@@ -32,7 +32,7 @@ int main() {
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
 			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }; // Input signal
+			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }; /* Input signal */
 
 	float output[100] = { 0.00000, 0.00477, 0.01786, 0.03761, 0.06264, 0.09174,
 			0.12390, 0.15827, 0.19412, 0.23085, 0.26796, 0.30504, 0.34175,
@@ -50,19 +50,19 @@ int main() {
 			1.91020, 1.91721, 1.92370, 1.92971, 1.93527, 1.94041, 1.94516,
 			1.94955, 1.95360, 1.95734 };
 
-	// Estimation SISO model - Assume that this this is inside the microprocessor's while(1) loop
-	float past_e; // The past e
-	float past_y; // The past y
-	float past_u; // The past u
+	/* Estimation SISO model - Assume that this this is inside the microprocessor's while(1) loop */
+	float past_e; /* The past e */
+	float past_y; /* The past y */
+	float past_u; /* The past u */
 	float phi[NP + NZ + NZE];
 	float P[(NP + NZ + NZE) * (NP + NZ + NZE)];
-	float theta[NP + NZ + NZE]; // Remember that total length is POLY_LENGTH*3 - ALWAYS have these dimensions
-	uint8_t count = 0; // Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over
-	for (uint8_t i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
+	float theta[NP + NZ + NZE]; /* Remember that total length is POLY_LENGTH*3 - ALWAYS have these dimensions */
+	uint8_t i, count = 0; /* Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over */
+	for (i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
 		rls(NP, NZ, NZE, theta, input[i], output[i], &count, &past_e, &past_y, &past_u, phi, P, Pq, forgetting);
 	}
 
-	// Find our state space model with kalman gain matrix from theta - NP = ADIM
+	/* Find our state space model with kalman gain matrix from theta - NP = ADIM */
 	float A[NP * NP];
 	float B[NP * RDIM];
 	float C[YDIM * NP];
@@ -70,7 +70,7 @@ int main() {
 	bool integral_action = false;
 	theta2ss(A, B, C, theta, K, ADIM, NP, NZ, integral_action);
 
-	// Print our state space matrix
+	/* Print our state space matrix */
 	printf("System matrix: A\n");
 	print(A, NP, NP);
 
@@ -116,6 +116,4 @@ int main() {
 
 	disp('Kalman K')
 	K
-
-
 */

@@ -12,7 +12,7 @@
 
 int main() {
 
-	// Matrix A
+	/* Matrix A */
 	float A[6*4] = {0.7179787,   0.7985186,   0.1000046,   0.2203064,
 					0.9044292,   0.5074379,   0.3539301,   0.9475452,
 					0.0029252,   0.4930148,   0.3209303,   0.5289174,
@@ -20,7 +20,7 @@ int main() {
 					0.7434944,   0.0874402,   0.3388867,   0.8256180,
 					0.7483093,   0.3624991,   0.2039784,   0.5528368};
 
-	// Vector b
+	/* Vector b */
 	float b[6] = {0.31028,
 				  0.69595,
 				  0.31662,
@@ -28,7 +28,7 @@ int main() {
 				  0.15131,
 				  0.83935};
 
-	// Lower and upper bounds are b_l <= Ax <= b_u, which is [A; -A]x = [b_u; -b_l] (notice the negative signs!)
+	/* Lower and upper bounds are b_l <= Ax <= b_u, which is [A; -A]x = [b_u; -b_l] (notice the negative signs!) */
 	float bounds_A[(6*2)*4] = {0.7179787,   0.7985186,   0.1000046,   0.2203064,
 							   0.9044292,   0.5074379,   0.3539301,   0.9475452,
 							   0.0029252,   0.4930148,   0.3209303,   0.5289174,
@@ -41,31 +41,31 @@ int main() {
 							  -0.6546133,  -0.7354447,  -0.9989453,  -0.0310190,
 							  -0.7434944,  -0.0874402,  -0.3388867,  -0.8256180,
 							  -0.7483093,  -0.3624991,  -0.2039784,  -0.5528368};
-	float bounds_b[6*2] = {0.90000, // upper
-						   0.60000, // upper
-						   0.60000, // upper
-						   0.90000, // upper
-						   0.90000, // upper
-						   0.90000, // upper
-						   0.40000, // lower
-						   0.10000, // lower
-						   0.50000, // lower
-						   1.00000, // lower
-						   0.40000, // lower
-						   0.20000}; // lower
+	float bounds_b[6*2] = {0.90000, /* upper */
+						   0.60000, /* upper */
+						   0.60000, /* upper */
+						   0.90000, /* upper */
+						   0.90000, /* upper */
+						   0.90000, /* upper */
+						   0.40000, /* lower */
+						   0.10000, /* lower */
+						   0.50000, /* lower */
+						   1.00000, /* lower */
+						   0.40000, /* lower */
+						   0.20000}; /* lower */
 
-	// Objective function is c^T = bounds_A^T*bounds_b
+	/* Objective function is c^T = bounds_A^T*bounds_b */
 	float c[4] = {1.64160,
 				  0.92620,
 				  0.47139,
 				  1.43351};
 
 
-	// Solution that need to have the same rows and columns from A
+	/* Solution that need to have the same rows and columns from A */
 	float x[4];
 
 
-	// Minimization problem:
+	/* Minimization problem: */
 	float C2[2] = {9,
 				   4};
 	float A2[3*2] = {22, 13,
@@ -74,7 +74,7 @@ int main() {
 	float B2[3] = {25,
 				   7,
 	                7};
-	float y[2]; // Solution!
+	float y[2]; /* Solution! */
 
 	/*
 	 * Do linear programming with simplex method
@@ -91,11 +91,11 @@ int main() {
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
-	// Do a maximization problem:
+	/* Do a maximization problem: */
 	uint8_t max_or_min = 0;
 	bool solution_max = linprog(c, bounds_A, bounds_b, x, 6*2, 4, max_or_min);
 
-	// Do a minimization problem:
+	/* Do a minimization problem: */
 	max_or_min = 1;
 	bool solution_min = linprog(C2, A2, B2, y, 3, 2, max_or_min);
 
@@ -103,11 +103,11 @@ int main() {
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	// Print x
+	/* Print x */
 	printf("x: solution %s\n", solution_max == true ? "yes" : "no");
 	print(x, 4, 1);
 
-	// Print y
+	/* Print y */
 	printf("y: solution %s\n", solution_min == false ? "no" : "yes");
 	print(y, 2, 1);
 

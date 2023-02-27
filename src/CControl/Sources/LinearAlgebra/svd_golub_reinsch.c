@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-// Private functions
+/* Private functions */
 static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, uint16_t ncols, float *U, float *V, float *diagonal, float *superdiagonal);
 static int Givens_Reduction_to_Diagonal_Form(uint16_t nrows, uint16_t ncols, float *U, float *V, float *diagonal, float *superdiagonal);
 static void Sort_by_Decreasing_Singular_Values(uint16_t nrows, uint16_t ncols, float *singular_value, float *U, float *V);
@@ -57,13 +57,13 @@ uint8_t svd_golub_reinsch(float A[], uint16_t row, uint16_t column, float U[], f
 	Householders_Reduction_to_Bidiagonal_Form(A, row, column, U, V, S, dummy_array);
 
 	if (Givens_Reduction_to_Diagonal_Form(row, column, U, V, S, dummy_array) < 0)
-		return 0; // Fail
+		return 0; /* Fail */
 
 	Sort_by_Decreasing_Singular_Values(row, column, S, U, V);
 
 	free(dummy_array);
 
-	return 1; // Solved
+	return 1; /* Solved */
 }
 
 static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, uint16_t ncols, float *U, float *V, float *diagonal, float *superdiagonal) {
@@ -72,7 +72,7 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, 
 	float *pu, *pui, *pv, *pvi;
 	float half_norm_squared;
 
-	// Copy A to U
+	/* Copy A to U */
 	memcpy(U, A, sizeof(float) * nrows * ncols);
 
 	diagonal[0] = 0.0;
@@ -80,12 +80,12 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, 
 	scale = 0.0;
 	for (i = 0, pui = U, ip1 = 1; i < ncols; pui += ncols, i++, ip1++) {
 		superdiagonal[i] = scale * s;
-		//
-		//       Perform Householder transform on columns.
-		//
-		//       Calculate the normed squared of the i-th column vector starting at
-		//       row i.
-		//
+		/*
+		       Perform Householder transform on columns.
+
+		       Calculate the normed squared of the i-th column vector starting at
+		       row i.
+		*/
 		for (j = i, pu = pui, scale = 0.0; j < nrows; j++, pu += ncols)
 			scale += fabsf(*(pu + i));
 
@@ -94,18 +94,13 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, 
 				*(pu + i) /= scale;
 				s2 += *(pu + i) * *(pu + i);
 			}
-			//
-			//
-			//       Chose sign of s which maximizes the norm
-			//
+			/* Chose sign of s which maximizes the norm */
 			s = (*(pui + i) < 0.0) ? sqrtf(s2) : -sqrtf(s2);
-			//
-			//       Calculate -2/u'u
-			//
+
+			/* Calculate -2/u'u */
 			half_norm_squared = *(pui + i) * s - s2;
-			//
-			//       Transform remaining columns by the Householder transform.
-			//
+
+			/* Transform remaining columns by the Householder transform. */
 			*(pui + i) -= s;
 
 			for (j = ip1; j < ncols; j++) {
@@ -120,12 +115,8 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, 
 		for (j = i, pu = pui; j < nrows; j++, pu += ncols)
 			*(pu + i) *= scale;
 		diagonal[i] = s * scale;
-		//
-		//       Perform Householder transform on rows.
-		//
-		//       Calculate the normed squared of the i-th row vector starting at
-		//       column i.
-		//
+		/* Perform Householder transform on rows. */
+		/* Calculate the normed squared of the i-th row vector starting at column i. */
 		s = 0.0;
 		scale = 0.0;
 		if (i >= nrows || i == (ncols - 1))
@@ -138,13 +129,10 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, 
 				s2 += *(pui + j) * *(pui + j);
 			}
 			s = (*(pui + ip1) < 0.0) ? sqrtf(s2) : -sqrtf(s2);
-			//
-			//       Calculate -2/u'u
-			//
+			/* Calculate -2/u'u */
 			half_norm_squared = *(pui + ip1) * s - s2;
-			//
-			//       Transform the rows by the Householder transform.
-			//
+			/* Transform the rows by the Householder transform. */
+
 			*(pui + ip1) -= s;
 			for (k = ip1; k < ncols; k++)
 				superdiagonal[k] = *(pui + k) / half_norm_squared;
@@ -162,7 +150,7 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, 
 		}
 	}
 
-	// Update V
+	/* Update V */
 	pui = U + ncols * (ncols - 2);
 	pvi = V + ncols * (ncols - 1);
 	*(pvi + ncols - 1) = 1.0;
@@ -190,7 +178,7 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, 
 		s = superdiagonal[i];
 	}
 
-	// Update U
+	/* Update U */
 
 	pui = U + ncols * (ncols - 1);
 	for (i = ncols - 1, ip1 = ncols; i >= 0; ip1 = i, i--, pui -= ncols) {
@@ -216,7 +204,7 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, uint16_t nrows, 
 		*(pui + i) += 1.0;
 	}
 }
-                                                                       //
+
 static int Givens_Reduction_to_Diagonal_Form(uint16_t nrows, uint16_t ncols, float *U, float *V, float *diagonal, float *superdiagonal) {
 
 	float epsilon;
@@ -289,7 +277,7 @@ static int Givens_Reduction_to_Diagonal_Form(uint16_t nrows, uint16_t ncols, flo
 				if (f < 0.0)
 					g = -g;
 				f = ((x - z) * (x + z) + h * (y / (f + g) - h)) / x;
-				// Next QR Transformtion
+				/* Next QR Transformtion */
 				c = 1.0;
 				s = 1.0;
 				for (i = m + 1; i <= k; i++) {

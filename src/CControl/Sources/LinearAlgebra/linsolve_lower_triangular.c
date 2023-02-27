@@ -15,17 +15,18 @@
  * n == m
  */
 void linsolve_lower_triangular(float A[], float x[], float b[], uint16_t row) {
-	// Save address
+	/* Save address */
 	float *A0 = &A[0];
 
-	// Time to solve x from Ax = b.
+	/* Time to solve x from Ax = b. */
 	memset(x, 0, row*sizeof(float));
 	float sum;
-	for (uint16_t i = 0; i < row; i++) {
+	uint16_t i, j;
+	for (i = 0; i < row; i++) {
 		sum = 0.0f;
-		for (uint16_t j = 0; j < i; j++)
+		for (j = 0; j < i; j++)
 			sum += A0[j] * x[j];
-			//sum = sum + A[row*i + j] * x[j];
+			/* sum = sum + A[row*i + j] * x[j]; */
 
 		x[i] = (b[i] - sum) / A[row*i + i];
 		A0 += row;

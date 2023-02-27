@@ -94,27 +94,26 @@ static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, 
 	/* Decleration */
 	uint8_t i;
 
-	// This matrix will A^(i+1) all the time
+	/* This matrix will A^(i+1) all the time */
 	float *A_copy = (float*)malloc(ADIM * ADIM * sizeof(float));
 	memcpy(A_copy, A, ADIM * ADIM * sizeof(float));
 
-	// Temporary matrix
+	/* Temporary matrix */
 	float *T = (float*)malloc(YDIM * ADIM * sizeof(float));
-	//memset(T, 0, YDIM * ADIM * sizeof(float));
 
-	// Regular T = C*A^(1+i)
+	/* Regular T = C*A^(1+i) */
 	mul(C, A, T, YDIM, ADIM, ADIM);
 
-	// Insert temporary T into PHI
+	/* Insert temporary T into PHI */
 	memcpy(PHI, T, YDIM*ADIM*sizeof(float));
 
-	// Do the rest C*A^(i+1) because we have already done i = 0
+	/* Do the rest C*A^(i+1) because we have already done i = 0 */
 	float *A_pow = (float*)malloc(ADIM * ADIM * sizeof(float));
 	for(i = 1; i < HORIZON; i++){
-		mul(A, A_copy, A_pow, ADIM, ADIM, ADIM); //  Matrix power A_pow = A*A_copy
-		mul(C, A_pow, T, YDIM, ADIM, ADIM); // T = C*A^(1+i)
-		memcpy(PHI + i*YDIM*ADIM, T, YDIM*ADIM*sizeof(float)); // Insert temporary T into PHI
-		memcpy(A_copy, A_pow, ADIM * ADIM * sizeof(float)); // A_copy <- A_pow
+		mul(A, A_copy, A_pow, ADIM, ADIM, ADIM); /*  Matrix power A_pow = A*A_copy */
+		mul(C, A_pow, T, YDIM, ADIM, ADIM); /* T = C*A^(1+i) */
+		memcpy(PHI + i*YDIM*ADIM, T, YDIM*ADIM*sizeof(float)); /* Insert temporary T into PHI */
+		memcpy(A_copy, A_pow, ADIM * ADIM * sizeof(float)); /* A_copy <- A_pow */
 	}
 
 	/* Free */
@@ -131,16 +130,16 @@ static void cab(float GAMMA[], float PHI[], float B[], float C[], uint8_t ADIM, 
 	/* Decleration */
 	uint8_t i, j;
 
-	// First create the initial C*A^0*B == C*I*B == C*B
+	/* First create the initial C*A^0*B == C*I*B == C*B */
 	float *CB = (float*)malloc(YDIM * RDIM * sizeof(float));
 	mul(C, B, CB, YDIM, ADIM, RDIM);
 
-	// Take the transpose of CB so it will have dimension RDIM*YDIM instead
+	/* Take the transpose of CB so it will have dimension RDIM*YDIM instead */
 	tran(CB, YDIM, RDIM);
 
-	// Create the CAB matrix from PHI*B
+	/* Create the CAB matrix from PHI*B */
 	float *PHIB = (float*)malloc(HORIZON * YDIM * RDIM * sizeof(float));
-	mul(PHI, B, PHIB, HORIZON*YDIM, ADIM, RDIM); // CAB = PHI*B
+	mul(PHI, B, PHIB, HORIZON*YDIM, ADIM, RDIM); /* CAB = PHI*B */
 	tran(PHIB, HORIZON*YDIM, RDIM);
 
 	/*
@@ -151,16 +150,15 @@ static void cab(float GAMMA[], float PHI[], float B[], float C[], uint8_t ADIM, 
 	 */
 	for(i = 0; i < HORIZON; i++) {
 		for(j = 0; j < RDIM; j++) {
-			memcpy(GAMMA + HORIZON*YDIM*(i*RDIM+j) + YDIM*i, CB + YDIM*j, YDIM*sizeof(float)); // Add CB
-			memcpy(GAMMA + HORIZON*YDIM*(i*RDIM+j) + YDIM*i + YDIM, PHIB + HORIZON*YDIM*j, (HORIZON-i-1)*YDIM*sizeof(float)); // Add PHI*B
+			memcpy(GAMMA + HORIZON*YDIM*(i*RDIM+j) + YDIM*i, CB + YDIM*j, YDIM*sizeof(float)); /* Add CB */
+			memcpy(GAMMA + HORIZON*YDIM*(i*RDIM+j) + YDIM*i + YDIM, PHIB + HORIZON*YDIM*j, (HORIZON-i-1)*YDIM*sizeof(float)); /* Add PHI*B */
 		}
 	}
 
-	// Transpose of gamma
+	/* Transpose of gamma */
 	tran(GAMMA, HORIZON*RDIM, HORIZON*YDIM);
 
 	/* Free */
 	free(CB);
 	free(PHIB);
-
 }

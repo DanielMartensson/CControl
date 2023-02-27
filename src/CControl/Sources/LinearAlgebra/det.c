@@ -22,7 +22,7 @@ float det(float A[], uint16_t row) {
 	uint8_t *P = (uint8_t*)malloc(row * row * sizeof(uint8_t));
 	uint8_t status = lup(A, LU, P, row);
 	if(status == 0)
-		return 0; // matrix is singular
+		return 0; /* matrix is singular */
 
 	for (i = 0; i < row; ++i)
 		determinant *= LU[row * P[i] + i];

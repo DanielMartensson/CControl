@@ -12,7 +12,7 @@
 
 #define n 63
 #define m 1
-#define p 5 // Length of the horizon (Change this)
+#define p 5 /* Length of the horizon (Change this) */
 
 int main() {
 	clock_t start, end;
@@ -83,17 +83,18 @@ int main() {
 				32,
 				33 };
 
-	// Particle filter - No tuning
-	float yf[m * n]; 											// Dimension of the output state and length n
-	float horizon[m * p] = { 0 }; 								// Horizon matrix
-	float xhatp[m] = { 0 }; 									// Past estimated state
-	float xhat[m] = { 0 };										// Estimated state
-	uint8_t k = 0;												// Horizon counting (will be counted to p-1. Do not change this)
-	float x[m] = { 0 };											// State vector measurement
-	float noise[m * p] = { 0.2, 0.6, 0.1, 0.9, 0.3 }; 			// Random noise, not normal distributed
+	/* Particle filter - No tuning */
+	float yf[m * n]; 											/* Dimension of the output state and length n */
+	float horizon[m * p] = { 0 }; 								/* Horizon matrix */
+	float xhatp[m] = { 0 }; 									/* Past estimated state */
+	float xhat[m] = { 0 };										/* Estimated state */
+	uint8_t k = 0;												/* Horizon counting (will be counted to p-1. Do not change this) */
+	float x[m] = { 0 };											/* State vector measurement */
+	float noise[m * p] = { 0.2, 0.6, 0.1, 0.9, 0.3 }; 			/* Random noise, not normal distributed */
 
-	// Do particle filtering
-	for (uint8_t i = 0; i < n; i++) {
+	/* Do particle filtering */
+	uint8_t i;
+	for (i = 0; i < n; i++) {
 		x[0] = y[i];
 		pf(x, xhat, xhatp, horizon, noise, m, p, &k);
 		yf[i] = xhat[0];

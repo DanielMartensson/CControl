@@ -7,12 +7,12 @@
 
 #include "../../Headers/Functions.h"
 
-// Private functions
+/* Private functions */
 static void tqli(float d[], float e[], uint16_t row, float z[]);
 static void tridiag(float A[], uint16_t row, float d[], float e[]);
 static float pythag_float(float a, float b);
 #define square(a) ((a)*(a))
-#define abs_sign(a,b) ((b) >= 0.0f ? fabsf(a) : -fabsf(a)) // Special case for tqli function
+#define abs_sign(a,b) ((b) >= 0.0f ? fabsf(a) : -fabsf(a)) /* Special case for tqli function */
 
 
 /*
@@ -34,12 +34,12 @@ void eig_sym(float A[], uint16_t row, float d[]){
 }
 
 
-// Create a tridiagonal matrix
+/* Create a tridiagonal matrix */
 static void tridiag(float A[], uint16_t row, float d[], float e[]){
 	uint16_t l, k, j, i;
 	float scale, hh, h, g, f;
 
-	// Save address
+	/* Save address */
 	float *Aj, *Ak, *Ai;
 	Ai = A;
 	Ai += row*(row - 1);
@@ -48,36 +48,36 @@ static void tridiag(float A[], uint16_t row, float d[], float e[]){
 		h = scale = 0.0f;
 		if (l > 0) {
 			for (k = 0; k < l + 1; k++)
-				scale += fabsf(Ai[k]); //scale += fabsf(*(A + row*i + k));
+				scale += fabsf(Ai[k]); /* scale += fabsf(*(A + row*i + k)); */
 			if (scale == 0.0f)
-				e[i] = Ai[l]; //*(e + i) = *(A + row*i + l);
+				e[i] = Ai[l]; /* *(e + i) = *(A + row*i + l); */
 			else {
 				for (k = 0; k < l + 1; k++) {
 					Ai[k] /= scale;
-					//*(A + row*i + k) /= scale;
+					/* *(A + row*i + k) /= scale; */
 					h += Ai[k] * Ai[k];
-					// h += *(A + row*i + k) * *(A + row*i + k);
+					/* h += *(A + row*i + k) * *(A + row*i + k); */
 				}
-				f = Ai[l]; // *(A + row*i + l)
+				f = Ai[l]; /* *(A + row*i + l) */
 				g = (f >= 0.0f ? -sqrtf(h) : sqrtf(h));
 				e[i] = scale * g;
 				h -= f * g;
-				Ai[l] = f - g; //*(A + row*i + l) = f - g;
+				Ai[l] = f - g; /* *(A + row*i + l) = f - g; */
 				f = 0.0f;
 				Aj = A;
 				for (j = 0; j < l + 1; j++) {
 					/* Next statement can be omitted if eigenvectors not wanted */
 					Aj[i] = Ai[j] / h;
-					//*(A + row*j + i) = *(A + row*i + j) / h;
+					/* *(A + row*j + i) = *(A + row*i + j) / h; */
 					g = 0.0f;
 					for (k = 0; k < j + 1; k++)
-						g += Aj[k] * Ai[k]; //g += *(A + row*j + k) * *(A + row*i + k);
+						g += Aj[k] * Ai[k]; /* g += *(A + row*j + k) * *(A + row*i + k); */
 					Ak = A;
-					Ak += row*j; // Important that is is row*j and not row*(j+1)
+					Ak += row*j; /* Important that is is row*j and not row*(j+1) **/
 					for (k = j + 1; k < l + 1; k++){
-						Ak += row; // Here is the +1
+						Ak += row; /* Here is the +1 */
 						g += Ak[j] * Ai[k];
-						//g += *(A + row*k + j) * *(A + row*i + k);
+						/* g += *(A + row*k + j) * *(A + row*i + k); */
 					}
 					e[j] = g / h;
 					f += e[j] * Ai[j];
@@ -85,16 +85,16 @@ static void tridiag(float A[], uint16_t row, float d[], float e[]){
 				}
 				hh = f / (h + h);
 				Aj = A;
-				for (j = 0; j < l + 1; j++) { // l + 1
-					f = Ai[j]; // *(A + row*i + j)
+				for (j = 0; j < l + 1; j++) { /* l + 1 */
+					f = Ai[j]; /* *(A + row*i + j) */
 					e[j] = g = e[j] - hh * f;
 					for (k = 0; k < j + 1; k++)
-						Aj[k] -= (f * e[k] + g * Ai[k]); // *(A + row*j + k) -= (f * e[k] + g * *(A + row*i + k));
+						Aj[k] -= (f * e[k] + g * Ai[k]); /* *(A + row*j + k) -= (f * e[k] + g * *(A + row*i + k)); */
 					Aj += row;
 				}
 			}
 		} else{
-			e[i] = Ai[l]; //*(e + i) = *(A + row*i + l);//a[i][l];
+			e[i] = Ai[l]; /* *(e + i) = *(A + row*i + l);//a[i][l]; */
 		}
 		d[i] = h;
 
@@ -114,23 +114,23 @@ static void tridiag(float A[], uint16_t row, float d[], float e[]){
 				for (k = 0; k < l; k++){
 					g += Ai[k] * Ak[j];
 					Ak += row;
-					//g += *(A + row*i + k) * *(A + row*k + j)
+					/* g += *(A + row*i + k) * *(A + row*k + j) */
 				}
 				Ak = A;
 				for (k = 0; k < l; k++){
 					Ak[j] -= g * Ak[i];
 					Ak += row;
-					//*(A + row*k + j) -= g * *(A + row*k + i)
+					/* *(A + row*k + j) -= g * *(A + row*k + i) */
 				}
 			}
 		}
-		d[i] = Ai[i]; // *(A + row*i + i)
-		Ai[i] = 1.0f; //*(A + row*i + i) = 1.0
+		d[i] = Ai[i]; /* *(A + row*i + i) */
+		Ai[i] = 1.0f; /* *(A + row*i + i) = 1.0 */
 		Aj = A;
 		for (j = 0; j < l; j++){
 			Aj[i] = Ai[j] = 0.0f;
 			Aj += row;
-			//*(A + row*j + i) = *(A + row*i + j) = 0.0;
+			/* *(A + row*j + i) = *(A + row*i + j) = 0.0; */
 		}
 
 		Ai += row;
@@ -150,7 +150,7 @@ static void tqli(float d[], float e[], uint16_t row, float z[]){
 	int32_t m, l, iter, i, k;
 	float s, r, p, g, f, dd, c, b;
 
-	// Save address
+	/* Save address */
 	float *zk;
 
 	for (i = 1; i < row; i++)
@@ -196,9 +196,9 @@ static void tqli(float d[], float e[], uint16_t row, float z[]){
 						zk[i+1] = s * zk[i] + c * f;
 						zk[i] = c * zk[i] - s * f;
 						zk += row;
-						//f = *(z + row*k + i + 1)
-						//*(z + row*k + i + 1) = s * *(z + row*k + i) + c * f
-						//*(z + row*k + i) = c * *(z + row*k + i) - s * f
+						/* f = *(z + row*k + i + 1) */
+						/* *(z + row*k + i + 1) = s * *(z + row*k + i) + c * f */
+						/* *(z + row*k + i) = c * *(z + row*k + i) - s * f */
 					}
 				}
 				if (r == 0.0f && i >= l)

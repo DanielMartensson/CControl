@@ -1,9 +1,0 @@
-stm32f4xx_it.c:75:6:NMI_Handler	4	static
-stm32f4xx_it.c:88:6:HardFault_Handler	4	static
-stm32f4xx_it.c:103:6:MemManage_Handler	4	static
-stm32f4xx_it.c:118:6:BusFault_Handler	4	static
-stm32f4xx_it.c:133:6:UsageFault_Handler	4	static
-stm32f4xx_it.c:148:6:DebugMon_Handler	4	static
-stm32f4xx_it.c:168:6:DMA1_Stream5_IRQHandler	8	static
-stm32f4xx_it.c:182:6:TIM3_IRQHandler	8	static
-stm32f4xx_it.c:196:6:DMA2_Stream0_IRQHandler	8	static

@@ -1,5 +1,0 @@
-mrac.c:30:6:mrac	64	dynamic
-mrac.c:48:13:integral	40	static
-mrac.c:53:13:saturate	40	static
-mrac.c:58:13:modelerror	32	static
-mrac.c:63:13:findinput	32	static

@@ -22,16 +22,16 @@ static void integral(uint8_t ANTI_WINDUP, float xi[], float r[], float y[], uint
  */
 void lqi(float y[], float u[], float qi, float r[], float L[], float Li[], float x[], float xi[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t ANTI_WINDUP) {
 
-	// First compute the control law: L_vec = L*x
+	/* First compute the control law: L_vec = L*x */
 	float *L_vec = (float*)malloc((RDIM + 1) * sizeof(float));
 	mul(L, x, L_vec, RDIM, ADIM, 1);
 
-	// Then compute the integral law: Li_vec = Li*xi
+	/* Then compute the integral law: Li_vec = Li*xi */
 	float *Li_vec = (float*)malloc(RDIM * sizeof(float));
 	integral(ANTI_WINDUP, xi, r, y, RDIM);
 	mul(Li, xi, Li_vec, RDIM, YDIM, 1);
 
-	// Now combine these two laws: u = Li/(1-qi)*r - (L*x - Li*xi)
+	/* Now combine these two laws: u = Li/(1-qi)*r - (L*x - Li*xi) */
 	uint8_t i;
 	for(i = 0; i < RDIM; i++){
 		u[i] = Li[i*RDIM]/(1-qi) * r[i] - (L_vec[i] - Li_vec[i]);
@@ -47,24 +47,25 @@ void lqi(float y[], float u[], float qi, float r[], float L[], float Li[], float
  * xi = xi + r - y;
  */
 static void integral(uint8_t ANTI_WINDUP, float xi[], float r[], float y[], uint8_t RDIM) {
-	for(uint8_t i = 0; i < RDIM; i++){
+	uint8_t i;
+	for(i = 0; i < RDIM; i++){
 		/*
 		 * Anti-windup
 		 */
 		if(ANTI_WINDUP == 0){
-			xi[i] = xi[i] + r[i] - y[i]; 		// Always integrate
+			xi[i] = xi[i] + r[i] - y[i]; 		/* Always integrate */
 		}else if(ANTI_WINDUP == 1){
 			if(r[i] > y[i]){
-				xi[i] = xi[i] + r[i] - y[i]; 	// Only integrate when r > y, else delete
+				xi[i] = xi[i] + r[i] - y[i]; 	/* Only integrate when r > y, else delete */
 			}else{
-				xi[i] = 0; 						// Delete just that xi
+				xi[i] = 0; 						/* Delete just that xi */
 			}
 		}else if(ANTI_WINDUP == 2){
 			if(r[i] > y[i]){
-				xi[i] = xi[i] + r[i] - y[i]; 	// Only integrate r > y, else do nothing
+				xi[i] = xi[i] + r[i] - y[i]; 	/* Only integrate r > y, else do nothing */
 			}
 		}else{
-			xi[i] = xi[i] + r[i] - y[i]; 		// Always integrate if nothing else selected
+			xi[i] = xi[i] + r[i] - y[i]; 		/* Always integrate if nothing else selected */
 		}
 	}
 }

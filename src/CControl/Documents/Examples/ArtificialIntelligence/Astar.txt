@@ -13,10 +13,11 @@
 #define height_map 15
 #define width_map 10
 
-// This function is here only for illustration. Not needed
+/* This function is here only for illustration. Not needed */
 void print_int(int A[], int row, int column) {
-	for (int i = 0; i < row; i++) {
-		for (int j = 0; j < column; j++) {
+	int i, j;
+	for (i = 0; i < row; i++) {
+		for (j = 0; j < column; j++) {
 			printf("%d\t", *(A++));
 		}
 		printf("\n");
@@ -24,11 +25,12 @@ void print_int(int A[], int row, int column) {
 	printf("\n");
 }
 
-// This function is here only for illustration. Not needed
+/* This function is here only for illustration. Not needed */
 void show_path(int map[], int path_x[], int path_y[], int height, int width) {
-	for (int k = 0; k < height * width; k++) {
-		int x = path_x[k];
-		int y = path_y[k];
+	int k, x, y;
+	for (k = 0; k < height * width; k++) {
+		x = path_x[k];
+		y = path_y[k];
 		if (x != -1 && y != -1)
 			map[ y * width + x] = -100 - k;
 	}
@@ -37,27 +39,27 @@ void show_path(int map[], int path_x[], int path_y[], int height, int width) {
 
 int main() {
 
-	// Beginning coordinates
+	/* Beginning coordinates */
 	int x_start = 8;
 	int y_start = 13;
 
-	// End coordinates
+	/* End coordinates */
 	int x_stop = 6;
 	int y_stop = 2;
 
-	// Path - Our goal is to find them
+	/* Path - Our goal is to find them */
 	int path_x[height_map * width_map];
 	int path_y[height_map * width_map];
 
-	// Norm modes
-	int norm1 = 1; // L1-Norm
-	int norm2 = 2; // L2-Norm
+	/* Norm modes */
+	int norm1 = 1; /* L1-Norm */
+	int norm2 = 2; /* L2-Norm */
 
-	// Steps
+	/* Steps */
 	int steps1 = 0;
 	int steps2 = 0;
 
-	// Map size
+	/* Map size */
 	int map[height_map*width_map] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
 									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
@@ -74,7 +76,7 @@ int main() {
 									 -1,  0,  0,  0,  0,  0, -1, -1,  0, -1,
 									 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 
-	// Or an alternative map
+	/* Or an alternative map */
 	/*
 	// Map size
 	int map[height_map*width_map] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -94,23 +96,23 @@ int main() {
 									 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 	*/
 
-	// Print the map
+	/* Print the map */
 	printf("Initial map\n");
 	print_int(map, height_map, width_map);
 
-	// Compute the "shortest" path
+	/* Compute the "shortest" path */
 	printf("Compute the coordinates\n");
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	// First compute with L1-Norm and check the steps
+	/* First compute with L1-Norm and check the steps */
 	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm1, &steps1);
-	// Then compute with L2-norm and check the steps
+	/* Then compute with L2-norm and check the steps */
 	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm2, &steps2);
-	// Check the steps now - Which of the norms results less steps
+	/* Check the steps now - Which of the norms results less steps */
 	if(steps2 > steps1){
-		Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm1, &steps1); // Get the path again
+		Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm1, &steps1); /* Get the path again */
 		printf("Shortest step is = %d\n", steps1);
 	}else{
 		printf("Shortest step is = %d\n", steps2);
@@ -120,12 +122,13 @@ int main() {
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	// Show the path
+	/* Show the path */
 	printf("\nComputed map\n");
 	show_path(map, path_x, path_y, height_map, width_map);
 
-	// Show the path
-	for (int i = 0; i < height_map * width_map; i++)
+	/* Show the path */
+	int i;
+	for (i = 0; i < height_map * width_map; i++)
 		printf("x = %d, y = %d\n", path_x[i], path_y[i]);
 
 	return EXIT_SUCCESS;

@@ -1,4 +1,0 @@
-ReadWrite.c:17:6:FlashEraseSector	8	static
-ReadWrite.c:25:6:FlashSetSectorAddrs	16	static
-ReadWrite.c:31:6:FlashWriteN	64	static
-ReadWrite.c:80:6:FlashReadN	56	static

@@ -16,6 +16,6 @@ float saturation(float input, float lower_limit, float upper_limit){
 	}else if(input < lower_limit){
 		return lower_limit;
 	}else{
-		return input; // No action
+		return input; /* No action */
 	}
 }

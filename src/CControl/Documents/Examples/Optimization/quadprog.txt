@@ -15,14 +15,14 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	// Objective function - Q MUST be symmetric
+	/* Objective function - Q MUST be symmetric */
 	float Q[2 * 2] = { 1.200, - 5.1000,
 					- 5.1000,   26.0000 };
 
 	float c[2] = { -2,
 				  -6 };
 
-	// Constraints
+	/* Constraints */
 	float A[3 * 2] = { 1, 1,
 				   -1, 2,
 					2, 1 };
@@ -31,7 +31,7 @@ int main() {
 				  2,
 				  3 };
 
-	// Solution
+	/* Solution */
 	float x[2];
 
 	/*
