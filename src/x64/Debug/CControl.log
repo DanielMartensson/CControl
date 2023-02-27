@@ -1,3 +1,2 @@
 ﻿  Main.c
-C:\Users\dmn\GitHub\CControl\src\Main.c(17,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Debug\CControl.exe
