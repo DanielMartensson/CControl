@@ -72,48 +72,6 @@ Main focuses are:
   - Recursive Least Square with forgetting factor and kalman filter identification
   - Square Root Unscented Kalman Filter for parameter estimation
 
-# How to use this library
-
-1. I'd recommend `Eclipse IDE` for compiling this software. `Eclipse IDE` is a very boring IDE, but it's robust and trustable. The `Eclipse IDE` is always going to be available for you.
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Eclipse%20installation%20intro.png?raw=true)
-
-2. Once you have `Eclipse IDE` installed. Show Git perspective.
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Eclipse%20git.png?raw=true)
-
-3. Select `Git`
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Select%20git.png?raw=true)
-
-4. Copy ssh 
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Copy%20ssh.png?raw=true)
-
-5. Clone git. Just press next and end with finish
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Clone%20git.png?raw=true)
-
-6. Import project
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Import%20project.png?raw=true)
-
-7. Show view
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Show%20view.png?raw=true)
-
-8. Select `Git staging`
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Git%20staging.png?raw=true)
-
-9. Every time you change a file and you want to update your repository
-
-![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Push%20git.png?raw=true)
-
-10. If you don't have a `C-compiler`, here is a [video](https://www.youtube.com/watch?v=D2oAUDPWkkA&ab_channel=DanielGrissom) how to set up a compiler 
-
-11. Begin with your `main.c` file. Then go to `src/CControl/Documents/Examples/` and select a `.txt` file and paste it into `main.c` file and press ![the green circle with a white triangle inside](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Run.png?raw=true)
-
 ```c
 /*
  ============================================================================
@@ -213,3 +171,52 @@ For state estimation
 For parameter estimation
 
 ![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/SR-UKF/sr-ukf-parameter-estimation.png)
+
+# How to use this library with Eclipse CDT
+
+A good thing with Eclipse, is that Eclipse CDT has the ability to use pure ANSI C code. Microsoft Visual Studio using MSVC compiler and it's a C++ compiler
+and with Microsoft Visual Studio, you cannot select the ANSI C standard because it's a C++ compiler. I have made so both Microsoft Visual Studio users and 
+Eclipce CDT can use this library without conflicts. 
+
+1. I'd recommend `Eclipse IDE` for compiling this software. `Eclipse IDE` is a very boring IDE, but it's robust and trustable. The `Eclipse IDE` is always going to be available for you.
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Eclipse%20installation%20intro.png?raw=true)
+
+2. Once you have `Eclipse IDE` installed. Show Git perspective.
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Eclipse%20git.png?raw=true)
+
+3. Select `Git`
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Select%20git.png?raw=true)
+
+4. Copy ssh 
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Copy%20ssh.png?raw=true)
+
+5. Clone git. Just press next and end with finish
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Clone%20git.png?raw=true)
+
+6. Import project
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Import%20project.png?raw=true)
+
+7. Show view
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Show%20view.png?raw=true)
+
+8. Select `Git staging`
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Git%20staging.png?raw=true)
+
+9. Every time you change a file and you want to update your repository
+
+![a](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Push%20git.png?raw=true)
+
+10. If you don't have a `C-compiler`, here is a [video](https://www.youtube.com/watch?v=D2oAUDPWkkA&ab_channel=DanielGrissom) how to set up a compiler 
+
+11. Begin with your `main.c` file. Then go to `src/CControl/Documents/Examples/` and select a `.txt` file and paste it into `main.c` file and press ![the green circle with a white triangle inside](https://github.com/DanielMartensson/CControl/blob/master/src/CControl/Documents/How%20to%20install/Run.png?raw=true)
+
+12. If you got problem with push your updates to this repository, the you need to configure your authorization. See this [link](https://stackoverflow.com/questions/68790276/pushing-from-eclipse-to-my-github-repository-via-https-stopped-working-git-rec)
+ 
