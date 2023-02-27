@@ -34,7 +34,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	/* Use gaussian elimination to solve x from Qx = c because Q is square and symmetric */
 	linsolve_gauss(Q, x, c, column_a, column_a, 0.0f);
 
-	// Save address
+	/* Save address */
 	float* Ai = A;
 
 	/* Turn x negative */
@@ -51,7 +51,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 		value = 0.0f;
 		for(j = 0; j < column_a; j++){
 			value += Ai[j] * x[j];
-			//value += A[i*column_a + j]*x[j];
+			/* value += A[i*column_a + j]*x[j]; */
 		}
 		Ai += column_a;
 

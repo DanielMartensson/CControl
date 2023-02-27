@@ -25,26 +25,26 @@ static void findinput(float u[], float r[], float I1[], float y[], float I2[], u
  *
  * This can be used with multiple outputs and references
  * HINT: Look up my repository Adaptive-Control and look for Model Reference Adaptive Control with Lyapunov rule
- * HINT: The book Adaptive Control by Karl-Johan Åström describe on page 208 how this works. ISBN: 9780486462783
+ * HINT: The book Adaptive Control by Karl-Johan ï¿½strï¿½m describe on page 208 how this works. ISBN: 9780486462783
  */
 void mrac(float limit, float gain, float y[], float u[], float r[], float I1[], float I2[], uint8_t RDIM){
 
-	// Find the model error
+	/* Find the model error */
 	float *e = (float*)malloc(RDIM * sizeof(float));
 	modelerror(e, y, r, RDIM);
 
-	// Integrate
-	integral(I1, -gain, r, e, RDIM); // I1 = I1 - gain*r*e
-	integral(I2, gain, y, e, RDIM); // I2 = I2 + gain*y*e
+	/* Integrate */
+	integral(I1, -gain, r, e, RDIM); /* I1 = I1 - gain*r*e */
+	integral(I2, gain, y, e, RDIM); /* I2 = I2 + gain*y*e */
 
 	/* Free */
 	free(e);
 
-	// Saturate
+	/* Saturate */
 	saturate(I1, limit, RDIM);
 	saturate(I2, limit, RDIM);
 
-	// Find input signal
+	/* Find input signal */
 	findinput(u, r, I1, y, I2, RDIM);
 }
 

@@ -30,10 +30,10 @@ int main() {
 	float I1[RDIM] = {3.1};
 	float I2[RDIM] = {4.1};
 
-	// Compute now
+	/* Compute now */
 	mrac(LIMIT, LEARNING, y, u, r, I1, I2, RDIM);
 
-	// Show input signal
+	/* Show input signal */
 	printf("Our output signal\n");
 	print(u, RDIM, 1);
 

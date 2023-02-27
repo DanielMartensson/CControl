@@ -20,10 +20,10 @@ void cut(float A[], uint16_t column, float B[], uint16_t start_row, uint16_t sto
 
 	float *data = A + start_row * column + start_column;
 
-	// Create the output
+	/* Create the output */
 	uint16_t out_columns = stop_column - start_column + 1;
 
-	// Instead of having two for loops, we just copy the whole row at once.
+	/* Instead of having two for loops, we just copy the whole row at once. */
 	uint16_t i;
 	for (i = start_row; i < stop_row + 1; i++) {
 		memcpy(B, data, sizeof(float) * out_columns);

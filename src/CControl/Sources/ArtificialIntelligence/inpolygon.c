@@ -19,7 +19,8 @@ uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p){
 	float max_x = px[0];
 	float min_y = py[0];
 	float min_x = px[0];
-	for(uint8_t i = 0; i < p; i++){
+	uint8_t i;
+	for(i = 0; i < p; i++){
 		max_y = vmax(py[i], max_y);
 		max_x = vmax(px[i], max_x);
 		min_y = vmin(py[i], min_y);
@@ -33,7 +34,7 @@ uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p){
 
 	/* Do a better check */
 	uint8_t ok = 0;
-	uint8_t i = 0;
+	i = 0;
 	uint8_t j = p - 1;
 	while (i < p) {
 		if (((px[i] > x) != (px[j] > x)) && (y < (py[j] - py[i]) * (x - px[i]) / (px[j] - px[i]) + py[i])) {

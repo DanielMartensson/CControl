@@ -1,3 +1,0 @@
-eig.c:21:6:eig	24	static
-eig.c:33:13:prepare	40	static
-eig.c:76:13:qr_shift_algorithm	112	static

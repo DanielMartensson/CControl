@@ -12,7 +12,7 @@
 
 int main() {
 
-	// Matrix A
+	/* Matrix A */
 	float A[6*4] = {0.9889143,   0.8156388,   0.7197012,   0.9117410,
 				    0.3513571,   0.9509832,   0.7666883,   0.2984587,
 				    0.7419696,   0.6665918,   0.8349609,   0.0493249,
@@ -20,7 +20,7 @@ int main() {
 				    0.0217779,   0.5598255,   0.5004498,   0.5730017,
 				    0.9608793,   0.4709475,   0.0031274,   0.0698641};
 
-	// Vector b
+	/* Vector b */
 	float b[6] = {0.883369,
 				  0.653627,
 				  0.417359,
@@ -28,10 +28,10 @@ int main() {
 				  0.879004,
 				  0.152040};
 
-	// Solution that need to have the same rows and columns from A
+	/* Solution that need to have the same rows and columns from A */
 	float x[4];
 
-	// If we are using alpha = 0, then matrix A MUST be square!
+	/* If we are using alpha = 0, then matrix A MUST be square! */
 	float alpha = 0.1f;
 
 	clock_t start, end;

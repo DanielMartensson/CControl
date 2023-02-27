@@ -12,13 +12,13 @@
 
 int main() {
 
-	// Matrix A - Will become eigenvectors
+	/* Matrix A - Will become eigenvectors */
 	float A[5*5] = { 2.77099,  -1.59681,  -1.43482,  -2.11912,   1.36763,
 				    -1.59681,   2.63164,   0.39652,   1.33448,  -0.29600,
 				    -1.43482,   0.39652,   9.45852,   3.45891,  -1.71136,
 				    -2.11912,   1.33448,   3.45891,   6.01772,   0.46433,
 				     1.36763,  -0.29600,  -1.71136,   0.46433,   1.70259};
-	// Eigenvalues
+	/* Eigenvalues */
 	float d[5];
 
 	clock_t start, end;
@@ -29,11 +29,11 @@ int main() {
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	// Print eigenvalues of A
+	/* Print eigenvalues of A */
 	printf("d:\n");
 	print(d, 5, 1);
 
-	// Print eigenvectors of A
+	/* Print eigenvectors of A */
 	printf("A:\n");
 	print(A, 5, 5);
 

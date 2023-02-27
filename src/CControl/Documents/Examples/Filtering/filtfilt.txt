@@ -49,13 +49,13 @@ int main() {
 			-0.2175047, -0.3404012, -0.2840302, -0.5171487, -0.4282719,
 			-0.3427022, -0.3475412, -0.7124227, -0.7152642 };
 
-	float t[2] = { 0, 0.050251}; // We only need 2 samples of t!
+	float t[2] = { 0, 0.050251}; /* We only need 2 samples of t! */
 
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	filtfilt(y, t, 200, 0.08); // 200 = length of y array, 0.08 = tuning parameter
+	filtfilt(y, t, 200, 0.08); /* 200 = length of y array, 0.08 = tuning parameter */
 	print(y, 200, 1);
 
 	end = clock();

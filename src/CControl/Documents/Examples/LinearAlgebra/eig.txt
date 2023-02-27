@@ -12,16 +12,16 @@
 
 int main() {
 
-	// Matrix A
+	/* Matrix A */
 	float A[4*4] = {0.018142,   0.968856,   0.151740,   0.757174,
 				    0.017829,   0.474323,   0.358832,   0.970854,
 				    0.184523,   0.063063,   0.680511,   0.191901,
 				    0.806877,   0.830208,   0.977169,   0.222291};
 
-	float wr_a[4];   // Eigenvalues real
-	float wi_a[4];   // Eigenvalues imaginary
+	float wr_a[4];   /* Eigenvalues real */
+	float wi_a[4];   /* Eigenvalues imaginary */
 
-	// Matrix B
+	/* Matrix B */
 	float B[12*12] = { 144,     2,     3,   141,   140,     6,     7,   137,   136,    10,    11,   133,
 						13,   131,   130,    16,    17,   127,   126,    20,    21,   123,   122,    24,
 						25,   119,   118,    28,    29,   115,   114,    32,    33,   111,   110,    36,
@@ -35,8 +35,8 @@ int main() {
 					   121,    23,    22,   124,   125,    19,    18,   128,   129,    15,    14,   132,
 						12,   134,   135,     9,     8,   138,   139,     5,     4,   142,   143,   100};
 
-	float wr_b[12];    // Eigenvalues real
-	float wi_b[12];    // Eigenvalues imaginary
+	float wr_b[12];    /* Eigenvalues real */
+	float wi_b[12];    /* Eigenvalues imaginary */
 
 	clock_t start, end;
 	float cpu_time_used;
@@ -47,7 +47,7 @@ int main() {
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	// Print eigenvalues
+	/* Print eigenvalues */
 	printf("Real eigenvalues of A:\n");
 	print(wr_a, 4, 1);
 	printf("Imaginary eigenvalues of A: \n");

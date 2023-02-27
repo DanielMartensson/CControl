@@ -20,23 +20,23 @@ void dlyap(float* A, float* P, float* Q, uint16_t row){
 	/* Decleration */
 	uint16_t k, l, i, j;
 
-	// Create an zero large matrix M
-	float *M = (float*)malloc(row * row * row * row * sizeof(float)); // row_a^2 * row_a^2
+	/* Create an zero large matrix M */
+	float *M = (float*)malloc(row * row * row * row * sizeof(float)); /* row_a^2 * row_a^2 */
 
-	// Create a temporary B matrix
+	/* Create a temporary B matrix */
 	float *B = (float*)malloc(row * row * sizeof(float));
 
-	// Fill the M matrix
+	/* Fill the M matrix */
 	for(k = 0; k < row; k++){
 		for(l = 0; l < row; l++){
-			memcpy(B, A, row*row*sizeof(float)); // B = A*A(k, l);
+			memcpy(B, A, row*row*sizeof(float)); /* B = A*A(k, l); */
 			for(i = 0; i < row*row; i++)
 				B[i] *= A[row*k + l];
 			insert(B, M, row, row, row*row, row*k, row*l);
 		}
 	}
 
-	// Turn M negative but add +1 on diagonals
+	/* Turn M negative but add +1 on diagonals */
 	for(i = 0; i < row*row; i++)
 		for(j = 0; j < row*row; j++)
 			if(i == j)

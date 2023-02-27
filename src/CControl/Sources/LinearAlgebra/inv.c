@@ -21,33 +21,33 @@ static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row
  */
 uint8_t inv(float A[], uint16_t row) {
 
-	// Create iA matrix
+	/* Create iA matrix */
 	float *iA = (float*)malloc(row * row * sizeof(float));
 
-	// Create temporary matrix and status variable
+	/* Create temporary matrix and status variable */
 	float *tmpvec = (float*)malloc(row * sizeof(float));
 	memset(tmpvec, 0, row*sizeof(float));
 	uint8_t status = 0;
 
-	// Check if the determinant is 0
+	/* Check if the determinant is 0 */
 	float *LU = (float*)malloc(row * row * sizeof(float));
 	uint8_t *P = (uint8_t*)malloc(row * sizeof(uint8_t));
 	status = lup(A, LU, P, row);
 	if(status == 0)
-		return 0; // matrix is singular. Determinant 0
-	// Create the inverse
+		return 0; /* matrix is singular. Determinant 0 */
+	/* Create the inverse */
 	uint16_t i;
 	for (i = 0; i < row; i++) {
 		tmpvec[i] = 1.0f;
 		if(!solve(&iA[row * i], tmpvec, P, LU, row))
-			return 0; // We divided with zero
+			return 0; /* We divided with zero */
 		tmpvec[i] = 0.0f;
 	}
 
-	// Transpose of iA
+	/* Transpose of iA */
 	tran(iA, row, row);
 
-	// Copy over iA -> A
+	/* Copy over iA -> A */
 	memcpy(A, iA, row * row * sizeof(float));
 
 	/* Free */
@@ -59,27 +59,29 @@ uint8_t inv(float A[], uint16_t row) {
 }
 
 static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row){
-	// forward substitution with pivoting
-	for (uint16_t i = 0; i < row; ++i) {
+	/* forward substitution with pivoting */
+	int32_t i;
+	uint16_t j;
+	for (i = 0; i < row; ++i) {
 		x[i] = b[P[i]];
 
-		for (uint16_t j = 0; j < i; ++j)
+		for (j = 0; j < i; ++j)
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
 	}
 
-	// backward substitution with pivoting
-	for (int32_t i = row - 1; i >= 0; --i) {
-		for (uint16_t j = i + 1; j < row; ++j)
+	/* backward substitution with pivoting */
+	for (i = row - 1; i >= 0; --i) {
+		for (j = i + 1; j < row; ++j)
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
 		
-		// Just in case if we divide with zero
+		/* Just in case if we divide with zero */
 		if(fabsf(LU[row * P[i] + i]) > FLT_EPSILON)
 			x[i] = x[i] / LU[row * P[i] + i];
 		else
 			return 0;
 	}
 	
-	return 1; // No problems
+	return 1; /* No problems */
 }
 
 /*

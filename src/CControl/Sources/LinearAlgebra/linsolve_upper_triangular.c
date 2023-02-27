@@ -17,20 +17,22 @@
  * m == n
  */
 void linsolve_upper_triangular(float A[], float x[], float b[], uint16_t column) {
-	// Save address - This is the first column at the last row
+	/* Save address - This is the first column at the last row */
 	float *A0 = &A[(column-1)*column];
 
-	// Time to solve x from Ax = b.
+	/* Time to solve x from Ax = b. */
 	memset(x, 0, column*sizeof(float));
 	float sum;
-	for(int32_t i = column-1; i >= 0; i--){ // Column
-		sum = 0.0f; // This is our sum
-		for(uint16_t j = i; j < column; j++){ // Row
+	int32_t i;
+	uint16_t j;
+	for(i = column-1; i >= 0; i--){ /* Column */
+		sum = 0.0f; /* This is our sum */
+		for(j = i; j < column; j++){ /* Row */
 			sum += A0[j] * x[j];
-			//sum += A[i*column + j] * x[j];
+			/* sum += A[i*column + j] * x[j]; */
 		}
 		x[i] = (b[i] - sum) / A0[i];
-		//x[i] = (b[i] - sum) / A[i*column + i];
+		/* x[i] = (b[i] - sum) / A[i*column + i]; */
 		A0 -= column;
 	}
 

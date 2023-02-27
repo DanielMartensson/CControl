@@ -99,7 +99,8 @@ static void create_weights(float Wc[], float Wm[], float alpha, float beta, floa
 	Wc[0] = Wm[0] + 1 - alpha * alpha + beta;
 
 	/* The rest of the indexes are the same */
-	for(uint8_t i = 1; i < N; i++){
+	uint8_t i;
+	for(i = 1; i < N; i++){
 		Wc[i] = 0.5f / (L + lambda);
 		Wm[i] = Wc[i];
 	}
@@ -295,7 +296,7 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 	/* Compute xhat = xhat + K*(y - yhat) */
 	float *yyhat = (float*)malloc(L * sizeof(float));
 	float *Ky = (float*)malloc(L * sizeof(float));
-	for(uint8_t i = 0; i < L; i++)
+	for(i = 0; i < L; i++)
 		yyhat[i] = y[i] - yhat[i];
 	mul(K, yyhat, Ky, L, L, 1);
 	for(i = 0; i < L; i++)

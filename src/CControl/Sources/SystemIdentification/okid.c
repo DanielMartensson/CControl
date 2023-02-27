@@ -37,10 +37,11 @@ void okid(float u[], float y[], float g[], uint16_t row, uint16_t column){
 	 */
 	memset(g, 0, row*column*sizeof(float));
 	float sum;
-	for(uint16_t k = 0; k < row; k++){ // If we have more than 1 rows = MIMO system
-		for (uint16_t i = 0; i < column; i++) {
+	uint16_t k, i, j;
+	for(k = 0; k < row; k++){ /* If we have more than 1 rows = MIMO system */
+		for (i = 0; i < column; i++) {
 			sum = 0;
-			for (int j = 0; j < i; j = j + 1){
+			for (j = 0; j < i; j = j + 1){
 				sum = sum + u[k*column + i - j] * g[k*column + j];
 			}
 			g[k*column + i] = (y[k*column + i] - sum) / u[k*column + 0];

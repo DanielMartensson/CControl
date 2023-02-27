@@ -18,22 +18,22 @@ float norm(float A[], uint16_t row, uint16_t column, uint8_t l){
 	uint16_t i, j;
 
 	if(l == 1){
-		// Vector
+		/* Vector */
 		if(row == 1){
 			float sum_sqrt = 0;
 			for(i = 0; i < column; i++)
 				sum_sqrt += sqrtf(A[i]*A[i]);
 			return sum_sqrt;
 		}else{
-			// Matrix
-			// MATLAB: sum(A, 1)
+			/* Matrix */
+			/* MATLAB: sum(A, 1) */
 			for (i = 1; i < row; i++) {
 				for (j = 0; j < column; j++) {
 					A[j] += fabsf(A[i * column + j]);
 				}
 			}
 
-			// Find the largest value on row 0
+			/* Find the largest value on row 0 */
 			float maxValue = A[0];
 			for (j = 1; j < column; j++) {
 				if(A[j] > maxValue){
@@ -44,10 +44,10 @@ float norm(float A[], uint16_t row, uint16_t column, uint8_t l){
 		}
 	}
 	else if(l == 2){
-		// Vector
+		/* Vector */
 		if(row == 1){
 			float sqrt_sum = 0;
-			for(uint16_t i = 0; i < column; i++)
+			for(i = 0; i < column; i++)
 				sqrt_sum += A[i]*A[i];
 			return sqrtf(sqrt_sum);
 		}else{

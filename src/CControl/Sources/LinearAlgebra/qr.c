@@ -18,7 +18,7 @@
  */
 uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, bool only_compute_R){
 
-	// Declare
+	/* Declare */
 	uint16_t row_a_row_a = row_a*row_a;
 	uint16_t l = row_a - 1 < column_a ? row_a - 1 : column_a;
 	uint16_t i, k;
@@ -30,48 +30,48 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 	float *HiH = (float*)malloc(row_a_row_a * sizeof(float));
 	float *HiR = (float*)malloc(row_a * column_a * sizeof(float)); 
 
-	// Give A to R
+	/* Give A to R */
 	memcpy(R, A, row_a*column_a*sizeof(float));
 
-	// Save address
+	/* Save address */
 	float *Ri, *kR, *iH, *iHi;
 
-	// Turn H into identity matrix
+	/* Turn H into identity matrix */
 	memset(H, 0, row_a_row_a*sizeof(float));
 	iH = H;
 	for(i = 0; i < row_a; i++){
 		iH[i] = 1.0f;
 		iH += row_a;
-		//H[i*row_a + i] = 1.0f;
+		/* H[i*row_a + i] = 1.0f; */
 	}
 
-	// Do house holder transformations
+	/* Do house holder transformations */
 	kR = R;
 	for(k = 0; k < l; k++){
-		// Do L2 norm
+		/* Do L2 norm */
 		s = 0.0f;
 		Ri = R;
 		Ri += column_a*k;
 		for(i = k; i < row_a; i++){
 			s += Ri[k] * Ri[k];
 			Ri += column_a;
-			//s += R[i*column_a + k] * R[i*column_a + k];
+			/* s += R[i*column_a + k] * R[i*column_a + k]; */
 		}
 		s = sqrtf(s);
 
-		// Find Rk
+		/* Find Rk */
 		Rk = kR[k];
 		kR += column_a;
-		//Rk = R[k*column_a + k];
+		/* Rk = R[k*column_a + k]; */
 
-		// Do sign
+		/* Do sign */
 		if(Rk < 0.0f)
 			s = -s;
 
-		// Compute r
+		/* Compute r */
 		r = sqrtf(2 * s * (Rk + s));
 
-		// Fill W
+		/* Fill W */
 		memset(W, 0, row_a*sizeof(float));
 		W[k] = (Rk + s) / r;
 		Ri = R;
@@ -79,36 +79,36 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 		for(i = k+1; i < row_a; i++){
 			Ri += column_a;
 			W[i] = Ri[k] / r;
-			//W[i] = R[i*column_a + k] / r;
+			/* W[i] = R[i*column_a + k] / r; */
 		}
 
-		// WW = W*W'
+		/* WW = W*W' */
 		mul(W, W, WW, row_a, 1, row_a);
 
-		// Fill Hi matrix
+		/* Fill Hi matrix */
 		for(i = 0; i < row_a_row_a; i++)
 			Hi[i] = -2.0f*WW[i];
 
-		// Use identity matrix on Hi
+		/* Use identity matrix on Hi */
 		iHi = Hi;
 		for(i = 0; i < row_a; i++){
 			iHi[i] += 1.0f;
 			iHi += row_a;
-			//Hi[i*row_a + i] += 1.0f;
+			/* Hi[i*row_a + i] += 1.0f; */
 		}
 
-		// HiH = Hi * H -> HiH = H
+		/* HiH = Hi * H -> HiH = H */
 		if(!only_compute_R) {
 			mul(Hi, H, HiH, row_a, row_a, row_a);
 			memcpy(H, HiH, row_a_row_a*sizeof(float));
 		}
 
-		// HiR = Hi * R -> HiR = R
+		/* HiR = Hi * R -> HiR = R */
 		mul(Hi, R, HiR, row_a, row_a, column_a);
 		memcpy(R, HiR, row_a*column_a*sizeof(float));
 	}
 
-	// Do inverse on H and give it to Q
+	/* Do inverse on H and give it to Q */
 	uint8_t status = 1;
 	if(!only_compute_R) {
 		status = inv(H, row_a);

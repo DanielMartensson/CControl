@@ -8,17 +8,45 @@
 #ifndef CCONTROL_HEADERS_FUNCTIONS_H_
 #define CCONTROL_HEADERS_FUNCTIONS_H_
 
-/* Necessary libraries */
-#include <string.h>						// For memcpy, memset etc
-#include <stdio.h>						// For printf
-#include <stdlib.h>						// Standard library
-#include <stdint.h>						// For uint8_t, uint16_t and uint16_t
-#include <math.h>						// For sqrtf
-#include <float.h>						// Required for FLT_EPSILON
-#include <stdbool.h>					// For bool datatype
-#include <time.h> 						// For srand, clock
+/* C89 standard library */
+#include <string.h>						/* For memcpy, memset etc */
+#include <stdio.h>						/* For printf */
+#include <stdlib.h>						/* Standard library */
+#include <math.h>						/* For sqrtf */
+#include <float.h>						/* Required for FLT_EPSILON */
+#include <time.h> 						/* For srand, clock */
 
-#define PI 2*acosf(0.0f)				// acos(0) is pi/2
+/* C89 functions */
+#ifndef __STDC_VERSION__				/* GCC does not show __STDC_VERSION__, but MSVC does, when selecting ANSI C89 standard */
+/* C99 and above */
+#include <stdbool.h>					/* For bool datatype */
+#include <stdint.h>						/* For uint8_t, uint16_t and uint16_t */
+#elif __STDC_VERSION__ == 199409L		/* ANSI C (C89) */
+/* Math functions */
+float sqrtf(float x);
+float fabsf(float x);
+float acosf(float x);
+float expf(float x);
+float powf(float base, float power);
+float logf(float x);
+float sinf(float x);
+
+/* Standard signed int and unsigned int */
+typedef unsigned char  uint8_t;
+typedef signed char    int8_t;
+typedef unsigned short uint16_t;
+typedef signed short   int16_t;
+typedef unsigned long  uint32_t;
+typedef signed long    int32_t;
+
+/* Standard bool */
+typedef uint8_t bool;
+#define true 1
+#define false 0
+#endif
+
+/* Define for all */
+#define PI 2*acosf(0.0f)				/* acos(0) is pi/2 */
 
 #ifdef __cplusplus
 extern "C" {

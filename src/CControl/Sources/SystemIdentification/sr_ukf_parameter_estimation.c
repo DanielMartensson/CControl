@@ -267,7 +267,7 @@ static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float 
 	free(diagonal_WD);
 }
 
-// Sw, what, dhat, d, Sd, Pwd, L
+/* Sw, what, dhat, d, Sd, Pwd, L */
 static void update_state_covarariance_matrix_and_state_estimation_vector(float Sw[], float what[], float dhat[], float d[], float Sd[], float Pwd[], uint8_t L){
 	/* Decleration */
 	uint8_t i, j;

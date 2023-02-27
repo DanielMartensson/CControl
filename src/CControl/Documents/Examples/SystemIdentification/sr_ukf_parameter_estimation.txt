@@ -32,16 +32,16 @@ int main() {
 	 */
 
 	 /* Initial parameters */
-	uint8_t L = 3; 																// How many states we have
-	float e = 0.1f;																// Tuning factor for noise
-	float alpha = 0.1f; 														// Alpha value - A small number like 0.01 -> 1.0
-	float beta = 2.0f; 															// Beta value - Normally 2 for gaussian noise
-	float Re[3 * 3] = { e, 0, 0, 0, e, 0, 0, 0, e }; 								// Initial noise covariance matrix - Recommended to use identity matrix
-	float Sw[3 * 3] = { 1, 0, 0, 0, 1, 0, 0, 0, 1 }; 								// Initial covariance matrix - Recommended to use identity matrix
-	float what[3] = { 0, 0, 0 }; 													// Estimated parameter vector
-	float d[3] = { 0, 0, 0 };														// This is our measurement
-	float x[3] = { 4.4f, 6.2f, 1.0f }; 											// State vector
-	float lambda_rls = 1.0f;													// RLS forgetting parameter between 0.0 and 1.0, but very close to 1.0
+	uint8_t L = 3; 																/* How many states we have */
+	float e = 0.1f;																/* Tuning factor for noise */
+	float alpha = 0.1f; 														/* Alpha value - A small number like 0.01 -> 1.0 */
+	float beta = 2.0f; 															/* Beta value - Normally 2 for gaussian noise */
+	float Re[3 * 3] = { e, 0, 0, 0, e, 0, 0, 0, e }; 							/* Initial noise covariance matrix - Recommended to use identity matrix */
+	float Sw[3 * 3] = { 1, 0, 0, 0, 1, 0, 0, 0, 1 }; 							/* Initial covariance matrix - Recommended to use identity matrix */
+	float what[3] = { 0, 0, 0 }; 												/* Estimated parameter vector */
+	float d[3] = { 0, 0, 0 };													/* This is our measurement */
+	float x[3] = { 4.4f, 6.2f, 1.0f }; 											/* State vector */
+	float lambda_rls = 1.0f;													/* RLS forgetting parameter between 0.0 and 1.0, but very close to 1.0 */
 
 	clock_t start, end;
 	float cpu_time_used;

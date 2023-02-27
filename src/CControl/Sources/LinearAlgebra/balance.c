@@ -15,7 +15,7 @@ void balance(float A[], uint16_t row){
 	uint16_t i, j, last = 0;
 	float s, r, g, f, c, sqrdx;
 
-	// Save memory
+	/* Save memory */
 	float *Ai;
 	float *Aj;
 
@@ -29,9 +29,9 @@ void balance(float A[], uint16_t row){
 			for (j = 0; j < row; j++){
 				if (j != i) {
 					c += fabsf(Aj[i]);
-					//c += fabsf(A[row*j + i]);
+					/* c += fabsf(A[row*j + i]); */
 					r += fabsf(Ai[j]);
-					//r += fabsf(A[row*i + j]);
+					/* r += fabsf(A[row*i + j]); */
 				}
 				Aj += row;
 			}
@@ -53,13 +53,13 @@ void balance(float A[], uint16_t row){
 					g = 1.0f / f;
 					for (j = 0; j < row; j++){
 						Ai[j] *= g;
-						//A[row*i + j] *= g;
+						/* A[row*i + j] *= g; */
 					}
 					Aj = A;
 					for (j = 0; j < row; j++){
 						Aj[i] *= f;
 						Aj += row;
-						//A[row*j + i] *= f;
+						/* A[row*j + i] *= f; */
 					}
 				}
 			}
