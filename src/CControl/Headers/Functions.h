@@ -16,12 +16,13 @@
 #include <float.h>						/* Required for FLT_EPSILON */
 #include <time.h> 						/* For srand, clock */
 
-/* C89 functions */
-#ifndef __STDC_VERSION__				/* GCC does not show __STDC_VERSION__, but MSVC does, when selecting ANSI C89 standard */
-/* C99 and above */
-#include <stdbool.h>					/* For bool datatype */
-#include <stdint.h>						/* For uint8_t, uint16_t and uint16_t */
-#elif __STDC_VERSION__ == 199409L		/* ANSI C (C89) */
+/* In ANSI C (C89), the __STDC_VERSION__ is not defiend */
+#ifndef __STDC_VERSION__
+#define __STDC_VERSION__ 199409L		/* STDC version of C89 standard */
+#endif
+
+/* C99 has the __STDC_VERSION 199901L */
+#if __STDC_VERSION__ < 199901L		
 /* Math functions */
 float sqrtf(float x);
 float fabsf(float x);
@@ -43,6 +44,10 @@ typedef signed long    int32_t;
 typedef uint8_t bool;
 #define true 1
 #define false 0
+#else
+/* C99 and above */
+#include <stdbool.h>					/* For bool datatype */
+#include <stdint.h>						/* For uint8_t, uint16_t and uint16_t */
 #endif
 
 /* Define for all */
