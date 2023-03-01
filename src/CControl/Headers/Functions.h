@@ -16,7 +16,7 @@
 #include <float.h>						/* Required for FLT_EPSILON */
 #include <time.h> 						/* For srand, clock */
 
-/* In ANSI C (C89), the __STDC_VERSION__ is not defiend */
+/* In ANSI C (C89), the __STDC_VERSION__ is not defined */
 #ifndef __STDC_VERSION__
 #define __STDC_VERSION__ 199409L		/* STDC version of C89 standard */
 #endif
