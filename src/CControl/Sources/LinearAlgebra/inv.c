@@ -33,24 +33,27 @@ uint8_t inv(float A[], uint16_t row) {
 	float *LU = (float*)malloc(row * row * sizeof(float));
 	uint8_t *P = (uint8_t*)malloc(row * sizeof(uint8_t));
 	status = lup(A, LU, P, row);
-	if(status == 0)
-		return 0; /* matrix is singular. Determinant 0 */
-	/* Create the inverse */
-	uint16_t i;
-	for (i = 0; i < row; i++) {
-		tmpvec[i] = 1.0f;
-		if(!solve(&iA[row * i], tmpvec, P, LU, row))
-			return 0; /* We divided with zero */
-		tmpvec[i] = 0.0f;
-	}
+    if (status != 0) {
+        /* Create the inverse */
+        uint16_t i;
+        for (i = 0; i < row; i++) {
+            tmpvec[i] = 1.0f;
+            if (!solve(&iA[row * i], tmpvec, P, LU, row)) {
+                status = 0;
+                break;
+            }
+            tmpvec[i] = 0.0f;
+        }
+        if (status != 0) {
+            /* Transpose of iA */
+            tran(iA, row, row);
 
-	/* Transpose of iA */
-	tran(iA, row, row);
-
-	/* Copy over iA -> A */
-	memcpy(A, iA, row * row * sizeof(float));
-
+            /* Copy over iA -> A */
+            memcpy(A, iA, row * row * sizeof(float));
+        }
+    }
 	/* Free */
+    free(tmpvec);
 	free(iA);
 	free(LU);
 	free(P);
