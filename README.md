@@ -66,6 +66,9 @@ Main focuses are:
   - Linear programming
   - Quadratic programming
 
+- Statistics
+  - Principal Component Analysis
+
 - System Identification
   - Observer Kalman Filter identification
   - Eigensystem Realization Algorithm

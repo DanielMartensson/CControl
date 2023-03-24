@@ -191,5 +191,11 @@
     <ClCompile Include="Main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\Statistics\pca.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CControl\Documents\Examples\Statistics\pca.txt" />
   </ItemGroup>
 </Project>

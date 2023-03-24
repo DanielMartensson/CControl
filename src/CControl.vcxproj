@@ -74,11 +74,15 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\vmin.c" />
     <ClCompile Include="CControl\Sources\Optimization\linprog.c" />
     <ClCompile Include="CControl\Sources\Optimization\quadprog.c" />
+    <ClCompile Include="CControl\Sources\Statistics\pca.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\era.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\okid.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\rls.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\sr_ukf_parameter_estimation.c" />
     <ClCompile Include="Main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CControl\Documents\Examples\Statistics\pca.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

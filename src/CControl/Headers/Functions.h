@@ -117,6 +117,9 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
 bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min);
 bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a);
 
+/* Statistics */
+void pca(float A[], float U[], uint16_t row, uint16_t column);
+
 /* AI-algorithms */
 void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps);
 uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p);
