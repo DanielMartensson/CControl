@@ -23,6 +23,7 @@ uint8_t inv(float A[], uint16_t row) {
 
 	/* Create iA matrix */
 	float *iA = (float*)malloc(row * row * sizeof(float));
+	float *A0 = iA; 
 
 	/* Create temporary matrix and status variable */
 	float *tmpvec = (float*)malloc(row * sizeof(float));
@@ -38,14 +39,16 @@ uint8_t inv(float A[], uint16_t row) {
         uint16_t i;
         for (i = 0; i < row; i++) {
             tmpvec[i] = 1.0f;
-            if (!solve(&iA[row * i], tmpvec, P, LU, row)) {
+            if (!solve(iA, tmpvec, P, LU, row)) {
                 status = 0;
                 break;
             }
             tmpvec[i] = 0.0f;
+			iA += row;
         }
         if (status != 0) {
             /* Transpose of iA */
+			iA = A0; /* Reset position */
             tran(iA, row, row);
 
             /* Copy over iA -> A */
