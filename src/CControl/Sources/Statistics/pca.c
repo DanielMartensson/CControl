@@ -26,14 +26,14 @@ void pca(float A[], float W[], uint8_t components, uint16_t row, uint16_t column
 }
 
 static void center_data(float A[], uint16_t row, uint16_t column) {
-	/* Average data mu = mean(A, 2) */
+	
 	uint16_t i, j;
 	float mu;
 	for (i = 0; i < row; i++) {
-		/* Find the average of each row */
+		/* Average data mu = mean(A, 2) */
 		mu = mean(A, column);
 
-		/* Take center the data */
+		/* Center the data A = A - mu */
 		for (j = 0; j < column; j++) {
 			A[j] -= mu;
 		}
