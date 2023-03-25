@@ -25,9 +25,11 @@ int main() {
 
 	/* Create the output matrix */
 	float U[column * column];
+	float mu[row];
 
 	/* Do PCA */
-	pca(A, U, row, column);
+	uint8_t num_components = 0;
+	pca(A, mu, U, num_components, row, column);
 
 	/* Print output U */
 	print(U, column, column);

@@ -13,7 +13,7 @@
  * L = Length of vector x
  */
 float mean(float x[], uint16_t length) {
-	float s = 0;
+	float s = 0.0f;
 	uint16_t i;
 	for(i = 0; i < length; i++)
 		s += x[i];

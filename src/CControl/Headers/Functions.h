@@ -118,7 +118,7 @@ bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t 
 bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a);
 
 /* Statistics */
-void pca(float A[], float U[], uint16_t row, uint16_t column);
+void pca(float A[], float mu[], float U[], uint8_t num_components, uint16_t row, uint16_t column);
 
 /* AI-algorithms */
 void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps);
