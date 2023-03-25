@@ -40,6 +40,7 @@ void pca(float A[], float mu[], float U[], uint8_t num_components, uint16_t row,
 }
 
 static void average(float A[], float mu[], uint16_t row, uint16_t column) {
+	/* Average data mu = mean(A, 2) */
 	uint16_t i;
 	for (i = 0; i < row; i++) {
 		/* Find the average of each column */
