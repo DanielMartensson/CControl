@@ -29,7 +29,7 @@ int main() {
 							 -0.34019,      0.81315,      0.26919,      -1.2984,    -0.037872};
 
 	/* Create the output matrix */
-	float W[row * components] = { 0 };
+	float W[row * components];
 	float mu[row];
 
 	/* Do PCA */
