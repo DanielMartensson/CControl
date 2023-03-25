@@ -7,51 +7,38 @@
 
 #include "../../Headers/Functions.h"
 
-static void average(float A[], float mu[], uint16_t row, uint16_t column);
-static void center_data(float A[], float mu[], uint16_t row, uint16_t column);
+static void center_data(float A[], uint16_t row, uint16_t column);
 static void compute_components(float A[], float W[], uint8_t components, uint16_t row, uint16_t column);
 
  /*
   * Principal Component Analysis (PCA)
-  * This compute the PCA of A and return components W and average mu of A
+  * This compute the PCA of A and return components W
   * A[m*n]
-  * mu[m]
   * W[m*components]
   */
 
-void pca(float A[], float mu[], float W[], uint8_t components, uint16_t row, uint16_t column) {
-	/* Average data */
-	average(A, mu, row, column);
-
-	/* Center data */
-	center_data(A, mu, row, column);
+void pca(float A[], float W[], uint8_t components, uint16_t row, uint16_t column) {
+	/* Average and center data */
+	center_data(A, row, column);
 
 	/* Get components */
 	compute_components(A, W, components, row, column);
-
 }
 
-static void average(float A[], float mu[], uint16_t row, uint16_t column) {
+static void center_data(float A[], uint16_t row, uint16_t column) {
 	/* Average data mu = mean(A, 2) */
-	uint16_t i;
-	for (i = 0; i < row; i++) {
-		/* Find the average of each column */
-		mu[i] = mean(A, column);
-
-		/* Jump to next column */
-		A += column;
-	}
-}
-
-static void center_data(float A[], float mu[], uint16_t row, uint16_t column) {
-	/* Center data A = A - mu */
 	uint16_t i, j;
+	float mu;
 	for (i = 0; i < row; i++) {
+		/* Find the average of each row */
+		mu = mean(A, column);
+
+		/* Take center the data */
 		for (j = 0; j < column; j++) {
-			A[j] -= mu[i];
+			A[j] -= mu;
 		}
 
-		/* Jump to next column */
+		/* Jump to next row */
 		A += column;
 	}
 }

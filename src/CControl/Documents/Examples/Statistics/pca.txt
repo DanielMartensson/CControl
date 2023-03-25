@@ -12,7 +12,7 @@
 
 #define row 7
 #define column 5
-#define components 4 /* Components cannot be larger than column */
+#define components 4 /* Components cannot be larger then column */
 
 int main() {
 	clock_t start, end;
@@ -30,18 +30,13 @@ int main() {
 
 	/* Create the output matrix */
 	float W[row * components];
-	float mu[row];
 
 	/* Do PCA */
-	pca(A, mu, W, components, row, column);
+	pca(A, W, components, row, column);
 
 	/* Print components W */
 	printf("Components:\n");
 	print(W, row, components);
-
-	/* Print average mu */
-	printf("Average:\n");
-	print(mu, row, 1);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
