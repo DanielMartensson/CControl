@@ -12,7 +12,7 @@
 
 #define row 7
 #define column 5
-#define components 4 /* Components cannot be larger then column */
+#define components 4 /* Components cannot be larger than column */
 
 int main() {
 	clock_t start, end;
