@@ -108,6 +108,7 @@ void hankel(float V[], float H[], uint16_t row_v, uint16_t column_v, uint16_t ro
 void balance(float A[], uint16_t row);
 void eig(float A[], float wr[], float wi[], uint16_t row);
 void eig_sym(float A[], uint16_t row, float d[]);
+void eig_sym_generalized(float A[], float B[], uint16_t row, float d[]);
 float norm(float A[], uint16_t row, uint16_t column, uint8_t l);
 void expm(float A[], uint16_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
@@ -118,7 +119,8 @@ bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t 
 bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a);
 
 /* Statistics */
-void pca(float A[], float U[], uint8_t components, uint16_t row, uint16_t column);
+void pca(float X[], float W[], uint8_t components, uint16_t row, uint16_t column);
+void lda(float X[], uint8_t y[], uint8_t components, uint16_t row, uint16_t column);
 
 /* AI-algorithms */
 void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps);

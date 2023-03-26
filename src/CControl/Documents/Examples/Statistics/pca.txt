@@ -19,8 +19,8 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Create a matrix A */
-	float A[row * column] = {-1.0337,     -0.43158,      -1.7464,     -0.61109,       1.1577,
+	/* Create a matrix X */
+	float X[row * column] = {-1.0337,     -0.43158,      -1.7464,     -0.61109,       1.1577,
 							   1.0955,       0.1066,      0.39597,     -0.42132,       2.3321,
 							  -0.7158,     -0.88635,     -0.07532,    -0.097022,     -0.64252,
 							   1.7255,      -1.8957,      0.86026,     -0.93985,      0.12185,
@@ -32,7 +32,7 @@ int main() {
 	float W[row * components];
 
 	/* Do PCA */
-	pca(A, W, components, row, column);
+	pca(X, W, components, row, column);
 
 	/* Print components W */
 	printf("Components:\n");

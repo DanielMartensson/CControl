@@ -1,0 +1,54 @@
+/*
+ ============================================================================
+ Name        : eig_sym_generalized.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Generalized Eigenvalue Problem with symmetric matrix
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+#define row 5
+#define column 5
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Symmetric matrices */
+	float A[row*column] = { 9.5605,       6.8163,      -1.9425,      -5.7558,        3.555,
+						    6.8163,       9.7506,      0.26247,      -3.7964,       4.7512,
+						   -1.9425,      0.26247,       3.4206,       2.9018,      0.45186,
+						   -5.7558,      -3.7964,       2.9018,       7.0731,      -2.5701,
+						     3.555,       4.7512,      0.45186,      -2.5701,       2.6984 };
+
+	
+	float B[row * column] = { 1.4511,      0.29316,      -1.1534,     -0.35456,      0.44274,
+							 0.29316,       5.8465,      -1.0767,       1.7268,       1.1316,
+							 -1.1534,      -1.0767,       7.5729,      -4.1207,       2.6296,
+							-0.35456,       1.7268,      -4.1207,       5.7797,       -3.505,
+							 0.44274,       1.1316,       2.6296,       -3.505,       4.5628 };
+	/* Eigenvalues */
+	float d[row]; 
+
+	/* Solve generalized eigenvalue problem */
+	eig_sym_generalized(A, B, row, d);
+
+	/* Print eigenvalues */
+	printf("Eigenvalues:\n");
+	print(d, row, 1);
+
+	/* Print eigenvectors */
+	printf("Eigenvectors:\n");
+	print(A, row, row);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+
+	return EXIT_SUCCESS;
+}
