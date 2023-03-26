@@ -120,7 +120,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 
 /* Statistics */
 void pca(float X[], float W[], uint8_t components, uint16_t row, uint16_t column);
-void lda(float X[], uint8_t y[], uint8_t components, uint16_t row, uint16_t column);
+void lda(float X[], uint8_t y[], float W[], uint8_t components, uint16_t row, uint16_t column);
 
 /* AI-algorithms */
 void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps);

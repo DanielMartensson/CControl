@@ -69,6 +69,7 @@ Main focuses are:
 
 - Statistics
   - Principal Component Analysis
+  - Linear Discriminant Analysis
 
 - System Identification
   - Observer Kalman Filter identification
