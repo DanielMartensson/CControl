@@ -33,8 +33,9 @@ Main focuses are:
   - LUP decomposition
   - Determinant
   - Discrete Lyapunov solver
-  - Eigenvalues symmetric + Eigenvectors
-  - Random real eigenvalues and random imaginary eigenvalues
+  - Eigenvalues and eigenvectors for symmetric matrices
+  - Generalized eigenvalue problem for symmetric matrices
+  - Eigenvalues and imaginary eigenvalues for general matrices
   - Hankel matrix
   - Inverse
   - Pseudo inverse
