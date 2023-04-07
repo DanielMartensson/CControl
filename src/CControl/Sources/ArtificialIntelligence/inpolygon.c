@@ -37,9 +37,19 @@ uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p){
 	i = 0;
 	uint8_t j = p - 1;
 	while (i < p) {
-		if (((px[i] > x) != (px[j] > x)) && (y < (py[j] - py[i]) * (x - px[i]) / (px[j] - px[i]) + py[i])) {
+		max_x = px[i];
+		min_x = px[j];
+		max_y = py[i];
+		min_y = py[j];
+		if (((max_x > x) != (min_x > x)) && (y < (min_y - max_y) * (x - max_x) / (min_x - max_x) + max_y)) {
 			ok = !ok;
 		}
+
+		/* Old code
+		if (((px[i] > x) != (px[j] > x)) && (y < (py[j] - py[i]) * (x - px[i]) / (px[j] - px[i]) + py[i])) {
+			ok = !ok;
+		}*/
+
 		j = i;
 		i++;
 	}
