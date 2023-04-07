@@ -12,7 +12,7 @@
 
 #define row 7
 #define column 15
-#define components 4 /* Components cannot be larger then row */
+#define components 2 /* Components cannot be larger than row */
 
 int main() {
 	clock_t start, end;
@@ -31,14 +31,20 @@ int main() {
 	/* Create the class ID array */
 	uint8_t y[column] = { 0,0,0,0,1,1,1,1,2,2,3,3,3,3,4 };
 
-	/* Components */
+	/* Projection matrix */
 	float W[row * components];
 
-	/* Do LDA */
-	lda(X, y, W, components, row, column);
+	/* Projected matrix */
+	float P[components * column];
 
-	/* Print components*/
+	/* Do LDA */
+	lda(X, y, W, P, components, row, column);
+
+	/* Print projection matrix */
 	print(W, row, components);
+
+	/* Print projected matrix */
+	print(P, components, column);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

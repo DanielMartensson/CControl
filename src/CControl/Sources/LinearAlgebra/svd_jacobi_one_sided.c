@@ -9,17 +9,21 @@
 
 
 /*
- * This is Singular Value Decomposition A = USV^T
+ * This is Singular Value Decomposition X = USV^T
  * This uses Jacobi rotation method.
  * http://www.netlib.org/lapack/lawnspdf/lawn15.pdf
- * Use this SVD method if you have a square matrix A.
- * A [m*n] // This will be set to U
+ * Use this SVD method if you have a square matrix X.
+ * X [m*n]
  * U [m*m]
  * S [n]
  * V [n*n]
  * n == m
  */
-void svd_jacobi_one_sided(float A[], uint16_t row, float U[], float S[], float V[]) {
+void svd_jacobi_one_sided(float X[], uint16_t row, float U[], float S[], float V[]) {
+	/* Copy over X to A */
+	float* A = (float*)malloc(row * row * sizeof(float));
+	memcpy(A, X, row * row * sizeof(float));
+
 	/* i and j are the indices of the point we've chosen to zero out */
 	float al, b, c, l, t, cs, sn, tmp, sign, error;
 	uint16_t i, j, p, k;
@@ -166,6 +170,9 @@ void svd_jacobi_one_sided(float A[], uint16_t row, float U[], float S[], float V
 
 	/* Set U to A, since we have been making modifications to A */
 	memcpy(U, A, row*row*sizeof(float));
+
+	/* Free */
+	free(A);
 }
 
 /*

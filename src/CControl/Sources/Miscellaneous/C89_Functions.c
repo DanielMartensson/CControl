@@ -7,6 +7,8 @@
 
 #include "../../Headers/Functions.h"
 
+ /* C99 has the __STDC_VERSION 199901L */
+#if __STDC_VERSION__ < 199901L		
 float sqrtf(float x){
 	return (float) sqrt(x);
 }
@@ -34,3 +36,4 @@ float logf(float x){
 float sinf(float x){
 	return (float) sin(x);
 }
+#endif

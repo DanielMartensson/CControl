@@ -55,9 +55,6 @@ Main focuses are:
   - Print matrix or vector
   - Saturation
   - Sign
-  - Randn
-  - Mean
-  - Standard deviation
   - Value min
   - Value max
   - Sort
@@ -70,6 +67,11 @@ Main focuses are:
 - Statistics
   - Principal Component Analysis
   - Linear Discriminant Analysis
+  - Randn
+  - Mean
+  - Standard deviation
+  - Variance
+  - Covariance
 
 - System Identification
   - Observer Kalman Filter identification

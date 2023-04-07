@@ -41,6 +41,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\dlyap.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\eig.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\eig_sym.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\eig_sym_generalized.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\expm.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\hankel.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\inv.c" />
@@ -59,22 +60,27 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\svd_golub_reinsch.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\svd_jacobi_one_sided.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\tran.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cut.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\insert.c" />
-    <ClCompile Include="CControl\Sources\Miscellaneous\mean.c" />
+    <ClCompile Include="CControl\Sources\Statistics\cov.c" />
+    <ClCompile Include="CControl\Sources\Statistics\covm.c" />
+    <ClCompile Include="CControl\Sources\Statistics\mean.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\print.c" />
-    <ClCompile Include="CControl\Sources\Miscellaneous\randn.c" />
+    <ClCompile Include="CControl\Sources\Statistics\randn.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\saturation.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\sign.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\sort.c" />
-    <ClCompile Include="CControl\Sources\Miscellaneous\stddev.c" />
+    <ClCompile Include="CControl\Sources\Statistics\stddev.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\sum.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\vmax.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\vmin.c" />
     <ClCompile Include="CControl\Sources\Optimization\linprog.c" />
     <ClCompile Include="CControl\Sources\Optimization\quadprog.c" />
+    <ClCompile Include="CControl\Sources\Statistics\lda.c" />
     <ClCompile Include="CControl\Sources\Statistics\pca.c" />
+    <ClCompile Include="CControl\Sources\Statistics\var.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\era.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\okid.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\rls.c" />
@@ -82,6 +88,9 @@
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CControl\Documents\Examples\LinearAlgebra\eig_sym_generalized.txt" />
+    <Text Include="CControl\Documents\Examples\Statistics\covm.txt" />
+    <Text Include="CControl\Documents\Examples\Statistics\lda.txt" />
     <Text Include="CControl\Documents\Examples\Statistics\pca.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

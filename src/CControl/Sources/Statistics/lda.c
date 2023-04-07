@@ -12,13 +12,14 @@ static void center_data(float X[], float mu[], uint16_t row, uint16_t column);
 
 /*
   * Linear Discriminant Analysis (LDA)
-  * This compute the LDA of X and return components W
+  * This compute the LDA of X and return W and P
   * X[m*n]
   * y[n]
   * W[m*components]
+  * P[components*n]
   */
 
-void lda(float X[], uint8_t y[], float W[], uint8_t components, uint16_t row, uint16_t column) {
+void lda(float X[], uint8_t y[], float W[], float P[], uint8_t components, uint16_t row, uint16_t column) {
 	/* Create average vector mu_X = mean(X, 2) */
 	float* mu_X = (float*)malloc(row * sizeof(float));
 	average_vector(X, mu_X, row, column);
@@ -118,6 +119,7 @@ void lda(float X[], uint8_t y[], float W[], uint8_t components, uint16_t row, ui
 	eig_sym_generalized(Sb, Sw, row, d);
 
 	/* Copy over eigenvectors from Sb to W */
+	float* W0 = W;
 	for (l = 0; l < row; l++) {
 		for (k = 0; k < components; k++) {
 			W[k] = Sb[row - 1 - k]; /* Sb are in an ascending order */
@@ -126,6 +128,13 @@ void lda(float X[], uint8_t y[], float W[], uint8_t components, uint16_t row, ui
 		Sb += row;
 		W += components;
 	}
+
+	/* Project P = W'*X */
+	X = X0;
+	W = W0;
+	tran(W, row, components);
+	mul(W, X, P, components, row, column);
+	tran(W, components, row);
 
 	/* Reset */
 	Sb = Sb0;
@@ -168,22 +177,23 @@ static void center_data(float X[], float mu[], uint16_t row, uint16_t column) {
 /*
  * GNU Octave code:
  * 
- * % Clear all
+    % First clear
+	clear all
 	clc
 
-	% Define sizes
+	% Set size
 	column = 15;
 	row = 7;
-	components = 4;
+	components = 2;
 
 	% Data
 	X = [1.2728,     -0.36547,      0.68505,      -1.0574,      -1.2045,     -0.92432,       1.4365,     -0.16106,     -0.48166,  -1.8685,       -0.694,     0.070631,      0.64477,     -0.68641,     0.089715,
 	   -0.43468,     -0.79101,     0.026709,      0.93476,      -1.0388,      -1.3911,       -1.952,      0.55584,      -1.0549, -0.72454,       1.2319,      -1.5877,      0.83961,     -0.13554,     -0.50264,
 	   -0.58425,     -0.28557,       -1.126,      -1.2017,      0.62607,     -0.68838,      0.12606,      0.64138,      0.86003, -0.16475,       1.3645,      0.20788,      0.49795,      -1.4394,      0.33117,
 	  -0.027078,      0.82297,       1.0295,        1.865,      0.63335,    -0.020842,     -0.97425,     -0.74584,      -1.3266, -0.29814,       1.2731,     -0.74892,      -1.8926,    -0.082449,     -0.36409,
-		0.63059,      0.85787,     -0.78536,       2.2746,     -0.76871,     -0.74203,      0.65182,    -0.012599,       1.4966, -0.84699,     -0.23234,      0.23088,     -0.48266,     -0.21415,      -0.4839,
-		0.32812,      0.22213,     -0.18081,      -2.7175,      0.17749,      0.16662,       1.5695,     -0.50224,     0.055364, 0.087841,      0.52972,      -1.5707,      0.25717,      -1.1804,     -0.41628,
-		-0.3845,      0.84373,     -0.26776,     -0.41406,      0.86366,       1.0458,      0.92923,     -0.36558,      0.17761,   1.2917,     -0.74526,      0.83441,      -1.1806,     -0.39902,      -1.4924];
+	    0.63059,      0.85787,     -0.78536,       2.2746,     -0.76871,     -0.74203,      0.65182,    -0.012599,       1.4966, -0.84699,     -0.23234,      0.23088,     -0.48266,     -0.21415,      -0.4839,
+	    0.32812,      0.22213,     -0.18081,      -2.7175,      0.17749,      0.16662,       1.5695,     -0.50224,     0.055364, 0.087841,      0.52972,      -1.5707,      0.25717,      -1.1804,     -0.41628,
+	    -0.3845,      0.84373,     -0.26776,     -0.41406,      0.86366,       1.0458,      0.92923,     -0.36558,      0.17761,   1.2917,     -0.74526,      0.83441,      -1.1806,     -0.39902,      -1.4924];
 
 	% Class ID
 	y = [0,0,0,0,1,1,1,1,2,2,3,3,3,3,4];
@@ -241,16 +251,17 @@ static void center_data(float X[], float mu[], uint16_t row, uint16_t column) {
 	  Sb = Sb + XiXiT*samples_of_class;
 	end
 
-	% Use cholesky decomposition
+	% Find the eigenvectors - by solving the generalized eigenvalue problem: Sb*v = Sw*v*lambda
 	L = chol(Sw, 'lower');
 	Y = linsolve(L, Sb);
-	X = Y*inv(L');
-	[V, D] = eig(X);
+	Z = Y*inv(L');
+	[V, D] = eig(Z);
 
 	% Sort eigenvectors descending by eigenvalue
-	[D,idx] = sort(diag(D), 1, 'descend');
+	[D, idx] = sort(diag(D), 1, 'descend');
 	V = V(:,idx);
 
-	% Get components W
+	% Get components W and project the matrix P
 	W = V(:, 1:components)
+	P = W'*X
  */

@@ -73,9 +73,6 @@ void cut(float A[], uint16_t column, float B[], uint16_t start_row, uint16_t sto
 void insert(float A[], float B[], uint16_t row_a, uint16_t column_a, uint16_t column_b, uint16_t startRow_b, uint16_t startColumn_b);
 void print(float A[], uint16_t row, uint16_t column);
 float sign(float number);
-void randn(float x[], uint16_t length, float mu, float sigma);
-float mean(float x[], uint16_t length);
-float stddev(float x[], uint16_t length);
 float vmax(float a, float b);
 float vmin(float a, float b);
 void sort(float X[], uint16_t row, uint16_t column, uint8_t dim, uint8_t mode);
@@ -91,7 +88,7 @@ uint8_t inv(float* A, uint16_t row);
 void linsolve_upper_triangular(float* A, float* x, float* b, uint16_t column);
 void tran(float A[], uint16_t row, uint16_t column);
 void mul(float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uint16_t column_b);
-void svd_jacobi_one_sided(float A[], uint16_t row, float U[], float S[], float V[]);
+void svd_jacobi_one_sided(float X[], uint16_t row, float U[], float S[], float V[]);
 void dlyap(float A[], float P[], float Q[], uint16_t row);
 uint8_t svd_golub_reinsch(float A[], uint16_t row, uint16_t column, float U[], float S[], float V[]);
 uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, bool only_compute_R);
@@ -119,8 +116,14 @@ bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t 
 bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a);
 
 /* Statistics */
-void pca(float X[], float W[], uint8_t components, uint16_t row, uint16_t column);
-void lda(float X[], uint8_t y[], float W[], uint8_t components, uint16_t row, uint16_t column);
+void randn(float x[], uint16_t length, float mu, float sigma);
+float mean(float x[], uint16_t length);
+float var(float x[], uint16_t length);
+float cov(float x[], float y[], uint16_t length);
+void covm(float X[], float Y[], uint16_t row, uint16_t column);
+float stddev(float x[], uint16_t length);
+void pca(float X[], float W[], float P[], uint8_t components, uint16_t row, uint16_t column);
+void lda(float X[], uint8_t y[], float W[], float P[], uint8_t components, uint16_t row, uint16_t column);
 
 /* AI-algorithms */
 void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps);

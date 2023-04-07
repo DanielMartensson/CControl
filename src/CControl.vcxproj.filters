@@ -140,13 +140,13 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\insert.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Miscellaneous\mean.c">
+    <ClCompile Include="CControl\Sources\Statistics\mean.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\print.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Miscellaneous\randn.c">
+    <ClCompile Include="CControl\Sources\Statistics\randn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\saturation.c">
@@ -158,7 +158,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\sort.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Miscellaneous\stddev.c">
+    <ClCompile Include="CControl\Sources\Statistics\stddev.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\sum.c">
@@ -194,8 +194,29 @@
     <ClCompile Include="CControl\Sources\Statistics\pca.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\Statistics\lda.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\eig_sym_generalized.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Statistics\var.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Statistics\cov.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Statistics\covm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CControl\Documents\Examples\Statistics\pca.txt" />
+    <Text Include="CControl\Documents\Examples\Statistics\lda.txt" />
+    <Text Include="CControl\Documents\Examples\LinearAlgebra\eig_sym_generalized.txt" />
+    <Text Include="CControl\Documents\Examples\Statistics\covm.txt" />
   </ItemGroup>
 </Project>
