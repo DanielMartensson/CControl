@@ -10,6 +10,9 @@ Main focuses are:
 - Artificial Intelligence
   - Astar algorithm for quick path finding
   - Point-in-polygon algorithm for checking if a point is inside the area
+
+- Machine Learning
+  - Fisher Faces for image classification (Ongoing)
   
 - Control Engineering
   - Kalman filter update
