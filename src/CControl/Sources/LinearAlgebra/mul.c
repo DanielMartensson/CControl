@@ -18,24 +18,24 @@ void mul(float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uin
 	uint16_t i, j, k;
 
 	/* Data matrix */
-	float* data_a;
-	float* data_b;
+	float* data_a, * data_b;
 
 	for (i = 0; i < row_a; i++) {
 		/* Then we go through every column of b */
 		for (j = 0; j < column_b; j++) {
-			data_a = &A[i * column_a];
+			data_a = A;
 			data_b = &B[j];
 
-			*C = 0; /* Reset */
+			C[0] = 0; /* Reset */
 			/* And we multiply rows from a with columns of b */
 			for (k = 0; k < column_a; k++) {
-				*C += *data_a * *data_b;
+				*C += data_a[0] * data_b[0];
 				data_a++;
 				data_b += column_b;
 			}
 			C++; /* ;) */
 		}
+		A += column_a;
 	}
 }
 
