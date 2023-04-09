@@ -2,7 +2,7 @@
  * qr.c
  *
  *  Created on: 1 mars 2020
- *      Author: hp
+ *      Author: Daniel Mårtensson
  */
 
 #include "../../Headers/Functions.h"
