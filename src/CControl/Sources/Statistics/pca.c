@@ -26,14 +26,19 @@ void pca(float X[], float W[], float P[], uint8_t components, uint16_t row, uint
 	/* Average and center data Y = Y - mean(Y) */
 	center_data(Y, row, column);
 
-	/* Get components [U, S, V] = svd(Y) */
-	compute_components(Y, W, components, row, column);
+	/* Do covariance Z = cov(Y) */
+	float* Z = (float*)malloc(column * column * sizeof(float));
+	covm(Y, Z, row, column);
+
+	/* Get components [U, S, V] = svd(Z) */
+	compute_components(Z, W, components, column, column);
 
 	/* Project P = X*W */
 	mul(X, W, P, row, column, components);
 
 	/* Free */
 	free(Y);
+	free(Z);
 }
 
 static void center_data(float X[], uint16_t row, uint16_t column) {
@@ -63,12 +68,7 @@ static void compute_components(float X[], float W[], uint8_t components, uint16_
 	float* S = (float*)malloc(column * sizeof(float));
 	float* V = (float*)malloc(column * column * sizeof(float));
 	float* V0 = V;
-	if (column == row) {
-		svd_jacobi_one_sided(X, column, U, S, V);
-	}else {
-		svd_golub_reinsch(X, row, column, U, S, V);
-	}
-	
+	svd_jacobi_one_sided(X, column, U, S, V);
 
 	/* Get the components from V */
 	uint16_t i, bytes_shift = components * sizeof(float);
