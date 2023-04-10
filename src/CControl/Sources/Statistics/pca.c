@@ -104,7 +104,8 @@ static void compute_components(float X[], float W[], uint8_t components, uint16_
 
 	mu = mean(X);
 	Y = X - mu;
-	[U, S, V] = svd(Y, 0);
+	Z = cov(Y);
+	[~, ~, V] = svd(Z, 0);
 	components = 2;
 	W = V(:, 1:components);
 	P = X*W
