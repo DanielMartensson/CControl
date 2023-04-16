@@ -19,7 +19,7 @@ float norm(float A[], uint16_t row, uint16_t column, uint8_t l){
 
 	if(l == 1){
 		/* Vector */
-		if(row == 1){
+		if((row == 1 && column > 0) || (row > 0 && column == 1)){
 			float sum_sqrt = 0;
 			for(i = 0; i < column; i++)
 				sum_sqrt += sqrtf(A[i]*A[i]);
@@ -45,7 +45,7 @@ float norm(float A[], uint16_t row, uint16_t column, uint8_t l){
 	}
 	else if(l == 2){
 		/* Vector */
-		if(row == 1){
+		if((row == 1 && column > 0) || (row > 0 && column == 1)){
 			float sqrt_sum = 0;
 			for(i = 0; i < column; i++)
 				sqrt_sum += A[i]*A[i];
