@@ -4,33 +4,48 @@
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Principal Analysis Component
+ Description : Principal Component analysis
  ============================================================================
  */
 
 #include "CControl/Headers/Functions.h"
 
-#define row 11
+#define row 23
 #define column 3
-#define components 2 /* Components cannot be larger than column */
+#define components 2
 
 int main() {
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	/* Create a matrix X */
-	float X[row * column] = { 1, 3, 10,
-							  2, 4, 12,
-							  3, 6, 13,
-							  4, 10, 16,
-							  5, 13, 20,
-							  30, 34, 104,
-							  31, 56, 120,
-							  32, 74, 127,
-							  33, 80, 128,
-							  34, 89, 131,
-							  35, 103, 139 };
+	/* 
+	   This matrix X has 3 columns and X contains clusters and outliers. 
+	   This PCA algorithm is going to filter away the outliers by using L2-norm and sorting.
+	*/
+	float X[row * column] = { -3244, 5324, 1345,
+                                10, 30, 100,
+                                20, 40, 93,
+                                30, 60, 163,
+                                60, 100, 126,
+                                55, 13, 134,
+                                306, 34, 104,
+                                316, 56, 120,
+                                326, 74, 127,
+                                337, 80, 128,
+                                347, 89, 131,
+                                358, 103, 139,
+                                -31, - 56, - 120,
+                                -32, - 74, - 127,
+                                -33, - 80, - 128,
+                                -34, - 89, - 131,
+                                -35, - 103, - 139,
+                                700, 600, 500,
+                                1000, 1000, 1000,
+                                -3231, 4345, - 4352,
+                                -2342, 4356, 3453,
+                                -2364, 4326, 3353,
+                                658, 143, 1692 };
 
 	/* Create the output matrix */
 	float W[column * components];
@@ -48,9 +63,6 @@ int main() {
 	/* Print projection P */
 	printf("Projection:\n");
 	print(P, row, components);
-
-	/* Working example for dimension reduction */
-	printf("https://github.com/DanielMartensson/Mataveid/blob/master/examples/pcaExample.m\n");
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
