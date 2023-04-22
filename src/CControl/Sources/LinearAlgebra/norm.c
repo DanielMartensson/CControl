@@ -70,10 +70,12 @@ float norm(float X[], uint16_t row, uint16_t column, uint8_t norm_method){
 			float* U = (float*)malloc(row * column * sizeof(float));
 			float* S = (float*)malloc(column * sizeof(float));
 			float* V = (float*)malloc(column * column * sizeof(float));
-			if(row == column)
+			if (row == column) {
 				svd_jacobi_one_sided(A, row, U, S, V);
-			else
+			}
+			else {
 				svd_golub_reinsch(A, row, column, U, S, V);
+			}
 
 			/* Find maximum singular value */
 			for (i = 0; i < column; i++) {
