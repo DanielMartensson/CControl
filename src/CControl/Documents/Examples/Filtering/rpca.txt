@@ -1,0 +1,48 @@
+/*
+ ============================================================================
+ Name        : rpca.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute Robust Principal Component Analysis
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+#define row 5
+#define column 3
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create matrix */
+	float X[row * column] = { -0.17899,  0.91238, -0.90657,
+							  -0.54412, -0.42424, -0.37127,
+							  -0.12692,   1.3264, -0.59829,
+							  -0.44521,   -1.082, -0.01436,
+							 -0.068536,   1.2444, -1.3257 };
+
+	/* Create L and S matrix */
+	float L[row * column];
+	float S[row * column];
+
+	/* Do RPCA */
+	rpca(X, L, S, row, column);
+
+	/* Print L */
+	printf("L matrix:\n");
+	print(L, row, column);
+
+	/* Print S */
+	printf("S matrix:\n");
+	print(S, row, column);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

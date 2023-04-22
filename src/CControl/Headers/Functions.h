@@ -79,6 +79,7 @@ void sort(float X[], uint16_t row, uint16_t column, uint8_t dim, uint8_t mode);
 void sum(float x[], float y[], uint16_t row, uint16_t column, uint8_t dim);
 
 /* Filtering */
+void rpca(float X[], float L[], float S[], uint16_t row, uint16_t column);
 void filtfilt(float y[], float t[], uint16_t l, float K);
 void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], uint8_t m, uint8_t p, uint8_t *k);
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, uint8_t L);
@@ -106,7 +107,7 @@ void balance(float A[], uint16_t row);
 void eig(float A[], float wr[], float wi[], uint16_t row);
 void eig_sym(float A[], uint16_t row, float d[]);
 void eig_sym_generalized(float A[], float B[], uint16_t row, float d[]);
-float norm(float A[], uint16_t row, uint16_t column, uint8_t l);
+float norm(float X[], uint16_t row, uint16_t column, uint8_t norm_method);
 void expm(float A[], uint16_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
 void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t column, float alpha);
