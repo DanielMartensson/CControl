@@ -1,0 +1,52 @@
+/*
+ ============================================================================
+ Name        : norm.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute different norms of a matrix X and a vector Y
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+#define row 5
+#define column 3
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create matrix */
+	float X[row * column] = { -0.17899,  0.91238, -0.90657,
+							  -0.54412, -0.42424, -0.37127,
+							  -0.12692,   1.3264, -0.59829,
+							  -0.44521,   -1.082, -0.01436,
+							 -0.068536,   1.2444, -1.3257 };
+
+	/* Create a vector */
+	float Y[row] = { 0.35952,
+					  1.1411,
+				   -0.52321,
+					   3.273,
+					  0.44827 };
+
+	/* Do L1 norm */
+	printf("L1 norm of matrix X: %f\n", norm(X, row, column, 1));
+	printf("L1 norm of vector Y: %f\n", norm(Y, row, 1, 1));
+
+	/* Do L2 norm */
+	printf("L2 norm of matrix X: %f\n", norm(X, row, column, 2));
+	printf("L2 norm of vector Y: %f\n", norm(Y, row, 1, 2));
+
+	/* Do Frobenius norm */
+	printf("Frobenius norm of matrix X: %f\n", norm(X, row, column, 3));
+	printf("Frobenius norm of vector Y: %f\n", norm(Y, row, 1, 3));
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

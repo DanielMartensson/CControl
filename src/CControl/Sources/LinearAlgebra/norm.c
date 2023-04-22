@@ -8,48 +8,63 @@
 #include "../../Headers/Functions.h"
 
 /*
- * Find the norm of A
+ * Find the norm of X
  * A[m*n]
- * l = 1 = L1-norm
- * l = 2 = L2-norm
+ * l = 1 = L1 norm
+ * l = 2 = L2 norm
+ * l = 3 = Frobenius norm
  */
-float norm(float A[], uint16_t row, uint16_t column, uint8_t l){
+float norm(float X[], uint16_t row, uint16_t column, uint8_t l){
+	/* Create a new matrix A */
+	float* A = (float*)malloc(row * column * sizeof(float));
+	memcpy(A, X, row * column * sizeof(float));
+
 	/* Decleration */
 	uint16_t i, j;
+	float return_value = 0;
+	float* A0 = A;
 
 	if(l == 1){
 		/* Vector */
 		if((row == 1 && column > 0) || (row > 0 && column == 1)){
-			float sum_sqrt = 0;
-			for(i = 0; i < column; i++)
-				sum_sqrt += sqrtf(A[i]*A[i]);
-			return sum_sqrt;
+			j = row > column ? row : column;
+			for (i = 0; i < j; i++) {
+				return_value += fabsf(A[i]);
+			}
 		}else{
 			/* Matrix */
-			/* MATLAB: sum(A, 1) */
-			for (i = 1; i < row; i++) {
-				for (j = 0; j < column; j++) {
-					A[j] += fabsf(A[i * column + j]);
-				}
-			}
+			float max_value;
+			for (j = 0; j < column; j++) {
+				
+				/* Reset */
+				A = A0;
 
-			/* Find the largest value on row 0 */
-			float maxValue = A[0];
-			for (j = 1; j < column; j++) {
-				if(A[j] > maxValue){
-					maxValue = A[j];
+				/* Remember */
+				max_value = return_value;
+				return_value = 0;
+
+				for (i = 0; i < row; i++) {
+					return_value += fabsf(A[j]);
+
+					/* Next row */
+					A += column;
 				}
+
+				/* Check if return_value is larger than before */
+				return_value = vmax(return_value, max_value);
 			}
-			return maxValue;
 		}
 	}
 	else if(l == 2){
 		/* Vector */
 		if((row == 1 && column > 0) || (row > 0 && column == 1)){
-			float sqrt_sum = 0;
-			for(i = 0; i < column; i++)
-				sqrt_sum += A[i]*A[i];
-			return sqrtf(sqrt_sum);
+			float sqrt_sum = 0, element;
+			j = row > column ? row : column;
+			for (i = 0; i < j; i++) {
+				element = A[i];
+				sqrt_sum += element * element;
+			}
+			return_value = sqrtf(sqrt_sum);
 		}else{
 			/* Matrix */
 			float* U = (float*)malloc(row * column * sizeof(float));
@@ -59,18 +74,39 @@ float norm(float A[], uint16_t row, uint16_t column, uint8_t l){
 				svd_jacobi_one_sided(A, row, U, S, V);
 			else
 				svd_golub_reinsch(A, row, column, U, S, V);
-			float max_singular_value = 0;
-			for(i = 0; i < column; i++)
-				if(S[i] > max_singular_value)
-					max_singular_value = S[i];
+
+			/* Find maximum singular value */
+			for (i = 0; i < column; i++) {
+				if (S[i] > return_value) {
+					return_value = S[i];
+				}
+			}
+
 			/* Free */
 			free(U);
 			free(S);
 			free(V);
-
-			return max_singular_value;
 		}
 	}
-	return 0;
+	else if (l == 3) {
+		float sum_sqrt = 0, element;
+		for (i = 0; i < row; i++) {
+			for (j = 0; j < column; j++) {
+				element = A[j];
+				sum_sqrt += element * element;
+			}
+			/* Next row */
+			A += column;
+		}
+		return_value = sqrtf(sum_sqrt);
+	}
+
+	/* Reset */
+	A = A0;
+
+	/* Free */
+	free(A);
+
+	return return_value;
 	/* add more norms here */
 }
