@@ -12,7 +12,7 @@ Main focuses are:
   - Point-in-polygon algorithm for checking if a point is inside the area
 
 - Machine Learning
-  - Fisher Faces for image classification (Ongoing)
+  - Robust Fisher Faces for image classification (ongoing)
   
 - Control Engineering
   - Kalman filter update
@@ -24,6 +24,7 @@ Main focuses are:
   - Continuous to discrete
 
 - Filtering
+  - Robust Principal Component Analysis
   - Particle filter
   - Filtfilt 
   - Square Root Unscented Kalman Filter
