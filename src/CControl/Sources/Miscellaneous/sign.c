@@ -7,14 +7,18 @@
 
 #include "../../Headers/Functions.h"
 
-/*
- * Sign function
- */
-float sign(float number){
+ /*
+  * Sign function
+  */
+float sign(float number) {
 	float s;
-	if(number > 0) s = 1.0f;
-	else if(number < 0) s = -1.0f;
-	else s = 0.0f;
+	if (number > 0) {
+		s = 1.0f; 
+	}else if (number < 0) {
+		s = -1.0f; 
+	}else{
+		s = 0.0f;
+	}
 	return s;
 }
 
