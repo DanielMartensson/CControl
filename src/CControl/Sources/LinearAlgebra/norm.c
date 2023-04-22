@@ -10,11 +10,11 @@
 /*
  * Find the norm of X
  * A[m*n]
- * l = 1 = L1 norm
- * l = 2 = L2 norm
- * l = 3 = Frobenius norm
+ * norm_method = 1 = L1 norm
+ * norm_method = 2 = L2 norm
+ * norm_method = 3 = Frobenius norm
  */
-float norm(float X[], uint16_t row, uint16_t column, uint8_t l){
+float norm(float X[], uint16_t row, uint16_t column, uint8_t norm_method){
 	/* Create a new matrix A */
 	float* A = (float*)malloc(row * column * sizeof(float));
 	memcpy(A, X, row * column * sizeof(float));
@@ -24,7 +24,7 @@ float norm(float X[], uint16_t row, uint16_t column, uint8_t l){
 	float return_value = 0;
 	float* A0 = A;
 
-	if(l == 1){
+	if(norm_method == 1){
 		/* Vector */
 		if((row == 1 && column > 0) || (row > 0 && column == 1)){
 			j = row > column ? row : column;
@@ -55,7 +55,7 @@ float norm(float X[], uint16_t row, uint16_t column, uint8_t l){
 			}
 		}
 	}
-	else if(l == 2){
+	else if(norm_method == 2){
 		/* Vector */
 		if((row == 1 && column > 0) || (row > 0 && column == 1)){
 			float sqrt_sum = 0, element;
@@ -88,7 +88,7 @@ float norm(float X[], uint16_t row, uint16_t column, uint8_t l){
 			free(V);
 		}
 	}
-	else if (l == 3) {
+	else if (norm_method == 3) {
 		float sum_sqrt = 0, element;
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < column; j++) {
