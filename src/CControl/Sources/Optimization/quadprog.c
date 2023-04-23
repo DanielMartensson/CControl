@@ -27,9 +27,9 @@
  * b [m] // Constraint vector
  * x [n] // Solution
  */
-bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a){
+bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a){
 	/* Declare */
-	uint8_t i, j, k;
+	uint16_t i, j, k;
 	
 	/* Use gaussian elimination to solve x from Qx = c because Q is square and symmetric */
 	linsolve_gauss(Q, x, c, column_a, column_a, 0.0f);
@@ -44,7 +44,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 
 	/* Count how many constraints A*x > b */
 	float *K = (float*)malloc(row_a * sizeof(float));
-	uint8_t violations = 0;
+	uint16_t violations = 0;
 	float value;
 	for(i = 0; i < row_a; i++){
 
@@ -88,7 +88,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	memset(lambda, 0, row_a * sizeof(float));
 	float *lambda_p = (float*)malloc(row_a * sizeof(float));
 	float w;
-	for(i = 0; i < 255; i++){
+	for(i = 0; i < 1000; i++){
 		/* Update */
 		memcpy(lambda_p, lambda, row_a * sizeof(float));
 
@@ -132,7 +132,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	free(lambda);
 	free(lambda_p);
 	free(Plambda);
-	return i < 255 ? true : false; /* If i was 255, then it did not find a solution */
+	return i <= 1000 ? true : false; /* If i was over 1000, then it did not find a solution */
 }
 
 /* GNU Octave code:

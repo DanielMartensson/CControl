@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min);
+static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min);
 
 
 /**
@@ -41,7 +41,7 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
  * Source Simplex method: https://www.youtube.com/watch?v=yL7JByLlfrw
  * Source Simplex Dual method: https://www.youtube.com/watch?v=8_D3gkrgeK8
  */
-bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min){
+bool linprog(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min){
 
 	if(max_or_min == 0){
 		/* Maximization */
@@ -54,7 +54,7 @@ bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t 
 
 }
 /* This is Simplex method with the Dual included */
-static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min){
+static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min){
 
 	/* Clear the solution */
 	if (max_or_min == 0) {
@@ -68,8 +68,8 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 	memset(tableau, 0, (row_a+1)*(column_a+row_a+2)*sizeof(float));
 
 	/* Load the constraints */
-	uint8_t j = 0;
-	uint8_t i;
+	uint16_t j = 0;
+	uint16_t i;
 	for(i = 0; i < row_a; i++){
 		/* First row */
 		memcpy(tableau + i*(column_a+row_a+2), A + i*column_a, column_a*sizeof(float));
@@ -94,14 +94,14 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 
 	/* Do row operations */
 	float entry = 0.0f;
-	uint8_t pivotColumIndex = 0;
-	uint8_t pivotRowIndex = 0;
+	uint16_t pivotColumIndex = 0;
+	uint16_t pivotRowIndex = 0;
 	float pivot = 0.0f;
 	float value1 = 0.0f;
 	float value2 = 0.0f;
 	float value3 = 0.0f;
 	float smallest = 0.0f;
-	uint8_t count = 0; /* Iterations */
+	uint16_t count = 0; /* Iterations */
 	do{
 		/* Find our pivot column */
 		pivotColumIndex = 0;
@@ -119,7 +119,7 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 		}
 
 		/* If we found no solution */
-		if (count == 255) {
+		if (count >= 1000) {
 			return false;
 		}
 

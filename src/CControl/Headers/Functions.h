@@ -113,8 +113,8 @@ void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), f
 void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t column, float alpha);
   
 /* Optimization */
-bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min);
-bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a);
+bool linprog(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min);
+bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a);
 
 /* Statistics */
 void randn(float x[], uint16_t length, float mu, float sigma);
