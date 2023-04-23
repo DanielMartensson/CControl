@@ -38,8 +38,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	float* Ai = A;
 
 	/* Turn x negative */
-	for(i = 0; i < column_a; i++)
+	for (i = 0; i < column_a; i++) {
 		x[i] = -x[i];
+	}
 
 	/* Count how many constraints A*x > b */
 	float *K = (float*)malloc(row_a * sizeof(float));
@@ -59,8 +60,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 		K[i] = b[i] - value;
 
 		/* Count violation */
-		if(K[i] <= 0.0f)
+		if (K[i] <= 0.0f) {
 			violations++;
+		}
 	}
 
 	/* Check constraint violation */
