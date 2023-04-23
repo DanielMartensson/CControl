@@ -71,8 +71,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 
 	/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
 	float *P = (float*)malloc(row_a * column_a * sizeof(float));
-	for(i = 0; i < row_a; i++)
-		linsolve_gauss(Q, &P[i*column_a], &A[i*column_a], column_a, column_a, 0.0f);
+	for (i = 0; i < row_a; i++) {
+		linsolve_gauss(Q, &P[i * column_a], &A[i * column_a], column_a, column_a, 0.0f);
+	}
 	tran(P, row_a, column_a);
 
 	/* Multiply H = A*Q*A' */
@@ -118,8 +119,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 	/* Solve x = x + P*lambda (Notice that x is negative (see above)) */
 	float *Plambda = (float*)malloc(column_a * sizeof(float));
 	mul(P, lambda, Plambda, column_a, row_a, 1);
-	for(j = 0; j < column_a; j++)
+	for (j = 0; j < column_a; j++) {
 		x[j] -= Plambda[j];
+	}
 
 	/* Free */
 	free(K);
@@ -134,7 +136,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint8_t row
 /* GNU Octave code:
  *
  * function [x, solution] = quadprog(Q, c, A, b)
-	  % Assume that the solution is false
+	  % Assume that the solution is true
 	  solution = true;
 
 	  % Set number of iterations

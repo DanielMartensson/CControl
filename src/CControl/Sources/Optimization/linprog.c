@@ -57,10 +57,11 @@ bool linprog(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t 
 static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint8_t column_a, uint8_t max_or_min){
 
 	/* Clear the solution */
-	if(max_or_min == 0)
-		memset(x, 0, column_a*sizeof(float));
-	else
-		memset(x, 0, row_a*sizeof(float));
+	if (max_or_min == 0) {
+		memset(x, 0, column_a * sizeof(float));
+	}else {
+		memset(x, 0, row_a * sizeof(float));
+	}
 
 	/* Create the tableau with space for the slack variables s and p as well */
 	float *tableau = (float*)malloc((row_a + 1) * (column_a + row_a + 2) * sizeof(float)); /* +1 because the extra row for objective function and +2 for the b vector and slackvariable for objective function */
@@ -82,8 +83,9 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 	}
 
 	/* Negative objective function */
-	for(i = 0; i < column_a; i++)
-		tableau[(row_a+1-1)*(column_a+row_a+2) + i] = -c[i];
+	for (i = 0; i < column_a; i++) {
+		tableau[(row_a + 1 - 1) * (column_a + row_a + 2) + i] = -c[i];
+	}
 
 	/* Slack variable for the objective function */
 	tableau[(row_a+1-1)*(column_a+row_a+2) + (column_a+row_a+2-2)] = 1.0f;
@@ -112,22 +114,29 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 			}
 		}
 		/* If the smallest entry is equal to 0 or larger than 0, break */
-		if(entry >= 0.0f)
+		if (entry >= 0.0f) {
 			break;
+		}
 
 		/* If we found no solution */
-		if(count == 255)
+		if (count == 255) {
 			return false;
+		}
 
 		/* Find our pivot row */
 		pivotRowIndex = 0;
 		value1 = tableau[0*(column_a+row_a+2) + pivotColumIndex]; /* Value in pivot column */
-		if(value1 == 0.0f) value1 = FLT_EPSILON; /* Make sure that we don't divide by zero */
+		if (value1 == 0.0f) {
+			/* Make sure that we don't divide by zero */
+			value1 = FLT_EPSILON;
+		} 
 		value2 = tableau[(column_a+row_a+2-1)]; /* 0*(column_a+row_a+2) + (column_a+row_a+2-1) = Value in the b vector */
 		smallest = value2/value1; /* Initial smallest value */
 		for(i = 1; i < row_a; i++){
 			value1 = tableau[i*(column_a+row_a+2) + pivotColumIndex]; /* Value in pivot column */
-			if(value1 == 0.0f) value1 = FLT_EPSILON;
+			if (value1 == 0.0f) { 
+				value1 = FLT_EPSILON; 
+			}
 			value2 = tableau[i*(column_a+row_a+2) + (column_a+row_a+2-1)]; /* Value in the b vector */
 			value3 = value2/value1;
 			if( (value3 > 0.0f  && value3 < smallest ) || smallest < 0.0f ){
@@ -139,7 +148,9 @@ static bool opti(float c[], float A[], float b[], float x[], uint8_t row_a, uint
 		/* We know where our pivot is. Turn the pivot into 1 */
 		/* 1/pivot * PIVOT_ROW -> PIVOT_ROW */
 		pivot = tableau[pivotRowIndex*(column_a+row_a+2) + pivotColumIndex]; /* Our pivot value */
-		if(pivot == 0.0f) pivot = FLT_EPSILON;
+		if (pivot == 0.0f) { 
+			pivot = FLT_EPSILON; 
+		}
 		for(i = 0; i < (column_a+row_a+2); i++){
 			value1 = tableau[pivotRowIndex*(column_a+row_a+2) + i]; /* Our row value at pivot row */
 			tableau[pivotRowIndex*(column_a+row_a+2) + i] = value1 * 1.0f/pivot; /* When value1 = pivot, then pivot will be 1 */
