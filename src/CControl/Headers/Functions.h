@@ -91,6 +91,7 @@ void tran(float A[], uint16_t row, uint16_t column);
 void mul(float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uint16_t column_b);
 void svd_jacobi_one_sided(float X[], uint16_t row, float U[], float S[], float V[]);
 void dlyap(float A[], float P[], float Q[], uint16_t row);
+float dot(float a[], float b[], uint16_t row);
 uint8_t svd_golub_reinsch(float A[], uint16_t row, uint16_t column, float U[], float S[], float V[]);
 uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, bool only_compute_R);
 void linsolve_qr(float A[], float x[], float b[], uint16_t row, uint16_t column);
@@ -114,6 +115,7 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
   
 /* Optimization */
 bool linprog(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min);
+bool lsqnonneg(float A[], float x[], float b[], uint16_t row, uint16_t column, float* residual);
 bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a);
 
 /* Statistics */
