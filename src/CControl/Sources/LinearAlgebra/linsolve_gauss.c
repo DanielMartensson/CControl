@@ -40,6 +40,7 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
 		free(Ac);
 		free(bc);
 	}else{
+		/* x = inv(A'*A + lambda*I)*A'*b */
 		float *ATA = (float*)malloc(column * column * sizeof(float));
 		float *ATb = (float*)malloc(column * sizeof(float));
 		tikhonov(A, b, ATA, ATb, row, column, alpha);
