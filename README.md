@@ -42,6 +42,7 @@ Main focuses are:
   - Eigenvalues and imaginary eigenvalues for general matrices
   - Hankel matrix
   - Inverse
+  - Dot product
   - Pseudo inverse
   - Linear solver
   - Nonlinear solver
@@ -66,6 +67,7 @@ Main focuses are:
   
 - Optimization
   - Linear programming
+  - Non-Negative Least Squares
   - Quadratic programming
 
 - Statistics
