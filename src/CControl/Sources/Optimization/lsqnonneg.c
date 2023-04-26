@@ -161,7 +161,7 @@ bool lsqnonneg(float A[], float x[], float b[], float residual[], uint16_t row, 
       residual = 0;
       numbers_active = 0;
 
-      for i = 1:n
+      for c = 1:n
           % Clear
           x_new = zeros(n, 1);
 
