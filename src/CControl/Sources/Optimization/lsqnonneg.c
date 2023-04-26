@@ -48,7 +48,7 @@ bool lsqnonneg(float A[], float x[], float b[], float residual[], uint16_t row, 
                 A = A0;
                 for (i = 0; i < row; i++) {
                     A_active[j] = A[active_set[j]];
-                    //A_active[numbers_active] = A[active_set[numbers_active]];
+
                     /* New row */
                     A_active += numbers_active;
                     A += column;
