@@ -36,7 +36,7 @@ bool lsqnonneg(float A[], float x[], float b[], float residual[], uint16_t row, 
     float* A_active0 = A_active;
     float* A0 = A;
 
-    for (c = 0; c < 1000; c++) {
+    for (c = 0; c < column; c++) {
         /* Clear */
         memset(x_new, 0, column * sizeof(float));
 
@@ -161,7 +161,7 @@ bool lsqnonneg(float A[], float x[], float b[], float residual[], uint16_t row, 
       residual = 0;
       numbers_active = 0;
 
-      while true
+      for i = 1:n
           % Clear
           x_new = zeros(n, 1);
 
