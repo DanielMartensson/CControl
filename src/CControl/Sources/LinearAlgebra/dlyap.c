@@ -30,19 +30,24 @@ void dlyap(float* A, float* P, float* Q, uint16_t row){
 	for(k = 0; k < row; k++){
 		for(l = 0; l < row; l++){
 			memcpy(B, A, row*row*sizeof(float)); /* B = A*A(k, l); */
-			for(i = 0; i < row*row; i++)
-				B[i] *= A[row*k + l];
+			for (i = 0; i < row * row; i++) {
+				B[i] *= A[row * k + l];
+			}
 			insert(B, M, row, row, row*row, row*k, row*l);
 		}
 	}
 
 	/* Turn M negative but add +1 on diagonals */
-	for(i = 0; i < row*row; i++)
-		for(j = 0; j < row*row; j++)
-			if(i == j)
-				M[row*row*i + j] = - M[row*row*i + j] + 1;
-			else
-				M[row*row*i + j] = - M[row*row*i + j];
+	for (i = 0; i < row * row; i++) {
+		for (j = 0; j < row * row; j++) {
+			if (i == j) {
+				M[row * row * i + j] = -M[row * row * i + j] + 1;
+			}
+			else {
+				M[row * row * i + j] = -M[row * row * i + j];
+			}
+		}
+	}
 
 	/*
 	 * Solve with LUP-Decomposition
