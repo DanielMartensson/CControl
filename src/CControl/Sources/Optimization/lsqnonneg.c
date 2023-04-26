@@ -109,8 +109,12 @@ bool lsqnonneg(float A[], float x[], float b[], float residual[], uint16_t row, 
         max_val = 0.0f;
         for (j = 0; j < column; j++) {
             sum_value = 0.0f;
+            A = A0;
             for (i = 0; i < row; i++) {
-                sum_value += A[i * column + inactive_set[j]] * residual[i];
+                sum_value += A[inactive_set[j]] * residual[i];
+
+                /* New row */
+                A += column;
             }
             if (sum_value > max_val) {
                 max_val = sum_value;
