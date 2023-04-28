@@ -15,10 +15,10 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Your ANSI C logic here */
+	/* Your ANSI C logic here - All examples can be found at src/CControl/Documents/Examples */
 
 	end = clock();
-	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 
