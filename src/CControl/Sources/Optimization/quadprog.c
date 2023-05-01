@@ -12,13 +12,11 @@
  * This is quadratic programming with Hildreth's method
  * Min 1/2x^TQx + c^Tx
  * S.t Ax <= b
- * 		x >= 0
  *
  * If you want to do maximization, then turn Q and c negative. The constraints are the same
  *
  * Max 1/2x^T(-Q)x + (-c)^Tx
  * S.t Ax <= b
- * 		x >= 0
  *
  * Call this function with the sizes
  * Q [n*n] // Symmetric matrix
