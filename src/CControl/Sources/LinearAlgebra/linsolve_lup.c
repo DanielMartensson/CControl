@@ -29,15 +29,16 @@ uint8_t linsolve_lup(float A[], float x[], float b[], uint16_t row) {
 	/* forward substitution with pivoting */
 	for (i = 0; i < row; ++i) {
 		x[i] = b[P[i]];
-
-		for (j = 0; j < i; ++j)
+		for (j = 0; j < i; ++j) {
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
+		}
 	}
 
 	/* backward substitution with pivoting */
 	for (i = row - 1; i >= 0; --i) {
-		for (j = i + 1; j < row; ++j)
+		for (j = i + 1; j < row; ++j) {
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
+		}
 		x[i] = x[i] / LU[row * P[i] + i];
 	}
 
