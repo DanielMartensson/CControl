@@ -35,7 +35,7 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
 		/* Solve */
 		triu(Ac, bc, row);
 		linsolve_upper_triangular(Ac, x, bc, column);
-
+		
 		/* Free */
 		free(Ac);
 		free(bc);

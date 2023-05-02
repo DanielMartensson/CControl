@@ -4,7 +4,7 @@
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Solve Ax=b with constraints by using Hildreth's method
+ Description : Optimize a quadrtic problem with constraints by using Hildreth's method
  ============================================================================
  */
 
@@ -16,13 +16,13 @@ int main() {
 	start = clock();
 
 	/* Objective function - Q MUST be symmetric */
-	float Q[2 * 2] = { 1.200, - 5.1000,
-					- 5.1000,   26.0000 };
+	float Q[2 * 2] = { 1.200, -5.1000,
+					-5.1000,   26.0000 };
 
 	float c[2] = { -2,
 				  -6 };
 
-	/* Constraints */
+	/* Inequality constraints */
 	float A[3 * 2] = { 1, 1,
 				   -1, 2,
 					2, 1 };
@@ -31,17 +31,25 @@ int main() {
 				  2,
 				  3 };
 
+	/* Equality constraints */
+	float G[2 * 2] = { 3, 6, 
+					   3, 1 };
+
+	float h[2] = { 5,
+				   1 };
+
 	/* Solution */
-	float x[2];
+	float x[2] = { 0 };
 
 	/*
 	 * Do quadratic programming with Hildreth's method
 	 *  	Min 1/2x^TQx + c^Tx
 	 * 		S.t Ax <= b
-	 *      	 x >= 0
+	 *      	Gx = h
 	 *
 	 */
-	bool solution = quadprog(Q, c, A, b, x, 3, 2);
+	bool equality_constraints_is_used = true;
+	bool solution = quadprog(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_is_used);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
@@ -56,34 +64,49 @@ int main() {
 
 /*
  * GNU Octave code:
-	 % Objective function
-  Q = [1.200 -5.1000; -5.1000 26.0000];
-  c = [-2; -6];
+	Q = [1.200 -5.1000; -5.1000 26.0000];
+	c = [-2; -6];
 
-  % Constraints
-  A = [1 1; -1 2; 2 1];
-  b = [2; 2; 3];
+	% Inequality constraints
+	A = [1 1; -1 2; 2 1];
+	b = [2; 2; 3];
 
-  % Hildreth's method
-  x = quadprog(Q, c, A, b)
+	% "Equality" constraints
+	G = [3 6; 3 1];
+	h = [5; 1];
 
-  % Internal QP-solver
-  [x, ~, info] = qp([], Q, c, [], [], [], [], [], A, b)
+	% Internal QP-solver for GNU Octave
+	[x, ~, info] = qp([], Q, c, G, h, [], [], [], A, b)
 
-  x =
+	% Internal QP-solver for GNU Octave
+	[x, ~, info] = qp([], Q, c, [], [], [], [], [], [A;G;-G], [b;h;-h])
 
-   1.2842
-   0.4315
 
-  x =
+	Output is:
 
-   1.2842
-   0.4315
+	x =
 
-  info =
+	   0.066667
+	   0.800000
 
-  scalar structure containing the fields:
+	info =
 
-	solveiter = 2
-	info = 0
+	  scalar structure containing the fields:
+
+		solveiter = 1
+		info = 0
+
+	x =
+
+	   0.066667
+	   0.800000
+
+	info =
+
+	  scalar structure containing the fields:
+
+		solveiter = 3
+		info = 0
+
+	>>
  */

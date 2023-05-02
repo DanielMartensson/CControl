@@ -7,25 +7,77 @@
 
 #include "../../Headers/Functions.h"
 
+static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a);
 
 /**
  * This is quadratic programming with Hildreth's method
  * Min 1/2x^TQx + c^Tx
  * S.t Ax <= b
+ *     Gx = h
  *
  * If you want to do maximization, then turn Q and c negative. The constraints are the same
  *
  * Max 1/2x^T(-Q)x + (-c)^Tx
  * S.t Ax <= b
+ *     Gx = h
  *
  * Call this function with the sizes
- * Q [n*n] // Symmetric matrix
- * c [n]  // Objective function
- * A [m*n] // Constraint matrix
- * b [m] // Constraint vector
- * x [n] // Solution
+ * Q [column_a*column_a]	// Symmetric matrix
+ * c [column_a]				// Objective function
+ * A [row_a*column_a]		// Inequality constraint matrix
+ * b [row_a]				// Inequality constraint vector
+ * G [row_g*column_a]		// Equality constraint matrix
+ * h [row_g]				// Equality constraint vector
+ * x [column_a]				// Solution
  */
-bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a){
+
+bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], uint16_t row_a, uint16_t row_g, uint16_t column_a, bool equality_constraints_is_used) {
+	if (equality_constraints_is_used) {
+		/* Create multiple inequality constraints. Those are going to be equality constranits */
+		float* A_long = (float*)malloc((row_a + row_g + row_g) * column_a * sizeof(float));
+		float* A_long0 = A_long;
+		float* b_long = (float*)malloc((row_a + row_g + row_g) * sizeof(float));
+		float* b_long0 = b_long;
+
+		/* Copy over A_long = [A; G; -G] */
+		memcpy(A_long, A, row_a * column_a * sizeof(float));
+		A_long += row_a * column_a;
+		uint32_t row_g_column_a = row_g * column_a;
+		memcpy(A_long, G, row_g_column_a * sizeof(float));
+		A_long += row_g * column_a;
+		uint32_t i;
+		for (i = 0; i < row_g_column_a; i++) {
+			A_long[i] = -G[i];
+		}
+		A_long = A_long0; 
+		
+		/* Copy over b_long = [b; h; -h] */
+		memcpy(b_long, b, row_a * sizeof(float));
+		b_long += row_a;
+		memcpy(b_long, h, row_g * sizeof(float));
+		b_long += row_g;
+		for (i = 0; i < row_g; i++) {
+			b_long[i] = -h[i];
+		}
+		b_long = b_long0;
+
+		/* Optimize */
+		bool status = opti(Q, c, A_long, b_long, x, row_a + row_g + row_g, column_a);
+
+		/* Free */
+		free(A_long);
+		free(b_long);
+
+		/* Return status */
+		return status;
+	}
+	else {
+		return opti(Q, c, A, b, x, row_a, column_a);
+	}
+}
+
+
+static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a){
 	/* Declare */
 	uint16_t i, j, k;
 	
@@ -86,7 +138,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint16_t ro
 	memset(lambda, 0, row_a * sizeof(float));
 	float *lambda_p = (float*)malloc(row_a * sizeof(float));
 	float w;
-	for(i = 0; i < 1000; i++){
+	for(i = 0; i < MAX_ITERATIONS; i++){
 		/* Update */
 		memcpy(lambda_p, lambda, row_a * sizeof(float));
 
@@ -111,7 +163,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint16_t ro
 			value = lambda[j] - lambda_p[j];
 			w += value * value;
 		}
-		if (w < FLT_EPSILON) {
+		if (w < MIN_VALUE) {
 			break;
 		}
 	}
@@ -123,6 +175,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint16_t ro
 		x[j] -= Plambda[j];
 	}
 
+	/* Reset */
+
+
 	/* Free */
 	free(K);
 	free(P);
@@ -130,7 +185,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float x[], uint16_t ro
 	free(lambda);
 	free(lambda_p);
 	free(Plambda);
-	return i <= 1000 ? true : false; /* If i was over 1000, then it did not find a solution */
+
+	/* If i equal to MAX_ITERATIONS, then it did not find a solution */
+	return i < MAX_ITERATIONS ? true : false; 
 }
 
 /* GNU Octave code:
