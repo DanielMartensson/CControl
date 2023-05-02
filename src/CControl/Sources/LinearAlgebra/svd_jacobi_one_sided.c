@@ -48,7 +48,7 @@ void svd_jacobi_one_sided(float X[], uint16_t row, float U[], float S[], float V
 
 	/* Apply max_iterations times. That should be good enough */
 	bool exit = false;
-	for (p = 0; p < 100; p++) {
+	for (p = 0; p < MAX_ITERATIONS; p++) {
 		/* For all pairs i < j */
 		error = 0.0f;
 		for (i = 0; i < row; i++) {
@@ -68,7 +68,7 @@ void svd_jacobi_one_sided(float X[], uint16_t row, float U[], float S[], float V
 
 				/* Compute the error */
 				error = vmax(error, fabsf(c)/sqrtf(al*b));
-				if(error < FLT_EPSILON){
+				if(error < MIN_VALUE){
 					exit = true;
 					break;
 				}

@@ -25,7 +25,7 @@ static void tikhonov(float A[], float b[], float ATA[], float ATb[], uint16_t ro
  */
 void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t column, float alpha){
 	/* Solve now */
-	if(alpha <= FLT_EPSILON && row == column){
+	if(alpha <= MIN_VALUE && row == column){
 		/* Create two copies of A and b */
 		float *Ac = (float*)malloc(row * column * sizeof(float));
 		memcpy(Ac, A, row*column*sizeof(float));
