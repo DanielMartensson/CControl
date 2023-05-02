@@ -65,8 +65,9 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 		/* Rk = R[k*column_a + k]; */
 
 		/* Do sign */
-		if(Rk < 0.0f)
+		if (Rk < 0.0f) {
 			s = -s;
+		}
 
 		/* Compute r */
 		r = sqrtf(2 * s * (Rk + s));
@@ -86,8 +87,9 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 		mul(W, W, WW, row_a, 1, row_a);
 
 		/* Fill Hi matrix */
-		for(i = 0; i < row_a_row_a; i++)
-			Hi[i] = -2.0f*WW[i];
+		for (i = 0; i < row_a_row_a; i++) {
+			Hi[i] = -2.0f * WW[i];
+		}
 
 		/* Use identity matrix on Hi */
 		iHi = Hi;
