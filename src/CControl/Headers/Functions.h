@@ -52,7 +52,7 @@ typedef uint8_t bool;
 
 /* Define for all */
 #define PI 2*acosf(0.0f)				/* acos(0) is pi/2 */
-#define MIN_VALUE 1e-15f
+#define MIN_VALUE 1e-14f
 #define MAX_ITERATIONS 2000U
 
 #ifdef __cplusplus
