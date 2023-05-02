@@ -32,7 +32,7 @@ void chol(float A[], float L[], uint16_t row) {
 			}
 
 			/* We cannot divide with zero L[row * j + j] */
-			if (fabsf(Lj[j]) < FLT_EPSILON) {
+			if (fabsf(Lj[j]) < MIN_VALUE) {
 				Lj[j] = FLT_EPSILON;
 				/* L[row * j + j] = FLT_EPSILON; // Same as eps command in MATLAB */
 			}
