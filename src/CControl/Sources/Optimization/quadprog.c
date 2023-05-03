@@ -123,9 +123,14 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
 
 	/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
 	float *P = (float*)malloc(row_a * column_a * sizeof(float));
+	float *P0 = P;
+	Ai = A;
 	for (i = 0; i < row_a; i++) {
-		linsolve_gauss(Q, &P[i * column_a], &A[i * column_a], column_a, column_a, 0.0f);
+		linsolve_gauss(Q, P, Ai, column_a, column_a, 0.0f);
+		P += column_a;
+		Ai += column_a;
 	}
+	P = P0;
 	tran(P, row_a, column_a);
 
 	/* Multiply H = A*Q*A' */
@@ -175,9 +180,6 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
 		x[j] -= Plambda[j];
 	}
 
-	/* Reset */
-
-
 	/* Free */
 	free(K);
 	free(P);
@@ -187,7 +189,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
 	free(Plambda);
 
 	/* If i equal to MAX_ITERATIONS, then it did not find a solution */
-	return i < MAX_ITERATIONS ? true : false; 
+	return i < MAX_ITERATIONS ? true : false;
 }
 
 /* GNU Octave code:
