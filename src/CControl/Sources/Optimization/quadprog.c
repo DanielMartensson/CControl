@@ -192,15 +192,27 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
 
 /* GNU Octave code:
  *
- * function [x, solution] = quadprog(Q, c, A, b)
+ *  % This is quadratic programming with Hildreth's method
+	% Min 1/2x^TQx + c^Tx
+	% S.t Ax <= b
+	%
+	% If you want to do maximization, then turn Q and c negative. The constraints are the same
+	%
+	% Max 1/2x^T(-Q)x + (-c)^Tx
+	% S.t Ax <= b
+	% 	   
+	% Input: Q(Symmetric matrix), c(Objective function), A(Constraint matrix), b(Constraint vector)
+	% Output: x(Solution vector), solution(boolean flag)
+	% Example 1: [x, solution] = quadprog(Q, c, A, b)
+	% Author: Daniel Mårtensson 2022 September 3
+
+	function [x, solution] = quadprog(Q, c, A, b)
 	  % Assume that the solution is true
 	  solution = true;
 
-	  % Set number of iterations
-	  number_of_iterations = 255;
-
 	  % Same as in C code
-	  FLT_EPSILON = 1.19209290e-07;
+	  MIN_VALUE = 1e-14;
+	  MAX_ITERATIONS = 2000;
 
 	  % Unconstrained solution
 	  x = -linsolve(Q, c);
@@ -222,7 +234,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
 	  % Solve lambda from H*lambda = -K, where lambda >= 0
 	  [m, n] = size(K);
 	  lambda = zeros(m, n);
-	  for km = 1:number_of_iterations
+	  for km = 1:MAX_ITERATIONS
 		lambda_p = lambda;
 
 		% Use Gauss Seidel
@@ -233,12 +245,12 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
 
 		% Check if the minimum convergence has been reached
 		w = (lambda - lambda_p)'*(lambda - lambda_p);
-		if (w < FLT_EPSILON)
+		if (w < MIN_VALUE)
 		  break;
 		end
 
 		% Check if the maximum iteration have been reached
-		if(km == 255)
+		if(km == MAX_ITERATIONS)
 		  solution = false;
 		  return;
 		end
