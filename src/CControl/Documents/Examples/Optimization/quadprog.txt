@@ -48,8 +48,8 @@ int main() {
 	 *      	Gx = h
 	 *
 	 */
-	bool equality_constraints_is_used = true;
-	bool solution = quadprog(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_is_used);
+	bool equality_constraints_are_used = true;
+	bool solution = quadprog(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

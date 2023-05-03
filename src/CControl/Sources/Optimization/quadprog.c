@@ -31,8 +31,8 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
  * x [column_a]				// Solution
  */
 
-bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], uint16_t row_a, uint16_t row_g, uint16_t column_a, bool equality_constraints_is_used) {
-	if (equality_constraints_is_used) {
+bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], uint16_t row_a, uint16_t row_g, uint16_t column_a, bool equality_constraints_are_used) {
+	if (equality_constraints_are_used) {
 		/* Create multiple inequality constraints. Those are going to be equality constranits */
 		float* A_long = (float*)malloc((row_a + row_g + row_g) * column_a * sizeof(float));
 		float* A_long0 = A_long;
