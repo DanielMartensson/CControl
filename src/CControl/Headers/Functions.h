@@ -117,7 +117,7 @@ void linsolve_gauss(float A[], float x[], float b[], uint16_t row, uint16_t colu
   
 /* Optimization */
 bool linprog(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min);
-bool lsqnonneg(float A[], float x[], float b[], uint16_t row, uint16_t column, float* residual);
+bool lsqnonneg(float A[], float x[], float b[], float residual[], uint16_t row, uint16_t column);
 bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], uint16_t row_a, uint16_t row_g, uint16_t column_a, bool equality_constraints_are_used);
 
 /* Statistics */
