@@ -125,7 +125,7 @@ bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, fl
 		}
 		X += column;
 	}
-	*b /= (float)counter;
+	*b /= ((float)counter);
 	X = X0;
 
 	/* Predict */

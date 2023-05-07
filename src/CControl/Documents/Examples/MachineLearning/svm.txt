@@ -19,15 +19,15 @@ int main() {
 	start = clock();
 
 	/* Create data. You can have multiple columns and multiple rows. */
-	float X[row * column] = {-5, -2,
-						     -1, - 4,
-						     -3, - 1,
-						     -7, - 2,
-						     -8, - 1,
-						     -9, - 3,
-						     -2, -6,
-						     -8, -5,
-						     -1, -1,
+	float X[row * column] = { -5, -2,
+							 -1, -4,
+							 -3, -1,
+							 -7, -2,
+							 -8, -1,
+							 -9, -3,
+							 -2, -6,
+							 -8, -5,
+							 -1, -1,
 							 -2, -9,
 							 -3, 0,
 							 -2, -5,
@@ -44,10 +44,10 @@ int main() {
 							 20, 90,
 							 30, 0,
 							 20, 50,
-							 20, 80};
+							 20, 80 };
 
 	/* Create labels. Only 1 and -1 */
-	float y[row] = {1,
+	float y[row] = { 1,
 					1,
 					1,
 					1,
@@ -72,13 +72,13 @@ int main() {
 				   -1,
 				   -1,
 				   -1,
-				   -1};
+				   -1 };
 
 	/* This tune how fast the training is going to be, with the cost of accuracy */
-	float lambda = 5;
+	float lambda = 800;
 
 	/* This tune in how large the optimal values from the quadratic programming can be */
-	float C = 1;
+	float C = 10;
 
 	/* Model weights and bias */
 	float w[column];
@@ -86,7 +86,7 @@ int main() {
 	float accuracy;
 
 	/* Do SVM */
-	svm(X, y, w, &b, &accuracy, C, lambda, row, column);
+	bool solution = svm(X, y, w, &b, &accuracy, C, lambda, row, column);
 
 	/* Print the weights */
 	print(w, 1, column);
@@ -96,6 +96,9 @@ int main() {
 
 	/* Print accuracy */
 	printf("Accuracy = %f\n", accuracy);
+
+	/* Was the solution found? */
+	printf("Solution was found: %s\n", solution == true ? "yes" : "no");
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
@@ -141,10 +144,10 @@ int main() {
 	y = [1;1;1;1;1;1;1;1;1;1;1;1;1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1];
 
 	% Tuning parameters
-	C = 1;              % For upper boundary limit
-	lambda = 5;        % Regularization (Makes it faster to solve the quadratic programming)
+	C = 10;              % For upper boundary limit
+	lambda = 800;        % Regularization (Makes it faster to solve the quadratic programming)
 
 	% Compute weigths, bias and find accuracy
-	[w, b, accuracy] = lsvm(x, y, C, lambda)
+	[w, b, accuracy, solution] = lsvm(x, y, C, lambda)
 
 */
