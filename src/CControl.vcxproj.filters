@@ -212,11 +212,27 @@
     <ClCompile Include="CControl\Sources\Statistics\covm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\Filtering\rpca.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Optimization\lsqnonneg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\dot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\svm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CControl\Documents\Examples\Statistics\pca.txt" />
     <Text Include="CControl\Documents\Examples\Statistics\lda.txt" />
     <Text Include="CControl\Documents\Examples\LinearAlgebra\eig_sym_generalized.txt" />
     <Text Include="CControl\Documents\Examples\Statistics\covm.txt" />
+    <Text Include="CControl\Documents\Examples\LinearAlgebra\norm.txt" />
+    <Text Include="CControl\Documents\Examples\Filtering\rpca.txt" />
+    <Text Include="CControl\Documents\Examples\Optimization\lsqnonneg.txt" />
+    <Text Include="CControl\Documents\Examples\MachineLearning\svm.txt" />
   </ItemGroup>
 </Project>

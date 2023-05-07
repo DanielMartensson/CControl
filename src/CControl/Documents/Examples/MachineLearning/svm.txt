@@ -1,0 +1,150 @@
+/*
+ ============================================================================
+ Name        : svm.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute a linear Support Vector Machine
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+#define row 26
+#define column 2
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create data. You can have multiple columns and multiple rows. */
+	float X[row * column] = {-5, -2,
+						     -1, - 4,
+						     -3, - 1,
+						     -7, - 2,
+						     -8, - 1,
+						     -9, - 3,
+						     -2, -6,
+						     -8, -5,
+						     -1, -1,
+							 -2, -9,
+							 -3, 0,
+							 -2, -5,
+							 -2, -8,
+							 50, 20,
+							 10, 40,
+							 30, 10,
+							 70, 20,
+							 80, 10,
+							 90, 30,
+							 20, 60,
+							 80, 50,
+							 10, 10,
+							 20, 90,
+							 30, 0,
+							 20, 50,
+							 20, 80};
+
+	/* Create labels. Only 1 and -1 */
+	float y[row] = {1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+					1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1,
+				   -1};
+
+	/* This tune how fast the traing is going to be */
+	float lambda = 5;
+
+	/* This tune in how large the optimal values from the quadratic programming can be */
+	float C = 1;
+
+	/* Model weights and bias */
+	float w[column];
+	float b;
+	float accuracy;
+
+	/* Do SVM */
+	svm(X, y, w, &b, &accuracy, C, lambda, row, column);
+
+	/* Print the weights */
+	print(w, 1, column);
+
+	/* Print bias */
+	printf("b = %f\n", b);
+
+	/* Print accuracy */
+	printf("Accuracy = %f\n", accuracy);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
+
+/* GNU Octave code:
+	% Clear all
+	clear all
+	clc
+
+	% Create data. You can have multiple columns and multiple rows.
+	x = [-5 -2;
+		 -1 -4;
+		 -3 -1;
+		 -7 -2;
+		 -8 -1;
+		 -9 -3;
+		 -2, -6;
+		 -8, -5;
+		 -1, -1;
+		 -2, -9;
+		 -3, 0;
+		 -2, -5;
+		 -2, -8;
+		 50 20;
+		 10 40;
+		 30 10;
+		 70 20;
+		 80 10;
+		 90 30;
+		 20, 60;
+		 80, 50;
+		 10, 10;
+		 20, 90;
+		 30, 0;
+		 20, 50;
+		 20, 80];
+
+	% Create labels for the data x
+	y = [1;1;1;1;1;1;1;1;1;1;1;1;1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1];
+
+	% Tuning parameters
+	C = 1;              % For upper boundary limit
+	lambda = 10;        % Regularization (Makes it faster to solve the quadratic programming)
+
+	% Compute weigths, bias and find accuracy
+	[w, b, accuracy] = lsvm(x, y, C, lambda)
+
+*/

@@ -39,6 +39,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\cholupdate.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\det.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\dlyap.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\dot.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\eig.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\eig_sym.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\eig_sym_generalized.c" />
@@ -61,9 +62,11 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\svd_jacobi_one_sided.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\tran.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cut.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\insert.c" />
+    <ClCompile Include="CControl\Sources\Optimization\lsqnonneg.c" />
     <ClCompile Include="CControl\Sources\Statistics\cov.c" />
     <ClCompile Include="CControl\Sources\Statistics\covm.c" />
     <ClCompile Include="CControl\Sources\Statistics\mean.c" />
@@ -72,6 +75,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\saturation.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\sign.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\sort.c" />
+    <ClCompile Include="CControl\Sources\Filtering\rpca.c" />
     <ClCompile Include="CControl\Sources\Statistics\stddev.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\sum.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\vmax.c" />
@@ -88,7 +92,11 @@
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CControl\Documents\Examples\Filtering\rpca.txt" />
     <Text Include="CControl\Documents\Examples\LinearAlgebra\eig_sym_generalized.txt" />
+    <Text Include="CControl\Documents\Examples\LinearAlgebra\norm.txt" />
+    <Text Include="CControl\Documents\Examples\MachineLearning\svm.txt" />
+    <Text Include="CControl\Documents\Examples\Optimization\lsqnonneg.txt" />
     <Text Include="CControl\Documents\Examples\Statistics\covm.txt" />
     <Text Include="CControl\Documents\Examples\Statistics\lda.txt" />
     <Text Include="CControl\Documents\Examples\Statistics\pca.txt" />

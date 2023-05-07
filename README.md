@@ -13,6 +13,7 @@ Main focuses are:
 
 - Machine Learning
   - Robust Fisher Faces for image classification (ongoing)
+  - Support Vector Machine
   
 - Control Engineering
   - Kalman filter update

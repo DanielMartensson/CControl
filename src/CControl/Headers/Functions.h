@@ -13,7 +13,8 @@
 #include <stdio.h>						/* For printf */
 #include <stdlib.h>						/* Standard library */
 #include <math.h>						/* For sqrtf */
-#include <float.h>						/* Required for FLT_EPSILON */
+#include <float.h>						/* Required for FLT_EPSILON, FLT_MAX, FLT_MIN */
+#include <stddef.h>						/* Requried for NULL */
 #include <time.h> 						/* For srand, clock */
 
 /* In ANSI C (C89), the __STDC_VERSION__ is not defined */
@@ -67,6 +68,9 @@ void mrac(float limit, float gain, float y[], float u[], float r[], float I1[], 
 void theta2ss(float A[], float B[], float C[], float theta[], float K[], uint8_t ADIM, uint8_t NP, uint8_t NZ, bool integral_action);
 bool stability(float A[], uint8_t ADIM);
 void c2d(float A[], float B[], uint8_t ADIM, uint8_t RDIM, float sampleTime);
+
+/* Machine learning */
+bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, float lambda, uint16_t row, uint16_t column);
 
 /* Miscellaneous */
 void cat(uint8_t dim, float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uint16_t row_b, uint16_t column_b, uint16_t row_c, uint16_t column_c);

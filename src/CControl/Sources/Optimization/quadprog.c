@@ -77,7 +77,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], 
 }
 
 
-static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a){
+static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a){		
 	/* Declare */
 	uint16_t i, j, k;
 	

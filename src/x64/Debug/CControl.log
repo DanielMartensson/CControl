@@ -1,14 +1,28 @@
-﻿  Main.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(27,21): warning C4273: 'sqrtf': inconsistent dll linkage
+﻿  svm.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(28,21): warning C4273: 'sqrtf': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(723,48): message : see previous definition of 'sqrtf'
-C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(29,21): warning C4273: 'acosf': inconsistent dll linkage
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(30,21): warning C4273: 'acosf': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(615,47): message : see previous definition of 'acosf'
-C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(30,20): warning C4273: 'expf': inconsistent dll linkage
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(31,20): warning C4273: 'expf': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(622,47): message : see previous definition of 'expf'
-C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(31,36): warning C4273: 'powf': inconsistent dll linkage
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(32,36): warning C4273: 'powf': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(720,48): message : see previous definition of 'powf'
-C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(32,20): warning C4273: 'logf': inconsistent dll linkage
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(33,20): warning C4273: 'logf': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(718,48): message : see previous definition of 'logf'
-C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(33,20): warning C4273: 'sinf': inconsistent dll linkage
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(34,20): warning C4273: 'sinf': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(721,48): message : see previous definition of 'sinf'
+  Main.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(28,21): warning C4273: 'sqrtf': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(723,48): message : see previous definition of 'sqrtf'
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(30,21): warning C4273: 'acosf': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(615,47): message : see previous definition of 'acosf'
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(31,20): warning C4273: 'expf': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(622,47): message : see previous definition of 'expf'
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(32,36): warning C4273: 'powf': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(720,48): message : see previous definition of 'powf'
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(33,20): warning C4273: 'logf': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(718,48): message : see previous definition of 'logf'
+C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(34,20): warning C4273: 'sinf': inconsistent dll linkage
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(721,48): message : see previous definition of 'sinf'
+  Generating Code...
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Debug\CControl.exe
