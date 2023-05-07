@@ -74,7 +74,7 @@ int main() {
 				   -1,
 				   -1};
 
-	/* This tune how fast the traing is going to be */
+	/* This tune how fast the training is going to be, with the cost of accuracy */
 	float lambda = 5;
 
 	/* This tune in how large the optimal values from the quadratic programming can be */
