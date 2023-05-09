@@ -1,4 +1,4 @@
-﻿  svm.c
+﻿  Main.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(28,21): warning C4273: 'sqrtf': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(723,48): message : see previous definition of 'sqrtf'
 C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(30,21): warning C4273: 'acosf': inconsistent dll linkage
