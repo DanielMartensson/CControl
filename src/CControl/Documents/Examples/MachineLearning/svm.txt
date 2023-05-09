@@ -100,6 +100,17 @@ int main() {
 	/* Was the solution found? */
 	printf("Solution was found: %s\n", solution == true ? "yes" : "no");
 
+	/* Classify class_ID = sign(w*x + b) */
+	float x_unknown[column] = { 15, 21 };
+	float class_ID = sign(w[0] * x_unknown[0] + w[1] * x_unknown[1] + b);
+	if (class_ID > 0) {
+		printf("This x_unknown vector belongs to class 1\n");
+	}
+	else {
+		printf("This x_unknown vector belongs to class -1\n");
+	}
+	
+
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
@@ -149,5 +160,14 @@ int main() {
 
 	% Compute weigths, bias and find accuracy
 	[w, b, accuracy, solution] = lsvm(x, y, C, lambda)
+
+	% Classify
+	x_unknown = [15; 5];
+	class_ID = sign(w*x_unknown + b)
+	if(class_ID > 0)
+	  disp('This x_unknown vector belongs to class 1')
+	else
+	  disp('This x_unknown vector belongs to class -1')
+	end
 
 */
