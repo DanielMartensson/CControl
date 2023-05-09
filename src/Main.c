@@ -1,173 +1,26 @@
 /*
  ============================================================================
- Name        : svm.c
- Author      : Daniel Mårtensson
+ Name        : Main.c
+ Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Compute a linear Support Vector Machine
+ Description : Initial template
  ============================================================================
  */
 
 #include "CControl/Headers/Functions.h"
-
-#define row 26
-#define column 2
 
 int main() {
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	/* Create data. You can have multiple columns and multiple rows. */
-	float X[row * column] = { -5, -2,
-							 -1, -4,
-							 -3, -1,
-							 -7, -2,
-							 -8, -1,
-							 -9, -3,
-							 -2, -6,
-							 -8, -5,
-							 -1, -1,
-							 -2, -9,
-							 -3, 0,
-							 -2, -5,
-							 -2, -8,
-							 50, 20,
-							 10, 40,
-							 30, 10,
-							 70, 20,
-							 80, 10,
-							 90, 30,
-							 20, 60,
-							 80, 50,
-							 10, 10,
-							 20, 90,
-							 30, 0,
-							 20, 50,
-							 20, 80 };
-
-	/* Create labels. Only 1 and -1 */
-	float y[row] = { 1,
-					1,
-					1,
-					1,
-					1,
-					1,
-					1,
-					1,
-					1,
-					1,
-					1,
-					1,
-					1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1,
-				   -1 };
-
-	/* This tune how fast the training is going to be, with the cost of accuracy */
-	float lambda = 800;
-
-	/* This tune in how large the optimal values from the quadratic programming can be */
-	float C = 10;
-
-	/* Model weights and bias */
-	float w[column];
-	float b;
-	float accuracy;
-
-	/* Do SVM */
-	bool solution = svm(X, y, w, &b, &accuracy, C, lambda, row, column);
-
-	/* Print the weights */
-	print(w, 1, column);
-
-	/* Print bias */
-	printf("b = %f\n", b);
-
-	/* Print accuracy */
-	printf("Accuracy = %f\n", accuracy);
-
-	/* Was the solution found? */
-	printf("Solution was found: %s\n", solution == true ? "yes" : "no");
-
-	/* Classify class_ID = sign(w*x + b) */
-	float x_unknown[column] = { 15, 21 };
-	float class_ID = sign(w[0] * x_unknown[0] + w[1] * x_unknown[1] + b);
-	if (class_ID > 0) {
-		printf("This x_unknown vector belongs to class 1\n");
-	}
-	else {
-		printf("This x_unknown vector belongs to class -1\n");
-	}
-	
+	/* Your ANSI C logic here - All examples can be found at the folder src/CControl/Documents/Examples */
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
+
 	return EXIT_SUCCESS;
 }
-
-/* GNU Octave code:
-	% Clear all
-	clear all
-	clc
-
-	% Create data. You can have multiple columns and multiple rows.
-	x = [-5 -2;
-		 -1 -4;
-		 -3 -1;
-		 -7 -2;
-		 -8 -1;
-		 -9 -3;
-		 -2, -6;
-		 -8, -5;
-		 -1, -1;
-		 -2, -9;
-		 -3, 0;
-		 -2, -5;
-		 -2, -8;
-		 50 20;
-		 10 40;
-		 30 10;
-		 70 20;
-		 80 10;
-		 90 30;
-		 20, 60;
-		 80, 50;
-		 10, 10;
-		 20, 90;
-		 30, 0;
-		 20, 50;
-		 20, 80];
-
-	% Create labels for the data x
-	y = [1;1;1;1;1;1;1;1;1;1;1;1;1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1;-1];
-
-	% Tuning parameters
-	C = 10;              % For upper boundary limit
-	lambda = 800;        % Regularization (Makes it faster to solve the quadratic programming)
-
-	% Compute weigths, bias and find accuracy
-	[w, b, accuracy, solution] = lsvm(x, y, C, lambda)
-
-	% Classify
-	x_unknown = [15; 5];
-	class_ID = sign(w*x_unknown + b)
-	if(class_ID > 0)
-	  disp('This x_unknown vector belongs to class 1')
-	else
-	  disp('This x_unknown vector belongs to class -1')
-	end
-
-*/
