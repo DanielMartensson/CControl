@@ -132,7 +132,7 @@ int main() {
 size_t i;
 memset(A, 0U, row*column*sizeof(float)); 
 float *A0 = A;
-for(i = 0; i < row; i++){
+for(i = 0U; i < row; i++){
   A[i] = 1.0f;
   A += column;
 }
@@ -145,8 +145,8 @@ Instead of
 /* Creating the identity matrix */
 size_t i, j;
 memset(A, 0U, row*column*sizeof(float)); 
-for(i = 0; i < row; i++){
-  for(j = 0; j < column; j++){
+for(i = 0U; i < row; i++){
+  for(j = 0U; j < column; j++){
     if(i == j){
       A[i*column + j] = 1.0f;
     }
