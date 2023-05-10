@@ -116,17 +116,50 @@ int main() {
 ```
 
 
-# How to help to build on this library
+# TODO list
 
-Find a good pratical function that always comes in handy. An algorithm for example. When you writing your code, remember these steps:
+- Change all vectors and matricies to `size_t` size from `uint8_t`, `uint16_t` and `uint32_t` size for more portability 
+- All indexing and loop counting must have the data type `size_t`
+- Brackets `{ }` for all statements
+- Rows are indexed with `i` and columns are indexed with `j`
+- All indexing of matricies should look like this
+- All integer constants must have `U` as ending
+- All floats constants must have `f` as ending
+- Matrix and vector operations must be optimal as possible, e.g.
 
- - Use "valgrind --tool=exp-sgcheck ./CControl" to check if your output in Debug folder is correct. For windows users, `Dr.Memory` works too
- - Use pointers/arrays as much as you can
- - `1D` arrays are only allowed. When you are indexing an `1D`, then you using `my_array[i*column_length + j]` where `i` is row index and `j` is column index and `column_length` is column length of `my_array`
- - Only `floats` are allowed because some processors don't have `double` implemented
- - Your code must come with an example
- - Write `clean code`, that means no slack variables or unnecessary #defines, don't try to compute everything in one single functions, minimize input arguments if it's possible, focus on practical implementation, focus on memory
- - ANSI C (C89) standard is used in this project
+```c
+/* Creating the identity matrix */
+size_t i;
+memset(A, 0U, row*column*sizeof(float)); 
+float *A0 = A;
+for(i = 0; i < row; i++){
+  A[i] = 1.0f;
+  A += column;
+}
+A = A0;
+```
+
+Instead of
+
+```c
+/* Creating the identity matrix */
+size_t i, j;
+memset(A, 0U, row*column*sizeof(float)); 
+for(i = 0; i < row; i++){
+  for(j = 0; j < column; j++){
+    if(i == j){
+      A[i*column + j] = 1.0f;
+    }
+  }
+}
+```
+
+- Integer multiplications such as `row * columns` must be of the data type `size_t` e.g `size_t row_column = row*column;`
+- Algorithms that need to have a signed variable e.g. `linsolve_upper_triangular.c` must be changed so they don't need a signed variable
+- Important to follow `MISRA C` standard as much as possible, even if this project is using dynamical memory allocation 
+- `uint8_t` that either return the status `0` or `1` should be replaced with `bool` data type
+- Use a memory analyzer when running all the examples. Need to create a list of the status of all `.c` files.
+
 
 # Projects made with CControl
 
