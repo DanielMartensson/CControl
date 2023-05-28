@@ -69,14 +69,15 @@ int main() {
 		sr_ukf_parameter_estimation(d, what, Re, x, G, lambda_rls, Sw, alpha, beta, L);
 
 		/* Save the estimated parameter */
-		for (j = 0; j < L; j++)
+		for (j = 0; j < L; j++){
 			WHAT[i * 3 + j] = what[j];
+		}
 
 		/* Measure the error */
 		G(dw, x, what);
-		for (j = 0; j < L; j++)
+		for (j = 0; j < L; j++){
 			E[i * 3 + j] = fabsf(d[j] - dw[j]);
-
+		}
 	}
 
 	end = clock();

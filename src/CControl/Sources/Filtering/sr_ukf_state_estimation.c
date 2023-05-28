@@ -119,18 +119,23 @@ static void create_sigma_point_matrix(float X[], float x[], float S[], float alp
 	float gamma = sqrtf(L + lambda);
 
 	/* Insert first column in X */
-	for(i = 0; i < L; i++)
+	for (i = 0; i < L; i++) {
 		X[i * N] = x[i];
+	}
 
 	/* Insert in to the middle of the columns - Positive */
-	for(j = 1; j < K; j++)
-		for(i = 0; i < L; i++)
+	for (j = 1; j < K; j++) {
+		for (i = 0; i < L; i++) {
 			X[i * N + j] = x[i] + gamma * S[i * L + j - 1];
+		}
+	}
 
 	/* Insert in the rest of the columns - Negative */
-	for(j = K; j < N; j++)
-		for(i = 0; i < L; i++)
+	for (j = K; j < N; j++) {
+		for (i = 0; i < L; i++) {
 			X[i * N + j] = x[i] - gamma * S[i * L + j - K];
+		}
+	}
 
 }
 
@@ -148,15 +153,17 @@ static void compute_transistion_function(float Xstar[], float X[], float u[], vo
 	/* Call the F transition function with X matrix */
 	for(j = 0; j < N; j++){
 		/* Fill the state vector x with every row from X */
-		for(i = 0; i < L; i++)
-			x[i] = X[i*N + j];
+		for (i = 0; i < L; i++) {
+			x[i] = X[i * N + j];
+		}
 
 		/* Call the transition function */
 		F(dx, x, u);
 
 		/* Get dx into Xstar */
-		for(i = 0; i < L; i++)
-			Xstar[i*N + j] = dx[i];
+		for (i = 0; i < L; i++) {
+			Xstar[i * N + j] = dx[i];
+		}
 	}
 
 	/* Free */
@@ -175,9 +182,11 @@ static void multiply_sigma_point_matrix_to_weights(float x[], float X[], float W
 	memset(x, 0, L * sizeof(float));
 
 	/* Multiply x = W*X */
-	for(j = 0; j < N; j++)
-		for(i = 0; i < L; i++)
+	for (j = 0; j < N; j++) {
+		for (i = 0; i < L; i++) {
 			x[i] += W[j] * X[i * N + j];
+		}
+	}
 
 }
 
@@ -202,9 +211,11 @@ static void create_state_estimation_error_covariance_matrix(float S[], float W[]
 			AT[i*M + j] = weight1 * (X[i * N + j+1] - x[i]);
 		}
 	}
-	for(j = K; j < M; j++)
-		for(i = 0; i < L; i++)
-			AT[i*M + j] = sqrtf(R[i * L + j - K]);
+	for (j = K; j < M; j++) {
+		for (i = 0; i < L; i++) {
+			AT[i * M + j] = sqrtf(R[i * L + j - K]);
+		}
+	}
 
 	/* We need to do transpose on A according to the SR-UKF paper */
 	tran(AT, L, M);
@@ -217,8 +228,9 @@ static void create_state_estimation_error_covariance_matrix(float S[], float W[]
 
 	/* Perform cholesky update on S */
 	float *b = (float*)malloc(L * sizeof(float));
-	for(i = 0; i < L; i++)
+	for (i = 0; i < L; i++) {
 		b[i] = X[i * N] - x[i];
+	}
 	bool rank_one_update = W[0] < 0.0f ? false : true;
 	cholupdate(S, b, L, rank_one_update);
 
@@ -259,8 +271,9 @@ static void create_state_cross_covariance_matrix(float P[], float W[], float X[]
 	/* Create diagonal matrix */
 	float *diagonal_W = (float*)malloc(N * N * sizeof(float));
 	memset(diagonal_W, 0, N*N*sizeof(float));
-	for(i = 0; i < N; i++)
-		diagonal_W[i*N + i] = W[i];
+	for (i = 0; i < N; i++) {
+		diagonal_W[i * N + i] = W[i];
+	}
 
 	/* Do P = X*diagonal_W*Y' */
 	tran(Y, L, N);
@@ -296,11 +309,13 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 	/* Compute xhat = xhat + K*(y - yhat) */
 	float *yyhat = (float*)malloc(L * sizeof(float));
 	float *Ky = (float*)malloc(L * sizeof(float));
-	for(i = 0; i < L; i++)
+	for (i = 0; i < L; i++) {
 		yyhat[i] = y[i] - yhat[i];
+	}
 	mul(K, yyhat, Ky, L, L, 1);
-	for(i = 0; i < L; i++)
+	for (i = 0; i < L; i++) {
 		xhat[i] = xhat[i] + Ky[i];
+	}
 
 	/* Compute U = K*Sy */
 	float *U = (float*)malloc(L * L * sizeof(float));
@@ -309,8 +324,9 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 	/* Compute S = cholupdate(S, Uk, -1) because Uk is a vector and U is a matrix */
 	float *Uk = (float*)malloc(L * sizeof(float));
 	for(j = 0; j < L; j++){
-		for(i = 0; i < L; i++)
-			Uk[i] = U[i*L + j];
+		for (i = 0; i < L; i++) {
+			Uk[i] = U[i * L + j];
+		}
 		cholupdate(S, Uk, L, false);
 	}
 

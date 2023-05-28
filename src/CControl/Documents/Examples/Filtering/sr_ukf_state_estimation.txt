@@ -68,28 +68,33 @@ int main() {
 	for (i = 0; i < 200; i++) {
 		/* Create noise for the measurement */
 		randn(noise, L, 0.0f, 1.0f);
-		for (j = 0; j < L; j++)
+		for (j = 0; j < L; j++){
 			y[j] = x[j] + r * noise[j];
+		}
 
 		/* Save measurement */
-		for (j = 0; j < L; j++)
+		for (j = 0; j < L; j++){
 			Y[i * 3 + j] = y[j];
+		}
 
 		/* Save actual state */
-		for (j = 0; j < L; j++)
+		for (j = 0; j < L; j++){
 			X[i * 3 + j] = x[j];
+		}
 
 		/* Estimate new state */
 		sr_ukf_state_estimation(y, xhat, Rn, Rv, u, F, S, alpha, beta, L);
 
 		/* Save the estimated state */
-		for (j = 0; j < L; j++)
+		for (j = 0; j < L; j++){
 			XHAT[i * 3 + j] = xhat[j];
+		}
 
 		/* Update the state with disturbance */
 		F(dx, x, u);
-		for (j = 0; j < L; j++)
+		for (j = 0; j < L; j++){
 			x[j] = dx[j] + q * amplitude[j] * sinf(i + phase[j]);
+		}
 
 	}
 

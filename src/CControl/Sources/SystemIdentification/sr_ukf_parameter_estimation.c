@@ -105,8 +105,9 @@ static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, uint8_
 	uint8_t M = 2 * L;
 
 	/* Apply scalar factor to Sw */
-	for(i = 0; i < M; i++)
-		Sw[i] *= 1.0f/sqrtf(lambda_rls);
+	for (i = 0; i < M; i++) {
+		Sw[i] *= 1.0f / sqrtf(lambda_rls);
+	}
 }
 
 static void create_sigma_point_matrix(float W[], float what[], float Sw[], float alpha, float kappa, uint8_t L){
@@ -122,18 +123,23 @@ static void create_sigma_point_matrix(float W[], float what[], float Sw[], float
 	float gamma = sqrtf(L + lambda);
 
 	/* Insert first column in W */
-	for(i = 0; i < L; i++)
+	for (i = 0; i < L; i++) {
 		W[i * N] = what[i];
+	}
 
 	/* Insert in to the middle of the columns - Positive */
-	for(j = 1; j < K; j++)
-		for(i = 0; i < L; i++)
+	for (j = 1; j < K; j++) {
+		for (i = 0; i < L; i++) {
 			W[i * N + j] = what[i] + gamma * Sw[i * L + j - 1];
+		}
+	}
 
 	/* Insert in the rest of the columns - Negative */
-	for(j = K; j < N; j++)
-		for(i = 0; i < L; i++)
+	for (j = K; j < N; j++) {
+		for (i = 0; i < L; i++) {
 			W[i * N + j] = what[i] - gamma * Sw[i * L + j - K];
+		}
+	}
 
 }
 
@@ -151,15 +157,17 @@ static void compute_transistion_function(float D[], float W[], float x[], void (
 	/* Call the F transition function with W matrix */
 	for(j = 0; j < N; j++){
 		/* Fill the state vector w with every row from W */
-		for(i = 0; i < L; i++)
-			w[i] = W[i*N + j];
+		for (i = 0; i < L; i++) {
+			w[i] = W[i * N + j];
+		}
 
 		/* Call the transition function */
 		G(dw, x, w);
 
 		/* Get dw into D */
-		for(i = 0; i < L; i++)
-			D[i*N + j] = dw[i];
+		for (i = 0; i < L; i++) {
+			D[i * N + j] = dw[i];
+		}
 	}
 
 	free(dw);
@@ -177,9 +185,11 @@ static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], floa
 	memset(dhat, 0, L * sizeof(float));
 
 	/* Multiply dhat = Wm*D */
-	for(j = 0; j < N; j++)
-		for(i = 0; i < L; i++)
+	for (j = 0; j < N; j++) {
+		for (i = 0; i < L; i++) {
 			dhat[i] += Wm[j] * D[i * N + j];
+		}
+	}
 
 }
 
@@ -204,9 +214,11 @@ static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc
 			AT[i*M + j] = weight1 * (D[i * N + j+1] - dhat[i]);
 		}
 	}
-	for(j = K; j < M; j++)
-		for(i = 0; i < L; i++)
-			AT[i*M + j] = sqrtf(Re[i * L + j - K]);
+	for (j = K; j < M; j++) {
+		for (i = 0; i < L; i++) {
+			AT[i * M + j] = sqrtf(Re[i * L + j - K]);
+		}
+	}
 
 	/* We need to do transpose on A according to the SR-UKF paper */
 	tran(AT, L, M);
@@ -219,8 +231,9 @@ static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc
 
 	/* Perform cholesky update on Sd */
 	float *b = (float*)malloc(L * sizeof(float));
-	for(i = 0; i < L; i++)
+	for (i = 0; i < L; i++) {
 		b[i] = D[i * N] - dhat[i];
+	}
 	bool rank_one_update = Wc[0] < 0.0f ? false : true;
 	cholupdate(Sd, b, L, rank_one_update);
 
@@ -253,8 +266,9 @@ static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float 
 	/* Create diagonal matrix */
 	float *diagonal_W = (float*)malloc(N * N * sizeof(float));
 	memset(diagonal_W, 0, N*N*sizeof(float));
-	for(i = 0; i < N; i++)
-		diagonal_W[i*N + i] = Wc[i];
+	for (i = 0; i < N; i++) {
+		diagonal_W[i * N + i] = Wc[i];
+	}
 
 	/* Do Pwd = W*diagonal_W*D' */
 	tran(D, L, N);
@@ -291,11 +305,13 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 	/* Compute what = what + K*(d - dhat) */
 	float *ddhat = (float*)malloc(L * sizeof(float));
 	float *Kd = (float*)malloc(L * sizeof(float));
-	for(i = 0; i < L; i++)
+	for (i = 0; i < L; i++) {
 		ddhat[i] = d[i] - dhat[i];
+	}
 	mul(K, ddhat, Kd, L, L, 1);
-	for(i = 0; i < L; i++)
+	for (i = 0; i < L; i++) {
 		what[i] = what[i] + Kd[i];
+	}
 
 	/* Compute U = K*Sd */
 	float *U = (float*)malloc(L * L * sizeof(float));
@@ -304,8 +320,9 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 	/* Compute Sw = cholupdate(Sw, Uk, -1) because Uk is a vector and U is a matrix */
 	float *Uk = (float*)malloc(L * sizeof(float));
 	for(j = 0; j < L; j++){
-		for(i = 0; i < L; i++)
-			Uk[i] = U[i*L + j];
+		for (i = 0; i < L; i++) {
+			Uk[i] = U[i * L + j];
+		}
 		cholupdate(Sw, Uk, L, false);
 	}
 
