@@ -328,6 +328,7 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 
 	/* Free */
 	free(SdT);
+	free(SdTSd);
 	free(K);
 	free(ddhat);
 	free(Kd);
