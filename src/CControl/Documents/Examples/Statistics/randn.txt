@@ -20,8 +20,9 @@ int main() {
 	randn(x, 1000, 10, 10);
 	float Mean = 0;
 	int i;
-	for(i = 0; i < 1000; i++)
+	for(i = 0; i < 1000; i++){
 		Mean += x[i];
+	}
 	Mean = Mean/1000;
 	printf("Mean = %f\n", Mean);
 
