@@ -120,6 +120,7 @@ static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uin
 
 		/* If we found no solution */
 		if (count > 1000) {
+			free(tableau);
 			return false;
 		}
 
