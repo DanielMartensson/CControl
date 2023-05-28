@@ -12,8 +12,9 @@
  * Turn A and B into discrete form
  */
 void c2d(float A[], float B[], uint8_t ADIM, uint8_t RDIM, float sampleTime) {
-	float *M = (float*)malloc((ADIM + RDIM) * (ADIM + RDIM) * sizeof(float));
-	memset(M, 0, sizeof(M));
+	size_t bytes_of_M = (ADIM + RDIM) * (ADIM + RDIM) * sizeof(float);
+	float *M = (float*)malloc(bytes_of_M);
+	memset(M, 0, bytes_of_M);
 	uint8_t i, j;
 	/* Create M = [A B; zeros(RDIM, ADIM) zeros(RDIM, RDIM)] */
 	for (i = 0; i < ADIM; i++) {

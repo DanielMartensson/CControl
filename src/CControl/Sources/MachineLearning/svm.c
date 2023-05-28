@@ -2,7 +2,7 @@
  * svm.c
  *
  *  Created on: 6 maj 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel Mï¿½rtensson
  */
 
 #include "../../Headers/Functions.h"
@@ -141,7 +141,7 @@ bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, fl
 		predicted_class_ID = sign(d + *b);
 		actual_class_ID = y[i];
 
-		// Count if the prediction is right
+		/* Count if the prediction is right */
 		if ((actual_class_ID > 0 && predicted_class_ID > 0) || (actual_class_ID < 0 && predicted_class_ID < 0)) {
 			counter++;
 		}
@@ -165,7 +165,7 @@ bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, fl
 	% Linear Support Vector Machine
 	% Input: x(Data matrix), y(Labels), C(Upper bondary), lambda(Regularization)
 	% Example: [w, b, accuracy] = lsvm(x, y, C, lambda);
-	% Author: Daniel Mårtensson, May 06, 2023
+	% Author: Daniel Mï¿½rtensson, May 06, 2023
 	% To verify the model, just use:
 	% class_ID = sign(w*x + b), where x is an unknown measurement vector
 

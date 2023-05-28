@@ -2,7 +2,7 @@
  * fisherfaces.c
  *
  *  Created on: 27 mars 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel Mï¿½rtensson
  */
 
 #include "../../Headers/Functions.h"
@@ -23,8 +23,8 @@ void fisherfaces_train(float X[], uint8_t y[], float W[], float P[], uint8_t com
 	mul(Wpca, Wlda, W, row, components, components);
 
 	/* Compute P = W'*X - Notice that we keep W as transpose because we are going to use that later in prediction */
-	//tran(W, ? , ? );
-	//mul(W, X, P, ? , ? , column);
+	/*tran(W, ? , ? );
+	mul(W, X, P, ? , ? , column);*/
 }
 
 void fisherfaces_predict() {
