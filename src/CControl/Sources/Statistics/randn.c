@@ -24,8 +24,9 @@ void randn(float x[], uint16_t length, float mu, float sigma){
 		has_been_called = true;
 	}
 	uint16_t i;
-	for(i = 0; i < length; i++)
+	for (i = 0; i < length; i++) {
 		x[i] = generate_gauss(mu, sigma);
+	}
 }
 
 static float generate_gauss(float mu, float sigma) {

@@ -11,4 +11,5 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(33,20): warning C4
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(718,48): message : see previous definition of 'logf'
 C:\Users\dmn\GitHub\CControl\src\CControl\Headers\Functions.h(34,20): warning C4273: 'sinf': inconsistent dll linkage
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\corecrt_math.h(721,48): message : see previous definition of 'sinf'
+C:\Users\dmn\GitHub\CControl\src\Main.c(23,1): warning C4305: 'initializing': truncation from 'double' to 'float'
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Debug\CControl.exe

@@ -113,8 +113,9 @@ static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float phi[],
 
 	/* Step 3: l + phiTP*phi = l + phi'*P*phi */
 	sum = 0;
-	for(i = 0; i < NP + NZ + NZE; i++)
+	for (i = 0; i < NP + NZ + NZE; i++) {
 		sum += phiTP[i] * phi[i];
+	}
 	sum += forgetting; /* Our LAMBDA */
 
 	/* Step 4: Pphi*phiTP = P*phi*phi'*P -> Matrix */
@@ -122,8 +123,9 @@ static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float phi[],
 	mul(Pphi, phiTP, PphiphiTP, NP + NZ + NZE, 1, NP + NZ + NZE);
 
 	/* Step 5: Compute P = 1/l*(P - 1/sum*PphiphiTP); */
-	for(i = 0; i < (NP + NZ + NZE)*(NP + NZ + NZE); i++)
-		P[i] = 1/forgetting * (P[i] - 1/sum * PphiphiTP[i]);
+	for (i = 0; i < (NP + NZ + NZE) * (NP + NZ + NZE); i++) {
+		P[i] = 1 / forgetting * (P[i] - 1 / sum * PphiphiTP[i]);
+	}
 
 	/* Compute theta = theta + P*phi*error; */
 	mul(P, phi, Pphi, NP + NZ + NZE, NP + NZ + NZE, 1);

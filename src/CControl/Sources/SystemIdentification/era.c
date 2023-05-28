@@ -42,11 +42,13 @@ void era(float u[], float y[], uint16_t row, uint16_t column, float A[], float B
 
 	/* Create C and B matrix */
 	for(i = 0; i < row_a; i++){
-		for(j = 0; j < inputs_outputs; j++)
-			C[j*row_a + i] = U[j*column_h + i]*sqrtf(S[i]); /* C = U*S^(1/2) */
+		for (j = 0; j < inputs_outputs; j++) {
+			C[j * row_a + i] = U[j * column_h + i] * sqrtf(S[i]); /* C = U*S^(1/2) */
+		}
 
-		for(j = 0; j < inputs_outputs; j++)
-			B[i*inputs_outputs + j] = sqrtf(S[i])*V[j*column_h + i]; /* B = S^(1/2)*V^T */
+		for (j = 0; j < inputs_outputs; j++) {
+			B[i * inputs_outputs + j] = sqrtf(S[i]) * V[j * column_h + i]; /* B = S^(1/2)*V^T */
+		}
 	}
 
 	/* A = S^(-1/2)*U^T*H*V*S^(-1/2) */
