@@ -115,52 +115,6 @@ int main() {
 }
 ```
 
-
-# TODO list
-
-- Change all vectors and matricies to `size_t` size from `uint8_t`, `uint16_t` and `uint32_t` size for more portability 
-- All indexing and loop counting must have the data type `size_t`
-- Brackets `{ }` for all statements
-- Rows are indexed with `i` and columns are indexed with `j`
-- All indexing of matricies should look like this
-- All integer constants must have `U` as ending
-- All floats constants must have `f` as ending
-- Matrix and vector operations must be optimal as possible, e.g.
-
-```c
-/* Creating the identity matrix */
-size_t i;
-memset(A, 0U, row*column*sizeof(float)); 
-float *A0 = A;
-for(i = 0U; i < row; i++){
-  A[i] = 1.0f;
-  A += column;
-}
-A = A0;
-```
-
-Instead of
-
-```c
-/* Creating the identity matrix */
-size_t i, j;
-memset(A, 0U, row*column*sizeof(float)); 
-for(i = 0U; i < row; i++){
-  for(j = 0U; j < column; j++){
-    if(i == j){
-      A[i*column + j] = 1.0f;
-    }
-  }
-}
-```
-
-- Integer multiplications such as `row * columns` must be of the data type `size_t` e.g `size_t row_column = row*column;`
-- Algorithms that need to have a signed variable e.g. `linsolve_upper_triangular.c` must be changed so they don't need a signed variable
-- Important to follow `MISRA C` standard as much as possible, even if this project is using dynamical memory allocation 
-- `uint8_t` that either return the status `0` or `1` should be replaced with `bool` data type
-- Use a memory analyzer when running all the examples. Need to create a list of the status of all `.c` files.
-
-
 # Projects made with CControl
 
 ## Fan Controller with Linear Quadratic Integral Control
