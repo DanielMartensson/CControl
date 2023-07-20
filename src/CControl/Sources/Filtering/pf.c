@@ -20,11 +20,11 @@
   */
 
 
-static void shift_matrix(float matrix[], float x[], uint8_t p, uint8_t* k, uint8_t m);
-static void kernel_density_estimation(float P[], float H[], float horizon[], float noise[], uint8_t m, uint8_t p);
+static void shift_matrix(float matrix[], float x[], size_t p, size_t* k, size_t m);
+static void kernel_density_estimation(float P[], float H[], float horizon[], float noise[], size_t m, size_t p);
 static float normal_pdf(float x, float mu, float sigma);
 
-void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], uint8_t m, uint8_t p, uint8_t* k) {
+void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], size_t m, size_t p, size_t* k) {
 
 	/* Horizon matrix shifting */
 	shift_matrix(horizon, x, p, k, m);
@@ -39,7 +39,7 @@ void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], 
 	float* H0 = H;
 
 	/* Estimate the next value */
-	uint8_t i, j, index = 0;
+	size_t i, j, index = 0;
 	float error, min_error, ratio, diff;
 	float *e = (float*)malloc(m * sizeof(float));;
 	for (i = 0; i < m; i++) {
@@ -96,9 +96,9 @@ void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], 
 	free(e);
 }
 
-static void shift_matrix(float matrix[], float x[], uint8_t p, uint8_t* k, uint8_t m) {
+static void shift_matrix(float matrix[], float x[], size_t p, size_t* k, size_t m) {
 	/* Matrix shifting */
-	uint8_t i, j;
+	size_t i, j;
 	for (i = 0; i < m; i++) {
 		/* Shift */
 		if (*k >= p - 1) {
@@ -115,7 +115,7 @@ static void shift_matrix(float matrix[], float x[], uint8_t p, uint8_t* k, uint8
 	}
 }
 
-static void kernel_density_estimation(float P[], float H[], float horizon[], float noise[], uint8_t m, uint8_t p) {
+static void kernel_density_estimation(float P[], float H[], float horizon[], float noise[], size_t m, size_t p) {
 	/* Save address */
 	float* P0 = P;
 
@@ -130,7 +130,7 @@ static void kernel_density_estimation(float P[], float H[], float horizon[], flo
 	float sigma;
 
 	/* Loop every row of P */
-	uint8_t i, j, k;
+	size_t i, j, k;
 	for (i = 0; i < m; i++) {
 		/* Create sigma std */
 		sigma = stddev(&noise[0], p);
@@ -153,7 +153,7 @@ static void kernel_density_estimation(float P[], float H[], float horizon[], flo
 	float y[1];
 	for (i = 0; i < m; i++) {
 		/* Do a sum of P */
-		sum(&P0[0], y, 1, p, 2); /* Column direction, get one value back */
+		sum(&P0[0], y, 1, p, 2U); /* Column direction, get one value back */
 		for (j = 0; j < p; j++) {
 			P0[j] /= y[0];
 		}

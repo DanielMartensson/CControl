@@ -33,16 +33,16 @@ int main() {
 					  0.44827 };
 
 	/* Do L1 norm */
-	printf("L1 norm of matrix X: %f\n", norm(X, row, column, 1));
-	printf("L1 norm of vector Y: %f\n", norm(Y, row, 1, 1));
+	printf("L1 norm of matrix X: %f\n", norm(X, row, column, NORM_METHOD_L1));
+	printf("L1 norm of vector Y: %f\n", norm(Y, row, 1, NORM_METHOD_L1));
 
 	/* Do L2 norm */
-	printf("L2 norm of matrix X: %f\n", norm(X, row, column, 2));
-	printf("L2 norm of vector Y: %f\n", norm(Y, row, 1, 2));
+	printf("L2 norm of matrix X: %f\n", norm(X, row, column, NORM_METHOD_L2));
+	printf("L2 norm of vector Y: %f\n", norm(Y, row, 1, NORM_METHOD_L2));
 
 	/* Do Frobenius norm */
-	printf("Frobenius norm of matrix X: %f\n", norm(X, row, column, 3));
-	printf("Frobenius norm of vector Y: %f\n", norm(Y, row, 1, 3));
+	printf("Frobenius norm of matrix X: %f\n", norm(X, row, column, NORM_METHOD_FROBENIUS));
+	printf("Frobenius norm of vector Y: %f\n", norm(Y, row, 1, NORM_METHOD_FROBENIUS));
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

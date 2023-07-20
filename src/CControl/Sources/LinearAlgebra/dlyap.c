@@ -16,9 +16,9 @@
  * P [m*n]
  * n == m
  */
-void dlyap(float* A, float* P, float* Q, uint16_t row){
+void dlyap(float A[], float P[], float Q[], size_t row) {
 	/* Decleration */
-	uint16_t k, l, i, j;
+	size_t k, l, i, j;
 
 	/* Create an zero large matrix M */
 	float *M = (float*)malloc(row * row * row * row * sizeof(float)); /* row_a^2 * row_a^2 */

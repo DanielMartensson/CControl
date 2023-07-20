@@ -11,7 +11,7 @@
  * This is linear Kalman filter state update
  * x = Ax - KCx + Bu + Ky
  */
-void kalman(float A[], float B[], float C[], float K[], float u[], float x[], float y[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM) {
+void kalman(float A[], float B[], float C[], float K[], float u[], float x[], float y[], size_t ADIM, size_t YDIM, size_t RDIM) {
 
 	/* Compute the vector A_vec = A*x */
 	float *A_vec = (float*)malloc((ADIM * 1) * sizeof(float));
@@ -34,7 +34,7 @@ void kalman(float A[], float B[], float C[], float K[], float u[], float x[], fl
 	mul(K, y, Ky_vec, ADIM, YDIM, 1);
 
 	/* Now add x = A_vec - KC_vec + B_vec + Ky_vec */
-	uint8_t i;
+	size_t i;
 	for (i = 0; i < ADIM; i++) {
 		x[i] = A_vec[i] - KC_vec[i] + B_vec[i] + Ky_vec[i];
 	}

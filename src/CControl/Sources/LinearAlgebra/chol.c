@@ -14,7 +14,7 @@
  * L [m*n]
  * n == m
  */
-void chol(float A[], float L[], uint16_t row) {
+void chol(float A[], float L[], size_t row) {
 	/* Save address */
 	float *Li = L;
 	float *Lj;
@@ -22,7 +22,7 @@ void chol(float A[], float L[], uint16_t row) {
 
 	memset(L, 0, row*row*sizeof(float));
 	float s;
-	uint16_t i, j, k;
+	size_t i, j, k;
 	for (i = 0; i < row; i++){
 		Lj = L;
 		for (j = 0; j <= i; j++) {
@@ -44,4 +44,3 @@ void chol(float A[], float L[], uint16_t row) {
 		Ai += row;
 	}
 }
-

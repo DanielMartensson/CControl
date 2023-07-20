@@ -10,7 +10,7 @@
 
 #include "CControl/Headers/Functions.h"
 
-/* Dimensions for input and output */
+ /* Dimensions for input and output */
 #define YDIM 1
 #define RDIM 1
 
@@ -57,7 +57,7 @@ int main() {
 	float phi[NP + NZ + NZE];
 	float P[(NP + NZ + NZE) * (NP + NZ + NZE)];
 	float theta[NP + NZ + NZE]; /* Remember that total length is POLY_LENGTH*3 - ALWAYS have these dimensions */
-	uint8_t i, count = 0; /* Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over */
+	size_t i, count = 0; /* Initial set to 0. Will be counted to 2 then stop. Set count = 0 again and the algorithm starts over */
 	for (i = 0; i < sizeof(output) / sizeof(output[0]); i++) {
 		rls(NP, NZ, NZE, theta, input[i], output[i], &count, &past_e, &past_y, &past_u, phi, P, Pq, forgetting);
 	}
@@ -109,7 +109,7 @@ int main() {
 	%y = y + 0.03*randn(1, length(y));
 
 	% Identification with recursive least squares and model order 5 and delay 0 and lambda 0.99
-	[Gd, Hd, sysd, K] = rls(u, y, 5, 5, 5, t(2)-t(1), 0, 0.99); % sysd contains K at column 2 of B
+	[Gd, Hd, sysd, K] = mi.rls(u, y, 5, 5, 5, t(2)-t(1), 0, 0.99); % sysd contains K at column 2 of B
 
 	% Transfer function to state space
 	sysd = tf2ss(Gd)

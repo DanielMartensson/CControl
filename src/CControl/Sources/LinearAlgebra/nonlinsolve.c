@@ -9,7 +9,7 @@
 
 static float check_solution(float dx[], float x[], float* past_sqrt_sum_dx, float best_x[], uint8_t* elements);
 
-void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], uint8_t elements, float alpha, float max_value, float min_value, bool random_guess_active){
+void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], size_t elements, float alpha, float max_value, float min_value, bool random_guess_active){
 	/* Initial parameters and arrays */
 	float *dx = (float*)malloc(elements * sizeof(float));
 	float best_sqrt_sum_dx = FLT_MAX;
@@ -17,21 +17,19 @@ void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), f
 	float *best_x = (float*)malloc(elements * sizeof(float));
 	float sqrt_sum_dx = 1;
 	float difference_value;
-	uint8_t times_until_break = 10;
-	uint16_t random_iterations = 20000;
-	uint8_t break_count = 0;
-	uint8_t maximum_gradients_index = 30;
-	uint8_t past_gradients[30]; /* This is for stochastic gradient descent */
-	memset(past_gradients, 0, maximum_gradients_index);
-	uint8_t gradient_index = 0;
-	uint32_t i;
-	uint8_t j;
+	size_t times_until_break = 10;
+	size_t break_count = 0;
+	size_t maximum_gradients_index = 30;
+	size_t past_gradients[30]; /* This is for stochastic gradient descent */
+	memset(past_gradients, 0, maximum_gradients_index * sizeof(size_t));
+	size_t gradient_index = 0;
+	size_t i, j;
 
 	/* Do random guesses */
 	if(random_guess_active){
 		srand(time(NULL));
 		difference_value = max_value - min_value;
-		for(i = 0; i < random_iterations; i++){
+		for(i = 0; i < MAX_ITERATIONS; i++){
 			/* Init x with random values between min_value and max_value */
 			for (j = 0; j < elements; j++) {
 				x[j] = difference_value * ((float)rand() / RAND_MAX) + min_value;
@@ -47,7 +45,7 @@ void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), f
 		/* Use gradient to find the best solution, beginning from best_x vector */
 		memcpy(x, best_x, sizeof(float)*elements);
 	}
-	for(i = 0; i < random_iterations; i++){
+	for(i = 0; i < MAX_ITERATIONS; i++){
 		/* Simulate the nonlinear system */
 		(*nonlinear_equation_system)(dx, b, x);
 

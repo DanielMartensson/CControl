@@ -18,12 +18,12 @@ static float generate_gauss(float mu, float sigma);
 
 static bool has_been_called = false;
 
-void randn(float x[], uint16_t length, float mu, float sigma){
+void randn(float x[], size_t length, float mu, float sigma){
 	if(!has_been_called){
 		srand(time(NULL));
 		has_been_called = true;
 	}
-	uint16_t i;
+	size_t i;
 	for (i = 0; i < length; i++) {
 		x[i] = generate_gauss(mu, sigma);
 	}
@@ -32,7 +32,7 @@ void randn(float x[], uint16_t length, float mu, float sigma){
 static float generate_gauss(float mu, float sigma) {
 	float U1, U2, W, scalar;
 	static float X1, X2;
-	static int call = 0;
+	static int32_t call = 0;
 
 	if (call == 1) {
 		call = !call;

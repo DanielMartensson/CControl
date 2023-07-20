@@ -7,14 +7,14 @@
 
 #include "../../Headers/Functions.h"
 
-static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t HORIZON);
-static void cab(float GAMMA[], float PHI[], float B[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON);
+static void obsv(float PHI[], float A[], float C[], size_t ADIM, size_t YDIM, size_t HORIZON);
+static void cab(float GAMMA[], float PHI[], float B[], float C[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON);
 
 /*
  * Model predictive control with linear programming
  * Hint: Look up lmpc.m in Matavecontrol
  */
-void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON, bool has_integration){
+void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON, bool has_integration){
 	/* TODO: This is under development 
 	
 	// Create the extended observability matrix
@@ -29,8 +29,8 @@ void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], uint
 	// Find the input value from GAMMA and PHI
 	// R_vec = R*r
 	float R_vec[HORIZON * YDIM];
-	for (uint8_t i = 0; i < HORIZON * YDIM; i++) {
-		for (uint8_t j = 0; j < YDIM; j++) {
+	for (size_t i = 0; i < HORIZON * YDIM; i++) {
+		for (size_t j = 0; j < YDIM; j++) {
 			R_vec[i + j] = r[j];
 		}
 		i += YDIM - 1;
@@ -42,7 +42,7 @@ void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], uint
 
 	// R_PHI_vec = R_vec - PHI_vec
 	float R_PHI_vec[HORIZON * YDIM];
-	for(uint8_t i = 0; i < HORIZON * YDIM; i++){
+	for(size_t i = 0; i < HORIZON * YDIM; i++){
 		*(R_PHI_vec + i) = *(R_vec + i) - *(PHI_vec + i);
 	}
 
@@ -74,12 +74,12 @@ void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], uint
 	// We select the best input values, depending on if we have integration behavior or not in our model
 	if(has_integration == true){
 		// Set first R_vec to u - Done
-		for(uint8_t i = 0; i < RDIM; i++){
+		for(size_t i = 0; i < RDIM; i++){
 			u[i] = R_vec[i];
 		}
 	}else{
 		// Set last R_vec to u - Done
-		for(uint8_t i = 0; i < RDIM; i++){
+		for(size_t i = 0; i < RDIM; i++){
 			u[i] = R_vec[HORIZON * RDIM - RDIM + i];
 		}
 	}
@@ -90,9 +90,9 @@ void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], uint
 /*
  * [C*A^1; C*A^2; C*A^3; ... ; C*A^HORIZON] % Extended observability matrix
  */
-static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t HORIZON) {
+static void obsv(float PHI[], float A[], float C[], size_t ADIM, size_t YDIM, size_t HORIZON) {
 	/* Decleration */
-	uint8_t i;
+	size_t i;
 
 	/* This matrix will A^(i+1) all the time */
 	float *A_copy = (float*)malloc(ADIM * ADIM * sizeof(float));
@@ -126,9 +126,9 @@ static void obsv(float PHI[], float A[], float C[], uint8_t ADIM, uint8_t YDIM, 
  * Lower triangular toeplitz of extended observability matrix
  * CAB stands for C*A^i*B because every element is C*A*B
  */
-static void cab(float GAMMA[], float PHI[], float B[], float C[], uint8_t ADIM, uint8_t YDIM, uint8_t RDIM, uint8_t HORIZON){
+static void cab(float GAMMA[], float PHI[], float B[], float C[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON){
 	/* Decleration */
-	uint8_t i, j;
+	size_t i, j;
 
 	/* First create the initial C*A^0*B == C*I*B == C*B */
 	float *CB = (float*)malloc(YDIM * RDIM * sizeof(float));

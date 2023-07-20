@@ -18,7 +18,7 @@
  * y [m*n]
  * g [m*n] Markov parameters
  */
-void okid(float u[], float y[], float g[], uint16_t row, uint16_t column){
+void okid(float u[], float y[], float g[], size_t row, size_t column){
 
 	/* This is just a simple linear solve Ax = b where A is lower toeplitz triangular shape
 	 * but A is a vector of g. So the formula is y' = g*u
@@ -37,7 +37,7 @@ void okid(float u[], float y[], float g[], uint16_t row, uint16_t column){
 	 */
 	memset(g, 0, row*column*sizeof(float));
 	float sum;
-	uint16_t k, i, j;
+	size_t k, i, j;
 	for(k = 0; k < row; k++){ /* If we have more than 1 rows = MIMO system */
 		for (i = 0; i < column; i++) {
 			sum = 0;

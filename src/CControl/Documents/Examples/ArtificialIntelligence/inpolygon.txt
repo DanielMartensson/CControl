@@ -13,9 +13,9 @@
 int main() {
 
 	/* Create the polygon coordinates */
-	float px[12] = {47.3364,   59.7788,   65.0323,   62.5438,   51.4839,   38.7650,   36.5530,   36.5530,   37.1060,   40.1475,   46.5069,   47.3364};
-	float py[12] = { -3.2484,    6.8953,   22.4731,   32.2546,   39.5001,   33.3414,   18.8504,    5.4462,   -3.9730,  -11.9430,  -12.3053,  -3.2484};
-	uint8_t p = 12;
+	float px[12] = { 47.3364,   59.7788,   65.0323,   62.5438,   51.4839,   38.7650,   36.5530,   36.5530,   37.1060,   40.1475,   46.5069,   47.3364 };
+	float py[12] = { -3.2484,    6.8953,   22.4731,   32.2546,   39.5001,   33.3414,   18.8504,    5.4462,   -3.9730,  -11.9430,  -12.3053,  -3.2484 };
+	size_t p = 12;
 
 	/* Check if this coordinate is inside the polygon */
 	float x = 62.035;
@@ -27,10 +27,10 @@ int main() {
 
 	/* Perform algorithm */
 	uint8_t is_inside = inpolygon(x, y, px, py, p);
-	printf("Is inside? %i", is_inside);
+	printf("Is inside? %s", is_inside ? "yes" : "no");
 
 	end = clock();
-	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 	return EXIT_SUCCESS;

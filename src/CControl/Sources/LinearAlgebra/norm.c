@@ -8,23 +8,20 @@
 #include "../../Headers/Functions.h"
 
 /*
- * Find the norm of X
+ * Find the norm of X. Use the NORM_METOD enum
  * A[m*n]
- * norm_method = 1 = L1 norm
- * norm_method = 2 = L2 norm
- * norm_method = 3 = Frobenius norm
  */
-float norm(float X[], uint16_t row, uint16_t column, uint8_t norm_method){
+float norm(float X[], size_t row, size_t column, NORM_METHOD norm_method){
 	/* Create a new matrix A */
 	float* A = (float*)malloc(row * column * sizeof(float));
 	memcpy(A, X, row * column * sizeof(float));
 
 	/* Decleration */
-	uint16_t i, j;
+	size_t i, j;
 	float return_value = 0;
 	float* A0 = A;
 
-	if(norm_method == 1){
+	if(NORM_METHOD_L1 == norm_method){
 		/* Vector */
 		if((row == 1 && column > 0) || (row > 0 && column == 1)){
 			j = row > column ? row : column;
@@ -55,7 +52,7 @@ float norm(float X[], uint16_t row, uint16_t column, uint8_t norm_method){
 			}
 		}
 	}
-	else if(norm_method == 2){
+	else if(NORM_METHOD_L2 == norm_method){
 		/* Vector */
 		if((row == 1 && column > 0) || (row > 0 && column == 1)){
 			float sqrt_sum = 0, element;
@@ -90,7 +87,7 @@ float norm(float X[], uint16_t row, uint16_t column, uint8_t norm_method){
 			free(V);
 		}
 	}
-	else if (norm_method == 3) {
+	else if (NORM_METHOD_FROBENIUS == norm_method) {
 		float sum_sqrt = 0, element;
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < column; j++) {
@@ -102,6 +99,7 @@ float norm(float X[], uint16_t row, uint16_t column, uint8_t norm_method){
 		}
 		return_value = sqrtf(sum_sqrt);
 	}
+	/* add more norms here */
 
 	/* Reset */
 	A = A0;
@@ -110,5 +108,4 @@ float norm(float X[], uint16_t row, uint16_t column, uint8_t norm_method){
 	free(A);
 
 	return return_value;
-	/* add more norms here */
 }

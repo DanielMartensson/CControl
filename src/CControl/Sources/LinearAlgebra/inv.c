@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row);
+static bool solve(float x[], float b[], size_t P[], float LU[], size_t row);
 
 /*
  * A to A^(-1)
@@ -16,37 +16,36 @@ static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row
  * Finding inverse is very cost expensive. Better to solve Ax=b instead
  * A[m*n]
  * n == m
- * Returns 1 == Success
- * Returns 0 == Fail
+ * Returns true == Success
+ * Returns false == Fail
  */
-uint8_t inv(float A[], uint16_t row) {
+bool inv(float A[], size_t row) {
 
 	/* Create iA matrix */
 	float *iA = (float*)malloc(row * row * sizeof(float));
 	float *A0 = iA; 
 
-	/* Create temporary matrix and status variable */
+	/* Create temporary matrix */
 	float *tmpvec = (float*)malloc(row * sizeof(float));
 	memset(tmpvec, 0, row*sizeof(float));
-	uint8_t status = 0;
 
 	/* Check if the determinant is 0 */
 	float *LU = (float*)malloc(row * row * sizeof(float));
-	uint8_t *P = (uint8_t*)malloc(row * sizeof(uint8_t));
-	status = lup(A, LU, P, row);
-    if (status != 0) {
+	size_t *P = (size_t*)malloc(row * sizeof(size_t));
+	bool ok = lup(A, LU, P, row);
+    if (ok) {
         /* Create the inverse */
-        uint16_t i;
+        size_t i;
         for (i = 0; i < row; i++) {
             tmpvec[i] = 1.0f;
             if (!solve(iA, tmpvec, P, LU, row)) {
-                status = 0;
+                ok = false;
                 break;
             }
             tmpvec[i] = 0.0f;
 			iA += row;
         }
-        if (status != 0) {
+        if (ok) {
             /* Transpose of iA */
 			iA = A0; /* Reset position */
             tran(iA, row, row);
@@ -61,18 +60,17 @@ uint8_t inv(float A[], uint16_t row) {
 	free(LU);
 	free(P);
 
-	return status;
+	return ok;
 }
 
-static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row){
+static bool solve(float x[], float b[], size_t P[], float LU[], size_t row){
 	/* forward substitution with pivoting */
-	int32_t i;
-	uint16_t j;
+	int32_t i, j;
 	for (i = 0; i < row; ++i) {
 		x[i] = b[P[i]];
-
-		for (j = 0; j < i; ++j)
+		for (j = 0; j < i; ++j) {
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
+		}
 	}
 
 	/* backward substitution with pivoting */
@@ -81,13 +79,15 @@ static uint8_t solve(float x[], float b[], uint8_t P[], float LU[], uint16_t row
 			x[i] = x[i] - LU[row * P[i] + j] * x[j];
 		
 		/* Just in case if we divide with zero */
-		if(fabsf(LU[row * P[i] + i]) > FLT_EPSILON)
+		if (fabsf(LU[row * P[i] + i]) > MIN_VALUE) {
 			x[i] = x[i] / LU[row * P[i] + i];
-		else
-			return 0;
+		}
+		else {
+			return false;
+		}
 	}
 	
-	return 1; /* No problems */
+	return true; /* No problems */
 }
 
 /*

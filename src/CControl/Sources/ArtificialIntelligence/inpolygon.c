@@ -11,15 +11,15 @@
  * Check if the coordinates x and y are inside the polygon px and py
  * px[p] - Points in x-axis
  * py[p] - Points in y-axis
- * Return 1 or 0 if the coordinate x,y is inside the polygon px, py
+ * Return true or false if the coordinate x,y is inside the polygon px, py
  */
-uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p){
+bool inpolygon(float x, float y, float px[], float py[], size_t p){
 	/* Get the max y, min y, max x, min y */
 	float max_y = py[0];
 	float max_x = px[0];
 	float min_y = py[0];
 	float min_x = px[0];
-	uint8_t i;
+	size_t i;
 	for(i = 0; i < p; i++){
 		max_y = vmax(py[i], max_y);
 		max_x = vmax(px[i], max_x);
@@ -33,9 +33,9 @@ uint8_t inpolygon(float x, float y, float px[], float py[], uint8_t p){
 	}
 
 	/* Do a better check */
-	uint8_t ok = 0;
+	bool ok = false;
 	i = 0;
-	uint8_t j = p - 1;
+	size_t j = p - 1;
 	while (i < p) {
 		max_x = px[i];
 		min_x = px[j];

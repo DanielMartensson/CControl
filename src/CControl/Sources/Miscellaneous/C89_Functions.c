@@ -5,7 +5,11 @@
  *      Author: Daniel Mårtensson
  */
 
+#ifndef C89_Functions
+#define C89_Functions
+#ifndef _MSC_VER
 #include "../../Headers/Functions.h"
+#ifndef __cplusplus
 
  /* C99 has the __STDC_VERSION 199901L */
 #if __STDC_VERSION__ < 199901L		
@@ -36,4 +40,7 @@ float logf(float x){
 float sinf(float x){
 	return (float) sin(x);
 }
+#endif
+#endif
+#endif // !_MSC_VER
 #endif

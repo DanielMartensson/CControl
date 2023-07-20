@@ -11,8 +11,8 @@
  * Balance a real matrix
  * A [m*n]
  */
-void balance(float A[], uint16_t row){
-	uint16_t i, j, last = 0;
+void balance(float A[], size_t row){
+	size_t i, j, last = 0;
 	float s, r, g, f, c, sqrdx;
 
 	/* Save memory */

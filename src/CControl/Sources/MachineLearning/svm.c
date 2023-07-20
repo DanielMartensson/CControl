@@ -20,12 +20,12 @@
  * class_ID = sign(w*x + b), where x is an unknown measurement vector
  * 
  */
-bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, uint16_t row, uint16_t column) {
+bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column) {
 	/* Create Q = (y*y').*(X*X') */
 	float* Q = (float*)malloc(row * row * sizeof(float));
 	float* Q0 = Q;
 	memset(Q, 0, row * row * sizeof(float));
-	uint16_t i, j, k;
+	size_t i, j, k;
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < row; j++) {
 			for (k = 0; k < column; k++) {
@@ -54,7 +54,7 @@ bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, fl
 	 * Aeq = y';
 	 * G = [eye(size(Q)); -eye(size(Q)); Aeq; -Aeq]
 	 */
-	const uint16_t row_g = row + row + 2;
+	const size_t row_g = row + row + 2;
 	float* G = (float*)malloc(row_g * row * sizeof(float));
 	float* G0 = G;
 	memset(G, 0, row_g * row * sizeof(float));
@@ -112,7 +112,7 @@ bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, fl
 	*b = 0.0f;
 	X = X0;
 	float d;
-	uint16_t counter = 0;
+	size_t counter = 0;
 	for (i = 0; i < row; i++) {
 		/* Support vectors have non zero lagrange multipliers */
 		if (alpha[i] > tol) {

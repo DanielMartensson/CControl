@@ -14,14 +14,14 @@
  * x [n]
  * n == m
  */
-void linsolve_lower_triangular(float A[], float x[], float b[], uint16_t row) {
+void linsolve_lower_triangular(float A[], float x[], float b[], size_t row) {
 	/* Save address */
 	float *A0 = &A[0];
 
 	/* Time to solve x from Ax = b. */
 	memset(x, 0, row*sizeof(float));
 	float sum;
-	uint16_t i, j;
+	size_t i, j;
 	for (i = 0; i < row; i++) {
 		sum = 0.0f;
 		for (j = 0; j < i; j++)

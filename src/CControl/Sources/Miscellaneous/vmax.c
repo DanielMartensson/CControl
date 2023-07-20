@@ -11,9 +11,11 @@
  * Return max value of a and b
  */
 float vmax(float a, float b){
-	if(a > b)
+	if (a > b) {
 		return a;
-	else
+	}
+	else {
 		return b;
+	}
 }
 

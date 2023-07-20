@@ -7,8 +7,8 @@
 
 #include "../../Headers/Functions.h"
 
-static void center_data(float X[], uint16_t row, uint16_t column);
-static void compute_components(float X[], float W[], uint8_t components, uint16_t row, uint16_t column);
+static void center_data(float X[], size_t row, size_t column);
+static void compute_components(float X[], float W[], size_t components, size_t row, size_t column);
 
 /*
  * Principal Component Analysis (PCA)
@@ -18,7 +18,7 @@ static void compute_components(float X[], float W[], uint8_t components, uint16_
  * P[m*components]
  */
 
-void pca(float X[], float W[], float P[], uint8_t components, uint16_t row, uint16_t column) {
+void pca(float X[], float W[], float P[], size_t components, size_t row, size_t column) {
 	/* Copy the data X -> Y */
 	float* Y = (float*)malloc(row * column * sizeof(float));
 	memcpy(Y, X, row * column * sizeof(float));
@@ -46,8 +46,8 @@ void pca(float X[], float W[], float P[], uint8_t components, uint16_t row, uint
 	free(S);
 }
 
-static void center_data(float X[], uint16_t row, uint16_t column) {
-	uint16_t i, j;
+static void center_data(float X[], size_t row, size_t column) {
+	size_t i, j;
 	float mu;
 	float* X0 = X;
 	/* Column-Major */
@@ -70,7 +70,7 @@ static void center_data(float X[], uint16_t row, uint16_t column) {
 	tran(X, column, row);
 }
 
-static void compute_components(float X[], float W[], uint8_t components, uint16_t row, uint16_t column) {
+static void compute_components(float X[], float W[], size_t components, size_t row, size_t column) {
 	/* Compute [U, S, V] = svd(A) */
 	float* U = (float*)malloc(row * column * sizeof(float));
 	float* S = (float*)malloc(column * sizeof(float));
@@ -79,7 +79,7 @@ static void compute_components(float X[], float W[], uint8_t components, uint16_
 	svd_jacobi_one_sided(X, column, U, S, V);
 
 	/* Get the components from V */
-	uint16_t i, bytes_shift = components * sizeof(float);
+	size_t i, bytes_shift = components * sizeof(float);
 	for (i = 0; i < column; i++) {
 		memcpy(W, V, bytes_shift); /* Move data from V to W, then shift the array position */
 		W += components;

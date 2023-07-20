@@ -16,28 +16,26 @@
  * y[m] if dim = 1
  * y[n] if dim = 2
  */
-void sum(float x[], float y[], uint16_t row, uint16_t column, uint8_t dim) {
+void sum(float x[], float y[], size_t row, size_t column, bool row_direction) {
 	/* Decleration */
-	uint16_t i, j;
+	size_t i, j;
 
 	/* Save address */
 	float *x0 = x;
 
-	switch(dim){
-	case 1:
+	if (row_direction) {
 		/* Clear */
-		memset(y, 0, column*sizeof(float));
+		memset(y, 0, column * sizeof(float));
 
 		/* Fill */
-		for(j = 0; j < column; j++){
+		for (j = 0; j < column; j++) {
 			x0 = x; /* Reset */
-			for(i = 0; i < row; i++){
+			for (i = 0; i < row; i++) {
 				y[j] += x0[j];
 				x0 += column;
 			}
 		}
-		break;
-	case 2:
+	}else{
 		/* Clear */
 		memset(y, 0, row*sizeof(float));
 
@@ -48,6 +46,5 @@ void sum(float x[], float y[], uint16_t row, uint16_t column, uint8_t dim) {
 			}
 			x0 += column;
 		}
-		break;
 	}
 }

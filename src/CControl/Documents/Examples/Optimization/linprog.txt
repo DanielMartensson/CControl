@@ -13,23 +13,23 @@
 int main() {
 
 	/* Matrix A */
-	float A[6*4] = {0.7179787,   0.7985186,   0.1000046,   0.2203064,
+	float A[6 * 4] = { 0.7179787,   0.7985186,   0.1000046,   0.2203064,
 					0.9044292,   0.5074379,   0.3539301,   0.9475452,
 					0.0029252,   0.4930148,   0.3209303,   0.5289174,
 					0.6546133,   0.7354447,   0.9989453,   0.0310190,
 					0.7434944,   0.0874402,   0.3388867,   0.8256180,
-					0.7483093,   0.3624991,   0.2039784,   0.5528368};
+					0.7483093,   0.3624991,   0.2039784,   0.5528368 };
 
 	/* Vector b */
-	float b[6] = {0.31028,
+	float b[6] = { 0.31028,
 				  0.69595,
 				  0.31662,
 				  0.33631,
 				  0.15131,
-				  0.83935};
+				  0.83935 };
 
 	/* Lower and upper bounds are b_l <= Ax <= b_u, which is [A; -A]x = [b_u; -b_l] (notice the negative signs!) */
-	float bounds_A[(6*2)*4] = {0.7179787,   0.7985186,   0.1000046,   0.2203064,
+	float bounds_A[(6 * 2) * 4] = { 0.7179787,   0.7985186,   0.1000046,   0.2203064,
 							   0.9044292,   0.5074379,   0.3539301,   0.9475452,
 							   0.0029252,   0.4930148,   0.3209303,   0.5289174,
 							   0.6546133,   0.7354447,   0.9989453,   0.0310190,
@@ -40,8 +40,8 @@ int main() {
 							  -0.0029252,  -0.4930148,  -0.3209303,  -0.5289174,
 							  -0.6546133,  -0.7354447,  -0.9989453,  -0.0310190,
 							  -0.7434944,  -0.0874402,  -0.3388867,  -0.8256180,
-							  -0.7483093,  -0.3624991,  -0.2039784,  -0.5528368};
-	float bounds_b[6*2] = {0.90000, /* upper */
+							  -0.7483093,  -0.3624991,  -0.2039784,  -0.5528368 };
+	float bounds_b[6 * 2] = { 0.90000, /* upper */
 						   0.60000, /* upper */
 						   0.60000, /* upper */
 						   0.90000, /* upper */
@@ -52,13 +52,13 @@ int main() {
 						   0.50000, /* lower */
 						   1.00000, /* lower */
 						   0.40000, /* lower */
-						   0.20000}; /* lower */
+						   0.20000 }; /* lower */
 
 	/* Objective function is c^T = bounds_A^T*bounds_b */
-	float c[4] = {1.64160,
+	float c[4] = { 1.64160,
 				  0.92620,
 				  0.47139,
-				  1.43351};
+				  1.43351 };
 
 
 	/* Solution that need to have the same rows and columns from A */
@@ -66,14 +66,14 @@ int main() {
 
 
 	/* Minimization problem: */
-	float C2[2] = {9,
-				   4};
-	float A2[3*2] = {22, 13,
-    				 1, 5,
-					 1, 20};
-	float B2[3] = {25,
+	float C2[2] = { 9,
+				   4 };
+	float A2[3 * 2] = { 22, 13,
+					 1, 5,
+					 1, 20 };
+	float B2[3] = { 25,
 				   7,
-	                7};
+					7 };
 	float y[2]; /* Solution! */
 
 	/*
@@ -92,15 +92,13 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 	/* Do a maximization problem: */
-	uint8_t max_or_min = 0;
-	bool solution_max = linprog(c, bounds_A, bounds_b, x, 6*2, 4, max_or_min);
+	bool solution_max = linprog(c, bounds_A, bounds_b, x, 6 * 2, 4, true);
 
 	/* Do a minimization problem: */
-	max_or_min = 1;
-	bool solution_min = linprog(C2, A2, B2, y, 3, 2, max_or_min);
+	bool solution_min = linprog(C2, A2, B2, y, 3, 2, false);
 
 	end = clock();
-	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 	/* Print x */
@@ -151,18 +149,18 @@ int main() {
 
 	x = glpk(c', bounds_A, bounds_b, [0;0;0;0], [], "UUUUUUUUUUUU", "CCCC", -1)
 
-  	// Do minimization
+	// Do minimization
 	 A2 = [22  13;
-        	1   5;
-        	1 20];
+			1   5;
+			1 20];
 
-  	  C2 = [9;
-        	4];
+	  C2 = [9;
+			4];
 
-  	  B2 = [25;
-        	 7;
-         	 7];
+	  B2 = [25;
+			 7;
+			 7];
 
-  	  y = glpk(C2', A2, B2, [0;0], [], "LLL", "CC", 1)
+	  y = glpk(C2', A2, B2, [0;0], [], "LLL", "CC", 1)
  *
  */

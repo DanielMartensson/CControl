@@ -13,49 +13,48 @@
 #define ADIM 2
 #define RDIM 1
 #define YDIM 1
-#define ANTI_WINDUP 0
 
 int main() {
 
 	/* Model A, B, C, D */
 	float A[ADIM * ADIM] = { 0.89559,   0.37735,
-		                    -0.37735,   0.51825};
+							-0.37735,   0.51825 };
 
-	float B[ADIM * RDIM] ={  0.20881,
-		                     0.75469};
+	float B[ADIM * RDIM] = { 0.20881,
+							 0.75469 };
 
-	float C[YDIM * ADIM] = {1, 0};
+	float C[YDIM * ADIM] = { 1, 0 };
 
 	/* Kalman steady state matrix K */
-	float K[ADIM * YDIM] = {0.58006,
-			               -0.22391};
+	float K[ADIM * YDIM] = { 0.58006,
+						   -0.22391 };
 
 	/* Control law L */
-	float L[RDIM * ADIM] = {1.56766, 0.85103};
+	float L[RDIM * ADIM] = { 1.56766, 0.85103 };
 
 	/* Integral law Li */
-	float Li[RDIM] = {0.50135};
+	float Li[RDIM] = { 0.50135 };
 
 	/* Initial states - Normally set to zero */
-	float x[ADIM] = {0};
-	float xi[1] = {0};
+	float x[ADIM] = { 0 };
+	float xi[1] = { 0 };
 
 	/* Input signal, reference signal, output signal and state vector x and xi */
 	float qi = 0.1;		 /* <-- Tune this in between 0->1, but qi =/= 1. */
-	float u[RDIM] = {0}; /* <-- This is our input value we want to have */
-	float r[RDIM] = {25}; /* <-- This is what we want to see. */
-	float y[YDIM] = {0}; /* <-- This is our measurement. Set it. */
+	float u[RDIM] = { 0 }; /* <-- This is our input value we want to have */
+	float r[RDIM] = { 25 }; /* <-- This is what we want to see. */
+	float y[YDIM] = { 0 }; /* <-- This is our measurement. Set it. */
 
 	/* Control LQI */
-	lqi(y, u, qi, r, L, Li, x, xi, ADIM, YDIM, RDIM, ANTI_WINDUP);
+	lqi(y, u, qi, r, L, Li, x, xi, ADIM, YDIM, RDIM, ANTI_WINUP_ALWAYS_INTEGRATE);
 
 	/* Estimate the state x */
 	kalman(A, B, C, K, u, x, y, ADIM, YDIM, RDIM);
 
 	/* Check the inputs */
-	int i;
-	for(i = 0; i < RDIM; i++){
-		printf("u%d = %f\n", i, *(u+i));
+	size_t i;
+	for (i = 0; i < RDIM; i++) {
+		printf("u%i = %f\n", i, u[i]);
 	}
 
 	return EXIT_SUCCESS;

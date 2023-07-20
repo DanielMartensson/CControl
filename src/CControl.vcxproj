@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CControl\Headers\Enums.h" />
     <ClInclude Include="CControl\Headers\Functions.h" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +64,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\tran.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\C89_Functions.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cut.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\insert.c" />
@@ -94,6 +96,7 @@
   <ItemGroup>
     <Text Include="CControl\Documents\Examples\Filtering\rpca.txt" />
     <Text Include="CControl\Documents\Examples\LinearAlgebra\eig_sym_generalized.txt" />
+    <Text Include="CControl\Documents\Examples\LinearAlgebra\expm.txt" />
     <Text Include="CControl\Documents\Examples\LinearAlgebra\norm.txt" />
     <Text Include="CControl\Documents\Examples\MachineLearning\svm.txt" />
     <Text Include="CControl\Documents\Examples\Optimization\lsqnonneg.txt" />

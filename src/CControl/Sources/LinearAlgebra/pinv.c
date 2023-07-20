@@ -14,9 +14,9 @@
  * A+ = V*inv(S)*U'
  * This return matrix A [n*m] - Reversed size
  */
-void pinv(float A[], uint16_t row, uint16_t column){
+void pinv(float A[], size_t row, size_t column){
 	/* Decleration */
-	uint16_t i, j;
+	size_t i, j;
 
 	/* Use Golub and Reinch if row != column */
 	float *U = (float*)malloc(row * column * sizeof(float));
@@ -51,6 +51,5 @@ void pinv(float A[], uint16_t row, uint16_t column){
 	free(U);
 	free(S);
 	free(V);
-
 }
 

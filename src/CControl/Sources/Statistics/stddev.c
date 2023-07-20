@@ -13,6 +13,6 @@
  * x[L] Vector with values
  * L = Length of vector x
  */
-float stddev(float x[], uint16_t length) {
+float stddev(float x[], size_t length) {
 	return sqrtf(var(x, length));
 }

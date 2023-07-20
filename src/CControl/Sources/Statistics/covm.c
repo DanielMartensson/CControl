@@ -12,12 +12,12 @@
    * X[m*n]
    * Y[n*n]
    */
-void covm(float X[], float Y[], uint16_t row, uint16_t column) {
+void covm(float X[], float Y[], size_t row, size_t column) {
 	/* Turn X into transpose because it's easier to handle the rows */
 	tran(X, row, column);
 
 	/* Compute the diagonal variance of X */
-	uint16_t i, j, k;
+	size_t i, j, k;
 	float* X0 = X;
 	float* Y0 = Y;
 	for (i = 0; i < column; i++) {

@@ -7,8 +7,8 @@
 
 #include "../../Headers/Functions.h"
 
-static void average_vector(float A[], float mu[], uint16_t row, uint16_t column);
-static void center_data(float X[], float mu[], uint16_t row, uint16_t column);
+static void average_vector(float A[], float mu[], size_t row, size_t column);
+static void center_data(float X[], float mu[], size_t row, size_t column);
 
 /*
   * Linear Discriminant Analysis (LDA)
@@ -19,13 +19,13 @@ static void center_data(float X[], float mu[], uint16_t row, uint16_t column);
   * P[components*n]
   */
 
-void lda(float X[], uint8_t y[], float W[], float P[], uint8_t components, uint16_t row, uint16_t column) {
+void lda(float X[], size_t y[], float W[], float P[], size_t components, size_t row, size_t column) {
 	/* Create average vector mu_X = mean(X, 2) */
 	float* mu_X = (float*)malloc(row * sizeof(float));
 	average_vector(X, mu_X, row, column);
 
 	/* Count classes */
-	uint8_t amount_of_classes = y[column - 1] + 1;
+	size_t amount_of_classes = y[column - 1] + 1;
 
 	/* Create scatter matrices Sw and Sb */
 	uint32_t scatter_matrix_size = row * row;
@@ -36,9 +36,9 @@ void lda(float X[], uint8_t y[], float W[], float P[], uint8_t components, uint1
 	memset(Sb, 0, scatter_matrix_size * sizeof(float));
 
 	/* How many samples of each class */
-	uint8_t i;
-	uint8_t* samples_of_each_class = (uint8_t*)malloc(amount_of_classes);
-	memset(samples_of_each_class, 0, amount_of_classes);
+	size_t i;
+	size_t* samples_of_each_class = (size_t*)malloc(amount_of_classes * sizeof(size_t));
+	memset(samples_of_each_class, 0, amount_of_classes * sizeof(size_t));
 	for (i = 0; i < column; i++) {
 		samples_of_each_class[y[i]]++;
 	}
@@ -48,8 +48,8 @@ void lda(float X[], uint8_t y[], float W[], float P[], uint8_t components, uint1
 	float *XiXiT = (float*)malloc(row * row * sizeof(float));
 	float *mu_Xi = (float*)malloc(row * sizeof(float));
 	float *diff = (float*)malloc(row * sizeof(float));
-	uint8_t j, samples_of_class;
-	uint16_t k;
+	size_t j, samples_of_class;
+	size_t k;
 	uint32_t l;
 	for (i = 0; i < amount_of_classes; i++) {
 		/* Get samples of each class */
@@ -150,8 +150,8 @@ void lda(float X[], uint8_t y[], float W[], float P[], uint8_t components, uint1
 	free(d);
 }
 
-static void average_vector(float X[], float mu[], uint16_t row, uint16_t column) {
-	uint16_t i;
+static void average_vector(float X[], float mu[], size_t row, size_t column) {
+	size_t i;
 	for (i = 0; i < row; i++) {
 		/* Average data mu = mean(X, 2) */
 		mu[i] = mean(X, column);
@@ -161,8 +161,8 @@ static void average_vector(float X[], float mu[], uint16_t row, uint16_t column)
 	}
 }
 
-static void center_data(float X[], float mu[], uint16_t row, uint16_t column) {
-	uint16_t i, j;
+static void center_data(float X[], float mu[], size_t row, size_t column) {
+	size_t i, j;
 	for (i = 0; i < row; i++) {
 		/* Center the data X = X - mu */
 		for (j = 0; j < column; j++) {

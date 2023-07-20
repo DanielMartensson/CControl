@@ -12,12 +12,12 @@
  * A[m*n]
  * m == n
  */
-void expm(float A[], uint16_t row){
+bool expm(float A[], size_t row){
 	/* Decleration */
-	uint16_t i;
+	size_t i;
 
 	/* Create zero matrix */
-	uint32_t row_row_size = row * row * sizeof(float);
+	size_t row_row_size = row * row * sizeof(float);
 	float *E = (float*)malloc(row_row_size);
 	memset(E, 0, row_row_size);
 	/* Create identity matrices */
@@ -29,9 +29,9 @@ void expm(float A[], uint16_t row){
 		F[i*row + i] = 1;
 		T[i*row + i] = 1;
 	}
-	float k = 1;
-
-	while (norm(T, row, row, 1) > 0){
+	float k = 1.0f;
+	size_t iterations = 0;
+	while (norm(T, row, row, NORM_METHOD_L1) > 0.0f && iterations < MAX_ITERATIONS){
 		/* E = E + F */
 		for(i = 0; i < row*row; i++){
 			E[i] = E[i] + F[i];
@@ -46,6 +46,7 @@ void expm(float A[], uint16_t row){
 			T[i] = E[i] + F[i] - E[i];
 		}
 		k++;
+		iterations++;
 	}
 	memcpy(A, E, row_row_size);
 
@@ -53,6 +54,9 @@ void expm(float A[], uint16_t row){
 	free(E);
 	free(F);
 	free(T);
+
+	/* Return status */
+	return iterations < MAX_ITERATIONS;
 }
 
 /*

@@ -7,8 +7,8 @@
 
 #include "../../Headers/Functions.h"
 
-static void simulation(float K, float y[], float t[], uint16_t l);
-static void flip(float y[], uint16_t l);
+static void simulation(float K, float y[], float t[], size_t l);
+static void flip(float y[], size_t l);
 
 /*
  * This filter a array. Very simple method, but powerful
@@ -17,7 +17,7 @@ static void flip(float y[], uint16_t l);
  * K > 0, but small number
  * Returns y as filtered
  */
-void filtfilt(float y[], float t[], uint16_t l, float K) {
+void filtfilt(float y[], float t[], size_t l, float K) {
 	/* Simulate */
     simulation(K, y, t, l);
 
@@ -32,20 +32,21 @@ void filtfilt(float y[], float t[], uint16_t l, float K) {
 }
 
 /* Euler method for simple ODE - Low pass filter */
-static void simulation(float K, float *y, float *t, uint16_t l) {
+static void simulation(float K, float y[], float t[], size_t l) {
 	float h = t[1] - t[0]; /* Time step */
 	float x = y[0]; /* Initial state */
-	uint16_t i;
+	size_t i;
 	for (i = 0; i < l; i++) {
-		x = x + h * (-1 / K * x + 1 / K * y[i]);
+		x = x + h * (-1.0f / K * x + 1.0f / K * y[i]);
 		y[i] = x; /* Save */
 	}
 }
 
 /* Flip signal */
-static void flip(float y[], uint16_t l){
-	uint16_t i;
-	for(i = 0; i < l/2; i++){
+static void flip(float y[], size_t l){
+	size_t i;
+	const size_t half = l / ((size_t)2);
+	for(i = 0; i < half; i++){
         	float temp = y[i];
         	y[i] = y[l - 1 - i];
         	y[l - 1 - i] = temp;

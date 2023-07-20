@@ -158,7 +158,7 @@ int main() {
 	lambda = 800;        % Regularization (Makes it faster to solve the quadratic programming)
 
 	% Compute weigths, bias and find accuracy
-	[w, b, accuracy, solution] = lsvm(x, y, C, lambda)
+	[w, b, accuracy, solution] = mi.lsvm(x, y, C, lambda)
 
 	% Classify
 	x_unknown = [15; 5];

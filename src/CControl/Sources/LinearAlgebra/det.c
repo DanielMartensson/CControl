@@ -13,23 +13,23 @@
  * n == m
  * Return: Determinant value, or 0 for singular matrix
  */
-float det(float A[], uint16_t row) {
+float det(float A[], size_t row) {
 	/* Decleration */
-	uint16_t i;
+	size_t i;
 
-	float determinant = 1.0;
+	float determinant = 1.0f;
 	float *LU = (float*)malloc(row * row * sizeof(float));
-	uint8_t *P = (uint8_t*)malloc(row * row * sizeof(uint8_t));
-	uint8_t status = lup(A, LU, P, row);
-	if (status == 0) {
-		return 0; /* matrix is singular */
+	size_t *P = (size_t*)malloc(row * row * sizeof(size_t));
+	bool ok = lup(A, LU, P, row);
+	if (!ok) {
+		return 0.0f; /* matrix is singular */
 	}
 
 	for (i = 0; i < row; ++i) {
 		determinant *= LU[row * P[i] + i];
 	}
 
-	uint16_t j = 0;
+	size_t j = 0;
 	for (i = 0; i < row; ++i) {
 		if (P[i] != i) {
 			++j;

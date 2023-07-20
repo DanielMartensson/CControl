@@ -13,18 +13,16 @@
  * x [n]
  * b [m]
  * n == m
- * Returns 1 == Success
- * Returns 0 == Fail
+ * Returns true == Success
+ * Returns false == Fail
  */
-uint8_t linsolve_lup(float A[], float x[], float b[], uint16_t row) {
+bool linsolve_lup(float A[], float x[], float b[], size_t row) {
 	/* Decleration */
 	int32_t i, j;
 
 	float *LU = (float*)malloc(row * row * sizeof(float));
-	uint8_t *P = (uint8_t*)malloc(row * sizeof(uint8_t));
-	uint8_t status = lup(A, LU, P,row);
-	if(status == 0)
-		return 0;
+	size_t *P = (size_t*)malloc(row * sizeof(size_t));
+	bool ok = lup(A, LU, P,row);
 
 	/* forward substitution with pivoting */
 	for (i = 0; i < row; ++i) {
@@ -46,5 +44,5 @@ uint8_t linsolve_lup(float A[], float x[], float b[], uint16_t row) {
 	free(LU);
 	free(P);
 
-	return status;
+	return ok;
 }

@@ -46,5 +46,5 @@ int main() {
 	Q = [1  2,
 		 2, 3];
 
-	P = lyap(A, Q, 'd') % Using Matavecontrol package
+	P = mc.lyap(A, Q, 'd') % Using Matavecontrol package
  */

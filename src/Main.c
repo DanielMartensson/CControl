@@ -18,7 +18,7 @@ int main() {
 	/* Your ANSI C logic here */
 
 	end = clock();
-	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 

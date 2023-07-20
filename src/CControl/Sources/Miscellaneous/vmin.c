@@ -11,8 +11,10 @@
  * Return min value of a and b
  */
 float vmin(float a, float b){
-	if(a < b)
+	if (a < b) {
 		return a;
-	else
+	}
+	else {
 		return b;
+	}
 }

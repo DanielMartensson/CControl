@@ -13,15 +13,15 @@
  * Q [m*m]
  * R [m*n]
  *
- * Returns 1 == Success
- * Returns 0 == Fail
+ * Returns true == Success
+ * Returns false == Fail
  */
-uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, bool only_compute_R){
+bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool only_compute_R){
 
 	/* Declare */
-	uint16_t row_a_row_a = row_a*row_a;
-	uint16_t l = row_a - 1 < column_a ? row_a - 1 : column_a;
-	uint16_t i, k;
+	size_t row_a_row_a = row_a*row_a;
+	size_t l = row_a - 1 < column_a ? row_a - 1 : column_a;
+	size_t i, k;
 	float s, Rk, r;
 	float *W = (float*)malloc(row_a * sizeof(float));
 	float *WW = (float*)malloc(row_a_row_a * sizeof(float));
@@ -111,9 +111,9 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 	}
 
 	/* Do inverse on H and give it to Q */
-	uint8_t status = 1;
+	bool ok = true;
 	if(!only_compute_R) {
-		status = inv(H, row_a);
+		ok = inv(H, row_a);
 		memcpy(Q, H, row_a_row_a*sizeof(float));
 	}
 
@@ -125,7 +125,7 @@ uint8_t qr(float A[], float Q[], float R[], uint16_t row_a, uint16_t column_a, b
 	free(HiH);
 	free(HiR);
 
-	return status;
+	return ok;
 }
 
 /*

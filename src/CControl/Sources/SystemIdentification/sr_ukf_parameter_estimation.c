@@ -7,14 +7,14 @@
 
 #include "../../Headers/Functions.h"
 
-static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, uint8_t L);
-static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, uint8_t L);
-static void create_sigma_point_matrix(float W[], float what[], float Sw[], float alpha, float kappa, uint8_t L);
-static void compute_transistion_function(float D[], float W[], float x[], void (*G)(float[], float[], float[]), uint8_t L);
-static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], float Wm[], uint8_t L);
-static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc[], float D[], float dhat[], float Re[], uint8_t L);
-static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float W[], float D[], float what[], float dhat[], uint8_t L);
-static void update_state_covarariance_matrix_and_state_estimation_vector(float Sw[], float what[], float dhat[], float d[], float Sd[], float Pwd[], uint8_t L);
+static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, size_t L);
+static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, size_t L);
+static void create_sigma_point_matrix(float W[], float what[], float Sw[], float alpha, float kappa, size_t L);
+static void compute_transistion_function(float D[], float W[], float x[], void (*G)(float[], float[], float[]), size_t L);
+static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], float Wm[], size_t L);
+static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc[], float D[], float dhat[], float Re[], size_t L);
+static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float W[], float D[], float what[], float dhat[], size_t L);
+static void update_state_covarariance_matrix_and_state_estimation_vector(float Sw[], float what[], float dhat[], float d[], float Sd[], float Pwd[], size_t L);
 
 /*
  * Square Root Unscented Kalman Filter For Parameter Estimation (A better version than regular UKF)
@@ -30,9 +30,9 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
  * what[L] = Estimated parameter (our input)
  * d[L] = Measurement parameter (our output)
  */
-void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float x[], void (*G)(float[], float[], float[]), float lambda_rls, float Sw[], float alpha, float beta, uint8_t L){
+void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float x[], void (*G)(float[], float[], float[]), float lambda_rls, float Sw[], float alpha, float beta, size_t L){
 	/* Create the size N */
-	uint8_t N = 2 * L + 1;
+	size_t N = 2 * L + 1;
 
 	/* Predict: Create the weights */
 	float *Wc = (float*)malloc(N * sizeof(float));
@@ -76,12 +76,12 @@ void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float x[],
 	free(Pwd);
 }
 
-static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, uint8_t L){
+static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, size_t L){
 	/* Decleration */
-	uint8_t i;
+	size_t i;
 	
 	/* Create the size N */
-	uint8_t N = 2 * L + 1;
+	size_t N = 2 * L + 1;
 
 	/* Compute lambda and gamma parameters */
 	float lambda = alpha * alpha * (L + kappa) - L;
@@ -97,12 +97,12 @@ static void create_weights(float Wc[], float Wm[], float alpha, float beta, floa
 	}
 }
 
-static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, uint8_t L){
+static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, size_t L){
 	/* Decleration */
-	uint8_t i;
+	size_t i;
 	
 	/* Create the size M */
-	uint8_t M = 2 * L;
+	size_t M = 2 * L;
 
 	/* Apply scalar factor to Sw */
 	for (i = 0; i < M; i++) {
@@ -110,13 +110,13 @@ static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, uint8_
 	}
 }
 
-static void create_sigma_point_matrix(float W[], float what[], float Sw[], float alpha, float kappa, uint8_t L){
+static void create_sigma_point_matrix(float W[], float what[], float Sw[], float alpha, float kappa, size_t L){
 	/* Decleration */
-	uint8_t i, j;
+	size_t i, j;
 	
 	/* Create the size N and K */
-	uint8_t N = 2 * L + 1;
-	uint8_t K = L + 1;
+	size_t N = 2 * L + 1;
+	size_t K = L + 1;
 
 	/* Compute lambda and gamma parameters */
 	float lambda = alpha * alpha * (L + kappa) - L;
@@ -143,12 +143,12 @@ static void create_sigma_point_matrix(float W[], float what[], float Sw[], float
 
 }
 
-static void compute_transistion_function(float D[], float W[], float x[], void (*G)(float[], float[], float[]), uint8_t L){
+static void compute_transistion_function(float D[], float W[], float x[], void (*G)(float[], float[], float[]), size_t L){
 	/* Decleration */
-	uint8_t i, j;
+	size_t i, j;
 	
 	/* Create the size N */
-	uint8_t N = 2 * L + 1;
+	size_t N = 2 * L + 1;
 
 	/* Create the derivative state and state vector */
 	float *dw = (float*)malloc(L * sizeof(float));
@@ -174,12 +174,12 @@ static void compute_transistion_function(float D[], float W[], float x[], void (
 	free(w);
 }
 
-static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], float Wm[], uint8_t L){
+static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], float Wm[], size_t L){
 	/* Decleration */
-	uint8_t i, j;
+	size_t i, j;
 	
 	/* Create the size N */
-	uint8_t N = 2 * L + 1;
+	size_t N = 2 * L + 1;
 
 	/* Clear dhat */
 	memset(dhat, 0, L * sizeof(float));
@@ -193,14 +193,14 @@ static void multiply_sigma_point_matrix_to_weights(float dhat[], float D[], floa
 
 }
 
-static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc[], float D[], float dhat[], float Re[], uint8_t L){
+static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc[], float D[], float dhat[], float Re[], size_t L){
 	/* Decleration */
-	uint8_t i, j;
+	size_t i, j;
 	
 	/* Create the size N, M and K */
-	uint8_t N = 2 * L + 1;
-	uint8_t M = 2 * L + L;
-	uint8_t K = 2 * L;
+	size_t N = 2 * L + 1;
+	size_t M = 2 * L + L;
+	size_t K = 2 * L;
 
 	/* Square root parameter of index 1 */
 	float weight1 = sqrtf(fabsf(Wc[1]));
@@ -244,13 +244,13 @@ static void create_state_estimation_error_covariance_matrix(float Sd[], float Wc
 	free(b);
 }
 
-static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float W[], float D[], float what[], float dhat[], uint8_t L){
+static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float W[], float D[], float what[], float dhat[], size_t L){
 	/* Decleration */
-	uint8_t i, j;
+	size_t i, j;
 	
 	/* Create the size N and K */
-	uint8_t N = 2 * L + 1;
-	uint8_t K = 2 * L;
+	size_t N = 2 * L + 1;
+	size_t K = 2 * L;
 
 	/* clear P */
 	memset(Pwd, 0, K * sizeof(float));
@@ -282,9 +282,9 @@ static void create_state_cross_covariance_matrix(float Pwd[], float Wc[], float 
 }
 
 /* Sw, what, dhat, d, Sd, Pwd, L */
-static void update_state_covarariance_matrix_and_state_estimation_vector(float Sw[], float what[], float dhat[], float d[], float Sd[], float Pwd[], uint8_t L){
+static void update_state_covarariance_matrix_and_state_estimation_vector(float Sw[], float what[], float dhat[], float d[], float Sd[], float Pwd[], size_t L){
 	/* Decleration */
-	uint8_t i, j;
+	size_t i, j;
 	
 	/* Transpose of Sd */
 	float *SdT = (float*)malloc(L * L * sizeof(float));

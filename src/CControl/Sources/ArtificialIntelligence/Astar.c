@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static void heuristic_map(int *map, int x_stop, int y_stop, int height, int width, uint8_t norm_mode);
+static void heuristic_map(int32_t map[], size_t x_stop, size_t y_stop, size_t height, size_t width, ASTAR_MODE astar_mode);
 
 /*
  * This is A* algorithm. An AI-algorithm in other words.
@@ -15,31 +15,31 @@ static void heuristic_map(int *map, int x_stop, int y_stop, int height, int widt
  * See working example how to use.
  * I wrote this C code because I don't like calloc, malloc and recalloc in embedded.
  */
-void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int x_stop, int y_stop, int height, int width, uint8_t norm_mode, int* steps) {
+void Astar(int32_t map[], int32_t path_x[], int32_t path_y[], size_t x_start, size_t y_start, size_t x_stop, size_t y_stop, size_t height, size_t width, ASTAR_MODE astar_mode, size_t* steps) {
 	/* Clear first our path */
-	memset(path_x, -1, height * width * sizeof(int));
-	memset(path_y, -1, height * width * sizeof(int));
+	memset(path_x, -1, height * width * sizeof(int32_t));
+	memset(path_y, -1, height * width * sizeof(int32_t));
 
 	/* Create map with a norm */
-	heuristic_map(map, x_stop, y_stop, height, width, norm_mode);
+	heuristic_map(map, x_stop, y_stop, height, width, astar_mode);
 
 	/* Set some initial parameters */
-	int direction[4];
-	const int x_directions[4] = { -1, 1, 0, 0 };
-	const int y_directions[4] = { 0, 0, -1, 1 };
-	int position = 0;
-	int minValue = 0;
-	int x = x_start;
-	int y = y_start;
+	int32_t direction[4];
+	const int32_t x_directions[4] = { -1, 1, 0, 0 };
+	const int32_t y_directions[4] = { 0, 0, -1, 1 };
+	int32_t position = 0;
+	int32_t minValue = 0;
+	size_t x = x_start;
+	size_t y = y_start;
 
-	/* printf("Current start coordinate: x = %d, y = %d\n", x, y); */
-	uint16_t k, index, i, j;
+	/* print32_tf("Current start coordinate: x = %d, y = %d\n", x, y); */
+	size_t k, index, i, j;
 
 	for (k = 0; k < height * width; k++) {
 		/* Look to the left, right, up and down */
-		for (index = 0; index < 4; index++)
+		for (index = 0; index < 4; index++) {
 			direction[index] = map[(y + y_directions[index]) * width + x + x_directions[index]];
-
+		}
 		/* Take the decision where to go by looking at direction array */
 		minValue = direction[0];
 		position = 0;
@@ -92,8 +92,8 @@ void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int 
 			}
 			/* If we got duplicates - delete them */
 			if (position > 0) {
-				memset(path_x + i, -1, (position - i) * sizeof(int));
-				memset(path_y + i, -1, (position - i) * sizeof(int));
+				memset(path_x + i, -1, (position - i) * sizeof(int32_t));
+				memset(path_y + i, -1, (position - i) * sizeof(int32_t));
 				i = position; /* Jump */
 			}
 		} else {
@@ -136,8 +136,8 @@ void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int 
 				}
 				/* If we got zigzag. We need to have + 1 because we cannot accept a neighbor step as zigzag */
 				if (position > i + 1) {
-					memset(path_x + i + 1, -1, (position - i - 1) * sizeof(int));
-					memset(path_y + i + 1, -1, (position - i - 1) * sizeof(int));
+					memset(path_x + i + 1, -1, (position - i - 1) * sizeof(int32_t));
+					memset(path_y + i + 1, -1, (position - i - 1) * sizeof(int32_t));
 					i = position; /* Jump */
 					*steps += 1;
 				}
@@ -167,20 +167,22 @@ void Astar(int map[], int path_x[], int path_y[], int x_start, int y_start, int 
 	}
 }
 
-/* norm_mode = 2 -> L2 norm */
-/* norm_mode = 1 -> L1 norm */
-static void heuristic_map(int map[], int x_stop, int y_stop, int height, int width, uint8_t norm_mode) {
-	uint16_t i, j;
-	int dx, dy;
+static void heuristic_map(int32_t map[], size_t x_stop, size_t y_stop, size_t height, size_t width, ASTAR_MODE astar_mode) {
+	size_t i, j;
+	int32_t dx, dy;
 	for (i = 0; i < width; i++) {
 		for (j = 0; j < height; j++) {
 			if (map[j * width + i] != -1) {
-				dx = (j + x_stop) - (j + i); 	/* Distance we want to go in x-axis */
-				dy = (y_stop + i) - (j + i);  	/* Distance we want to go in y-axis */
-				if (norm_mode == 1)
-					map[j * width + i] = abs(dx) + abs(dy); /* L1-Norm */
-				if (norm_mode == 2)
+				dx = (j + x_stop) - (j + i); 				/* Distance we want to go in x-axis */
+				dy = (y_stop + i) - (j + i);  				/* Distance we want to go in y-axis */
+				switch (astar_mode) {
+				case ASTAR_MODE_L1:
+					map[j * width + i] = abs(dx) + abs(dy);			/* L1-Norm */
+					break;
+				case ASTAR_MODE_L2:
 					map[j * width + i] = dx * dx + dy * dy; /* L2-Norm (without square root, not needed due to integers) */
+					break;
+				}
 				/* You can add more heuristic here! */
 			}
 		}

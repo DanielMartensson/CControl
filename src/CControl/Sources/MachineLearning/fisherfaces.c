@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-void fisherfaces_train(float X[], uint8_t y[], float W[], float P[], uint8_t components, uint16_t row, uint16_t column) {
+void fisherfaces_train(float X[], size_t y[], float W[], float P[], size_t components, size_t row, size_t column) {
 	/* Compute PCA */
 	float* Wpca = (float*)malloc(row * components * sizeof(float));
 	float* Ppca = (float*)malloc(row * components * sizeof(float));

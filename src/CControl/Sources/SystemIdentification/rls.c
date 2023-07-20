@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float phi[], float theta[], float P[], float* past_e, float forgetting);
+static void recursive(size_t NP, size_t NZ, size_t NZE, float y, float phi[], float theta[], float P[], float* past_e, float forgetting);
 
 /*
  * Recursive least square. We estimate A(q)y(t) = B(q) + C(q)e(t)
@@ -17,7 +17,7 @@ static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float phi[],
  * Pq > 0
  * 0 < forgetting <= 1
  */
-void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, uint8_t* count, float* past_e, float* past_y, float* past_u, float phi[], float P[], float Pq, float forgetting) {
+void rls(size_t NP, size_t NZ, size_t NZE, float theta[], float u, float y, size_t* count, float* past_e, float* past_y, float* past_u, float phi[], float P[], float Pq, float forgetting) {
 
 	/* Static values that belongs to this function - OLD CODE, but they have the same size */
 	/* static float past_e = 0; // The past e */
@@ -91,9 +91,9 @@ void rls(uint8_t NP, uint8_t NZ, uint8_t NZE, float theta[], float u, float y, u
 /*
  * This function is the updater for theta, P and past_e
  */
-static void recursive(uint8_t NP, uint8_t NZ, uint8_t NZE, float y, float phi[], float theta[], float P[], float* past_e, float forgetting) {
+static void recursive(size_t NP, size_t NZ, size_t NZE, float y, float phi[], float theta[], float P[], float* past_e, float forgetting) {
 	/* Decleration */
-	uint8_t i;
+	size_t i;
 	
 	/* Compute error = y - phi'*theta; */
 	float sum = 0;

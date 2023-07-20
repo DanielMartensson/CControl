@@ -10,8 +10,8 @@
 /*
  * Print matrix or vector - Just for error check
  */
-void print(float A[], uint16_t row, uint16_t column) {
-	uint16_t i, j;
+void print(float A[], size_t row, size_t column) {
+	size_t i, j;
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < column; j++) {
 			printf("%0.18f\t", *(A++));

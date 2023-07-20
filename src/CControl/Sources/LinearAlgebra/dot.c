@@ -12,9 +12,9 @@
   * a[m]
   * b[m]
   */
-float dot(float a[], float b[], uint16_t row) {
+float dot(float a[], float b[], size_t row) {
     float result = 0.0f;
-    uint16_t i;
+    size_t i;
     for (i = 0; i < row; i++) {
         result += a[i] * b[i];
     }

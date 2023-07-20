@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min);
+static bool opti(float c[], float A[], float b[], float x[], size_t row_a, size_t column_a, bool maximization);
 
 
 /**
@@ -41,23 +41,23 @@ static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uin
  * Source Simplex method: https://www.youtube.com/watch?v=yL7JByLlfrw
  * Source Simplex Dual method: https://www.youtube.com/watch?v=8_D3gkrgeK8
  */
-bool linprog(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min){
+bool linprog(float c[], float A[], float b[], float x[], size_t row_a, size_t column_a, bool maximization){
 
-	if(max_or_min == 0){
+	if(maximization){
 		/* Maximization */
-		return opti(c, A, b, x, row_a, column_a, max_or_min);
+		return opti(c, A, b, x, row_a, column_a, maximization);
 	}else{
 		/* Minimization */
 		tran(A, row_a, column_a);
-		return opti(b, A, c, x, column_a, row_a, max_or_min);
+		return opti(b, A, c, x, column_a, row_a, maximization);
 	}
 
 }
 /* This is Simplex method with the Dual included */
-static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a, uint8_t max_or_min){
+static bool opti(float c[], float A[], float b[], float x[], size_t row_a, size_t column_a, bool maximization){
 
 	/* Clear the solution */
-	if (max_or_min == 0) {
+	if (maximization) {
 		memset(x, 0, column_a * sizeof(float));
 	}else {
 		memset(x, 0, row_a * sizeof(float));
@@ -68,8 +68,8 @@ static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uin
 	memset(tableau, 0, (row_a+1)*(column_a+row_a+2)*sizeof(float));
 
 	/* Load the constraints */
-	uint16_t j = 0;
-	uint16_t i;
+	size_t j = 0;
+	size_t i;
 	for(i = 0; i < row_a; i++){
 		/* First row */
 		memcpy(tableau + i*(column_a+row_a+2), A + i*column_a, column_a*sizeof(float));
@@ -94,14 +94,14 @@ static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uin
 
 	/* Do row operations */
 	float entry = 0.0f;
-	uint16_t pivotColumIndex = 0;
-	uint16_t pivotRowIndex = 0;
+	size_t pivotColumIndex = 0;
+	size_t pivotRowIndex = 0;
 	float pivot = 0.0f;
 	float value1 = 0.0f;
 	float value2 = 0.0f;
 	float value3 = 0.0f;
 	float smallest = 0.0f;
-	uint16_t count = 0; /* Iterations */
+	size_t count = 0; /* Iterations */
 	do{
 		/* Find our pivot column */
 		pivotColumIndex = 0;
@@ -119,7 +119,7 @@ static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uin
 		}
 
 		/* If we found no solution */
-		if (count > 1000) {
+		if (count > MAX_ITERATIONS) {
 			free(tableau);
 			return false;
 		}
@@ -174,8 +174,8 @@ static bool opti(float c[], float A[], float b[], float x[], uint16_t row_a, uin
 
 	}while(entry < 0.0f); /* Continue if we have still negative entries */
 
-	/* If max_or_min == 0 -> Maximization problem */
-	if(max_or_min == 0){
+	/* If maximization == true -> Maximization problem */
+	if(maximization){
 		/* Now when we have shaped our tableau. Let's find the optimal solution. Sum the columns */
 		for(i = 0; i < column_a; i++){
 			value1 = 0.0f; /* Reset */

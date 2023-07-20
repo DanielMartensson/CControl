@@ -7,20 +7,16 @@
 
 #include "../../Headers/Functions.h"
 
-static void insertion_sort(float X[], uint16_t n, uint8_t mode);
+static void insertion_sort(float X[], size_t n, SORT_MODE sort_mode);
 
 /*
  * Sort a matrix
  * X[m*n]
- * dim = 1 = Row direction
- * dim = 2 = Column direction
- * mode = 1 = Ascend
- * mode = 2 = Descend
  */
 
-void sort(float X[], uint16_t row, uint16_t column, uint8_t dim, uint8_t mode){
+void sort(float X[], size_t row, size_t column, SORT_MODE sort_mode){
 	/* Decleration */
-	uint16_t i, j;
+	size_t i, j;
 	
 	/* Save address */
 	float *X0 = X;
@@ -28,34 +24,32 @@ void sort(float X[], uint16_t row, uint16_t column, uint8_t dim, uint8_t mode){
 	/* Declare outsider array Y */
 	float *Y = (float*)malloc(row * sizeof(float));
 
-	switch(dim){
-	case 1:
-		for(j = 0; j < column; j++){
+	if (sort_mode == SORT_MODE_ROW_DIRECTION_ASCEND || sort_mode == SORT_MODE_ROW_DIRECTION_DESCEND) {
+		for (j = 0; j < column; j++) {
 			X0 = X; /* Reset */
-			for(i = 0; i < row; i++){
+			for (i = 0; i < row; i++) {
 				/* Y[i] = X[i*column + j]; */
 				Y[i] = X0[j];
 				X0 += column;
 			}
 
 			/* Sort Y */
-			insertion_sort(Y, row, mode);
+			insertion_sort(Y, row, sort_mode);
 
 			/* Place back */
 			X0 = X; /* Reset */
-			for(i = 0; i < row; i++){
+			for (i = 0; i < row; i++) {
 				/* X[i*column + j] = Y[i]; */
 				X0[j] = Y[i];
 				X0 += column;
 			}
 		}
-		break;
-	case 2:
+	}
+	if(sort_mode == SORT_MODE_COLUMN_DIRECTION_ASCEND || sort_mode == SORT_MODE_COLUMN_DIRECTION_DESCEND){
 		for(i = 0; i < row; i++) {
-			insertion_sort(&X0[0], column, mode);
+			insertion_sort(&X0[0], column, sort_mode);
 			X0 += column;
 		}
-		break;
 	}
 
 	/* Free */
@@ -63,26 +57,24 @@ void sort(float X[], uint16_t row, uint16_t column, uint8_t dim, uint8_t mode){
 }
 
 
-static void insertion_sort(float X[], uint16_t n, uint8_t mode) {
-	uint16_t i, j;
+static void insertion_sort(float X[], size_t n, SORT_MODE sort_mode) {
+	size_t i, j;
 	for(i = 1; i < n; ++i) {
 		float key = X[i];
 		j = i;
-		switch(mode){
-		case 1:
+		if (sort_mode == SORT_MODE_COLUMN_DIRECTION_ASCEND || sort_mode == SORT_MODE_ROW_DIRECTION_ASCEND) {
 			/* Ascend */
-			while( (j > 0) && (key < X[j - 1]) ) {
+			while ((j > 0) && (key < X[j - 1])) {
 				X[j] = X[j - 1];
 				--j;
 			}
-			break;
-		case 2:
+		}
+		if (sort_mode == SORT_MODE_COLUMN_DIRECTION_DESCEND || sort_mode == SORT_MODE_ROW_DIRECTION_DESCEND) {
 			/* Descend */
 			while( (j > 0) && (key > X[j - 1]) ) {
 				X[j] = X[j - 1];
 				--j;
 			}
-			break;
 		}
 		X[j] = key;
 	}

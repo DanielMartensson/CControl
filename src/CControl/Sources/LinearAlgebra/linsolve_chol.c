@@ -15,7 +15,7 @@
  * b [m]
  * n == m
  */
-void linsolve_chol(float A[], float x[], float b[], uint16_t row) {
+void linsolve_chol(float A[], float x[], float b[], size_t row) {
 	float *L = (float*)malloc(row * row * sizeof(float));
 	chol(A, L, row);
 	float *y = (float*)malloc(row * sizeof(float));

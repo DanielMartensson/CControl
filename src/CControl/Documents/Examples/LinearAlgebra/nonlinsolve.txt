@@ -22,7 +22,7 @@ void func(float* dx, float* b, float* x) {
 
 int main() {
 	/* Initial parameters */
-	uint8_t elements = 3;
+	size_t elements = 3;
 	bool random_guess_active = true;
 	float x[3] = { 0, 0, 0 }; /* This is our initial guess if random_guess_active = false */
 	float dx[3] = { 0, 0, 0 };
@@ -39,7 +39,7 @@ int main() {
 	start = clock();
 
 	/* Do the process with random guess active */
-	start:
+start:
 	nonlinsolve(func, b, x, elements, alpha, max_value, min_value, random_guess_active);
 	printf("Solution to func with random_guess_active = true:\n");
 	print(x, 1, elements);

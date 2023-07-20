@@ -13,9 +13,9 @@
 #define height_map 15
 #define width_map 10
 
-/* This function is here only for illustration. Not needed */
-void print_int(int A[], int row, int column) {
-	int i, j;
+ /* This function is here only for illustration. Not needed */
+void print_int(int32_t A[], size_t row, size_t column) {
+	size_t i, j;
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < column; j++) {
 			printf("%d\t", *(A++));
@@ -26,13 +26,15 @@ void print_int(int A[], int row, int column) {
 }
 
 /* This function is here only for illustration. Not needed */
-void show_path(int map[], int path_x[], int path_y[], int height, int width) {
-	int k, x, y;
+void show_path(int32_t map[], int32_t path_x[], int32_t path_y[], size_t height, size_t width) {
+	size_t k;
+	int32_t x, y;
 	for (k = 0; k < height * width; k++) {
 		x = path_x[k];
 		y = path_y[k];
-		if (x != -1 && y != -1)
-			map[ y * width + x] = -100 - k;
+		if (x != -1 && y != -1) {
+			map[y * width + x] = -100 - k;
+		}
 	}
 	print_int(map, height, width);
 }
@@ -40,60 +42,55 @@ void show_path(int map[], int path_x[], int path_y[], int height, int width) {
 int main() {
 
 	/* Beginning coordinates */
-	int x_start = 8;
-	int y_start = 13;
+	size_t x_start = 8;  /* For the alternative map 1 */
+	size_t y_start = 13; /* For the alternative map 8 */
 
 	/* End coordinates */
-	int x_stop = 6;
-	int y_stop = 2;
+	size_t x_stop = 6; /* For the alternative map 8 */
+	size_t y_stop = 2; /* For the alternative map 13 */
 
 	/* Path - Our goal is to find them */
-	int path_x[height_map * width_map];
-	int path_y[height_map * width_map];
-
-	/* Norm modes */
-	int norm1 = 1; /* L1-Norm */
-	int norm2 = 2; /* L2-Norm */
+	int32_t path_x[height_map * width_map];
+	int32_t path_y[height_map * width_map];
 
 	/* Steps */
-	int steps1 = 0;
-	int steps2 = 0;
+	size_t steps1 = 0;
+	size_t steps2 = 0;
 
 	/* Map size */
-	int map[height_map*width_map] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
-									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
-									 -1,  0,  0,  0, -1, -1, -1,  0,  0, -1,
-									 -1,  0,  0,  0,  0,  0, -1,  0,  0, -1,
-									 -1, -1,  0, -1,  0,  0, -1, -1, -1, -1,
-									 -1, -1,  0, -1,  0,  0,  0,  0,  0, -1,
-									 -1,  0,  0, -1, -1, -1, -1,  0,  0, -1,
-									 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
-									 -1,  0, -1, -1, -1, -1, -1, -1, -1, -1,
-									 -1,  0,  0,  0, -1,  0,  0, -1,  0, -1,
-									 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
-									 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
-									 -1,  0,  0,  0,  0,  0, -1, -1,  0, -1,
-									 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+	int32_t map[height_map * width_map] = {  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+											 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+											 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+											 -1,  0,  0,  0, -1, -1, -1,  0,  0, -1,
+											 -1,  0,  0,  0,  0,  0, -1,  0,  0, -1,
+											 -1, -1,  0, -1,  0,  0, -1, -1, -1, -1,
+											 -1, -1,  0, -1,  0,  0,  0,  0,  0, -1,
+											 -1,  0,  0, -1, -1, -1, -1,  0,  0, -1,
+											 -1,  0,  0,  0,  0,  0,  0,  0,  0, -1,
+											 -1,  0, -1, -1, -1, -1, -1, -1, -1, -1,
+											 -1,  0,  0,  0, -1,  0,  0, -1,  0, -1,
+											 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
+											 -1,  0,  0,  0, -1,  0,  0,  0,  0, -1,
+											 -1,  0,  0,  0,  0,  0, -1, -1,  0, -1,
+											 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
-	/* Or an alternative map */
-	/*
+	/* Or an alternative map 	
 	// Map size
-	int map[height_map*width_map] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-									 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-									 -1, -1,  0,  0,  0,  0,  0,  0,  0, -1,
-									 -1, -1,  0, -1, -1, -1, -1, -1,  0, -1,
-									 -1, -1,  0, -1,  0,  0,  0, -1,  0, -1,
-									 -1, -1,  0, -1,  0, -1,  0, -1,  0, -1,
-									 -1, -1,  0, -1,  0, -1,  0, -1,  0, -1,
-									 -1, -1,  0, -1,  0, -1,  0, -1,  0, -1,
-									 -1,  0,  0,  0,  0, -1,  0, -1,  0, -1,
-									 -1, -1, -1, -1, -1, -1,  0, -1,  0, -1,
-									 -1, -1,  0,  0,  0,  0,  0, -1,  0, -1,
-									 -1, -1,  0,  0, -1, -1, -1, -1,  0, -1,
-									 -1, -1,  0,  0,  0,  0,  0,  0,  0, -1,
-									 -1, -1, -1, -1, -1,  0, -1, -1,  0, -1,
-									 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+	int32_t map[height_map*width_map] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+										 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+										 -1, -1,  0,  0,  0,  0,  0,  0,  0, -1,
+										 -1, -1,  0, -1, -1, -1, -1, -1,  0, -1,
+										 -1, -1,  0, -1,  0,  0,  0, -1,  0, -1,
+										 -1, -1,  0, -1,  0, -1,  0, -1,  0, -1,
+										 -1, -1,  0, -1,  0, -1,  0, -1,  0, -1,
+										 -1, -1,  0, -1,  0, -1,  0, -1,  0, -1,
+										 -1,  0,  0,  0,  0, -1,  0, -1,  0, -1,
+										 -1, -1, -1, -1, -1, -1,  0, -1,  0, -1,
+										 -1, -1,  0,  0,  0,  0,  0, -1,  0, -1,
+										 -1, -1,  0,  0, -1, -1, -1, -1,  0, -1,
+										 -1, -1,  0,  0,  0,  0,  0,  0,  0, -1,
+										 -1, -1, -1, -1, -1,  0, -1, -1,  0, -1,
+										 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
 	*/
 
 	/* Print the map */
@@ -107,19 +104,20 @@ int main() {
 	start = clock();
 
 	/* First compute with L1-Norm and check the steps */
-	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm1, &steps1);
+	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, ASTAR_MODE_L1, &steps1);
 	/* Then compute with L2-norm and check the steps */
-	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm2, &steps2);
+	Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, ASTAR_MODE_L2, &steps2);
 	/* Check the steps now - Which of the norms results less steps */
-	if(steps2 > steps1){
-		Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, norm1, &steps1); /* Get the path again */
+	if (steps2 > steps1) {
+		Astar(map, path_x, path_y, x_start, y_start, x_stop, y_stop, height_map, width_map, ASTAR_MODE_L1, &steps1); /* Get the path again */
 		printf("Shortest step is = %d\n", steps1);
-	}else{
+	}
+	else {
 		printf("Shortest step is = %d\n", steps2);
 	}
 
 	end = clock();
-	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 	/* Show the path */
@@ -127,9 +125,10 @@ int main() {
 	show_path(map, path_x, path_y, height_map, width_map);
 
 	/* Show the path */
-	int i;
-	for (i = 0; i < height_map * width_map; i++)
+	size_t i;
+	for (i = 0; i < height_map * width_map; i++) {
 		printf("x = %d, y = %d\n", path_x[i], path_y[i]);
+	}
 
 	return EXIT_SUCCESS;
 }

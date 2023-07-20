@@ -17,18 +17,18 @@
  * b[m]
  * residual[m]
  */
-bool lsqnonneg(float A[], float x[], float b[], float residual[], uint16_t row, uint16_t column) {
+bool lsqnonneg(float A[], float x[], float b[], float residual[], size_t row, size_t column) {
     /* Declare */
-    uint16_t i, j, k, c;
-    uint16_t* active_set = (uint16_t*)malloc(column * sizeof(uint16_t));
-    uint16_t* inactive_set = (uint16_t*)malloc(column * sizeof(uint16_t));
+    size_t i, j, k, c;
+    size_t* active_set = (size_t*)malloc(column * sizeof(size_t));
+    size_t* inactive_set = (size_t*)malloc(column * sizeof(size_t));
     float* A_active = (float*)malloc(row * column * sizeof(float));
     float* x_new = (float*)malloc(column * sizeof(float));
     float* x_active = (float*)malloc(column * sizeof(float));
     float const tol = 1e-6f;
     float sum_value, max_val = 0.0f;
-    uint16_t numbers_active = 0;
-    uint16_t max_index;
+    size_t numbers_active = 0;
+    size_t max_index;
     bool found;
     bool solution = false;
 

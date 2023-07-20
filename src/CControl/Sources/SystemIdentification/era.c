@@ -15,17 +15,17 @@
  * B [ADIM*inputs_outputs] // Input matrix with dimension ADIM*inputs_outputs
  * C [inputs_outputs*ADIM] // Output matrix with dimension inputs_outputs*ADMIN
  */
-void era(float u[], float y[], uint16_t row, uint16_t column, float A[], float B[], float C[], uint8_t row_a, uint8_t inputs_outputs) {
+void era(float u[], float y[], size_t row, size_t column, float A[], float B[], float C[], size_t row_a, size_t inputs_outputs) {
 	/* Decleration */
-	uint16_t i, j;
+	size_t i, j;
 
 	/* Markov parameters - Impulse response */
 	float *g = (float*)malloc(row * column * sizeof(float));
 	okid(u, y, g, row, column);
 
 	/* Compute the correct dimensions for matrix H */
-	uint16_t row_h = row*(column/2);
-	uint16_t column_h = column/2;
+	size_t row_h = row*(column/2);
+	size_t column_h = column/2;
 
 	/* Create Half Hankel matrix */
 	float *H = (float*)malloc(row_h * column_h * sizeof(float));
@@ -54,15 +54,19 @@ void era(float u[], float y[], uint16_t row, uint16_t column, float A[], float B
 	/* A = S^(-1/2)*U^T*H*V*S^(-1/2) */
 
 	/* V = V*S^(-1/2) */
-	for(i = 0; i < column_h; i++)
-		for(j = 0; j < column_h; j++)
-			V[j*column_h + i] =  V[j*column_h + i] * sqrtf(1/S[i]);
+	for (i = 0; i < column_h; i++) {
+		for (j = 0; j < column_h; j++) {
+			V[j * column_h + i] = V[j * column_h + i] * sqrtf(1 / S[i]);
+		}
+	}
 
 	/* U = S^(-1/2)*U^T */
 	tran(U, row_h, column_h);
-	for(i = 0; i < row_h; i++)
-		for(j = 0; j < column_h; j++)
-			U[j*row_h + i] = sqrtf(1/S[j])*U[j*row_h + i];
+	for (i = 0; i < row_h; i++) {
+		for (j = 0; j < column_h; j++) {
+			U[j * row_h + i] = sqrtf(1 / S[j]) * U[j * row_h + i];
+		}
+	}
 
 
 	/* Create A matrix: T = H*V */

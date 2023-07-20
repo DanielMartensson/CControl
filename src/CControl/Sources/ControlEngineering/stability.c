@@ -12,12 +12,12 @@
  * Return true if A is stable.
  * Return false is A is unstable
  */
-bool stability(float A[], uint8_t ADIM){
+bool stability(float A[], size_t ADIM){
 	float *wr = (float*)malloc(ADIM * sizeof(float)); /* Real eigenvalues */
 	float *wi = (float*)malloc(ADIM * sizeof(float)); /* Imaginary eigenvalues */
 	eig(A, wr, wi, ADIM);
 	bool stable = true; /* Assume that the system is stable */
-	uint8_t i;
+	size_t i;
 	float abs_value;
 	for(i = 0; i < ADIM; i++){
 		abs_value = sqrtf(wr[i]*wr[i] + wi[i]*wi[i]);

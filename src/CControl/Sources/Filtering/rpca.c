@@ -7,11 +7,11 @@
 
 #include "../../Headers/Functions.h"
 
-static float do_Frobenius_on_A(float A[], float X[], float L[], float S[], uint16_t row, uint16_t column);
-static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau, uint16_t row, uint16_t column);
-static void shrink_matrix(float A[], float X[], float tau, uint16_t row, uint16_t column);
+static float do_Frobenius_on_A(float A[], float X[], float L[], float S[], size_t row, size_t column);
+static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau, size_t row, size_t column);
+static void shrink_matrix(float A[], float X[], float tau, size_t row, size_t column);
 
-void rpca(float X[], float L[], float S[], uint16_t row, uint16_t column) {
+void rpca(float X[], float L[], float S[], size_t row, size_t column) {
 	/* Get two tuning factors */
 	uint32_t i, row_column = row * column;
 	float sum_abs_X = 0;
@@ -37,7 +37,7 @@ void rpca(float X[], float L[], float S[], uint16_t row, uint16_t column) {
 	memset(S, 0, row_column * sizeof(float));
 
 	/* Start optimization */
-	uint16_t count = 0;
+	size_t count = 0;
 	while (do_Frobenius_on_A(A, X, L, S, row, column) > thresh || count < 1000) {
 		SVT(A, X, S, Y, L, tau, row, column);
 		for (i = 0; i < row_column; i++) {
@@ -55,16 +55,15 @@ void rpca(float X[], float L[], float S[], uint16_t row, uint16_t column) {
 	free(Y);
 }
 
-static float do_Frobenius_on_A(float A[], float X[], float L[], float S[], uint16_t row, uint16_t column) {
+static float do_Frobenius_on_A(float A[], float X[], float L[], float S[], size_t row, size_t column) {
 	uint32_t i, row_column = row * column;
 	for (i = 0; i < row_column; i++) {
 		A[i] = X[i] - L[i] - S[i];
 	}
 	return norm(A, row, column, 3);
-
 }
 
-static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau, uint16_t row, uint16_t column) {
+static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau, size_t row, size_t column) {
 	/* Do SVD */
 	uint32_t i, row_column = row * column;
 	for (i = 0; i < row_column; i++) {
@@ -88,7 +87,7 @@ static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau
 	tran(V, column, column);
 
 	/* Multiplying corresponding elements V = E.*V */
-	uint16_t j;
+	size_t j;
 	float* V0 = V;
 	for (j = 0; j < column; j++) {
 		V = V0;
@@ -111,7 +110,7 @@ static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau
 	free(V);
 }
 
-static void shrink_matrix(float A[], float X[], float tau, uint16_t row, uint16_t column) {
+static void shrink_matrix(float A[], float X[], float tau, size_t row, size_t column) {
 	uint32_t i, row_column = row * column;
 	for (i = 0; i < row_column; i++) {
 		A[i] = sign(X[i]) * vmax(fabsf(X[i]) - tau, 0);

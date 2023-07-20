@@ -7,7 +7,7 @@
 
 #include "../../Headers/Functions.h"
 
-static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a);
+static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t row_a, size_t column_a);
 
 /**
  * This is quadratic programming with Hildreth's method
@@ -31,7 +31,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
  * x [column_a]				// Solution
  */
 
-bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], uint16_t row_a, uint16_t row_g, uint16_t column_a, bool equality_constraints_are_used) {
+bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], size_t row_a, size_t row_g, size_t column_a, bool equality_constraints_are_used) {
 	if (equality_constraints_are_used) {
 		/* Create multiple inequality constraints. Those are going to be equality constranits */
 		float* A_long = (float*)malloc((row_a + row_g + row_g) * column_a * sizeof(float));
@@ -77,9 +77,9 @@ bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], 
 }
 
 
-static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t row_a, uint16_t column_a){		
+static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t row_a, size_t column_a){		
 	/* Declare */
-	uint16_t i, j, k;
+	size_t i, j, k;
 	
 	/* Use gaussian elimination to solve x from Qx = c because Q is square and symmetric */
 	linsolve_gauss(Q, x, c, column_a, column_a, 0.0f);
@@ -94,7 +94,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], uint16_t
 
 	/* Count how many constraints A*x > b */
 	float *K = (float*)malloc(row_a * sizeof(float));
-	uint16_t violations = 0;
+	size_t violations = 0;
 	float value;
 	for(i = 0; i < row_a; i++){
 

@@ -18,13 +18,13 @@
   * d [m] // Eigenvalues
   * A will become eigenvectors!
   */
-void eig_sym_generalized(float A[], float B[], uint16_t row, float d[]) {
+bool eig_sym_generalized(float A[], float B[], size_t row, float d[]) {
 	/* Do cholesky factorization of B */
 	float* L = (float*)malloc(row * row * sizeof(float));
 	chol(B, L, row);
 
 	/* Do Y = linsolve(L, A) */
-	uint16_t i;
+	size_t i;
 	float* Y = (float*)malloc(row * row * sizeof(float));
 	float* Y0 = Y;
 	float* A0 = A;
@@ -46,14 +46,14 @@ void eig_sym_generalized(float A[], float B[], uint16_t row, float d[]) {
 	float* Linv = (float*)malloc(row * row * sizeof(float));
 	memcpy(Linv, L, row * row * sizeof(float));
 	tran(Linv, row, row);
-	inv(Linv, row);
+	bool invOk = inv(Linv, row);
 
 	/* Multiply X = Y*Linv */
 	float* X = (float*)malloc(row * row * sizeof(float));
 	mul(Y, Linv, X, row, row, row);
 
 	/* Do Eigendecomposition */
-	eig_sym(X, row, d);
+	bool eigOk = eig_sym(X, row, d);
 
 	/* Copyu over X to A */
 	memcpy(A, X, row * row * sizeof(float));
@@ -63,6 +63,9 @@ void eig_sym_generalized(float A[], float B[], uint16_t row, float d[]) {
 	free(Y);
 	free(Linv);
 	free(X);
+
+	/* Return status */
+	return eigOk && invOk;
 }
 
 /*

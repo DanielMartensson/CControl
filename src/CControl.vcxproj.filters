@@ -18,6 +18,9 @@
     <ClInclude Include="CControl\Headers\Functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CControl\Headers\Enums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c">
@@ -224,6 +227,9 @@
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\C89_Functions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CControl\Documents\Examples\Statistics\pca.txt" />
@@ -234,5 +240,6 @@
     <Text Include="CControl\Documents\Examples\Filtering\rpca.txt" />
     <Text Include="CControl\Documents\Examples\Optimization\lsqnonneg.txt" />
     <Text Include="CControl\Documents\Examples\MachineLearning\svm.txt" />
+    <Text Include="CControl\Documents\Examples\LinearAlgebra\expm.txt" />
   </ItemGroup>
 </Project>

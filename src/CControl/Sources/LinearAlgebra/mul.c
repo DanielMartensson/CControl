@@ -13,9 +13,9 @@
  * B [column_a*column_b]
  * C [row_a*column_b]
  */
-void mul(float A[], float B[], float C[], uint16_t row_a, uint16_t column_a, uint16_t column_b) {
+void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t column_b) {
 	/* Decleration */
-	uint16_t i, j, k;
+	size_t i, j, k;
 
 	/* Data matrix */
 	float* data_a, * data_b;

@@ -13,19 +13,21 @@
  * LU [m*n]
  * P [n]
  * n == m
- * Returns 1 == Success
- * Returns 0 == Fail
+ * Returns true == Success
+ * Returns false == Fail
  */
-uint8_t lup(float A[], float LU[], uint8_t P[], uint16_t row) {
+bool lup(float A[], float LU[], size_t P[], size_t row) {
 
 	/* Variables */
-	uint16_t ind_max, tmp_int;
+	size_t ind_max, tmp_int;
 	
 	/* If not the same */
-	if (A != LU) memcpy(LU, A, row*row*sizeof(float));
+	if (A != LU) { 
+		memcpy(LU, A, row * row * sizeof(float)); 
+	}
 
 	/* Create the pivot vector */
-	uint16_t i, j, k;
+	size_t i, j, k;
 	for (i = 0; i < row; ++i) {
 		P[i] = i;
 	}
@@ -43,7 +45,7 @@ uint8_t lup(float A[], float LU[], uint8_t P[], uint16_t row) {
 		P[ind_max] = tmp_int;
 
 		if (fabsf(LU[row * P[i] + i]) < MIN_VALUE) {
-			return 0; /* matrix is singular (up to tolerance) */
+			return false; /* matrix is singular (up to tolerance) */
 		}
 
 		for (j = i + 1; j < row; ++j) {
@@ -55,6 +57,6 @@ uint8_t lup(float A[], float LU[], uint8_t P[], uint16_t row) {
 		}
 	}
 
-	return 1; /* Solved */
+	return true; /* Solved */
 }
 

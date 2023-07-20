@@ -10,13 +10,13 @@
 /*
  * Turn A into transponse A^T
  */
-void tran(float A[], uint16_t row, uint16_t column) {
+void tran(float A[], size_t row, size_t column) {
 
 	/* Decleration */
 	float *B = (float*)malloc(row * column * sizeof(float));
 	float* transpose = NULL;
 	float *ptr_A = A;
-	uint16_t i, j;
+	size_t i, j;
 
 	for (i = 0; i < row; i++) {
 		transpose = &B[i];

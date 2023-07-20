@@ -8,8 +8,8 @@
 #include "../../Headers/Functions.h"
 
 /* Private functions */
-static void tqli(float d[], float e[], uint16_t row, float z[]);
-static void tridiag(float A[], uint16_t row, float d[], float e[]);
+static bool tqli(float d[], float e[], size_t row, float z[]);
+static void tridiag(float A[], size_t row, float d[], float e[]);
 static float pythag_float(float a, float b);
 #define square(a) ((a)*(a))
 #define abs_sign(a,b) ((b) >= 0.0f ? fabsf(a) : -fabsf(a)) /* Special case for tqli function */
@@ -24,19 +24,20 @@ static float pythag_float(float a, float b);
  * d [m] // Eigenvalues
  * A will become eigenvectors!
  */
-void eig_sym(float A[], uint16_t row, float d[]){
+bool eig_sym(float A[], size_t row, float d[]){
 	float *e = (float*)malloc(row * sizeof(float));
 	memset(e, 0, row*sizeof(float));
 	memset(d, 0, row*sizeof(float));
 	tridiag(A, row, d, e);
-	tqli(d, e, row, A);
+	bool ok = tqli(d, e, row, A);
 	free(e);
+	return ok;
 }
 
 
 /* Create a tridiagonal matrix */
-static void tridiag(float A[], uint16_t row, float d[], float e[]){
-	uint16_t l, k, j, i;
+static void tridiag(float A[], size_t row, float d[], float e[]){
+	size_t l, k, j, i;
 	float scale, hh, h, g, f;
 
 	/* Save address */
@@ -47,10 +48,12 @@ static void tridiag(float A[], uint16_t row, float d[], float e[]){
 		l = i - 1;
 		h = scale = 0.0f;
 		if (l > 0) {
-			for (k = 0; k < l + 1; k++)
+			for (k = 0; k < l + 1; k++) {
 				scale += fabsf(Ai[k]); /* scale += fabsf(*(A + row*i + k)); */
-			if (scale == 0.0f)
+			}
+			if (scale == 0.0f) {
 				e[i] = Ai[l]; /* *(e + i) = *(A + row*i + l); */
+			}
 			else {
 				for (k = 0; k < l + 1; k++) {
 					Ai[k] /= scale;
@@ -70,8 +73,9 @@ static void tridiag(float A[], uint16_t row, float d[], float e[]){
 					Aj[i] = Ai[j] / h;
 					/* *(A + row*j + i) = *(A + row*i + j) / h; */
 					g = 0.0f;
-					for (k = 0; k < j + 1; k++)
+					for (k = 0; k < j + 1; k++) {
 						g += Aj[k] * Ai[k]; /* g += *(A + row*j + k) * *(A + row*i + k); */
+					}
 					Ak = A;
 					Ak += row*j; /* Important that is is row*j and not row*(j+1) **/
 					for (k = j + 1; k < l + 1; k++){
@@ -88,8 +92,9 @@ static void tridiag(float A[], uint16_t row, float d[], float e[]){
 				for (j = 0; j < l + 1; j++) { /* l + 1 */
 					f = Ai[j]; /* *(A + row*i + j) */
 					e[j] = g = e[j] - hh * f;
-					for (k = 0; k < j + 1; k++)
+					for (k = 0; k < j + 1; k++) {
 						Aj[k] -= (f * e[k] + g * Ai[k]); /* *(A + row*j + k) -= (f * e[k] + g * *(A + row*i + k)); */
+					}
 					Aj += row;
 				}
 			}
@@ -140,33 +145,38 @@ static void tridiag(float A[], uint16_t row, float d[], float e[]){
 static float pythag_float(float a, float b){
 	float absa = fabsf(a);
 	float absb = fabsf(b);
-	if (absa > absb)
+	if (absa > absb) {
 		return absa * sqrtf(1.0f + square(absb / absa));
-	else
-		return (absb == 0.0f ? 0.0f : absb * sqrtf(1.0f + square(absa / absb)));
+	}
+	else {
+		return (absb < MIN_VALUE ? 0.0f : absb * sqrtf(1.0f + square(absa / absb)));
+	}
 }
 
-static void tqli(float d[], float e[], uint16_t row, float z[]){
+static bool tqli(float d[], float e[], size_t row, float z[]){
 	int32_t m, l, iter, i, k;
 	float s, r, p, g, f, dd, c, b;
-
+	bool ok = true;
 	/* Save address */
 	float *zk;
 
-	for (i = 1; i < row; i++)
+	for (i = 1; i < row; i++) {
 		e[i - 1] = e[i];
+	}
 	e[row - 1] = 0.0f;
 	for (l = 0; l < row; l++) {
 		iter = 0;
 		do {
 			for (m = l; m < row - 1; m++) {
 				dd = fabsf(d[m]) + fabsf(d[m + 1]);
-				if (fabsf(e[m]) + dd == dd)
+				if (fabsf(e[m]) < MIN_VALUE) {
 					break;
+				}
 			}
 			if (m != l) {
-				if (iter++ == 30) {
-					fprintf(stderr, "[tqli] Too many iterations in tqli.\n");
+				if (iter++ == MAX_ITERATIONS) {
+					/* Too many iterations */
+					ok = false;
 					break;
 				}
 				g = (d[l + 1] - d[l]) / (2.0f * e[l]);
@@ -178,7 +188,7 @@ static void tqli(float d[], float e[], uint16_t row, float z[]){
 					f = s * e[i];
 					b = c * e[i];
 					e[i + 1] = (r = pythag_float(f, g));
-					if (r == 0.0f) {
+					if (fabsf(r) < MIN_VALUE) {
 						d[i + 1] -= p;
 						e[m] = 0.0f;
 						break;
@@ -201,12 +211,14 @@ static void tqli(float d[], float e[], uint16_t row, float z[]){
 						/* *(z + row*k + i) = c * *(z + row*k + i) - s * f */
 					}
 				}
-				if (r == 0.0f && i >= l)
+				if (r == 0.0f && i >= l) {
 					continue;
+				}
 				d[l] -= p;
 				e[l] = g;
 				e[m] = 0.0f;
 			}
 		} while (m != l);
 	}
+	return ok;
 }
