@@ -67,6 +67,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\C89_Functions.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cut.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\find.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\insert.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\pdist2.c" />
     <ClCompile Include="CControl\Sources\Optimization\lsqnonneg.c" />

@@ -83,6 +83,7 @@ bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, fl
 void cat(bool row_wise, float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, size_t column_b, size_t row_c, size_t column_c);
 float saturation(float input, float lower_limit, float upper_limit);
 void cut(float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
+void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITION_METOD condition_method);
 void insert(float A[], float B[], size_t row_a, size_t column_a, size_t column_b, size_t startRow_b, size_t startColumn_b);
 void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, PDIST2_METRIC metric);
 void print(float A[], size_t row, size_t column);

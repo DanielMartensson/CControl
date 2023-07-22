@@ -57,6 +57,7 @@ Main focuses are:
 - Miscellaneous
   - Concatenate
   - Cut matrix
+  - Find
   - Insert sub matrix into matrix
   - Pdist2
   - Print matrix or vector

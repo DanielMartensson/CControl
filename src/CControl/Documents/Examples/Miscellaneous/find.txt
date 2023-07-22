@@ -1,0 +1,39 @@
+/*
+ ============================================================================
+ Name        : find.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute pdist2
+ ============================================================================
+ */
+
+#include "CControl/Headers/Functions.h"
+
+#define row 7
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Define A */
+	float A[row] = { 0.5723,   0.1744,   0.4915, - 0.6698, - 0.5433,   1.5792, - 0.4664};
+	int32_t index[row] = { 0 };
+
+	/* Compute find */
+	find(A, index, 0.1, row, FIND_CONDITION_METOD_L);
+
+	/* Print index */
+	size_t i;
+	for (i = 0; i < row; i++) {
+		if (index[i] >= 0) {
+			printf("%i ", index[i]);
+		}
+	}
+
+	end = clock();
+	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
