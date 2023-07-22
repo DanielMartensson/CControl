@@ -230,16 +230,8 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\C89_Functions.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="CControl\Documents\Examples\Statistics\pca.txt" />
-    <Text Include="CControl\Documents\Examples\Statistics\lda.txt" />
-    <Text Include="CControl\Documents\Examples\LinearAlgebra\eig_sym_generalized.txt" />
-    <Text Include="CControl\Documents\Examples\Statistics\covm.txt" />
-    <Text Include="CControl\Documents\Examples\LinearAlgebra\norm.txt" />
-    <Text Include="CControl\Documents\Examples\Filtering\rpca.txt" />
-    <Text Include="CControl\Documents\Examples\Optimization\lsqnonneg.txt" />
-    <Text Include="CControl\Documents\Examples\MachineLearning\svm.txt" />
-    <Text Include="CControl\Documents\Examples\LinearAlgebra\expm.txt" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\pdist2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

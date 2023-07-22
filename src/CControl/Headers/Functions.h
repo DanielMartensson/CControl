@@ -84,6 +84,7 @@ void cat(bool row_wise, float A[], float B[], float C[], size_t row_a, size_t co
 float saturation(float input, float lower_limit, float upper_limit);
 void cut(float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
 void insert(float A[], float B[], size_t row_a, size_t column_a, size_t column_b, size_t startRow_b, size_t startColumn_b);
+void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, PDIST2_METRIC metric);
 void print(float A[], size_t row, size_t column);
 float sign(float number);
 float vmax(float a, float b);

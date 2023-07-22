@@ -11,10 +11,8 @@
 /*
  * Find the sum
  * x[m*n]
- * dim = 1 = Row direction
- * dim = 2 = Column direction
- * y[m] if dim = 1
- * y[n] if dim = 2
+ * y[m] if row_direction = true
+ * y[n] if row_direction = false
  */
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction) {
 	/* Decleration */

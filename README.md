@@ -58,6 +58,7 @@ Main focuses are:
   - Concatenate
   - Cut matrix
   - Insert sub matrix into matrix
+  - Pdist2
   - Print matrix or vector
   - Saturation
   - Sign
