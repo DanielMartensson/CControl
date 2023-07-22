@@ -7,6 +7,12 @@
 
 #include "../../Headers/Functions.h"
 
+/*
+ * Compute pdist2
+ * A[row_a*column_a]
+ * B[row_b*column_a]
+ * C[row_a*row_b]
+ */
 void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, PDIST2_METRIC metric) {
 	/* Get size of bytes */
 	const size_t sizeBytesA = row_a * column_a * sizeof(float);
