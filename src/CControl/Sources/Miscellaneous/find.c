@@ -8,7 +8,8 @@
 #include "../../Headers/Functions.h"
 
 /*
- * Find elements that 
+ * Find elements
+ * condition FIND_CONDITION_METOD A[]
  */
 void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITION_METOD condition_method) {
 	size_t i;
