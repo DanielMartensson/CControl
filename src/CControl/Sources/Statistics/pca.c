@@ -19,12 +19,9 @@ static void compute_components(float X[], float W[], size_t components, size_t r
  */
 
 void pca(float X[], float W[], float P[], size_t components, size_t row, size_t column) {
-	/* Copy the data X -> Y */
-	float* Y = (float*)malloc(row * column * sizeof(float));
-	memcpy(Y, X, row * column * sizeof(float));
-
 	/* Filter the data */
 	float* S = (float*)malloc(row * column * sizeof(float));
+	float* Y = (float*)malloc(row * column * sizeof(float));
 	rpca(X, Y, S, row, column);
 
 	/* Average and center data Y = Y - mean(Y) */
