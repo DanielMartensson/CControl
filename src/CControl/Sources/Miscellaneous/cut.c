@@ -22,11 +22,12 @@ void cut(float A[], size_t column, float B[], size_t start_row, size_t stop_row,
 
 	/* Create the output */
 	size_t out_columns = stop_column - start_column + 1;
+	size_t out_columns_bytes = out_columns * sizeof(float);
 
 	/* Instead of having two for loops, we just copy the whole row at once. */
 	size_t i;
 	for (i = start_row; i < stop_row + 1; i++) {
-		memcpy(B, data, sizeof(float) * out_columns);
+		memcpy(B, data, out_columns_bytes);
 		B += out_columns;
 		data += column;
 	}
