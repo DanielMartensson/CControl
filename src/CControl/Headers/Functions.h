@@ -78,6 +78,7 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void dbscan(float A[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
+void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method);
 bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */
@@ -135,6 +136,7 @@ bool lsqnonneg(float A[], float x[], float b[], float residual[], size_t row, si
 bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], size_t row_a, size_t row_g, size_t column_a, bool equality_constraints_are_used);
 
 /* Statistics */
+float amax(float x[], size_t* max_index, size_t length);
 void randn(float x[], size_t length, float mu, float sigma);
 float mean(float x[], size_t length);
 float var(float x[], size_t length);

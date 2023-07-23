@@ -239,8 +239,11 @@
     <ClCompile Include="CControl\Sources\MachineLearning\dbscan.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="CControl\Documents\Examples\MachineLearning\dbscan.txt" />
+    <ClCompile Include="CControl\Sources\MachineLearning\pooling.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Statistics\amax.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

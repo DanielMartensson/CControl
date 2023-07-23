@@ -13,7 +13,8 @@ Main focuses are:
 
 - Machine Learning
   - Robust Fisher Faces for image classification (ongoing)
-  - Density-Based Spatial Clustering of Applications with Noise (DBSCAN)
+  - Density-Based Spatial Clustering of Applications with Noise
+  - Pooling Max & Average
   - Support Vector Machine
   
 - Control Engineering
@@ -79,6 +80,7 @@ Main focuses are:
   - Linear Discriminant Analysis
   - Randn
   - Mean
+  - Max
   - Standard deviation
   - Variance
   - Covariance

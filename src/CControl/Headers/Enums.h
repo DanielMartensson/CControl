@@ -55,4 +55,10 @@ typedef enum {
 	FIND_CONDITION_METOD_L
 }FIND_CONDITION_METOD;
 
+/* For pooling.c */
+typedef enum {
+	POOLING_METOD_MAX,
+	POOLING_METOD_AVERAGE
+}POOLING_METOD;
+
 #endif // !CCONTROL_HEADERS_ENUMS_H_

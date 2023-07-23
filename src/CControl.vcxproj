@@ -64,7 +64,9 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\tran.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\dbscan.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\pooling.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
+    <ClCompile Include="CControl\Sources\Statistics\amax.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\C89_Functions.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cut.c" />
@@ -95,9 +97,6 @@
     <ClCompile Include="CControl\Sources\SystemIdentification\rls.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\sr_ukf_parameter_estimation.c" />
     <ClCompile Include="Main.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="CControl\Documents\Examples\MachineLearning\dbscan.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
