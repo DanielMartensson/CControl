@@ -13,17 +13,15 @@
  */
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method) {
 	/* Get the height and width for B */
-	size_t h = row_a / p;
-	size_t w = column_a / p;
+	const size_t h = row_a / p;
+	const size_t w = column_a / p;
 
 	/* Create B */
-	float* B = (float*)malloc(p*p * sizeof(float));
-
-	/* Slack variable */
-	size_t max_index = 0;
+	const size_t pp = p * p;
+	float* B = (float*)malloc(pp * sizeof(float));
 
 	/* Loop */
-	size_t i, j, start_row, stop_row, start_column, stop_column;
+	size_t i, j, start_row, stop_row, start_column, stop_column, max_index;
 	for (i = 0; i < h; i++) {
 		for (j = 0; j < w; j++) {
 			/* Cut A into B */
@@ -36,10 +34,10 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 			/* Add to P */
 			switch (pooling_method) {
 			case POOLING_METOD_AVERAGE:
-				P[j] = mean(B, p * p);
+				P[j] = mean(B, pp);
 				break;
 			case POOLING_METOD_MAX:
-				P[j] = amax(B, &max_index, p * p);
+				P[j] = amax(B, &max_index, pp);
 				break;
 			}
 		}
