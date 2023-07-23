@@ -236,5 +236,11 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\find.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\dbscan.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CControl\Documents\Examples\MachineLearning\dbscan.txt" />
   </ItemGroup>
 </Project>

@@ -34,7 +34,7 @@ void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size
 		}
 		float* AA = (float*)malloc(row_a * sizeof(float));
 		sum(AtimesA, AA, row_a, column_a, false);
-
+		
 		/* 
 		 * MATLAB: BB = sum(Bt*Bt, 1);
 		 */

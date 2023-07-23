@@ -77,6 +77,7 @@ bool stability(float A[], size_t ADIM);
 void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
+void dbscan(float A[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */

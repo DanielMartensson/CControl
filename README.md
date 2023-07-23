@@ -13,6 +13,7 @@ Main focuses are:
 
 - Machine Learning
   - Robust Fisher Faces for image classification (ongoing)
+  - Density-Based Spatial Clustering of Applications with Noise (DBSCAN)
   - Support Vector Machine
   
 - Control Engineering
