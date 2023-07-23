@@ -15,13 +15,21 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 	/* Get the height and width for B */
 	const size_t h = row_a / p;
 	const size_t w = column_a / p;
+	size_t i, j, start_row, stop_row, start_column, stop_column, max_index;
 
 	/* Create B */
 	const size_t pp = p * p;
 	float* B = (float*)malloc(pp * sizeof(float));
 
+	/* When you want minimal structures left */
+	float mean_A, max_A;
+	if (pooling_method == POOLING_METHOD_SHAPE) {
+		size_t row_a_column_a = row_a * column_a;
+		mean_A = mean(A, row_a_column_a);
+		max_A = amax(A, &max_index, row_a_column_a);
+	}
+
 	/* Loop */
-	size_t i, j, start_row, stop_row, start_column, stop_column, max_index;
 	for (i = 0; i < h; i++) {
 		for (j = 0; j < w; j++) {
 			/* Cut A into B */
@@ -38,6 +46,9 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 				break;
 			case POOLING_METOD_MAX:
 				P[j] = amax(B, &max_index, pp);
+				break;
+			case POOLING_METHOD_SHAPE:
+				P[j] = mean(B, pp) / mean_A * max_A;
 				break;
 			}
 		}
@@ -71,6 +82,10 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 	w = floor(column_a / p);
 	P = zeros(h, w);
 
+	% Minimal case
+	a = mean(A(:));
+	b = max(A(:));
+
 	% Process
 	for i = 1:h
 		for j = 1:w
@@ -82,7 +97,7 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 			B = A(start_row:stop_row, start_column:stop_column);
 
 			% Do pooling
-			P(i, j) = max(B(:)); % mean(B(:));
+			P(i, j) = mean(B(:))/a*b; % max(B(:)); % mean(B(:));
 		end
 	end
 
