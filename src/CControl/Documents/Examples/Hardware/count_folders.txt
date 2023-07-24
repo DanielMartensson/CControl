@@ -15,7 +15,10 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Start counting folders*/
+	/* 
+	 * Start counting folders 
+	 * Enter your folder path, in this case, it's Windows folder path for me
+	 */
 	printf("Counted folders: %i\n", count_folders("C:\\Users\\dmn\\VS"));
 
 	end = clock();

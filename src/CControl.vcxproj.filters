@@ -249,7 +249,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="CControl\Documents\Examples\Hardware\count_folders.txt" />
-  </ItemGroup>
 </Project>

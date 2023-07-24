@@ -99,9 +99,6 @@
     <ClCompile Include="CControl\Sources\SystemIdentification\sr_ukf_parameter_estimation.c" />
     <ClCompile Include="Main.c" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="CControl\Documents\Examples\Hardware\count_folders.txt" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
