@@ -18,7 +18,7 @@
     <ClInclude Include="CControl\Headers\Functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CControl\Headers\Enums.h">
+    <ClInclude Include="CControl\Headers\enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -245,5 +245,11 @@
     <ClCompile Include="CControl\Sources\Statistics\amax.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\Hardware\count_folder_names.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CControl\Documents\Examples\Hardware\count_folders.txt" />
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@
 #include <time.h> 						/* For srand, clock */
 
 /* CControl headers */
-#include "Enums.h"
+#include "enums.h"
 
 #ifndef __cplusplus
 
@@ -78,6 +78,7 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void dbscan(float A[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
+void fisherfaces_read_images(const char folderPaths[]);
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method);
 bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
@@ -100,6 +101,9 @@ void rpca(float X[], float L[], float S[], size_t row, size_t column);
 void filtfilt(float y[], float t[], size_t l, float K);
 void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], size_t m, size_t p, size_t*k);
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L);
+
+/* Hardware */
+size_t count_folders(const char folderPath[]);
 
 /* Linear algebra */
 bool inv(float A[], size_t row);

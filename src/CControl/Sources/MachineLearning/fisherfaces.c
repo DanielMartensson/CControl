@@ -2,10 +2,16 @@
  * fisherfaces.c
  *
  *  Created on: 27 mars 2023
- *      Author: Daniel M�rtensson
+ *      Author: Daniel Mårtensson
  */
 
 #include "../../Headers/Functions.h"
+
+/* Special case */
+#ifdef _WIN32
+#include <Windows.h>
+#endif // _WIN32
+
 
 void fisherfaces_train(float X[], size_t y[], float W[], float P[], size_t components, size_t row, size_t column) {
 	/* Compute PCA */
@@ -27,7 +33,7 @@ void fisherfaces_train(float X[], size_t y[], float W[], float P[], size_t compo
 	mul(W, X, P, ? , ? , column);*/
 }
 
-void fisherfaces_predict() {
-
+void fisherfaces_read_images(const char folderPaths[]) {
+	printf("Counted folders: %i\n", count_folders(folderPaths));
 }
 

@@ -1,5 +1,5 @@
 /*
- * Enums.h
+ * enums.h
  *
  *  Created on: 20 Juli. 2023
  *      Author: Daniel Mårtensson
