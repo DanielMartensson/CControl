@@ -7,6 +7,13 @@
 
 #include "../../Headers/Functions.h"
 
+/* 
+ * Create ID's of clusters
+ * A[m*n]
+ * idx[m]
+ * epsilon = Raduis of the clusters
+ * min_pts = Minimum points of a valid cluster
+ */
 void dbscan(float A[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column) {
 	/* Create idx */
 	memset(idx, 0, row * sizeof(size_t));
