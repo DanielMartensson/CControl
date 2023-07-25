@@ -21,6 +21,12 @@
     <ClInclude Include="CControl\Headers\enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CControl\Headers\structs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Headers\defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c">
@@ -227,9 +233,6 @@
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Miscellaneous\C89_Functions.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\pdist2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -245,7 +248,19 @@
     <ClCompile Include="CControl\Sources\Statistics\amax.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Hardware\count_folder_names.c">
+    <ClCompile Include="CControl\Sources\Hardware\count_sub_folders.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Hardware\scan_sub_folder_names.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Hardware\scan_file_names.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Hardware\concatenate_paths.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\pgm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

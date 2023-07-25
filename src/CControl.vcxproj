@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CControl\Headers\defines.h" />
     <ClInclude Include="CControl\Headers\enums.h" />
     <ClInclude Include="CControl\Headers\Functions.h" />
+    <ClInclude Include="CControl\Headers\structs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c" />
@@ -35,7 +37,10 @@
     <ClCompile Include="CControl\Sources\Filtering\filtfilt.c" />
     <ClCompile Include="CControl\Sources\Filtering\pf.c" />
     <ClCompile Include="CControl\Sources\Filtering\sr_ukf_state_estimation.c" />
-    <ClCompile Include="CControl\Sources\Hardware\count_folder_names.c" />
+    <ClCompile Include="CControl\Sources\Hardware\concatenate_paths.c" />
+    <ClCompile Include="CControl\Sources\Hardware\count_sub_folders.c" />
+    <ClCompile Include="CControl\Sources\Hardware\scan_sub_folder_names.c" />
+    <ClCompile Include="CControl\Sources\Hardware\scan_file_names.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\balance.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\chol.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\cholupdate.c" />
@@ -67,8 +72,8 @@
     <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\pooling.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\pgm.c" />
     <ClCompile Include="CControl\Sources\Statistics\amax.c" />
-    <ClCompile Include="CControl\Sources\Miscellaneous\C89_Functions.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cut.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\find.c" />
