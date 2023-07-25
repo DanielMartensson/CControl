@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 /*
  * Print matrix or vector - Just for error check

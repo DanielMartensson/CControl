@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 /*
  * Create hankel matrix of vector V. Step is just the shift. Normaly set this to 0.

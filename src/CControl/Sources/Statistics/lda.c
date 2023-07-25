@@ -5,20 +5,19 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static void average_vector(float A[], float mu[], size_t row, size_t column);
 static void center_data(float X[], float mu[], size_t row, size_t column);
 
 /*
-  * Linear Discriminant Analysis (LDA)
-  * This compute the LDA of X and return W and P
-  * X[m*n]
-  * y[n]
-  * W[m*components]
-  * P[components*n]
-  */
-
+ * Linear Discriminant Analysis (LDA)
+ * This compute the LDA of X and return W and P
+ * X[m*n]
+ * y[n]
+ * W[m*components]
+ * P[components*n]
+ */
 void lda(float X[], size_t y[], float W[], float P[], size_t components, size_t row, size_t column) {
 	/* Create average vector mu_X = mean(X, 2) */
 	float* mu_X = (float*)malloc(row * sizeof(float));

@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CControl\Headers\Functions.h">
+    <ClInclude Include="CControl\Headers\functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CControl\Headers\enums.h">
@@ -25,6 +25,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CControl\Headers\defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\ccontrol.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

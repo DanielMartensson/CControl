@@ -5,8 +5,11 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
+/*
+ * Return the amount of sub folders and also their name. Call sub_folder_names with a pointer
+ */
 #ifdef _WIN32
 #undef UNICODE /* We want to use ANSI */
 #include <Windows.h>

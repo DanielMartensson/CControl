@@ -5,13 +5,12 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 /* Private functions */
 static void Householders_Reduction_to_Bidiagonal_Form(float *A, size_t nrows, size_t ncols, float *U, float *V, float *diagonal, float *superdiagonal);
 static bool Givens_Reduction_to_Diagonal_Form(size_t nrows, size_t ncols, float *U, float *V, float *diagonal, float *superdiagonal);
 static void Sort_by_Decreasing_Singular_Values(size_t nrows, size_t ncols, float *singular_value, float *U, float *V);
-
 
 /*
  *

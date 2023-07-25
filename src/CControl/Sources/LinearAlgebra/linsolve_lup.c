@@ -5,7 +5,7 @@
  *      Author: hp
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 /*
  * This solves Ax=b with LUP-decomposition

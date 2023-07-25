@@ -5,7 +5,7 @@
  *      Author: Daniel MÃƒÂ¥rtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static float check_solution(float dx[], float x[], float* past_sqrt_sum_dx, float best_x[], uint8_t* elements);
 

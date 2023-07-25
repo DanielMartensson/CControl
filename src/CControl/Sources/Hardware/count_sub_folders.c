@@ -5,8 +5,11 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
+/*
+ * Return the amount of sub folders
+ */
 #ifdef _WIN32
 #undef UNICODE /* We want to use ANSI */
 #include <Windows.h>

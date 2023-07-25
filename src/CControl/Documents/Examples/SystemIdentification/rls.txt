@@ -8,7 +8,7 @@
  ============================================================================
  */
 
-#include "CControl/Headers/Functions.h"
+#include "CControl/ccontrol.h"
 
  /* Dimensions for input and output */
 #define YDIM 1

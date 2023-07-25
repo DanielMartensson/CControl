@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static void simulation(float K, float y[], float t[], size_t l);
 static void flip(float y[], size_t l);

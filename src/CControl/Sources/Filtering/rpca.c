@@ -5,12 +5,18 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static float do_Frobenius_on_A(float A[], float X[], float L[], float S[], size_t row, size_t column);
 static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau, size_t row, size_t column);
 static void shrink_matrix(float A[], float X[], float tau, size_t row, size_t column);
 
+/*
+ * Robust principal component analysis
+ * X[m*n]
+ * L[m*n]
+ * S[m*n]
+ */
 void rpca(float X[], float L[], float S[], size_t row, size_t column) {
 	/* Get two tuning factors */
 	uint32_t i, row_column = row * column;

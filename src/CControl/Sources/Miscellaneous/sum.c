@@ -6,7 +6,7 @@
  */
 
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 /*
  * Find the sum

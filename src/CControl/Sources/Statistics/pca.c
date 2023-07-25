@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static void center_data(float X[], size_t row, size_t column);
 static void compute_components(float X[], float W[], size_t components, size_t row, size_t column);
@@ -17,7 +17,6 @@ static void compute_components(float X[], float W[], size_t components, size_t r
  * W[n*components]
  * P[m*components]
  */
-
 void pca(float X[], float W[], float P[], size_t components, size_t row, size_t column) {
 	/* Copy the data X -> Y */
 	float* Y = (float*)malloc(row * column * sizeof(float));

@@ -5,13 +5,13 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
- /*
-   * Compute covariance of a matrix X and return covariance Y
-   * X[m*n]
-   * Y[n*n]
-   */
+/*
+ * Compute covariance of a matrix X and return covariance Y
+ * X[m*n]
+ * Y[n*n]
+ */
 void covm(float X[], float Y[], size_t row, size_t column) {
 	/* Turn X into transpose because it's easier to handle the rows */
 	tran(X, row, column);

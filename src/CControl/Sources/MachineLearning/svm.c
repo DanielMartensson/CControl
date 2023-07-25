@@ -5,7 +5,7 @@
  *      Author: Daniel M�rtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 /*
  * Do Support Vector Machine

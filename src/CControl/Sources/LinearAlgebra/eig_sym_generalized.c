@@ -5,19 +5,19 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
- /*
-  * Compute eigenvalues and eigenvectors from a symmetrical square matrix A and B
-  * Notice that a square symmetrical matrix can never have complex eigenvalues and eigenvalues!
-  * A [m*n]
-  * B [m*n]
-  * n == m
-  * A^T = A
-  * B^T = B
-  * d [m] // Eigenvalues
-  * A will become eigenvectors!
-  */
+/*
+ * Compute eigenvalues and eigenvectors from a symmetrical square matrix A and B
+ * Notice that a square symmetrical matrix can never have complex eigenvalues and eigenvalues!
+ * A [m*n]
+ * B [m*n]
+ * n == m
+ * A^T = A
+ * B^T = B
+ * d [m] // Eigenvalues
+ * A will become eigenvectors!
+ */
 bool eig_sym_generalized(float A[], float B[], size_t row, float d[]) {
 	/* Do cholesky factorization of B */
 	float* L = (float*)malloc(row * row * sizeof(float));

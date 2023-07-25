@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 /* Private functions */
 static bool tqli(float d[], float e[], size_t row, float z[]);
@@ -13,7 +13,6 @@ static void tridiag(float A[], size_t row, float d[], float e[]);
 static float pythag_float(float a, float b);
 #define square(a) ((a)*(a))
 #define abs_sign(a,b) ((b) >= 0.0f ? fabsf(a) : -fabsf(a)) /* Special case for tqli function */
-
 
 /*
  * Compute eigenvalues and eigenvectors from a symmetrical square matrix A

@@ -8,8 +8,7 @@
  ============================================================================
  */
 
-
-#include "CControl/Headers/Functions.h"
+#include "CControl/ccontrol.h"
 
 int main() {
 

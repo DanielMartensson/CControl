@@ -8,7 +8,7 @@
  ============================================================================
  */
 
-#include "CControl/Headers/Functions.h"
+#include "CControl/ccontrol.h"
 
 #define height_map 15
 #define width_map 10

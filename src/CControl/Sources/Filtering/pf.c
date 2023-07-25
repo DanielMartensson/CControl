@@ -5,25 +5,23 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
-
- /*
-  * Particle filter
-  * x[m] Your unfiltered state vector measurement
-  * xhat[m] Your filtered state vector measurement
-  * xhatp[m] Previous state vector measurement
-  * horizon[m*p] This is how back we look for the previous measurement
-  * noise[m*p] This is the estimation error as noise. Used for the deviation for the kernel density estimation
-  * m This is the row dimension
-  * k This is a number, begins at 0 and will count up to number p
-  * p This is a fixed number for the length of horizon and noise. See this variable as a tuning parameter for the particle filter
-  */
-
+#include "../../Headers/functions.h"
 
 static void shift_matrix(float matrix[], float x[], size_t p, size_t* k, size_t m);
 static void kernel_density_estimation(float P[], float H[], float horizon[], float noise[], size_t m, size_t p);
 static float normal_pdf(float x, float mu, float sigma);
 
+/*
+ * Particle filter
+ * x[m] Your unfiltered state vector measurement
+ * xhat[m] Your filtered state vector measurement
+ * xhatp[m] Previous state vector measurement
+ * horizon[m*p] This is how back we look for the previous measurement
+ * noise[m*p] This is the estimation error as noise. Used for the deviation for the kernel density estimation
+ * m This is the row dimension
+ * k This is a number, begins at 0 and will count up to number p
+ * p This is a fixed number for the length of horizon and noise. See this variable as a tuning parameter for the particle filter
+ */
 void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], size_t m, size_t p, size_t* k) {
 
 	/* Horizon matrix shifting */

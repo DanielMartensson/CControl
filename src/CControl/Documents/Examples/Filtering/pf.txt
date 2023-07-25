@@ -8,7 +8,7 @@
  ============================================================================
  */
 
-#include "CControl/Headers/Functions.h"
+#include "CControl/ccontrol.h"
 
 #define n 63
 #define m 1

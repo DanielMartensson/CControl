@@ -5,9 +5,10 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static float generate_gauss(float mu, float sigma);
+static bool has_been_called = false;
 
 /*
  * Compute Gaussian Distribution
@@ -15,9 +16,6 @@ static float generate_gauss(float mu, float sigma);
  * Mean: mu
  * Standard deviation: sigma
  */
-
-static bool has_been_called = false;
-
 void randn(float x[], size_t length, float mu, float sigma){
 	if(!has_been_called){
 		srand(time(NULL));

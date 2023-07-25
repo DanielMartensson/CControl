@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CControl\ccontrol.h" />
     <ClInclude Include="CControl\Headers\defines.h" />
     <ClInclude Include="CControl\Headers\enums.h" />
-    <ClInclude Include="CControl\Headers\Functions.h" />
+    <ClInclude Include="CControl\Headers\functions.h" />
     <ClInclude Include="CControl\Headers\structs.h" />
   </ItemGroup>
   <ItemGroup>

@@ -5,13 +5,13 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
- /*
-  * Compute Bessel's variance
-  * x[L] Vector with values
-  * L = Length of vector x
-  */
+/*
+ * Compute Bessel's variance
+ * x[L] Vector with values
+ * L = Length of vector x
+ */
 float var(float x[], size_t length) {
 	float mu = mean(x, length);
 	float sigma = 0.0f;

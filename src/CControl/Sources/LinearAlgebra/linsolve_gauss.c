@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static void triu(float A[], float b[], size_t row);
 static void tikhonov(float A[], float b[], float ATA[], float ATb[], size_t row_a, size_t column_a, float alpha);

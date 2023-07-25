@@ -6,7 +6,7 @@
  */
 
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static void integral(float I[], float gain, float x[], float e[], size_t RDIM);
 static void saturate(float I[], float limit, size_t RDIM);

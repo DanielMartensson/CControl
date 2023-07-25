@@ -5,13 +5,13 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
- /*
-  * Compute dot product of two vectors
-  * a[m]
-  * b[m]
-  */
+/*
+ * Compute dot product of two vectors
+ * a[m]
+ * b[m]
+ */
 float dot(float a[], float b[], size_t row) {
     float result = 0.0f;
     size_t i;

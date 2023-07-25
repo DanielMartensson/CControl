@@ -5,10 +5,9 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static bool opti(float c[], float A[], float b[], float x[], size_t row_a, size_t column_a, bool maximization);
-
 
 /**
  * This is linear programming with simplex method.

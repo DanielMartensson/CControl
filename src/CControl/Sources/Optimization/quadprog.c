@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t row_a, size_t column_a);
 
@@ -30,7 +30,6 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
  * h [row_g]				// Equality constraint vector
  * x [column_a]				// Solution
  */
-
 bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], size_t row_a, size_t row_g, size_t column_a, bool equality_constraints_are_used) {
 	if (equality_constraints_are_used) {
 		/* Create multiple inequality constraints. Those are going to be equality constranits */

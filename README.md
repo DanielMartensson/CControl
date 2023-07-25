@@ -102,7 +102,7 @@ Main focuses are:
  ============================================================================
  */
 
-#include "CControl/Headers/Functions.h"
+#include "CControl/ccontrol.h"
 
 int main() {
 	clock_t start, end;

@@ -1,5 +1,5 @@
 /*
- * Functions.h
+ * functions.h
  *
  *  Created on: 5 oct. 2019
  *      Author: Daniel Mårtensson

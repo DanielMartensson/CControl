@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 PGM* pgm_read(const char file_path[]) {
 	/* Check if file_path holds .pgm */

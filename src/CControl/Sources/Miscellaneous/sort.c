@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static void insertion_sort(float X[], size_t n, SORT_MODE sort_mode);
 
@@ -13,7 +13,6 @@ static void insertion_sort(float X[], size_t n, SORT_MODE sort_mode);
  * Sort a matrix
  * X[m*n]
  */
-
 void sort(float X[], size_t row, size_t column, SORT_MODE sort_mode){
 	/* Decleration */
 	size_t i, j;

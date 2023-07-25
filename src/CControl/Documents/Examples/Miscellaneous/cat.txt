@@ -1,4 +1,14 @@
-#include "CControl/Headers/Functions.h"
+/*
+ ============================================================================
+ Name        : cat.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Concatenate two matrices
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
 
 int main()
 {

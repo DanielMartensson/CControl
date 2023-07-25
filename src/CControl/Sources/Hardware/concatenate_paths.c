@@ -5,8 +5,11 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
+/*
+ * Concatenate two C-strings with \\ as delimeter
+ */
 #ifdef _WIN32
 void concatenate_paths(char total_path[], const char path_first[], const char path_second[]){
 	sprintf(total_path, "%s\\%s", path_first, path_second);

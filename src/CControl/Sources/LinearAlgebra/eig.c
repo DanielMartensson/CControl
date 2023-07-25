@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/Functions.h"
+#include "../../Headers/functions.h"
 
 static bool qr_shift_algorithm(float A[], float wr[], float wi[], size_t row);
 static void prepare(float A[], size_t row);
