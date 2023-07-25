@@ -18,54 +18,45 @@
 #include <time.h> 						/* For srand, clock */
 
 /* CControl headers */
+#include "defines.h"
 #include "enums.h"
-
-#ifndef __cplusplus
-
-/* In ANSI C (C89), the __STDC_VERSION__ is not defined */
-#ifndef __STDC_VERSION__
-#define __STDC_VERSION__ 199409L		/* STDC version of C89 standard */
-#endif
-
-/* C99 has the __STDC_VERSION 199901L */
-#if __STDC_VERSION___ < 199901L		
-/* Math functions */
-float sqrtf(float x);
-float fabsf(float x);
-float acosf(float x);
-float expf(float x);
-float powf(float base, float power);
-float logf(float x);
-float sinf(float x);
-
-/* Standard signed int and unsigned int */
-typedef unsigned char  uint8_t;
-typedef signed char    int8_t;
-typedef unsigned short uint16_t;
-typedef signed short   int16_t;
-typedef unsigned long  uint32_t;
-typedef signed long    int32_t;
-typedef unsigned long long size_t;
-
-/* Standard bool */
-typedef uint8_t bool;
-#define true 1
-#define false 0
-#else
-/* C99 and above */
-#include <stdbool.h>					/* For bool datatype */
-#include <stdint.h>						/* For uint8_t, uint16_t and uint16_t */
-#endif
-#endif // !__cplusplus
-
-/* Define for all */
-#define PI 2*acosf(0.0f)				/* acos(0) is pi/2 */
-#define MIN_VALUE 1e-14f
-#define MAX_ITERATIONS 10000U
+#include "structs.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#if __STDC_VERSION___ < 199901L
+#ifndef _MSC_VER
+float sqrtf(float x) {
+	return (float)sqrt(x);
+}
+
+float fabsf(float x) {
+	return (float)fabs(x);
+}
+
+float acosf(float x) {
+	return (float)acos(x);
+}
+
+float expf(float x) {
+	return (float)exp(x);
+}
+
+float powf(float base, float power) {
+	return (float)pow(base, power);
+}
+
+float logf(float x) {
+	return (float)log(x);
+}
+
+float sinf(float x) {
+	return (float)sin(x);
+}
+#endif /* !_MSC_VER */
+#endif /* !__STDC_VERSION___ */
 
 /* Control engineering */
 void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON, bool has_integration);
@@ -78,7 +69,10 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void dbscan(float A[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
-void fisherfaces_read_images(const char folderPaths[]);
+void fisherfaces_filter_raw_model(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts);
+FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]);
+void fisherfaces_free_model(FISHER_MODEL* fisher_model);
+void fisherfaces_print_model(FISHER_MODEL* fisher_model);
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method);
 bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
@@ -89,6 +83,9 @@ void cut(float A[], size_t column, float B[], size_t start_row, size_t stop_row,
 void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITION_METOD condition_method);
 void insert(float A[], float B[], size_t row_a, size_t column_a, size_t column_b, size_t startRow_b, size_t startColumn_b);
 void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, PDIST2_METRIC metric);
+PGM* pgm_read(const char file_path[]);
+void pgm_free(PGM* image);
+void pgm_print(PGM* image);
 void print(float A[], size_t row, size_t column);
 float sign(float number);
 float vmax(float a, float b);
@@ -103,7 +100,10 @@ void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], 
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L);
 
 /* Hardware */
-size_t count_folders(const char folderPath[]);
+void concatenate_paths(char total_path[], const char path_first[], const char path_second[]);
+size_t count_sub_folders(const char folder_path[]);
+size_t scan_file_names(const char folder_path[], char** file_names[]);
+size_t scan_sub_folder_names(const char folder_path[], char** sub_folder_names[]);
 
 /* Linear algebra */
 bool inv(float A[], size_t row);
@@ -164,4 +164,4 @@ void sr_ukf_parameter_estimation(float d[], float what[], float Re[], float x[],
 }
 #endif
 
-#endif /* CCONTROL_HEADERS_FUNCTIONS_H_ */
+#endif /* !CCONTROL_HEADERS_FUNCTIONS_H_ */
