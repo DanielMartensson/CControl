@@ -65,7 +65,7 @@ void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), f
 		for (j = 0; j < elements; j++) {
 			x[j] -= (alpha + past_gradients[gradient_index]) * dx[j]; /* x = x - alpha * dx */
 		}
-		past_gradients[gradient_index] = alpha * norm(dx, 1, elements, 2); /* Save the last for next time */
+		past_gradients[gradient_index] = alpha * norm(dx, 1, elements, NORM_METHOD_L2); /* Save the last for next time */
 		gradient_index++;
 		if (gradient_index >= maximum_gradients_index) {
 			gradient_index = 0; /* Reset */
@@ -82,7 +82,7 @@ void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), f
 
 static float check_solution(float dx[], float x[], float* best_sqrt_sum_dx, float best_x[], uint8_t* elements){
 	/* Do L2-norm on dx */
-	float sqrt_sum_dx = norm(dx, 1, *elements, 2);
+	float sqrt_sum_dx = norm(dx, 1, *elements, NORM_METHOD_L2);
 
 	/* Now we are finding the best solution to the function */
 	if(*best_sqrt_sum_dx > sqrt_sum_dx){
