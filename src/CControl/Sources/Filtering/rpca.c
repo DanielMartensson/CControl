@@ -22,7 +22,7 @@ void rpca(float X[], float L[], float S[], size_t row, size_t column) {
 	float lambda = 1.0f / sqrtf(vmax(row, column));
 	
 	/* Create a threshold with Frobenius norm */
-	float thresh = 0.000001f * norm(X, row, column, 3);
+	float thresh = 0.000001f * norm(X, row, column, NORM_METHOD_FROBENIUS);
 
 	/* Compute tau and alpha */
 	float tau = 1.0f / mu;
@@ -60,7 +60,7 @@ static float do_Frobenius_on_A(float A[], float X[], float L[], float S[], size_
 	for (i = 0; i < row_column; i++) {
 		A[i] = X[i] - L[i] - S[i];
 	}
-	return norm(A, row, column, 3);
+	return norm(A, row, column, NORM_METHOD_FROBENIUS);
 }
 
 static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau, size_t row, size_t column) {
