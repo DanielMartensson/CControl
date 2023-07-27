@@ -10,7 +10,7 @@
 
 #include "CControl/ccontrol.h"
 
-#define row 3
+#define row 4
 #define column 3
 
 int main() {
@@ -21,7 +21,8 @@ int main() {
 	/* Create A */
 	float A[row * column] = { 1.0, 2.0, 3.0,
 							  4.0, 5.0, 6.0,
-							  7.0, 8.0, 9.0 };
+							  7.0, 8.0, 9.0,
+	                          10.0, 11.0, 12.0};
 
 	/* Create K matrix */
 	float K[row * row];
@@ -31,24 +32,24 @@ int main() {
 
 	/* Linear kernel */
 	kernel(A, K, row, column, NULL, KERNEL_METHOD_LINEAR);
-	print(K, row, column);
+	print(K, row, row);
 
 	/* RFB kernel*/
 	parameters[0] = -0.1; /* Gamma */
 	kernel(A, K, row, column, parameters, KERNEL_METHOD_RBF);
-	print(K, row, column);
+	print(K, row, row);
 
 	/* Polynomial kernel */
 	parameters[0] = 3; /* Degree */
 	parameters[1] = 0.5; /* constant */
 	kernel(A, K, row, column, parameters, KERNEL_METHOD_POLY);
-	print(K, row, column);
+	print(K, row, row);
 
 	/* Sigmoid kernel */
 	parameters[0] = 0.001; /* a */
 	parameters[1] = -0.1; /* c */
 	kernel(A, K, row, column, parameters, KERNEL_METHOD_SIGMOID);
-	print(K, row, column);
+	print(K, row, row);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
