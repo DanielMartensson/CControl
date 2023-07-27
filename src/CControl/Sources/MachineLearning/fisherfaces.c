@@ -51,12 +51,16 @@ void fisherfaces_filter_raw_model(FISHER_MODEL* fisher_model, float epsilon, siz
 
 				/* Jump */
 				data_clean += current_size;
-				current_size += column;
 
 				/* Fill */
 				for (j = 0; j < column; j++) {
 					data_clean[j] = data[j];
 				}
+
+				/* Add current size */
+				current_size += column;
+
+				/* Count new row */
 				row_new++;
 
 				/* Go back to index 0 */
@@ -136,34 +140,51 @@ FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]) {
 
 			/* Check if image is valid */
 			if (image) {
-				/* Get the sizes */
-				const size_t pixel_size = image->width * image->height;
+				/* Get the total pixels */
+				const size_t pixel_size = image->height * image->width;
 
-				/* Allocate new row */
-				fisher_model->data = (float*)realloc(fisher_model->data, (current_size + pixel_size)*sizeof(float));
-				
+				/* Allocate new rows */
+				fisher_model->data = (float*)realloc(fisher_model->data, (current_size + pixel_size) * sizeof(float));
+
 				/* Remember */
 				float* data0 = fisher_model->data;
 
 				/* Jump */
 				fisher_model->data += current_size;
-				current_size += pixel_size;
 
 				/* Fill */
 				for (k = 0; k < pixel_size; k++) {
 					fisher_model->data[k] = (float)image->pixels[k];
 				}
+				
+				/* Add current size */
+				current_size += pixel_size;
 
 				/* Go back to index 0 */
 				fisher_model->data = data0;
+				
+				/* Allocate new rows */
+				fisher_model->class_id = (size_t*)realloc(fisher_model->class_id, (fisher_model->row + image->height) * sizeof(size_t));
+				
+				/* Remember */
+				size_t* class_id0 = fisher_model->class_id;
 
-				/* For the class ID as well */
-				fisher_model->class_id = (size_t*)realloc(fisher_model->class_id, (fisher_model->row + 1)*sizeof(size_t));
-				fisher_model->class_id[fisher_model->row] = i;
+				/* Jump */
+				fisher_model->class_id += fisher_model->row;
+				
+				/* Fill */
+				for (k = 0; k < image->height; k++) {
+					fisher_model->class_id[k] = i;
+				}
 
-				/* Count - width will always be the same */
-				fisher_model->column = pixel_size;
-				fisher_model->row++;
+				/* Add rows */
+				fisher_model->row += image->height;
+
+				/* Go back to index 0 */
+				fisher_model->class_id = class_id0;
+
+				/* Width will always be the same */
+				fisher_model->column = image->width;
 			}
 
 			/* Free the image */
@@ -183,16 +204,8 @@ FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]) {
 	}
 	free(sub_folder_names);
 
-	/* Take transpose because it's much better to have observations > variables */
-	tran(fisher_model->data, fisher_model->row, fisher_model->column);
-
-	/* Swap the rows and columns */
-	j = fisher_model->row;
-	fisher_model->row = fisher_model->column;
-	fisher_model->column = j;
-
 	fisherfaces_print_model(fisher_model);
-	fisherfaces_filter_raw_model(fisher_model, 1, 1);
+	fisherfaces_filter_raw_model(fisher_model, 0.1, 0);
 	fisherfaces_print_model(fisher_model);
 
 	/* Return model */
@@ -215,17 +228,7 @@ void fisherfaces_print_model(FISHER_MODEL* fisher_model) {
 		size_t i, j;
 		float* data0 = fisher_model->data;
 		for (i = 0; i < r; i++) {
-			if (i == 0) {
-				printf("Class ID:\n");
-				for (j = 0; j < c; j++) {
-					printf("%i\t", fisher_model->class_id[j]);
-				}
-				printf("\n");
-				for (j = 0; j < c; j++) {
-					printf("-\t");
-				}
-				printf("\n");
-			}
+			printf("ID %i: ", fisher_model->class_id[i]);
 			for (j = 0; j < c; j++) {
 				printf("%i\t", (int32_t)(*fisher_model->data++));
 			}

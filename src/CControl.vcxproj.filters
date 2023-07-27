@@ -266,5 +266,8 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\pgm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\kernel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

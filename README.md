@@ -16,6 +16,7 @@ Main focuses are:
   - Density-Based Spatial Clustering of Applications with Noise
   - Pooling Max & Average
   - Support Vector Machine
+  - Kernel for PCA and LDA
   
 - Control Engineering
   - Kalman filter update

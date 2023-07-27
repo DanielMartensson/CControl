@@ -83,6 +83,7 @@
     <ClCompile Include="CControl\Sources\Optimization\lsqnonneg.c" />
     <ClCompile Include="CControl\Sources\Statistics\cov.c" />
     <ClCompile Include="CControl\Sources\Statistics\covm.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\kernel.c" />
     <ClCompile Include="CControl\Sources\Statistics\mean.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\print.c" />
     <ClCompile Include="CControl\Sources\Statistics\randn.c" />

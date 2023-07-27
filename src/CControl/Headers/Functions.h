@@ -55,6 +55,10 @@ float logf(float x) {
 float sinf(float x) {
 	return (float)sin(x);
 }
+
+float tanhf(float x) {
+	return (float)tanh(x);
+}
 #endif /* !_MSC_VER */
 #endif /* !__STDC_VERSION___ */
 
@@ -73,6 +77,7 @@ void fisherfaces_filter_raw_model(FISHER_MODEL* fisher_model, float epsilon, siz
 FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]);
 void fisherfaces_free_model(FISHER_MODEL* fisher_model);
 void fisherfaces_print_model(FISHER_MODEL* fisher_model);
+void kernel(float A[], float K[], size_t row, size_t column, float parameters[], KERNEL_METHOD kernel_method);
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method);
 bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
