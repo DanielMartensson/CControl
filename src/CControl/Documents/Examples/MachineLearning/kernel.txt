@@ -4,7 +4,7 @@
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Apply a kernel onto matrix A
+ Description : Apply a kernel onto matrix X
  ============================================================================
  */
 
@@ -18,8 +18,8 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Create A */
-	float A[row * column] = { 1.0, 2.0, 3.0,
+	/* Create X */
+	float X[row * column] = { 1.0, 2.0, 3.0,
 							  4.0, 5.0, 6.0,
 							  7.0, 8.0, 9.0,
 	                          10.0, 11.0, 12.0};
@@ -31,24 +31,24 @@ int main() {
 	float parameters[2];
 
 	/* Linear kernel */
-	kernel(A, K, row, column, NULL, KERNEL_METHOD_LINEAR);
+	kernel(X, K, row, column, NULL, KERNEL_METHOD_LINEAR);
 	print(K, row, row);
 
-	/* RFB kernel*/
+	/* RFB kernel */
 	parameters[0] = -0.1; /* Gamma */
-	kernel(A, K, row, column, parameters, KERNEL_METHOD_RBF);
+	kernel(X, K, row, column, parameters, KERNEL_METHOD_RBF);
 	print(K, row, row);
 
 	/* Polynomial kernel */
 	parameters[0] = 3; /* Degree */
 	parameters[1] = 0.5; /* constant */
-	kernel(A, K, row, column, parameters, KERNEL_METHOD_POLY);
+	kernel(X, K, row, column, parameters, KERNEL_METHOD_POLY);
 	print(K, row, row);
 
 	/* Sigmoid kernel */
 	parameters[0] = 0.001; /* a */
 	parameters[1] = -0.1; /* c */
-	kernel(A, K, row, column, parameters, KERNEL_METHOD_SIGMOID);
+	kernel(X, K, row, column, parameters, KERNEL_METHOD_SIGMOID);
 	print(K, row, row);
 
 	end = clock();

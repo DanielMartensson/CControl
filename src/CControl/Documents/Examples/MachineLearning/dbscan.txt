@@ -18,8 +18,8 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Define A, idx, epsilon and min_pts */
-    float A[row * column] = { -0.251521, 1.045117, -1.281658,
+	/* Define X, idx, epsilon and min_pts */
+    float X[row * column] = { -0.251521, 1.045117, -1.281658,
         -1.974109, 0.278170, -1.023392,
         -0.957729, -0.977450, 0.477872,
         -0.449159, -1.016680, 0.095610,
@@ -93,7 +93,7 @@ int main() {
 	size_t min_pts = 1;
 
 	/* Compute dbscan */
-	dbscan(A, idx, epsilon, min_pts, row, column);
+	dbscan(X, idx, epsilon, min_pts, row, column);
 
 	/* Print idx */
 	size_t i;

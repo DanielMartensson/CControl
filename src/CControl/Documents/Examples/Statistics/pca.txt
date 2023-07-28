@@ -53,8 +53,11 @@ int main() {
 	/* Create the projection matrix */
 	float P[row * components];
 
+	/* Create the average matrix */
+	float mu[column];
+
 	/* Do PCA */
-	pca(X, W, P, components, row, column);
+	pca(X, W, P, mu, components, row, column);
 
 	/* Print components W */
 	printf("Components:\n");

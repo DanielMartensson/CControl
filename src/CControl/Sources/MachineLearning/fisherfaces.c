@@ -25,7 +25,7 @@ void fisherfaces_train(float X[], size_t y[], float W[], float P[], size_t compo
 	mul(W, X, P, ? , ? , column);*/
 }
 
-void fisherfaces_filter_raw_model(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts) {
+void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts) {
 	if (fisher_model) {
 		/* Get rows, columns and data */
 		size_t row = fisher_model->row;
@@ -205,7 +205,7 @@ FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]) {
 	free(sub_folder_names);
 
 	fisherfaces_print_model(fisher_model);
-	fisherfaces_filter_raw_model(fisher_model, 0.1, 0);
+	fisherfaces_remove_outliers(fisher_model, 0.1, 0);
 	fisherfaces_print_model(fisher_model);
 
 	/* Return model */

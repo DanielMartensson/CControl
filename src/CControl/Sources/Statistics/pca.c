@@ -7,7 +7,7 @@
 
 #include "../../Headers/functions.h"
 
-static void center_data(float X[], size_t row, size_t column);
+static void center_data(float X[], float mu[], size_t row, size_t column);
 static void compute_components(float X[], float W[], size_t components, size_t row, size_t column);
 
 /*
@@ -16,44 +16,48 @@ static void compute_components(float X[], float W[], size_t components, size_t r
  * X[m*n]
  * W[n*components]
  * P[m*components]
+ * mu[n]
  */
-void pca(float X[], float W[], float P[], size_t components, size_t row, size_t column) {
-	/* Copy the data X -> Y */
-	float* Y = (float*)malloc(row * column * sizeof(float));
-	memcpy(Y, X, row * column * sizeof(float));
+void pca(float X[], float W[], float P[], float mu[], size_t components, size_t row, size_t column) {
+	/* Copy the data X -> Z */
+	float* Z = (float*)malloc(row * column * sizeof(float));
+	memcpy(Z, X, row * column * sizeof(float));
 
-	/* Average and center data Y = Y - mean(Y) */
-	center_data(Y, row, column);
+	/* Average and center data Z = Z - mean(Z) */
+	center_data(Z, mu, row, column);
 
-	/* Do covariance Z = cov(Y) */
-	float* Z = (float*)malloc(column * column * sizeof(float));
-	covm(Y, Z, row, column);
+	/* Do covariance Y = cov(Z) */
+	float* Y = (float*)malloc(column * column * sizeof(float));
+	covm(Z, Y, row, column);
 
-	/* Get components [U, S, V] = svd(Z) */
-	compute_components(Z, W, components, column, column);
+	/* Get components [U, S, V] = svd(Y) */
+	compute_components(Y, W, components, column, column);
 
-	/* Project P = X*W */
-	mul(X, W, P, row, column, components);
+	/* Project P = Z*W */
+	mul(Z, W, P, row, column, components);
 
 	/* Free */
 	free(Y);
 	free(Z);
 }
 
-static void center_data(float X[], size_t row, size_t column) {
+static void center_data(float X[], float mu[], size_t row, size_t column) {
 	size_t i, j;
-	float mu;
 	float* X0 = X;
+	float average;
 	/* Column-Major */
 	tran(X, row, column);
 	for (i = 0; i < column; i++) {
-		/* Average data mu = mean(X) */
-		mu = mean(X, row);
+		/* Average data mu[i] = mean(X) */
+		average = mean(X, row);
 
 		/* Center the data X = X - mu */
 		for (j = 0; j < row; j++) {
-			X[j] -= mu;
+			X[j] -= average;
 		}
+
+		/* Save the average */
+		mu[i] = average;
 
 		/* Jump to next row */
 		X += row;
@@ -92,11 +96,12 @@ static void compute_components(float X[], float W[], size_t components, size_t r
 /* GNU Octave code:
 	% Principal Component Analysis with cluster filtering
 	% Input: X(Data), c(Amount of components)
-	% Output: Projected matrix P, Project matrix W
-	% Example 1: [P, W] = pca(X, c);
+	% Output: Projected matrix P, Project matrix W, mu(Average vector of X)
+	% Example 1: [P, W] = mi.pca(X, c);
+	% Example 2: [P, W, mu] = mi.pca(X, c);
 	% Author: Daniel Mårtensson, 2023 April
 
-	function [P, W] = pca(varargin)
+	function [P, W, mu] = pca(varargin)
 	  % Check if there is any input
 	  if(isempty(varargin))
 		error('Missing inputs')
@@ -116,138 +121,20 @@ static void compute_components(float X[], float W[], size_t components, size_t r
 		error('Missing amount of components');
 	  end
 
-	  % Filter the data
-	  Y = cluster_filter(X);
-
 	  % Average
-	  mu = mean(Y);
+	  mu = mean(X); %cluster_filter(X)
 
 	  % Center data
-		Z = Y - mu;
+	  Z = X - mu;
 
 	  % Create the covariance
-	  Z = cov(Z);
+	  Y = cov(Z);
 
 	  % PCA analysis
-		[~, ~, V] = svd(Z, 0);
+	  [~, ~, V] = svd(Y, 0);
 
 	  % Projection
-		W = V(:, 1:c);
-		P = X*W;
-	end
-
-	function X = cluster_filter(X)
-	  % Get size of X
-	  [m, n] = size(X);
-
-	  % Create these arrays
-	  nearest_distance = zeros(1, m);
-	  already_computed_row = zeros(1, m);
-
-	  % Start counting the euclidean distance
-	  selected_row = 1;
-	  chosen_row = 1;
-	  for i = 1:m
-		% Compare for smallest distance
-		minimal_distance = 0;
-		first_iteration = true;
-		for compare_row = 1:m
-		  if(and(selected_row ~= compare_row, or(~already_computed_row(compare_row), i == m)))
-			% Do L2-norm
-			a = X(selected_row, :);
-			b = X(compare_row, :);
-			c = norm(a - b, 2);
-			if(or(c < minimal_distance, first_iteration == true))
-			  minimal_distance = c;
-			  chosen_row = compare_row;
-			  first_iteration = false;
-			end
-		  end
-		end
-
-		% Now we have the minimal distance between selected_row and chosen_row
-		nearest_distance(selected_row) = minimal_distance;
-		already_computed_row(selected_row) = true;
-
-		% Next selected row
-		selected_row = chosen_row;
-	  end
-
-	  % Compute the average of nearest distances
-	  average_distance = mean(nearest_distance);
-
-	  % Compute the cluster limit
-	  cluster_points = 0;
-	  counted_clusters = 0;
-	  total_cluster_points = 0;
-	  for i = 1:m
-		% Check if it changes
-		if(nearest_distance(i) < average_distance)
-		  cluster_points = cluster_points + 1;
-		else
-		  if(cluster_points > 0)
-			counted_clusters = counted_clusters + 1;
-			total_cluster_points = total_cluster_points + cluster_points;
-		  end
-		  cluster_points = 0;
-		end
-	  end
-	  cluster_limit = 0;
-	  if(counted_clusters > 0)
-		cluster_limit = total_cluster_points / counted_clusters;
-	  end
-
-	  % Notice which rows has outliers
-	  cluster_points = 0;
-	  outliers_row_index = zeros(1, m);
-	  counter_outliers = 0;
-	  for i = 1:m
-		if(nearest_distance(i) < average_distance)
-		  cluster_points = cluster_points + 1;
-		else
-		  if(and(cluster_points < cluster_limit, cluster_points > 0))
-			for j = i - cluster_points : i
-			  % Count multiple outliers
-			  outliers_row_index(counter_outliers + 1) = j;
-			  counter_outliers = counter_outliers + 1;
-			end
-		  else
-			% Count a single outlier
-			outliers_row_index(counter_outliers + 1) = i;
-			counter_outliers = counter_outliers + 1;
-		  end
-		  cluster_points = 0;
-		end
-	  end
-
-	  % If we got some outliers
-	  if(counter_outliers > 0)
-		% Find a non outlier row index
-		non_outlier_row_index = 1;
-		for i = 1:m
-		  % Flag
-		  is_outlier_row_index = false;
-
-		  % Loop through
-		  for j = 1:counter_outliers
-			if(i == outliers_row_index(j))
-			  is_outlier_row_index = true;
-			  break;
-			else
-			  non_outlier_row_index = i;
-			end
-		  end
-
-		  % Break when an outlier is not found = we found an index of an non outliner
-		  if(~is_outlier_row_index)
-			break;
-		  end
-		end
-
-		% Delete them by replacing outliers with non outliers
-		for j = 1:counter_outliers
-		  X(outliers_row_index(j), :) = X(non_outlier_row_index, :);
-		end
-	  end
+	  W = V(:, 1:c);
+	  P = Z*W;
 	end
 */
