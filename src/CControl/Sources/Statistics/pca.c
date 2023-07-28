@@ -122,7 +122,7 @@ static void compute_components(float X[], float W[], size_t components, size_t r
 	  end
 
 	  % Average
-	  mu = mean(X); %cluster_filter(X)
+	  mu = mean(X);
 
 	  % Center data
 	  Z = X - mu;
