@@ -77,7 +77,8 @@ void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size
 FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]);
 void fisherfaces_free_model(FISHER_MODEL* fisher_model);
 void fisherfaces_print_model(FISHER_MODEL* fisher_model);
-void kernel(float X[], float K[], size_t row, size_t column, float parameters[], KERNEL_METHOD kernel_method);
+void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
+void kpca(float X[], float W[], float P[], float K[], float mu[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method);
 bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
@@ -146,13 +147,15 @@ bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], 
 
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);
+void center(float X[], float mu[], size_t row, size_t column);
 void randn(float x[], size_t length, float mu, float sigma);
+void randperm(size_t A[], size_t N, size_t M);
 float mean(float x[], size_t length);
 float var(float x[], size_t length);
 float cov(float x[], float y[], size_t length);
 void covm(float X[], float Y[], size_t row, size_t column);
 float stddev(float x[], size_t length);
-void pca(float X[], float W[], float P[], size_t components, size_t row, size_t column);
+void pca(float X[], float W[], float P[], float mu[], size_t components, size_t row, size_t column);
 void lda(float X[], size_t y[], float W[], float P[], size_t components, size_t row, size_t column);
 
 /* AI-algorithms */

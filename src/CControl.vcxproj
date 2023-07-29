@@ -81,9 +81,11 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\insert.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\pdist2.c" />
     <ClCompile Include="CControl\Sources\Optimization\lsqnonneg.c" />
+    <ClCompile Include="CControl\Sources\Statistics\center.c" />
     <ClCompile Include="CControl\Sources\Statistics\cov.c" />
     <ClCompile Include="CControl\Sources\Statistics\covm.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kernel.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\kpca.c" />
     <ClCompile Include="CControl\Sources\Statistics\mean.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\print.c" />
     <ClCompile Include="CControl\Sources\Statistics\randn.c" />
@@ -91,6 +93,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\sign.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\sort.c" />
     <ClCompile Include="CControl\Sources\Filtering\rpca.c" />
+    <ClCompile Include="CControl\Sources\Statistics\randperm.c" />
     <ClCompile Include="CControl\Sources\Statistics\stddev.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\sum.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\vmax.c" />

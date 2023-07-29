@@ -17,6 +17,7 @@ Main focuses are:
   - Pooling Max & Average
   - Support Vector Machine
   - Kernel for PCA and LDA
+  - Kernel Principal Component Analysis
   
 - Control Engineering
   - Kalman filter update
@@ -78,6 +79,7 @@ Main focuses are:
 
 - Statistics
   - Principal Component Analysis
+  - Kernel Principal Component Analysis
   - Linear Discriminant Analysis
   - Randn
   - Mean
@@ -85,6 +87,7 @@ Main focuses are:
   - Standard deviation
   - Variance
   - Covariance
+  - Center
 
 - System Identification
   - Observer Kalman Filter identification

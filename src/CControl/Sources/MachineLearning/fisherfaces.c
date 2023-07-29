@@ -92,10 +92,10 @@ FISHER_MODEL* fisherfaces_train_raw_model(FISHER_MODEL* fisher_model, size_t com
 		float* data = fisher_model->data;
 
 
-		/* Do PCA */
+		/* Do PCA 
 		float* Wpca = (float*)malloc(row * components * sizeof(float));
 		float* Ppca = (float*)malloc(row * components * sizeof(float));
-		pca(data, Wpca, Ppca, components, row, column);
+		pca(data, Wpca, Ppca, components, row, column);*/
 
 		/* Do LDA */
 
