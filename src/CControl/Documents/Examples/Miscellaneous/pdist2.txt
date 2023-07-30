@@ -26,7 +26,7 @@ int main() {
 	float C[row_a * row_b];
 
 	/* Compute pdist2 */
-	pdist2(A, B, C, row_a, column_a, row_b, PDIST2_METRIC_L2);
+	pdist2(A, B, C, row_a, column_a, row_b, PDIST2_METRIC_EUCLIDEAN);
 
 	/* Print C */
 	print(C, row_a, row_b);
