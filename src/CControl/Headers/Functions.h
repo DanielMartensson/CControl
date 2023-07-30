@@ -116,7 +116,7 @@ bool inv(float A[], size_t row);
 void linsolve_upper_triangular(float A[], float x[], float b[], size_t column);
 void tran(float A[], size_t row, size_t column);
 void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t column_b);
-void svd_jacobi_one_sided(float X[], size_t row, float U[], float S[], float V[]);
+bool svd_jacobi_one_sided(float X[], size_t row, float U[], float S[], float V[]);
 void dlyap(float A[], float P[], float Q[], size_t row);
 float dot(float a[], float b[], size_t row);
 bool svd_golub_reinsch(float A[], size_t row, size_t column, float U[], float S[], float V[]);
