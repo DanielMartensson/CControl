@@ -7,7 +7,7 @@
 
 #include "../../Headers/functions.h"
 
-static void compute_components(float X[], float W[], size_t components, size_t row, size_t column);
+static void compute_components(float X[], float W[], size_t c, size_t row, size_t column);
 
 /*
  * Principal Component Analysis (PCA)

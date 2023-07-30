@@ -15,10 +15,10 @@ static void center_data(float X[], float mu[], size_t row, size_t column);
  * This compute the LDA of X and return W and P
  * X[m*n]
  * y[n]
- * W[m*components]
- * P[components*n]
+ * W[m*c]
+ * P[c*n]
  */
-void lda(float X[], size_t y[], float W[], float P[], size_t components, size_t row, size_t column) {
+void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size_t column) {
 	/* Create average vector mu_X = mean(X, 2) */
 	float* mu_X = (float*)malloc(row * sizeof(float));
 	average_vector(X, mu_X, row, column);
@@ -120,20 +120,20 @@ void lda(float X[], size_t y[], float W[], float P[], size_t components, size_t 
 	/* Copy over eigenvectors from Sb to W */
 	float* W0 = W;
 	for (l = 0; l < row; l++) {
-		for (k = 0; k < components; k++) {
+		for (k = 0; k < c; k++) {
 			W[k] = Sb[row - 1 - k]; /* Sb are in an ascending order */
 		}
 		
 		Sb += row;
-		W += components;
+		W += c;
 	}
 
 	/* Project P = W'*X */
 	X = X0;
 	W = W0;
-	tran(W, row, components);
-	mul(W, X, P, components, row, column);
-	tran(W, components, row);
+	tran(W, row, c);
+	mul(W, X, P, c, row, column);
+	tran(W, c, row);
 
 	/* Reset */
 	Sb = Sb0;
