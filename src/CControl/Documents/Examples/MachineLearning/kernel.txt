@@ -40,7 +40,7 @@ int main() {
 	print(K, row, row);
 
 	/* Polynomial kernel */
-	kernel_parameters[0] = 1; /* Degree */
+	kernel_parameters[0] = 2; /* Degree */
 	kernel(X, K, row, column, kernel_parameters, KERNEL_METHOD_POLY);
 	print(K, row, row);
 
@@ -66,3 +66,66 @@ int main() {
 
 	return EXIT_SUCCESS;
 }
+
+/*
+ GNU Octave code:
+	function test6
+	  X = [1.0, 2.0, 3.0,
+		   4.0, 5.0, 6.0,
+		   7.0, 8.0, 9.0,
+		  10.0, 11.0, 12.0];
+	  K = create_kernel(X, 'linear', [0])
+	  K = create_kernel(X, 'rbf', [0.1])
+	  K = create_kernel(X, 'polynomial', [2])
+	  K = create_kernel(X, 'sigmoid', [0.5 1.5])
+	  K = create_kernel(X, 'gaussian', [343.23])
+	  K = create_kernel(X, 'exponential', [10.23])
+
+	end
+
+	function K = create_kernel(X, kernel_type, kernel_parameters)
+	  % Select kernel type
+	  switch kernel_type
+		case 'gaussian'
+		% Compute the euclidean distanses
+		D = sqrt(distEucSq(X, X));
+		sigma = kernel_parameters(1);
+		K = exp(-D.^2 / (2 * sigma^2));
+
+		case 'exponential'
+		% Compute the euclidean distanses
+		D = sqrt(distEucSq(X, X));
+		sigma = kernel_parameters(1);
+		K = exp(-D / (2 * sigma^2));
+
+		case 'polynomial'
+		degree = kernel_parameters(1);
+		K = (X*X').^degree
+
+		case 'linear'
+		K = X * X';
+
+		case 'sigmoid'
+		alpha = kernel_parameters(1);
+		beta = kernel_parameters(2);
+		K = tanh(alpha * X * X' + beta);
+
+		case 'rbf'
+		% Compute the euclidean distanses
+		D = sqrt(distEucSq(X, X));
+		gamma = kernel_parameters(1);
+		K = exp(-gamma*D.^2);
+
+		otherwise
+		  error('Kernel type does not exist!');
+		end
+	end
+
+	function D = distEucSq(X, Y)
+	  Yt = Y';
+	  XX = sum(X.*X,2);
+	  YY = sum(Yt.*Yt,1);
+	  D = bsxfun(@plus,XX,YY)-2*X*Yt;
+	end
+
+*/
