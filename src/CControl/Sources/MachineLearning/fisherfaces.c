@@ -7,24 +7,6 @@
 
 #include "../../Headers/functions.h"
 
-void fisherfaces_train(float X[], size_t y[], float W[], float P[], size_t components, size_t row, size_t column) {
-	/* Compute PCA */
-	
-
-	/* Compute LDA of Ppca 
-	float* Wlda = (float*)malloc(row * components * sizeof(float));
-	float* Plda = (float*)malloc(row * components * sizeof(float));
-	lda(Ppca, y, Wlda, Plda, components, row, components);
-	free(Plda);*/
-
-	/* Compute W = Wpca*Wlda
-	mul(Wpca, Wlda, W, row, components, components); */
-
-	/* Compute P = W'*X - Notice that we keep W as transpose because we are going to use that later in prediction */
-	/*tran(W, ? , ? );
-	mul(W, X, P, ? , ? , column);*/
-}
-
 void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts) {
 	if (fisher_model) {
 		/* Get rows, columns and data */
@@ -84,27 +66,28 @@ void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size
 	}
 }
 
-FISHER_MODEL* fisherfaces_train_raw_model(FISHER_MODEL* fisher_model, size_t components) {
-	if (fisher_model) {
-		/* Get rows, columns and data */
-		size_t row = fisher_model->row;
-		size_t column = fisher_model->column;
-		float* data = fisher_model->data;
+FISHER_MODEL* fisherfaces_train_projection_matrix(FISHER_MODEL* fisher_model, size_t number_components, float kernel_parameters[], KERNEL_METHOD kernel_method) {
+	/* Get row, column, ID */
+	const size_t row = fisher_model->row;
+	const size_t column = fisher_model->column;
+	const size_t* class_id = fisher_model->class_id;
+
+	/* Compute number of components for KPCA */
+	const size_t cpca = column - class_id[column-1];
+
+	/* Compute number of components for LDA */
+	const size_t clda = cpca - 1 < number_components ? cpca - 1 : number_components;
+
+	/* Do KPCA on the model */
+	//kpca(fisher_model->data, Wpca, Ppca, Kpca, mu, cpca, row, column, kernel_parameters, kernel_method);
+
+	/* Do LDA on P */
+	//lda(Ppca, class_id, Wlda, Plda, clda, row, column);
 
 
-		/* Do PCA 
-		float* Wpca = (float*)malloc(row * components * sizeof(float));
-		float* Ppca = (float*)malloc(row * components * sizeof(float));
-		pca(data, Wpca, Ppca, components, row, column);*/
-
-		/* Do LDA */
-
-		/* Do SVM */
-	}
-	return fisher_model;
 }
 
-FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]) {
+FISHER_MODEL* fisherfaces_collect_data(const char folder_path[]) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
 	const size_t sub_folder_count = scan_sub_folder_names(folder_path, &sub_folder_names);
@@ -113,7 +96,7 @@ FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]) {
 	FISHER_MODEL* fisher_model = (FISHER_MODEL*)malloc(sizeof(FISHER_MODEL));
 	memset(fisher_model, 0, sizeof(FISHER_MODEL));
 
-	size_t i, j, k, current_size = 0;
+	size_t i, j, k, current_pixel_size = 0;
 	for (i = 0; i < sub_folder_count; i++) {
 		/* Get sub folder name */
 		const char* sub_folder_name = sub_folder_names[i];
@@ -140,51 +123,40 @@ FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]) {
 
 			/* Check if image is valid */
 			if (image) {
-				/* Get the total pixels */
-				const size_t pixel_size = image->height * image->width;
+				/* Get the total new pixels */
+				const size_t new_pixel_size = image->height * image->width;
 
 				/* Allocate new rows */
-				fisher_model->data = (float*)realloc(fisher_model->data, (current_size + pixel_size) * sizeof(float));
+				fisher_model->data = (float*)realloc(fisher_model->data, (current_pixel_size + new_pixel_size) * sizeof(float));
 
 				/* Remember */
 				float* data0 = fisher_model->data;
 
 				/* Jump */
-				fisher_model->data += current_size;
+				fisher_model->data += current_pixel_size;
 
-				/* Fill */
-				for (k = 0; k < pixel_size; k++) {
+				/* Fill as row major */
+				for (k = 0; k < new_pixel_size; k++) {
 					fisher_model->data[k] = (float)image->pixels[k];
 				}
 				
 				/* Add current size */
-				current_size += pixel_size;
+				current_pixel_size += new_pixel_size;
 
 				/* Go back to index 0 */
 				fisher_model->data = data0;
 				
-				/* Allocate new rows */
-				fisher_model->class_id = (size_t*)realloc(fisher_model->class_id, (fisher_model->row + image->height) * sizeof(size_t));
+				/* Allocate new element */
+				fisher_model->class_id = (size_t*)realloc(fisher_model->class_id, (fisher_model->row + 1) * sizeof(size_t));
 				
-				/* Remember */
-				size_t* class_id0 = fisher_model->class_id;
+				/* Add new ID */
+				fisher_model->class_id[fisher_model->row] = i;
 
-				/* Jump */
-				fisher_model->class_id += fisher_model->row;
-				
-				/* Fill */
-				for (k = 0; k < image->height; k++) {
-					fisher_model->class_id[k] = i;
-				}
+				/* Column will always be the total pixel size */
+				fisher_model->column = new_pixel_size;
 
-				/* Add rows */
-				fisher_model->row += image->height;
-
-				/* Go back to index 0 */
-				fisher_model->class_id = class_id0;
-
-				/* Width will always be the same */
-				fisher_model->column = image->width;
+				/* Count columns */
+				fisher_model->row++;
 			}
 
 			/* Free the image */
@@ -204,9 +176,11 @@ FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]) {
 	}
 	free(sub_folder_names);
 
-	fisherfaces_print_model(fisher_model);
-	fisherfaces_remove_outliers(fisher_model, 0.1, 0);
-	fisherfaces_print_model(fisher_model);
+	/* Transpose becase it's mutch better to have row > column */
+	tran(fisher_model->data, fisher_model->row, fisher_model->column);
+	k = fisher_model->row;
+	fisher_model->row = fisher_model->column;
+	fisher_model->column = k;
 
 	/* Return model */
 	return fisher_model;
@@ -228,7 +202,16 @@ void fisherfaces_print_model(FISHER_MODEL* fisher_model) {
 		size_t i, j;
 		float* data0 = fisher_model->data;
 		for (i = 0; i < r; i++) {
-			printf("ID %i: ", fisher_model->class_id[i]);
+			if (i == 0) {
+				for (j = 0; j < c; j++) {
+					printf("%i\t", fisher_model->class_id[j]);
+				}
+				printf("\n");
+				for (j = 0; j < c; j++) {
+					printf("_\t");
+				}
+				printf("\n");
+			}
 			for (j = 0; j < c; j++) {
 				printf("%i\t", (int32_t)(*fisher_model->data++));
 			}

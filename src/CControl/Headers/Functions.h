@@ -74,7 +74,7 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 /* Machine learning */
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts);
-FISHER_MODEL* fisherfaces_create_raw_model(const char folder_path[]);
+FISHER_MODEL* fisherfaces_collect_data(const char folder_path[]);
 void fisherfaces_free_model(FISHER_MODEL* fisher_model);
 void fisherfaces_print_model(FISHER_MODEL* fisher_model);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
@@ -155,8 +155,8 @@ float var(float x[], size_t length);
 float cov(float x[], float y[], size_t length);
 void covm(float X[], float Y[], size_t row, size_t column);
 float stddev(float x[], size_t length);
-void pca(float X[], float W[], float P[], float mu[], size_t components, size_t row, size_t column);
-void lda(float X[], size_t y[], float W[], float P[], size_t components, size_t row, size_t column);
+void pca(float X[], float W[], float P[], float mu[], size_t c, size_t row, size_t column);
+void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size_t column);
 
 /* AI-algorithms */
 void Astar(int32_t map[], int32_t path_x[], int32_t path_y[], size_t x_start, size_t y_start, size_t x_stop, size_t y_stop, size_t height, size_t width, ASTAR_MODE astar_mode, size_t* steps);
