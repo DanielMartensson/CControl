@@ -20,7 +20,7 @@ void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, 
 
 	/* Create pdist2 C */
 	float* C = (float*)malloc(row * row * sizeof(float));
-	pdist2(X, X, C, row, column, row, PDIST2_METRIC_L2);
+	pdist2(X, X, C, row, column, row, PDIST2_METRIC_EUCLIDEAN);
 
 	/* Flags */
 	bool* visited = (bool*)malloc(row * sizeof(bool));
