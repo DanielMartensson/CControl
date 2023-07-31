@@ -11,8 +11,11 @@ This library is supporting LAPACK for large matrices.
 
 | Routines  | Function | Comment | 
 | ------------- | ------------- | ------------------- |
-| `ssyevd` | `svd_sym.c` | For real symmetric matrices |
-| `dsyevd` | `eig_sym.c` | For real symmetric matrices |
+| `ssyevd` | `svd.c` | SVD for general real symmetric matrices |
+| `ssyevd` | `eig.c` | EIG for general real symmetric matrices |
+| `sgeev` | `eig.c` | EIG for general real matrices |
+| `sgesvd` | `svd.c` | SVD for general real matrices |
+
 
 If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.
 

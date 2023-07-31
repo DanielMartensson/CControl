@@ -1,0 +1,141 @@
+/*
+ ============================================================================
+ Name        : svd_golub_reinsch.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Do singular value decomposition on non square matrix A
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row_a 6
+#define row_b 4
+#define column_a 5
+#define column_b 4
+#define sym 5
+
+int main() {
+
+	/* Matrix A */
+	float A[row_a * column_a] = { 0.762664,   0.361977,   0.914004,   0.166355,   0.535495,
+								  0.287733,   0.442407,   0.822338,   0.655626,   0.083685,
+								  0.733371,   0.122252,   0.815606,   0.196840,   0.080970,
+								  0.777981,   0.688653,   0.530031,   0.969136,   0.572176,
+								  0.473056,   0.341139,   0.029444,   0.942228,   0.544707,
+								  0.663111,   0.463252,   0.121968,   0.195217,   0.359241 };
+
+	float U_a[row_a * row_a];
+	float S_a[column_a];
+	float V_a[column_a * column_a];
+
+	/* Matrix B */
+	float B[row_b * column_b] = { 0.453690,   0.866686,   0.579250,   0.418100,
+								  0.059901,   0.954740,   0.699338,   0.681427,
+								  0.127995,   0.981347,   0.713651,   0.485167,
+								  0.269875,   0.723569,   0.778578,   0.130682 };
+
+	float U_b[row_b * column_b];
+	float S_b[column_b];
+	float V_b[column_b * column_b];
+
+	/* Matrix C */
+	float* Asym = (float*)malloc(sym * sym * sizeof(float));
+	float* Bsym = (float*)malloc(sym * sym * sizeof(float));
+	float* Csym = (float*)malloc(sym * sym * sizeof(float));
+
+	/* Turn Csym symmetric */
+	randn(Asym, sym * sym, 0, 1);
+	memcpy(Bsym, Asym, sym * sym * sizeof(float));
+	tran(Bsym, sym, sym);
+	mul(Asym, Bsym, Csym, sym, sym, sym);
+
+	/* Print symmetric matrix C */
+	if (sym < 10) {
+		print(Csym, sym, sym);
+	}
+
+	/* Create eigenvector and eigenvalues matrices */
+	float* U_c = (float*)malloc(sym * sym * sizeof(float));
+	float* S_c = (float*)malloc(sym * sizeof(float));
+	float* V_c = (float*)malloc(sym * sym * sizeof(float));
+
+	/* Do SVD */
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+	bool okA = svd(A, row_a, column_a, MATRIX_TYPE_GENERAL, U_a, S_a, V_a);
+	bool okB = svd(B, row_b, column_b, MATRIX_TYPE_GENERAL, U_b, S_b, V_b);
+	bool okC = svd(Csym, sym, sym, MATRIX_TYPE_SYMMETRIC, U_c, S_c, V_c);
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	/* Print U */
+	printf("U for A matrix\n");
+	print(U_a, row_a, column_a);
+
+	/* Print S */
+	printf("S for A matrix\n");
+	print(S_a, column_a, 1);
+
+	/* Print V */
+	printf("V for A matrix\n");
+	print(V_a, column_a, column_a);
+
+	/* Print U */
+	printf("U for B matrix\n");
+	print(U_b, row_b, column_b);
+
+	/* Print S */
+	printf("S for B matrix\n");
+	print(S_b, column_b, 1);
+
+	/* Print V */
+	printf("V for B matrix\n");
+	print(V_b, column_b, column_b);
+
+	/* Print U */
+	printf("U for C matrix\n");
+	print(U_c, sym, sym);
+
+	/* Print S */
+	printf("S for C matrix\n");
+	print(S_c, sym, 1);
+
+	/* Print V */
+	printf("V for C matrix\n");
+	print(V_c, sym, sym);
+
+	/* Print C matrix */
+	printf("C matrix\n");
+	print(Csym, sym, sym);
+
+	/* Print status */
+	printf("Found U, S, V for A? %s\n", okA ? "yes" : "no");
+	printf("Found U, S, V for B? %s\n", okB ? "yes" : "no");
+	printf("Found U, S, V for C? %s\n", okC ? "yes" : "no");
+
+	/* Free */
+	free(Asym);
+	free(Bsym);
+	free(Csym);
+	free(U_c);
+	free(S_c);
+	free(V_c);
+
+	return EXIT_SUCCESS;
+}
+
+/*
+ * GNU Octave code:
+ * A = [0.7179787,   0.7985186,   0.1000046,   0.2203064,
+		0.9044292,   0.5074379,   0.3539301,   0.9475452,
+		0.0029252,   0.4930148,   0.3209303,   0.5289174,
+		0.6546133,   0.7354447,   0.9989453,   0.0310190,
+		0.7434944,   0.0874402,   0.3388867,   0.8256180,
+		0.7483093,   0.3624991,   0.2039784,   0.5528368];
+
+   [U, S, V] = svd(A)
+ */

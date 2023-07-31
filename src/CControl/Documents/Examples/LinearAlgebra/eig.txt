@@ -4,71 +4,109 @@
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Find eigenvalues
+ Description : Find eigenvalues and eigenvectors
  ============================================================================
  */
 
 #include "CControl/ccontrol.h"
 
+#define row_a 5
+#define row_b 12
+#define row_c 5
+
 int main() {
 
 	/* Matrix A */
-	float A[4 * 4] = { 0.018142,   0.968856,   0.151740,   0.757174,
-					0.017829,   0.474323,   0.358832,   0.970854,
-					0.184523,   0.063063,   0.680511,   0.191901,
-					0.806877,   0.830208,   0.977169,   0.222291 };
+	float A[row_a * row_a] = { -1.064410,   1.127687, - 0.121454, - 0.745415,   0.429437,
+							  - 0.376645,   0.233231, - 0.480711,   0.572394,   1.058155,
+							    0.642390,   0.346930, - 0.558388, - 1.023015, - 1.486376,
+							    0.205990, - 0.058256,   0.474541,   0.314334, - 1.181065,
+							  - 0.171017, - 0.189809, - 0.133634, - 0.807617, - 2.069545 };
 
-	float wr_a[4];   /* Eigenvalues real */
-	float wi_a[4];   /* Eigenvalues imaginary */
+	float dr_a[row_a];			/* Eigenvalues real */
+	float di_a[row_a];			/* Eigenvalues imaginary */
+	float wr_a[row_a* row_a];	/* Eigenvectors real */
+	float wi_a[row_a* row_a];	/* Eigenvectors imaginary */
 
 	/* Matrix B */
-	float B[12 * 12] = { 144,     2,     3,   141,   140,     6,     7,   137,   136,    10,    11,   133,
-						13,   131,   130,    16,    17,   127,   126,    20,    21,   123,   122,    24,
-						25,   119,   118,    28,    29,   115,   114,    32,    33,   111,   110,    36,
-					   108,    38,    39,   105,   104,    42,    43,   101,   100,    46,    47,    97,
-						96,    50,    51,    93,    92,    54,    55,    89,    88,    58,    59,    85,
-						61,    83,    82,    64,    65,    79,    78,    68,    69,    75,    74,    72,
-						73,    71,    70,    76,    77,    67,    66,    80,    81,    63,    62,    84,
-						60,    86,    87,    57,    56,    90,    91,    53,    52,    94,    95,    49,
-						48,    98,    99,    45,    44,   102,   103,    41,    40,   106,   107,    37,
-					   109,    35,    34,   112,   113,    31,    30,   116,   117,    27,    26,   120,
-					   121,    23,    22,   124,   125,    19,    18,   128,   129,    15,    14,   132,
-						12,   134,   135,     9,     8,   138,   139,     5,     4,   142,   143,   100 };
+	float B[row_b * row_b] = { 144,     2,     3,   141,   140,     6,     7,   137,   136,    10,    11,   133,
+								13,   131,   130,    16,    17,   127,   126,    20,    21,   123,   122,    24,
+								25,   119,   118,    28,    29,   115,   114,    32,    33,   111,   110,    36,
+							   108,    38,    39,   105,   104,    42,    43,   101,   100,    46,    47,    97,
+								96,    50,    51,    93,    92,    54,    55,    89,    88,    58,    59,    85,
+								61,    83,    82,    64,    65,    79,    78,    68,    69,    75,    74,    72,
+								73,    71,    70,    76,    77,    67,    66,    80,    81,    63,    62,    84,
+								60,    86,    87,    57,    56,    90,    91,    53,    52,    94,    95,    49,
+								48,    98,    99,    45,    44,   102,   103,    41,    40,   106,   107,    37,
+							   109,    35,    34,   112,   113,    31,    30,   116,   117,    27,    26,   120,
+							   121,    23,    22,   124,   125,    19,    18,   128,   129,    15,    14,   132,
+								12,   134,   135,     9,     8,   138,   139,     5,     4,   142,   143,   100 };
+	
+	float dr_b[row_b];			/* Eigenvalues real */
+	float di_b[row_b];			/* Eigenvalues imaginary */
+	float wr_b[row_b* row_b];	/* Eigenvectors real */
+	float wi_b[row_b* row_b];	/* Eigenvectors imaginary */
 
-	float wr_b[12];    /* Eigenvalues real */
-	float wi_b[12];    /* Eigenvalues imaginary */
+	/* Matrix C */
+	float C[row_c * row_c] = { 2.77099,  -1.59681,  -1.43482,  -2.11912,   1.36763,
+							  -1.59681,   2.63164,   0.39652,   1.33448,  -0.29600,
+							  -1.43482,   0.39652,   9.45852,   3.45891,  -1.71136,
+							  -2.11912,   1.33448,   3.45891,   6.01772,   0.46433,
+							   1.36763,  -0.29600,  -1.71136,   0.46433,   1.70259 };
 
+	float dr_c[row_c];			/* Eigenvalues real */
+	float di_c[row_c];			/* Eigenvalues imaginary */
+	float wr_c[row_c* row_c];	/* Eigenvectors real */
+	float wi_c[row_c* row_c];	/* Eigenvectors imaginary */
+	
+	/* Compute */
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
-	bool okA = eig(A, wr_a, wi_a, 4);
-	bool okB = eig(B, wr_b, wi_b, 12);
+	bool okA = eig(A, dr_a, di_a, wr_a, wi_a, row_a, MATRIX_TYPE_GENERAL);
+	bool okB = eig(B, dr_b, di_b, wr_b, wi_b, row_b, MATRIX_TYPE_GENERAL);
+	bool okC = eig(C, dr_c, di_c, wr_c, wi_c, row_c, MATRIX_TYPE_SYMMETRIC);
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	/* Print eigenvalues */
+	/* Print eigenvalues and eigenvectors */
 	printf("Real eigenvalues of A:\n");
-	print(wr_a, 4, 1);
-	printf("Imaginary eigenvalues of A: \n");
-	print(wi_a, 4, 1);
 	printf("eig solved for A: %s\n", okA ? "yes" : "no");
+	print(dr_a, row_a, 1);
+	printf("Imaginary eigenvalues of A:\n");
+	print(di_a, row_a, 1);
+	printf("Real eigenvectors of A:\n");
+	print(wr_a, row_a, row_a);
+	printf("Imaginary eigenvectors of A:\n");
+	print(wi_a, row_a, row_a);
 
 	printf("Real eigenvalues of B:\n");
-	print(wr_b, 12, 1);
-	printf("Imaginary eigenvalues of B: \n");
-	print(wi_b, 12, 1);
 	printf("eig solved for B: %s\n", okB ? "yes" : "no");
+	print(dr_b, row_b, 1);
+	printf("Imaginary eigenvalues of B:\n");
+	print(di_b, row_b, 1);
+	printf("Real eigenvectors of B:\n");
+	print(wr_b, row_b, row_b);
+	printf("Imaginary eigenvectors of B:\n");
+	print(wi_b, row_b, row_b);
+
+	printf("Real eigenvalues of C:\n");
+	printf("eig solved for C: %s\n", okC ? "yes" : "no");
+	print(dr_c, row_c, 1);
+	printf("Real eigenvectors of C:\n");
+	print(wr_c, row_c, row_c);
 
 	return EXIT_SUCCESS;
 }
 
 /*
  * GNU Octave code:
- * A = [0.018142,   0.968856,   0.151740,   0.757174,
-		0.017829,   0.474323,   0.358832,   0.970854,
-		0.184523,   0.063063,   0.680511,   0.191901,
-		0.806877,   0.830208,   0.977169,   0.222291];
+ * A = [-1.064410   1.127687  -0.121454  -0.745415   0.429437
+		-0.376645   0.233231  -0.480711   0.572394   1.058155
+	     0.642390   0.346930  -0.558388  -1.023015  -1.486376
+	     0.205990  -0.058256   0.474541   0.314334  -1.181065
+	    -0.171017  -0.189809  -0.133634  -0.807617  -2.069545];
 
    B =[ 144     2     3   141   140     6     7   137   136    10    11   133
 		13   131   130    16    17   127   126    20    21   123   122    24
@@ -83,6 +121,13 @@ int main() {
 	   121    23    22   124   125    19    18   128   129    15    14   132
 		12   134   135     9     8   138   139     5     4   142   143   100];
 
-	eig(A)
-	eig(B)
+	C = [2.7710  -1.5968  -1.4348  -2.1191   1.3676
+		-1.5968   2.6316   0.3965   1.3345  -0.2960
+		-1.4348   0.3965   9.4585   3.4589  -1.7114
+		-2.1191   1.3345   3.4589   6.0177   0.4643
+		 1.3676  -0.2960  -1.7114   0.4643   1.7026];
+
+	[V, D] = eig(A)
+	[V, D] = eig(B)
+	[V, D] = eig(C)
  */

@@ -110,9 +110,6 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\eig.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\eig_sym.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\expm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -156,12 +153,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\qr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\svd_golub_reinsch.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\svd_jacobi_one_sided.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\tran.c">
@@ -303,9 +294,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssyevd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\svd_sym.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sormtr.c">
@@ -458,9 +446,6 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slassq.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\pow_ri.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaisnan.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -572,193 +557,181 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\wref.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlarf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dorm2l.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dormql.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dormtr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dsyevd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlarfb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlarft.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dormqr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dstedc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dcopy.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dgemv.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dger.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlascl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dtrmm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\iladlc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dgemm.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\disnan.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlacpy.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed0.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlamch.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlanst.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dorm2r.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dsteqr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dsterf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\d_sign.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaset.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlasrt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dswap.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dsytrd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dtrmv.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\pow_di.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlae2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed7.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaisnan.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlasr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlassq.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlatrd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dscal.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dsyr2k.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dsytd2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\iladlr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\daxpy.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\svd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ddot.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgebrd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed3.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgesvd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed8.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slabrd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed9.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sorgbr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaev2.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sormbr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlamrg.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgebd2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed4.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgelqf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlapy2.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgeqrf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlartg.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgeqr2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dnrm2.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sorgqr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\drot.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sormlq.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dsymv.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgelq2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dsyr2.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slange.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\idamax.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slarfp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed5.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sorglq.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaed6.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sbdsqr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlaeda.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sceil.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlansy.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sorgl2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\dlarfg.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sorml2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slas2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasv2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sorg2r.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq4.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq5.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq6.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgeev.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgehrd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgebal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slabad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slahr2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sorghr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strevc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgebak.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgehd2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaln2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\shseqr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sladiv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slahqr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaqr0.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slanv2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaqr1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaqr2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaqr3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaqr4.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaqr5.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sormhr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strexc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaexc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slarfx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasy2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\pow_ri.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\r_lg10.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\pow_dd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

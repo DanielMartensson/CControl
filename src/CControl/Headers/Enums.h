@@ -68,4 +68,10 @@ typedef enum {
 	KERNEL_METHOD_EXPONENTIAL
 }KERNEL_METHOD;
 
+/* For all linear algebra files */
+typedef enum {
+	MATRIX_TYPE_SYMMETRIC,
+	MATRIX_TYPE_GENERAL
+}MATRIX_TYPE;
+
 #endif /* !CCONTROL_HEADERS_ENUMS_H_ */
