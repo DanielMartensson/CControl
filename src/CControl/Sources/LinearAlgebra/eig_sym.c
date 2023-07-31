@@ -7,6 +7,9 @@
 
 #include "../../Headers/functions.h"
 
+ /* Include LAPACK routines */
+#include "Lapack/lapack.h"
+
 /* Private functions */
 static bool tqli(float d[], float e[], size_t row, float z[]);
 static void tridiag(float A[], size_t row, float d[], float e[]);
@@ -23,14 +26,71 @@ static float pythag_float(float a, float b);
  * d [m] // Eigenvalues
  * A will become eigenvectors!
  */
-bool eig_sym(float A[], size_t row, float d[]){
-	float *e = (float*)malloc(row * sizeof(float));
-	memset(e, 0, row*sizeof(float));
-	memset(d, 0, row*sizeof(float));
-	tridiag(A, row, d, e);
-	bool ok = tqli(d, e, row, A);
-	free(e);
-	return ok;
+bool eig_sym(float A[], size_t row, float d[], bool lapack_routine){
+	if (lapack_routine) {
+		/* Settings for ssyevd routine */
+		char jobz = 'V';
+		char uplo = 'U';
+		integer n = row;
+		doublereal* a = (doublereal*)malloc(row * row * sizeof(doublereal));
+		size_t i;
+		const size_t rowrow = row * row;
+		for (i = 0; i < rowrow; i++) {
+			a[i] = A[i];
+		}
+		integer lda = row;
+		doublereal* w = (doublereal*)malloc(row * sizeof(doublereal));
+		doublereal work_optimization;
+		doublereal* work;
+		integer lwork = -1;
+		integer iwork_optimization;
+		integer* iwork;
+		integer liwork = -1;
+		integer info;
+
+		/* Query and allocate the optimal workspace */
+		dsyevd_(&jobz, &uplo, &n, a, &lda, w, &work_optimization, &lwork, &iwork_optimization, &liwork, &info);
+
+		/* Allocate memory */
+		lwork = (integer)work_optimization;
+		work = (doublereal*)malloc(lwork * sizeof(doublereal));
+		liwork = iwork_optimization;
+		iwork = (integer*)malloc(liwork * sizeof(integer));
+
+		/* Solve */
+		dsyevd_(&jobz, &uplo, &n, a, &lda, w, work, &lwork, iwork, &liwork, &info);
+
+		/* Move over to d */
+		for (i = 0; i < row; i++) {
+			d[i] = w[i];
+		}
+
+		/* Swap */
+		size_t j, s = 0;
+		for (i = 0; i < row; i++) {
+			for (j = 0; j < row; j++) {
+				A[j * row + i] = a[s++];
+			}
+		}
+
+		/* Free */
+		free(w);
+		free(work);
+		free(iwork);
+		free(a);
+
+		/* Return status */
+		return info == 0 ? true : false;
+	}
+	else {
+		float* e = (float*)malloc(row * sizeof(float));
+		memset(e, 0, row * sizeof(float));
+		memset(d, 0, row * sizeof(float));
+		tridiag(A, row, d, e);
+		bool ok = tqli(d, e, row, A);
+		free(e);
+		return ok;
+	}
 }
 
 

@@ -11,8 +11,8 @@
   * This is Singular Value Decomposition X = USV^T
   * This uses Jacobi rotation method.
   * http://www.netlib.org/lapack/lawnspdf/lawn15.pdf
-  * Use this SVD method if you have a square matrix X.
-  * X [m*n]
+  * Use this SVD method if you have a square general matrix X.
+  * A [m*n]
   * U [m*m]
   * S [n]
   * V [n*n]
@@ -20,17 +20,17 @@
   * Return true = Success
   * Return false = fail
   */
-bool svd_jacobi_one_sided(float X[], size_t row, float U[], float S[], float V[]) {
-	/* Copy over X to A */
-	float* A = (float*)malloc(row * row * sizeof(float));
-	memcpy(A, X, row * row * sizeof(float));
+bool svd_jacobi_one_sided(float A[], size_t row, float U[], float S[], float V[]) {
+	/* Copy over A to Acopy */
+	float* Acopy = (float*)malloc(row * row * sizeof(float));
+	memcpy(Acopy, A, row * row * sizeof(float));
 
 	/* i and j are the indices of the point we've chosen to zero out */
 	float al, b, c, l, t, cs, sn, tmp, sign, error;
 	size_t i, j, p, k;
 
 	/* Save address */
-	float* A0 = A;
+	float* A0 = Acopy;
 	float* U0 = U;
 	float* V0 = V;
 
@@ -56,12 +56,12 @@ bool svd_jacobi_one_sided(float X[], size_t row, float U[], float S[], float V[]
 			for (j = i + 1; j < row; j++) {
 				al = b = c = l = t = cs = sn = tmp = sign = 0.0f;
 				/* Find the 2x2 submatrix */
-				A = A0;
+				Acopy = A0;
 				for (k = 0; k < row; k++) {
-					al += A[i] * A[i];
-					b += A[j] * A[j];
-					c += A[j] * A[i];
-					A += row;
+					al += Acopy[i] * Acopy[i];
+					b += Acopy[j] * Acopy[j];
+					c += Acopy[j] * Acopy[i];
+					Acopy += row;
 					/* al += A[row*k + i] * A[row*k + i]; */
 					/* b += A[row*k + j] * A[row*k + j]; */
 					/* c += A[row*k + i] * A[row*k + j]; */
@@ -85,12 +85,12 @@ bool svd_jacobi_one_sided(float X[], size_t row, float U[], float S[], float V[]
 				sn = cs * t;
 
 				/* Change columns i and j only */
-				A = A0;
+				Acopy = A0;
 				for (k = 0; k < row; k++) {
-					tmp = A[i];
-					A[i] = cs * tmp - sn * A[j];
-					A[j] = sn * tmp + cs * A[j];
-					A += row;
+					tmp = Acopy[i];
+					Acopy[i] = cs * tmp - sn * Acopy[j];
+					Acopy[j] = sn * tmp + cs * Acopy[j];
+					Acopy += row;
 					/* tmp = A[row*k + i]; */
 					/* A[row*k + i] = cs * tmp - sn * A[row*k + j]; */
 					/* A[row*k + j] = sn * tmp + cs * A[row*k + j]; */
@@ -119,17 +119,17 @@ bool svd_jacobi_one_sided(float X[], size_t row, float U[], float S[], float V[]
 
 	/* If something wrong happens */
 	if (p == MAX_ITERATIONS) {
-		A = A0;
-		free(A);
+		Acopy = A0;
+		free(Acopy);
 		return false;
 	}
 
 	/* Find the singular values by adding up squares of each column, then taking square root of each column */
 	for (j = 0; j < row; j++) {
-		A = A0;
+		Acopy = A0;
 		for (i = 0; i < row; i++) {
-			S[j] += A[j] * A[j];
-			A += row;
+			S[j] += Acopy[j] * Acopy[j];
+			Acopy += row;
 			/* S[j] += A[row*i + j] * A[row*i + j]; */
 		}
 		tmp = S[j];
@@ -146,15 +146,15 @@ bool svd_jacobi_one_sided(float X[], size_t row, float U[], float S[], float V[]
 
 				/* Rearrange columns of u and v accordingly */
 				V = V0;
-				A = A0;
+				Acopy = A0;
 				for (i = 0; i < row; i++) {
 					tmp = V[j];
 					V[j] = V[j + 1];
 					V[j + 1] = tmp;
-					tmp = A[j];
-					A[j] = A[j + 1];
-					A[j + 1] = tmp;
-					A += row;
+					tmp = Acopy[j];
+					Acopy[j] = Acopy[j + 1];
+					Acopy[j + 1] = tmp;
+					Acopy += row;
 					V += row;
 					/* tmp = V[row*i + j]; */
 					/* V[row*i + j] = V[row*i + j + 1]; */
@@ -168,22 +168,22 @@ bool svd_jacobi_one_sided(float X[], size_t row, float U[], float S[], float V[]
 	}
 
 	/* A is A*V, so in order to get U, we divide by S in each column */
-	A = A0;
+	Acopy = A0;
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < row; j++) {
-			A[j] /= S[j];
+			Acopy[j] /= S[j];
 			/* A[row*i + j] = A[row*i + j] / S[j]; */
 		}
-		A += row;
+		Acopy += row;
 	}
 
 	/* Set U to A, since we have been making modifications to A */
-	A = A0;
+	Acopy = A0;
 	U = U0;
-	memcpy(U, A, row * row * sizeof(float));
+	memcpy(U, Acopy, row * row * sizeof(float));
 
 	/* Free */
-	free(A);
+	free(Acopy);
 
 	/* Return OK */
 	return true;

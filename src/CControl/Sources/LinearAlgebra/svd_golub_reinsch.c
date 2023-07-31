@@ -80,6 +80,7 @@ static void Householders_Reduction_to_Bidiagonal_Form(float *A, size_t nrows, si
 	s = 0.0f;
 	scale = 0.0f;
 	for (i = 0, pui = U, ip1 = 1; i < ncols; pui += ncols, i++, ip1++) {
+		printf("Iternation %i\n", i);
 		superdiagonal[i] = scale * s;
 		/*
 		       Perform Householder transform on columns.

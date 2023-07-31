@@ -5,6 +5,17 @@ The purpose with this library is to fit advanced tools for really small embedded
 Here I have focused on practical numerical methods and selected the methods that works best in practice. It has
 been a lot of work finding the best methods and best algorithms.
 
+# LAPACK support
+
+This library is supporting LAPACK for large matrices.
+
+| Routines  | Function | Comment | 
+| ------------- | ------------- | ------------------- |
+| `ssyevd` | `svd_sym.c` | For real symmetric matrices |
+| `dsyevd` | `eig_sym.c` | For real symmetric matrices |
+
+If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.
+
 Main focuses are:
 
 - Artificial Intelligence
@@ -54,6 +65,7 @@ Main focuses are:
   - Multiplication
   - Singular Value Decomposition Golup Reinsch
   - Singular Value Decomposition Jacobi One Sided
+  - Singular Value Decomposition Divide & Conquer
   - Transpose
   - Norm
   - Matrix exponential

@@ -18,7 +18,7 @@ static void center_data(float X[], float mu[], size_t row, size_t column);
  * W[m*c]
  * P[c*n]
  */
-void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size_t column) {
+void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size_t column, bool lapack_routine) {
 	/* Create average vector mu_X = mean(X, 2) */
 	float* mu_X = (float*)malloc(row * sizeof(float));
 	average_vector(X, mu_X, row, column);
@@ -115,7 +115,7 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 
 	/* Do Generalized Eigenvalue Problem */
 	float* d = (float*)malloc(row * sizeof(float));
-	eig_sym_generalized(Sb, Sw, row, d);
+	eig_sym_generalized(Sb, Sw, row, d, lapack_routine);
 
 	/* Copy over eigenvectors from Sb to W */
 	float* W0 = W;

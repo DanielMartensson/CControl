@@ -18,7 +18,7 @@
  * d [m] // Eigenvalues
  * A will become eigenvectors!
  */
-bool eig_sym_generalized(float A[], float B[], size_t row, float d[]) {
+bool eig_sym_generalized(float A[], float B[], size_t row, float d[], bool lapack_routine) {
 	/* Do cholesky factorization of B */
 	float* L = (float*)malloc(row * row * sizeof(float));
 	chol(B, L, row);
@@ -53,7 +53,7 @@ bool eig_sym_generalized(float A[], float B[], size_t row, float d[]) {
 	mul(Y, Linv, X, row, row, row);
 
 	/* Do Eigendecomposition */
-	bool eigOk = eig_sym(X, row, d);
+	bool eigOk = eig_sym(X, row, d, lapack_routine);
 
 	/* Copyu over X to A */
 	memcpy(A, X, row * row * sizeof(float));
