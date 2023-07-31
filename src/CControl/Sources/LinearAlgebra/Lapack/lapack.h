@@ -18,4 +18,7 @@ int sgesvd_(char* jobu, char* jobvt, integer* m, integer* n,
 	real* a, integer* lda, real* s, real* u, integer* ldu, real* vt,
 	integer* ldvt, real* work, integer* lwork, integer* info);
 
+/* Cholesky factorization */
+int spotrf_(char* uplo, integer* n, real* a, integer* lda, integer* info);
+
 #endif // !LAPACK

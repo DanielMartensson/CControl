@@ -1,0 +1,54 @@
+/*
+ ============================================================================
+ Name        : chol.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Do cholesky factorization on A
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row_a 5
+#define column_a 5
+
+int main() {
+
+	/* Matrix A */
+	float A[row_a * column_a] = { 8.871926, - 1.455330, - 1.112151, - 1.370299,   0.050619,
+								- 1.455330,   3.701973,   1.247791,   1.856149,   2.864599,
+								- 1.112151,   1.247791,   3.305463, - 1.566708, - 0.757498,
+								- 1.370299,   1.856149, - 1.566708,   3.648569,   2.430660,
+								  0.050619,   2.864599, - 0.757498,   2.430660,   4.604334 };
+
+	float L[row_a * column_a];
+
+	/* Do Cholesky decomposition */
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+	bool ok = chol(A, L, row_a);
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	/* print L */
+	print(L, row_a, column_a);
+
+	/* Print status */
+	printf("Found cholesky factorization: %s\n", ok ? "yes" : "no");
+
+	return EXIT_SUCCESS;
+}
+
+/*
+ * GNU Octave code:
+ * A = [8.871926  -1.455330  -1.112151  -1.370299   0.050619
+	   -1.455330   3.701973   1.247791   1.856149   2.864599
+	   -1.112151   1.247791   3.305463  -1.566708  -0.757498
+	   -1.370299   1.856149  -1.566708   3.648569   2.430660
+	    0.050619   2.864599  -0.757498   2.430660   4.604334];
+
+   L = chol(A, 'lower')
+ */

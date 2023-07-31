@@ -182,6 +182,8 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sormql.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sormqr.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sormtr.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\spotf2.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\spotrf.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\srot.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sscal.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sstedc.c" />
@@ -192,12 +194,14 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssymv.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssyr2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssyr2k.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssyrk.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssytd2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssytrd.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strevc.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strexc.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strmm.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strmv.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strsm.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\s_cat.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\s_cmp.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\s_copy.c" />

@@ -7,6 +7,11 @@
 
 #include "../../Headers/functions.h"
 
+ /* Include LAPACK routines */
+#ifdef LAPACK_USED
+#include "Lapack/lapack.h"
+#endif
+
 /*
  * Create A = L*L^T
  * A need to be symmetric positive definite
@@ -14,20 +19,37 @@
  * L [m*n]
  * n == m
  */
-void chol(float A[], float L[], size_t row) {
+bool chol(float A[], float L[], size_t row) {
+#ifdef LAPACK_USED
+	integer info;
+	integer n = row, lda = row;
+	float* Acopy = (float*)malloc(row * row * sizeof(float));
+	memcpy(Acopy, A, row * row * sizeof(float));
+	spotrf_("U", &n, Acopy, &lda, &info);
+	size_t i, j;
+	for (i = 0; i < row; i++) {
+		for (j = 0; j < row; j++) {
+			if (i < j) {
+				Acopy[i * row + j] = 0.0f;
+			}
+		}
+	}
+	memcpy(L, Acopy, row * row * sizeof(float));
+	return info == 0 ? true : false;
+#else
 	/* Save address */
-	float *Li = L;
-	float *Lj;
-	float *Ai = A;
+	float* Li = L;
+	float* Lj;
+	float* Ai = A;
 
-	memset(L, 0, row*row*sizeof(float));
+	memset(L, 0, row * row * sizeof(float));
 	float s;
 	size_t i, j, k;
-	for (i = 0; i < row; i++){
+	for (i = 0; i < row; i++) {
 		Lj = L;
 		for (j = 0; j <= i; j++) {
 			s = 0.0f;
-			for (k = 0; k < j; k++){
+			for (k = 0; k < j; k++) {
 				s += Li[k] * Lj[k]; /* s += L[row * i + k] * L[row * j + k]; */
 			}
 
@@ -43,4 +65,6 @@ void chol(float A[], float L[], size_t row) {
 		Li += row;
 		Ai += row;
 	}
+#endif
+	return true;
 }

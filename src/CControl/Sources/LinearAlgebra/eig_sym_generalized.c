@@ -7,18 +7,18 @@
 
 #include "../../Headers/functions.h"
 
-/*
- * Compute eigenvalues and eigenvectors from a symmetrical square matrix A and B
- * Notice that a square symmetrical matrix can never have complex eigenvalues and eigenvalues!
- * A [m*n]
- * B [m*n]
- * n == m
- * A^T = A
- * B^T = B
- * d [m] // Eigenvalues
- * A will become eigenvectors!
- */
-bool eig_sym_generalized(float A[], float B[], size_t row, float d[], bool lapack_routine) {
+ /*
+  * Compute eigenvalues and eigenvectors from a symmetrical square matrix A and B
+  * Notice that a square symmetrical matrix can never have complex eigenvalues and eigenvalues!
+  * A [m*n]
+  * B [m*n]
+  * n == m
+  * A^T = A
+  * B^T = B
+  * dr [m] = Eigenvalues
+  * wr [m*n] = Eigenvectors
+  */
+bool eig_sym_generalized(float A[], float B[], size_t row, float dr[], float wr[]) {
 	/* Do cholesky factorization of B */
 	float* L = (float*)malloc(row * row * sizeof(float));
 	chol(B, L, row);
@@ -36,7 +36,7 @@ bool eig_sym_generalized(float A[], float B[], size_t row, float d[], bool lapac
 	}
 
 	/* Reset Y and A */
-	Y = Y0; 
+	Y = Y0;
 	A = A0;
 
 	/* Transpose Y */
@@ -53,9 +53,15 @@ bool eig_sym_generalized(float A[], float B[], size_t row, float d[], bool lapac
 	mul(Y, Linv, X, row, row, row);
 
 	/* Do Eigendecomposition */
-	bool eigOk = eig_sym(X, row, d, lapack_routine);
+	float* di = (float*)malloc(row * sizeof(float));
+	float* wi = (float*)malloc(row * row * sizeof(float));
+	bool eigOk = eig(X, dr, di, wr, wi, row, MATRIX_TYPE_SYMMETRIC);
+	
+	/* Free */
+	free(di);
+	free(wi);
 
-	/* Copyu over X to A */
+	/* Copy over X to A */
 	memcpy(A, X, row * row * sizeof(float));
 
 	/* Free*/
