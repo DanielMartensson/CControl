@@ -47,7 +47,7 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 		lwork = -1;
 		liwork = -1;
 		ssyevd_("V", "U", &n, a, &lda, S, &wkopt, &lwork, &iwkopt, &liwork, &info);
-		lwork = (integer)wkopt;
+		lwork = (integer)wkopt + 1; /* +1 will fix the large matrix issue */
 		work = (real*)malloc(lwork * sizeof(real));
 		liwork = iwkopt;
 		iwork = (integer*)malloc(liwork * sizeof(integer));
