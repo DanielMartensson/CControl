@@ -71,7 +71,7 @@ static float do_Frobenius_on_A(float A[], float X[], float L[], float S[], size_
 
 static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau, size_t row, size_t column) {
 	/* Do SVD */
-	uint32_t i, row_column = row * column;
+	size_t i, row_column = row * column;
 	for (i = 0; i < row_column; i++) {
 		A[i] = X[i] - S[i] + tau*Y[i];
 	}
@@ -79,12 +79,7 @@ static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau
 	float* U = (float*)malloc(row_column * sizeof(float));
 	float* E = (float*)malloc(column * sizeof(float));
 	float* V = (float*)malloc(column * column * sizeof(float));
-	if (row == column) {
-		svd_jacobi_one_sided(A, row, U, E, V);
-	}
-	else {
-		svd_golub_reinsch(A, row, column, U, E, V);
-	}
+	svd(A, row, column, MATRIX_TYPE_GENERAL, U, E, V);
 
 	/* Call shrink, a special function */
 	shrink_matrix(E, E, tau, 1, column);

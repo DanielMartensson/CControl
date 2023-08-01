@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : svd_golub_reinsch.c
+ Name        : svd.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
@@ -14,7 +14,7 @@
 #define row_b 4
 #define column_a 5
 #define column_b 4
-#define sym 5
+#define sym 2000
 
 int main() {
 
@@ -96,21 +96,23 @@ int main() {
 	printf("V for B matrix\n");
 	print(V_b, column_b, column_b);
 
-	/* Print U */
-	printf("U for C matrix\n");
-	print(U_c, sym, sym);
+	if (sym < 10) {
+		/* Print U */
+		printf("U for C matrix\n");
+		print(U_c, sym, sym);
 
-	/* Print S */
-	printf("S for C matrix\n");
-	print(S_c, sym, 1);
+		/* Print S */
+		printf("S for C matrix\n");
+		print(S_c, sym, 1);
 
-	/* Print V */
-	printf("V for C matrix\n");
-	print(V_c, sym, sym);
+		/* Print V */
+		printf("V for C matrix\n");
+		print(V_c, sym, sym);
 
-	/* Print C matrix */
-	printf("C matrix\n");
-	print(Csym, sym, sym);
+		/* Print C matrix */
+		printf("C matrix\n");
+		print(Csym, sym, sym);
+	}
 
 	/* Print status */
 	printf("Found U, S, V for A? %s\n", okA ? "yes" : "no");

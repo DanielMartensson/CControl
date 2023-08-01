@@ -35,7 +35,8 @@ void era(float u[], float y[], size_t row, size_t column, float A[], float B[], 
 	float *U = (float*)malloc(row_h * column_h * sizeof(float));
 	float *S = (float*)malloc(column_h * sizeof(float));
 	float *V = (float*)malloc(column_h * column_h * sizeof(float));
-	svd_golub_reinsch(H, row_h, column_h, U, S, V);
+	svd(H, row_h, column_h, MATRIX_TYPE_GENERAL, U, S, V);
+	/*svd_golub_reinsch(H, row_h, column_h, U, S, V);*/
 
 	/* Re-create another hankel with shift = 2 */
 	hankel(g, H, row, column, row_h, column_h, 2); /* Need to have 2 shift for this algorithm */

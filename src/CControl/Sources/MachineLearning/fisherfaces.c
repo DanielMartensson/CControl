@@ -114,6 +114,11 @@ FISHER_MODEL* fisherfaces_collect_data(const char folder_path[]) {
 			/* Get the name of the file */
 			const char* file_name = file_names[j];
 
+			/* Check if the file is .pgm */
+			if (!strstr(file_name, ".pgm")) {
+				continue;
+			}
+
 			/* Combine the total folder path with the file name */
 			char total_pgm_path[260];
 			concatenate_paths(total_pgm_path, total_folder_path, file_name);

@@ -32,18 +32,21 @@ int main() {
 							-0.35456,       1.7268,      -4.1207,       5.7797,       -3.505,
 							 0.44274,       1.1316,       2.6296,       -3.505,       4.5628 };
 	/* Eigenvalues */
-	float d[row];
+	float dr[row];
+
+	/* Eigenvectors */
+	float wr[row * row];
 
 	/* Solve generalized eigenvalue problem */
-	bool ok = eig_sym_generalized(A, B, row, d);
+	bool ok = eig_sym_generalized(A, B, row, dr, wr);
 
 	/* Print eigenvalues */
 	printf("Eigenvalues:\n");
-	print(d, row, 1);
+	print(dr, row, 1);
 
 	/* Print eigenvectors */
 	printf("Eigenvectors:\n");
-	print(A, row, row);
+	print(wr, row, row);
 	printf("Eigenvectors and eigenvalues found %s\n", ok ? "yes" : "no");
 
 	end = clock();

@@ -22,12 +22,7 @@ void pinv(float A[], size_t row, size_t column){
 	float *U = (float*)malloc(row * column * sizeof(float));
 	float *S = (float*)malloc(column * sizeof(float));
 	float *V = (float*)malloc(column * column * sizeof(float));
-	if (row == column) {
-		svd_jacobi_one_sided(A, row, U, S, V);
-	}
-	else {
-		svd_golub_reinsch(A, row, column, U, S, V);
-	}
+	svd(A, row, column, MATRIX_TYPE_GENERAL, U, S, V);
 
 	/* Do inv(S) */
 	for (i = 0; i < column; i++) {

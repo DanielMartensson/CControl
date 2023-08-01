@@ -89,25 +89,35 @@ bool svd(float A[], size_t row, size_t column, MATRIX_TYPE matrix_type, float U[
 		integer m = row, n = column, lda = row, ldu = row, ldvt = column, lwork;
 		real wkopt;
 		real* work = NULL;
+		real* u = (real*)malloc(m * m * sizeof(real));
 
 		/* Important to take transpose */
 		tran(A, row, column);
 
 		/* Allocate memory */
 		lwork = -1;
-		sgesvd_("A", "A", &m, &n, A, &lda, S, U, &ldu, V, &ldvt, &wkopt, &lwork, &info);
+		sgesvd_("A", "A", &m, &n, A, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, &info);
 		lwork = (integer)wkopt;
 		work = (real*)malloc(lwork * sizeof(real));
 
 		/* Compute */
-		sgesvd_("A", "A", &m, &n, A, &lda, S, U, &ldu, V, &ldvt, work, &lwork, &info);
+		sgesvd_("A", "A", &m, &n, A, &lda, S, u, &ldu, V, &ldvt, work, &lwork, &info);
 		
 		/* Important to take transpose */
-		tran(A, row, column);
-		tran(U, column, row);
+		tran(A, column, row);
+
+		/* Fill U */
+		size_t i, j;
+		tran(u, row, row);
+		for (i = 0; i < row; i++) {
+			for (j = 0; j < column; j++) {
+				U[i * column + j] = u[i * row + j];
+			}
+		}
 
 		/* Free */
 		free(work);
+		free(u);
 
 		break;
 	}
@@ -434,7 +444,6 @@ static void Householders_Reduction_to_Bidiagonal_Form(float* A, size_t nrows, si
 	s = 0.0f;
 	scale = 0.0f;
 	for (i = 0, pui = U, ip1 = 1; i < ncols; pui += ncols, i++, ip1++) {
-		printf("Iternation %i\n", i);
 		superdiagonal[i] = scale * s;
 		/*
 			   Perform Householder transform on columns.
