@@ -7,7 +7,7 @@ been a lot of work finding the best methods and best algorithms.
 
 # LAPACK support
 
-This library have two types of routines. First it's the lightweight routine that suits embedded systems. Then there is LAPACK for large matrices. LAPACK is enabled if you are using `Linux`, `Windows` or `Mac` inside `defines.h` file.
+This library have two types of routines. First it's the lightweight routine that suits embedded systems. Then there is LAPACK for large matrices. LAPACK is enabled inside the `defines.h` file if you are using `Linux`, `Windows` or `Mac`. If you are using an Arduino, STM32, PIC etc. then the lightweight routines is enabled instead and LAPACK will not affect the size.
 
 | Routines  | Function | Comment | 
 | ------------- | ------------- | ------------------- |
