@@ -68,13 +68,18 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 			end--;
 		}
 
-		/* Move over to U */
+		/* Move over to U via transpose */
 		size_t j, s = 0;
+		float* U0 = U;
 		for (i = 0; i < row; i++) {
+			U = U0;
+			U += row - i - 1;
 			for (j = 0; j < row; j++) {
-				U[j * row + row - i - 1] = a[s++];
+				U[0] = a[s++];
+				U += row;
 			}
 		}
+		U = U0;
 
 		/* Move over to V */
 		memcpy(V, U, row * row * sizeof(float));
@@ -90,23 +95,46 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 		real wkopt;
 		real* work = NULL;
 		real* u = (real*)malloc(m * m * sizeof(real));
+		real* iwork = (real*)malloc(8 * vmin(m, n) * sizeof(real));
+
+		/* This is for a large matrix e.g 500x500 and above */
+		bool large_matrix = row* column > 250000U;
 
 		/* Important to take transpose */
 		float* Acopy = (float*)malloc(row * column * sizeof(float));
-		memcpy(Acopy, A, row * column * sizeof(float));
-		tran(Acopy, row, column);
+		size_t i, j;
+		float* Acopy0 = Acopy;
+		for (i = 0; i < row; i++) {
+			Acopy = Acopy0;
+			Acopy += i;
+			for (j = 0; j < column; j++) {
+				Acopy[0] = A[j];
+				Acopy += row;
+			}
+			A += column;
+		}
+		Acopy = Acopy0;
 
 		/* Allocate memory */
 		lwork = -1;
-		sgesvd_("A", "A", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, &info);
+		if (large_matrix) {
+			sgesdd_("S", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, iwork, &info);
+		}
+		else {
+			sgesvd_("A", "A", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, &info);
+		}
 		lwork = (integer)wkopt;
 		work = (real*)malloc(lwork * sizeof(real));
 
 		/* Compute */
-		sgesvd_("A", "A", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, work, &lwork, &info);
+		if (large_matrix) {
+			sgesdd_("S", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, work, &lwork, iwork, &info);
+		}
+		else {
+			sgesvd_("A", "A", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, work, &lwork, &info);
+		}
 		
 		/* Fill U with transpose */
-		size_t i, j;
 		real* u0 = u;
 		for (i = 0; i < row; i++) {
 			u = u0;
@@ -125,6 +153,7 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 		free(work);
 		free(u);
 		free(Acopy);
+		free(iwork);
 	}
 
 	/* Return status */
