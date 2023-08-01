@@ -17,16 +17,16 @@
 int main() {
 
 	/* Matrix A */
-	float A[row_a * row_a] = { -1.064410,   1.127687, - 0.121454, - 0.745415,   0.429437,
-							  - 0.376645,   0.233231, - 0.480711,   0.572394,   1.058155,
-							    0.642390,   0.346930, - 0.558388, - 1.023015, - 1.486376,
-							    0.205990, - 0.058256,   0.474541,   0.314334, - 1.181065,
-							  - 0.171017, - 0.189809, - 0.133634, - 0.807617, - 2.069545 };
+	float A[row_a * row_a] = { -1.064410,   1.127687, -0.121454, -0.745415,   0.429437,
+							  -0.376645,   0.233231, -0.480711,   0.572394,   1.058155,
+								0.642390,   0.346930, -0.558388, -1.023015, -1.486376,
+								0.205990, -0.058256,   0.474541,   0.314334, -1.181065,
+							  -0.171017, -0.189809, -0.133634, -0.807617, -2.069545 };
 
 	float dr_a[row_a];			/* Eigenvalues real */
 	float di_a[row_a];			/* Eigenvalues imaginary */
-	float wr_a[row_a* row_a];	/* Eigenvectors real */
-	float wi_a[row_a* row_a];	/* Eigenvectors imaginary */
+	float wr_a[row_a * row_a];	/* Eigenvectors real */
+	float wi_a[row_a * row_a];	/* Eigenvectors imaginary */
 
 	/* Matrix B */
 	float B[row_b * row_b] = { 144,     2,     3,   141,   140,     6,     7,   137,   136,    10,    11,   133,
@@ -41,11 +41,11 @@ int main() {
 							   109,    35,    34,   112,   113,    31,    30,   116,   117,    27,    26,   120,
 							   121,    23,    22,   124,   125,    19,    18,   128,   129,    15,    14,   132,
 								12,   134,   135,     9,     8,   138,   139,     5,     4,   142,   143,   100 };
-	
+
 	float dr_b[row_b];			/* Eigenvalues real */
 	float di_b[row_b];			/* Eigenvalues imaginary */
-	float wr_b[row_b* row_b];	/* Eigenvectors real */
-	float wi_b[row_b* row_b];	/* Eigenvectors imaginary */
+	float wr_b[row_b * row_b];	/* Eigenvectors real */
+	float wi_b[row_b * row_b];	/* Eigenvectors imaginary */
 
 	/* Matrix C */
 	float C[row_c * row_c] = { 2.77099,  -1.59681,  -1.43482,  -2.11912,   1.36763,
@@ -56,16 +56,16 @@ int main() {
 
 	float dr_c[row_c];			/* Eigenvalues real */
 	float di_c[row_c];			/* Eigenvalues imaginary */
-	float wr_c[row_c* row_c];	/* Eigenvectors real */
-	float wi_c[row_c* row_c];	/* Eigenvectors imaginary */
-	
+	float wr_c[row_c * row_c];	/* Eigenvectors real */
+	float wi_c[row_c * row_c];	/* Eigenvectors imaginary */
+
 	/* Compute */
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
-	bool okA = eig(A, dr_a, di_a, wr_a, wi_a, row_a, MATRIX_TYPE_GENERAL);
-	bool okB = eig(B, dr_b, di_b, wr_b, wi_b, row_b, MATRIX_TYPE_GENERAL);
-	bool okC = eig(C, dr_c, di_c, wr_c, wi_c, row_c, MATRIX_TYPE_SYMMETRIC);
+	bool okA = eig(A, dr_a, di_a, wr_a, wi_a, row_a);
+	bool okB = eig(B, dr_b, di_b, wr_b, wi_b, row_b);
+	bool okC = eig(C, dr_c, di_c, wr_c, wi_c, row_c);
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
@@ -104,9 +104,9 @@ int main() {
  * GNU Octave code:
  * A = [-1.064410   1.127687  -0.121454  -0.745415   0.429437
 		-0.376645   0.233231  -0.480711   0.572394   1.058155
-	     0.642390   0.346930  -0.558388  -1.023015  -1.486376
-	     0.205990  -0.058256   0.474541   0.314334  -1.181065
-	    -0.171017  -0.189809  -0.133634  -0.807617  -2.069545];
+		 0.642390   0.346930  -0.558388  -1.023015  -1.486376
+		 0.205990  -0.058256   0.474541   0.314334  -1.181065
+		-0.171017  -0.189809  -0.133634  -0.807617  -2.069545];
 
    B =[ 144     2     3   141   140     6     7   137   136    10    11   133
 		13   131   130    16    17   127   126    20    21   123   122    24

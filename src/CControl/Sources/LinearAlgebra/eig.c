@@ -16,14 +16,32 @@ bool eig_sym(float A[], float d[], float wr[], size_t row);
 #include "Lapack/lapack.h"
 #endif
 
-bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row, MATRIX_TYPE matrix_type) {
+/*
+ * A[m*n]
+ * dr[m] - Real eigenvalues 
+ * di[m] - Imaginary eigenvalues
+ * wr[m*n] - Real eigenvectors
+ * wi[m*n] - Imaginary eigenvectors
+ * m == n
+ * Return true = success
+ * Return false = fail
+ */
+bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) {
+	/* Check if matrix is symmetric */
+	bool symmetric = issymmetric(A, row, row);
+
+	/* Status flag */
 	bool status = false;
+
 #ifdef LAPACK_USED
-	integer info;
-	switch (matrix_type) {
-	case MATRIX_TYPE_GENERAL: {
+	if (symmetric) {
+		/* Compute the SVD is the same for EIG for a symmetric matrix */
+		status = svd(A, row, row, wr, dr, wi);
+		memset(wi, 0, row * row * sizeof(float));
+		memset(di, 0, row * sizeof(float));
+	}else{
 		/* Settings */
-		integer n = row, lda = row, ldvl = row, ldvr = row, lwork;
+		integer n = row, lda = row, ldvl = row, ldvr = row, info, lwork;
 		real wkopt;
 		real* work = NULL;
 
@@ -70,27 +88,17 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row, 
 		free(vl);
 		free(vr);
 
-		break;
-	}
-	case MATRIX_TYPE_SYMMETRIC:
-		/* Compute the SVD is the same for EIG for a symmetric matrix */
-		status = svd(A, row, row, matrix_type, wr, dr, wi);
-		memset(wi, 0, row * row * sizeof(float));
-		memset(di, 0, row * sizeof(float));
-		break;
 	}
 #else
-	switch (matrix_type) {
-	case MATRIX_TYPE_GENERAL:
+	if (symmetric) {
 		status = eig_regular(A, dr, di, row);
 		memset(wi, 0, row * row * sizeof(float));
 		memset(wr, 0, row * row * sizeof(float));
-		break;
-	case MATRIX_TYPE_SYMMETRIC:
+	}
+	else {
 		status = eig_sym(A, dr, wr, row);
 		memset(wi, 0, row * row * sizeof(float));
 		memset(di, 0, row * sizeof(float));
-		break;
 	}
 #endif
 

@@ -27,14 +27,19 @@ bool chol(float A[], float L[], size_t row) {
 	memcpy(Acopy, A, row * row * sizeof(float));
 	spotrf_("U", &n, Acopy, &lda, &info);
 	size_t i, j;
+	/* Turn to lower matrix */
+	memset(L, 0, row * row * sizeof(float));
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < row; j++) {
-			if (i < j) {
-				Acopy[i * row + j] = 0.0f;
+			if (i >= j) {
+				L[i * row + j] = Acopy[i * row + j];
+			}
+			else {
+				break;
 			}
 		}
 	}
-	memcpy(L, Acopy, row * row * sizeof(float));
+	free(Acopy);
 	return info == 0 ? true : false;
 #else
 	/* Save address */

@@ -55,16 +55,11 @@ bool eig_sym_generalized(float A[], float B[], size_t row, float dr[], float wr[
 	/* Do Eigendecomposition */
 	float* di = (float*)malloc(row * sizeof(float));
 	float* wi = (float*)malloc(row * row * sizeof(float));
-	bool eigOk = eig(X, dr, di, wr, wi, row, MATRIX_TYPE_SYMMETRIC);
+	bool eigOk = eig(X, dr, di, wr, wi, row);
 	
 	/* Free */
 	free(di);
 	free(wi);
-
-	/* Copy over X to A */
-	memcpy(A, X, row * row * sizeof(float));
-
-	/* Free*/
 	free(L);
 	free(Y);
 	free(Linv);

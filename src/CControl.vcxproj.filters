@@ -48,10 +48,10 @@
     <ClInclude Include="CControl\Sources\LinearAlgebra\Lapack\sysdep1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CControl\Sources\LinearAlgebra\Lapack\fp.h">
+    <ClInclude Include="CControl\Sources\LinearAlgebra\Lapack\blaswrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CControl\Sources\LinearAlgebra\Lapack\blaswrap.h">
+    <ClInclude Include="CControl\Sources\LinearAlgebra\Lapack\fp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -320,9 +320,6 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssterf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ieeeck.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\iparmq.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -539,19 +536,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\open.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\close.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\util.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\endfile.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\wrtfmt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\fmtlib.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\wref.c">
@@ -642,9 +627,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq4.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq6.c">
@@ -744,6 +726,42 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strsm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\issymmetric.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgetrf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaswp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgetri.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strtri.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strti2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\fmtlib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\endfile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\close.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ieeeck.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasq5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

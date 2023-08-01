@@ -9,6 +9,11 @@
 
 static bool solve(float x[], float b[], size_t P[], float LU[], size_t row);
 
+/* Include LAPACK routines */
+#ifdef LAPACK_USED
+#include "Lapack/lapack.h"
+#endif
+
 /*
  * A to A^(-1)
  * Notice that only square matrices are only allowed.
@@ -20,7 +25,25 @@ static bool solve(float x[], float b[], size_t P[], float LU[], size_t row);
  * Returns false == Fail
  */
 bool inv(float A[], size_t row) {
+#ifdef LAPACK_USED
+	/* First use LU factorization */
+	integer m = row, n = row, lda = row, info, lwork;
+	integer* ipiv = (integer*)malloc(row * sizeof(integer));
+	sgetrf_(&m, &n, A, &lda, ipiv, &info);
 
+	/* Allocate memory */
+	real wkopt;
+	lwork = -1;
+	sgetri_(&m, A, &lda, ipiv, &wkopt, &lwork, &info);
+	lwork = (integer)wkopt;
+	real* work = (real*)malloc(lwork * sizeof(real));
+
+	/* Solve */
+	sgetri_(&m, A, &lda, ipiv, work, &lwork, &info);
+
+	/* Return status */
+	return info == 0 ? true : false;
+#else
 	/* Create iA matrix */
 	float *iA = (float*)malloc(row * row * sizeof(float));
 	float *A0 = iA; 
@@ -61,6 +84,7 @@ bool inv(float A[], size_t row) {
 	free(P);
 
 	return ok;
+#endif
 }
 
 static bool solve(float x[], float b[], size_t P[], float LU[], size_t row){

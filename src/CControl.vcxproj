@@ -106,6 +106,8 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgeqrf.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sger.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgesvd.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgetrf.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgetri.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\shseqr.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sig_die.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sisnan.c" />
@@ -164,6 +166,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasrt.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slassq.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasv2.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slaswp.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasy2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slatrd.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\snrm2.c" />
@@ -202,6 +205,8 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strmm.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strmv.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strsm.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strti2.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\strtri.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\s_cat.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\s_cmp.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\s_copy.c" />
@@ -229,6 +234,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\pooling.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\issymmetric.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\pgm.c" />
     <ClCompile Include="CControl\Sources\Statistics\amax.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />

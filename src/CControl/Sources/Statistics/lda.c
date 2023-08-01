@@ -18,7 +18,7 @@ static void center_data(float X[], float mu[], size_t row, size_t column);
  * W[m*c]
  * P[c*n]
  */
-void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size_t column, bool lapack_routine) {
+void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size_t column) {
 	/* Create average vector mu_X = mean(X, 2) */
 	float* mu_X = (float*)malloc(row * sizeof(float));
 	average_vector(X, mu_X, row, column);
@@ -27,7 +27,7 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 	size_t amount_of_classes = y[column - 1] + 1;
 
 	/* Create scatter matrices Sw and Sb */
-	uint32_t scatter_matrix_size = row * row;
+	size_t scatter_matrix_size = row * row;
 	float* Sw = (float*)malloc(scatter_matrix_size * sizeof(float));
 	memset(Sw, 0, scatter_matrix_size * sizeof(float));
 	float* Sb = (float*)malloc(scatter_matrix_size * sizeof(float));
@@ -115,16 +115,18 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 
 	/* Do Generalized Eigenvalue Problem */
 	float* d = (float*)malloc(row * sizeof(float));
-	eig_sym_generalized(Sb, Sw, row, d, lapack_routine);
+	float* wr = (float*)malloc(scatter_matrix_size * sizeof(float));
+	float* wr0 = wr;
+	eig_sym_generalized(Sb, Sw, row, d, wr);
 
 	/* Copy over eigenvectors from Sb to W */
 	float* W0 = W;
 	for (l = 0; l < row; l++) {
 		for (k = 0; k < c; k++) {
-			W[k] = Sb[row - 1 - k]; /* Sb are in an ascending order */
+			W[k] = wr[row - 1 - k]; /* Sb are in an ascending order */
 		}
 		
-		Sb += row;
+		wr += row;
 		W += c;
 	}
 
@@ -136,7 +138,7 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 	tran(W, c, row);
 
 	/* Reset */
-	Sb = Sb0;
+	wr = wr0;
 
 	/* Free */
 	free(mu_X);
@@ -147,6 +149,7 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 	free(XiXiT);
 	free(diff);
 	free(d);
+	free(wr);
 }
 
 static void average_vector(float X[], float mu[], size_t row, size_t column) {

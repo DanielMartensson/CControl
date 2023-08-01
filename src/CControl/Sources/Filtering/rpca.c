@@ -79,7 +79,7 @@ static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau
 	float* U = (float*)malloc(row_column * sizeof(float));
 	float* E = (float*)malloc(column * sizeof(float));
 	float* V = (float*)malloc(column * column * sizeof(float));
-	svd(A, row, column, MATRIX_TYPE_GENERAL, U, E, V);
+	svd(A, row, column, U, E, V);
 
 	/* Call shrink, a special function */
 	shrink_matrix(E, E, tau, 1, column);

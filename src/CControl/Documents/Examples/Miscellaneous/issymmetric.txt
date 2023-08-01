@@ -1,0 +1,35 @@
+/*
+ ============================================================================
+ Name        : issymmetric.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Check if a matrix is symmetric
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 5
+#define column 5
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Matrix A */
+	float A[row * column] = { 3.5631,  -1.5526, -0.9015,   0.3819,   0.2940,
+							 -1.5526,   1.7882, -0.3741,  -0.8701,   0.4503,
+							 -0.9015,  -0.3741,  1.9567,  -0.7635,  -1.9823,
+							  0.3819,  -0.8701, -0.7635,   2.8096,   1.9087,
+							  0.2940,   0.4503, -1.9823,   1.9087,   3.0173 };
+
+	printf("The matris A is symmetric: %s\n", issymmetric(A, row, column) ? "Yes" : "No");
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

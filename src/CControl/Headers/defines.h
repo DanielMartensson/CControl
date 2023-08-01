@@ -39,8 +39,8 @@ typedef uint8_t bool;
 
  /* Define for all */
 #define PI 2*acosf(0.0f)				/* acos(0) is pi/2 */
-#define MIN_VALUE 1e-14f
-#define MAX_ITERATIONS 10000U
+#define MIN_VALUE 1e-14f				/* Tuning parameter for the smalles value that can be allowed */
+#define MAX_ITERATIONS 10000U			/* For all iteration algorithsm */
 
 /* If we are using a regular computer, we use LAPACK as much as possible */
 #if defined(__linux__) || defined(_WIN32) || defined(_WIN64) || defined(__APPLE__) && defined(__MACH__)

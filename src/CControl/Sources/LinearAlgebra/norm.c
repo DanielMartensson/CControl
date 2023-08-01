@@ -67,7 +67,7 @@ float norm(float X[], size_t row, size_t column, NORM_METHOD norm_method){
 			float* U = (float*)malloc(row * column * sizeof(float));
 			float* S = (float*)malloc(column * sizeof(float));
 			float* V = (float*)malloc(column * column * sizeof(float));
-			svd(A, row, column, MATRIX_TYPE_GENERAL, U, S, V);
+			svd(A, row, column, U, S, V);
 
 			/* Find maximum singular value */
 			for (i = 0; i < column; i++) {

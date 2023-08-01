@@ -65,9 +65,9 @@ int main() {
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
-	bool okA = svd(A, row_a, column_a, MATRIX_TYPE_GENERAL, U_a, S_a, V_a);
-	bool okB = svd(B, row_b, column_b, MATRIX_TYPE_GENERAL, U_b, S_b, V_b);
-	bool okC = svd(Csym, sym, sym, MATRIX_TYPE_SYMMETRIC, U_c, S_c, V_c);
+	bool okA = svd(A, row_a, column_a, U_a, S_a, V_a);
+	bool okB = svd(B, row_b, column_b, U_b, S_b, V_b);
+	bool okC = svd(Csym, sym, sym, U_c, S_c, V_c);
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);

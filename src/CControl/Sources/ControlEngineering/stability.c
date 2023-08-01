@@ -17,7 +17,7 @@ bool stability(float A[], size_t ADIM){
 	float *di = (float*)malloc(ADIM * sizeof(float));			/* Imaginary eigenvalues */
 	float* wr = (float*)malloc(ADIM * ADIM * sizeof(float));	/* Real eigenvectors */
 	float* wi = (float*)malloc(ADIM * ADIM * sizeof(float));	/* Imaginary eigenvectors */
-	eig(A, dr, di, di, wr, wi, ADIM, MATRIX_TYPE_GENERAL);
+	eig(A, dr, di, di, wr, wi, ADIM);
 	bool stable = true; /* Assume that the system is stable */
 	size_t i;
 	float abs_value;

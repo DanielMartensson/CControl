@@ -25,11 +25,13 @@ bool svd_jacobi_one_sided(float A[], size_t row, float U[], float S[], float V[]
  * Return true = Success
  * Return false = fail
  */
-bool svd(float A[], size_t row, size_t column, MATRIX_TYPE matrix_type, float U[], float S[], float V[]) {
+bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) {
+	/* Check if matrix is symmetric */
+	bool symmetric = issymmetric(A, row, row);
+
 #ifdef LAPACK_USED
 	integer info = -1;
-	switch (matrix_type) {
-	case MATRIX_TYPE_SYMMETRIC: {
+	if (symmetric) {
 		/* Settings */
 		integer n = column, lda = row, lwork, liwork;
 		integer iwkopt;
@@ -81,10 +83,8 @@ bool svd(float A[], size_t row, size_t column, MATRIX_TYPE matrix_type, float U[
 		free(a);
 		free(work);
 		free(iwork);
-
-		break;
 	}
-	case MATRIX_TYPE_GENERAL: {
+	else {
 		/* Settings */
 		integer m = row, n = column, lda = row, ldu = row, ldvt = column, lwork;
 		real wkopt;
@@ -92,48 +92,52 @@ bool svd(float A[], size_t row, size_t column, MATRIX_TYPE matrix_type, float U[
 		real* u = (real*)malloc(m * m * sizeof(real));
 
 		/* Important to take transpose */
-		tran(A, row, column);
+		float* Acopy = (float*)malloc(row * column * sizeof(float));
+		memcpy(Acopy, A, row * column * sizeof(float));
+		tran(Acopy, row, column);
 
 		/* Allocate memory */
 		lwork = -1;
-		sgesvd_("A", "A", &m, &n, A, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, &info);
+		sgesvd_("A", "A", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, &info);
 		lwork = (integer)wkopt;
 		work = (real*)malloc(lwork * sizeof(real));
 
 		/* Compute */
-		sgesvd_("A", "A", &m, &n, A, &lda, S, u, &ldu, V, &ldvt, work, &lwork, &info);
+		sgesvd_("A", "A", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, work, &lwork, &info);
 		
-		/* Important to take transpose */
-		tran(A, column, row);
-
-		/* Fill U */
+		/* Fill U with transpose */
 		size_t i, j;
-		tran(u, row, row);
+		real* u0 = u;
 		for (i = 0; i < row; i++) {
+			u = u0;
+			u += i;
 			for (j = 0; j < column; j++) {
-				U[i * column + j] = u[i * row + j];
+				U[j] = u[0];
+				u += row;
 			}
+			U += column;
 		}
+
+		/* Reset */
+		u = u0;
 
 		/* Free */
 		free(work);
 		free(u);
-
-		break;
-	}
+		free(Acopy);
 	}
 
 	/* Return status */
 	return info == 0 ? true : false;
 #else
-	if (row == column) {
+	if (symmetric) {
 		return svd_jacobi_one_sided(A, row, U, S, V);
 	}
 	else {
 		return svd_golub_reinsch(A, row, column, U, S, V);
 	}
 #endif
-	}
+}
 
 /*
   * This is Singular Value Decomposition X = USV^T

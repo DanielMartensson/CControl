@@ -7,6 +7,11 @@
 
 #include "../../Headers/functions.h"
 
+ /* Include LAPACK routines */
+#ifdef LAPACK_USED
+#include "Lapack/lapack.h"
+#endif
+
 /*
  * Householder QR-decomposition
  * A [m*n]
@@ -16,8 +21,112 @@
  * Returns true == Success
  * Returns false == Fail
  */
-bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool only_compute_R){
+bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool only_compute_R) {
+#ifdef LAPACK_USED
+	integer m = row_a, n = column_a, lda = vmax(1, row_a), lwork, info;
+	real wkopt;
+	real* tau = (real*)malloc(vmin(m, n) * sizeof(real));
 
+	/* Fill R with transpose */
+	size_t i, j;
+	float* R0 = R;
+	for (i = 0; i < row_a; i++) {
+		R = R0;
+		R += i;
+		for (j = 0; j < column_a; j++) {
+			R[0] = A[j];
+			R += row_a;
+		}
+		A += column_a;
+	}
+	R = R0;
+
+	/* Allocate memory */
+	lwork = -1;
+	sgeqrf_(&m, &n, R, &lda, tau, &wkopt, &lwork, &info);
+	lwork = (integer)wkopt;
+	real* work = (real*)malloc(lwork * sizeof(real));
+
+	/* Solve */
+	sgeqrf_(&m, &n, R, &lda, tau, work, &lwork, &info);
+
+	/* Clean Q */
+	memset(Q, 0, row_a * row_a * sizeof(float));
+
+	/* Free */
+	if (!only_compute_R) {
+		/* R to Q */
+		float* Q0 = Q;
+		for (i = 0; i < row_a; i++) {
+			Q = Q0;
+			Q += i;
+			R = R0;
+			R += i;
+			for (j = 0; j < column_a; j++) {
+				if (i > j) {
+					Q[0] = R[0];
+				}
+				else {
+					break;
+				}
+				Q += row_a;
+				R += row_a;
+			}
+		}
+		Q = Q0;
+		R = R0;
+
+		/* Compute Q */
+		if (m <= n) {
+			/* Allocate */
+			lwork = -1;
+			sorgqr_(&m, &m, &m, Q, &m, tau, &wkopt, &lwork, &info);
+			lwork = (integer)wkopt;
+			free(work);
+			work = (real*)malloc(lwork * sizeof(real));
+
+			/* Solve */
+			sorgqr_(&m, &n, &m, Q, &m, tau, work, &lwork, &info);
+		}
+		else {
+			/* Allocate */
+			lwork = -1;
+			sorgqr_(&m, &n, &n, Q, &m, tau, &wkopt, &lwork, &info);
+			lwork = (integer)wkopt;
+			free(work);
+			work = (real*)malloc(lwork * sizeof(real));
+
+			/* Solve */
+			sorgqr_(&m, &n, &n, Q, &m, tau, work, &lwork, &info);
+		}
+		/* Swap with transpose */
+		tran(Q, row_a, row_a);
+	}
+
+	/* Swap with transpose */
+	tran(R, column_a, row_a);
+
+	/* Clean R */
+	for (i = 0; i < row_a; i++) {
+		for (j = 0; j < column_a; j++) {
+			if (i > j) {
+				R[j] = 0.0f;
+			}
+			else {
+				break;
+			}
+		}
+		R += column_a;
+	}
+
+	/* Free */
+	free(work);
+	free(tau);
+
+	/* Return status */
+	return info == 0 ? true : false;
+
+#else
 	/* Declare */
 	size_t row_a_row_a = row_a*row_a;
 	size_t l = row_a - 1 < column_a ? row_a - 1 : column_a;
@@ -112,9 +221,24 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 
 	/* Do inverse on H and give it to Q */
 	bool ok = true;
+	memset(Q, 0, row_a * row_a * sizeof(float));
 	if(!only_compute_R) {
 		ok = inv(H, row_a);
 		memcpy(Q, H, row_a_row_a*sizeof(float));
+	}
+
+	/* Clean R */
+	size_t j;
+	for (i = 0; i < row_a; i++) {
+		for (j = 0; j < column_a; j++) {
+			if (i > j) {
+				R[j] = 0.0f;
+			}
+			else {
+				break;
+			}
+		}
+		R += column_a;
 	}
 
 	/* Free */
@@ -126,6 +250,7 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 	free(HiR);
 
 	return ok;
+#endif
 }
 
 /*

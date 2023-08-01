@@ -22,7 +22,7 @@ void pinv(float A[], size_t row, size_t column){
 	float *U = (float*)malloc(row * column * sizeof(float));
 	float *S = (float*)malloc(column * sizeof(float));
 	float *V = (float*)malloc(column * column * sizeof(float));
-	svd(A, row, column, MATRIX_TYPE_GENERAL, U, S, V);
+	svd(A, row, column, U, S, V);
 
 	/* Do inv(S) */
 	for (i = 0; i < column; i++) {

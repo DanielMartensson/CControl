@@ -11,12 +11,15 @@ This library is supporting LAPACK for large matrices.
 
 | Routines  | Function | Comment | 
 | ------------- | ------------- | ------------------- |
-| `ssyevd` | `svd.c` | SVD for general real symmetric matrices |
-| `ssyevd` | `eig.c` | EIG for general real symmetric matrices |
-| `sgeev` | `eig.c` | EIG for general real matrices |
-| `sgesvd` | `svd.c` | SVD for general real matrices |
-| `spotrf` | `chol.c` | Cholesky for real symmetric real matrices |
-
+| `ssyevd` | `svd.c` | Singular value decomposition for symmetric matrices |
+| `ssyevd` | `eig.c` | Eigendecomposition for symmetric matrices |
+| `sgeev` | `eig.c` | Eigendecomposition for square matrices |
+| `sgesvd` | `svd.c` | Singular value decomposition for general matrices |
+| `spotrf` | `chol.c` | Cholesky facorization for real symmetric matrices |
+| `sgetrf` | `lup.c` | LU factorization with pivoting for square matrices |
+| `sgetri` | `inv.c` | Inverse by using LU factorization for square matrices |
+| `sgeqrf` and `sorgqr` | `qr.c`  | QR factorization for general matrices|
+ 
 If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.
 
 Main focuses are:
@@ -77,6 +80,7 @@ Main focuses are:
   - Concatenate
   - Cut matrix
   - Find
+  - Matrix symmetric check
   - Insert sub matrix into matrix
   - Pdist2
   - Print matrix or vector

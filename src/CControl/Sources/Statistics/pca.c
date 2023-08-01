@@ -47,12 +47,7 @@ static void compute_components(float X[], float W[], size_t c, size_t row, size_
 	float* S = (float*)malloc(column * sizeof(float));
 	float* V = (float*)malloc(column * column * sizeof(float));
 	float* U0 = U;
-	if (row == column) {
-		svd_jacobi_one_sided(X, row, U, S, V);
-	}
-	else {
-		svd_golub_reinsch(X, row, column, U, S, V);
-	}
+	svd(X, row, column, U, S, V);
 
 	/* Get the components from V */
 	size_t i, bytes_shift = c * sizeof(float);

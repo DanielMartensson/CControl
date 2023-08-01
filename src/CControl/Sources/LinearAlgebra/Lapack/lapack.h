@@ -21,4 +21,14 @@ int sgesvd_(char* jobu, char* jobvt, integer* m, integer* n,
 /* Cholesky factorization */
 int spotrf_(char* uplo, integer* n, real* a, integer* lda, integer* info);
 
+/* LUP factorizaton */
+int sgetrf_(integer* m, integer* n, real* a, integer* lda, integer* ipiv, integer* info);
+
+/* Inverse */
+int sgetri_(integer* n, real* a, integer* lda, integer* ipiv, real* work, integer* lwork, integer* info);
+
+/* QR factorization */
+int sgeqrf_(integer* m, integer* n, real* a, integer* lda, real* tau, real* work, integer* lwork, integer* info);
+int sorgqr_(integer* m, integer* n, integer* k, real* a, integer* lda, real* tau, real* work, integer* lwork, integer* info);
+
 #endif // !LAPACK
