@@ -13,10 +13,15 @@ int sgeev_(char* jobvl, char* jobvr, integer* n, real* a,
 	integer* lda, real* wr, real* wi, real* vl, integer* ldvl, real* vr,
 	integer* ldvr, real* work, integer* lwork, integer* info);
 
-/* SVD of a general matrix */
+/* SVD of a general matrix by using QR factorization */
 int sgesvd_(char* jobu, char* jobvt, integer* m, integer* n,
 	real* a, integer* lda, real* s, real* u, integer* ldu, real* vt,
 	integer* ldvt, real* work, integer* lwork, integer* info);
+
+/* SVD of a general matrix by using divide and conquer algorithm */
+int sgesdd_(char* jobz, integer* m, integer* n, real* a,
+	integer* lda, real* s, real* u, integer* ldu, real* vt, integer* ldvt,
+	real* work, integer* lwork, integer* iwork, integer* info);
 
 /* Cholesky factorization */
 int spotrf_(char* uplo, integer* n, real* a, integer* lda, integer* info);
