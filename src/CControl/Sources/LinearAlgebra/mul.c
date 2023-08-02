@@ -7,6 +7,11 @@
 
 #include "../../Headers/functions.h"
 
+ /* Include LAPACK routines */
+#ifdef LAPACK_USED
+#include "Lapack/lapack.h"
+#endif
+
 /*
  * C = A*B
  * A [row_a*column_a]
@@ -14,6 +19,44 @@
  * C [row_a*column_b]
  */
 void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t column_b) {
+#ifdef LAPACK_USED
+	/* Copy A with transpose */
+	float* Acopy = (float*)malloc(row_a * column_a * sizeof(float));
+	float* Acopy0 = Acopy;
+	size_t i, j;
+	for (i = 0; i < row_a; i++) {
+		Acopy = Acopy0;
+		Acopy += i;
+		for (j = 0; j < column_a; j++) {
+			Acopy[0] = A[j];
+			Acopy += row_a;
+		}
+		A += column_a;
+	}
+	Acopy = Acopy0;
+
+	/* Copy B with transpose */
+	float* Bcopy = (float*)malloc(row_a * column_a * sizeof(float));
+	float* Bcopy0 = Bcopy;
+	for (i = 0; i < column_a; i++) {
+		Bcopy = Bcopy0;
+		Bcopy += i;
+		for (j = 0; j < column_b; j++) {
+			Bcopy[0] = B[j];
+			Bcopy += column_a;
+		}
+		B += column_b;
+	}
+	Bcopy = Bcopy0;
+	real alpha = 1.0f, beta = 0.0f;
+	integer m = row_a, n = column_b, k = column_a, lda = row_a, ldb = column_a, ldc = row_a;
+	sgemm_("N", "N", &m, &n, &k, &alpha, Acopy, &lda, Bcopy, &ldb, &beta, C, &ldc);
+	tran(C, column_b, row_a);
+
+	/* Free */
+	free(Acopy);
+	free(Bcopy);
+#else
 	/* Decleration */
 	size_t i, j, k;
 
@@ -26,7 +69,7 @@ void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t 
 			data_a = A;
 			data_b = &B[j];
 
-			C[0] = 0; /* Reset */
+			C[0] = 0.0f; /* Reset */
 			/* And we multiply rows from a with columns of b */
 			for (k = 0; k < column_a; k++) {
 				*C += data_a[0] * data_b[0];
@@ -37,6 +80,7 @@ void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t 
 		}
 		A += column_a;
 	}
+#endif
 }
 
 /*

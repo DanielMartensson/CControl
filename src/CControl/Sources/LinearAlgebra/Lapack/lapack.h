@@ -36,4 +36,9 @@ int sgetri_(integer* n, real* a, integer* lda, integer* ipiv, real* work, intege
 int sgeqrf_(integer* m, integer* n, real* a, integer* lda, real* tau, real* work, integer* lwork, integer* info);
 int sorgqr_(integer* m, integer* n, integer* k, real* a, integer* lda, real* tau, real* work, integer* lwork, integer* info);
 
+/* Multiplication */
+int sgemm_(char* transa, char* transb, integer* m, integer*
+	n, integer* k, real* alpha, real* a, integer* lda, real* b, integer*
+	ldb, real* beta, real* c__, integer* ldc);
+
 #endif // !LAPACK
