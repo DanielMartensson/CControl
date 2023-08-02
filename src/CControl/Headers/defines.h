@@ -13,11 +13,6 @@
 #define __STDC_VERSION__ 199409L		/* STDC version of C89 standard */
 #endif
 
-#ifndef _MSC_VER
-#define NULL ((void *)0)
-typedef unsigned long size_t;
-#endif /* !_MSC_VER */
-
 #if __STDC_VERSION__ < 199901L
 #define true 1
 #define false 0
@@ -31,6 +26,10 @@ typedef signed char int8_t;
 typedef signed short int16_t;
 typedef signed int int32_t;
 typedef uint8_t bool;
+#ifndef _MSC_VER
+#define NULL ((void *)0)
+typedef unsigned long size_t;
+#endif /* !_MSC_VER */
 #else
 #include <stdbool.h>					/* For bool datatype */
 #include <stdint.h>						/* For uint8_t, uint16_t and uint16_t */
