@@ -16,7 +16,6 @@
 #ifndef _MSC_VER
 #define NULL ((void *)0)
 typedef unsigned long size_t;
-typedef signed long ssize_t;
 #endif /* !_MSC_VER */
 
 #if __STDC_VERSION__ < 199901L
