@@ -74,9 +74,10 @@ static void triu(float A[], float b[], size_t row) {
 			if(i > j){
 				pivot = Ai[j] / Aj[j];
 				/* pivot = A[i*row + j] / A[j*row + j]; */
-				for(k = 0; k < row; k++)
+				for (k = 0; k < row; k++) {
 					Ai[k] -= pivot * Aj[k];
 					/* A[i*row + k] = A[i*row + k] - pivot * A[j*row + k]; */
+				}
 				b[i] = b[i] - pivot * b[j];
 			}
 			Ai += row;
