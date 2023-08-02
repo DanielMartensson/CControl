@@ -63,13 +63,13 @@ void linsolve_gauss(float A[], float x[], float b[], size_t row, size_t column, 
 static void triu(float A[], float b[], size_t row) {
 	/* Save address */
 	float *Ai;
-	float *Aj = &A[0];
+	float *Aj = A;
 
 	/* Make A to upper triangular. Also change b as well */
 	float pivot;
 	size_t i, j, k;
 	for(j = 0; j < row; j++){ /* Column */
-		Ai = &A[0];
+		Ai = A;
 		for(i = 0; i < row; i++){ /* row */
 			if(i > j){
 				pivot = Ai[j] / Aj[j];

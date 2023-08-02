@@ -16,7 +16,7 @@
  */
 void linsolve_lower_triangular(float A[], float x[], float b[], size_t row) {
 	/* Save address */
-	float *A0 = &A[0];
+	float *A0 = A;
 
 	/* Time to solve x from Ax = b. */
 	memset(x, 0, row*sizeof(float));
