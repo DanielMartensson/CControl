@@ -94,7 +94,7 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 		integer m = row, n = column, lda = row, ldu = row, ldvt = column, lwork;
 		real wkopt;
 		real* work = NULL;
-		real* u = (real*)malloc(m * m * sizeof(real));
+		real* u = (real*)malloc(m * n * sizeof(real));
 		real* iwork = (real*)malloc(8 * vmin(m, n) * sizeof(real));
 
 		/* Important to take transpose */
