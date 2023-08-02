@@ -29,7 +29,7 @@ typedef unsigned long size_t;
 #endif /* !_MSC_VER */
 #else
 #include <stdbool.h>					/* For bool datatype */
-#include <stdint.h>						/* For uint8_t, uint16_t and uint16_t */
+#include <stdint.h>						/* For uint8_t, uint16_t and uint32_t etc. */
 #endif /* !__STDC_VERSION__ */
 
  /* Define for all */
