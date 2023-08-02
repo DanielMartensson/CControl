@@ -806,5 +806,8 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slasd5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssymm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

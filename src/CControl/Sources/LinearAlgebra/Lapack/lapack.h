@@ -46,4 +46,14 @@ int sgemv_(char* trans, integer* m, integer* n, real* alpha,
 	real* a, integer* lda, real* x, integer* incx, real* beta, real* y,
 	integer* incy);
 
+/* Multiplication y = alpha*A*x + beta*y where A is symmetric */
+int ssymv_(char* uplo, integer* n, real* alpha, real* a,
+	integer* lda, real* x, integer* incx, real* beta, real* y, integer*
+	incy);
+
+/* Multiplication C = alpha*A*B + beta*C * where A is symmetric */
+int ssymm_(char* side, char* uplo, integer* m, integer* n,
+	real* alpha, real* a, integer* lda, real* b, integer* ldb, real* beta,
+	real* c__, integer* ldc);
+
 #endif // !LAPACK

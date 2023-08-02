@@ -19,7 +19,7 @@ This library have two types of routines. First it's the lightweight routine that
 | `sgetrf` | `lup.c` | LU factorization with pivoting for square matrices |
 | `sgetri` | `inv.c` | Inverse by using LU factorization for square matrices |
 | `sgeqrf` and `sorgqr` | `qr.c`  | QR factorization for general matrices|
-| `sgemm` and `sgemv` | `mul.c` | Multiplication |
+| `sgemm`, `ssymm`, `sgemv` and `ssymv` | `mul.c` | Multiplication |
  
 If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.
 

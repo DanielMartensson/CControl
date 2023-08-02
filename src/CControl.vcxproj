@@ -208,6 +208,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssterf.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sswap.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssyevd.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssymm.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssymv.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssyr2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssyr2k.c" />
