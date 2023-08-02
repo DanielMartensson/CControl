@@ -39,7 +39,7 @@ typedef unsigned long size_t;
 
 /* If we are using a regular computer, we use LAPACK as much as possible */
 #if defined(__linux__) || defined(_WIN32) || defined(_WIN64) || defined(__APPLE__) && defined(__MACH__)
-#define LAPACK_USED 
+#define LAPACK_ANSI_C_USED 
 #endif
 
 #endif /* !CCONTROL_HEADERS_DEFINES_H_ */

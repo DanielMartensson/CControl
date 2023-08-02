@@ -12,7 +12,7 @@ bool eig_regular(float A[], float dr[], float di[], size_t row);
 bool eig_sym(float A[], float d[], float wr[], size_t row);
 
 /* Include LAPACK routines */
-#ifdef LAPACK_USED
+#ifdef LAPACK_ANSI_C_USED
 #include "Lapack/lapack.h"
 #endif
 
@@ -33,7 +33,7 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 	/* Status flag */
 	bool status = false;
 
-#ifdef LAPACK_USED
+#ifdef LAPACK_ANSI_C_USED
 	if (symmetric) {
 		/* Compute the SVD is the same for EIG for a symmetric matrix */
 		status = svd(A, row, row, wr, dr, wi);
