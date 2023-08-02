@@ -97,9 +97,6 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 		real* u = (real*)malloc(m * m * sizeof(real));
 		real* iwork = (real*)malloc(8 * vmin(m, n) * sizeof(real));
 
-		/* This is for a large matrix e.g 500x500 and above */
-		bool large_matrix = row* column > 250000U;
-
 		/* Important to take transpose */
 		float* Acopy = (float*)malloc(row * column * sizeof(float));
 		size_t i, j;
@@ -117,22 +114,12 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 
 		/* Allocate memory */
 		lwork = -1;
-		if (large_matrix) {
-			sgesdd_("S", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, iwork, &info);
-		}
-		else {
-			sgesvd_("A", "A", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, &info);
-		}
+		sgesdd_("S", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, &wkopt, &lwork, iwork, &info);
 		lwork = (integer)wkopt;
 		work = (real*)malloc(lwork * sizeof(real));
 
 		/* Compute */
-		if (large_matrix) {
-			sgesdd_("S", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, work, &lwork, iwork, &info);
-		}
-		else {
-			sgesvd_("A", "A", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, work, &lwork, &info);
-		}
+		sgesdd_("S", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, work, &lwork, iwork, &info);
 		
 		/* Fill U with transpose */
 		real* u0 = u;

@@ -551,12 +551,6 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\svd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgebrd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgesvd.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\slabrd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -567,9 +561,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgebd2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgelqf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgeqrf.c">
@@ -807,6 +798,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\ssymm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgebrd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgelqf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

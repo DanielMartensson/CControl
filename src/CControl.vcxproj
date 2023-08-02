@@ -107,7 +107,6 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgeqrf.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sger.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgesdd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgesvd.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgetrf.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgetri.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\shseqr.c" />

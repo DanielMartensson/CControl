@@ -14,7 +14,7 @@ This library have two types of routines. First it's the lightweight routine that
 | `ssyevd` | `svd.c` | Singular value decomposition for symmetric matrices |
 | `ssyevd` | `eig.c` | Eigendecomposition for symmetric matrices |
 | `sgeev` | `eig.c` | Eigendecomposition for square matrices |
-| `sgesvd` and `sgessd` | `svd.c` | Singular value decomposition for general matrices |
+| `sgessd` | `svd.c` | Singular value decomposition for general matrices |
 | `spotrf` | `chol.c` | Cholesky facorization for real symmetric matrices |
 | `sgetrf` | `lup.c` | LU factorization with pivoting for square matrices |
 | `sgetri` | `inv.c` | Inverse by using LU factorization for square matrices |
