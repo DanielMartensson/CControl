@@ -35,27 +35,35 @@ void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t 
 	}
 	Acopy = Acopy0;
 
-	/* Copy B with transpose */
-	float* Bcopy = (float*)malloc(row_a * column_a * sizeof(float));
-	float* Bcopy0 = Bcopy;
-	for (i = 0; i < column_a; i++) {
-		Bcopy = Bcopy0;
-		Bcopy += i;
-		for (j = 0; j < column_b; j++) {
-			Bcopy[0] = B[j];
-			Bcopy += column_a;
-		}
-		B += column_b;
+	/* Vector or matrix for B */
+	if (column_b == 1U) {
+		real alpha = 1.0f, beta = 0.0f;
+		integer m = row_a, n = column_a, lda = row_a, incx = 1, incy = 1;
+		sgemv_("N", &m, &n, &alpha, Acopy, &lda, B, &incx, &beta, C, &incy);
 	}
-	Bcopy = Bcopy0;
-	real alpha = 1.0f, beta = 0.0f;
-	integer m = row_a, n = column_b, k = column_a, lda = row_a, ldb = column_a, ldc = row_a;
-	sgemm_("N", "N", &m, &n, &k, &alpha, Acopy, &lda, Bcopy, &ldb, &beta, C, &ldc);
-	tran(C, column_b, row_a);
+	else {
+		/* Copy B with transpose */
+		float* Bcopy = (float*)malloc(column_a * column_b * sizeof(float));
+		float* Bcopy0 = Bcopy;
+		for (i = 0; i < column_a; i++) {
+			Bcopy = Bcopy0;
+			Bcopy += i;
+			for (j = 0; j < column_b; j++) {
+				Bcopy[0] = B[j];
+				Bcopy += column_a;
+			}
+			B += column_b;
+		}
+		Bcopy = Bcopy0;
+		real alpha = 1.0f, beta = 0.0f;
+		integer m = row_a, n = column_b, k = column_a, lda = row_a, ldb = column_a, ldc = row_a;
+		sgemm_("N", "N", &m, &n, &k, &alpha, Acopy, &lda, Bcopy, &ldb, &beta, C, &ldc);
+		tran(C, column_b, row_a);
+		free(Bcopy);
+	}
 
 	/* Free */
 	free(Acopy);
-	free(Bcopy);
 #else
 	/* Decleration */
 	size_t i, j, k;

@@ -14,6 +14,8 @@
 #define column_a 5
 #define row_b 5
 #define column_b 4
+#define row_x column_a
+#define row_y row_a
 
 int main() {
 
@@ -26,26 +28,41 @@ int main() {
 								  0.663111,   0.463252,   0.121968,   0.195217,   0.359241 };
 
 	/* Matrix B */
-	float B[row_b * column_b] = { 0.92328,   - 0.34648,   0.048628,   0.37831,
-								  0.68159,   - 0.88784,    0.15051, - 0.75803,
-								 - 1.4826,    - 0.9292,    0.66246,   0.10538,
-								 - 1.1814,    - 1.1721,    0.41475,  - 1.5987,
-								  0.45405,  - 0.017653,  - 0.10867,   0.17937 };
+	float B[row_b * column_b] = { 0.92328,   -0.34648,   0.048628,   0.37831,
+								  0.68159,   -0.88784,    0.15051, -0.75803,
+								 -1.4826,    -0.9292,    0.66246,   0.10538,
+								 -1.1814,    -1.1721,    0.41475,  -1.5987,
+								  0.45405,  -0.017653,  -0.10867,   0.17937 };
 
 	/* Matrix C */
 	float C[row_a * column_b];
+
+	/* Vector x */
+	float x[row_x] = { -1.5390,
+					   -0.6372,
+						2.7751,
+					   -0.8823,
+					   -0.5455 };
+
+	/* Vector y */
+	float y[row_y];
+
 
 	/* Do mul: C = A*B */
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 	mul(A, B, C, row_a, column_a, column_b);
+	mul(A, x, y, row_a, column_a, 1);
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
 	/* Print C matrix */
 	print(C, row_a, column_b);
+
+	/* Print y vector */
+	print(y, row_a, 1);
 
 	return EXIT_SUCCESS;
 }

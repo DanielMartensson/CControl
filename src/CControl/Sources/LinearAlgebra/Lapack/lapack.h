@@ -36,9 +36,14 @@ int sgetri_(integer* n, real* a, integer* lda, integer* ipiv, real* work, intege
 int sgeqrf_(integer* m, integer* n, real* a, integer* lda, real* tau, real* work, integer* lwork, integer* info);
 int sorgqr_(integer* m, integer* n, integer* k, real* a, integer* lda, real* tau, real* work, integer* lwork, integer* info);
 
-/* Multiplication */
+/* Multiplication C = alpha*A*B + beta*C */
 int sgemm_(char* transa, char* transb, integer* m, integer*
 	n, integer* k, real* alpha, real* a, integer* lda, real* b, integer*
 	ldb, real* beta, real* c__, integer* ldc);
+
+/* Multiplication y = alpha*A*x + beta*y */
+int sgemv_(char* trans, integer* m, integer* n, real* alpha,
+	real* a, integer* lda, real* x, integer* incx, real* beta, real* y,
+	integer* incy);
 
 #endif // !LAPACK
