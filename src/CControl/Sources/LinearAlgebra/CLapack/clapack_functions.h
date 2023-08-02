@@ -1,5 +1,5 @@
-#ifndef LAPACK
-#define LAPACK
+#ifndef CLAPACK_FUNCTIONS
+#define CLAPACK_FUNCTIONS
 
 #include "f2c.h"
 
@@ -56,4 +56,4 @@ int ssymm_(char* side, char* uplo, integer* m, integer* n,
 	real* alpha, real* a, integer* lda, real* b, integer* ldb, real* beta,
 	real* c__, integer* ldc);
 
-#endif // !LAPACK
+#endif /* !CLAPACK_FUNCTIONS */

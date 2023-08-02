@@ -9,7 +9,7 @@
 
  /* Include LAPACK routines */
 #ifdef CLAPACK_USED
-#include "Lapack/lapack.h"
+#include "CLapack/clapack_functions.h"
 #endif
 
 /*

@@ -11,7 +11,7 @@ static void compute_components(float X[], float W[], size_t c, size_t row, size_
 
 /* Include LAPACK routines */
 #ifdef CLAPACK_USED
-#include "../LinearAlgebra/Lapack/lapack.h"
+#include "../LinearAlgebra/CLapack/clapack_functions.h"
 #endif
 
 /*
