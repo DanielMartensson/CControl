@@ -806,5 +806,8 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgelqf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\Lapack\sgesvd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
