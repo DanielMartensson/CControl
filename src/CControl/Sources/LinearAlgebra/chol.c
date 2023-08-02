@@ -8,7 +8,7 @@
 #include "../../Headers/functions.h"
 
  /* Include LAPACK routines */
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 #include "Lapack/lapack.h"
 #endif
 
@@ -20,7 +20,7 @@
  * n == m
  */
 bool chol(float A[], float L[], size_t row) {
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 	integer info;
 	integer n = row, lda = row;
 	float* Acopy = (float*)malloc(row * row * sizeof(float));

@@ -10,7 +10,7 @@
 static void compute_components(float X[], float W[], size_t c, size_t row, size_t column);
 
 /* Include LAPACK routines */
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 #include "../LinearAlgebra/Lapack/lapack.h"
 #endif
 
@@ -53,7 +53,7 @@ static void compute_components(float X[], float W[], size_t c, size_t row, size_
 	float* V = (float*)malloc(column * column * sizeof(float));
 	float* U0 = U;
 
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 	/* Settings for computing only U matrix from SVD */
 	integer m = row, n = column, lda = row, ldu = row, ldvt = column, lwork, info;
 	real wkopt;

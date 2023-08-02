@@ -8,7 +8,7 @@
 #include "../../Headers/functions.h"
 
  /* Include LAPACK routines */
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 #include "Lapack/lapack.h"
 #endif
 
@@ -22,7 +22,7 @@
  * Returns false == Fail
  */
 bool lup(float A[], float LU[], size_t P[], size_t row) {
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 	integer m = row, lda = row, n = row;
 	size_t rowrow = row * row;
 	memcpy(LU, A, rowrow * sizeof(float));

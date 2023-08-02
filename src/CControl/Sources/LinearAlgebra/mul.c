@@ -8,7 +8,7 @@
 #include "../../Headers/functions.h"
 
  /* Include LAPACK routines */
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 #include "Lapack/lapack.h"
 #endif
 
@@ -19,7 +19,7 @@
  * C [row_a*column_b]
  */
 void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t column_b) {
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 	/* Check if A is symmetric */
 	if (issymmetric(A, row_a, column_a)) {
 		/* Check if it's vector */

@@ -12,7 +12,7 @@ bool svd_golub_reinsch(float A[], size_t row, size_t column, float U[], float S[
 bool svd_jacobi_one_sided(float A[], size_t row, float U[], float S[], float V[]);
 
 /* Include LAPACK routines */
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 #include "Lapack/lapack.h"
 #endif
 
@@ -29,7 +29,7 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 	/* Check if matrix is symmetric */
 	bool symmetric = issymmetric(A, row, row);
 
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 	integer info = -1;
 	if (symmetric) {
 		/* Settings */

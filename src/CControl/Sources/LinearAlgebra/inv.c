@@ -10,7 +10,7 @@
 static bool solve(float x[], float b[], size_t P[], float LU[], size_t row);
 
 /* Include LAPACK routines */
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 #include "Lapack/lapack.h"
 #endif
 
@@ -25,7 +25,7 @@ static bool solve(float x[], float b[], size_t P[], float LU[], size_t row);
  * Returns false == Fail
  */
 bool inv(float A[], size_t row) {
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 	/* First use LU factorization */
 	integer m = row, n = row, lda = row, info, lwork;
 	integer* ipiv = (integer*)malloc(row * sizeof(integer));

@@ -8,7 +8,7 @@
 #include "../../Headers/functions.h"
 
  /* Include LAPACK routines */
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 #include "Lapack/lapack.h"
 #endif
 
@@ -22,7 +22,7 @@
  * Returns false == Fail
  */
 bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool only_compute_R) {
-#ifdef LAPACK_ANSI_C_USED
+#ifdef CLAPACK_USED
 	integer m = row_a, n = column_a, lda = vmax(1, row_a), lwork, info;
 	real wkopt;
 	real* tau = (real*)malloc(vmin(m, n) * sizeof(real));
