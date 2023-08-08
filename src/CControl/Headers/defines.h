@@ -37,10 +37,9 @@ typedef unsigned long size_t;
 #define MIN_VALUE 1e-14f				/* Tuning parameter for the smalles value that can be allowed */
 #define MAX_ITERATIONS 10000U			/* For all iteration algorithsm */
 
-/* Select library by uncomment */
+/* Select library by uncomment - If non of these are uncomment, then CControl will use the internal library instead */
 #define MKL_USED						/* For large matrices on a regular computer */
 /* #define CLAPACK_USED */				/* For larger embedded systems */
-/* #define INTERNAL_USED */				/* For small embedded systems */
 
 /* Load the MKL library */
 #ifdef MKL_USED
