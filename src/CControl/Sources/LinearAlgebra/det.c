@@ -19,11 +19,18 @@ float det(float A[], size_t row) {
 
 	float determinant = 1.0f;
 	float *LU = (float*)malloc(row * row * sizeof(float));
-	size_t *P = (size_t*)malloc(row * row * sizeof(size_t));
+	int *P = (int*)malloc(row * row * sizeof(int));
 	bool ok = lup(A, LU, P, row);
 	if (!ok) {
 		return 0.0f; /* matrix is singular */
 	}
+
+	/* Special case for LAPACK */
+#if defined(CLAPACK_USED) || defined(MKL_USED)
+	for (i = 0; i < row; i++) {
+		P[i] -= 1;
+	}
+#endif
 
 	for (i = 0; i < row; ++i) {
 		determinant *= LU[row * P[i] + i];

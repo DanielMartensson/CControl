@@ -5,9 +5,9 @@ The purpose with this library is to fit advanced tools for really small embedded
 Here I have focused on practical numerical methods and selected the methods that works best in practice. It has
 been a lot of work finding the best methods and best algorithms.
 
-# LAPACK support
+# CLAPACK & Math Kernel Library support
 
-This library have two types of routines. First it's the lightweight routine that suits embedded systems. Then there is LAPACK for large matrices. LAPACK is enabled inside the `defines.h` file if you are using `Linux`, `Windows` or `Mac`. If you are using an Arduino, STM32, PIC etc. then the lightweight routines is enabled instead and LAPACK will not affect the size.
+This library have three types of libraries. First library is the internal lightweight library that suits small embedded systems. The second library is CLAPACK for larger matrices. CLAPACK is a little bit faster than the first library, but requires more memory. The last library is Math Kernel Library from Intel. Set this as your math library inside `defines.h` file. The Math Kernel Library is extremely optimized and it's suitable for operative systems such as Windows, Linux, Mac OS meanwhile the lightweight library or CLAPACK is suitable for an Arduino, STM32, PIC etc because they are 100% portable.
 
 | Routines  | Function | Comment | 
 | ------------- | ------------- | ------------------- |
@@ -17,12 +17,17 @@ This library have two types of routines. First it's the lightweight routine that
 | `sgessd` | `svd.c` | Singular value decomposition for general matrices |
 | `spotrf` | `chol.c` | Cholesky facorization for real symmetric matrices |
 | `sgetrf` | `lup.c` | LU factorization with pivoting for square matrices |
+| `sgetrs` | `linsolve_lup` | Solve linear system `Ax = b` with LU factorization |
+| `sposv`  | `linsolve_chol`| Solve linear system `Ax = b` with Cholesky factorization |
 | `sgetri` | `inv.c` | Inverse by using LU factorization for square matrices |
 | `sgeqrf` and `sorgqr` | `qr.c`  | QR factorization for general matrices|
 | `sgemm`, `ssymm`, `sgemv` and `ssymv` | `mul.c` | Multiplication |
-| `sgesvd` | `pca.m` | Principal component analysis |
+| `sgesvd` | `pca.c` | Principal component analysis |
+| `sggev` | `eig_generalized.c` | Generalized eigenvalue problem for non-symmetric matrices |
+| `ssygvd` | `eig_generalized.c` | Generalized eigenvalue problem for symmetric matrices |
+
  
-If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.
+If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.,
 
 Main focuses are:
 
@@ -61,9 +66,8 @@ Main focuses are:
   - LUP decomposition
   - Determinant
   - Discrete Lyapunov solver
-  - Eigenvalues and eigenvectors for symmetric matrices
-  - Generalized eigenvalue problem for symmetric matrices
-  - Eigenvalues and imaginary eigenvalues for general matrices
+  - Eigenvalues and eigenvectors
+  - Generalized eigenvalue problem
   - Hankel matrix
   - Inverse
   - Dot product
@@ -71,9 +75,7 @@ Main focuses are:
   - Linear solver
   - Nonlinear solver
   - Multiplication
-  - Singular Value Decomposition Golup Reinsch
-  - Singular Value Decomposition Jacobi One Sided
-  - Singular Value Decomposition Divide & Conquer
+  - Singular Value Decomposition
   - Transpose
   - Norm
   - Matrix exponential

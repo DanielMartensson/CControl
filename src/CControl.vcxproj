@@ -24,14 +24,6 @@
     <ClInclude Include="CControl\Headers\enums.h" />
     <ClInclude Include="CControl\Headers\functions.h" />
     <ClInclude Include="CControl\Headers\structs.h" />
-    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\blaswrap.h" />
-    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\clapack.h" />
-    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\f2c.h" />
-    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\fio.h" />
-    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\fmt.h" />
-    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\fp.h" />
-    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\clapack_functions.h" />
-    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\sysdep1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c" />
@@ -57,180 +49,10 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\dlyap.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\dot.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\eig.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\eig_sym_generalized.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\eig_generalized.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\expm.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\hankel.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\inv.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\close.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\endfile.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\err.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\exit_.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\f77_aloc.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\fmt.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\fmtlib.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ieeeck.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\iladlc.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\iladlr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ilaenv.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ilaslc.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ilaslr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\iparmq.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\isamax.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\i_len_trim.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\i_nint.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\lsame.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\open.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\pow_dd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\pow_ii.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\pow_ri.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\r_lg10.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\r_sign.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\saxpy.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sbdsdc.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sbdsqr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sceil.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\scopy.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sdot.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sfe.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgebak.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgebal.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgebd2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgebrd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgeev.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgehd2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgehrd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgelq2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgelqf.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgemm.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgemv.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgeqr2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgeqrf.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sger.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgesdd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgesvd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgetrf.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sgetri.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\shseqr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sig_die.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sisnan.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slabad.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slabrd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slacpy.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sladiv.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slae2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed0.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed1.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed3.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed4.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed5.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed6.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed7.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed8.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaed9.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaeda.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaev2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaexc.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slahqr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slahr2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaisnan.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaln2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slamch.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slamrg.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slange.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slanst.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slansy.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slanv2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slapy2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaqr0.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaqr1.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaqr2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaqr3.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaqr4.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaqr5.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slarf.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slarfb.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slarfg.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slarfp.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slarft.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slarfx.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slartg.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slas2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slascl.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd0.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd1.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd3.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd4.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd5.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd6.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd7.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasd8.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasda.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasdq.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasdt.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaset.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasq1.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasq2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasq3.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasq4.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasq5.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasq6.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasrt.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slassq.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasv2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slaswp.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slasy2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\slatrd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\snrm2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorg2r.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorgbr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorghr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorgl2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorglq.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorgqr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorm2l.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorm2r.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sormbr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sormhr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sorml2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sormlq.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sormql.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sormqr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sormtr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\spotf2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\spotrf.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\srot.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sscal.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sstedc.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssteqr.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssterf.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\sswap.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssyevd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssymm.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssymv.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssyr2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssyr2k.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssyrk.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssytd2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\ssytrd.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\strevc.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\strexc.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\strmm.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\strmv.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\strsm.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\strti2.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\strtri.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\s_cat.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\s_cmp.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\s_copy.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\s_stop.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\util.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\wref.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\wrtfmt.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\wsfe.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\xerbla.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\linsolve_chol.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\linsolve_gauss.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\linsolve_lower_triangular.c" />
@@ -306,12 +128,14 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseInteloneMKL>Parallel</UseInteloneMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseInteloneMKL>Sequential</UseInteloneMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -319,6 +143,8 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseInteloneMKL>Parallel</UseInteloneMKL>
+    <UseILP64Interfaces1A>false</UseILP64Interfaces1A>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -376,10 +202,11 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard_C>Default</LanguageStandard_C>
-      <Optimization>Full</Optimization>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <FavorSizeOrSpeed>
+      </FavorSizeOrSpeed>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>

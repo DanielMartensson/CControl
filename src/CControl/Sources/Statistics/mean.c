@@ -18,5 +18,5 @@ float mean(float x[], size_t length) {
 	for (i = 0; i < length; i++) {
 		s += x[i];
 	}
-	return s/((float) length);
+	return s / ((float)length);
 }

@@ -87,7 +87,7 @@ FISHER_MODEL* fisherfaces_train_projection_matrix(FISHER_MODEL* fisher_model, si
 
 }
 
-FISHER_MODEL* fisherfaces_collect_data(const char folder_path[]) {
+FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p, POOLING_METOD pooling_method) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
 	const size_t sub_folder_count = scan_sub_folder_names(folder_path, &sub_folder_names);
@@ -129,10 +129,22 @@ FISHER_MODEL* fisherfaces_collect_data(const char folder_path[]) {
 			/* Check if image is valid */
 			if (image) {
 				/* Get the total new pixels */
-				const size_t new_pixel_size = image->height * image->width;
+				const size_t image_size = image->height * image->width;
+
+				/* Pooling */
+				const size_t h = image->height / p;
+				const size_t w = image->width / p;
+				const size_t pooling_size = h*w;
+				float* P = (float*)malloc(pooling_size * sizeof(float));
+				float* A = (float*)malloc(image_size * sizeof(float));
+				for (k = 0; k < image_size; k++) {
+					A[k] = (float)image->pixels[k];
+				}
+				pooling(A, P, image->height, image->width, p, pooling_method);
+				free(A);
 
 				/* Allocate new rows */
-				fisher_model->data = (float*)realloc(fisher_model->data, (current_pixel_size + new_pixel_size) * sizeof(float));
+				fisher_model->data = (float*)realloc(fisher_model->data, (current_pixel_size + pooling_size) * sizeof(float));
 
 				/* Remember */
 				float* data0 = fisher_model->data;
@@ -141,12 +153,15 @@ FISHER_MODEL* fisherfaces_collect_data(const char folder_path[]) {
 				fisher_model->data += current_pixel_size;
 
 				/* Fill as row major */
-				for (k = 0; k < new_pixel_size; k++) {
-					fisher_model->data[k] = (float)image->pixels[k];
+				for (k = 0; k < pooling_size; k++) {
+					fisher_model->data[k] = P[k];
 				}
+
+				/* Free pooling image */
+				free(P);
 				
 				/* Add current size */
-				current_pixel_size += new_pixel_size;
+				current_pixel_size += pooling_size;
 
 				/* Go back to index 0 */
 				fisher_model->data = data0;
@@ -157,8 +172,8 @@ FISHER_MODEL* fisherfaces_collect_data(const char folder_path[]) {
 				/* Add new ID */
 				fisher_model->class_id[fisher_model->row] = i;
 
-				/* Column will always be the total pixel size */
-				fisher_model->column = new_pixel_size;
+				/* Column will always be the pooling size */
+				fisher_model->column = pooling_size;
 
 				/* Count columns */
 				fisher_model->row++;

@@ -21,48 +21,17 @@
  * Returns true == Success
  * Returns false == Fail
  */
-bool lup(float A[], float LU[], size_t P[], size_t row) {
+bool lup(float A[], float LU[], int P[], size_t row) {
 #ifdef CLAPACK_USED
-	integer m = row, lda = row, n = row;
-	size_t rowrow = row * row;
-	memcpy(LU, A, rowrow * sizeof(float));
-	integer* ipiv = (integer*)malloc(row * sizeof(integer));
-	real* a = (real*)malloc(rowrow * sizeof(real));
-	integer info;
-	size_t i, j;
-	/* This is transpose */
-	real* a0 = a;
-	for (i = 0; i < row; i++) {
-		a = a0;
-		a += i;
-		for (j = 0; j < row; j++) {
-			a[0] = A[j];
-			a += row;
-		}
-		A += row;
-	}
-	a = a0;
-	sgetrf_(&m, &n, a, &lda, ipiv, &info);
-	/* This is transpose */
-	for (i = 0; i < row; i++) {
-		a = a0;
-		a += i;
-		for (j = 0; j < row; j++) {
-			LU[j] = a[0];
-			a += row;
-		}
-		LU += row;
-
-		/* Pivots */
-		P[i] = ipiv[i] - 1U;
-	}
-
-	/* Reset */
-	a = a0;
-
-	free(ipiv);
-	free(a);
-	return info == 0 ? true : false;
+	integer m = row, lda = row, n = row, info;
+	memcpy(LU, A, row * row * sizeof(float));
+	sgetrf_(&m, &n, LU, &lda, P, &info);
+	return info == 0;
+#elif defined(MKL_USED)
+	memcpy(LU, A, row * row * sizeof(float));
+	bool status = LAPACKE_sgetrf(LAPACK_COL_MAJOR, row, row, LU, row, P) == 0;
+	/* Return status */
+	return status;
 #else
 	/* Variables */
 	size_t ind_max, tmp_int;

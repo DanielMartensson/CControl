@@ -47,11 +47,11 @@ void pca(float X[], float W[], float P[], float mu[], size_t c, size_t row, size
 }
 
 static void compute_components(float X[], float W[], size_t c, size_t row, size_t column) {
-	/* Compute [U, S, V] = svd(A) */
-	float* U = (float*)malloc(row * column * sizeof(float));
+	/* Allocate */
+	float* U = (float*)malloc(row * row * sizeof(float));
+	float* U0 = U;
 	float* S = (float*)malloc(column * sizeof(float));
 	float* V = (float*)malloc(column * column * sizeof(float));
-	float* U0 = U;
 
 #ifdef CLAPACK_USED
 	/* Settings for computing only U matrix from SVD */
@@ -96,11 +96,30 @@ static void compute_components(float X[], float W[], size_t c, size_t row, size_
 	/* Free */
 	free(work);
 	free(Xcopy);
+#elif defined(MKL_USED)
+	float* superb = (float*)malloc((min(row, column) - 1)*sizeof(float));
+	float* Y = (float*)malloc(row * column * sizeof(float));
+	memcpy(Y, X, row * column * sizeof(float));
+	LAPACKE_sgesvd(LAPACK_ROW_MAJOR, 'S', 'N', row, column, Y, column, S, U, row, NULL, column, superb);
+	free(superb);
+	free(Y);
+
+	/* Get the components from U */
+	size_t i, bytes_shift = c * sizeof(float);
+	for (i = 0; i < row; i++) {
+		memcpy(W, U, bytes_shift); /* Move data from U to W, then shift the array position */
+		W += c;
+		U += row;
+	}
 #else
+	/* Allocate 
+	float* U = (float*)malloc(row * column * sizeof(float));
+	float* U0 = U;*/
+
 	/* Compute */
 	svd(X, row, column, U, S, V);
 
-	/* Get the components from V */
+	/* Get the components from U */
 	size_t i, bytes_shift = c * sizeof(float);
 	for (i = 0; i < row; i++) {
 		memcpy(W, U, bytes_shift); /* Move data from U to W, then shift the array position */

@@ -96,7 +96,42 @@ void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t 
 		/* Free */
 		free(Acopy);
 	}
-	
+#elif defined(MKL_USED)
+	/* Check if A is symmetric */
+	if (issymmetric(A, row_a, column_a)) {
+		/* Check if it's vector */
+		if (column_b == 1U) {
+			cblas_ssymv(CblasRowMajor, CblasUpper, column_a, 1.0f, A, row_a, B, 1, 0.0f, C, 1);
+		}
+		else {
+			int m = row_a;
+			int n = column_b;
+			int k = column_a;
+			float alpha = 1.0f;
+			int lda = m;
+			int ldb = n;
+			float beta = 0.0f;
+			int ldc = n;
+			cblas_ssymm(CblasRowMajor, CblasLeft, CblasUpper, m, n, alpha, A, lda, B, ldb, beta, C, ldc);
+		}
+	}
+	else {
+		/* Vector or matrix for B */
+		if (column_b == 1U) {
+			cblas_sgemv(CblasRowMajor, CblasNoTrans, row_a, column_a, 1.0f, A, column_a, B, 1, 0.0f, C, 1);
+		}
+		else {
+			int m = row_a;
+			int n = column_b;
+			int k = column_a;
+			float alpha = 1.0f;
+			int lda = k;
+			int ldb = n;
+			float beta = 0.0f;
+			int ldc = n;
+			cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+		}
+	}
 #else
 	/* Decleration */
 	size_t i, j, k;

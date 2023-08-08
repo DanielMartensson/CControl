@@ -37,9 +37,14 @@ typedef unsigned long size_t;
 #define MIN_VALUE 1e-14f				/* Tuning parameter for the smalles value that can be allowed */
 #define MAX_ITERATIONS 10000U			/* For all iteration algorithsm */
 
-/* If we are using a regular computer, we use LAPACK as much as possible */
-#if defined(__linux__) || defined(_WIN32) || defined(_WIN64) || defined(__APPLE__) && defined(__MACH__)
-#define CLAPACK_USED 
+/* Select library by uncomment */
+#define MKL_USED						/* For large matrices on a regular computer */
+/* #define CLAPACK_USED */				/* For larger embedded systems */
+/* #define INTERNAL_USED */				/* For small embedded systems */
+
+/* Load the MKL library */
+#ifdef MKL_USED
+#include <mkl.h>
 #endif
 
 #endif /* !CCONTROL_HEADERS_DEFINES_H_ */

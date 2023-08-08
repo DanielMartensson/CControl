@@ -74,7 +74,7 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 /* Machine learning */
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts);
-FISHER_MODEL* fisherfaces_collect_data(const char folder_path[]);
+FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p, POOLING_METOD pooling_method);
 void fisherfaces_free_model(FISHER_MODEL* fisher_model);
 void fisherfaces_print_model(FISHER_MODEL* fisher_model);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
@@ -97,7 +97,7 @@ void print(float A[], size_t row, size_t column);
 float sign(float number);
 float vmax(float a, float b);
 float vmin(float a, float b);
-void sort(float X[], size_t row, size_t column, SORT_MODE sort_mode);
+void sort(float X[], size_t index[], size_t row, size_t column, SORT_MODE sort_mode);
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
 
 /* Filtering */
@@ -123,17 +123,17 @@ float dot(float a[], float b[], size_t row);
 bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool only_compute_R);
 bool linsolve_qr(float A[], float x[], float b[], size_t row, size_t column);
 void linsolve_lower_triangular(float A[], float x[], float b[], size_t row);
-bool lup(float A[], float LU[], size_t P[], size_t row);
+bool lup(float A[], float LU[], int P[], size_t row);
 float det(float A[], size_t row);
 bool linsolve_lup(float A[], float x[], float b[], size_t row);
 bool chol(float A[], float L[], size_t row);
 void cholupdate(float L[], float x[], size_t row, bool rank_one_update);
-void linsolve_chol(float A[], float x[], float b[], size_t row);
+bool linsolve_chol(float A[], float x[], float b[], size_t row);
 void pinv(float A[], size_t row, size_t column);
 bool hankel(float V[], float H[], size_t row_v, size_t column_v, size_t row_h, size_t column_h, size_t shift);
 void balance(float A[], size_t row);
 bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row);
-bool eig_sym_generalized(float A[], float B[], size_t row, float dr[], float wr[]);
+bool eig_generalized(float A[], float B[], size_t row, float dr[], float di[], float wr[], float wi[]);
 float norm(float X[], size_t row, size_t column, NORM_METHOD norm_method);
 bool expm(float A[], size_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], size_t elements, float alpha, float max_value, float min_value, bool random_guess_active);

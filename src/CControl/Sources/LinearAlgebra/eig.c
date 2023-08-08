@@ -43,25 +43,24 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 		/* Settings */
 		integer n = row, lda = row, ldvl = row, ldvr = row, info, lwork;
 		real wkopt;
-		real* work = NULL;
 
-		/* Eigenvalues and eigenvectors */
+		/* Eigenvectors */
 		real* vl = (real*)malloc(n * lda * sizeof(real));
 		real* vr = (real*)malloc(n * lda * sizeof(real));
 
 		/* Allocate memory */
 		lwork = -1;
-		sgeev_("V", "V", &n, A, &lda, dr, di, vl, &ldvl, vr, &ldvr, &wkopt, &lwork, &info);
+		sgeev_("V", "N", &n, A, &lda, dr, di, vl, &ldvl, vr, &ldvr, &wkopt, &lwork, &info);
 		lwork = (integer)wkopt;
-		work = (real*)malloc(lwork * sizeof(real));
+		real* work = (real*)malloc(lwork * sizeof(real));
 
 		/* Compute  */
 		sgeev_("V", "N", &n, A, &lda, dr, di, vl, &ldvl, vr, &ldvr, work, &lwork, &info);
 
 		/* Check status */
-		status = info == 0 ? true : false;
+		status = info == 0;
 
-		/* Fill the eigenvectors */
+		/* Fill the eigenvectors in row major */
 		size_t i, j, s = 0, t = 0;
 		memset(wi, 0, row * row * sizeof(float));
 		for (i = 0; i < n; i++) {
@@ -87,18 +86,56 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 		free(work);
 		free(vl);
 		free(vr);
+	}
+#elif defined(MKL_USED)
+	if (symmetric) {
+		/* Compute the SVD is the same for EIG for a symmetric matrix */
+		status = svd(A, row, row, wr, dr, wi);
+		memset(wi, 0, row * row * sizeof(float));
+		memset(di, 0, row * sizeof(float));
+	}
+	else {
+		/* Eigenvalues and eigenvectors */
+		float* vl = (float*)malloc(row * row * sizeof(float));
+		float* vr = (float*)malloc(row * row * sizeof(float));
 
+		/* Compute*/
+		status = LAPACKE_sgeev(LAPACK_COL_MAJOR, 'V', 'N', row, A, row, dr, di, vl, row, vr, row) == 0;
+		
+		/* Fill the eigenvectors */
+		size_t i, j, s = 0, t = 0;
+		memset(wi, 0, row * row * sizeof(float));
+		for (i = 0; i < row; i++) {
+			if (fabsf(di[i]) < MIN_VALUE) {
+				s = t;
+				for (j = 0; j < row; j++) {
+					wr[j * row + i] = vl[s++];
+				}
+				t = s;
+			}
+			else {
+				t = s;
+				for (j = 0; j < row; j++) {
+					wr[j * row + i] = vl[t++];
+				}
+				for (j = 0; j < row; j++) {
+					wi[j * row + i] = vl[t++];
+				}
+			}
+		}
+
+		/* Free */
+		free(vl);
+		free(vr);
 	}
 #else
 	if (symmetric) {
-		status = eig_regular(A, dr, di, row);
-		memset(wi, 0, row * row * sizeof(float));
-		memset(wr, 0, row * row * sizeof(float));
-	}
-	else {
 		status = eig_sym(A, dr, wr, row);
 		memset(wi, 0, row * row * sizeof(float));
 		memset(di, 0, row * sizeof(float));
+	}
+	else {
+		status = eig_regular(A, dr, di, wr, wi, row);
 	}
 #endif
 
@@ -318,7 +355,7 @@ static bool tqli(float d[], float e[], size_t row, float z[]) {
 	return ok;
 }
 
-static bool qr_shift_algorithm(float A[], float wr[], float wi[], size_t row);
+static bool qr_shift_algorithm(float A[], float dr[], float di[], size_t row);
 static void prepare(float A[], size_t row);
 /*#define abs_sign(a,b) ((b) >= 0.0 ? fabsf(a) : -fabsf(a))  Special case for qr_hess function */
 
@@ -331,21 +368,23 @@ static void prepare(float A[], size_t row);
  * wi [m*n]
  * n == m
  */
-bool eig_regular(float A[], float dr[], float di[], size_t row) {
+bool eig_regular(float A[], float dr[], float di[], float wr[], float wi[], size_t row) {
 	/* Copy A */
 	float* Acopy = (float*)malloc(row * row * sizeof(float));
 	memcpy(Acopy, A, row * row * sizeof(float));
 
-	/* Find the eigenvalues */
+	/* Balance and prepare Acopy */
 	balance(Acopy, row);
 	prepare(Acopy, row);
 
-	/* Reset before */
+	/* Reset before finding eigenvetors */
 	memset(dr, 0, row * sizeof(float));
 	memset(di, 0, row * sizeof(float));
 
-	/* Compute the eigenvalues dr, di and its eigenvectors inside A */
+	/* Compute the eigenvalues dr, di inside A */
 	bool status = qr_shift_algorithm(Acopy, dr, di, row);
+
+	/* TODO: Compute the eigenvectors */
 
 	/* Free */
 	free(Acopy);

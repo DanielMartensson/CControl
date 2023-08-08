@@ -120,7 +120,7 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 
 		/* Compute */
 		sgesdd_("S", &m, &n, Acopy, &lda, S, u, &ldu, V, &ldvt, work, &lwork, iwork, &info);
-		
+
 		/* Fill U with transpose */
 		real* u0 = u;
 		for (i = 0; i < row; i++) {
@@ -144,7 +144,66 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 	}
 
 	/* Return status */
-	return info == 0 ? true : false;
+	return info == 0;
+#elif defined(MKL_USED)
+	if (symmetric) {
+		/* Copy over */
+		memcpy(U, A, row * column * sizeof(float));
+		
+		/* Do SVD */
+		int status = LAPACKE_ssyevd(MKL_ROW_MAJOR, 'V', 'U', row, U, row, S);
+
+		/* Sort S */
+		size_t* index = (size_t*)malloc(column * sizeof(size_t));
+		sort(S, index, 1, column, SORT_MODE_COLUMN_DIRECTION_DESCEND);
+		
+		/* Sort V */
+		size_t i, j;
+		float* U0 = U;
+		float* V0 = V;
+		for (i = 0; i < row; i++) {
+			for (j = 0; j < column; j++) {
+				V[j] = U[index[j]];
+			}
+			V += column;
+			U += column;
+		}
+		V = V0;
+		U = U0;
+
+		/* Free index */
+		free(index);
+
+		/* Copy over */
+		memcpy(U, V, row * column * sizeof(float));
+		return status == 0;
+	}
+	else {
+		/* Copy */
+		float* Acopy = (float*)malloc(row * column * sizeof(float));
+		memcpy(Acopy, A, row * column * sizeof(float));
+		int m = row;
+		int n = column;
+		float* u = (float*)malloc(m * m * sizeof(float));
+		int status = LAPACKE_sgesdd(LAPACK_ROW_MAJOR, 'S', m, n, Acopy, n, S, u, m, V, n);
+		
+		/* Get the components from U */
+		float* u0 = u;
+		size_t i, bytes_shift = column * sizeof(float);
+		for (i = 0; i < row; i++) {
+			memcpy(U, u, bytes_shift); /* Move data from u to U, then shift the array position */
+			U += column;
+			u += row;
+		}
+
+		/* Reset */
+		u = u0;
+
+		/* Free */
+		free(Acopy);
+		free(u);
+		return status == 0;
+	}
 #else
 	if (symmetric) {
 		return svd_jacobi_one_sided(A, row, U, S, V);

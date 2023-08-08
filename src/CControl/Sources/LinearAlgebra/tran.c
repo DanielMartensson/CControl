@@ -11,7 +11,6 @@
  * Turn A into transponse A^T
  */
 void tran(float A[], size_t row, size_t column) {
-
 	/* Decleration */
 	float *B = (float*)malloc(row * column * sizeof(float));
 	float* transpose = NULL;

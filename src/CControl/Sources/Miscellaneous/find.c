@@ -18,7 +18,7 @@ void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITIO
 	size_t i;
     size_t count = 0;
     memset(index, -1, row * sizeof(int32_t));
-    for (int i = 0; i < row; i++) {
+    for (i = 0; i < row; i++) {
         switch (condition_method) {
         case FIND_CONDITION_METOD_E:
             if (fabsf(condition - A[i]) < MIN_VALUE) {

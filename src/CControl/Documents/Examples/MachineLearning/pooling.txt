@@ -32,7 +32,7 @@ int main() {
 							  0.610705,   0.863790,   0.684771,   0.188464,   0.860727,   0.037058,   0.051288,   0.865577,   0.753889,   0.557765 };
 
 	/* Create P */
-	float P[row * column / p];
+	float P[(row / p) * (column / p)];
 
 	/* Do pooling */
 	pooling(A, P, row, column, p, POOLING_METHOD_SHAPE);

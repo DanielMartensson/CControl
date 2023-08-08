@@ -6,10 +6,11 @@
  */
 
 #include "../../Headers/functions.h"
+
 /*
  * Pooling 
  * A[m*n]
- * P[m*n/p]
+ * P[(m/p)*(n/p)]
  */
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method) {
 	/* Get the height and width for B */
@@ -34,9 +35,9 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 		for (j = 0; j < w; j++) {
 			/* Cut A into B */
 			start_row = i * p;
-			stop_row = i * p + 1;
+			stop_row = (i+1) * p - 1U;
 			start_column = j * p;
-			stop_column = j * p + 1;
+			stop_column = (j+1) * p - 1U;
 			cut(A, column_a, B, start_row, stop_row, start_column, stop_column);
 
 			/* Add to P */

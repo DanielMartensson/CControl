@@ -7,6 +7,11 @@
 
 #include "../../Headers/functions.h"
 
+ /* Include LAPACK routines */
+#ifdef CLAPACK_USED
+#include "CLapack/clapack_functions.h"
+#endif
+
 /*
  * This solves Ax=b with LUP-decomposition
  * A [m*n]
@@ -17,12 +22,26 @@
  * Returns false == Fail
  */
 bool linsolve_lup(float A[], float x[], float b[], size_t row) {
+	float* LU = (float*)malloc(row * row * sizeof(float));
+	int* P = (int*)malloc(row * sizeof(int));
+	bool status = lup(A, LU, P, row);
+#ifdef CLAPACK_USED
+	integer n = row, nrhs = 1, lda = row, ldb = row, info;
+	float* bcopy = (float*)malloc(ldb * sizeof(float));
+	memcpy(bcopy, b, ldb * sizeof(float));
+	sgetrs_("T", &n, &nrhs, LU, &lda, P, bcopy, &ldb, &info);
+	memcpy(x, bcopy, n * sizeof(real));
+	free(bcopy);
+	status = (info == 0) && status;
+#elif defined(MKL_USED)
+	float* bcopy = (float*)malloc(row * sizeof(float));
+	memcpy(bcopy, b, row * sizeof(float));
+	status = LAPACKE_sgetrs(LAPACK_COL_MAJOR, 'T', row, 1, LU, row, P, bcopy, row) == 0;
+	memcpy(x, bcopy, row * sizeof(float));
+	free(bcopy);
+#else
 	/* Decleration */
 	int32_t i, j;
-
-	float *LU = (float*)malloc(row * row * sizeof(float));
-	size_t *P = (size_t*)malloc(row * sizeof(size_t));
-	bool ok = lup(A, LU, P,row);
 
 	/* forward substitution with pivoting */
 	for (i = 0; i < row; ++i) {
@@ -39,10 +58,12 @@ bool linsolve_lup(float A[], float x[], float b[], size_t row) {
 		}
 		x[i] = x[i] / LU[row * P[i] + i];
 	}
+#endif
 
 	/* Free */
 	free(LU);
 	free(P);
 
-	return ok;
+	/* Return status */
+	return status;
 }

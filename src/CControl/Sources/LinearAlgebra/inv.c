@@ -7,7 +7,7 @@
 
 #include "../../Headers/functions.h"
 
-static bool solve(float x[], float b[], size_t P[], float LU[], size_t row);
+static bool solve(float x[], float b[], int P[], float LU[], size_t row);
 
 /* Include LAPACK routines */
 #ifdef CLAPACK_USED
@@ -42,7 +42,13 @@ bool inv(float A[], size_t row) {
 	sgetri_(&m, A, &lda, ipiv, work, &lwork, &info);
 
 	/* Return status */
-	return info == 0 ? true : false;
+	return info == 0;
+#elif defined(MKL_USED)
+	int* ipiv = (int*)malloc(row * sizeof(int));
+	bool status_sgetrf = LAPACKE_sgetrf(LAPACK_ROW_MAJOR, row, row, A, row, ipiv) == 0;
+	bool status_sgetri = LAPACKE_sgetri(LAPACK_ROW_MAJOR, row, A, row, ipiv) == 0;
+	free(ipiv);
+	return status_sgetrf && status_sgetri;
 #else
 	/* Create iA matrix */
 	float *iA = (float*)malloc(row * row * sizeof(float));
@@ -53,8 +59,8 @@ bool inv(float A[], size_t row) {
 	memset(tmpvec, 0, row*sizeof(float));
 
 	/* Check if the determinant is 0 */
-	float *LU = (float*)malloc(row * row * sizeof(float));
-	size_t *P = (size_t*)malloc(row * sizeof(size_t));
+	float* LU = (float*)malloc(row * row * sizeof(float));
+	int* P = (size_t*)malloc(row * sizeof(int));
 	bool ok = lup(A, LU, P, row);
     if (ok) {
         /* Create the inverse */
@@ -87,7 +93,7 @@ bool inv(float A[], size_t row) {
 #endif
 }
 
-static bool solve(float x[], float b[], size_t P[], float LU[], size_t row){
+static bool solve(float x[], float b[], int P[], float LU[], size_t row){
 	/* forward substitution with pivoting */
 	int32_t i, j;
 	for (i = 0; i < row; ++i) {

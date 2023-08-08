@@ -1,0 +1,110 @@
+/*
+ ============================================================================
+ Name        : eig_generalized.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Generalized Eigenvalue Problem
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 5
+#define column 5
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Non-symmetric matrix */
+	float A[row * column] = { 9.5605,       6.8163,      -1.9425,      -5.7558,        3.555,
+							0.8163,       9.7506,      0.26247,      -3.7964,       4.7512,
+						   -0.9425,      0.26247,       3.4206,       2.9018,      0.45186,
+						   -0.7558,      -3.7964,       2.9018,       7.0731,      -2.5701,
+							 0.555,       4.7512,      0.45186,      -2.5701,       2.6984 };
+
+	/* Symmetric matrix 
+	float A[row * column] = { 4.4164,  0.92665, - 2.7198, - 5.2737, - 2.3665,
+							 0.92665,   6.1536, - 3.8374,    1.652, - 5.5384,
+						    - 2.7198, - 3.8374,    3.772,   1.3745,   3.6911,
+						    - 5.2737,    1.652,   1.3745,   9.4714,   1.9867,
+						    - 2.3665, - 5.5384,   3.6911,   1.9867,   7.0745 }; */
+
+	/* Symmetric matrix */
+	float B[row * column] = { 1.4511,      0.29316,      -1.1534,     -0.35456,      0.44274,
+							 0.29316,       5.8465,      -1.0767,       1.7268,       1.1316,
+							 -1.1534,      -1.0767,       7.5729,      -4.1207,       2.6296,
+							-0.35456,       1.7268,      -4.1207,       5.7797,       -3.505,
+							 0.44274,       1.1316,       2.6296,       -3.505,       4.5628 };
+	/* Eigenvalues real */
+	float dr[row];
+
+	/* Eigenvectors real */
+	float wr[row * row];
+
+	/* Eigenvalues imaginary */
+	float di[row];
+
+	/* Eigenvectors imaginary */
+	float wi[row * row];
+
+	/* Solve generalized eigenvalue problem */
+	bool ok = eig_generalized(A, B, row, dr, di, wr, wi);
+
+	/* Print eigenvalues */
+	printf("Eigenvalues real:\n");
+	print(dr, row, 1);
+
+	printf("Eigenvalues imaginary:\n");
+	print(di, row, 1);
+
+	/* Print eigenvectors */
+	printf("Eigenvectors real:\n");
+	print(wr, row, row);
+
+	printf("Eigenvectors imaginary:\n");
+	print(wi, row, row);
+
+	printf("Eigenvectors and eigenvalues found %s\n", ok ? "yes" : "no");
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
+
+/* GNU octave
+	A = [9.5605   6.8163  -1.9425  -5.7558   3.5550
+		 0.8163   9.7506   0.2625  -3.7964   4.7512
+		-0.9425   0.2625   3.4206   2.9018   0.4519
+		-0.7558  -3.7964   2.9018   7.0731  -2.5701
+		 0.5550   4.7512   0.4519  -2.5701   2.6984];
+
+	B = [1.4511   0.2932  -1.1534  -0.3546   0.4427
+		 0.2932   5.8465  -1.0767   1.7268   1.1316
+		-1.1534  -1.0767   7.5729  -4.1207   2.6296
+		-0.3546   1.7268  -4.1207   5.7797  -3.5050
+		 0.4427   1.1316   2.6296  -3.5050   4.5628];
+
+	>> [V, D] = eig(A, B)
+	V =
+
+	  -0.7404 - 0.2596i  -0.7404 + 0.2596i   0.6629 +      0i   0.0019 +      0i   0.0072 +      0i
+	   0.2166 - 0.1638i   0.2166 + 0.1638i  -1.0000 +      0i   0.3432 +      0i  -0.6721 +      0i
+	  -0.3531 + 0.0540i  -0.3531 - 0.0540i  -0.5982 +      0i   0.3982 +      0i   1.0000 +      0i
+	  -0.5569 + 0.2898i  -0.5569 - 0.2898i  -0.6244 +      0i  -0.3420 +      0i  -0.7264 +      0i
+	  -0.1759 + 0.2151i  -0.1759 - 0.2151i  -0.6662 +      0i  -1.0000 +      0i   0.6147 +      0i
+
+	D =
+
+	Diagonal Matrix
+
+	   7.1193 + 2.2437i                  0                  0                  0                  0
+					  0   7.1193 - 2.2437i                  0                  0                  0
+					  0                  0   1.4855 +      0i                  0                  0
+					  0                  0                  0   0.0041 +      0i                  0
+					  0                  0                  0                  0   0.1091 +      0i
+*/

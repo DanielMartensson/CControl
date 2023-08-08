@@ -23,24 +23,31 @@ bool chol(float A[], float L[], size_t row) {
 #ifdef CLAPACK_USED
 	integer info;
 	integer n = row, lda = row;
-	float* Acopy = (float*)malloc(row * row * sizeof(float));
-	memcpy(Acopy, A, row * row * sizeof(float));
-	spotrf_("U", &n, Acopy, &lda, &info);
+	memcpy(L, A, row * row * sizeof(float));
+	spotrf_("U", &n, L, &lda, &info);
 	size_t i, j;
 	/* Turn to lower matrix */
-	memset(L, 0, row * row * sizeof(float));
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < row; j++) {
-			if (i >= j) {
-				L[i * row + j] = Acopy[i * row + j];
-			}
-			else {
-				break;
+			if (j > i) {
+				L[i * row + j] = 0.0f;
 			}
 		}
 	}
-	free(Acopy);
-	return info == 0 ? true : false;
+	return info == 0;
+#elif defined(MKL_USED)
+	memcpy(L, A, row * row * sizeof(float));
+	bool status = LAPACKE_spotrf(LAPACK_ROW_MAJOR, 'L', row, L, row) == 0;
+	/* Turn to lower matrix */
+	size_t i, j;
+	for (i = 0; i < row; i++) {
+		for (j = 0; j < row; j++) {
+			if (j > i) {
+				L[i * row + j] = 0.0f;
+			}
+		}
+	}
+	return status;
 #else
 	/* Save address */
 	float* Li = L;

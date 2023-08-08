@@ -47,9 +47,7 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 	float *XiXiT = (float*)malloc(row * row * sizeof(float));
 	float *mu_Xi = (float*)malloc(row * sizeof(float));
 	float *diff = (float*)malloc(row * sizeof(float));
-	size_t j, samples_of_class;
-	size_t k;
-	uint32_t l;
+	size_t j, l, k, samples_of_class;
 	for (i = 0; i < amount_of_classes; i++) {
 		/* Get samples of each class */
 		samples_of_class = samples_of_each_class[i];
@@ -114,10 +112,15 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 	}
 
 	/* Do Generalized Eigenvalue Problem */
-	float* d = (float*)malloc(row * sizeof(float));
+	float* dr = (float*)malloc(row * sizeof(float));
 	float* wr = (float*)malloc(scatter_matrix_size * sizeof(float));
+	float* di = (float*)malloc(row * sizeof(float));
+	float* wi = (float*)malloc(scatter_matrix_size * sizeof(float));
 	float* wr0 = wr;
-	eig_sym_generalized(Sb, Sw, row, d, wr);
+
+	/* Sort the eigenvalues */
+	bool issym = issymmetric(Sb, row, row);
+	eig_generalized(Sb, Sw, row, dr, di, wr, wi);
 
 	/* Copy over eigenvectors from Sb to W */
 	float* W0 = W;
@@ -148,8 +151,10 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 	free(mu_Xi);
 	free(XiXiT);
 	free(diff);
-	free(d);
+	free(dr);
 	free(wr);
+	free(di);
+	free(wi);
 }
 
 static void average_vector(float X[], float mu[], size_t row, size_t column) {
@@ -253,11 +258,8 @@ static void center_data(float X[], float mu[], size_t row, size_t column) {
 	  Sb = Sb + XiXiT*samples_of_class;
 	end
 
-	% Find the eigenvectors - by solving the generalized eigenvalue problem: Sb*v = Sw*v*lambda
-	L = chol(Sw, 'lower');
-	Y = linsolve(L, Sb);
-	Z = Y*inv(L');
-	[V, D] = eig(Z);
+	% Find the eigenvectors
+	[V, D] = eig(Sb, Sw);
 
 	% Sort eigenvectors descending by eigenvalue
 	[D, idx] = sort(diag(D), 1, 'descend');

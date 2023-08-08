@@ -23,9 +23,9 @@
  */
 bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool only_compute_R) {
 #ifdef CLAPACK_USED
-	integer m = row_a, n = column_a, lda = vmax(1, row_a), lwork, info;
+	integer m = row_a, n = column_a, lda = row_a, lwork, info;
 	real wkopt;
-	real* tau = (real*)malloc(vmin(m, n) * sizeof(real));
+	real* tau = (real*)malloc((row_a > column_a ? column_a : row_a) * sizeof(real));
 
 	/* Fill R with transpose */
 	size_t i, j;
@@ -53,7 +53,7 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 	/* Clean Q */
 	memset(Q, 0, row_a * row_a * sizeof(float));
 
-	/* Free */
+	/* Only compute Q */
 	if (!only_compute_R) {
 		/* R to Q */
 		float* Q0 = Q;
@@ -99,6 +99,7 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 			/* Solve */
 			sorgqr_(&m, &n, &n, Q, &m, tau, work, &lwork, &info);
 		}
+
 		/* Swap with transpose */
 		tran(Q, row_a, row_a);
 	}
@@ -124,8 +125,86 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 	free(tau);
 
 	/* Return status */
-	return info == 0 ? true : false;
+	return info == 0;
+#elif defined(MKL_USED)
+	/* Fill R with transpose */
+	size_t i, j;
+	float* R0 = R;
+	for (i = 0; i < row_a; i++) {
+		R = R0;
+		R += i;
+		for (j = 0; j < column_a; j++) {
+			R[0] = A[j];
+			R += row_a;
+		}
+		A += column_a;
+	}
+	R = R0;
 
+	/* Create settings */
+	float* tau = (float*)malloc((row_a > column_a ? column_a : row_a) * sizeof(float));
+
+	/* Find R matrix */
+	bool status = LAPACKE_sgeqrf(LAPACK_COL_MAJOR, row_a, column_a, R, row_a, tau) == 0;
+
+	/* Clean Q */
+	memset(Q, 0, row_a * row_a * sizeof(float));
+
+	/* Only compute Q */
+	if (!only_compute_R) {
+		/* R to Q */
+		float* Q0 = Q;
+		for (i = 0; i < row_a; i++) {
+			Q = Q0;
+			Q += i;
+			R = R0;
+			R += i;
+			for (j = 0; j < column_a; j++) {
+				if (i > j) {
+					Q[0] = R[0];
+				}
+				else {
+					break;
+				}
+				Q += row_a;
+				R += row_a;
+			}
+		}
+		Q = Q0;
+		R = R0;
+
+		if (row_a <= column_a) {
+			status = LAPACKE_sorgqr(LAPACK_COL_MAJOR, row_a, column_a, row_a, Q, row_a, tau) == 0;
+		}
+		else {
+			status = LAPACKE_sorgqr(LAPACK_COL_MAJOR, row_a, column_a, column_a, Q, row_a, tau) == 0;
+		}
+
+		/* Swap with transpose */
+		tran(Q, row_a, row_a);
+	}
+
+	/* Swap with transpose */
+	tran(R, column_a, row_a);
+
+	/* Clean R */
+	for (i = 0; i < row_a; i++) {
+		for (j = 0; j < column_a; j++) {
+			if (i > j) {
+				R[j] = 0.0f;
+			}
+			else {
+				break;
+			}
+		}
+		R += column_a;
+	}
+
+	/* Free */
+	free(tau);
+
+	/* Return status */
+	return status;
 #else
 	/* Declare */
 	size_t row_a_row_a = row_a*row_a;

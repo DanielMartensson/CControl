@@ -1,0 +1,55 @@
+/*
+ ============================================================================
+ Name        : fisherfaces.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Train and classify images
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Parameters for collecting data
+	 * I recommend fisherfaces.m file in MataveID for selecting the pooling size and method
+	 */
+	const char folder_path[] = "C:\\Users\\dmn\\Downloads\\yale\\GIF";
+	const size_t pooling_size = 3;
+	POOLING_METOD pooling_method = POOLING_METHOD_SHAPE;
+
+	/* Collect data */
+	FISHER_MODEL* fisher_model = fisherfaces_collect_data(folder_path, pooling_size, pooling_method);
+
+	/* Parameters for KPCA */
+	const size_t components_pca = 10;
+	const size_t row = fisher_model->row;
+	const size_t column = fisher_model->column;
+	float* Wpca = (float*)malloc(row * components_pca * sizeof(float));
+	float* Ppca = (float*)malloc(components_pca * row * sizeof(float));
+	float* K = (float*)malloc(row * row * sizeof(float));
+	float* mu = (float*)malloc(row * sizeof(float));
+	float kernel_parameters[2] = { 1.2, 3.1 };
+	KERNEL_METHOD kernel_method = KERNEL_METHOD_LINEAR;
+	kpca(fisher_model->data, Wpca, Ppca, K, mu, components_pca, row, column, kernel_parameters, kernel_method);
+	
+	/* Parametets for LDA */
+	const size_t components_lda = 2;
+	float* y = fisher_model->class_id;
+	float* Wlda = (float*)malloc(row * components_lda * sizeof(float));
+	float* Plda = (float*)malloc(components_lda * row * sizeof(float));
+	lda(K, y, Wlda, Plda, components_lda, row, row);
+
+	/* Multiply W = Wpca*Wlda */
+
+	/* Train SVM model */
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+	return EXIT_SUCCESS;
+}
