@@ -17,8 +17,8 @@ This library have three types of libraries. First library is the internal lightw
 | `sgessd` | `svd.c` | Singular value decomposition for general matrices |
 | `spotrf` | `chol.c` | Cholesky facorization for real symmetric matrices |
 | `sgetrf` | `lup.c` | LU factorization with pivoting for square matrices |
-| `sgetrs` | `linsolve_lup` | Solve linear system `Ax = b` with LU factorization |
-| `sposv`  | `linsolve_chol`| Solve linear system `Ax = b` with Cholesky factorization |
+| `sgetrs` | `linsolve_lup.c` | Solve linear system `Ax = b` with LU factorization |
+| `sposv`  | `linsolve_chol.c`| Solve linear system `Ax = b` with Cholesky factorization |
 | `sgetri` | `inv.c` | Inverse by using LU factorization for square matrices |
 | `sgeqrf` and `sorgqr` | `qr.c`  | QR factorization for general matrices|
 | `sgemm`, `ssymm`, `sgemv` and `ssymv` | `mul.c` | Multiplication |
