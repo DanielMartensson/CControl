@@ -119,14 +119,18 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 	float* wr0 = wr;
 
 	/* Sort the eigenvalues */
-	bool issym = issymmetric(Sb, row, row);
 	eig_generalized(Sb, Sw, row, dr, di, wr, wi);
 
-	/* Copy over eigenvectors from Sb to W */
+	/* Sort the eigenvalues */
+	size_t* index = (size_t*)malloc(row * sizeof(size_t));
+	sort(dr, index, row, 1, SORT_MODE_ROW_DIRECTION_DESCEND);
+	
+	/* Copy over eigenvectors to W in descending order */
 	float* W0 = W;
 	for (l = 0; l < row; l++) {
 		for (k = 0; k < c; k++) {
-			W[k] = wr[row - 1 - k]; /* Sb are in an ascending order */
+			/* W[l*c + k] = wr[l*row + index[j]]; */
+			W[k] = wr[index[k]];
 		}
 		
 		wr += row;
@@ -155,6 +159,7 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 	free(wr);
 	free(di);
 	free(wi);
+	free(index);
 }
 
 static void average_vector(float X[], float mu[], size_t row, size_t column) {
