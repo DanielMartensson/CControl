@@ -48,17 +48,11 @@ int main() {
 	float W[row * components];
 
 	/* Create the projection matrix */
-	float P[components * row];
-
-	/* Create the kernel matrix */
-	float K[row * row];
-
-	/* Create the average matrix */
-	float mu[row];
+	float P[components * column];
 
 	/* Do KPCA */
-	float kernel_parameters[2] = {1, 2};
-	kpca(X, W, P, K, mu, components, row, column, kernel_parameters, KERNEL_METHOD_POLY);
+	float kernel_parameters[2] = { 5, 10 };
+	kpca(X, W, P, components, row, column, kernel_parameters, KERNEL_METHOD_POLY);
 
 	/* Print components W */
 	printf("Components:\n");
@@ -66,19 +60,19 @@ int main() {
 
 	/* Print projection P */
 	printf("Projection:\n");
-	print(P, components, row);
+	print(P, components, column);
 
 	/* Reconstruct */
-	float K_reconstruct[row * row];
-	mul(W, P, K_reconstruct, row, components, row);
+	float X_reconstruct[row * column];
+	mul(W, P, X_reconstruct, row, components, column);
 
-	/* Error K_error = K - K_reconstruct */
+	/* Error X_error = X - X_reconstruct */
 	size_t i;
-	float K_error[row * row];
-	for (i = 0; i < row * row; i++) {
-		K_error[i] = K[i] - K_reconstruct[i];
+	float X_error[row * column];
+	for (i = 0; i < row * column; i++) {
+		X_error[i] = X[i] - X_reconstruct[i];
 	}
-	float error_reconstruction = norm(K_error, row, row, NORM_METHOD_FROBENIUS) / norm(K, row, row, NORM_METHOD_FROBENIUS);
+	float error_reconstruction = norm(X_error, row, column, NORM_METHOD_FROBENIUS) / norm(X, row, column, NORM_METHOD_FROBENIUS);
 	printf("Reconstruction error: %f\n", error_reconstruction);
 
 	end = clock();
@@ -89,7 +83,8 @@ int main() {
 }
 
 /* GNU Octave code
-   % First clear and close all figures - You need to have MataveID package
+	% First clear and close all figures - You need to have MataveID package
+	% First clear and close all figures
 	clear
 	close all
 
@@ -118,6 +113,13 @@ int main() {
 		-2364 4326 3353;
 		658 143 1692];
 
+	% Noisy data
+	%X = [X; 10*randn(10, 3)];
+
+	% Remove noise
+	%y = mi.dbscan(X, 50, 2);
+	%X = X(y ~= 0, :);
+
 	% Plot original data
 	cmap = jet(length(X));
 	scatter3(X(:, 1), X(:, 2), X(:, 3), 50,cmap)
@@ -127,20 +129,20 @@ int main() {
 	c = 2;
 	kernel_type = 'polynomial';
 	kernel_parameters = [1, 2];
-	[K, P, W] = mi.kpca(X, c, kernel_type, kernel_parameters);
+	[P, W] = mi.kpca(X, c, kernel_type, kernel_parameters)
 
 	% Reconstruct
-	K_reconstructed = W * P;
-	reconstruction_error = norm(K - K_reconstructed, 'fro') / norm(K, 'fro')
+	X_reconstructed = W * P;
+	reconstruction_error = norm(X - X_reconstructed, 'fro') / norm(X, 'fro')
 
 	figure
 	switch(c)
 	case 3
-	  scatter3(K_reconstructed(:, 1), K_reconstructed(:, 2), K_reconstructed(:, 3));
+	  scatter3(X_reconstructed(:, 1), X_reconstructed(:, 2), X_reconstructed(:, 3));
 	case 2
-	  scatter(K_reconstructed(:, 1), K_reconstructed(:, 2));
+	  scatter(X_reconstructed(:, 1), X_reconstructed(:, 2));
 	case 1
-	  scatter(K_reconstructed(:, 1), 0*K_reconstructed(:, 1));
+	  scatter(X_reconstructed(:, 1), 0*X_reconstructed(:, 1));
 	end
 	grid on
 	title(sprintf('Reconstruction %iD with error %f', c, reconstruction_error), 'FontSize', 20)
