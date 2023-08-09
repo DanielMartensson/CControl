@@ -38,7 +38,7 @@ Main focuses are:
 - Machine Learning
   - Robust Fisher Faces for image classification (ongoing)
   - Density-Based Spatial Clustering of Applications with Noise
-  - Pooling Max & Average
+  - Pooling Max, Average and Shape
   - Support Vector Machine
   - Kernel for PCA and LDA
   - Kernel Principal Component Analysis
