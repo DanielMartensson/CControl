@@ -102,7 +102,6 @@ Main focuses are:
 
 - Statistics
   - Principal Component Analysis
-  - Kernel Principal Component Analysis
   - Linear Discriminant Analysis
   - Randn
   - Mean
