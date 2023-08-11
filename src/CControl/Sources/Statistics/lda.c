@@ -44,9 +44,9 @@ void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size
 
 	/* Iterate all classes */
 	float* Xi, *XiT, *Xi0, *X0 = X;
-	float *XiXiT = (float*)malloc(row * row * sizeof(float));
-	float *mu_Xi = (float*)malloc(row * sizeof(float));
-	float *diff = (float*)malloc(row * sizeof(float));
+	float* XiXiT = (float*)malloc(row * row * sizeof(float));
+	float* mu_Xi = (float*)malloc(row * sizeof(float));
+	float* diff = (float*)malloc(row * sizeof(float));
 	size_t j, l, k, samples_of_class;
 	for (i = 0; i < amount_of_classes; i++) {
 		/* Get samples of each class */

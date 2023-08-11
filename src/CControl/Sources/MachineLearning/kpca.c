@@ -33,4 +33,5 @@ void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, 
 	free(K);
 	free(mu);
 	free(Ptemporary);
+	free(Wt);
 }

@@ -51,7 +51,9 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 	sgeqrf_(&m, &n, R, &lda, tau, work, &lwork, &info);
 
 	/* Clean Q */
-	memset(Q, 0, row_a * row_a * sizeof(float));
+	if (Q != NULL) {
+		memset(Q, 0, row_a * row_a * sizeof(float));
+	}
 
 	/* Only compute Q */
 	if (!only_compute_R) {
@@ -148,7 +150,9 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 	bool status = LAPACKE_sgeqrf(LAPACK_COL_MAJOR, row_a, column_a, R, row_a, tau) == 0;
 
 	/* Clean Q */
-	memset(Q, 0, row_a * row_a * sizeof(float));
+	if (Q != NULL) {
+		memset(Q, 0, row_a * row_a * sizeof(float));
+	}
 
 	/* Only compute Q */
 	if (!only_compute_R) {
@@ -298,9 +302,13 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 		memcpy(R, HiR, row_a*column_a*sizeof(float));
 	}
 
+	/* Clean Q */
+	if (Q != NULL) {
+		memset(Q, 0, row_a * row_a * sizeof(float));
+	}
+
 	/* Do inverse on H and give it to Q */
 	bool ok = true;
-	memset(Q, 0, row_a * row_a * sizeof(float));
 	if(!only_compute_R) {
 		ok = inv(H, row_a);
 		memcpy(Q, H, row_a_row_a*sizeof(float));

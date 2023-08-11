@@ -8,26 +8,26 @@
 #include "../../Headers/functions.h"
 
 size_t rank(float A[], size_t row, size_t column) {
-	/* Compute the SVD */
-	float* U = (float*)malloc(row * column * sizeof(float));
-	float* S = (float*)malloc(column * sizeof(float));
-	float* V = (float*)malloc(column * column * sizeof(float));
-	bool status = svd(A, row, column, U, S, V);
+	/* Do QR factorization */
+    float* R = (float*)malloc(row * column * sizeof(float));
+    float* R0 = R;
+    qr(A, NULL, R, row, column, true);
 
-	/* Count the singular values in S that are over 0 */
-	size_t i;
-	size_t count = 0;
-	for (i = 0; i < column; i++) {
-		if (fabsf(S[i]) > MIN_VALUE){
-			count++;
-		}
-	}
-	
-	/* Free */
-	free(U);
-	free(S);
-	free(V);
+    /* Count non zero rows in R */
+    size_t i, non_zero, ranks = 0;
+    for (i = 0; i < column; i++) {
+        /* Count non zero in the diagnoal */
+        if (fabsf(R[i]) > 0) {
+            ranks++;
+        }
 
-	/* Return count */
-	return status ? count : 0;
+        /* Next row */
+        R += column;
+    }
+
+    /* Free */
+    free(R0);
+
+    /* Return ranks */
+    return ranks;
 }
