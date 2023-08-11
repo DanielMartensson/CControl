@@ -79,6 +79,7 @@ Main focuses are:
   - Transpose
   - Norm
   - Matrix exponential
+  - Rank
 
 - Miscellaneous
   - Concatenate
