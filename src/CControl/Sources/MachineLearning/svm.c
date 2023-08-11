@@ -14,7 +14,7 @@
  * w[n]
  * C = Upper boundary of the solution of the quadratic programming can be
  * lambda = Makes it faster to compute, with cost of accuracy
- * This function Return weigths w and bias b, the accuracy of the model and if the QP-solver could optimize.
+ * This function return weigths w and bias b, the accuracy of the model and if the QP-solver could optimize.
  * 
  * To verify an unknown measurement:
  * class_ID = sign(w*x + b), where x is an unknown measurement vector
