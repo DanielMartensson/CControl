@@ -14,7 +14,7 @@ size_t rank(float A[], size_t row, size_t column) {
     qr(A, NULL, R, row, column, true);
 
     /* Count non zero rows in R */
-    size_t i, non_zero, ranks = 0;
+    size_t i, ranks = 0;
     for (i = 0; i < column; i++) {
         /* Count non zero in the diagnoal */
         if (fabsf(R[i]) > 0) {
