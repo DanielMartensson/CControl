@@ -4,7 +4,7 @@
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Do multiplication C = A*B
+ Description : Do multiplication C = A*B and y = A*x
  ============================================================================
  */
 
@@ -14,6 +14,10 @@
 #define column_a 5
 #define row_b 5
 #define column_b 4
+#define row_d 10
+#define column_d 3
+#define row_e 3
+#define column_e 5
 #define row_x column_a
 #define row_y row_a
 
@@ -37,6 +41,26 @@ int main() {
 	/* Matrix C */
 	float C[row_a * column_b];
 
+	/* Matrix D */
+	float D[row_d * column_d] = { 0.097508,   0.032488,   0.556151,
+								   0.890866,   0.068118,   0.386100,
+								   0.139855,   0.598266,   0.059868,
+								   0.330958,   0.629458,   0.708821,
+								   0.707166,   0.564983,   0.831177,
+								   0.406175,   0.677994,   0.187402,
+								   0.754571,   0.844057,   0.237162,
+								   0.043919,   0.984202,   0.413311,
+								   0.893115,   0.086928,   0.329619,
+								   0.485586,   0.024933,   0.757906 };
+
+	/* Matrix E */
+	float E[row_e * column_e] = { 0.241148, - 0.264190,   0.694877, - 0.045809, - 1.078798,
+								   1.395292,   1.283588, - 0.521769,   1.725932, - 0.164939,
+								   1.639163, - 0.558058, - 1.306761, - 0.035356,   0.410291 };
+
+	/* Matrix F */
+	float F[row_d * column_e];
+
 	/* Vector x */
 	float x[row_x] = { -1.5390,
 					   -0.6372,
@@ -54,6 +78,7 @@ int main() {
 	start = clock();
 	mul(A, B, C, row_a, column_a, column_b);
 	mul(A, x, y, row_a, column_a, 1);
+	mul(D, E, F, row_d, column_d, column_e);
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
@@ -63,6 +88,9 @@ int main() {
 
 	/* Print y vector */
 	print(y, row_a, 1);
+
+	/* Print F matrix */
+	print(F, row_d, column_e);
 
 	return EXIT_SUCCESS;
 }
