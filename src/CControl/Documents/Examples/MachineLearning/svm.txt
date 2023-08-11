@@ -98,7 +98,7 @@ int main() {
 	printf("Accuracy = %f\n", accuracy);
 
 	/* Was the solution found? */
-	printf("Solution was found: %s\n", solution == true ? "yes" : "no");
+	printf("Solution was found: %s\n", solution ? "yes" : "no");
 
 	/* Classify class_ID = sign(w*x + b) */
 	float x_unknown[column] = { 15, 21 };
