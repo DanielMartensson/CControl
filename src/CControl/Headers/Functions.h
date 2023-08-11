@@ -80,7 +80,7 @@ void fisherfaces_print_model(FISHER_MODEL* fisher_model);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method);
-bool svm(float X[], float y[], float x[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
+bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */
 void cat(bool row_wise, float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, size_t column_b, size_t row_c, size_t column_c);
