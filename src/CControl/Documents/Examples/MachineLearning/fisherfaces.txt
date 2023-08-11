@@ -19,32 +19,51 @@ int main() {
 	 * I recommend fisherfaces.m file in MataveID for selecting the pooling size and method
 	 */
 	const char folder_path[] = "C:\\Users\\dmn\\Downloads\\yale\\GIF";
-	const size_t pooling_size = 3;
+	const size_t pooling_size = 4;
+	size_t maximum_rank;
 	POOLING_METOD pooling_method = POOLING_METHOD_SHAPE;
 
 	/* Collect data */
 	FISHER_MODEL* fisher_model = fisherfaces_collect_data(folder_path, pooling_size, pooling_method);
 
 	/* Parameters for KPCA */
-	const size_t components_pca = 10;
-	const size_t row = fisher_model->row;
-	const size_t column = fisher_model->column;
-	float* Wpca = (float*)malloc(row * components_pca * sizeof(float));
-	float* Ppca = (float*)malloc(components_pca * row * sizeof(float));
-	float* K = (float*)malloc(row * row * sizeof(float));
-	float* mu = (float*)malloc(row * sizeof(float));
+	const size_t components_pca = 20;
+	float* Wpca = (float*)malloc(fisher_model->row * components_pca * sizeof(float));
+	float* Ppca = (float*)malloc(components_pca * fisher_model->column * sizeof(float));
 	float kernel_parameters[2] = { 1.2, 3.1 };
 	KERNEL_METHOD kernel_method = KERNEL_METHOD_LINEAR;
-	kpca(fisher_model->data, Wpca, Ppca, K, mu, components_pca, row, column, kernel_parameters, kernel_method);
-	
-	/* Parametets for LDA */
-	const size_t components_lda = 2;
-	float* y = fisher_model->class_id;
-	float* Wlda = (float*)malloc(row * components_lda * sizeof(float));
-	float* Plda = (float*)malloc(components_lda * row * sizeof(float));
-	lda(K, y, Wlda, Plda, components_lda, row, row);
+	kpca(fisher_model->data, Wpca, Ppca, &maximum_rank, components_pca, fisher_model->row, fisher_model->column, kernel_parameters, kernel_method);
+	printf("Maximum allowed rank for KPCA is: %d. components_pca must always be lower than that\n", maximum_rank);
 
-	/* Multiply W = Wpca*Wlda */
+	/* Parametets for LDA */
+	const size_t components_lda = fisher_model->class_id[fisher_model->column - 1] + 1;
+	float* Wlda = (float*)malloc(components_pca * components_lda * sizeof(float));
+	float* Plda = (float*)malloc(components_lda * fisher_model->column * sizeof(float));
+	lda(Ppca, fisher_model->class_id, Wlda, Plda, &maximum_rank, components_lda, components_pca, fisher_model->column);
+	printf("Maximum allowed rank for LDA is: %d. components_lda must always be lower than that\n", maximum_rank);
+
+	/* Multiply W = Wlda'*Wpca' */
+	float* W = (float*)malloc(components_lda * fisher_model->row * sizeof(float));
+	tran(Wlda, components_pca, components_lda);
+	tran(Wpca, fisher_model->row, components_pca);
+	mul(Wlda, Wpca, W, components_lda, components_pca, fisher_model->row);
+
+
+	for (int i = 0; i < components_lda; i++) {
+		for (int j = fisher_model->row - 10; j < fisher_model->row; j++) {
+			printf("%0.9f\t", W[i * fisher_model->row + j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+
+	free(W);
+	free(Wpca);
+	free(Ppca);
+	free(Wlda);
+	free(Plda);
+
+	fisherfaces_free_model(fisher_model);
 
 	/* Train SVM model */
 
