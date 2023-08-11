@@ -275,5 +275,8 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\issymmetric.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\rank.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

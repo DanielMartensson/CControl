@@ -65,6 +65,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\norm.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\pinv.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\qr.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\rank.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\svd.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\tran.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\dbscan.c" />
