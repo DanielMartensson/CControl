@@ -12,6 +12,7 @@
  * X[m*n]
  * y[m]
  * w[n]
+ * b = Single value
  * C = Upper boundary of the solution of the quadratic programming can be
  * lambda = Makes it faster to compute, with cost of accuracy
  * This function return weigths w and bias b, the accuracy of the model and if the QP-solver could optimize.
