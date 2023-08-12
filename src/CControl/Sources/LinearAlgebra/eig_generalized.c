@@ -141,8 +141,8 @@ bool eig_generalized(float A[], float B[], size_t row, float dr[], float di[], f
 	
 	if (issymmetricA && issymmetricB) {
 		float* Bcopy = (float*)malloc(row * row * sizeof(float));
-		memcpy(Bcopy, B, row* row * sizeof(float));
-		memcpy(wr, A, row* row * sizeof(float));
+		memcpy(Bcopy, B, row * row * sizeof(float));
+		memcpy(wr, A, row * row * sizeof(float));
 		bool status = LAPACKE_ssygvd(LAPACK_ROW_MAJOR, 1, 'V', 'U', row, wr, row, Bcopy, row, dr) == 0;
 		free(Bcopy);
 		return status;
