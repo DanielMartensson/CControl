@@ -188,7 +188,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	free(Plambda);
 	
 	/* If i equal to MAX_ITERATIONS, then it did not find a solution */
-	return i < MAX_ITERATIONS ? true : false;
+	return i < MAX_ITERATIONS;
 }
 
 /* GNU Octave code:
