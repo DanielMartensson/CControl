@@ -12,7 +12,7 @@
  * A[m*n]
  * P[(m/p)*(n/p)]
  */
-void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METOD pooling_method) {
+void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METHOD pooling_method) {
 	/* Get the height and width for B */
 	const size_t h = row_a / p;
 	const size_t w = column_a / p;
@@ -42,10 +42,10 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 
 			/* Add to P */
 			switch (pooling_method) {
-			case POOLING_METOD_AVERAGE:
+			case POOLING_METHOD_AVERAGE:
 				P[j] = mean(B, pp);
 				break;
-			case POOLING_METOD_MAX:
+			case POOLING_METHOD_MAX:
 				P[j] = amax(B, &max_index, pp);
 				break;
 			case POOLING_METHOD_SHAPE:
