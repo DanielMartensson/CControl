@@ -41,10 +41,10 @@ bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], 
 		/* Copy over A_long = [A; G; -G] */
 		memcpy(A_long, A, row_a * column_a * sizeof(float));
 		A_long += row_a * column_a;
-		uint32_t row_g_column_a = row_g * column_a;
+		size_t row_g_column_a = row_g * column_a;
 		memcpy(A_long, G, row_g_column_a * sizeof(float));
 		A_long += row_g * column_a;
-		uint32_t i;
+		size_t i;
 		for (i = 0; i < row_g_column_a; i++) {
 			A_long[i] = -G[i];
 		}
