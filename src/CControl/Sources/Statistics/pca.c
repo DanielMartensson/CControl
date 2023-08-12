@@ -30,7 +30,7 @@ void pca(float X[], float W[], float P[], float mu[], size_t c, size_t row, size
 	/* Average and center data Y = Y - mean(Y) */
 	center(Y, mu, row, column);
 
-	/* Get components [U, S, V] = svd(Y) */
+	/* Get components [U, S, V] = svd(Y), where U = W */
 	compute_components(Y, W, c, row, column);
 
 	/* Transpose W */
