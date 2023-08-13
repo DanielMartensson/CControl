@@ -15,57 +15,40 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Parameters for collecting data
-	 * I recommend fisherfaces.m file in MataveID for selecting the pooling size and method
+	/* 
+	 * Data configuration:
+	 * Pooling size makes the image smaller and fastet to compute. 
+	 * To small pooling can cause low accuracy.
+	 * Pooling method is which method pooling should treat the image.
 	 */
 	const char folder_path[] = "C:\\Users\\dmn\\Downloads\\yale\\GIF";
-	const size_t pooling_size = 4;
-	size_t maximum_rank;
-	POOLING_METOD pooling_method = POOLING_METHOD_SHAPE;
+	const size_t pooling_size = 8;
+	const POOLING_METHOD pooling_method = POOLING_METHOD_AVERAGE;
 
-	/* Collect data */
-	FISHER_MODEL* fisher_model = fisherfaces_collect_data(folder_path, pooling_size, pooling_method);
+	/* 
+	 * Kernel PCA configuration:
+	 * The variable components_pca is a tuning parameter. 
+	 * Keep that large, but not so large so PCA will include garbage values into your traing data
+	 * I'm using about components_pca = 100 for Yale dataset.
+	 * The array kernel_parameters is for nonlinear kernels. Some nonlinear kernels only need 1 parameters, some want more.
+	 */
+	const size_t components_pca = 100;
+	const float kernel_parameters[2] = { 0.0000001 };
+	const KERNEL_METHOD kernel_method = KERNEL_METHOD_RBF;
 
-	/* Parameters for KPCA */
-	const size_t components_pca = 20;
-	float* Wpca = (float*)malloc(fisher_model->row * components_pca * sizeof(float));
-	float* Ppca = (float*)malloc(components_pca * fisher_model->column * sizeof(float));
-	float kernel_parameters[2] = { 1.2, 3.1 };
-	KERNEL_METHOD kernel_method = KERNEL_METHOD_LINEAR;
-	kpca(fisher_model->data, Wpca, Ppca, &maximum_rank, components_pca, fisher_model->row, fisher_model->column, kernel_parameters, kernel_method);
-	printf("Maximum allowed rank for KPCA is: %d. components_pca must always be lower than that\n", maximum_rank);
+	/* 
+	 * Support vector machine configuration:
+	 * The C hyperparameter tells the SVM optimization how much you want to avoid misclassifying each training example. 
+	 * For large values of C, the optimization will choose a smaller-margin hyperplane if that hyperplane does a better job of getting all the training points classified correctly. 
+	 * Conversely, a very small value of C will cause the optimizer to look for a larger-margin separating hyperplane, 
+	 * even if that hyperplane misclassifies more points. For very tiny values of C, you should get misclassified examples, often even if your training data is linearly separable.
+	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
+	 */
+	const float C = 1.0f;
+	const float lambda = 1.0f;
 
-	/* Parametets for LDA */
-	const size_t components_lda = fisher_model->class_id[fisher_model->column - 1] + 1;
-	float* Wlda = (float*)malloc(components_pca * components_lda * sizeof(float));
-	float* Plda = (float*)malloc(components_lda * fisher_model->column * sizeof(float));
-	lda(Ppca, fisher_model->class_id, Wlda, Plda, &maximum_rank, components_lda, components_pca, fisher_model->column);
-	printf("Maximum allowed rank for LDA is: %d. components_lda must always be lower than that\n", maximum_rank);
-
-	/* Multiply W = Wlda'*Wpca' */
-	float* W = (float*)malloc(components_lda * fisher_model->row * sizeof(float));
-	tran(Wlda, components_pca, components_lda);
-	tran(Wpca, fisher_model->row, components_pca);
-	mul(Wlda, Wpca, W, components_lda, components_pca, fisher_model->row);
-
-
-	for (int i = 0; i < components_lda; i++) {
-		for (int j = fisher_model->row - 10; j < fisher_model->row; j++) {
-			printf("%0.9f\t", W[i * fisher_model->row + j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-
-	free(W);
-	free(Wpca);
-	free(Ppca);
-	free(Wlda);
-	free(Plda);
-
-	fisherfaces_free_model(fisher_model);
-
-	/* Train SVM model */
+	/* Fisherfaces training */
+	fisherfaces(folder_path, pooling_size, pooling_method, components_pca, kernel_parameters, kernel_method, C, lambda);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
