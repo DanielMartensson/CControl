@@ -53,10 +53,10 @@ typedef enum {
 
 /* For pooling.c */
 typedef enum {
-	POOLING_METOD_MAX,
-	POOLING_METOD_AVERAGE,
+	POOLING_METHOD_MAX,
+	POOLING_METHOD_AVERAGE,
 	POOLING_METHOD_SHAPE
-}POOLING_METOD;
+}POOLING_METHOD;
 
 /* For kernel.c */
 typedef enum {
