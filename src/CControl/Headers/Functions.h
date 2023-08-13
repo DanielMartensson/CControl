@@ -73,10 +73,7 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
-void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts);
-FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p, POOLING_METHOD pooling_method);
-void fisherfaces_free_model(FISHER_MODEL* fisher_model);
-void fisherfaces_print_model(FISHER_MODEL* fisher_model);
+void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_METHOD pooling_method, const size_t components_pca, const float kernel_parameters[], KERNEL_METHOD kernel_method, const float C, const float lambda);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METHOD pooling_method);

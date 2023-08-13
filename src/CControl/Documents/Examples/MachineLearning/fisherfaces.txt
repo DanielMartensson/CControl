@@ -20,8 +20,9 @@ int main() {
 	 * Pooling size makes the image smaller and fastet to compute. 
 	 * To small pooling can cause low accuracy.
 	 * Pooling method is which method pooling should treat the image.
+	 * To create the .pgm files of .gif, .jpg, .png etc, head over to MataveID and run the fisherfaces.m MATLAB-file.
 	 */
-	const char folder_path[] = "C:\\Users\\dmn\\Downloads\\yale\\GIF";
+	const char folder_path[] = "C:\\Users\\dmn\\GitHub\\CControl\\src\\CControl\\Documents\\Data\\yale";
 	const size_t pooling_size = 8;
 	const POOLING_METHOD pooling_method = POOLING_METHOD_AVERAGE;
 
