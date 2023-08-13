@@ -285,7 +285,7 @@ static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p
 				/* Column will always be the pooling size */
 				fisher_model->column = pooling_size;
 
-				/* Count columns */
+				/* Count rows */
 				fisher_model->row++;
 			}
 
