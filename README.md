@@ -36,7 +36,7 @@ Main focuses are:
   - Point-in-polygon algorithm for checking if a point is inside the area
 
 - Machine Learning
-  - Fisher Faces with pooling, Kernel PCA, LDA and Support Vector Machine for image classification
+  - Fisherfaces with pooling, Kernel PCA, LDA and Support Vector Machine for image classification
   - Density-Based Spatial Clustering of Applications with Noise
   - Pooling Max, Average and Shape
   - Support Vector Machine
