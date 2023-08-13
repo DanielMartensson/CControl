@@ -18,7 +18,7 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Matrix */
+	/* Matrix A */
 	float A[row * column] = { 3,    3,    5,    6,
 							  2,    3,    4,    5,
 							  5,    4,   65,    0,
