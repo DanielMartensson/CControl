@@ -30,7 +30,7 @@ int main() {
 	 * Kernel PCA configuration:
 	 * The variable components_pca is a tuning parameter. 
 	 * Keep that large, but not so large so PCA will include garbage values into your traing data
-	 * I'm using about components_pca = 100 for Yale dataset.
+	 * I'm using about components_pca = 100 for Yale dataset. A good rule of thump is not use more than total images you have in your folders.
 	 * The array kernel_parameters is for nonlinear kernels. Some nonlinear kernels only need 1 parameters, some want more.
 	 */
 	const size_t components_pca = 100;
