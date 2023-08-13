@@ -14,9 +14,11 @@
  * C[row_a*row_b]
  */
 void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, PDIST2_METRIC metric) {
-	/* Get size of bytes */
-	const size_t sizeBytesA = row_a * column_a * sizeof(float);
-	const size_t sizeBytesB = row_b * column_a * sizeof(float);
+	/* Get size */
+	const size_t row_a_column_a = row_a * column_a;
+	const size_t sizeBytesA = row_a_column_a * sizeof(float);
+	const size_t row_b_column_a = row_b * column_a;
+	const size_t sizeBytesB = row_b_column_a * sizeof(float);
 	size_t i, j;
 	switch (metric) {
 	case PDIST2_METRIC_SQEUCLIDEAN: {
@@ -29,7 +31,7 @@ void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size
 		 * MATLAB: AA = sum(A.*A, 2)
 		 */
 		float* AtimesA = (float*)malloc(sizeBytesA);
-		for (i = 0; i < row_a * column_a; i++) {
+		for (i = 0; i < row_a_column_a; i++) {
 			AtimesA[i] = A[i] * A[i];
 		}
 		float* AA = (float*)malloc(row_a * sizeof(float));
@@ -39,19 +41,20 @@ void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size
 		 * MATLAB: BB = sum(Bt.*Bt, 1);
 		 */
 		float* BttimesBt = (float*)malloc(sizeBytesB);
-		for (i = 0; i < row_b * column_a; i++) {
+		for (i = 0; i < row_b_column_a; i++) {
 			BttimesBt[i] = Bt[i] * Bt[i];
 		}
 		float* BB = (float*)malloc(row_b * sizeof(float));
 		sum(BttimesBt, BB, column_a, row_b, true);
 
-		/* MATLAB: C = AA + BB + 2*A*Bt */
+		/* MATLAB: C = AA + BB - 2*A*Bt */
 		mul(A, Bt, C, row_a, column_a, row_b);
 		for (i = 0; i < row_a; i++) {
 			for (j = 0; j < row_b; j++) {
-				C[j] = - 2 * C[j];
-				C[j] += BB[j];
-				C[j] += AA[i];
+				C[j] = AA[i] + BB[j] - 2.0f * C[j];
+				if (C[j] < 0.0f) {
+					C[j] = fabsf(C[j]);
+				}
 			}
 			C += row_b;
 		}
@@ -65,7 +68,8 @@ void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size
 	}
 	case PDIST2_METRIC_EUCLIDEAN: {
 		pdist2(A, B, C, row_a, column_a, row_b, PDIST2_METRIC_SQEUCLIDEAN);
-		for (i = 0; i < row_a * row_b; i++) {
+		size_t row_a_row_b = row_a * row_b;
+		for (i = 0; i < row_a_row_b; i++) {
 			C[i] = sqrtf(C[i]);
 		}
 		break;
