@@ -128,7 +128,7 @@ static void tikhonov(float A[], float b[], float ATA[], float ATb[], size_t row_
 	mul(AT, A, ATA, column_a, row_a, column_a);
 
 	/* ATA = ATA + alpha*I. Don't need identity matrix here because we only add on diagonal */
-	float *ATA0 = &ATA[0];
+	float *ATA0 = ATA;
 	size_t i;
 	for(i = 0; i < column_a; i++){
 		ATA0[i] += alpha;
