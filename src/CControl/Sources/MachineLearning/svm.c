@@ -96,7 +96,7 @@ bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, fl
 
 	/* Find weights w = (alpha.*y')*X */
 	float* X0 = X;
-	const float tol = 1e-5f;
+	const float tol = FLT_EPSILON;
 	for (j = 0; j < column; j++) {
 		/* Support vectors have non zero lagrange multipliers */
 		X = X0;
