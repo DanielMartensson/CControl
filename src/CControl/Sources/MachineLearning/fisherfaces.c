@@ -306,7 +306,7 @@ static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p
 	}
 	free(sub_folder_names);
 
-	/* Transpose becase it's mutch better to have row > column */
+	/* Transpose becase it's much better to have row > column */
 	tran(fisher_model->data, fisher_model->row, fisher_model->column);
 	k = fisher_model->row;
 	fisher_model->row = fisher_model->column;
