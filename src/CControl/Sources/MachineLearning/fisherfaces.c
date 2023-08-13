@@ -87,7 +87,7 @@ FISHER_MODEL* fisherfaces_train_projection_matrix(FISHER_MODEL* fisher_model, si
 
 }
 
-FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p, POOLING_METOD pooling_method) {
+FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p, POOLING_METHOD pooling_method) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
 	const size_t sub_folder_count = scan_sub_folder_names(folder_path, &sub_folder_names);
