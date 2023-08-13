@@ -151,6 +151,6 @@ void kernel(float X[], float K[], size_t row, size_t column, float kernel_parame
 	  Yt = Y';
 	  XX = sum(X.*X,2);
 	  YY = sum(Yt.*Yt,1);
-	  D = bsxfun(@plus,XX,YY)-2*X*Yt;
+	  D = abs(bsxfun(@plus,XX,YY)-2*X*Yt);
 	end
 */
