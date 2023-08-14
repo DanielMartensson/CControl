@@ -11,6 +11,7 @@
  * Pooling 
  * A[m*n]
  * P[(m/p)*(n/p)]
+ * If you don't want to use pooling, just set p = 1 and pooling_method to POOLING_METHOD_NO_POOLING
  */
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METHOD pooling_method) {
 	/* Check if we want no pooling */
