@@ -19,7 +19,7 @@ int main() {
 	 * Data configuration:
 	 * Pooling size makes the image smaller and fastet to compute. 
 	 * To small pooling can cause low accuracy.
-	 * Pooling method is which method pooling should treat the image.
+	 * Pooling method is which method pooling should treat the image. If you want no pooling, just set p = 1 and pooling_method to POOLING_METHOD_NO_POOLING
 	 * To create the .pgm files of .gif, .jpg, .png etc, head over to MataveID and run the fisherfaces.m MATLAB-file.
 	 */
 	const char folder_path[] = "C:\\Users\\dmn\\GitHub\\CControl\\src\\CControl\\Documents\\Data\\yale";
