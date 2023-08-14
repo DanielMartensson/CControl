@@ -158,10 +158,10 @@ void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_ME
 		for (i = 0; i < classes; i++) {
 			for (j = 0; j < row; j++) {
 				if (count < max_index_model_w) {
-					fprintf(file, "%0.9ff, ", model_w[i * row + j]);
+					fprintf(file, "%0.9ef, ", model_w[i * row + j]);
 				}
 				else {
-					fprintf(file, "%0.9ff };\n", model_w[i * row + j]);
+					fprintf(file, "%0.9ef };\n", model_w[i * row + j]);
 				}
 				count++;
 			}
@@ -170,10 +170,10 @@ void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_ME
 		fprintf(file, "const static float model_b[model_row] = { ");
 		for (i = 0; i < classes; i++) {
 			if (i < classes - 1) {
-				fprintf(file, "%0.9ff, ", b[i]);
+				fprintf(file, "%0.9ef, ", b[i]);
 			}
 			else {
-				fprintf(file, "%0.9ff };\n", b[i]);
+				fprintf(file, "%0.9ef };\n", b[i]);
 			}
 		}
 		fprintf(file, "\n");
