@@ -13,7 +13,7 @@
  * P[(m/p)*(n/p)]
  */
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METHOD pooling_method) {
-	/* Check if we want pooling */
+	/* Check if we want no pooling */
 	if (POOLING_METHOD_NO_POOLING == pooling_method) {
 		memcpy(P, A, row_a * column_a * sizeof(float));
 		return;
