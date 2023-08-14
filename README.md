@@ -20,8 +20,8 @@ This library have three types of libraries. First library is the internal lightw
 | `sgetrs` | `linsolve_lup.c` | Solve linear system `Ax = b` with LU factorization |
 | `sposv`  | `linsolve_chol.c`| Solve linear system `Ax = b` with Cholesky factorization |
 | `sgetri` | `inv.c` | Inverse by using LU factorization for square matrices |
-| `sgeqrf` and `sorgqr` | `qr.c`  | QR factorization for general matrices|
-| `sgemm`, `ssymm`, `sgemv` and `ssymv` | `mul.c` | Multiplication |
+| `sgeqrf` `sorgqr` | `qr.c`  | QR factorization for general matrices|
+| `sgemm` `ssymm` `sgemv` `ssymv` | `mul.c` | Multiplication |
 | `sgesvd` | `pca.c` | Principal component analysis |
 | `sggev` | `eig_generalized.c` | Generalized eigenvalue problem for non-symmetric matrices |
 | `ssygvd` | `eig_generalized.c` | Generalized eigenvalue problem for symmetric matrices |
