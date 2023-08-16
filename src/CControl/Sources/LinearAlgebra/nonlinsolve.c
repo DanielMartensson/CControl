@@ -7,7 +7,7 @@
 
 #include "../../Headers/functions.h"
 
-static float check_solution(float dx[], float x[], float* past_sqrt_sum_dx, float best_x[], uint8_t* elements);
+static float check_solution(float dx[], float x[], float* past_sqrt_sum_dx, float best_x[], size_t* elements);
 
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], size_t elements, float alpha, float max_value, float min_value, bool random_guess_active){
 	/* Initial parameters and arrays */
@@ -80,7 +80,7 @@ void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), f
 	free(best_x);
 }
 
-static float check_solution(float dx[], float x[], float* best_sqrt_sum_dx, float best_x[], uint8_t* elements){
+static float check_solution(float dx[], float x[], float* best_sqrt_sum_dx, float best_x[], size_t* elements){
 	/* Do L2-norm on dx */
 	float sqrt_sum_dx = norm(dx, 1, *elements, NORM_METHOD_L2);
 
