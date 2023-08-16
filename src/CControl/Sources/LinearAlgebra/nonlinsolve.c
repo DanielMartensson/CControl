@@ -53,7 +53,7 @@ void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), f
 		sqrt_sum_dx = check_solution(dx, x, &best_sqrt_sum_dx, best_x, &elements);
 
 		/* If sqrt_sum_dx stands still - break */
-		if(fabsf(past_sqrt_sum_dx - sqrt_sum_dx) <= FLT_EPSILON || past_sqrt_sum_dx == sqrt_sum_dx){
+		if(fabsf(past_sqrt_sum_dx - sqrt_sum_dx) <= MIN_VALUE || past_sqrt_sum_dx == sqrt_sum_dx){
 			break_count++;
 			if (break_count >= times_until_break) {
 				break;
