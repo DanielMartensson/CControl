@@ -10,7 +10,7 @@
 /* 
  * Create ID's of clusters
  * X[m*n]
- * idx[m]
+ * idx[m] = Contains cluster ID. Noise ID is 0
  * epsilon = Raduis of the clusters
  * min_pts = Minimum points of a valid cluster
  */
