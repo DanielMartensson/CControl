@@ -98,9 +98,10 @@ void sort(float X[], size_t index[], size_t row, size_t column, SORT_MODE sort_m
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
 
 /* Filtering */
-void rpca(float X[], float L[], float S[], size_t row, size_t column);
+size_t cluster_filter(float X[], size_t row, size_t column, float epsilon, size_t min_pts);
 void filtfilt(float y[], float t[], size_t l, float K);
 void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], size_t m, size_t p, size_t*k);
+void rpca(float X[], float L[], float S[], size_t row, size_t column);
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L);
 
 /* Hardware */

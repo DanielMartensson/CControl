@@ -1,0 +1,110 @@
+/*
+ ============================================================================
+ Name        : cluster_filter.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Remove outliers
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 23
+#define column 3
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create X */
+	float X[row * column] = { -3244, 5324, 1345,
+								10, 30, 100,
+								20, 40, 93,
+								30, 60, 163,
+								60, 100, 126,
+								55, 13, 134,
+								306, 34, 104,
+								316, 56, 120,
+								326, 74, 127,
+								337, 80, 128,
+								347, 89, 131,
+								358, 103, 139,
+								-31, -56, -120,
+								-32, -74, -127,
+								-33, -80, -128,
+								-34, -89, -131,
+								-35, -103, -139,
+								700, 600, 500,
+								1000, 1000, 1000,
+								-3231, 4345, -4352,
+								-2342, 4356, 3453,
+								-2364, 4326, 3353,
+								658, 143, 1692 };
+
+	/* Do cluter filtering */
+	float epsilon = 50;
+	size_t min_pts = 4;
+	size_t total_outliers = cluster_filter(X, row, column, epsilon, min_pts);
+
+	/* Print components matrix X */
+	print(X, row, column);
+
+	/* Print total outliers */
+	printf("The total outliers was: %i\n", total_outliers);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
+
+/* GNU Octave code:
+	% Data
+	X = [-3244, 5324, 1345,
+		    10, 30, 100,
+			20, 40, 93,
+			30, 60, 163,
+			60, 100, 126,
+			55, 13, 134,
+		   306, 34, 104,
+		   316, 56, 120,
+		   326, 74, 127,
+		   337, 80, 128,
+		   347, 89, 131,
+		   358, 103, 139,
+		   -31, -56, -120,
+		   -32, -74, -127,
+		   -33, -80, -128,
+		   -34, -89, -131,
+		   -35, -103, -139,
+		   700, 600, 500,
+		  1000, 1000, 1000,
+		 -3231, 4345, -4352,
+		 -2342, 4356, 3453,
+		 -2364, 4326, 3353,
+	   	   658, 143, 1692];
+
+	% Scan outliers
+	epsilon = 50;
+	min_pts = 4;
+	idx = mi.dbscan(X, epsilon, min_pts);
+
+	% Count the amout of outliers
+	amount_of_outliers = length(find(idx == 0));
+
+	% Remove outliers
+	X_clean = X(idx ~= 0, :);
+
+	% Find the mean of images_clean
+	mu = mean(X_clean);
+
+	% Replace all the outliers with mu
+	X(idx == 0, :) = repmat(mu, amount_of_outliers, 1);
+
+	% Print
+	X
+	fprintf('Total outliers was: %i\n', amount_of_outliers);
+*/
