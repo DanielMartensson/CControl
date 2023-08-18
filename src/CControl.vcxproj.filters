@@ -278,5 +278,8 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\rank.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\Filtering\cluster_filter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -55,6 +55,7 @@ Main focuses are:
 - Filtering
   - Robust Principal Component Analysis
   - Particle filter
+  - Cluster filter
   - Filtfilt 
   - Square Root Unscented Kalman Filter
   

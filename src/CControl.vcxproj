@@ -35,6 +35,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
+    <ClCompile Include="CControl\Sources\Filtering\cluster_filter.c" />
     <ClCompile Include="CControl\Sources\Filtering\filtfilt.c" />
     <ClCompile Include="CControl\Sources\Filtering\pf.c" />
     <ClCompile Include="CControl\Sources\Filtering\sr_ukf_state_estimation.c" />
