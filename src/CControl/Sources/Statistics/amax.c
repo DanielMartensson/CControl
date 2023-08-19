@@ -14,8 +14,11 @@
   * L = Length of vector x
   */
 float amax(float x[], size_t* max_index, size_t length) {
+	/* Default settings */
 	float max_value = x[0];
 	*max_index = 0;
+
+	/* Find if the default setting was not true */
 	size_t i;
 	for (i = 1; i < length; i++) {
 		if (x[i] > max_value) {
