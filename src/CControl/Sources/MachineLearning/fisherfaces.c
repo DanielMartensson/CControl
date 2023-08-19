@@ -7,12 +7,18 @@
 
 #include "../../Headers/functions.h"
 
+ /* Return the index of the largest value of vector x */
+static size_t activation_function(float x[], size_t length) {
+	size_t max_index;
+	amax(x, &max_index, length);
+	return max_index;
+}
+
 static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p, POOLING_METHOD pooling_method);
 static void fisherfaces_free_model(FISHER_MODEL* fisher_model);
 static void fisherfaces_print_model(FISHER_MODEL* fisher_model);
-static void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts);
 
-void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_METHOD pooling_method, const size_t components_pca, const float kernel_parameters[], KERNEL_METHOD kernel_method, const float C, const float lambda) {
+void fisherfaces(const char folder_path[], bool remove_outliers, const float espilon, const size_t min_pts, const size_t pooling_size, POOLING_METHOD pooling_method, const size_t components_pca, const float kernel_parameters[], KERNEL_METHOD kernel_method, const float C, const float lambda) {
 	/* 
 	 * Parameters for collecting data
 	 * I recommend fisherfaces.m file in MataveID for selecting the pooling size and method
@@ -28,9 +34,14 @@ void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_ME
 	FISHER_MODEL* fisher_model = fisherfaces_collect_data(folder_path, pooling_size, pooling_method);
 	const size_t row = fisher_model->row;
 	const size_t column = fisher_model->column;
-	size_t* class_id = (size_t*)malloc(column*sizeof(size_t));
+	size_t* class_id = (size_t*)malloc(column * sizeof(size_t));
 	memcpy(class_id, fisher_model->class_id, column * sizeof(size_t));
 	const size_t classes = class_id[column - 1] + 1;
+
+	/* Remove outliers */
+	if (remove_outliers) {
+		printf("\tOutliers removed: %i\n", cluster_filter(fisher_model->data, row, column, espilon, min_pts));
+	}
 
 	/*
 	 * Parameters for KPCA:
@@ -72,53 +83,66 @@ void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_ME
 	printf("5: Find the total projection of the nonlinear data.\n");
 	float* P = (float*)malloc(components_lda * column * sizeof(float));
 	mul(W, fisher_model->data, P, components_lda, row, column);
-	fisherfaces_free_model(fisher_model);
 
 	/*
-	 * Train SVM model of the total projection
+	 * Train Neural Network model of the total projection
 	 * C is a tuning parameter
 	 * lambda is a tuning parameter
 	 * Important to turn P into transpose because we are going to use that as vectors ontop on each other
 	 * Example:
 	 * float C = 1;
-	 * float lambda = 1;
+	 * float lambda = 2.5;
 	 */
-	printf("6: Do Support Vector Machine for creating a linear model for nonlinear data.\n");
+	printf("6: Create a Neural Network for a linear model that can handle nonlinear data.\n");
 	tran(P, components_lda, column);
-	float accuracy;
-	bool svm_OK;
-	float* w = (float*)malloc(classes * components_lda * sizeof(float));
-	float* b = (float*)malloc(classes * sizeof(float));
+	float* accuracy = (float*)malloc(classes * sizeof(float));
+	bool* status = (bool*)malloc(classes * sizeof(bool));
+	float* weight = (float*)malloc(classes * components_lda * sizeof(float));
+	float* bias = (float*)malloc(classes * sizeof(float));
 	float* labels = (float*)malloc(column * sizeof(float));
-	size_t i, j;
-	for (i = 0; i < classes; i++) {
-		/* Tune in class ID y */
-		for (j = 0; j < column; j++) {
-			/* Get the class ID */
-			if (i == class_id[j]) {
-				labels[j] = 1.0f;
-			}
-			else {
-				labels[j] = -1.0f;
-			}
-		}
-		/* Compute the model parameters w and bias b */
-		svm_OK = svm(P, labels, w + components_lda * i, &b[i], &accuracy, C, lambda, column, components_lda);
+	nn(P, class_id, weight, bias, status, accuracy, column, components_lda, C, lambda);
 
-		/* Print status and accuracy */
-		printf("\tSVM OK: %s. Accuracy: %f. Class: %i\n", svm_OK ? "Yes" : "No", accuracy, i);
-	}
+	/* Free */
+	free(status);
+	free(accuracy);
 
 	/*
-	 * Multiply model_w = w * W
-	 * sign(model_w*imagevector + model_b) is our model.
-	 * It will give us a vector that contains -1 and 1.
-	 * Find the index that holds the value 1, that index is the class ID.
-	 * If you got multiple index who has number 1, due to low accuracy, then you need to use probability to determine the right class ID
+	 * Multiply model_w = weight * W
+	 * y = model_w*imagevector + model_b is our model.
+	 * The index of the largest value of vector y is the class ID of imagevector
 	 */
 	printf("7: Creating the model for nonlinear data.\n");
 	float* model_w = (float*)malloc(classes * row * sizeof(float));
-	mul(w, W, model_w, classes, components_lda, row);
+	mul(weight, W, model_w, classes, components_lda, row);
+
+	/* Check the accuracy of the model */
+	size_t i, score = 0;
+	float* x = (float*)malloc(classes * column * sizeof(float));
+	mul(model_w, fisher_model->data, x, classes, row, column);
+	tran(x, classes, column); /* Column major */
+	float* x0 = x;
+	size_t j;
+	for (i = 0; i < column; i++) {
+		for (j = 0; j < classes; j++) {
+			x[j] += bias[j];
+		}
+		x += classes;
+	}
+	x = x0;
+
+	for (i = 0; i < classes; i++) {
+		/* Use activation function to determine the class ID */
+		if (class_id[i] == activation_function(x, classes)) {
+			score++;
+		}
+		x += classes;
+	}
+	x = x0;
+	free(x);
+	fisherfaces_free_model(fisher_model);
+
+	/* Print status */
+	printf("\tThe accuracy of the neural network is: %f\n", ((float)score) / ((float)classes) * 100.0f);
 
 	/* Save wW and b as a function */
 	printf("8: Saving the model to a .h file.\n");
@@ -146,9 +170,8 @@ void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_ME
 		fprintf(file, " * For example, if you have an image with size m * n, where m * n = 'model_column', then you need to turn it into a vector in row-wise, not in column-wise.\n");
 		fprintf(file, " * Multiply your vector together with the matrix 'model_w' and add vector 'model_b'. Then you will get a new vector called y with the size 'model_row'.\n");
 		fprintf(file, " * y = model_w*your_data_vector + model_b\n");
-		fprintf(file, " * y contains one positive number and the rest are negative numbers.\n");
-		fprintf(file, " * The index of the positive number inside the vector y is the class ID of your unknown data.\n");
-		fprintf(file, " * If you get multiplie positive numbers inside vector y, due to low accuracy, then you need to use probability to determine the class ID.\n");
+		fprintf(file, " * The index of the largest number inside the vector y is the class ID of your_data_vector.\n");
+		fprintf(file, " * If you get wrong class ID, then you need to use take account to noise or use better dimension reduction.\n");
 		fprintf(file, " */\n\n");
 		fprintf(file, "#define model_row %i\n", classes);
 		fprintf(file, "#define model_column %i\n", row);
@@ -170,10 +193,10 @@ void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_ME
 		fprintf(file, "const static float model_b[model_row] = { ");
 		for (i = 0; i < classes; i++) {
 			if (i < classes - 1) {
-				fprintf(file, "%0.9ef, ", b[i]);
+				fprintf(file, "%0.9ef, ", bias[i]);
 			}
 			else {
-				fprintf(file, "%0.9ef };\n", b[i]);
+				fprintf(file, "%0.9ef };\n", bias[i]);
 			}
 		}
 		fprintf(file, "\n");
@@ -187,8 +210,8 @@ void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_ME
 
 	/* Free */
 	printf("9: Free allocated memory.\n");
-	free(w);
-	free(b);
+	free(weight);
+	free(bias);
 	free(W);
 	free(P);
 	free(labels);
@@ -349,64 +372,5 @@ static void fisherfaces_print_model(FISHER_MODEL* fisher_model) {
 		}
 		fisher_model->data = data0;
 		printf("\n");
-	}
-}
-
-static void fisherfaces_remove_outliers(FISHER_MODEL* fisher_model, float epsilon, size_t min_pts) {
-	if (fisher_model) {
-		/* Get rows, columns and data */
-		size_t row = fisher_model->row;
-		const size_t column = fisher_model->column;
-		float* data = fisher_model->data;
-
-		/* Create the new indexes */
-		size_t* idx = (size_t*)malloc(row * sizeof(size_t));
-		dbscan(data, idx, epsilon, min_pts, row, column);
-
-		/* The rule is simple. Any index that holds 0 is noise and should be removed */
-		size_t i, j, row_new = 0, current_size = 0;
-		float* data0 = data;
-		float* data_clean = NULL;
-		for (i = 0; i < row; i++) {
-			/* Check if it's noise */
-			if (idx[i] != 0) {
-				/* Allocate new row */
-				data_clean = (float*)realloc(data_clean, (current_size + column) * sizeof(float));
-
-				/* Remember orignal position */
-				float* data_clean0 = data_clean;
-
-				/* Jump */
-				data_clean += current_size;
-
-				/* Fill */
-				for (j = 0; j < column; j++) {
-					data_clean[j] = data[j];
-				}
-
-				/* Add current size */
-				current_size += column;
-
-				/* Count new row */
-				row_new++;
-
-				/* Go back to index 0 */
-				data_clean = data_clean0;
-			}
-
-			/* Jump */
-			data += column;
-		}
-
-		/* Go back to index 0 */
-		data = data0;
-
-		/* Free */
-		free(data);
-		free(idx);
-
-		/* Replace data with data_clean */
-		fisher_model->row = row_new;
-		fisher_model->data = data_clean;
 	}
 }

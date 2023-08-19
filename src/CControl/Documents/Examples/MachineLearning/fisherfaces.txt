@@ -15,9 +15,9 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* 
+	/*
 	 * Data configuration:
-	 * Pooling size makes the image smaller and fastet to compute. 
+	 * Pooling size makes the image smaller and fastet to compute.
 	 * To small pooling can cause low accuracy.
 	 * Pooling method is which method pooling should treat the image. If you want no pooling, just set p = 1 and pooling_method to POOLING_METHOD_NO_POOLING
 	 * To create the .pgm files of .gif, .jpg, .png etc, head over to MataveID and run the fisherfaces.m MATLAB-file.
@@ -27,8 +27,17 @@ int main() {
 	const POOLING_METHOD pooling_method = POOLING_METHOD_AVERAGE;
 
 	/* 
+	 * Remove outliers from the data
+	 * epsilon is the outliers radius
+	 * min_pts is the minimum points for a cluster
+	 */
+	bool remove_outliers = true;
+	float epsilon = 500;
+	size_t min_pts = 3;
+
+	/*
 	 * Kernel PCA configuration:
-	 * The variable components_pca is a tuning parameter. 
+	 * The variable components_pca is a tuning parameter.
 	 * Keep that large, but not so large so PCA will include garbage values into your traing data
 	 * I'm using about components_pca = 100 for Yale dataset. A good rule of thump is not use more than total images you have in your folders.
 	 * The array kernel_parameters is for nonlinear kernels. Some nonlinear kernels only need 1 parameters, some want more.
@@ -37,19 +46,19 @@ int main() {
 	const float kernel_parameters[2] = { 0.0000001 };
 	const KERNEL_METHOD kernel_method = KERNEL_METHOD_RBF;
 
-	/* 
-	 * Support vector machine configuration:
-	 * The C hyperparameter tells the SVM optimization how much you want to avoid misclassifying each training example. 
-	 * For large values of C, the optimization will choose a smaller-margin hyperplane if that hyperplane does a better job of getting all the training points classified correctly. 
-	 * Conversely, a very small value of C will cause the optimizer to look for a larger-margin separating hyperplane, 
+	/*
+	 * Neural network configuration:
+	 * This neural network is build by support vector machines. The C hyperparameter tells the SVM optimization how much you want to avoid misclassifying each training example.
+	 * For large values of C, the optimization will choose a smaller-margin hyperplane if that hyperplane does a better job of getting all the training points classified correctly.
+	 * Conversely, a very small value of C will cause the optimizer to look for a larger-margin separating hyperplane,
 	 * even if that hyperplane misclassifies more points. For very tiny values of C, you should get misclassified examples, often even if your training data is linearly separable.
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
 	const float C = 1.0f;
-	const float lambda = 1.0f;
+	const float lambda = 2.5f;
 
 	/* Fisherfaces training */
-	fisherfaces(folder_path, pooling_size, pooling_method, components_pca, kernel_parameters, kernel_method, C, lambda);
+	fisherfaces(folder_path, remove_outliers, epsilon, min_pts, pooling_size, pooling_method, components_pca, kernel_parameters, kernel_method, C, lambda);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
