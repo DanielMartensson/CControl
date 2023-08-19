@@ -76,6 +76,7 @@ void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, 
 void fisherfaces(const char folder_path[], const size_t pooling_size, POOLING_METHOD pooling_method, const size_t components_pca, const float kernel_parameters[], KERNEL_METHOD kernel_method, const float C, const float lambda);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
+void nn(float X[], size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], size_t row, size_t column, float C, float lambda);
 void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METHOD pooling_method);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
