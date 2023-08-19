@@ -80,8 +80,8 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	/* Declare */
 	size_t i, j, k;
 	
-	/* Use gaussian elimination to solve x from Qx = c because Q is square and symmetric */
-	linsolve_gauss(Q, x, c, column_a, column_a, 0.0f);
+	/* Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric */
+	linsolve_chol(Q, x, c, column_a);
 
 	/* Save address */
 	float* Ai = A;
