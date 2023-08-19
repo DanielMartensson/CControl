@@ -1,0 +1,277 @@
+/*
+ ============================================================================
+ Name        : nn.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Train a neural network with Iris dataset
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 150
+#define column 4
+#define max_classes 3
+
+/* Return the index of the largest value of vector x */
+size_t activation_function(float x[], size_t length) {
+	size_t max_index;
+	amax(x, &max_index, length);
+	return max_index;
+}
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Irish dataset from Ronald Fisher 1936 - Without the header and the last column */
+	float X[row * column] = { 5.1,3.5,1.4,.2,
+								4.9,3,1.4,.2,
+								4.7,3.2,1.3,.2,
+								4.6,3.1,1.5,.2,
+								5,3.6,1.4,.2,
+								5.4,3.9,1.7,.4,
+								4.6,3.4,1.4,.3,
+								5,3.4,1.5,.2,
+								4.4,2.9,1.4,.2,
+								4.9,3.1,1.5,.1,
+								5.4,3.7,1.5,.2,
+								4.8,3.4,1.6,.2,
+								4.8,3,1.4,.1,
+								4.3,3,1.1,.1,
+								5.8,4,1.2,.2,
+								5.7,4.4,1.5,.4,
+								5.4,3.9,1.3,.4,
+								5.1,3.5,1.4,.3,
+								5.7,3.8,1.7,.3,
+								5.1,3.8,1.5,.3,
+								5.4,3.4,1.7,.2,
+								5.1,3.7,1.5,.4,
+								4.6,3.6,1,.2,
+								5.1,3.3,1.7,.5,
+								4.8,3.4,1.9,.2,
+								5,3,1.6,.2,
+								5,3.4,1.6,.4,
+								5.2,3.5,1.5,.2,
+								5.2,3.4,1.4,.2,
+								4.7,3.2,1.6,.2,
+								4.8,3.1,1.6,.2,
+								5.4,3.4,1.5,.4,
+								5.2,4.1,1.5,.1,
+								5.5,4.2,1.4,.2,
+								4.9,3.1,1.5,.2,
+								5,3.2,1.2,.2,
+								5.5,3.5,1.3,.2,
+								4.9,3.6,1.4,.1,
+								4.4,3,1.3,.2,
+								5.1,3.4,1.5,.2,
+								5,3.5,1.3,.3,
+								4.5,2.3,1.3,.3,
+								4.4,3.2,1.3,.2,
+								5,3.5,1.6,.6,
+								5.1,3.8,1.9,.4,
+								4.8,3,1.4,.3,
+								5.1,3.8,1.6,.2,
+								4.6,3.2,1.4,.2,
+								5.3,3.7,1.5,.2,
+								5,3.3,1.4,.2,
+								7,3.2,4.7,1.4,
+								6.4,3.2,4.5,1.5,
+								6.9,3.1,4.9,1.5,
+								5.5,2.3,4,1.3,
+								6.5,2.8,4.6,1.5,
+								5.7,2.8,4.5,1.3,
+								6.3,3.3,4.7,1.6,
+								4.9,2.4,3.3,1,
+								6.6,2.9,4.6,1.3,
+								5.2,2.7,3.9,1.4,
+								5,2,3.5,1,
+								5.9,3,4.2,1.5,
+								6,2.2,4,1,
+								6.1,2.9,4.7,1.4,
+								5.6,2.9,3.6,1.3,
+								6.7,3.1,4.4,1.4,
+								5.6,3,4.5,1.5,
+								5.8,2.7,4.1,1,
+								6.2,2.2,4.5,1.5,
+								5.6,2.5,3.9,1.1,
+								5.9,3.2,4.8,1.8,
+								6.1,2.8,4,1.3,
+								6.3,2.5,4.9,1.5,
+								6.1,2.8,4.7,1.2,
+								6.4,2.9,4.3,1.3,
+								6.6,3,4.4,1.4,
+								6.8,2.8,4.8,1.4,
+								6.7,3,5,1.7,
+								6,2.9,4.5,1.5,
+								5.7,2.6,3.5,1,
+								5.5,2.4,3.8,1.1,
+								5.5,2.4,3.7,1,
+								5.8,2.7,3.9,1.2,
+								6,2.7,5.1,1.6,
+								5.4,3,4.5,1.5,
+								6,3.4,4.5,1.6,
+								6.7,3.1,4.7,1.5,
+								6.3,2.3,4.4,1.3,
+								5.6,3,4.1,1.3,
+								5.5,2.5,4,1.3,
+								5.5,2.6,4.4,1.2,
+								6.1,3,4.6,1.4,
+								5.8,2.6,4,1.2,
+								5,2.3,3.3,1,
+								5.6,2.7,4.2,1.3,
+								5.7,3,4.2,1.2,
+								5.7,2.9,4.2,1.3,
+								6.2,2.9,4.3,1.3,
+								5.1,2.5,3,1.1,
+								5.7,2.8,4.1,1.3,
+								6.3,3.3,6,2.5,
+								5.8,2.7,5.1,1.9,
+								7.1,3,5.9,2.1,
+								6.3,2.9,5.6,1.8,
+								6.5,3,5.8,2.2,
+								7.6,3,6.6,2.1,
+								4.9,2.5,4.5,1.7,
+								7.3,2.9,6.3,1.8,
+								6.7,2.5,5.8,1.8,
+								7.2,3.6,6.1,2.5,
+								6.5,3.2,5.1,2,
+								6.4,2.7,5.3,1.9,
+								6.8,3,5.5,2.1,
+								5.7,2.5,5,2,
+								5.8,2.8,5.1,2.4,
+								6.4,3.2,5.3,2.3,
+								6.5,3,5.5,1.8,
+								7.7,3.8,6.7,2.2,
+								7.7,2.6,6.9,2.3,
+								6,2.2,5,1.5,
+								6.9,3.2,5.7,2.3,
+								5.6,2.8,4.9,2,
+								7.7,2.8,6.7,2,
+								6.3,2.7,4.9,1.8,
+								6.7,3.3,5.7,2.1,
+								7.2,3.2,6,1.8,
+								6.2,2.8,4.8,1.8,
+								6.1,3,4.9,1.8,
+								6.4,2.8,5.6,2.1,
+								7.2,3,5.8,1.6,
+								7.4,2.8,6.1,1.9,
+								7.9,3.8,6.4,2,
+								6.4,2.8,5.6,2.2,
+								6.3,2.8,5.1,1.5,
+								6.1,2.6,5.6,1.4,
+								7.7,3,6.1,2.3,
+								6.3,3.4,5.6,2.4,
+								6.4,3.1,5.5,1.8,
+								6,3,4.8,1.8,
+								6.9,3.1,5.4,2.1,
+								6.7,3.1,5.6,2.4,
+								6.9,3.1,5.1,2.3,
+								5.8,2.7,5.1,1.9,
+								6.8,3.2,5.9,2.3,
+								6.7,3.3,5.7,2.5,
+								6.7,3,5.2,2.3,
+								6.3,2.5,5,1.9,
+								6.5,3,5.2,2,
+								6.2,3.4,5.4,2.3,
+								5.9, 3, 5.1, 1.8 };
+
+	/* Class ID */
+	size_t class_id[row];
+	size_t i;
+	for (i = 0; i < 50; i++) {
+		class_id[i] = 0;
+	}
+	for (i = 50; i < 100; i++) {
+		class_id[i] = 1;
+	}
+	for (i = 100; i < 150; i++) {
+		class_id[i] = 2;
+	}
+
+	/* Weight matrix */
+	float weight[max_classes * column];
+
+	/* Bias vector */
+	float bias[max_classes];
+
+	/* Status and accuracy for each class */
+	float accuracy[max_classes];
+	bool status[max_classes];
+
+	/* Train a neural network */
+	float C = 2;
+	float lambda = 0.5;
+	nn(X, class_id, weight, bias, status, accuracy, row, column, C, lambda);
+
+	/* Print weights, bias, status, accuracy */
+	printf("Weight\n");
+	print(weight, max_classes, column);
+	printf("Bias\n");
+	print(bias, 1, max_classes);
+	for (i = 0; i < max_classes; i++) {
+		printf("Training: Neural Network %s with accuracy: %f at class: %i\n", status[i] ? "success" : "failed", accuracy[i], i);
+	}
+
+	/* Validate */
+	float x[max_classes];
+	size_t score = 0;
+	size_t class_id_predicted;
+	size_t j;
+	for (i = 0; i < row; i++) {
+		/* MATLAB: x = weight * X(i, :)' + bias(i) Vector transpose is just the same as regular array */
+		mul(weight, X + i * column, x, max_classes, column, 1);
+		for (j = 0; j < max_classes; j++) {
+			x[j] += bias[j];
+		}
+
+		/* Use activation function to determine the class ID */
+		class_id_predicted = activation_function(x, max_classes);
+		if (class_id[i] == class_id_predicted) {
+			score++;
+		}
+	}
+
+	/* Print status */
+	printf("The accuracy of this model is: %f\n", ((float)score) / ((float)row) * 100.0f);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
+
+/* GNU Octave code
+	% Clear
+	close all
+	clear all
+	clc
+
+	% Data - Avoid the header and the last column
+	data_raw = double(csvread('iris.csv')(2:end, 1:end-1));
+
+	% 3 class labels
+	class_id = [linspace(1, 1, 50)'; linspace(2, 2, 50)'; linspace(3, 3, 50)'];
+
+	% Create neural network
+	C = 2;
+	lambda = 0.5;
+	[weight, bias, activation_function] = mi.nn(data_raw, class_id, C, lambda);
+
+	% Check accuracy
+	X = weight*data_raw' + bias;
+	classes = length(class_id);
+	score = 0;
+	for i = 1:classes
+	  class_id_predicted = activation_function(X(:, i));
+	  if(class_id_predicted == class_id(i))
+		score = score + 1;
+	  end
+	end
+
+	% Print status
+	fprintf('The accuracy of this model is: %i\n', score/classes*100);
+*/
