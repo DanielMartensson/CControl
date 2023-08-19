@@ -281,5 +281,8 @@
     <ClCompile Include="CControl\Sources\Filtering\cluster_filter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\nn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

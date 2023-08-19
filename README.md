@@ -41,6 +41,7 @@ Main focuses are:
   - Pooling Max, Average and Shape
   - Support Vector Machine
   - Kernel for PCA and LDA
+  - Neural network
   - Kernel Principal Component Analysis
   
 - Control Engineering
