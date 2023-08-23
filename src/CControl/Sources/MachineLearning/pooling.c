@@ -39,12 +39,13 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 
 	/* Loop */
 	for (i = 0; i < h; i++) {
+		start_row = i * p;
+		stop_row = (i + 1) * p - 1U;
 		for (j = 0; j < w; j++) {
-			/* Cut A into B */
-			start_row = i * p;
-			stop_row = (i+1) * p - 1U;
 			start_column = j * p;
-			stop_column = (j+1) * p - 1U;
+			stop_column = (j + 1) * p - 1U;
+
+			/* Cut A into B */
 			cut(A, column_a, B, start_row, stop_row, start_column, stop_column);
 
 			/* Add to P */
