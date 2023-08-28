@@ -14,7 +14,23 @@
  * x[n] - Will contains the FFT values. The first value will have no imaginary part
  */
 void fft(float x[], size_t n) {
+#ifdef MKL_USED
+	/* Create handle */
+	DFTI_DESCRIPTOR_HANDLE handle = NULL;
 
+	/* Prepare handle */
+	DftiCreateDescriptor(&handle, DFTI_SINGLE, DFTI_REAL, 1, n);
+
+	/* Commit */
+	DftiCommitDescriptor(handle);
+
+	/* Compute forward */
+	DftiComputeForward(handle, x);
+
+	/* Delete model*/
+	DftiFreeDescriptor(&handle);
+
+#else 
 	/* Init */
 	float* wsave = (float*)malloc((2 * n + 15) * sizeof(float));
 	int* ifac = (int*)malloc((n + 15) * sizeof(float));
@@ -26,4 +42,5 @@ void fft(float x[], size_t n) {
 	/* Free */
 	free(wsave);
 	free(ifac);
+#endif
 }

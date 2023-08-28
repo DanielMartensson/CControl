@@ -17,8 +17,8 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Create x */
-	float x[n] = {1, 2, 5, 10, 5, 3.5, 1, 2, 3, 10, 2};
+	/* Create x - Important that the array need to have +2 more elements than n if MKL library is used */
+	float x[n + 2] = {1, 2, 5, 10, 5, 3.5, 1, 2, 3, 10, 2};
 
 	/* Do Inverse FFT */
 	fft(x, n);
