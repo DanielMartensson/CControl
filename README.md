@@ -61,7 +61,7 @@ Main focuses are:
   - Filtfilt 
   - Square Root Unscented Kalman Filter
 
-- Signal processing
+- Signal Processing
   - Fast Fourier Transform
   - Inverse Fast Fourier Transform
   
