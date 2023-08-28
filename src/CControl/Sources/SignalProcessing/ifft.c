@@ -23,11 +23,10 @@ void ifft(float x[], size_t n) {
 	/* Backward transform */
 	__ogg_fdrfftb(n, x, wsave, ifac);
 	
-	/* Important to divide all outputs with x[0] */
+	/* Normalize */
 	size_t i;
-	float first_value = x[0];
 	for (i = 0; i < n; i++) {
-		x[i] /= first_value;
+		x[i] /= n;
 	}
 
 	/* Free */
