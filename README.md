@@ -25,7 +25,8 @@ This library have three types of libraries. First library is the internal lightw
 | `sgesvd` | `pca.c` | Principal component analysis |
 | `sggev` | `eig_generalized.c` | Generalized eigenvalue problem for non-symmetric matrices |
 | `ssygvd` | `eig_generalized.c` | Generalized eigenvalue problem for symmetric matrices |
-
+| `DftiComputeForward` `rfftf` | `fft.c` | Compute Fast Fourier Transform  |
+| `DftiComputeBackward` `rfftb` | `fft.c` | Compute Inverse Fast Fourier Transform |
  
 If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.,
 
