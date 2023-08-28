@@ -35,10 +35,10 @@ void ifft(float x[], size_t n) {
 	/* Init */
 	float* wsave = (float*)malloc((2 * n + 15) * sizeof(float));
 	int* ifac = (int*)malloc((n + 15) * sizeof(float));
-	__ogg_fdrffti(n, wsave, ifac);
+	rffti(n, wsave, ifac);
 
 	/* Backward transform */
-	__ogg_fdrfftb(n, x, wsave, ifac);
+	rfftb(n, x, wsave, ifac);
 	
 	/* Free */
 	free(wsave);

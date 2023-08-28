@@ -34,10 +34,10 @@ void fft(float x[], size_t n) {
 	/* Init */
 	float* wsave = (float*)malloc((2 * n + 15) * sizeof(float));
 	int* ifac = (int*)malloc((n + 15) * sizeof(float));
-	__ogg_fdrffti(n, wsave, ifac);
+	rffti(n, wsave, ifac);
 
 	/* Forward transform */
-	__ogg_fdrfftf(n, x, wsave, ifac);
+	rfftf(n, x, wsave, ifac);
 
 	/* Free */
 	free(wsave);
