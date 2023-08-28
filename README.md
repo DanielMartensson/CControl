@@ -5,9 +5,9 @@ The purpose with this library is to fit advanced tools for really small embedded
 Here I have focused on practical numerical methods and selected the methods that works best in practice. It has
 been a lot of work finding the best methods and best algorithms.
 
-# CLAPACK & Math Kernel Library support
+# CLAPACK, Math Kernel Library, FFTPACK support
 
-This library have three types of libraries. First library is the internal lightweight library that suits small embedded systems. The second library is CLAPACK for larger matrices. CLAPACK is a little bit faster than the first library, but requires more memory. The last library is Math Kernel Library from Intel. Set this as your math library inside `defines.h` file. The Math Kernel Library is extremely optimized and it's suitable for operative systems such as Windows, Linux, Mac OS meanwhile the lightweight library or CLAPACK is suitable for an Arduino, STM32, PIC etc because they are 100% portable.
+This library have different types of libraries. First library is the internal lightweight library that suits small embedded systems. The second library is higher lever library for larger matrices. The third library is libraries that are hardware independent. Set this as your math library inside `defines.h` file. The Math Kernel Library is extremely optimized and it's suitable for operative systems such as Windows, Linux, Mac OS meanwhile the lightweight library or CLAPACK and FFTPACK is suitable for an Arduino, STM32, PIC etc because they are 100% portable. The internal library is suited for really small devices.
 
 | Routines  | Function | Comment | 
 | ------------- | ------------- | ------------------- |
