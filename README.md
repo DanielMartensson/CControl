@@ -59,6 +59,10 @@ Main focuses are:
   - Cluster filter
   - Filtfilt 
   - Square Root Unscented Kalman Filter
+
+- Signal processing
+  - Fast Fourier Transform
+  - Inverse Fast Fourier Transform
   
 - Linear Algebra
   - Balance matrix

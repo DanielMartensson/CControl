@@ -24,6 +24,7 @@
     <ClInclude Include="CControl\Headers\enums.h" />
     <ClInclude Include="CControl\Headers\functions.h" />
     <ClInclude Include="CControl\Headers\structs.h" />
+    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c" />
@@ -76,6 +77,9 @@
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\issymmetric.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\pgm.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\fft.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\ifft.c" />
     <ClCompile Include="CControl\Sources\Statistics\amax.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cut.c" />

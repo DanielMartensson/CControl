@@ -40,6 +40,10 @@ float acosf(float x) {
 	return (float)acos(x);
 }
 
+float atan2f(float x) {
+	return (float)atan(x);
+}
+
 float expf(float x) {
 	return (float)exp(x);
 }
@@ -143,6 +147,10 @@ void linsolve_gauss(float A[], float x[], float b[], size_t row, size_t column, 
 bool linprog(float c[], float A[], float b[], float x[], size_t row_a, size_t column_a, bool maximization);
 bool lsqnonneg(float A[], float x[], float b[], float residual[], size_t row, size_t column);
 bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], size_t row_a, size_t row_g, size_t column_a, bool equality_constraints_are_used);
+
+/* Signal processing */
+void fft(float x[], size_t n);
+void ifft(float x[], size_t n);
 
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);
