@@ -1,5 +1,5 @@
-#ifndef CLAPACK_FUNCTIONS
-#define CLAPACK_FUNCTIONS
+#ifndef ROUTINES
+#define ROUTINES
 
 #include "f2c.h"
 
@@ -73,4 +73,4 @@ int ssymm_(char* side, char* uplo, integer* m, integer* n,
 	real* alpha, real* a, integer* lda, real* b, integer* ldb, real* beta,
 	real* c__, integer* ldc);
 
-#endif /* !CLAPACK_FUNCTIONS */
+#endif /* !ROUTINES */

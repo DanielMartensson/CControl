@@ -13,7 +13,7 @@ bool eig_sym(float A[], float d[], float wr[], size_t row);
 
 /* Include LAPACK routines */
 #ifdef CLAPACK_USED
-#include "CLapack/clapack_functions.h"
+#include "CLapack/clapack.h"
 #endif
 
 /*

@@ -11,7 +11,7 @@ static bool solve(float x[], float b[], int P[], float LU[], size_t row);
 
 /* Include LAPACK routines */
 #ifdef CLAPACK_USED
-#include "CLapack/clapack_functions.h"
+#include "CLapack/clapack.h"
 #endif
 
 /*
