@@ -57,6 +57,15 @@
 typedef fftpack_real real;
 typedef fftpack_int  integer;
 
+#ifndef FFTPACK_DOUBLE_PRECISION
+#define FFTPACK_COS  cosf
+#define FFTPACK_SIN  sinf
+#else
+#define FFTPACK_COS  cos
+#define FFTPACK_SIN  sin
+#endif
+
+
 typedef struct f77complex {
     real r, i;
 } f77complex;
@@ -1072,8 +1081,8 @@ static void radbg(integer ido, integer ip, integer l1, integer idl1,
 
     /* Function Body */
     arg = (2 * M_PI) / (real)(ip);
-    dcp = cos(arg);
-    dsp = sin(arg);
+    dcp = FFTPACK_COS(arg);
+    dsp = FFTPACK_SIN(arg);
     idp2 = ido + 2;
     nbd = (ido - 1) / 2;
     ipp2 = ip + 2;
@@ -1592,8 +1601,8 @@ static void radfg(integer ido, integer ip, integer l1, integer idl1,
 
     /* Function Body */
     arg = (2 * M_PI) / (real)(ip);
-    dcp = cos(arg);
-    dsp = sin(arg);
+    dcp = FFTPACK_COS(arg);
+    dsp = FFTPACK_SIN(arg);
     ipph = (ip + 1) / 2;
     ipp2 = ip + 2;
     idp2 = ido + 2;
@@ -2022,8 +2031,8 @@ static void cffti1(integer n, real* wa, integer* ifac)
                 i += 2;
                 fi += 1.f;
                 arg = fi * argld;
-                wa[i - 1] = cos(arg);
-                wa[i] = sin(arg);
+                wa[i - 1] = FFTPACK_COS(arg);
+                wa[i] = FFTPACK_SIN(arg);
             }
             if (ip > 5) {
                 wa[i1 - 1] = wa[i - 1];
@@ -2228,8 +2237,8 @@ static void rffti1(integer n, real* wa, integer* ifac)
                 i += 2;
                 fi += 1.f;
                 arg = fi * argld;
-                wa[i - 1] = cos(arg);
-                wa[i] = sin(arg);
+                wa[i - 1] = FFTPACK_COS(arg);
+                wa[i] = FFTPACK_SIN(arg);
             }
             is += ido;
         }
@@ -2404,7 +2413,7 @@ void cosqi(integer n, real* wsave)
     fk = 0.f;
     for (k = 1; k <= n; ++k) {
         fk += 1.f;
-        wsave[k] = cos(fk * dt);
+        wsave[k] = FFTPACK_COS(fk * dt);
     }
     rffti(n, &wsave[n + 1]);
 } /* cosqi */
@@ -2430,9 +2439,7 @@ void cost(integer n, real* x, real* wsave)
     nm1 = n - 1;
     np1 = n + 1;
     ns2 = n / 2;
-    if (n < 2) {
-    }
-    else if (n == 2) {
+    if (n == 2) {
         x1h = x[1] + x[2];
         x[2] = x[1] - x[2];
         x[1] = x1h;
@@ -2444,7 +2451,7 @@ void cost(integer n, real* x, real* wsave)
         x[1] = x1p3 + tx2;
         x[3] = x1p3 - tx2;
     }
-    else {
+    else if (n > 3) {
         c1 = x[1] - x[n];
         x[1] += x[n];
         for (k = 2; k <= ns2; ++k) {
@@ -2499,8 +2506,8 @@ void costi(integer n, real* wsave)
     for (k = 2; k <= ns2; ++k) {
         kc = np1 - k;
         fk += 1.f;
-        wsave[k] = sin(fk * dt) * 2.f;
-        wsave[kc] = cos(fk * dt) * 2.f;
+        wsave[k] = FFTPACK_SIN(fk * dt) * 2.f;
+        wsave[kc] = FFTPACK_COS(fk * dt) * 2.f;
     }
     rffti(nm1, &wsave[n + 1]);
 } /* costi */
@@ -2895,7 +2902,7 @@ int main(void)
             y[i - 1] = (x[0] + (real)pow(-1, i + 1) * x[n]) * .5f;
             arg = (real)(i - 1) * dt;
             for (k = 2; k <= n; ++k) {
-                y[i - 1] += x[k - 1] * cos((real)(k - 1) * arg);
+                y[i - 1] += x[k - 1] * FFTPACK_COS((real)(k - 1) * arg);
             }
             y[i - 1] += y[i - 1];
         }
@@ -2983,7 +2990,7 @@ int main(void)
             x[i - 1] = 0.f;
             arg = (real)(i - 1) * dt;
             for (k = 1; k <= n; ++k) {
-                x[i - 1] += y[k - 1] * cos((real)(k + k - 1) * arg);
+                x[i - 1] += y[k - 1] * FFTPACK_COS((real)(k + k - 1) * arg);
             }
             x[i - 1] *= 4.f;
         }
@@ -3002,7 +3009,7 @@ int main(void)
             y[i - 1] = x[0] * .5f;
             arg = (real)(i + i - 1) * dt;
             for (k = 2; k <= n; ++k) {
-                y[i - 1] += x[k - 1] * cos((real)(k - 1) * arg);
+                y[i - 1] += x[k - 1] * FFTPACK_COS((real)(k - 1) * arg);
             }
             y[i - 1] += y[i - 1];
         }
@@ -3029,8 +3036,8 @@ int main(void)
         /*     TEST  CFFTI,CFFTF,CFFTB */
 
         for (i = 1; i <= n; ++i) {
-            r1 = cos(sqrt2 * (real)i);
-            r2 = sin(sqrt2 * (real)(i * i));
+            r1 = FFTPACK_COS(sqrt2 * (real)i);
+            r2 = FFTPACK_SIN(sqrt2 * (real)(i * i));
             q1.r = r1, q1.i = r2;
             cx[i - 1].r = q1.r, cx[i - 1].i = q1.i;
         }
@@ -3040,8 +3047,8 @@ int main(void)
             cy[i - 1].r = 0.f, cy[i - 1].i = 0.f;
             for (k = 1; k <= n; ++k) {
                 arg2 = (real)(k - 1) * arg1;
-                r1 = cos(arg2);
-                r2 = sin(arg2);
+                r1 = FFTPACK_COS(arg2);
+                r2 = FFTPACK_SIN(arg2);
                 q3.r = r1, q3.i = r2;
                 q2.r = q3.r * cx[k - 1].r - q3.i * cx[k - 1].i, q2.i =
                     q3.r * cx[k - 1].i + q3.i * cx[k - 1].r;
@@ -3067,8 +3074,8 @@ int main(void)
             cy[i - 1].r = 0.f, cy[i - 1].i = 0.f;
             for (k = 1; k <= n; ++k) {
                 arg2 = (real)(k - 1) * arg1;
-                r1 = cos(arg2);
-                r2 = sin(arg2);
+                r1 = FFTPACK_COS(arg2);
+                r2 = FFTPACK_SIN(arg2);
                 q3.r = r1, q3.i = r2;
                 q2.r = q3.r * cx[k - 1].r - q3.i * cx[k - 1].i, q2.i =
                     q3.r * cx[k - 1].i + q3.i * cx[k - 1].r;
