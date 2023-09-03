@@ -264,6 +264,7 @@
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CControl\Sources\SignalProcessing\FFTpack_5_1\manual.html" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

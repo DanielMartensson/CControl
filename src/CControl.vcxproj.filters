@@ -740,5 +740,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="CControl\Sources\SignalProcessing\FFTpack_5_1\manual.html" />
   </ItemGroup>
 </Project>
