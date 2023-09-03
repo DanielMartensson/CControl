@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -24,7 +25,16 @@
     <ClInclude Include="CControl\Headers\enums.h" />
     <ClInclude Include="CControl\Headers\functions.h" />
     <ClInclude Include="CControl\Headers\structs.h" />
-    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.h" />
+    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\clapack.h" />
+    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h" />
+    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Tools\fio.h" />
+    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Tools\fmt.h" />
+    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Tools\fp.h" />
+    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Tools\sysdep1.h" />
+    <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Tools\tools.h" />
+    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack_5_0\fftpack.h" />
+    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack_5_1\f2c.h" />
+    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack_5_1\fftpack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c" />
@@ -47,6 +57,31 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\balance.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\chol.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\cholupdate.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\close.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\endfile.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\err.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\exit_.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\f77_aloc.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\fmt.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\fmtlib.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\i_len_trim.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\i_nint.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\open.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\pow_dd.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\pow_ii.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\pow_ri.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\r_lg10.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\r_sign.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\sfe.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\sig_die.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\s_cat.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\s_cmp.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\s_copy.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\s_stop.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\util.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\wref.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\wrtfmt.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\wsfe.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\det.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\dlyap.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\dot.c" />
@@ -78,8 +113,121 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\issymmetric.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\pgm.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\fft.c" />
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\fft2.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_0\fftpack.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f2kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f2kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f3kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f3kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f4kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f4kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f5kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f5kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1fgkb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1fgkf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1fm1b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1fm1f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft1b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft1f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft1i.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft2b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft2f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft2i.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfftmb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfftmf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfftmi.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf2kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf2kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf3kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf3kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf4kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf4kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf5kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf5kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmfgkb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmfgkf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmfm1b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmfm1f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosq1b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosq1f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosq1i.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqb1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqf1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqmb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqmf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqmi.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cost1b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cost1f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cost1i.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costb1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costf1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costmb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costmf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costmi.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\factor.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcfti1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcsqb1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcsqf1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcstb1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcstf1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradb2.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradb3.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradb4.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradb5.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradbg.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradf2.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradf3.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradf4.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradf5.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradfg.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mrftb1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mrftf1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mrfti1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\msntb1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\msntf1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f2kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f2kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f3kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f3kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f4kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f4kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f5kb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f5kf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1fgkb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1fgkf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r2w.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft1b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft1f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft1i.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft2b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft2f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft2i.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftb1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftf1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rffti1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftmb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftmf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftmi.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinq1b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinq1f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinq1i.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinqmb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinqmf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinqmi.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sint1b.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sint1f.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sint1i.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintb1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintf1.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintmb.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintmf.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintmi.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\tables.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\w2r.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\xercon.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\xerfft.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\ifft.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\ifft2.c" />
     <ClCompile Include="CControl\Sources\Statistics\amax.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cat.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\cut.c" />
@@ -114,6 +262,9 @@
     <ClCompile Include="CControl\Sources\SystemIdentification\rls.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\sr_ukf_parameter_estimation.c" />
     <ClCompile Include="Main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -250,5 +401,13 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Windows.CppWinRT.2.0.220531.1\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+  </Target>
 </Project>
