@@ -1,6 +1,10 @@
 #ifndef ROUTINES
 #define ROUTINES
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "f2c.h"
 
 /* Eigenvalues of a symmetric matrix */
@@ -72,5 +76,9 @@ int ssymv_(char* uplo, integer* n, real* alpha, real* a,
 int ssymm_(char* side, char* uplo, integer* m, integer* n,
 	real* alpha, real* a, integer* lda, real* b, integer* ldb, real* beta,
 	real* c__, integer* ldc);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* !ROUTINES */

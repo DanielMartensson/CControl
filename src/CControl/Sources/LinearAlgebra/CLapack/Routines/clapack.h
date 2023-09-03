@@ -5,6 +5,10 @@
 #ifndef __CLAPACK_H
 #define __CLAPACK_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Subroutine */ int caxpy_(integer *n, complex *ca, complex *cx, integer *
 	incx, complex *cy, integer *incy);
 
@@ -7252,5 +7256,8 @@ doublereal dlamc3_(doublereal *a, doublereal *b);
 integer ilaenv_(integer *ispec, char *name__, char *opts, integer *n1, 
 	integer *n2, integer *n3, integer *n4);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __CLAPACK_H */

@@ -1,7 +1,16 @@
-﻿  quadprog.c
-  Generating code
-  2 of 14 functions (14.3%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
+﻿  mul.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(104,43): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(104,62): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(107,54): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(107,61): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(107,80): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(107,90): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(107,106): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(113,45): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(113,52): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(113,71): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(116,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(117,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(118,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Release\CControl.exe
