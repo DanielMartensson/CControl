@@ -30,7 +30,14 @@ This library have different types of libraries. First library is the internal li
 | `rfft2f` | `fft.c` | Compute Fast Fourier Transform 2D |
 | `rfft2b` | `fft.c` | Compute Inverse Fast Fourier Transform 2D |
  
-If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.,
+If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.
+
+| Type  | Internal | MLK | CLapack | FFTpack | 
+| ------------- | ------------- | ------------------- | ------------------- | ------------------- |
+| `Speed` | Slow for large data | Fast for large data | Faster than internal | Very fast | 
+| `Portability` | Platform independent | Only Windows/Linux/ Mac OS | Platform independent | Platform independent |
+| `Missing` | Eigenvectors for general matrices | Nothing | Nothing | Nothing |
+| `Memory requirements` | Lightweight | Large | Medium | Lightweight | Lightweight |
 
 Main focuses are:
 
