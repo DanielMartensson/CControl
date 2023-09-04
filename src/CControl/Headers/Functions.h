@@ -149,10 +149,10 @@ bool lsqnonneg(float A[], float x[], float b[], float residual[], size_t row, si
 bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], size_t row_a, size_t row_g, size_t column_a, bool equality_constraints_are_used);
 
 /* Signal processing */
-void fft(float x[], size_t n);
-void fft2(float X[], size_t row, size_t column);
-void ifft(float x[], size_t n);
-void ifft2(float X[], size_t row, size_t column);
+void fft(float xr[], float xi[], size_t n);
+void fft2(float XR[], float XI[], size_t row, size_t column);
+void ifft(float xr[], float xi[], size_t n);
+void ifft2(float XR[], float XI[], size_t row, size_t column);
 
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);

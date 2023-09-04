@@ -8,21 +8,42 @@
 #include "../../Headers/functions.h"
 
 /* Import the library FFTPack */
-#include "FFTpack_5_0/fftpack.h"
+#include "FFTpack_5_1/fftpack.h"
 
-/* Fast Fourier Transform 
- * x[n] - Will contains the FFT values. The first and last value will have no imaginary part
+/* 
+ * Fast Fourier Transform 
+ * xr[n] - Real values
+ * xi[n] - Imaginary values
  */
-void fft(float x[], size_t n) {
+void fft(float xr[], float xi[], size_t n) {
 	/* Init */
-	float* wsave = (float*)malloc((2 * n + 15) * sizeof(float));
-	int* ifac = (int*)malloc((n + 15) * sizeof(float));
-	rffti(n, wsave, ifac);
+	const integer N = n;
+	const integer lensav = 2 * N + (integer)(logf((real)N) / logf(2.0f)) + 4;
+	integer ier;
+	real* wsave = (float*)malloc(lensav * sizeof(real));
+	cfft1i_(&N, wsave, &lensav, &ier);
 
 	/* Forward transform */
-	rfftf(n, x, wsave, ifac);
+	const integer inc = 1;
+	const integer lenc = inc * (N - 1) + 1;
+	const integer lenwrk = 2 * N;
+	real* work = (real*)malloc(lenwrk * sizeof(real));
+	complex* c = (complex*)malloc(lenc * sizeof(complex));
+	memset(c, 0, lenc * sizeof(complex));
+	size_t i;
+	for (i = 0; i < n; i++) {
+		c[i].r = xr[i];
+	}
+	cfft1f_(&N, &inc, c, &lenc, wsave, &lensav, work, &lenwrk, &ier);
+
+	/* Fill */
+	for (i = 0; i < n; i++) {
+		xr[i] = c[i].r;
+		xi[i] = c[i].i;
+	}
 
 	/* Free */
 	free(wsave);
-	free(ifac);
+	free(c);
+	free(work);
 }

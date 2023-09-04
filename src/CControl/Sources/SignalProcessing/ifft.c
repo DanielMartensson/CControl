@@ -8,27 +8,41 @@
 #include "../../Headers/functions.h"
 
  /* Import the library FFTPack */
-#include "FFTpack_5_0/fftpack.h"
+#include "FFTpack_5_1/fftpack.h"
 
 /* Fast Fourier Transform
- * x[n] - Will contains the inverse FFT values
+ * xr[n] - Real frequency domain values
+ * xi[n] - Imaginary frequency domain values
  */
-void ifft(float x[], size_t n) {
+void ifft(float xr[], float xi[], size_t n) {
 	/* Init */
-	float* wsave = (float*)malloc((2 * n + 15) * sizeof(float));
-	int* ifac = (int*)malloc((n + 15) * sizeof(float));
-	rffti(n, wsave, ifac);
+	const integer N = n;
+	const integer lensav = 2 * N + (integer)(logf((real)N) / logf(2.0f)) + 4;
+	integer ier;
+	real* wsave = (float*)malloc(lensav * sizeof(real));
+	cfft1i_(&N, wsave, &lensav, &ier);
 
-	/* Backward transform */
-	rfftb(n, x, wsave, ifac);
+	/* Forward transform */
+	const integer inc = 1;
+	const integer lenc = inc * (N - 1) + 1;
+	const integer lenwrk = 2 * N;
+	real* work = (real*)malloc(lenwrk * sizeof(real));
+	complex* c = (complex*)malloc(lenc * sizeof(complex));
+	size_t i;
+	for (i = 0; i < n; i++) {
+		c[i].r = xr[i];
+		c[i].i = xi[i];
+	}
+	cfft1b_(&N, &inc, c, &lenc, wsave, &lensav, work, &lenwrk, &ier);
+
+	/* Fill */
+	memset(xi, 0, n * sizeof(float));
+	for (i = 0; i < n; i++) {
+		xr[i] = c[i].r;
+	}
 
 	/* Free */
 	free(wsave);
-	free(ifac);
-
-	/* Normalize */
-	size_t i;
-	for (i = 0; i < n; i++) {
-		x[i] /= n;
-	}
+	free(c);
+	free(work);
 }

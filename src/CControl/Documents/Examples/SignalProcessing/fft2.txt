@@ -18,16 +18,18 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Create X */
-	float X[row * column] = { -0.6485,   0.2851,   1.3475,
+	/* Create XR and XI */
+	float XR[row * column] = { -0.6485,   0.2851,   1.3475,
 							   -0.6743, -0.1499, -1.5549,
 								1.4951,   0.4504, -0.4982 };
+	float XI[row * column];
 
 	/* Do FFT2 */
-	fft2(X, row, column);
+	fft2(XR, XI, row, column);
 
 	/* Print */
-	print(X, row, column);
+	print(XR, row, column);
+	print(XI, row, column);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

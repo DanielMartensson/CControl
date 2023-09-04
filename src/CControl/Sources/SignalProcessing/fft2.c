@@ -11,23 +11,38 @@
 #include "FFTpack_5_1/fftpack.h"
 
 /* Fast Fourier Transform
- * x[m*n] - Will contains the FFT values.
+ * XR[m*n] - Real values
+ * XI[m*n] - Imaginary values
  */
-void fft2(float X[], size_t row, size_t column) {
+void fft2(float XR[], float XI[], size_t row, size_t column) {
 	/* Init */
-	integer l = row;
-	integer m = column;
-	integer lensav = l + 3 * m + (integer)(logf((real)l) / logf(2.0f)) + 2 * (integer)(logf((real)m) / logf(2.0f)) + 12;
+	const integer L = row;
+	const integer M = column;
+	const integer lensav = 2 * (L + M) + (integer)(logf((real)L) / logf(2.0f)) + (integer)(logf((real)M) / logf(2.0f)) + 8;
 	real* wsave = (real*)malloc(lensav * sizeof(real));
 	integer ier;
-	rfft2i_(&l, &m, wsave, &lensav, &ier);
+	cfft2i_(&L, &M, wsave, &lensav, &ier);
 
 	/* FFT forward */
-	integer lenwrk = (l + 1) * m;
+	const integer LM = L * M;
+	const integer lenwrk = 2 * LM;
 	real* work = (real*)malloc(lenwrk * sizeof(real));
-	rfft2f_(&l, &l, &m, X, wsave, &lensav, work, &lenwrk, &ier);
+	complex* c = (complex*)malloc(LM * sizeof(complex));
+	memset(c, 0, LM * sizeof(complex));
+	size_t i;
+	for (i = 0; i < LM; i++) {
+		c[i].r = XR[i];
+	}
+	cfft2f_(&L, &L, &M, c, wsave, &lensav, work, &lenwrk, &ier);
+
+	/* Fill */
+	for (i = 0; i < LM; i++) {
+		XR[i] = c[i].r;
+		XI[i] = c[i].i;
+	}
 
 	/* Free */
 	free(wsave);
 	free(work);
+	free(c);
 }
