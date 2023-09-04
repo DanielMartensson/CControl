@@ -36,9 +36,9 @@ void ifft2(float XR[], float XI[], size_t row, size_t column) {
 	cfft2b_(&L, &L, &M, c, wsave, &lensav, work, &lenwrk, &ier);
 
 	/* Fill */
+	memset(XI, 0, LM * sizeof(float));
 	for (i = 0; i < LM; i++) {
 		XR[i] = c[i].r;
-		XI[i] = c[i].i;
 	}
 
 	/* Free */
