@@ -45,7 +45,7 @@ void conv2(float A[], float B[], size_t row_a, size_t column_a, float K[], size_
 	float* kernel_imag = (float*)malloc(bytes_A);
 	fft2(kernel_real, kernel_imag, row_a, column_a);
 
-	/* Dot product with (A + A_imag).*(kernel_real + kernel_imag) */
+	/* Dot product with (A_real + A_imag).*(kernel_real + kernel_imag) */
 	float a, b, c, d;
 	for (i = 0; i < total_length; i++) {
 		/* This is complex number multiplication (a + b*i)*(c + d*i) = (a*c - b*d) + i*(a*d + b*c) */
