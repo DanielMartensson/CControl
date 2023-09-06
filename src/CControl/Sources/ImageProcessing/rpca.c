@@ -13,9 +13,11 @@ static void shrink_matrix(float A[], float X[], float tau, size_t row, size_t co
 
 /*
  * Robust principal component analysis
- * X[m*n]
- * L[m*n]
- * S[m*n]
+ * Use this if you want to remove outliers of an image X
+ * X = L + S
+ * X[m*n] - Image
+ * L[m*n] - No outliers
+ * S[m*n] - Outliers
  */
 void rpca(float X[], float L[], float S[], size_t row, size_t column) {
 	/* Get two tuning factors */
