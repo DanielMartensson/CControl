@@ -65,8 +65,8 @@ void conv2(float A[], float B[], size_t row_a, size_t column_a, float K[], size_
 	
 	/* Free */
 	free(A_real);
+	free(A_imag);
 	free(kernel_real);
 	free(kernel_imag);
-	free(A_imag);
 }
 
