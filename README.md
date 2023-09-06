@@ -63,18 +63,19 @@ Main focuses are:
   - Stability check
   - Continuous to discrete
 
-- Filtering
+- Image Processing
   - Robust Principal Component Analysis
-  - Particle filter
-  - Cluster filter
-  - Filtfilt 
-  - Square Root Unscented Kalman Filter
+  - Sobel filter
 
 - Signal Processing
   - Fast Fourier Transform 1D
   - Fast Fourier Transform 2D
   - Inverse Fast Fourier Transform 1D
   - Inverse Fast Fourier Transform 2D
+  - Particle filter
+  - Cluster filter
+  - Filtfilt 
+  - Square Root Unscented Kalman Filter
   
 - Linear Algebra
   - Balance matrix

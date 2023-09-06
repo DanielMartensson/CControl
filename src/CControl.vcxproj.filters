@@ -95,13 +95,13 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Filtering\filtfilt.c">
+    <ClCompile Include="CControl\Sources\SignalProcessing\filtfilt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Filtering\pf.c">
+    <ClCompile Include="CControl\Sources\SignalProcessing\pf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Filtering\sr_ukf_state_estimation.c">
+    <ClCompile Include="CControl\Sources\SignalProcessing\sr_ukf_state_estimation.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\balance.c">
@@ -251,7 +251,7 @@
     <ClCompile Include="CControl\Sources\Statistics\covm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Filtering\rpca.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\rpca.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Optimization\lsqnonneg.c">
@@ -314,7 +314,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\rank.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Filtering\cluster_filter.c">
+    <ClCompile Include="CControl\Sources\SignalProcessing\cluster_filter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\MachineLearning\nn.c">
@@ -894,6 +894,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\sobel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
