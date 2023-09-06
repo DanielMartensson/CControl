@@ -33,12 +33,11 @@ void kernel(float X[], float K[], size_t row, size_t column, float kernel_parame
 	case KERNEL_METHOD_RBF: {
 		float* D = (float*)malloc(row * row * sizeof(float));
 		pdist2(X, X, D, row, column, row, PDIST2_METRIC_EUCLIDEAN);
-		float d, gamma = kernel_parameters[0];
+		const float gamma = kernel_parameters[0];
 		float* D0 = D;
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < row; j++) {
-				d = D[j];
-				K[j] = expf(-gamma * d * d);
+				K[j] = expf(-gamma * D[j] * D[j]);
 			}
 			D += row;
 			K += row;
@@ -51,7 +50,7 @@ void kernel(float X[], float K[], size_t row, size_t column, float kernel_parame
 		/* This will first compute K = X*X' */
 		kernel(X, K, row, column, kernel_parameters, KERNEL_METHOD_LINEAR);
 		/* Then we do K = K.^d */
-		float degree = kernel_parameters[0];
+		const float degree = kernel_parameters[0];
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < row; j++) {
 				K[j] = powf(K[j], degree);
@@ -64,8 +63,8 @@ void kernel(float X[], float K[], size_t row, size_t column, float kernel_parame
 		/* This will first compute K = X*X' */
 		kernel(X, K, row, column, kernel_parameters, KERNEL_METHOD_LINEAR);
 		/* Then we do K = tanh(alpha*K + beta) */
-		float alpha = kernel_parameters[0];
-		float beta = kernel_parameters[1];
+		const float alpha = kernel_parameters[0];
+		const float beta = kernel_parameters[1];
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < row; j++) {
 				K[j] = tanhf(alpha * K[j] + beta);
@@ -76,14 +75,14 @@ void kernel(float X[], float K[], size_t row, size_t column, float kernel_parame
 	case KERNEL_METHOD_GAUSSIAN: {
 		float* D = (float*)malloc(row * row * sizeof(float));
 		pdist2(X, X, D, row, column, row, PDIST2_METRIC_EUCLIDEAN);
-		float d, sigma = kernel_parameters[0];
+		const float sigma = kernel_parameters[0];
 		float* D0 = D;
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < row; j++) {
-				d = D[j];
-				K[j] = expf(-d * d / (2 * sigma * sigma));
+				K[j] = expf(-D[j] * D[j] / (2 * sigma * sigma));
 			}
 			K += row;
+			D += row;
 		}
 		D = D0;
 		free(D);
@@ -92,13 +91,14 @@ void kernel(float X[], float K[], size_t row, size_t column, float kernel_parame
 	case KERNEL_METHOD_EXPONENTIAL: {
 		float* D = (float*)malloc(row * row * sizeof(float));
 		pdist2(X, X, D, row, column, row, PDIST2_METRIC_EUCLIDEAN);
-		float sigma = kernel_parameters[0];
+		const float sigma = kernel_parameters[0];
 		float* D0 = D;
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < row; j++) {
 				K[j] = expf(-D[j] / (2 * sigma * sigma));
 			}
 			K += row;
+			D += row;
 		}
 		D = D0;
 		free(D);
