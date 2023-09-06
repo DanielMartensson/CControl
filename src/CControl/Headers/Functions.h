@@ -102,13 +102,6 @@ float vmin(float a, float b);
 void sort(float X[], size_t index[], size_t row, size_t column, SORT_MODE sort_mode);
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
 
-/* Filtering */
-size_t cluster_filter(float X[], size_t row, size_t column, float epsilon, size_t min_pts);
-void filtfilt(float y[], float t[], size_t l, float K);
-void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], size_t m, size_t p, size_t*k);
-void rpca(float X[], float L[], float S[], size_t row, size_t column);
-void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L);
-
 /* Hardware */
 void concatenate_paths(char total_path[], const char path_first[], const char path_second[]);
 size_t count_sub_folders(const char folder_path[]);
@@ -150,10 +143,17 @@ bool lsqnonneg(float A[], float x[], float b[], float residual[], size_t row, si
 bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], size_t row_a, size_t row_g, size_t column_a, bool equality_constraints_are_used);
 
 /* Signal processing */
+size_t cluster_filter(float X[], size_t row, size_t column, float epsilon, size_t min_pts);
+void filtfilt(float y[], float t[], size_t l, float K);
+void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], size_t m, size_t p, size_t* k);
+void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L);
 void fft(float xr[], float xi[], size_t n);
 void fft2(float XR[], float XI[], size_t row, size_t column);
 void ifft(float xr[], float xi[], size_t n);
 void ifft2(float XR[], float XI[], size_t row, size_t column);
+
+/* Image processing */
+void rpca(float X[], float L[], float S[], size_t row, size_t column);
 
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);
