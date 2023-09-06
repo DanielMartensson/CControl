@@ -30,8 +30,8 @@ void sobel(float X[], float G[], float O[], size_t row, size_t column) {
 	conv2(X, Gy, row, column, kernel_y, 3);
 
 	/* 
-	 * Do L2-norm G = sqrt(Gx^2 + Gy^2) 
-	 * Do O = atan2(Gy, Gx) 
+	 * Find gradients G = sqrt(Gx^2 + Gy^2) 
+	 * Find orientations O = atan2(Gy, Gx) 
 	 */
 	size_t i;
 	for (i = 0; i < total_size; i++) {

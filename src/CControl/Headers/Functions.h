@@ -154,6 +154,7 @@ void ifft2(float XR[], float XI[], size_t row, size_t column);
 
 /* Image processing */
 void rpca(float X[], float L[], float S[], size_t row, size_t column);
+void sobel(float X[], float G[], float O[], size_t row, size_t column);
 
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);
