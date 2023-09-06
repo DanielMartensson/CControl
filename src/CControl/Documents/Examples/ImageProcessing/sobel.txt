@@ -40,3 +40,49 @@ int main() {
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 	return EXIT_SUCCESS;
 }
+
+/* GNU Octave code
+	% Sobel filter
+	% Input: data matrix(X)
+	% Output: G(Gradients), O(Orientations)
+	% Example 1: [G, O] = mi.sobel(X)
+	% Author: Daniel Mårtensson, 6 September 2023
+
+	function [G, O] = sobel(varargin)
+	  % Check if there is any input
+	  if(isempty(varargin))
+		error('Missing input')
+	  end
+
+	  % Get X
+	  X = varargin{1};
+
+	  % Create kernels for X-direction and Y-direction
+	  K_x = [-1 0 1; -2 0 2; -1 0 1];
+	  K_y = [-1 -2 -1; 0 0 0; 1 2 1];
+
+	  % Do conv2 with FFT
+	  Gx = conv2_fft(X, K_x);
+	  Gy = conv2_fft(X, K_y);
+
+	  % Compute the gradients
+	  G = abs(sqrt(Gx.^2 + Gy.^2));
+
+	  % Compute the orientations
+	  O = atan2d(Gy, Gx);
+
+	end
+
+	function G = conv2_fft(X, K)
+	  % Create kernel
+	  kernel = zeros(size(X));
+	  kernel(1:3, 1:3) = K;
+
+	  % Do FFT2 on X and kernel
+	  A = fft2(X);
+	  B = fft2(kernel);
+
+	  % Compute the convolutional matrix
+	  G = ifft2(A.*B);
+	end
+*/
