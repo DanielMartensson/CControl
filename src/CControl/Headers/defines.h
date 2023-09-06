@@ -33,7 +33,7 @@ typedef unsigned long size_t;
 #endif /* !__STDC_VERSION__ */
 
  /* Define for all */
-#define PI PI 3.14159265358979323846.0f	/* Constant PI */
+#define PI 3.14159265358979323846.0f	/* Constant PI */
 #define MIN_VALUE 1e-11f				/* Tuning parameter for the smalles value that can be allowed */
 #define MAX_ITERATIONS 10000U			/* For all iteration algorithsm */
 
