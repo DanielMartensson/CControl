@@ -8,42 +8,47 @@
 #include "../../Headers/functions.h"
 
 /* Import the library FFTPack */
-#include "FFTpack_5_1/fftpack.h"
+#include "FFTpack/fftpack.h"
 
 /* 
  * Fast Fourier Transform 
  * xr[n] - Real values
  * xi[n] - Imaginary values
+ * n - Data length
  */
 void fft(float xr[], float xi[], size_t n) {
 	/* Init */
-	const integer N = n;
-	const integer lensav = 2 * N + (integer)(logf((real)N) / logf(2.0f)) + 4;
-	integer ier;
-	real* wsave = (float*)malloc(lensav * sizeof(real));
-	cfft1i_(&N, wsave, &lensav, &ier);
+	fftpack_real* wsave = (float*)malloc((2 * n + 15) * sizeof(fftpack_real));
+	rffti(n, wsave);
 
 	/* Forward transform */
-	const integer inc = 1;
-	const integer lenc = inc * (N - 1) + 1;
-	const integer lenwrk = 2 * N;
-	real* work = (real*)malloc(lenwrk * sizeof(real));
-	complex* c = (complex*)malloc(lenc * sizeof(complex));
-	memset(c, 0, lenc * sizeof(complex));
-	size_t i;
-	for (i = 0; i < n; i++) {
-		c[i].r = xr[i];
-	}
-	cfft1f_(&N, &inc, c, &lenc, wsave, &lensav, work, &lenwrk, &ier);
+	rfftf(n, xr, wsave);
 
-	/* Fill */
-	for (i = 0; i < n; i++) {
-		xr[i] = c[i].r;
-		xi[i] = c[i].i;
+	/* Fixing imaginary numbers */
+	size_t i;
+	memset(xi, 0, n * sizeof(float));
+	size_t index = 0;
+	xi += 1;
+	for (i = 2; i < n; i += 2) {
+		xi[n - index - 2] = -xr[i];
+		xi[index++] = xr[i];
+		xr[i] = 0;
+	}
+	
+	/* Pack */
+	const size_t half = n/2 + 1;
+	for (i = 2; i < half; i++) {
+		index = i + 1 + (i - 2);
+		xr[i] = xr[index];
+	}
+
+	/* Mirror */
+	index = half - (n % 2 == 0); /* if n % 2 == 0 is true, then 1(evnd), else 0(odd) */
+	for (i = half; i < n; i++) {
+		index--;
+		xr[i] = xr[index];
 	}
 
 	/* Free */
 	free(wsave);
-	free(c);
-	free(work);
 }
