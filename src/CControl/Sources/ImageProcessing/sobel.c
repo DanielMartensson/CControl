@@ -10,17 +10,17 @@
 /*
  * Compute sobel filter
  * X[m*n] - Image
- * G[m*n] - Gradients
- * O[m*n] - Orientations
+ * G[m*n] - Gradients with L2-norm
+ * O[m*n] - Orientations in degrees
  */
 void sobel(float X[], float G[], float O[], size_t row, size_t column) {
 	/* Create kernel matrix */
-	const kernel_x[9] = { -1.0f, 0.0f, 1.0f,
-						  -2.0f, 0.0f, 2.0f,
-						  -1.0f, 0.0f, 1.0f };
-	const kernel_y[9] = { -1.0f, -2.0f, -1.0f,
-						   0.0f,  0.0f,  0.0f,
-		                   1.0f,  2.0f,  1.0f };
+	const float kernel_x[9] = { -1.0f, 0.0f, 1.0f,
+								-2.0f, 0.0f, 2.0f,
+								-1.0f, 0.0f, 1.0f };
+	const float kernel_y[9] = { -1.0f, -2.0f, -1.0f,
+								 0.0f,  0.0f,  0.0f,
+								 1.0f,  2.0f,  1.0f };
 
 	/* Do conv2 */
 	const size_t total_size = row * column;
@@ -36,7 +36,7 @@ void sobel(float X[], float G[], float O[], size_t row, size_t column) {
 	size_t i;
 	for (i = 0; i < total_size; i++) {
 		G[i] = sqrtf(Gx[i] * Gx[i] + Gy[i] * Gy[i]);
-		O[i] = atan2f(Gy[i], Gx[i]);
+		O[i] = atan2f(Gy[i], Gx[i]) * 180.0f / PI;
 	}
 
 	/* Free */

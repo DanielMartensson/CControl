@@ -1,0 +1,42 @@
+/*
+ ============================================================================
+ Name        : sobel.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Find sobel gradients and orientations
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 4
+#define column 4
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create X */
+	float X[row * column] = { -0.945344, - 0.856752, - 0.676417, - 0.736404,
+							 - 1.822269,   0.973867,   1.690098,   1.575369,
+							 - 0.516069, - 0.442481, - 0.547304,   0.488175,
+							 - 0.316735, - 0.099759, - 0.476811,   1.660791 };
+
+	/* Create gradients G and orientations O */
+	float G[row * column];
+	float O[row * column];
+
+	/* Compute Sobel filter */
+	sobel(X, G, O, row, column);
+
+	/* Print */
+	print(G, row, column);
+	print(O, row, column);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+	return EXIT_SUCCESS;
+}
