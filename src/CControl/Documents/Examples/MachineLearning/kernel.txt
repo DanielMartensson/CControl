@@ -100,7 +100,7 @@ int main() {
 
 		case 'polynomial'
 		degree = kernel_parameters(1);
-		K = (X*X').^degree
+		K = (X*X').^degree;
 
 		case 'linear'
 		K = X * X';
