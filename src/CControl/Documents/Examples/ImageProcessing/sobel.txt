@@ -82,7 +82,7 @@ int main() {
 	  A = fft2(X);
 	  B = fft2(kernel);
 
-	  % Compute the convolutional matrix
-	  G = ifft2(A.*B);
+	  % Compute the convolutional matrix - abs to remove zero imaginary numbers
+	  G = abs(ifft2(A.*B));
 	end
 */
