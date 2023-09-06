@@ -26,9 +26,9 @@ This library have different types of libraries. First library is the internal li
 | `sggev` | `eig_generalized.c` | Generalized eigenvalue problem for non-symmetric matrices |
 | `ssygvd` | `eig_generalized.c` | Generalized eigenvalue problem for symmetric matrices |
 | `rfftf` | `fft.c` | Compute Fast Fourier Transform 1D |
-| `rfftb` | `fft.c` | Compute Inverse Fast Fourier Transform 1D |
-| `rfft2f` | `fft.c` | Compute Fast Fourier Transform 2D |
-| `rfft2b` | `fft.c` | Compute Inverse Fast Fourier Transform 2D |
+| `cfftb` | `ifft.c` | Compute Inverse Fast Fourier Transform 1D |
+| `rfftf` | `fft2.c` | Compute Fast Fourier Transform 2D |
+| `cfftb` | `ifft2.c` | Compute Inverse Fast Fourier Transform 2D |
  
 If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.
 
@@ -98,6 +98,7 @@ Main focuses are:
   - Norm
   - Matrix exponential
   - Rank
+  - Convolution matrix
 
 - Miscellaneous
   - Concatenate

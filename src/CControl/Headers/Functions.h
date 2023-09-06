@@ -132,7 +132,7 @@ float det(float A[], size_t row);
 bool linsolve_lup(float A[], float x[], float b[], size_t row);
 bool chol(float A[], float L[], size_t row);
 void cholupdate(float L[], float x[], size_t row, bool rank_one_update);
-void conv2(float A[], size_t row_a, size_t column_a, float K[], size_t row_k);
+void conv2(float A[], float B[], size_t row_a, size_t column_a, float K[], size_t row_k);
 bool linsolve_chol(float A[], float x[], float b[], size_t row);
 void pinv(float A[], size_t row, size_t column);
 bool hankel(float V[], float H[], size_t row_v, size_t column_v, size_t row_h, size_t column_h, size_t shift);

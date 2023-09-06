@@ -48,16 +48,7 @@
     <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\clapack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack_5_1\f2c.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Tools\tools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack_5_1\fftpack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack_5_0\fftpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Routines\blaswrap.h">
@@ -70,6 +61,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CControl\Sources\LinearAlgebra\CLapack\Routines\routines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -407,346 +401,10 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\wsfe.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f2kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f2kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f3kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f3kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f4kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f4kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f5kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1f5kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1fgkb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1fgkf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1fm1b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\c1fm1f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft1b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft1f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft1i.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft2b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft2f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfft2i.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfftmb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfftmf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cfftmi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf2kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf2kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf3kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf3kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf4kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf4kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf5kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmf5kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmfgkb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmfgkf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmfm1b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cmfm1f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosq1b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosq1f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosq1i.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqb1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqf1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqmb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqmf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cosqmi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cost1b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cost1f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\cost1i.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costb1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costf1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costmb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costmf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\costmi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\factor.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcfti1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcsqb1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcsqf1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcstb1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mcstf1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradb2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradb3.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradb4.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradb5.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradbg.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradf2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradf3.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradf4.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradf5.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mradfg.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mrftb1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mrftf1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\mrfti1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\msntb1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\msntf1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f2kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f2kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f3kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f3kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f4kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f4kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f5kb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1f5kf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1fgkb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r1fgkf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\r2w.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft1b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft1f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft1i.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft2b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft2f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfft2i.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftb1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftf1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rffti1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftmb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftmf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\rfftmi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinq1b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinq1f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinq1i.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinqmb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinqmf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sinqmi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sint1b.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sint1f.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sint1i.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintb1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintf1.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintmb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintmf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\sintmi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\tables.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\w2r.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\xercon.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_1\xerfft.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\SignalProcessing\fft2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\SignalProcessing\ifft2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack_5_0\fftpack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Routines\ieeeck.c">
@@ -1232,9 +890,14 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Routines\xerbla.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="CControl\Sources\SignalProcessing\FFTpack_5_1\manual.html" />
   </ItemGroup>
 </Project>
