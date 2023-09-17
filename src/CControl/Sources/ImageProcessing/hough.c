@@ -153,13 +153,16 @@ static float* hough_scores(float X[], float p, size_t row, size_t column) {
 	/* Maximum r value */
 	const size_t r_max = sqrtf(row*row + column*column);
 
+	/* Maximum index */
+	const size_t max_index = 180 * r_max;
+
 	/* Create points holder P */
 	const size_t P_total_size = 180 * r_max;
 	float* P = (float*)malloc(P_total_size * sizeof(float));
 	memset(P, 0, P_total_size * sizeof(float));
 
 	/* Collect the points for the most common lines */
-	size_t j, k, r, angle_int, c, d;
+	size_t j, k, r, angle_int, c, d, index;
 	float M, x, y, angle;
 	size_t indexes[181];
 	for (i = 0; i < row; i++) {
@@ -196,10 +199,13 @@ static float* hough_scores(float X[], float p, size_t row, size_t column) {
 				/* Turn them into degrees */
 				angle_int = roundf(rad2deg(angle));
 
-				/* Avoid values that are larger than r_max */
-				if (r < r_max) {
+				/* Compute index */
+				index = angle_int* r_max + r;
+
+				/* Avoid indexes that are larger than max_index */
+				if (index < max_index) {
 					/* Save the indexes in row major */
-					indexes[c++] = angle_int * r_max + r;
+					indexes[c++] = index;
 				}
 			}
 
@@ -330,6 +336,9 @@ function P = hough_scores(X, p)
   % Create points holder P
   P = zeros(180, r_max);
 
+  % Create max index
+  max_index = 180*r_max;
+
   % Collect the points for the most common lines
   for i = 1:m
 	for j = 1:n
@@ -360,12 +369,11 @@ function P = hough_scores(X, p)
 	  % Turn them into degrees and add +1 because of the indexing
 	  angles = round(rad2deg(angles)) + 1;
 
-	  % Avoid values that are larger than r_max
-	  angles(r > r_max) = [];
-	  r(r > r_max) = [];
-
 	  % Save the indexes in column major
 	  indexes = r*180 + angles;
+
+	  % Avoid indexes that are larger than max index
+	  indexes(indexes > max_index) = [];
 
 	  % Check if there are duplicates
 	  P(indexes) = P(indexes) + 1;
@@ -408,4 +416,5 @@ function [K, M, R, A] = hough_lines(x, y, z, N, index)
 	A(i) = angle;
   end
 end
+ 
 */
