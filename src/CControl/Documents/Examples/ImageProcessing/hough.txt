@@ -1,0 +1,97 @@
+/*
+ ============================================================================
+ Name        : hough.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Find lines inside an edge image
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Read the image */
+	PGM* image = pgm_read("..\\src\\CControl\\Documents\\Data\\hough\\test_hough.pgm");
+
+	/* Turn the image to floats */
+	const size_t row = image->height;
+	const size_t column = image->width;
+	const size_t row_column = row * column;
+	size_t i;
+	float* X = (float*)malloc(row_column * sizeof(float));
+	for (i = 0; i < row_column; i++) {
+		X[i] = image->pixels[i];
+	}
+
+	/* Free */
+	pgm_free(image);
+
+	/* Settings for hough tranform */
+	float p = 0.3;
+	float epsilon = 15;
+	size_t min_pts = 2;
+
+	/* Do hough transform */
+	size_t N;
+	float* K = NULL, * M = NULL, * R = NULL, * A = NULL;
+	hough(X, &N, &K, &M, &R, &A, p, epsilon, min_pts, row, column);
+
+	/* Print */
+	for (i = 0; i < N; i++) {
+		printf("y = %fx + %f\n", K[i], M[i]);
+		printf("angle[%i] = %f, r[%i] = %f\n", i, A[i], i, R[i]);
+	}
+
+	/* Free */
+	free(K);
+	free(M);
+	free(R);
+	free(A);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+	return EXIT_SUCCESS;
+}
+
+/* GNU octave code
+% Clear
+clear all
+close all
+clc
+
+% Read image
+X = imread('test_hough.png');
+
+% If the image is color
+if(size(X, 3) > 1)
+  X = rgb2gray(X);
+end
+
+% Save the image as .pgm
+imwrite(X, 'test_hough.pgm');
+
+% Plot the image
+imshow(X);
+
+% Do hough transform
+p = 0.3; % Percentage definition of a line e.g all lines shorter than p times longest line, should be classes as a non-line
+epsilon = 15; % Minimum radius for hough cluster
+min_pts = 2; % Minimum points for hough cluster
+[N, K, M] = mi.hough(X, p, epsilon, min_pts)
+
+% Plot the lines together with the image
+[~, n] = size(X);
+x = linspace(0, n);
+hold on
+for i = 1:N
+  y = K(i)*x + M(i);
+  plot(x, y)
+end
+
+*/

@@ -63,6 +63,10 @@ float sinf(float x) {
 float tanhf(float x) {
 	return (float)tanh(x);
 }
+
+float roundf(float x) {
+	return (float)round(x);
+}
 #endif /* !_MSC_VER */
 #endif /* !__STDC_VERSION___ */
 
@@ -92,10 +96,9 @@ void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITIO
 void insert(float A[], float B[], size_t row_a, size_t column_a, size_t column_b, size_t startRow_b, size_t startColumn_b);
 bool issymmetric(float A[], size_t row, size_t column);
 void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, PDIST2_METRIC metric);
-PGM* pgm_read(const char file_path[]);
-void pgm_free(PGM* image);
-void pgm_print(PGM* image);
 void print(float A[], size_t row, size_t column);
+float rad2deg(float radians);
+float deg2rad(float radians);
 float sign(float number);
 float vmax(float a, float b);
 float vmin(float a, float b);
@@ -153,6 +156,10 @@ void ifft(float xr[], float xi[], size_t n);
 void ifft2(float XR[], float XI[], size_t row, size_t column);
 
 /* Image processing */
+void hough(float X[], size_t* N, float* K[], float* M[], float* R[], float* A[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
+PGM* pgm_read(const char file_path[]);
+void pgm_free(PGM* image);
+void pgm_print(PGM* image);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);
 void sobel(float X[], float G[], float O[], size_t row, size_t column);
 
