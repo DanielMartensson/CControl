@@ -66,6 +66,7 @@ Main focuses are:
 - Image Processing
   - Robust Principal Component Analysis
   - Sobel filter
+  - Hough Transform for line detection
 
 - Signal Processing
   - Fast Fourier Transform 1D

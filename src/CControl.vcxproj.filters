@@ -290,7 +290,7 @@
     <ClCompile Include="CControl\Sources\Hardware\concatenate_paths.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Miscellaneous\pgm.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\pgm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\MachineLearning\kernel.c">
@@ -897,6 +897,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\sobel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\hog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\hough.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
