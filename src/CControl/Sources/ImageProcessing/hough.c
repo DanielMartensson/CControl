@@ -59,9 +59,9 @@ static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, 
 	float value, max_value, angle, r;
 	for (i = 1; i <= N; i++) {
 		/* Find the maximum value at z-axis of a specific class ID */
-		max_value = (*z)[0];
+		max_value = 0;
 		max_index = 0;
-		for (j = 1; j < L; j++) {
+		for (j = 0; j < L; j++) {
 			if (i == (*index)[j]) {
 				value = (*z)[j];
 				if (value >= max_value) {
@@ -111,6 +111,27 @@ static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_
 		}
 		P += r_max;
 	}
+
+	/* Sort so the longest line comes first */
+	size_t* sorted_indexes = (size_t*)malloc(k * sizeof(size_t));
+	sort(*z, sorted_indexes, k, 1, SORT_MODE_ROW_DIRECTION_DESCEND);
+	
+	/* Sort the rest */
+	float* y_sorted = (float*)malloc(k * sizeof(float));
+	float* x_sorted = (float*)malloc(k * sizeof(float));
+	for (i = 0; i < k; i++) {
+		x_sorted[i] = (*x)[sorted_indexes[i]];
+		y_sorted[i] = (*y)[sorted_indexes[i]];
+	}
+	for (i = 0; i < k; i++) {
+		(*x)[i] = x_sorted[i];
+		(*y)[i] = y_sorted[i];
+	}
+
+	/* Free */
+	free(sorted_indexes);
+	free(x_sorted);
+	free(y_sorted);
 	
 	/* Do dbscan - All idx values that are 0, are noise */
 	float* C = (float*)malloc(k * 2 * sizeof(float));
@@ -120,7 +141,7 @@ static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_
 
 	/* Find the amount of clusters */
 	size_t N = (*index)[0];
-	for (i = 0; i < k; i++) {
+	for (i = 1; i < k; i++) {
 		j = (*index)[i];
 		if (j > N) {
 			N = j;
@@ -299,6 +320,13 @@ end
 function [x, y, z, N, index] = hough_cluster(P, epsilon, min_pts)
   % Turn matrix P into 3 vectors
   [x, y, z] = find(P);
+
+  % Sort so the longest line comes first
+  [z, sorted_indexes] = sort(z, 'descend');
+
+  % Sort the rest
+  x = x(sorted_indexes);
+  y = y(sorted_indexes);
 
   % Do dbscatn - All idx values that are 0, are noise
   C = cat(2, x, y);
