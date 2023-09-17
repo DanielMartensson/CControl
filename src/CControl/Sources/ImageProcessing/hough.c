@@ -221,7 +221,7 @@ static float* hough_scores(float X[], float p, size_t row, size_t column) {
 				angle_int = roundf(rad2deg(angle));
 
 				/* Compute index */
-				index = angle_int* r_max + r;
+				index = angle_int * r_max + r;
 
 				/* Avoid indexes that are larger than max_index */
 				if (index < max_index) {
