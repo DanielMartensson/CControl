@@ -67,6 +67,7 @@ Main focuses are:
   - Robust Principal Component Analysis
   - Sobel filter
   - Hough Transform for line detection
+  - Portable Gray Map (PGM) reader
 
 - Signal Processing
   - Fast Fourier Transform 1D
