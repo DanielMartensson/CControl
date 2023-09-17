@@ -2,7 +2,7 @@
  * cat.c
  *
  *  Created on: Nov 22, 2021
- *      Author: ooaj
+ *      Author: Daniel Mårtensson
  */
 
 #include "../../Headers/functions.h"
@@ -21,9 +21,14 @@ void cat(bool row_wise, float A[], float B[], float C[], size_t row_a, size_t co
 		memcpy(C + row_a * column_a, B, row_b * column_b * sizeof(float));
 	}else{
 		/* C = [A B] */
-		memcpy(C, A, column_a * sizeof(float));
-		memcpy(C + column_a, B, column_b * sizeof(float));
-		memcpy(C + column_a + column_b, A + column_a, column_a * sizeof(float));
-		memcpy(C + column_a + column_b + column_a, B + column_b, column_b * sizeof(float));
+		size_t i;
+		for (i = 0; i < row_a; i++) {
+			memcpy(C, A, column_a * sizeof(float));
+			C += column_a;
+			A += column_a;
+			memcpy(C, B, column_b * sizeof(float));
+			C += column_b;
+			B += column_b;
+		}
 	}
 }
