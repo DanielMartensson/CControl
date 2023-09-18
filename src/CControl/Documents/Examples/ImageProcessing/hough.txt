@@ -38,20 +38,17 @@ int main() {
 
 	/* Do hough transform */
 	size_t N;
-	float* K = NULL, * M = NULL, * R = NULL, * A = NULL;
-	hough(X, &N, &K, &M, &R, &A, p, epsilon, min_pts, row, column);
+	float* K = NULL, * M = NULL;
+	hough(X, &N, &K, &M, p, epsilon, min_pts, row, column);
 
 	/* Print */
 	for (i = 0; i < N; i++) {
 		printf("y = %fx + %f\n", K[i], M[i]);
-		printf("angle[%i] = %f, r[%i] = %f\n", i, A[i], i, R[i]);
 	}
 
 	/* Free */
 	free(K);
 	free(M);
-	free(R);
-	free(A);
 	free(X);
 
 	end = clock();

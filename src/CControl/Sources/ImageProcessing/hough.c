@@ -9,22 +9,20 @@
 
 static float* hough_scores(float X[], float p, size_t row, size_t column);
 static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, float epsilon, size_t min_pts, size_t row, size_t column);
-static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[], float* R[], float* A[]);
+static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[]);
 
 /*
  * Hough Transform - Line detection of an edge image 
  * X[m*n] = Data matrix of an edge image
  * K[N] = Slope for the line
  * M[N] = Bias for the line
- * R[N] = Shortest distance to line from origin
- * A[N] = Angle in radians
  * p = Line length threshold in precent
  * epsilon = Minimum radius for hough cluster
  * min_pts = Minimum points for hough cluster
  * 
- * Hough Transform will define the parameter N and the matricies K, M, R, A
+ * Hough Transform will define the parameter N and the matricies K and M
  */
-void hough(float X[], size_t* N, float* K[], float* M[], float* R[], float* A[], float p, float epsilon, size_t min_pts, size_t row, size_t column) {
+void hough(float X[], size_t* N, float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column) {
 	/* Compute scores for the lines */
 	float* P = hough_scores(X, p, row, column);
 
@@ -37,7 +35,7 @@ void hough(float X[], size_t* N, float* K[], float* M[], float* R[], float* A[],
 	*N = hough_cluster(P, &x, &y, &z, &index, &L, epsilon, min_pts, row, column);
 
 	/* Compute lines */
-	hough_lines(&x, &y, &z, L, *N, &index, K, M, R, A);
+	hough_lines(&x, &y, &z, L, *N, &index, K, M);
 
 	/* Free */
 	free(P);
@@ -47,12 +45,10 @@ void hough(float X[], size_t* N, float* K[], float* M[], float* R[], float* A[],
 	free(index);
 }
 
-static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[], float* R[], float* A[]) {
-	/* Create K, M, R and T - They are holders for the output */
+static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[]) {
+	/* Create K and M - They are holders for the output */
 	*K = (float*)malloc(N * sizeof(float));
 	*M = (float*)malloc(N * sizeof(float));
-	*R = (float*)malloc(N * sizeof(float));
-	*A = (float*)malloc(N * sizeof(float));
 
 	/* Fill */
 	size_t i, j, max_index;
@@ -86,8 +82,6 @@ static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, 
 		angle = deg2rad(angle);
 		(*K)[i-1] = sinf(angle) / -cosf(angle);
 		(*M)[i-1] = -r / -cosf(angle);
-		(*R)[i-1] = r;
-		(*A)[i-1] = angle;
 	}
 }
 
@@ -264,11 +258,11 @@ static float* hough_scores(float X[], float p, size_t row, size_t column) {
 
  % Hough transform - Line detection algorthm by using hough transform and DBscan
 % Input: X(Data matrix of an edge image), p(Line length threshold in precent), epsilon(Minimum radius for hough cluster), min_pts(Minimum points for hough cluster)
-% Output: N(Number of lines), K(Slopes for the lines), M(Bias for the lines), R(Shortest distance to line from origin), A(Angle in radians)
-% Example 1: [N, K, M, R, A] = mi.hough(X, p, epsilon, min_pts);
+% Output: N(Number of lines), K(Slopes for the lines), M(Bias for the lines)
+% Example 1: [N, K, M] = mi.hough(X, p, epsilon, min_pts);
 % Author: Daniel Mårtensson, 14 September 2023
 
-function [N, K, M, R, A] = hough(varargin)
+function [N, K, M] = hough(varargin)
   % Check if there is any input
   if(isempty(varargin))
 	error('Missing inputs')
@@ -314,7 +308,7 @@ function [N, K, M, R, A] = hough(varargin)
   [x, y, z, N, index] = hough_cluster(P, epsilon, min_pts);
 
   % Compute lines
-  [K, M, R, A] = hough_lines(x, y, z, N, index);
+  [K, M] = hough_lines(x, y, z, N, index);
 end
 
 function [x, y, z, N, index] = hough_cluster(P, epsilon, min_pts)
@@ -413,12 +407,10 @@ function P = hough_scores(X, p)
   P(P < threshold) = 0;
 end
 
-function [K, M, R, A] = hough_lines(x, y, z, N, index)
-  % Create K, M, R and A - They are holders for the output
+function [K, M] = hough_lines(x, y, z, N, index)
+  % Create K and M - They are holders for the output
   K = zeros(1, N);
   M = zeros(1, N);
-  R = zeros(1, N);
-  A = zeros(1, N);
 
   % Fill
   for i = 1:N
@@ -440,8 +432,6 @@ function [K, M, R, A] = hough_lines(x, y, z, N, index)
 	angle = deg2rad(angle);
 	K(i) = sin(angle)/-cos(angle);
 	M(i) = - r/-cos(angle);
-	R(i) = r;
-	A(i) = angle;
   end
 end
  
