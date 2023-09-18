@@ -156,7 +156,7 @@ void ifft(float xr[], float xi[], size_t n);
 void ifft2(float XR[], float XI[], size_t row, size_t column);
 
 /* Image processing */
-void hough(float X[], size_t* N, float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
+size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 PGM* pgm_read(const char file_path[]);
 void pgm_free(PGM* image);
 void pgm_print(PGM* image);

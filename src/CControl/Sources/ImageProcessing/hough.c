@@ -20,9 +20,9 @@ static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, 
  * epsilon = Minimum radius for hough cluster
  * min_pts = Minimum points for hough cluster
  * 
- * Hough Transform will define the parameter N and the matricies K and M
+ * Hough Transform will define the matricies K and M and the size of them (N)
  */
-void hough(float X[], size_t* N, float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column) {
+size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column) {
 	/* Compute scores for the lines */
 	float* P = hough_scores(X, p, row, column);
 
@@ -32,10 +32,10 @@ void hough(float X[], size_t* N, float* K[], float* M[], float p, float epsilon,
 	float* z = NULL;
 	float* index = NULL;
 	size_t L;
-	*N = hough_cluster(P, &x, &y, &z, &index, &L, epsilon, min_pts, row, column);
+	size_t N = hough_cluster(P, &x, &y, &z, &index, &L, epsilon, min_pts, row, column);
 
 	/* Compute lines */
-	hough_lines(&x, &y, &z, L, *N, &index, K, M);
+	hough_lines(&x, &y, &z, L, N, &index, K, M);
 
 	/* Free */
 	free(P);
@@ -43,6 +43,9 @@ void hough(float X[], size_t* N, float* K[], float* M[], float p, float epsilon,
 	free(y);
 	free(z);
 	free(index);
+
+	/* Return the size of K and M */
+	return N;
 }
 
 static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[]) {
