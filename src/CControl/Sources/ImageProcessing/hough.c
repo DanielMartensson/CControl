@@ -7,9 +7,9 @@
 
 #include "../../Headers/functions.h"
 
-static float* hough_scores(float X[], float p, size_t row, size_t column);
-static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, float epsilon, size_t min_pts, size_t row, size_t column);
-static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[]);
+static float* hough_scores(float X[], float p, size_t* r_half, size_t row, size_t column);
+static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, float epsilon, size_t min_pts, size_t r_half);
+static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[], size_t r_half);
 
 /*
  * Hough Transform - Line detection of an edge image 
@@ -24,7 +24,8 @@ static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, 
  */
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column) {
 	/* Compute scores for the lines */
-	float* P = hough_scores(X, p, row, column);
+	size_t r_half;
+	float* P = hough_scores(X, p, &r_half, row, column);
 
 	/* Turn the scores matrix into a hough cluster */
 	float* x = NULL;
@@ -32,10 +33,10 @@ size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t m
 	float* z = NULL;
 	float* index = NULL;
 	size_t L;
-	size_t N = hough_cluster(P, &x, &y, &z, &index, &L, epsilon, min_pts, row, column);
+	size_t N = hough_cluster(P, &x, &y, &z, &index, &L, epsilon, min_pts, r_half);
 
 	/* Compute lines */
-	hough_lines(&x, &y, &z, L, N, &index, K, M);
+	hough_lines(&x, &y, &z, L, N, &index, K, M, r_half);
 
 	/* Free */
 	free(P);
@@ -48,7 +49,7 @@ size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t m
 	return N;
 }
 
-static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[]) {
+static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[], size_t r_half) {
 	/* Create K and M - They are holders for the output */
 	*K = (float*)malloc(N * sizeof(float));
 	*M = (float*)malloc(N * sizeof(float));
@@ -69,12 +70,19 @@ static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, 
 				}
 			}
 		}
-		
+
 		/* Get the angles and take -1 because we did +1 above */
 		angle = (*x)[max_index] - 1.0f;
-		
+
 		/* Important to take -1 because indexes = sub2ind(size(P), angles, r) (a function that been used before) cannot accept r = 0, but indexes = r*180 + angles; can that */
 		r = (*y)[max_index] - 1.0f;
+
+		/* This is the trick to make sure r pointing at the right direction */
+		if (r > r_half) {
+			r = r - r_half;
+		}else{
+			r = -r;
+		}
 
 		/* Make sure that the angle is not deliberately, purposefully and exactly 90 */
 		if (fabsf(90.0f - angle) < 1e-5f) {
@@ -88,9 +96,9 @@ static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, 
 	}
 }
 
-static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, float epsilon, size_t min_pts, size_t row, size_t column) {
+static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, float epsilon, size_t min_pts, size_t r_half) {
 	/* Turn matrix P into 3 vectors - This is the same as [x, y, z] = find(P) in Matlab */
-	const size_t r_max = sqrtf(row * row + column * column);
+	const size_t r_max = 2 * r_half;
 	size_t i, j, bytes, k = 0;
 	for (i = 0; i < 180; i++) {
 		for (j = 0; j < r_max; j++) {
@@ -153,7 +161,7 @@ static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_
 	return N;
 }
 
-static float* hough_scores(float X[], float p, size_t row, size_t column) {
+static float* hough_scores(float X[], float p, size_t* r_half, size_t row, size_t column) {
 	/* Choose angles between -90 and 90 in radians with 1 degree in step */
 	float K[181];
 	size_t i;
@@ -168,8 +176,11 @@ static float* hough_scores(float X[], float p, size_t row, size_t column) {
 		K[i] = tanf(deg2rad(K[i]));
 	}
 
+	/* Compute the r_half */
+	*r_half = sqrtf(row * row + column * column);
+
 	/* Maximum r value */
-	const size_t r_max = sqrtf(row*row + column*column);
+	const size_t r_max = 2 * (*r_half);
 
 	/* Maximum index */
 	const size_t max_index = 180 * r_max;
@@ -205,6 +216,11 @@ static float* hough_scores(float X[], float p, size_t row, size_t column) {
 
 				/* Compute r and make it to an integer */
 				r = roundf(sqrtf(x * x + y * y));
+
+				/* This is a special case when we want to track the direction of r */
+				if (y > 0.0f) {
+					r = r + *r_half;
+				}
 
 				/* Compute the angle */
 				angle = atan2f(y, x);
@@ -259,7 +275,7 @@ static float* hough_scores(float X[], float p, size_t row, size_t column) {
 /*
  GNU Octave code
 
- % Hough transform - Line detection algorthm by using hough transform and DBscan
+% Hough transform - Line detection algorthm by using hough transform and DBscan
 % Input: X(Data matrix of an edge image), p(Line length threshold in precent), epsilon(Minimum radius for hough cluster), min_pts(Minimum points for hough cluster)
 % Output: N(Number of lines), K(Slopes for the lines), M(Bias for the lines)
 % Example 1: [N, K, M] = mi.hough(X, p, epsilon, min_pts);
@@ -305,13 +321,13 @@ function [N, K, M] = hough(varargin)
   end
 
   % Compute scores for the lines
-  P = hough_scores(X, p);
+  [P, r_half] = hough_scores(X, p);
 
   % Turn the scores matrix into a hough cluster
   [x, y, z, N, index] = hough_cluster(P, epsilon, min_pts);
 
   % Compute lines
-  [K, M] = hough_lines(x, y, z, N, index);
+  [K, M] = hough_lines(x, y, z, N, index, r_half);
 end
 
 function [x, y, z, N, index] = hough_cluster(P, epsilon, min_pts)
@@ -340,7 +356,7 @@ function [x, y, z, N, index] = hough_cluster(P, epsilon, min_pts)
   %figure
 end
 
-function P = hough_scores(X, p)
+function [P, r_half] = hough_scores(X, p)
   % Get the size of X
   [m, n] = size(X);
 
@@ -355,8 +371,11 @@ function P = hough_scores(X, p)
   % Get length of K
   K_length = length(K);
 
+  % Compute the r_half
+  r_half = floor(sqrt(m^2 + n^2));
+
   % Maximum r value
-  r_max = floor(sqrt(m^2 + n^2));
+  r_max = 2*r_half;
 
   % Create points holder P
   P = zeros(180, r_max);
@@ -385,6 +404,9 @@ function P = hough_scores(X, p)
 	  % Compute r and make it to an integer
 	  r = round(sqrt(x.^2 + y.^2));
 
+	  % This is a special case when we want to track the direction of r
+	  r(y > 0) = r(y > 0) + r_half;
+
 	  % Compute the angles
 	  angles = atan2(y, x);
 
@@ -410,7 +432,7 @@ function P = hough_scores(X, p)
   P(P < threshold) = 0;
 end
 
-function [K, M] = hough_lines(x, y, z, N, index)
+function [K, M] = hough_lines(x, y, z, N, index, r_half)
   % Create K and M - They are holders for the output
   K = zeros(1, N);
   M = zeros(1, N);
@@ -425,6 +447,13 @@ function [K, M] = hough_lines(x, y, z, N, index)
 
 	% Important to take -1 because indexes = sub2ind(size(P), angles, r) (a function that been used before) cannot accept r = 0, but indexes = r*180 + angles; can that
 	r = y(index == i)(max_index) - 1;
+
+	% This is the trick to make sure r pointing at the right direction
+	if(r > r_half)
+	  r = r - r_half;
+	else
+	  r = -r;
+	end
 
 	% Make sure that the angle is not deliberately, purposefully and exactly 90
 	if(abs(90 - angle) <= 1e-05)
