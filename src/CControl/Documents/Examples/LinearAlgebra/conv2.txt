@@ -12,7 +12,7 @@
 
 #define row_a 8
 #define column_a 6
-#define row_k 3
+#define row_k 3 - This number must be odd
 
 int main() {
 	clock_t start, end;
