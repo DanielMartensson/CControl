@@ -11,7 +11,7 @@
  * Do convolutional matrix multiplication by using FFT2
  * A[row_a * column_a] - Input
  * B[row_a * column_a] - Output
- * K[row_k * row_k]
+ * K[row_k * row_k] - k_row MUST be an odd number e.g 5 or 3 or 7 etc.
  */
 void conv2(float A[], float B[], size_t row_a, size_t column_a, float K[], size_t row_k) {
 	/* Do a copy */
