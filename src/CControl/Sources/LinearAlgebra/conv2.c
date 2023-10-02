@@ -27,19 +27,25 @@ void conv2(float A[], float B[], size_t row_a, size_t column_a, float K[], size_
 	/* Create an empy zero kernel matrix with the same size of A */
 	float* kernel_real = (float*)malloc(bytes_A);
 	memset(kernel_real, 0, bytes_A);
-	float* kernel_real0 = kernel_real;
 
-	/* Fill the upper left corner with K */
-	size_t i;
-	const size_t bytes_row_K = row_k * sizeof(float);
-	for (i = 0; i < row_k; i++) {
-		memcpy(kernel_real, K, bytes_row_K);
+	/* Compute the sizes */
+	const size_t row_middle = row_k / 2;
+	const size_t column_middle = row_middle;
 
-		/* New row */
-		kernel_real += column_a;
-		K += row_k;
+	/* Insert kernel */
+	size_t i, j;
+	for (i = 0; i <= row_middle; i++) {
+		for (j = 0; j <= column_middle; j++) {
+			kernel_real[i * column_a + j] = K[(i + row_middle) * row_k + (j + column_middle)];
+		}
 	}
-	kernel_real = kernel_real0;
+	for (j = 0; j <= column_middle; j++) {
+		kernel_real[(row_a-1) * column_a + j] = K[j + column_middle];
+	}
+	for (i = 0; i <= row_middle; i++) {
+		kernel_real[i * column_a + column_a - 1] = K[(i + row_middle) * row_k];
+	}
+	kernel_real[row_a * column_a - 1] = K[0];
 
 	/* Do FFT on kernel */
 	float* kernel_imag = (float*)malloc(bytes_A);
@@ -70,3 +76,53 @@ void conv2(float A[], float B[], size_t row_a, size_t column_a, float K[], size_
 	free(kernel_imag);
 }
 
+/* GNU octave code
+	% Convolution via FFT2
+	% Input: X(Data matrix), K(Kernel matrix)
+	% Output: C(Filtered data matrix)
+	% Example 1: [C] = mc.conv2fft(X, K);
+	% Author: Daniel Mårtensson, 24 September 2023
+
+	function C = conv2fft(varargin)
+	  % Check if there is any input
+	  if(isempty(varargin))
+		error('Missing input')
+	  end
+
+	  % Get input matrix X
+	  if(length(varargin) >= 1)
+		X = varargin{1};
+	  else
+		error('Missing input data matrix X')
+	  end
+
+	  % Get the sigma
+	  if(length(varargin) >= 2)
+		K = varargin{2};
+	  else
+		error('Missing kernel data matrix K')
+	  end
+
+	  % Create kernel
+	  [m, n] = size(X);
+	  kernel = zeros(m, n);
+	  [m, n] = size(K);
+
+	  % Compute the sizes
+	  m_middle = ceil(m/2);
+	  n_middle = ceil(n/2);
+
+	  % Insert kernel
+	  kernel(1:m_middle, 1:n_middle) = K(m_middle:end, n_middle:end);
+	  kernel(end, 1:n_middle) = K(1, n_middle:end);
+	  kernel(1:m_middle, end) = K(m_middle:end, 1);
+	  kernel(end, end) = K(1,1);
+
+	  % Do FFT2 on X and kernel
+	  A = fft2(X);
+	  B = fft2(kernel);
+
+	  % Compute the convolutional matrix - abs to remove zero imaginary numbers
+	  C = abs(ifft2(A.*B));
+	end
+*/
