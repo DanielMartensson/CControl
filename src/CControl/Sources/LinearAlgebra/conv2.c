@@ -122,7 +122,7 @@ void conv2(float A[], float B[], size_t row_a, size_t column_a, float K[], size_
 	  A = fft2(X);
 	  B = fft2(kernel);
 
-	  % Compute the convolutional matrix - abs to remove zero imaginary numbers
-	  C = abs(ifft2(A.*B));
+	  % Compute the convolutional matrix - real to remove zero imaginary numbers
+	  C = real(ifft2(A.*B));
 	end
 */
