@@ -45,7 +45,7 @@ static fast_corner_xy* nonmax_suppression(const fast_corner_xy* corners, const i
 fast_corner_xy* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method) {
 	switch (fast_method) {
 	case FAST_METHOD_9:
-		return fast9_detect_nonmax(X, row, column, column, threshold, num_corners);
+		return fast9_detect_nonmax(X, row, column, row, threshold, num_corners);
 	case FAST_METHOD_10:
 		return fast10_detect_nonmax(X, row, column, 0, threshold, num_corners);
 	case FAST_METHOD_11:
