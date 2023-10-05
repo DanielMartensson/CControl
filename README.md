@@ -64,10 +64,11 @@ Main focuses are:
   - Continuous to discrete
 
 - Image Processing
+  - Features from accelerated segment test (FAST)
   - Robust Principal Component Analysis
   - Sobel filter
   - Hough Transform for line detection
-  - Portable Gray Map (PGM) reader
+  - Portable Gray Map (PGM) reader, print and free
 
 - Signal Processing
   - Fast Fourier Transform 1D

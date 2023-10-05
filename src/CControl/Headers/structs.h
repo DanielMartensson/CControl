@@ -8,7 +8,7 @@
 #ifndef CCONTROL_HEADERS_STRUCTS_H_
 #define CCONTROL_HEADERS_STRUCTS_H_
 
-/* For pgm_read.c */
+/* For imshow.c and imread.c */
 typedef struct {
 	size_t width;
 	size_t height;
@@ -23,5 +23,12 @@ typedef struct {
 	size_t* class_id;
 	float* data;
 }FISHER_MODEL;
+
+/* For fast.c */
+typedef struct {
+	int x;
+	int y;
+} fast_corner_xy;
+
 
 #endif /* !CCONTROL_HEADERS_STRUCTS_H_ */

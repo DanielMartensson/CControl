@@ -87,4 +87,12 @@ typedef enum {
 	HOG_CELLS_16_16 = 256
 }HOG_CELLS;
 
+/* For fast.c */
+typedef enum {
+	FAST_METHOD_9,
+	FAST_METHOD_10,
+	FAST_METHOD_11,
+	FAST_METHOD_12
+}FAST_METHOD;
+
 #endif /* !CCONTROL_HEADERS_ENUMS_H_ */

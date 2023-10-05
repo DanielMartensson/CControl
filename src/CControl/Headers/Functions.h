@@ -156,10 +156,11 @@ void ifft(float xr[], float xi[], size_t n);
 void ifft2(float XR[], float XI[], size_t row, size_t column);
 
 /* Image processing */
+fast_corner_xy* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
-PGM* pgm_read(const char file_path[]);
-void pgm_free(PGM* image);
-void pgm_print(PGM* image);
+void imshow(PGM* image);
+PGM* imread(const char file_path[]);
+void imfree(PGM* image);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);
 void sobel(float X[], float G[], float O[], size_t row, size_t column);
 

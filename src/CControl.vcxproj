@@ -48,8 +48,11 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\fast.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\hog.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\hough.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\cluster_filter.c" />
@@ -280,7 +283,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\pooling.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\issymmetric.c" />
-    <ClCompile Include="CControl\Sources\ImageProcessing\pgm.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\imread.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\fft.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\fft2.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.c" />
