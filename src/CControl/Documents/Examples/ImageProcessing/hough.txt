@@ -16,7 +16,7 @@ int main() {
 	start = clock();
 
 	/* Read the image */
-	PGM* image = pgm_read("..\\src\\CControl\\Documents\\Data\\hough\\test_hough.pgm");
+	PGM* image = imread("..\\src\\CControl\\Documents\\Data\\hough\\test_hough.pgm");
 
 	/* Turn the image to floats */
 	const size_t row = image->height;
@@ -29,7 +29,7 @@ int main() {
 	}
 
 	/* Free */
-	pgm_free(image);
+	imfree(image);
 
 	/* Settings for hough tranform */
 	float p = 0.3;
