@@ -28,7 +28,7 @@ typedef struct {
 typedef struct {
 	int x;
 	int y;
-} fast_corner_xy;
+} FAST_XY;
 
 
 #endif /* !CCONTROL_HEADERS_STRUCTS_H_ */
