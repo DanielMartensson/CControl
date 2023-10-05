@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : fft2.c
+ Name        : conv2fft.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : FFT2 on a matrix
+ Description : Convolutional matrix multiplication with FFT
  ============================================================================
  */
 
@@ -12,7 +12,7 @@
 
 #define row_a 8
 #define column_a 6
-#define row_k 3 - This number must be odd
+#define row_k 3 /* This number must be odd */
 
 int main() {
 	clock_t start, end;
@@ -28,7 +28,7 @@ int main() {
 								  0.873513, -0.388835,   0.191366,   1.072161,   1.603772, -1.356124,
 								-1.509112, -0.612916,   0.176142, -1.533731,   0.518523,   2.354984,
 								  0.832047, -1.777008, -0.206316, -1.224436,   0.305427, -1.668821 };
-	
+
 	/* Create B */
 	float B[row_a * column_a];
 
@@ -37,8 +37,8 @@ int main() {
 							   0.301776,   0.151369,   0.914207,
 							   0.769967,   0.790160,   0.302300 };
 
-	/* Do conv2 */
-	conv2(A, B, row_a, column_a, K, row_k);
+	/* Do conv2fft */
+	conv2fft(A, B, row_a, column_a, K, row_k);
 
 	/* Print B */
 	print(B, row_a, column_a);

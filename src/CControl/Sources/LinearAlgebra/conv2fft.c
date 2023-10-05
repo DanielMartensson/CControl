@@ -1,5 +1,5 @@
 /*
- * conv2.c
+ * conv2fft.c
  *
  *  Created on: 4 september 2023
  *      Author: Daniel Mårtensson
@@ -13,7 +13,7 @@
  * B[row_a * column_a] - Output
  * K[row_k * row_k] - k_row MUST be an odd number e.g 5 or 3 or 7 etc.
  */
-void conv2(float A[], float B[], size_t row_a, size_t column_a, float K[], size_t row_k) {
+void conv2fft(float A[], float B[], size_t row_a, size_t column_a, float K[], size_t row_k) {
 	/* Do a copy */
 	const size_t total_length = row_a * column_a;
 	const size_t bytes_A = total_length * sizeof(float);
