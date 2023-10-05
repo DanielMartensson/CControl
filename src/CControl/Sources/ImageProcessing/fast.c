@@ -37,7 +37,7 @@ static FAST_XY* fast12_detect_nonmax(const uint8_t* im, int xsize, int ysize, in
 /* NMS function */
 static FAST_XY* nonmax_suppression(const FAST_XY* corners, const int* scores, int num_corners, int* ret_num_nonmax);
 
-/* 
+/*
  * FAST - Features from accelerated segment test
  * X[m*n]
  * num_corner - Output
