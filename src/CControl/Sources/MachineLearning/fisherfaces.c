@@ -257,7 +257,7 @@ static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p
 			concatenate_paths(total_pgm_path, total_folder_path, file_name);
 
 			/* Read the pgm file */
-			PGM* image = pgm_read(total_pgm_path);
+			PGM* image = imread(total_pgm_path);
 
 			/* Check if image is valid */
 			if (image) {
@@ -313,7 +313,7 @@ static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p
 			}
 
 			/* Free the image */
-			pgm_free(image);
+			imfree(image);
 		}
 
 		/* Free */
