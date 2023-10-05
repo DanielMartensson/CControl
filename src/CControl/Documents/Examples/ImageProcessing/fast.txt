@@ -22,6 +22,7 @@ int main() {
 	int num_corners;
 	int threshold = 50;
 	FAST_XY* xy = fast(image, image->height, image->width, threshold, &num_corners, FAST_METHOD_10);
+	
 	/* Print corners */
 	int i;
 	for (i = 0; i < num_corners; i++) {
