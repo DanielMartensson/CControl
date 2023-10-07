@@ -9,7 +9,7 @@
 
 /*
  * Gaussian 2D filtering of a matrix
- * X[m*n]
+ * X[m*n] - Mimumum limit is m >= 6*row and n >= 6*column
  */
 void imgaussfilt(float X[], float sigma, size_t row, size_t column) {
 	/* Create gaussian kernel size */
