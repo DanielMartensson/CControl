@@ -65,6 +65,7 @@ Main focuses are:
 
 - Image Processing
   - Features from accelerated segment test (FAST)
+  - Gaussian filtering for images
   - Robust Principal Component Analysis
   - Sobel filter
   - Hough Transform for line detection

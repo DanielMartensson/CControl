@@ -890,7 +890,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Routines\xerbla.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c">
+    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.c">
@@ -918,6 +918,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
