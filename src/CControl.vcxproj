@@ -53,10 +53,13 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\hough.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\orb.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\cluster_filter.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\fftshift.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\filtfilt.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\pf.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\sr_ukf_state_estimation.c" />

@@ -152,6 +152,7 @@ void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], 
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L);
 void fft(float xr[], float xi[], size_t n);
 void fft2(float XR[], float XI[], size_t row, size_t column);
+void fftshift(float X[], size_t row, size_t column);
 void ifft(float xr[], float xi[], size_t n);
 void ifft2(float XR[], float XI[], size_t row, size_t column);
 
