@@ -75,6 +75,7 @@ Main focuses are:
   - Fast Fourier Transform Shift
   - Fast Fourier Transform 1D
   - Fast Fourier Transform 2D
+  - Inverse Fast Fourier Transform Shift
   - Inverse Fast Fourier Transform 1D
   - Inverse Fast Fourier Transform 2D
   - Particle filter

@@ -154,6 +154,7 @@ void fft(float xr[], float xi[], size_t n);
 void fft2(float XR[], float XI[], size_t row, size_t column);
 void fftshift(float X[], size_t row, size_t column);
 void ifft(float xr[], float xi[], size_t n);
+void ifftshift(float X[], size_t row, size_t column);
 void ifft2(float XR[], float XI[], size_t row, size_t column);
 
 /* Image processing */

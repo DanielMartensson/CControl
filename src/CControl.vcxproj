@@ -61,6 +61,7 @@
     <ClCompile Include="CControl\Sources\SignalProcessing\cluster_filter.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\fftshift.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\filtfilt.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\ifftshift.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\pf.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\sr_ukf_state_estimation.c" />
     <ClCompile Include="CControl\Sources\Hardware\concatenate_paths.c" />
