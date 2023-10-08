@@ -166,7 +166,7 @@ void imresize(float X[], float Y[], size_t d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 void imfree(PGM* image);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);
-void sobel(float X[], float G[], float O[], size_t row, size_t column);
+void sobel(float X[], float G[], float O[], size_t row, size_t column, bool only_compute_G);
 
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);

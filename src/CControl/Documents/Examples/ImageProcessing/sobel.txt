@@ -29,7 +29,8 @@ int main() {
 	float O[row * column];
 
 	/* Compute Sobel filter */
-	sobel(X, G, O, row, column);
+	bool only_compute_G = false;
+	sobel(X, G, O, row, column, only_compute_G);
 
 	/* Print */
 	print(G, row, column);

@@ -13,7 +13,7 @@
  * G[m*n] - Gradients with L2-norm
  * O[m*n] - Orientations in degrees
  */
-void sobel(float X[], float G[], float O[], size_t row, size_t column) {
+void sobel(float X[], float G[], float O[], size_t row, size_t column, bool only_compute_G) {
 	/* Create kernel matrix */
 	const float kernel_x[9] = { -1.0f, 0.0f, 1.0f,
 								-2.0f, 0.0f, 2.0f,
@@ -34,10 +34,18 @@ void sobel(float X[], float G[], float O[], size_t row, size_t column) {
 	 * Find orientations O = atan2(Gy, Gx) 
 	 */
 	size_t i;
-	for (i = 0; i < total_size; i++) {
-		G[i] = sqrtf(Gx[i] * Gx[i] + Gy[i] * Gy[i]);
-		O[i] = atan2f(Gy[i], Gx[i]) * 180.0f / PI;
+	if (only_compute_G) {
+		for (i = 0; i < total_size; i++) {
+			G[i] = sqrtf(Gx[i] * Gx[i] + Gy[i] * Gy[i]);
+		}
 	}
+	else {
+		for (i = 0; i < total_size; i++) {
+			G[i] = sqrtf(Gx[i] * Gx[i] + Gy[i] * Gy[i]);
+			O[i] = atan2f(Gy[i], Gx[i]) * 180.0f / PI;
+		}
+	}
+
 
 	/* Free */
 	free(Gx);
