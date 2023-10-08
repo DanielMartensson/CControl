@@ -70,6 +70,7 @@ Main focuses are:
   - Sobel filter
   - Hough Transform for line detection
   - Portable Gray Map (PGM) reader, print and free
+  - Image resize
 
 - Signal Processing
   - Fast Fourier Transform Shift

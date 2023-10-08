@@ -162,6 +162,7 @@ FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_co
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 void imshow(PGM* image);
 PGM* imread(const char file_path[]);
+void imresize(float X[], float Y[], size_t d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 void imfree(PGM* image);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);

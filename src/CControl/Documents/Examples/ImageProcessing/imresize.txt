@@ -1,0 +1,58 @@
+/*
+ ============================================================================
+ Name        : imresize.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Shirnk an image
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+/* Shrink ratio */
+#define d 70
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Read image */
+	PGM* image = imread("..\\src\\CControl\\Documents\\Data\\fast\\lab.pgm");
+
+	/* Turn X to float */
+	const size_t row = image->height;
+	const size_t column = image->width;
+	float* X = (float*)malloc(row * column * sizeof(float));
+	size_t i;
+	for (i = 0; i < row * column; i++) {
+		X[i] = (float)image->pixels[i];
+	}
+
+	/* Create the shrinked image Y - Importnat to have this formula for the size */
+	size_t m2 = row / 2 + 1;
+	m2 = m2 / d;
+	m2 = 2 * m2 + 1;
+	size_t n2 = column / 2 + 1;
+	n2 = n2 / d;
+	n2 = 2 * n2 + 1;
+	float* Y = (float*)malloc(m2 * n2 * sizeof(float));
+
+	/* Do image resize on X to Y */
+	imresize(X, Y, d, row, column);
+
+	/* Print */
+	print(Y, m2, n2);
+
+	/* Free */
+	free(Y);
+	free(X);
+	imfree(image);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
