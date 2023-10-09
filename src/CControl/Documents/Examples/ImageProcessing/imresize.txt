@@ -11,7 +11,7 @@
 #include "CControl/ccontrol.h"
 
 /* Shrink ratio */
-#define d 70
+#define d 70.5
 
 int main() {
 	clock_t start, end;

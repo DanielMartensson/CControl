@@ -8,13 +8,13 @@
 #include "../../Headers/functions.h"
 
 /*
- * Resize an image of the scale d
+ * Resize an image of the scale d that is larger than 1
  * X[m*n]
  * Y[m2*n2];
  * m2 = (2 * floorf(floorf(row / 2 + 1) / d) + 1)
  * n2 = (2 * floorf(floorf(column / 2 + 1) / d) + 1)
  */
-void imresize(float X[], float Y[], size_t d, size_t row, size_t column) {
+void imresize(float X[], float Y[], float d, size_t row, size_t column) {
 	/* The middle size */
 	const size_t m1 = row / 2 + 1;
 	const size_t n1 = column / 2 + 1;
@@ -41,7 +41,7 @@ void imresize(float X[], float Y[], size_t d, size_t row, size_t column) {
 
 	/* Do inverse FFT shift */
 	size_t i;
-	const size_t dd = d * d;
+	const float dd = d * d;
 	for (i = 0; i < Y_size; i++) {
 		Y[i] = Y[i] / dd;
 		YI[i] = YI[i] / dd;
