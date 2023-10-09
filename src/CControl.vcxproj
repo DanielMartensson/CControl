@@ -285,7 +285,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\dbscan.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\nn.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\pooling.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\pooling.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\issymmetric.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imread.c" />

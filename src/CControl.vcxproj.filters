@@ -272,7 +272,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\dbscan.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\pooling.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\pooling.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\amax.c">

@@ -48,7 +48,6 @@ Main focuses are:
 - Machine Learning
   - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification
   - Density-Based Spatial Clustering of Applications with Noise
-  - Pooling Max, Average and Shape
   - Support Vector Machine
   - Kernel for PCA and LDA
   - Neural network
@@ -71,6 +70,7 @@ Main focuses are:
   - Hough Transform for line detection
   - Portable Gray Map (PGM) reader, print and free
   - Image resize
+  - Pooling Max, Average and Shape
 
 - Signal Processing
   - Fast Fourier Transform Shift

@@ -85,7 +85,6 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void nn(float X[], size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], size_t row, size_t column, float C, float lambda);
-void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METHOD pooling_method);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */
@@ -165,6 +164,7 @@ PGM* imread(const char file_path[]);
 void imresize(float X[], float Y[], size_t d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 void imfree(PGM* image);
+void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METHOD pooling_method);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);
 void sobel(float X[], float G[], float O[], size_t row, size_t column, bool only_compute_G);
 
