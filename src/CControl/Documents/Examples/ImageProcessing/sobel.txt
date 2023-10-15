@@ -24,7 +24,7 @@ int main() {
 							 - 0.516069, - 0.442481, - 0.547304,   0.488175,
 							 - 0.316735, - 0.099759, - 0.476811,   1.660791 };
 
-	/* Create gradients G and orientations O */
+	/* Create gradients G and orientations O in radians */
 	float G[row * column];
 	float O[row * column];
 
