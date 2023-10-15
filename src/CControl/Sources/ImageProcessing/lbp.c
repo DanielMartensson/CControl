@@ -8,7 +8,7 @@
 #include "../../Headers/functions.h"
 
 /*
- * Local Binary Pattern
+ * Local Binary Pattern - Use the commented C-code inside lbp.c to tune in the radius
  * X[m*n]
  * radius - The radius of the circle
  * init_angle - The beginning of the 360 degrees angle in radian
