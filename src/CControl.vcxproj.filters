@@ -899,9 +899,6 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\sobel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\hog.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\hough.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -923,7 +920,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\orb.c">
+    <ClCompile Include="CControl\Sources\MachineLearning\brisk.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c">
@@ -933,6 +930,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\SignalProcessing\ifftshift.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\lbp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

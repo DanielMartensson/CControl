@@ -160,6 +160,7 @@ void ifft2(float XR[], float XI[], size_t row, size_t column);
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 void imshow(PGM* image);
+uint64_t lbp(const float X[], const size_t row, const size_t column, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit);
 PGM* imread(const char file_path[]);
 void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);

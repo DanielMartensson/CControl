@@ -49,13 +49,13 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\fast.c" />
-    <ClCompile Include="CControl\Sources\ImageProcessing\hog.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\hough.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\orb.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\lbp.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\brisk.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\cluster_filter.c" />

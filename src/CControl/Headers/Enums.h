@@ -69,23 +69,13 @@ typedef enum {
 	KERNEL_METHOD_EXPONENTIAL
 }KERNEL_METHOD;
 
-/* For hog.c */
+/* For lbp.c */
 typedef enum {
-	HOG_BINS_6 = 6,
-	HOG_BINS_9 = 9,
-	HOG_BINS_10 = 10,
-	HOG_BINS_12 = 12,
-	HOG_BINS_15 = 15,
-	HOG_BINS_18 = 18,
-	HOG_BINS_20 = 20,
-}HOG_BINS;
-
-/* For hog.c */
-typedef enum {
-	HOG_CELLS_4_4 = 16,
-	HOG_CELLS_8_8 = 64,
-	HOG_CELLS_16_16 = 256
-}HOG_CELLS;
+	LBP_BIT_8,
+	LBP_BIT_16,
+	LBP_BIT_32,
+	LBP_BIT_64
+}LBP_BIT;
 
 /* For fast.c */
 typedef enum {

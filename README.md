@@ -63,6 +63,7 @@ Main focuses are:
   - Continuous to discrete
 
 - Image Processing
+  - Local Binary Pattern (LBP)
   - Features from accelerated segment test (FAST)
   - Gaussian filtering for images
   - Robust Principal Component Analysis
