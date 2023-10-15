@@ -34,19 +34,19 @@ uint64_t lbp(const float X[], const size_t row, const size_t column, const float
 	const float* angles;
 	switch (lbp_bit) {
 	case LBP_BIT_8:
-		total_angles = 8;
+		total_angles = 8U;
 		angles = angles8;
 		break;
 	case LBP_BIT_16:
-		total_angles = 16;
+		total_angles = 16U;
 		angles = angles16;
 		break;
 	case LBP_BIT_32:
-		total_angles = 32;
+		total_angles = 32U;
 		angles = angles32;
 		break;
 	case LBP_BIT_64:
-		total_angles = 64;
+		total_angles = 64U;
 		angles = angles64;
 		break;
 	default:
@@ -57,7 +57,7 @@ uint64_t lbp(const float X[], const size_t row, const size_t column, const float
 
 	/* Create the descriptor */
 	uint8_t i;
-	uint64_t descriptor = 0;
+	uint64_t descriptor = 0U;
 	for (i = 0; i < total_angles; i++) {
 		/* Compute the angle */
 		const float angle = init_angle + angles[i];
