@@ -1,0 +1,65 @@
+/*
+ ============================================================================
+ Name        : brisk.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Binary Robust Invariant Scalable Keypoints
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Read image */
+	PGM* image = imread("..\\src\\CControl\\Documents\\Data\\fast\\lab.pgm");
+
+	/* Create matrix X */
+	const size_t row = image->height;
+	const size_t column = image->width;
+	float* X = (float*)malloc(row * column * sizeof(float));
+	size_t i;
+	for (i = 0; i < row * column; i++) {
+		X[i] = (float)image->pixels[i];
+	}
+
+	/* Create descriptors */
+	uint8_t* descriptor8 = NULL;
+	uint16_t* descriptor16 = NULL;
+	uint32_t* descriptor32 = NULL;
+	uint64_t* descriptor64 = NULL;
+	uint32_t number_of_descriptors[4];
+
+	/* Tuning parameters */
+	float sigma1 = 1.0f; 
+	float sigma2 = 5.0f;
+	uint8_t sobel_threshold = 127;
+	FAST_METHOD fast_method = FAST_METHOD_9;
+	int threshold_fast = 30;
+
+	/* Use BRISK to find the descriptors */
+	brisk(X, sigma1, sigma2, sobel_threshold, threshold_fast, fast_method, &descriptor8, &descriptor16, &descriptor32, &descriptor64, number_of_descriptors, row, column);
+
+	/* Print */
+	printf("Amount of descriptors for 8-bit: %i\n", number_of_descriptors[0]);
+	printf("Amount of descriptors for 16-bit: %i\n", number_of_descriptors[1]);
+	printf("Amount of descriptors for 32-bit: %i\n", number_of_descriptors[2]);
+	printf("Amount of descriptors for 64-bit: %i\n", number_of_descriptors[3]);
+
+	/* Free */
+	free(descriptor8);
+	free(descriptor16);
+	free(descriptor32);
+	free(descriptor64);
+	free(X);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

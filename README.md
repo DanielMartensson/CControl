@@ -46,6 +46,7 @@ Main focuses are:
   - Point-in-polygon algorithm for checking if a point is inside the area
 
 - Machine Learning
+  - Binary Robust Invariant Scalable Keypoints (BRISK)
   - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification
   - Density-Based Spatial Clustering of Applications with Noise
   - Support Vector Machine
