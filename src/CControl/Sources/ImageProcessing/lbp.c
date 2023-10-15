@@ -66,7 +66,7 @@ uint64_t lbp(const float X[], const size_t row, const size_t column, const float
 		const size_t coordinate_row = roundf(half_row + radius * cosf(angle));
 		const size_t coordinate_column = roundf(half_column + radius * sinf(angle));
 
-		/* Check if the coordinate has a ligher color than centrum P */
+		/* Check if the coordinate has a brighter color than centrum P */
 		descriptor |= (X[coordinate_row * column + coordinate_column] > P) << i;
 	}
 
