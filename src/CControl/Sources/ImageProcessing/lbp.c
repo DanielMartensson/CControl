@@ -23,8 +23,8 @@ uint64_t lbp(const float X[], const size_t row, const size_t column, const float
 	const float angles64[64] = { 0.0f, 0.098175f, 0.19635f, 0.29452f, 0.3927f, 0.49087f, 0.58905f, 0.68722f, 0.7854f, 0.88357f, 0.98175f, 1.0799f, 1.1781f, 1.2763f, 1.3744f, 1.4726f, 1.5708f, 1.669f, 1.7671f, 1.8653f, 1.9635f, 2.0617f, 2.1598f, 2.258f, 2.3562f, 2.4544f, 2.5525f, 2.6507f, 2.7489f, 2.8471f, 2.9452f, 3.0434f, 3.1416f, 3.2398f, 3.3379f, 3.4361f, 3.5343f, 3.6325f, 3.7306f, 3.8288f, 3.927f, 4.0252f, 4.1233f, 4.2215f, 4.3197f, 4.4179f, 4.516f, 4.6142f, 4.7124f, 4.8106f, 4.9087f, 5.0069f, 5.1051f, 5.2033f, 5.3014f, 5.3996f, 5.4978f, 5.596f, 5.6941f, 5.7923f, 5.8905f, 5.9887f, 6.0868f, 6.185f };
 	
 	/* Center coordinates */
-	size_t half_row = row / 2.0f;
-	size_t half_column = column / 2.0f;
+	size_t half_row = row / 2U;
+	size_t half_column = column / 2U;
 
 	/* Get the center value */
 	const float P = X[half_row * column + half_column];
