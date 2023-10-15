@@ -1,0 +1,3 @@
+C:\Users\dmn\GitHub\CControl\src\x64\Debug\CControl.vcxproj.MdMergeInputs.cache
+C:\Users\dmn\GitHub\CControl\src\x64\Debug\CControl.vcxproj.cppwinrt_plat.cache
+C:\Users\dmn\GitHub\CControl\src\x64\Debug\CControl.vcxproj.cppwinrt_comp.cache

@@ -50,7 +50,7 @@ uint64_t lbp(const float X[], const size_t row, const size_t column, const float
 		angles = angles64;
 		break;
 	default:
-		total_angles = 8;
+		total_angles = 8U;
 		angles = angles8;
 		break;
 	}

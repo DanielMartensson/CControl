@@ -44,6 +44,7 @@ void brisk(float X[], float sigma1, float sigma2, float threshold_sobel, int thr
 
 	/* Compute the descriptors */
 	const uint8_t radius[4] = { 2U, 3U, 6U, 10U };
+	LBP_BIT lbp_bit[4] = { LBP_BIT_8, LBP_BIT_16, LBP_BIT_32, LBP_BIT_64 };
 	uint64_t descriptors[4];
 	bool descriptors_computed[4] = { false };
 	for (i = 0; i < num_corners; i++) {
@@ -70,21 +71,8 @@ void brisk(float X[], float sigma1, float sigma2, float threshold_sobel, int thr
 				const float init_angle = mean(O_part, descriptor_size);
 				free(O_part);
 
-				/* Find the rotated descriptor with radius 2, 3, 6, and 10 */
-				switch (j) {
-				case 0:
-					descriptors[0] = lbp(X, row, column, 2.0f, init_angle, 2, LBP_BIT_8);
-					break;
-				case 1:
-					descriptors[1] = lbp(X, row, column, 3.0f, init_angle, 3, LBP_BIT_16);
-					break;
-				case 2:
-					descriptors[2] = lbp(X, row, column, 6.0f, init_angle, 6, LBP_BIT_32);
-					break;
-				case 3:
-					descriptors[3] = lbp(X, row, column, 10.0f, init_angle, 10, LBP_BIT_64);
-					break;
-				}
+				/* Find the rotated descriptor with different radius */
+				descriptors[j] = lbp(X, row, column, init_angle, radius[j], lbp_bit[j]);
 			
 				/* Flag */
 				descriptors_computed[j] = true;
