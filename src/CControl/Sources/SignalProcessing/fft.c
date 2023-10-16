@@ -74,7 +74,7 @@ void fft(float xr[], float xi[], size_t n) {
 	}
 
 	/* Mirror */
-	index = half - (n % 2 == 0); /* if n % 2 == 0 is true, then 1(evnd), else 0(odd) */
+	index = half - (n % 2 == 0); /* if n % 2 == 0 is true, then 1(even), else 0(odd) */
 	for (i = half; i < n; i++) {
 		index--;
 		xr[i] = xr[index];
