@@ -43,7 +43,7 @@ bool inv(float A[], size_t row) {
 
 	/* Return status */
 	return info == 0;
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	int* ipiv = (int*)malloc(row * sizeof(int));
 	bool status_sgetrf = LAPACKE_sgetrf(LAPACK_ROW_MAJOR, row, row, A, row, ipiv) == 0;
 	bool status_sgetri = LAPACKE_sgetri(LAPACK_ROW_MAJOR, row, A, row, ipiv) == 0;

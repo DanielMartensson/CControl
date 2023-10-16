@@ -134,7 +134,7 @@ bool eig_generalized(float A[], float B[], size_t row, float dr[], float di[], f
 		/* Return status */
 		return info == 0;
 	}
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	/* Check if it's symmetric */
 	bool issymmetricA = issymmetric(A, row, row);
 	bool issymmetricB = issymmetric(B, row, row);

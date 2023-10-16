@@ -96,7 +96,7 @@ static void compute_components(float X[], float W[], size_t c, size_t row, size_
 	/* Free */
 	free(work);
 	free(Xcopy);
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	float* superb = (float*)malloc((min(row, column) - 1)*sizeof(float));
 	float* Y = (float*)malloc(row * column * sizeof(float));
 	memcpy(Y, X, row * column * sizeof(float));

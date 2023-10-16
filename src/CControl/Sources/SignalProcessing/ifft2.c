@@ -8,7 +8,9 @@
 #include "../../Headers/functions.h"
 
  /* Import the library FFTPack */
+#ifndef MKL_FFT_USED
 #include "FFTpack/fftpack.h"
+#endif
 
 /* Inverse Fast Fourier Transform
  * XR[m*n] - Real frequency domain values
@@ -16,6 +18,38 @@
  * This is exactly the same as ifft2(A) = ifft(ifft(A).').' inside Matlab. The .' is very important
  */
 void ifft2(float XR[], float XI[], size_t row, size_t column) {
+#ifdef MKL_FFT_USED
+	/* Load data */
+	const size_t row_column = row * column;
+	MKL_Complex8* data = (MKL_Complex8*)malloc(row_column * sizeof(MKL_Complex8));
+	size_t i;
+	MKL_LONG dim_sizes[2] = { row, column };
+	for (i = 0; i < row_column; i++) {
+		data[i].real = XR[i];
+		data[i].imag = XI[i];
+	}
+
+	/* Prepare FFT */
+	DFTI_NO_ERROR;
+	DFTI_DESCRIPTOR_HANDLE descriptor;
+	DftiCreateDescriptor(&descriptor, DFTI_SINGLE, DFTI_COMPLEX, 2, dim_sizes);
+	DftiSetValue(descriptor, DFTI_BACKWARD_SCALE, 1.0f / row_column);
+	DftiSetValue(descriptor, DFTI_PLACEMENT, DFTI_INPLACE);
+	DftiCommitDescriptor(descriptor);
+
+	/* Compute FFT */
+	DftiComputeBackward(descriptor, data);
+
+	/* Load */
+	for (i = 0; i < row_column; i++) {
+		XR[i] = data[i].real;
+		XI[i] = data[i].imag;
+	}
+
+	/* Free */
+	DftiFreeDescriptor(&descriptor);
+	free(data);
+#else
 	/* Transpose for column major */
 	tran(XR, row, column);
 	tran(XI, row, column);
@@ -36,4 +70,5 @@ void ifft2(float XR[], float XI[], size_t row, size_t column) {
 		shift = column * i;
 		ifft(XR + shift, XI + shift, column);
 	}
+#endif
 }

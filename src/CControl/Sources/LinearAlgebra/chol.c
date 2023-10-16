@@ -35,7 +35,7 @@ bool chol(float A[], float L[], size_t row) {
 		}
 	}
 	return info == 0;
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	memcpy(L, A, row * row * sizeof(float));
 	bool status = LAPACKE_spotrf(LAPACK_ROW_MAJOR, 'L', row, L, row) == 0;
 	/* Turn to lower matrix */

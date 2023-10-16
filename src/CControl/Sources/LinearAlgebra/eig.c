@@ -87,7 +87,7 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 		free(vl);
 		free(vr);
 	}
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	if (symmetric) {
 		/* Compute the SVD is the same for EIG for a symmetric matrix */
 		status = svd(A, row, row, wr, dr, wi);

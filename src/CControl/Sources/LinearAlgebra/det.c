@@ -26,7 +26,7 @@ float det(float A[], size_t row) {
 	}
 
 	/* Special case for LAPACK */
-#if defined(CLAPACK_USED) || defined(MKL_USED)
+#if defined(CLAPACK_USED) || defined(MKL_LAPACK_USED)
 	for (i = 0; i < row; i++) {
 		P[i] -= 1;
 	}

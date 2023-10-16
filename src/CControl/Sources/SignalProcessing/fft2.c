@@ -8,10 +8,12 @@
 #include "../../Headers/functions.h"
 
  /* Import the library FFTPack */
+#ifndef MKL_FFT_USED
 #include "FFTpack/fftpack.h"
 
 /* Special case when we want to turn complex into complex */
 static void complex_to_complex_fft(float xr[], float xi[], size_t n);
+#endif
 
 /* Fast Fourier Transform
  * XR[m*n] - Real values
@@ -19,6 +21,37 @@ static void complex_to_complex_fft(float xr[], float xi[], size_t n);
  * This is exactly the same as fft2(A) = fft(fft(A).').' inside Matlab. The .' is very important
  */
 void fft2(float XR[], float XI[], size_t row, size_t column) {
+#ifdef MKL_FFT_USED
+	/* Load data */
+	const size_t row_column = row * column;
+	MKL_Complex8* data = (MKL_Complex8*)malloc(row_column * sizeof(MKL_Complex8));
+	size_t i;
+	MKL_LONG dim_sizes[2] = { row, column };
+	memset(data, 0, row_column * sizeof(MKL_Complex8));
+	for (i = 0; i < row_column; i++) {
+		data[i].real = XR[i];
+	}
+
+	/* Prepare FFT */
+	DFTI_NO_ERROR;
+	DFTI_DESCRIPTOR_HANDLE descriptor;
+	DftiCreateDescriptor(&descriptor, DFTI_SINGLE, DFTI_COMPLEX, 2, dim_sizes);
+	DftiSetValue(descriptor, DFTI_PLACEMENT, DFTI_INPLACE);
+	DftiCommitDescriptor(descriptor);
+
+	/* Compute FFT */
+	DftiComputeForward(descriptor, data);
+
+	/* Load */
+	for (i = 0; i < row_column; i++) {
+		XR[i] = data[i].real;
+		XI[i] = data[i].imag;
+	}
+
+	/* Free */
+	DftiFreeDescriptor(&descriptor);
+	free(data);
+#else
 	/* Transpose XR for column major */
 	tran(XR, row, column);
 
@@ -38,8 +71,10 @@ void fft2(float XR[], float XI[], size_t row, size_t column) {
 		shift = column * i;
 		complex_to_complex_fft(XR + shift, XI + shift, column);
 	}
+#endif
 }
 
+#ifndef MKL_FFT_USED
 static void complex_to_complex_fft(float xr[], float xi[], size_t n) {
 	/* Init */
 	fftpack_real* wsave = (fftpack_real*)malloc((4 * n + 15) * sizeof(fftpack_real));
@@ -65,3 +100,4 @@ static void complex_to_complex_fft(float xr[], float xi[], size_t n) {
 	free(wsave);
 	free(c);
 }
+#endif

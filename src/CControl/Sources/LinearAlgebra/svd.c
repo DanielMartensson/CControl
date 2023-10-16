@@ -145,7 +145,7 @@ bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) 
 
 	/* Return status */
 	return info == 0;
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	if (symmetric) {
 		/* Copy over */
 		memcpy(U, A, row * column * sizeof(float));

@@ -8,7 +8,9 @@
 #include "../../Headers/functions.h"
 
 /* Import the library FFTPack */
+#ifndef MKL_FFT_USED
 #include "FFTpack/fftpack.h"
+#endif
 
 /* 
  * Fast Fourier Transform 
@@ -17,6 +19,35 @@
  * n - Data length
  */
 void fft(float xr[], float xi[], size_t n) {
+#ifdef MKL_FFT_USED
+	/* Load data */
+	MKL_Complex8* data = (MKL_Complex8*)malloc(n * sizeof(MKL_Complex8));
+	size_t i;
+	memset(data, 0, n * sizeof(MKL_Complex8));
+	for (i = 0; i < n; i++) {
+		data[i].real = xr[i];
+	}
+
+	/* Prepare FFT */
+	DFTI_DESCRIPTOR_HANDLE descriptor;
+	DftiCreateDescriptor(&descriptor, DFTI_SINGLE, DFTI_COMPLEX, 1, n);
+	DftiSetValue(descriptor, DFTI_PLACEMENT, DFTI_INPLACE);
+	DftiCommitDescriptor(descriptor);
+
+	/* Compute FFT */
+	DftiComputeForward(descriptor, data);
+
+	/* Load */
+	for (i = 0; i < n; i++) {
+		xr[i] = data[i].real;
+		xi[i] = data[i].imag;
+	}
+
+	/* Free */
+	DftiFreeDescriptor(&descriptor);
+	free(data);
+#else
+
 	/* Init */
 	fftpack_real* wsave = (float*)malloc((2 * n + 15) * sizeof(fftpack_real));
 	rffti(n, wsave);
@@ -51,4 +82,5 @@ void fft(float xr[], float xi[], size_t n) {
 
 	/* Free */
 	free(wsave);
+#endif
 }

@@ -39,7 +39,7 @@ bool linsolve_chol(float A[], float x[], float b[], size_t row) {
 
 	/* Return status */
 	return info == 0;
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	/* Copy over */
 	float* Acopy = (float*)malloc(row * row * sizeof(float));
 	memcpy(Acopy, A, row * row * sizeof(float));

@@ -128,7 +128,7 @@ bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool onl
 
 	/* Return status */
 	return info == 0;
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	/* Fill R with transpose */
 	size_t i, j;
 	float* R0 = R;

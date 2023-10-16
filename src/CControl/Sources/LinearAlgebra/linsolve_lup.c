@@ -33,7 +33,7 @@ bool linsolve_lup(float A[], float x[], float b[], size_t row) {
 	memcpy(x, bcopy, n * sizeof(real));
 	free(bcopy);
 	status = (info == 0) && status;
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	float* bcopy = (float*)malloc(row * sizeof(float));
 	memcpy(bcopy, b, row * sizeof(float));
 	status = LAPACKE_sgetrs(LAPACK_COL_MAJOR, 'T', row, 1, LU, row, P, bcopy, row) == 0;

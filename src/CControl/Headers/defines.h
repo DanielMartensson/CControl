@@ -40,11 +40,12 @@ typedef unsigned long long size_t;
 #define MAX_ITERATIONS 10000U			/* For all iteration algorithsm */
 
 /* Select library by uncomment - If non of these are uncomment, then CControl will use the internal library instead */
-/* #define MKL_USED */					/* For large matrices on a regular computer */
-#define CLAPACK_USED   					/* For larger embedded systems */
+#define MKL_LAPACK_USED 					/* For large matrices on a regular computer */
+#define MKL_FFT_USED						/* For large matrices on a regular computer */
+/*#define CLAPACK_USED   					/* For larger embedded systems */
 
 /* Load the MKL library */
-#ifdef MKL_USED
+#if defined(MKL_LAPACK_USED) || defined(MKL_FFT_USED)
 #include <mkl.h>
 #endif
 

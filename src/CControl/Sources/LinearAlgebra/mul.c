@@ -96,7 +96,7 @@ void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t 
 		/* Free */
 		free(Acopy);
 	}
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	/* Check if A is symmetric */
 	if (issymmetric(A, row_a, column_a)) {
 		/* Check if it's vector */

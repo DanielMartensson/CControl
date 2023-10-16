@@ -27,7 +27,7 @@ bool lup(float A[], float LU[], int P[], size_t row) {
 	memcpy(LU, A, row * row * sizeof(float));
 	sgetrf_(&m, &n, LU, &lda, P, &info);
 	return info == 0;
-#elif defined(MKL_USED)
+#elif defined(MKL_LAPACK_USED)
 	memcpy(LU, A, row * row * sizeof(float));
 	bool status = LAPACKE_sgetrf(LAPACK_COL_MAJOR, row, row, LU, row, P) == 0;
 	/* Return status */
