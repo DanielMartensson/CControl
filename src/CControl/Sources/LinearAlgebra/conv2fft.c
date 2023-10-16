@@ -96,7 +96,7 @@ void conv2fft(float A[], float B[], size_t row_a, size_t column_a, float K[], si
 		error('Missing input data matrix X')
 	  end
 
-	  % Get the sigma
+	  % Get the kernel
 	  if(length(varargin) >= 2)
 		K = varargin{2};
 	  else
