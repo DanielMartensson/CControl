@@ -1,7 +1,7 @@
 /*
  * brisk.c
  *
- *  Created on: 7 oktober 2023
+ *  Created on: 17 oktober 2023
  *      Author: Daniel Mårtensson
  */
 
