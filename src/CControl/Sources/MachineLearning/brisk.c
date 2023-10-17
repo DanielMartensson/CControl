@@ -111,5 +111,6 @@ void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int t
 	/* Free */
 	free(G);
 	free(O);
+	free(Xuint8);
 	free(xy);
 }
