@@ -114,3 +114,30 @@ void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int t
 	free(Xuint8);
 	free(xy);
 }
+
+/*
+ C code for scaling the histogram
+
+#include <stdio.h>
+#include <stdint.h>
+
+int main()
+{
+	uint16_t A = 0xFFFFU;
+	uint32_t B = 0xFFFFFFU;
+	uint32_t C = 0xFFFFFFFFU;
+
+	float A1 = A/0x100U + 0x100U;
+	float B1 = B/0x10000U + 0x200U;
+	float C1 = C/0x1000000U + 0x300U;
+
+	float D = 0;
+	D++;
+	D++;
+	D++;
+
+	printf("A1 = %f, B1 = %f, C1 = %f, D= %f\n", A1, B1, C1, D);
+
+	return 0;
+}
+*/
