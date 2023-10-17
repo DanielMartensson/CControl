@@ -15,13 +15,9 @@
  * threshold_sobel - Make corners and edges more visible
  * threshold_fast - Threshold for the FAST algorithm
  * fast_method - Which type of FAST methods should be used
- * descriptor8 - Array output
- * descriptor16 - Array output
- * descriptor32 - Array output
- * descriptor64 - Array output
- * number_of_descriptors[4] - Array of 4 elements that shows how long the descriptors are
+ * histogram[1024] - Holders for the histogram descriptor
  */
-void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int threshold_fast, FAST_METHOD fast_method, uint8_t* descriptor8[], uint16_t* descriptor16[], uint32_t* descriptor32[], uint64_t* descriptor64[], uint32_t number_of_descriptors[], size_t row, size_t column) {
+void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int threshold_fast, FAST_METHOD fast_method, float histogram[], size_t row, size_t column) {
 	/* Apply gaussian blurr for making small objects not recognizable */
 	if (sigma1 > 0.0f) {
 		imgaussfilt(X, sigma1, row, column);
@@ -53,9 +49,9 @@ void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int t
 	}
 
 	/* Compute the descriptors */
-	const uint8_t radius[4] = { 2U, 3U, 6U, 10U };
-	const LBP_BIT lbp_bit[4] = { LBP_BIT_8, LBP_BIT_16, LBP_BIT_32, LBP_BIT_64 };
-	memset(number_of_descriptors, 0, 4 * sizeof(int));
+	const uint8_t radius[4] = { 4U, 8U, 12U, 16U };
+	const LBP_BIT lbp_bit[4] = { LBP_BIT_8, LBP_BIT_16, LBP_BIT_24, LBP_BIT_32 };
+	memset(histogram, 0, 1024 * sizeof(float));
 	for (i = 0; i < num_corners; i++) {
 		/* Get coordinates for the interest points */
 		const int x = xy[i].x;
@@ -80,31 +76,34 @@ void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int t
 				const float init_angle = mean(O_part, descriptor_size);
 				free(O_part);
 
-				/* Find the rotated descriptor with different radius */
-				uint64_t descriptors = lbp(X, row, column, init_angle, radius[j], lbp_bit[j]);
+				/* 
+				 * Find the rotated descriptor index with different radius 
+				 * If lgb_bit is 8-bit, then descriptor_index will be from 0 to 255
+				 * If lgb_bit is 16-bit, then descriptor_index will be from 256 to 511
+				 * If lgb_bit is 24-bit, then descriptor_index will be from 512 to 767
+				 * If lgb_bit is 32-bit, then descriptor_index will be from 768 to 1023
+				 */
+				uint32_t descriptor_index = lbp(X, row, column, init_angle, radius[j], lbp_bit[j]);
 
-				/* Count */
-				number_of_descriptors[j]++;
-
-				/* Store */
+				/* Scale descriptor index to 8 bit */
 				switch (j) {
-				case 0:
-					*descriptor8 = (uint8_t*)realloc(*descriptor8, number_of_descriptors[j] * sizeof(uint8_t));
-					(*descriptor8)[number_of_descriptors[j] - 1] = descriptors;
-					break;
+					/* case 0 is just 8-bit */
 				case 1:
-					*descriptor16 = (uint16_t*)realloc(*descriptor16, number_of_descriptors[j] * sizeof(uint16_t));
-					(*descriptor16)[number_of_descriptors[j] - 1] = descriptors;
+					/* 16-bit */
+					descriptor_index = descriptor_index / 0x100U + 0x100U; /* Index from 256 to 511 */
 					break;
 				case 2:
-					*descriptor32 = (uint32_t*)realloc(*descriptor32, number_of_descriptors[j] * sizeof(uint32_t));
-					(*descriptor32)[number_of_descriptors[j] - 1] = descriptors;
+					/* 24-bit */
+					descriptor_index = descriptor_index / 0x10000U + 0x200U; /* Index from 512 to 767 */
 					break;
 				case 3:
-					*descriptor64 = (uint64_t*)realloc(*descriptor64, number_of_descriptors[j] * sizeof(uint64_t));
-					(*descriptor64)[number_of_descriptors[j] - 1] = descriptors;
+					/* 32-bit */
+					descriptor_index = descriptor_index / 0x1000000U + 0x300U; /* Index from 768 to 1023 */
 					break;
 				}
+
+				/* Add to histogram */
+				histogram[descriptor_index]++;
 			}
 		}
 	}

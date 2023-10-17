@@ -80,7 +80,7 @@ bool stability(float A[], size_t ADIM);
 void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
-void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int threshold_fast, FAST_METHOD fast_method, uint8_t* descriptor8[], uint16_t* descriptor16[], uint32_t* descriptor32[], uint64_t* descriptor64[], uint32_t number_of_descriptors[], size_t row, size_t column);
+void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int threshold_fast, FAST_METHOD fast_method, float histogram[], size_t row, size_t column);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 void fisherfaces(const char folder_path[], bool remove_outliers, const float espilon, const size_t min_pts, const size_t pooling_size, POOLING_METHOD pooling_method, const size_t components_pca, const float kernel_parameters[], KERNEL_METHOD kernel_method, const float C, const float lambda);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
@@ -161,7 +161,7 @@ void ifft2(float XR[], float XI[], size_t row, size_t column);
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 void imshow(PGM* image);
-uint64_t lbp(const float X[], const size_t row, const size_t column, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit);
+uint32_t lbp(const float X[], const size_t row, const size_t column, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit);
 PGM* imread(const char file_path[]);
 void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
