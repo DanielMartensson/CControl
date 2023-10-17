@@ -15,12 +15,12 @@
  * angles[total_angles] - Angles in radians
  * total_angles - Total angles
  */
-uint64_t lbp(const float X[], const size_t row, const size_t column, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit) {
+uint32_t lbp(const float X[], const size_t row, const size_t column, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit) {
 	/* Constants */
 	const float angles8[8] = { 0.0f, 0.7854f, 1.5708f, 2.3562f, 3.1416f, 3.927f, 4.7124f, 5.4978f };
 	const float angles16[16] = { 0.0f, 0.3927f, 0.7854f, 1.1781f, 1.5708f, 1.9635f, 2.3562f, 2.7489f, 3.1416f, 3.5343f, 3.927f, 4.3197f, 4.7124f, 5.1051f, 5.4978f, 5.8905f };
+	const float angles24[24] = { 0.0f, 0.2618f, 0.5236f, 0.7854f, 1.0472f, 1.3090f, 1.5708f, 1.8326f, 2.0944f, 2.3562f, 2.6180f, 2.8798f, 3.1416f, 3.4034f, 3.6652f, 3.9270f, 4.1888f, 4.4506f, 4.7124f, 4.9742f, 5.2360f, 5.4978f, 5.7596f, 6.0214f };
 	const float angles32[32] = { 0.0f, 0.19635f, 0.3927f, 0.58905f, 0.7854f, 0.98175f, 1.1781f, 1.3744f, 1.5708f, 1.7671f, 1.9635f, 2.1598f, 2.3562f, 2.5525f, 2.7489f, 2.9452f, 3.1416f, 3.3379f, 3.5343f, 3.7306f, 3.927f, 4.1233f, 4.3197f, 4.516f, 4.7124f, 4.9087f, 5.1051f, 5.3014f, 5.4978f, 5.6941f, 5.8905f, 6.0868f };
-	const float angles64[64] = { 0.0f, 0.098175f, 0.19635f, 0.29452f, 0.3927f, 0.49087f, 0.58905f, 0.68722f, 0.7854f, 0.88357f, 0.98175f, 1.0799f, 1.1781f, 1.2763f, 1.3744f, 1.4726f, 1.5708f, 1.669f, 1.7671f, 1.8653f, 1.9635f, 2.0617f, 2.1598f, 2.258f, 2.3562f, 2.4544f, 2.5525f, 2.6507f, 2.7489f, 2.8471f, 2.9452f, 3.0434f, 3.1416f, 3.2398f, 3.3379f, 3.4361f, 3.5343f, 3.6325f, 3.7306f, 3.8288f, 3.927f, 4.0252f, 4.1233f, 4.2215f, 4.3197f, 4.4179f, 4.516f, 4.6142f, 4.7124f, 4.8106f, 4.9087f, 5.0069f, 5.1051f, 5.2033f, 5.3014f, 5.3996f, 5.4978f, 5.596f, 5.6941f, 5.7923f, 5.8905f, 5.9887f, 6.0868f, 6.185f };
 	
 	/* Center coordinates */
 	size_t half_row = row / 2U;
@@ -41,13 +41,13 @@ uint64_t lbp(const float X[], const size_t row, const size_t column, const float
 		total_angles = 16U;
 		angles = angles16;
 		break;
+	case LBP_BIT_24:
+		total_angles = 24U;
+		angles = angles24;
+		break;
 	case LBP_BIT_32:
 		total_angles = 32U;
 		angles = angles32;
-		break;
-	case LBP_BIT_64:
-		total_angles = 64U;
-		angles = angles64;
 		break;
 	default:
 		total_angles = 8U;
@@ -75,7 +75,6 @@ uint64_t lbp(const float X[], const size_t row, const size_t column, const float
 }
 
 /* C-code for drawing the circle
-
 #include "CControl/ccontrol.h"
 
 void drawCircle(const const int M, const int N, const uint8_t radius, char matrix[], const float init_angle, const float angles[], const uint8_t total_angles) {
@@ -101,19 +100,19 @@ void printMatrix(int M, int N, char matrix[]) {
 
 int main() {
 	// Size of the matrix
-	int M = 40;
-	int N = 40;
+	int M = 100;
+	int N = 100;
 	char* matrix = (char*)malloc(M * N);
 
 	// Change this
-	float radius = 10;
+	uint8_t radius = 16;
 	int init_angle = 0;
 
 	// Angles in radians
 	const float steps8[8] = { 0.0f, 0.7854f, 1.5708f, 2.3562f, 3.1416f, 3.927f, 4.7124f, 5.4978f };
 	const float steps16[16] = { 0.0f, 0.3927f, 0.7854f, 1.1781f, 1.5708f, 1.9635f, 2.3562f, 2.7489f, 3.1416f, 3.5343f, 3.927f, 4.3197f, 4.7124f, 5.1051f, 5.4978f, 5.8905f };
+	const float steps24[24] = { 0.0f, 0.2618f, 0.5236f, 0.7854f, 1.0472f, 1.3090f, 1.5708f, 1.8326f, 2.0944f, 2.3562f, 2.6180f, 2.8798f, 3.1416f, 3.4034f, 3.6652f, 3.9270f, 4.1888f, 4.4506f, 4.7124f, 4.9742f, 5.2360f, 5.4978f, 5.7596f, 6.0214f };
 	const float steps32[32] = { 0.0f, 0.19635f, 0.3927f, 0.58905f, 0.7854f, 0.98175f, 1.1781f, 1.3744f, 1.5708f, 1.7671f, 1.9635f, 2.1598f, 2.3562f, 2.5525f, 2.7489f, 2.9452f, 3.1416f, 3.3379f, 3.5343f, 3.7306f, 3.927f, 4.1233f, 4.3197f, 4.516f, 4.7124f, 4.9087f, 5.1051f, 5.3014f, 5.4978f, 5.6941f, 5.8905f, 6.0868f };
-	const float steps64[64] = { 0.0f, 0.098175f, 0.19635f, 0.29452f, 0.3927f, 0.49087f, 0.58905f, 0.68722f, 0.7854f, 0.88357f, 0.98175f, 1.0799f, 1.1781f, 1.2763f, 1.3744f, 1.4726f, 1.5708f, 1.669f, 1.7671f, 1.8653f, 1.9635f, 2.0617f, 2.1598f, 2.258f, 2.3562f, 2.4544f, 2.5525f, 2.6507f, 2.7489f, 2.8471f, 2.9452f, 3.0434f, 3.1416f, 3.2398f, 3.3379f, 3.4361f, 3.5343f, 3.6325f, 3.7306f, 3.8288f, 3.927f, 4.0252f, 4.1233f, 4.2215f, 4.3197f, 4.4179f, 4.516f, 4.6142f, 4.7124f, 4.8106f, 4.9087f, 5.0069f, 5.1051f, 5.2033f, 5.3014f, 5.3996f, 5.4978f, 5.596f, 5.6941f, 5.7923f, 5.8905f, 5.9887f, 6.0868f, 6.185f };
 
 	// Fill the matrix
 	for (int i = 0; i < M; i++) {
@@ -123,7 +122,7 @@ int main() {
 	}
 
 	// Draw a circle
-	drawCircle(M, N, radius, matrix, init_angle * PI / 180.0f, steps64, 64);
+	drawCircle(M, N, radius, matrix, init_angle * PI / 180.0f, steps32, 32);
 
 	// Print a circle
 	printMatrix(M, N, matrix);

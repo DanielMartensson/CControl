@@ -73,8 +73,8 @@ typedef enum {
 typedef enum {
 	LBP_BIT_8,
 	LBP_BIT_16,
-	LBP_BIT_32,
-	LBP_BIT_64
+	LBP_BIT_24,
+	LBP_BIT_32
 }LBP_BIT;
 
 /* For fast.c */
