@@ -27,7 +27,7 @@ int main() {
 		X[i] = (float)image->pixels[i];
 	}
 
-	/* Create histogram */
+	/* Create histogram - It must have 1024 elements */
 	float histogram[1024];
 
 	/* Tuning parameters */
@@ -40,10 +40,10 @@ int main() {
 	/* Use BRISK to find the histogram descriptors */
 	brisk(X, sigma1, sigma2, sobel_threshold, threshold_fast, fast_method, histogram, row, column);
 
-	/* Print histogram 
+	/* Print histogram */
 	for (i = 0; i < 1024; i++) {
 		printf("%f\n", histogram[i]);
-	}*/
+	}
 
 	/* Free */
 	free(X);
