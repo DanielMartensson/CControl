@@ -46,7 +46,6 @@ void sobel(float X[], float G[], float O[], size_t row, size_t column, bool only
 		}
 	}
 
-
 	/* Free */
 	free(Gx);
 	free(Gy);
