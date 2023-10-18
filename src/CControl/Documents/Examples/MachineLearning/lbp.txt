@@ -10,33 +10,62 @@
 
 #include "CControl/ccontrol.h"
 
-#define row 20
-#define column 20
-
 int main() {
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	/* Create X */
-	float X[row * column];
+	/* Read image */
+	PGM* image = imread("..\\src\\CControl\\Documents\\Data\\fast\\lab.pgm");
 
-	/* Random */
-	randn(X, row * column, 0, 1);
+	/* Create X */
+	const size_t row_column = image->height * image->width;
+	float* X = (float*)malloc(row_column * sizeof(float));
+	size_t i;
+	for (i = 0; i < row_column; i++) {
+		X[i] = image->pixels[i];
+	}
 
 	/* Local binary pattern - Use the commented C-code inside lbp.c to tune in the radius */
-	uint64_t descriptor = lbp(X, row, column, 0.0f, 3, LBP_BIT_16);
+	uint8_t radius = 100;
+	float init_angle = 0.0f * PI / 180.0f;
+	LBP_BIT lbp_bit = LBP_BIT_32;
+	uint32_t descriptor = lbp(X, image->height, image->width, init_angle, radius, lbp_bit);
 
 	/* Print descriptor */
-	size_t i;
-	printf("0b");
-	for (i = 0; i < 16; i++) {
+	printf("%i = 0b", descriptor);
+	for (i = 0; i < 32; i++) {
 		printf("%i", 0b1 & (descriptor >> i));
 	}
 	printf("\n");
+
+	/* Free */
+	free(X);
+	imfree(image);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 	return EXIT_SUCCESS;
 }
+
+/* GNU octave code:
+
+% Load image
+X = imread('lab.pgm');
+
+% Make image greyscale
+if size(X, 3) > 1
+	X =  rgb2gray(X);
+else
+	X = double(X);
+end
+
+% Compute Local Binary Pattern
+radius = 100;
+init_angle = 0;
+lbp_bit = 32;
+descriptor = mi.lbp(X, radius, deg2rad(init_angle), lbp_bit);
+fprintf('%i = 0b%s\n', descriptor, dec2bin(descriptor))
+
+*/
