@@ -30,7 +30,9 @@ int main() {
 	uint8_t radius = 100;
 	float init_angle = 0.0f * PI / 180.0f;
 	LBP_BIT lbp_bit = LBP_BIT_32;
-	uint32_t descriptor = lbp(X, image->height, image->width, init_angle, radius, lbp_bit);
+	const size_t x = 109;
+	const size_t y = 109;
+	uint32_t descriptor = lbp(X, image->height, image->width, x, y, init_angle, radius, lbp_bit);
 
 	/* Print descriptor */
 	printf("%i = 0b", descriptor);
@@ -65,7 +67,10 @@ end
 radius = 100;
 init_angle = 0;
 lbp_bit = 32;
-descriptor = mi.lbp(X, radius, deg2rad(init_angle), lbp_bit);
+x = 110;
+y = 110;
+descriptor = mi.lbp(X, x, y, radius, deg2rad(init_angle), lbp_bit);
 fprintf('%i = 0b%s\n', descriptor, dec2bin(descriptor))
+
 
 */

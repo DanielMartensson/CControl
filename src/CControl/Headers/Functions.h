@@ -87,7 +87,7 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
-uint32_t lbp(const float X[], const size_t row, const size_t column, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit);
+uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit);
 void nn(float X[], size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], size_t row, size_t column, float C, float lambda);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 

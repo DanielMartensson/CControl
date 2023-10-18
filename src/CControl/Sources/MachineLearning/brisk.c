@@ -78,12 +78,12 @@ void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int t
 
 				/* 
 				 * Find the rotated descriptor index with different radius 
-				 * If lgb_bit is 8-bit, then descriptor_index will be from 0 to 255
-				 * If lgb_bit is 16-bit, then descriptor_index will be from 256 to 511
-				 * If lgb_bit is 24-bit, then descriptor_index will be from 512 to 767
-				 * If lgb_bit is 32-bit, then descriptor_index will be from 768 to 1023
+				 * If lgp_bit is 8-bit, then descriptor_index will be from 0 to 255
+				 * If lgp_bit is 16-bit, then descriptor_index will be from 256 to 511
+				 * If lgp_bit is 24-bit, then descriptor_index will be from 512 to 767
+				 * If lgp_bit is 32-bit, then descriptor_index will be from 768 to 1023
 				 */
-				uint32_t descriptor_index = lbp(X, row, column, init_angle, radius[j], lbp_bit[j]);
+				uint32_t descriptor_index = lbp(X, row, column, x, y, init_angle, radius[j], lbp_bit[j]);
 
 				/* Scale descriptor index to 8 bit */
 				switch (j) {
