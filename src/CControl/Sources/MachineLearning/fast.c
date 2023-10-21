@@ -45,13 +45,13 @@ static FAST_XY* nonmax_suppression(const FAST_XY* corners, const int* scores, in
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method) {
 	switch (fast_method) {
 	case FAST_METHOD_9:
-		return fast9_detect_nonmax(X, row, column, row, threshold, num_corners);
+		return fast9_detect_nonmax(X, column, row, column, threshold, num_corners);
 	case FAST_METHOD_10:
-		return fast10_detect_nonmax(X, row, column, row, threshold, num_corners);
+		return fast10_detect_nonmax(X, column, row, column, threshold, num_corners);
 	case FAST_METHOD_11:
-		return fast11_detect_nonmax(X, row, column, row, threshold, num_corners);
+		return fast11_detect_nonmax(X, column, row, column, threshold, num_corners);
 	case FAST_METHOD_12:
-		return fast12_detect_nonmax(X, row, column, row, threshold, num_corners);
+		return fast12_detect_nonmax(X, column, row, column, threshold, num_corners);
 	default:
 		return NULL;
 	}
