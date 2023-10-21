@@ -49,6 +49,9 @@ void nn(float X[], size_t class_id[], float weight[], float bias[], bool status[
 		}
 		/* Compute the model parameters w and bias b */
 		status[i] = svm(X, labels, weight + column * i, &bias[i], &accuracy[i], C, lambda, row, column);
+
+		/* Print the result */
+		printf("Class %i: Success: %s. The accuracy = %f\n", i, status[i] ? "yes" : "no", accuracy[i]);
 	}
 
 	/* Free*/
