@@ -1,6 +1,2 @@
 ﻿  Main.c
-C:\Users\dmn\GitHub\CControl\src\Main.c(14,23): warning C4114: same type qualifier used more than once
-C:\Users\dmn\GitHub\CControl\src\Main.c(20,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\Main.c(21,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\Main.c(59,19): warning C4244: 'function': conversion from 'float' to 'const uint8_t', possible loss of data
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Debug\CControl.exe

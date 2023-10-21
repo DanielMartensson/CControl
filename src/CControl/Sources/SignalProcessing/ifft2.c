@@ -30,7 +30,6 @@ void ifft2(float XR[], float XI[], size_t row, size_t column) {
 	}
 
 	/* Prepare FFT */
-	DFTI_NO_ERROR;
 	DFTI_DESCRIPTOR_HANDLE descriptor;
 	DftiCreateDescriptor(&descriptor, DFTI_SINGLE, DFTI_COMPLEX, 2, dim_sizes);
 	DftiSetValue(descriptor, DFTI_BACKWARD_SCALE, 1.0f / row_column);

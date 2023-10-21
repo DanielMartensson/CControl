@@ -54,7 +54,7 @@ uint32_t lbp(const float X[], const size_t row, const size_t column, const size_
 
 	/* Create the descriptor */
 	uint8_t i;
-	uint64_t descriptor = 0U;
+	uint32_t descriptor = 0U;
 	for (i = 0; i < total_angles; i++) {
 		/* Compute the angle */
 		const float angle = init_angle + angles[i];
