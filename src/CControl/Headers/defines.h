@@ -8,6 +8,7 @@
 #ifndef CCONTROL_HEADERS_DEFINES_H_
 #define CCONTROL_HEADERS_DEFINES_H_
 
+#ifndef __cplusplus
 /* In ANSI C (C89), the __STDC_VERSION__ is not defined */
 #ifndef __STDC_VERSION__
 #define __STDC_VERSION__ 199409L		/* STDC version of C89 standard */
@@ -31,6 +32,7 @@ typedef unsigned long long size_t;
 #include <stdbool.h>					/* For bool datatype */
 #include <stdint.h>						/* For uint8_t, uint16_t and uint32_t etc. */
 #endif /* !__STDC_VERSION__ */
+#endif /* !__cplusplus */
 
  /* Define for all */
 #define PI 3.14159265358979323846f		/* Constant PI */
