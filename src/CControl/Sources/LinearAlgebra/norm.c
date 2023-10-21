@@ -55,11 +55,10 @@ float norm(float X[], size_t row, size_t column, NORM_METHOD norm_method){
 	else if(NORM_METHOD_L2 == norm_method){
 		/* Vector */
 		if((row == 1 && column > 0) || (row > 0 && column == 1)){
-			float sqrt_sum = 0, element;
+			float sqrt_sum = 0;
 			j = row > column ? row : column;
 			for (i = 0; i < j; i++) {
-				element = A[i];
-				sqrt_sum += element * element;
+				sqrt_sum += A[i] * A[i];
 			}
 			return_value = sqrtf(sqrt_sum);
 		}else{
@@ -83,11 +82,10 @@ float norm(float X[], size_t row, size_t column, NORM_METHOD norm_method){
 		}
 	}
 	else if (NORM_METHOD_FROBENIUS == norm_method) {
-		float sum_sqrt = 0, element;
+		float sum_sqrt = 0;
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < column; j++) {
-				element = A[j];
-				sum_sqrt += element * element;
+				sum_sqrt += A[j] * A[j];
 			}
 			/* Next row */
 			A += column;
