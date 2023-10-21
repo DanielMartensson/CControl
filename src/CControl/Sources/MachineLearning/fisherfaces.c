@@ -14,24 +14,20 @@ static size_t activation_function(float x[], size_t length) {
 	return max_index;
 }
 
-static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p, POOLING_METHOD pooling_method);
+static FISHER_MODEL* fisherfaces_collect_data(const FISHER_FACES_SETTINGS* fisher_faces_settings);
 static void fisherfaces_free_model(FISHER_MODEL* fisher_model);
 static void fisherfaces_print_model(FISHER_MODEL* fisher_model);
 
-void fisherfaces(const char folder_path[], bool remove_outliers, const float espilon, const size_t min_pts, const size_t pooling_size, POOLING_METHOD pooling_method, const size_t components_pca, const float kernel_parameters[], KERNEL_METHOD kernel_method, const float C, const float lambda) {
+void fisherfaces(const FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	/* 
 	 * Parameters for collecting data
 	 * I recommend fisherfaces.m file in MataveID for selecting the pooling size and method
-	 * Example:
-	 * const char folder_path[] = "C:\\Users\\dmn\\Downloads\\yale\\GIF";
-	 * const size_t pooling_size = 8;
-	 * POOLING_METHOD pooling_method = POOLING_METHOD_AVERAGE;
 	 */
 	printf("\t\t\t\tFisherfaces\n");
 
 	/* Collect data */
 	printf("1: Collecting data. Reading the .pgm files in row-major. PGM format P2 or P5 format.\n");
-	FISHER_MODEL* fisher_model = fisherfaces_collect_data(folder_path, pooling_size, pooling_method);
+	FISHER_MODEL* fisher_model = fisherfaces_collect_data(fisher_faces_settings);
 	const size_t row = fisher_model->row;
 	const size_t column = fisher_model->column;
 	size_t* class_id = (size_t*)malloc(column * sizeof(size_t));
@@ -39,8 +35,8 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 	const size_t classes = class_id[column - 1] + 1;
 
 	/* Remove outliers */
-	if (remove_outliers) {
-		printf("\tOutliers removed: %i\n", cluster_filter(fisher_model->data, row, column, espilon, min_pts));
+	if (fisher_faces_settings->remove_outliers) {
+		printf("\tOutliers removed: %i\n", cluster_filter(fisher_model->data, row, column, fisher_faces_settings->epsilon, fisher_faces_settings->min_pts));
 	}
 
 	/*
@@ -52,9 +48,9 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 	 * KERNEL_METHOD kernel_method = KERNEL_METHOD_RBF;
 	 */
 	printf("2: Do Kernel Principal Component Analysis for creating a linear projection for nonlinear data.\n");
-	float* Wpca = (float*)malloc(row * components_pca * sizeof(float));
-	float* Ppca = (float*)malloc(components_pca * column * sizeof(float));
-	kpca(fisher_model->data, Wpca, Ppca, components_pca, row, column, kernel_parameters, kernel_method);
+	float* Wpca = (float*)malloc(row * fisher_faces_settings->components_pca * sizeof(float));
+	float* Ppca = (float*)malloc(fisher_faces_settings->components_pca * column * sizeof(float));
+	kpca(fisher_model->data, Wpca, Ppca, fisher_faces_settings->components_pca, row, column, fisher_faces_settings->kernel_parameters, fisher_faces_settings->kernel_method);
 
 	/*
 	 * Parametets for LDA:
@@ -62,16 +58,16 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 	 */
 	printf("3: Do Linear Discriminant Analysis for creating a linear projection for separation of class data.\n");
 	const size_t components_lda = classes - 1;
-	float* Wlda = (float*)malloc(components_pca * components_lda * sizeof(float));
+	float* Wlda = (float*)malloc(fisher_faces_settings->components_pca * components_lda * sizeof(float));
 	float* Plda = (float*)malloc(components_lda * column * sizeof(float));
-	lda(Ppca, class_id, Wlda, Plda, components_lda, components_pca, column);
+	lda(Ppca, class_id, Wlda, Plda, components_lda, fisher_faces_settings->components_pca, column);
 
 	/* Multiply W = Wlda'*Wpca' */
 	printf("4: Combine Kernel Principal Component Analysis projection with Linear Discriminant projection.\n");
 	float* W = (float*)malloc(components_lda * row * sizeof(float));
-	tran(Wlda, components_pca, components_lda);
-	tran(Wpca, row, components_pca);
-	mul(Wlda, Wpca, W, components_lda, components_pca, row);
+	tran(Wlda, fisher_faces_settings->components_pca, components_lda);
+	tran(Wpca, row, fisher_faces_settings->components_pca);
+	mul(Wlda, Wpca, W, components_lda, fisher_faces_settings->components_pca, row);
 
 	/* Free some matrices that are not needed any longer */
 	free(Wpca);
@@ -100,7 +96,7 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 	float* weight = (float*)malloc(classes * components_lda * sizeof(float));
 	float* bias = (float*)malloc(classes * sizeof(float));
 	float* labels = (float*)malloc(column * sizeof(float));
-	nn(P, class_id, weight, bias, status, accuracy, column, components_lda, C, lambda);
+	nn(P, class_id, weight, bias, status, accuracy, column, components_lda, fisher_faces_settings->C, fisher_faces_settings->lambda);
 
 	/* Free */
 	free(status);
@@ -147,7 +143,7 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 	/* Save wW and b as a function */
 	printf("8: Saving the model to a .h file.\n");
 	char model_path[260];
-	concatenate_paths(model_path, folder_path, "ccontrol_model.h");
+	concatenate_paths(model_path, fisher_faces_settings->folder_path, "ccontrol_model.h");
 	FILE* file = fopen(model_path, "w");
 	if (file) {
 		fprintf(file, "/*\n");
@@ -205,7 +201,7 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 		printf("\tModel as been saved: %s\n", model_path);
 	}
 	else {
-		printf("\tFile ccontrol_model.h could not be open. Check your writing rights at the folder %s.\n", folder_path);
+		printf("\tFile ccontrol_model.h could not be open. Check your writing rights at the folder %s.\n", fisher_faces_settings->folder_path);
 	}
 
 	/* Free */
@@ -220,10 +216,10 @@ void fisherfaces(const char folder_path[], bool remove_outliers, const float esp
 	printf("10: Everything is done...\n");
 }
 
-static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p, POOLING_METHOD pooling_method) {
+static FISHER_MODEL* fisherfaces_collect_data(const FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
-	const size_t sub_folder_count = scan_sub_folder_names(folder_path, &sub_folder_names);
+	const size_t sub_folder_count = scan_sub_folder_names(fisher_faces_settings->folder_path, &sub_folder_names);
 
 	/* Fischer model */
 	FISHER_MODEL* fisher_model = (FISHER_MODEL*)malloc(sizeof(FISHER_MODEL));
@@ -236,7 +232,7 @@ static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p
 
 		/* Combine folder name with the folder path */
 		char total_folder_path[260];
-		concatenate_paths(total_folder_path, folder_path, sub_folder_name);
+		concatenate_paths(total_folder_path, fisher_faces_settings->folder_path, sub_folder_name);
 
 		/* Scan the files */
 		char** file_names = NULL;
@@ -263,21 +259,36 @@ static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p
 			if (image) {
 				/* Get the total new pixels */
 				const size_t image_size = image->height * image->width;
-
-				/* Pooling */
-				const size_t h = image->height / p;
-				const size_t w = image->width / p;
-				const size_t pooling_size = h*w;
-				float* P = (float*)malloc(pooling_size * sizeof(float));
-				float* A = (float*)malloc(image_size * sizeof(float));
+				float* X = (float*)malloc(image_size * sizeof(float));
 				for (k = 0; k < image_size; k++) {
-					A[k] = (float)image->pixels[k];
+					X[k] = (float)image->pixels[k];
 				}
-				pooling(A, P, image->height, image->width, p, pooling_method);
-				free(A);
+		
+				/* Type of detection */
+				size_t new_pixel_size, h, w, p = fisher_faces_settings->pooling_size;
+				float* new_data = NULL;
+				switch (fisher_faces_settings->fisher_faces_detection) {
+				case FISHER_FACES_DETECTION_OBJECTS:
+					new_pixel_size = 1024;
+					new_data = (float*)malloc(new_pixel_size * sizeof(float));
+					brisk(X, fisher_faces_settings->sigma1, fisher_faces_settings->sigma2, fisher_faces_settings->threshold_sobel, fisher_faces_settings->threshold_fast, fisher_faces_settings->fast_method, new_data, image->height, image->width);
+					break;
+				case FISHER_FACES_DETECTION_FACES:
+					/* This will cause X will be the same size as new_data */
+					if (fisher_faces_settings->pooling_method == POOLING_METHOD_NO_POOLING) {
+						p = 1;
+					}
+					h = image->height / p;
+					w = image->width / p;
+					new_pixel_size = h * w;
+					new_data = (float*)malloc(new_pixel_size * sizeof(float));
+					pooling(X, new_data, image->height, image->width, p, fisher_faces_settings->pooling_method);
+					break;
+				}
+				free(X);
 
 				/* Allocate new rows */
-				fisher_model->data = (float*)realloc(fisher_model->data, (current_pixel_size + pooling_size) * sizeof(float));
+				fisher_model->data = (float*)realloc(fisher_model->data, (current_pixel_size + new_pixel_size) * sizeof(float));
 
 				/* Remember */
 				float* data0 = fisher_model->data;
@@ -286,15 +297,15 @@ static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p
 				fisher_model->data += current_pixel_size;
 
 				/* Fill as row major */
-				for (k = 0; k < pooling_size; k++) {
-					fisher_model->data[k] = P[k];
+				for (k = 0; k < new_pixel_size; k++) {
+					fisher_model->data[k] = new_data[k];
 				}
 
-				/* Free pooling image */
-				free(P);
+				/* Free new_data */
+				free(new_data);
 				
 				/* Add current size */
-				current_pixel_size += pooling_size;
+				current_pixel_size += new_pixel_size;
 
 				/* Go back to index 0 */
 				fisher_model->data = data0;
@@ -305,8 +316,8 @@ static FISHER_MODEL* fisherfaces_collect_data(const char folder_path[], size_t p
 				/* Add new ID */
 				fisher_model->class_id[fisher_model->row] = i;
 
-				/* Column will always be the pooling size */
-				fisher_model->column = pooling_size;
+				/* Column will always be the new_pixel_size size */
+				fisher_model->column = new_pixel_size;
 
 				/* Count rows */
 				fisher_model->row++;
