@@ -24,11 +24,44 @@ typedef struct {
 	float* data;
 }FISHER_MODEL;
 
+/* For fisherfaces.c */
+typedef struct {
+	/* For face detection */
+	size_t pooling_size;
+	POOLING_METHOD pooling_method;
+
+	/* For object detection */
+	float sigma1;
+	float sigma2;
+	uint8_t threshold_sobel;
+	uint8_t threshold_fast;
+	FAST_METHOD fast_method;
+
+	/* Source to the data */
+	char folder_path[256];
+
+	/* Type of detection */
+	FISHER_FACES_DETECTION fisher_faces_detection;
+
+	/* Remove outliers settings */
+	bool remove_outliers;
+	float epsilon;
+	size_t min_pts;
+
+	/* Kernel PCA settings */
+	size_t components_pca;
+	float kernel_parameters[2];
+	KERNEL_METHOD kernel_method;
+
+	/* Neural network settings */
+	float C;
+	float lambda;
+}FISHER_FACES_SETTINGS;
+
 /* For fast.c */
 typedef struct {
 	int x;
 	int y;
 } FAST_XY;
-
 
 #endif /* !CCONTROL_HEADERS_STRUCTS_H_ */
