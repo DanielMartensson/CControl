@@ -173,6 +173,7 @@ void sobel(float X[], float G[], float O[], size_t row, size_t column, bool only
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);
 void center(float X[], float mu[], size_t row, size_t column);
+float circleaverage(float X[], size_t row);
 void randn(float x[], size_t length, float mu, float sigma);
 void randperm(size_t A[], size_t N, size_t M);
 float mean(float x[], size_t length);

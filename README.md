@@ -50,7 +50,7 @@ Main focuses are:
   - Features from accelerated segment test (FAST)
   - Hough Transform for line detection
   - Binary Robust Invariant Scalable Keypoints (BRISK)
-  - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification
+  - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification and object detection
   - Density-Based Spatial Clustering of Applications with Noise
   - Support Vector Machine
   - Kernel for PCA and LDA
@@ -135,6 +135,7 @@ Main focuses are:
   - Linear Discriminant Analysis
   - Randn
   - Mean
+  - Average of the elements inside of a circle
   - Max
   - Standard deviation
   - Variance
