@@ -51,9 +51,9 @@ int main() {
 	 * epsilon is the outliers radius
 	 * min_pts is the minimum points for a cluster
 	 */
-	fisher_faces_settings.remove_outliers = false;
-	fisher_faces_settings.epsilon = 50;
-	fisher_faces_settings.min_pts = 1;
+	fisher_faces_settings.remove_outliers = false; /* True for face classification */
+	fisher_faces_settings.epsilon = 500;
+	fisher_faces_settings.min_pts = 3;
 
 	/*
 	 * Kernel PCA configuration:
