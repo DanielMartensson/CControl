@@ -9,20 +9,20 @@
 
 /*
  * Pooling 
- * A[m*n]
+ * X[m*n]
  * P[(m/p)*(n/p)]
  * If you don't want to use pooling, just set p = 1 and pooling_method to POOLING_METHOD_NO_POOLING
  */
-void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOLING_METHOD pooling_method) {
+void pooling(float X[], float P[], size_t row, size_t column, size_t p, POOLING_METHOD pooling_method) {
 	/* Check if we want no pooling */
 	if (POOLING_METHOD_NO_POOLING == pooling_method) {
-		memcpy(P, A, row_a * column_a * sizeof(float));
+		memcpy(P, X, row * column * sizeof(float));
 		return;
 	}
 
 	/* Get the height and width for B */
-	const size_t h = row_a / p;
-	const size_t w = column_a / p;
+	const size_t h = row / p;
+	const size_t w = column / p;
 	size_t i, j, start_row, stop_row, start_column, stop_column, max_index;
 
 	/* Create B */
@@ -30,11 +30,11 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 	float* B = (float*)malloc(pp * sizeof(float));
 
 	/* When you want minimal structures left */
-	float mean_A, max_A;
+	float mean_X, max_X;
 	if (pooling_method == POOLING_METHOD_SHAPE) {
-		size_t row_a_column_a = row_a * column_a;
-		mean_A = mean(A, row_a_column_a);
-		max_A = amax(A, &max_index, row_a_column_a);
+		const size_t row_column = row * column;
+		mean_X = mean(X, row_column);
+		max_X = amax(X, &max_index, row_column);
 	}
 
 	/* Loop */
@@ -45,8 +45,8 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 			start_column = j * p;
 			stop_column = (j + 1) * p - 1U;
 
-			/* Cut A into B */
-			cut(A, column_a, B, start_row, stop_row, start_column, stop_column);
+			/* Cut X into B */
+			cut(X, column, B, start_row, stop_row, start_column, stop_column);
 
 			/* Add to P */
 			switch (pooling_method) {
@@ -57,7 +57,7 @@ void pooling(float A[], float P[], size_t row_a, size_t column_a, size_t p, POOL
 				P[j] = amax(B, &max_index, pp);
 				break;
 			case POOLING_METHOD_SHAPE:
-				P[j] = mean(B, pp) / mean_A * max_A;
+				P[j] = mean(B, pp) / mean_X * max_X;
 				break;
 			}
 		}
