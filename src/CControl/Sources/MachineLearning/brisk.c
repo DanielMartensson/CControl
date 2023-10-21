@@ -17,7 +17,7 @@
  * fast_method - Which type of FAST methods should be used
  * histogram[1024] - Holders for the histogram descriptor
  */
-void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int threshold_fast, FAST_METHOD fast_method, float histogram[], size_t row, size_t column) {
+void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uint8_t threshold_fast, FAST_METHOD fast_method, float histogram[], size_t row, size_t column) {
 	/* Apply gaussian blurr for making small objects not recognizable */
 	if (sigma1 > 0.0f) {
 		imgaussfilt(X, sigma1, row, column);
@@ -53,7 +53,7 @@ void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int t
 	const LBP_BIT lbp_bit[4] = { LBP_BIT_8, LBP_BIT_16, LBP_BIT_24, LBP_BIT_32 };
 	memset(histogram, 0, 1024 * sizeof(float));
 	for (i = 0; i < num_corners; i++) {
-		/* Get coordinates for the interest points */
+		/* Get coordinates for the interest points - x is column and y is row */
 		const int x = xy[i].x;
 		const int y = xy[i].y;
 
@@ -73,7 +73,7 @@ void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, int t
 				cut(O, column, O_part, y_min, y_max, x_min, x_max);
 
 				/* Then find the principal orientation, a.k.a the mean value of O_part */
-				const float init_angle = mean(O_part, descriptor_size);
+				const float init_angle = circleaverage(O_part, radius[j]);
 				free(O_part);
 
 				/* 
