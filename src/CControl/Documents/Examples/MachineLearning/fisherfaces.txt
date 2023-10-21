@@ -15,25 +15,45 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/*
-	 * Data configuration:
-	 * Pooling size makes the image smaller and fastet to compute.
-	 * To small pooling can cause low accuracy.
-	 * Pooling method is which method pooling should treat the image. If you want no pooling, just set p = 1 and pooling_method to POOLING_METHOD_NO_POOLING
-	 * To create the .pgm files of .gif, .jpg, .png etc, head over to MataveID and run the fisherfaces.m MATLAB-file.
-	 */
-	const char folder_path[] = "..\\src\\CControl\\Documents\\Data\\yale";
-	const size_t pooling_size = 8;
-	const POOLING_METHOD pooling_method = POOLING_METHOD_AVERAGE;
+	/* Create fisher faces parameter struct */
+	FISHER_FACES_SETTINGS fisher_faces_settings;
+
+	/* Select data and what to do */
+	strcpy(fisher_faces_settings.folder_path, "..\\src\\CControl\\Documents\\Data\\yale");
+	fisher_faces_settings.fisher_faces_detection = FISHER_FACES_DETECTION_OBJECTS;
 
 	/* 
-	 * Remove outliers from the data
+	 * Object detection:
+	 * sigma1 is background filtering
+	 * sigma2 is filtering again for the descriptor
+	 * threshold_sobel is to make corners and edges more visible
+	 * threshold_fast is a threshold for the FAST algorithm
+	 * fast_method is which type of method we should use
+	 */
+	fisher_faces_settings.sigma1 = 1.0f;
+	fisher_faces_settings.sigma2 = 5.0f;
+	fisher_faces_settings.threshold_sobel = 127;
+	fisher_faces_settings.threshold_fast = 50;
+	fisher_faces_settings.fast_method = FAST_METHOD_9;
+
+	/*
+	 * Face detection:
+	 * Pooling size makes the image smaller and faster to compute.
+	 * To small pooling can cause low accuracy.
+	 * Pooling method is which method pooling should treat the image. If you want no pooling, just set pooling_method to POOLING_METHOD_NO_POOLING
+	 * To create the .pgm files of .gif, .jpg, .png etc, head over to MataveID and run the fisherfaces.m MATLAB-file.
+	 */
+	fisher_faces_settings.pooling_size = 8;
+	fisher_faces_settings.pooling_method = POOLING_METHOD_AVERAGE;
+
+	/*
+	 * Remove outliers from the data:
 	 * epsilon is the outliers radius
 	 * min_pts is the minimum points for a cluster
 	 */
-	bool remove_outliers = true;
-	float epsilon = 500;
-	size_t min_pts = 3;
+	fisher_faces_settings.remove_outliers = false;
+	fisher_faces_settings.epsilon = 50;
+	fisher_faces_settings.min_pts = 1;
 
 	/*
 	 * Kernel PCA configuration:
@@ -42,9 +62,9 @@ int main() {
 	 * I'm using about components_pca = 100 for Yale dataset. A good rule of thump is not use more than total images you have in your folders.
 	 * The array kernel_parameters is for nonlinear kernels. Some nonlinear kernels only need 1 parameters, some want more.
 	 */
-	const size_t components_pca = 100;
-	const float kernel_parameters[2] = { 0.0000001 };
-	const KERNEL_METHOD kernel_method = KERNEL_METHOD_RBF;
+	fisher_faces_settings.components_pca = 100;
+	fisher_faces_settings.kernel_parameters[0] = 0.0000001f;
+	fisher_faces_settings.kernel_method = KERNEL_METHOD_RBF;
 
 	/*
 	 * Neural network configuration:
@@ -54,11 +74,11 @@ int main() {
 	 * even if that hyperplane misclassifies more points. For very tiny values of C, you should get misclassified examples, often even if your training data is linearly separable.
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
-	const float C = 1.0f;
-	const float lambda = 2.5f;
+	fisher_faces_settings.C = 1.0f;
+	fisher_faces_settings.lambda = 2.5f;
 
 	/* Fisherfaces training */
-	fisherfaces(folder_path, remove_outliers, epsilon, min_pts, pooling_size, pooling_method, components_pca, kernel_parameters, kernel_method, C, lambda);
+	fisherfaces(&fisher_faces_settings);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

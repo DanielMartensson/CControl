@@ -21,9 +21,9 @@ int main() {
 	/* Do fast */
 	int num_corners;
 	int threshold = 50;
-	FAST_XY* xy = fast(image->pixels, image->width, image->height, threshold, &num_corners, FAST_METHOD_9);
-	
-	/* Print corners */
+	FAST_XY* xy = fast(image->pixels, image->height, image->width, threshold, &num_corners, FAST_METHOD_9);
+
+	/* Print corners - x is column and y is row */
 	int i;
 	for (i = 0; i < num_corners; i++) {
 		printf("%i %i\n", xy[i].x, xy[i].y);
