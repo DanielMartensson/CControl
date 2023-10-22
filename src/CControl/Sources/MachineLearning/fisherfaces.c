@@ -106,7 +106,6 @@ void fisherfaces(FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	float* weight = (float*)malloc(classes * components_lda * sizeof(float));
 	fisher_faces_settings->model_b = (float*)malloc(classes * sizeof(float));
 	float* model_b = fisher_faces_settings->model_b;
-	float* labels = (float*)malloc(column * sizeof(float));
 	nn(P, class_id, weight, model_b, status, accuracy, column, components_lda, fisher_faces_settings->C, fisher_faces_settings->lambda);
 
 	/* Free */
@@ -227,7 +226,6 @@ void fisherfaces(FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	free(weight);
 	free(W);
 	free(P);
-	free(labels);
 	free(class_id);
 	printf("10: Everything is done...\n");
 }
