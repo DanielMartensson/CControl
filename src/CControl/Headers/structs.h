@@ -56,6 +56,14 @@ typedef struct {
 	/* Neural network settings */
 	float C;
 	float lambda;
+
+	/* This is the model parameters - The final stage */
+	float* model_w;
+	float* model_b;
+	size_t model_row;
+	size_t model_column;
+	bool isModelCreated;
+	size_t (*activation_function)(float*, size_t);
 }FISHER_FACES_SETTINGS;
 
 /* For fast.c */

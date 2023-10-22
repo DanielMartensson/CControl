@@ -18,12 +18,22 @@ static FISHER_MODEL* fisherfaces_collect_data(const FISHER_FACES_SETTINGS* fishe
 static void fisherfaces_free_model(FISHER_MODEL* fisher_model);
 static void fisherfaces_print_model(FISHER_MODEL* fisher_model);
 
-void fisherfaces(const FISHER_FACES_SETTINGS* fisher_faces_settings) {
-	/* 
+void fisherfaces(FISHER_FACES_SETTINGS* fisher_faces_settings) {
+	/*
 	 * Parameters for collecting data
-	 * I recommend fisherfaces.m file in MataveID for selecting the pooling size and method
+	 * I recommend fisherfaces.m file in MataveID for selecting generating the .pgm files
 	 */
 	printf("\t\t\t\tFisherfaces\n");
+	
+	/* Check if we need to remove the allocated model */
+	if (fisher_faces_settings->isModelCreated) {
+		printf("0: Deallocate model because it's already existing.\n");
+		free(fisher_faces_settings->model_w);
+		free(fisher_faces_settings->model_b);
+		fisher_faces_settings->model_row = 0;
+		fisher_faces_settings->model_column = 0;
+		fisher_faces_settings->isModelCreated = false;
+	}
 
 	/* Collect data */
 	printf("1: Collecting data. Reading the .pgm files in row-major. PGM format P2 or P5 format.\n");
@@ -94,9 +104,10 @@ void fisherfaces(const FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	float* accuracy = (float*)malloc(classes * sizeof(float));
 	bool* status = (bool*)malloc(classes * sizeof(bool));
 	float* weight = (float*)malloc(classes * components_lda * sizeof(float));
-	float* bias = (float*)malloc(classes * sizeof(float));
+	fisher_faces_settings->model_b = (float*)malloc(classes * sizeof(float));
+	float* model_b = fisher_faces_settings->model_b;
 	float* labels = (float*)malloc(column * sizeof(float));
-	nn(P, class_id, weight, bias, status, accuracy, column, components_lda, fisher_faces_settings->C, fisher_faces_settings->lambda);
+	nn(P, class_id, weight, model_b, status, accuracy, column, components_lda, fisher_faces_settings->C, fisher_faces_settings->lambda);
 
 	/* Free */
 	free(status);
@@ -108,8 +119,15 @@ void fisherfaces(const FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	 * The index of the largest value of vector y is the class ID of imagevector
 	 */
 	printf("7: Creating the model for nonlinear data.\n");
-	float* model_w = (float*)malloc(classes * row * sizeof(float));
+	fisher_faces_settings->model_w = (float*)malloc(classes * row * sizeof(float));
+	float* model_w = fisher_faces_settings->model_w;
 	mul(weight, W, model_w, classes, components_lda, row);
+
+	/* Save the row and column parameters */
+	fisher_faces_settings->model_row = classes;
+	fisher_faces_settings->model_column = row;
+	fisher_faces_settings->activation_function = activation_function;
+	fisher_faces_settings->isModelCreated = true;
 
 	/* Check the accuracy of the model */
 	size_t i, score = 0;
@@ -120,7 +138,7 @@ void fisherfaces(const FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	size_t j;
 	for (i = 0; i < column; i++) {
 		for (j = 0; j < classes; j++) {
-			x[j] += bias[j];
+			x[j] += model_b[j];
 		}
 		x += classes;
 	}
@@ -189,10 +207,10 @@ void fisherfaces(const FISHER_FACES_SETTINGS* fisher_faces_settings) {
 		fprintf(file, "const static float model_b[model_row] = { ");
 		for (i = 0; i < classes; i++) {
 			if (i < classes - 1) {
-				fprintf(file, "%0.9ef, ", bias[i]);
+				fprintf(file, "%0.9ef, ", model_b[i]);
 			}
 			else {
-				fprintf(file, "%0.9ef };\n", bias[i]);
+				fprintf(file, "%0.9ef };\n", model_b[i]);
 			}
 		}
 		fprintf(file, "\n");
@@ -207,7 +225,7 @@ void fisherfaces(const FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	/* Free */
 	printf("9: Free allocated memory.\n");
 	free(weight);
-	free(bias);
+	free(model_b);
 	free(W);
 	free(P);
 	free(labels);
