@@ -225,11 +225,9 @@ void fisherfaces(FISHER_FACES_SETTINGS* fisher_faces_settings) {
 	/* Free */
 	printf("9: Free allocated memory.\n");
 	free(weight);
-	free(model_b);
 	free(W);
 	free(P);
 	free(labels);
-	free(model_w);
 	free(class_id);
 	printf("10: Everything is done...\n");
 }
