@@ -279,26 +279,16 @@ static FISHER_MODEL* fisherfaces_collect_data(const FISHER_FACES_SETTINGS* fishe
 				}
 		
 				/* Type of detection */
-				size_t new_pixel_size, h, w, p = fisher_faces_settings->pooling_size;
-				float* new_data = NULL;
-				switch (fisher_faces_settings->fisher_faces_detection) {
-				case FISHER_FACES_DETECTION_OBJECTS:
-					new_pixel_size = 1024;
-					new_data = (float*)malloc(new_pixel_size * sizeof(float));
-					brisk(X, fisher_faces_settings->sigma1, fisher_faces_settings->sigma2, fisher_faces_settings->threshold_sobel, fisher_faces_settings->threshold_fast, fisher_faces_settings->fast_method, new_data, image->height, image->width);
-					break;
-				case FISHER_FACES_DETECTION_FACES:
+				size_t p = fisher_faces_settings->pooling_size;
+				if (fisher_faces_settings->pooling_method == POOLING_METHOD_NO_POOLING) {
 					/* This will cause X will be the same size as new_data */
-					if (fisher_faces_settings->pooling_method == POOLING_METHOD_NO_POOLING) {
-						p = 1;
-					}
-					h = image->height / p;
-					w = image->width / p;
-					new_pixel_size = h * w;
-					new_data = (float*)malloc(new_pixel_size * sizeof(float));
-					pooling(X, new_data, image->height, image->width, p, fisher_faces_settings->pooling_method);
-					break;
+					p = 1;
 				}
+				const size_t h = image->height / p;
+				const size_t w = image->width / p;
+				const size_t new_pixel_size = h * w;
+				float* new_data = (float*)malloc(new_pixel_size * sizeof(float));
+				pooling(X, new_data, image->height, image->width, p, fisher_faces_settings->pooling_method);				
 				free(X);
 
 				/* Allocate new rows */

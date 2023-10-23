@@ -21,21 +21,6 @@ int main() {
 
 	/* Select data and what to do */
 	strcpy(fisher_faces_settings.folder_path, "..\\src\\CControl\\Documents\\Data\\yale");
-	fisher_faces_settings.fisher_faces_detection = FISHER_FACES_DETECTION_OBJECTS;
-
-	/* 
-	 * Object detection:
-	 * sigma1 is background filtering
-	 * sigma2 is filtering again for the descriptor
-	 * threshold_sobel is to make corners and edges more visible
-	 * threshold_fast is a threshold for the FAST algorithm
-	 * fast_method is which type of method we should use
-	 */
-	fisher_faces_settings.sigma1 = 1.0f;
-	fisher_faces_settings.sigma2 = 5.0f;
-	fisher_faces_settings.threshold_sobel = 127;
-	fisher_faces_settings.threshold_fast = 50;
-	fisher_faces_settings.fast_method = FAST_METHOD_9;
 
 	/*
 	 * Face detection:
@@ -52,7 +37,7 @@ int main() {
 	 * epsilon is the outliers radius
 	 * min_pts is the minimum points for a cluster
 	 */
-	fisher_faces_settings.remove_outliers = false; /* True for face classification */
+	fisher_faces_settings.remove_outliers = true;
 	fisher_faces_settings.epsilon = 500;
 	fisher_faces_settings.min_pts = 3;
 

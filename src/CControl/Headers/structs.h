@@ -26,22 +26,12 @@ typedef struct {
 
 /* For fisherfaces.c */
 typedef struct {
-	/* For face detection */
+	/* For reduce the size of the image */
 	size_t pooling_size;
 	POOLING_METHOD pooling_method;
 
-	/* For object detection */
-	float sigma1;
-	float sigma2;
-	uint8_t threshold_sobel;
-	uint8_t threshold_fast;
-	FAST_METHOD fast_method;
-
 	/* Source to the data */
 	char folder_path[256];
-
-	/* Type of detection */
-	FISHER_FACES_DETECTION fisher_faces_detection;
 
 	/* Remove outliers settings */
 	bool remove_outliers;
