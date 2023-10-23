@@ -86,6 +86,7 @@ FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_co
 void fisherfaces(FISHER_FACES_SETTINGS* fisher_faces_settings);
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
+void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t column);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit);
 void nn(float X[], size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], size_t row, size_t column, float C, float lambda);
@@ -175,7 +176,7 @@ float amax(float x[], size_t* max_index, size_t length);
 void center(float X[], float mu[], size_t row, size_t column);
 float circleaverage(float X[], size_t row);
 void randn(float x[], size_t length, float mu, float sigma);
-void randperm(size_t A[], size_t N, size_t M);
+void randperm(size_t x[], size_t N, size_t M);
 float mean(float x[], size_t length);
 float var(float x[], size_t length);
 float cov(float x[], float y[], size_t length);
