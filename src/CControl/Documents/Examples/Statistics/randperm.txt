@@ -4,7 +4,7 @@
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Random permutation of A
+ Description : Random permutation of x
  ============================================================================
  */
 
@@ -18,16 +18,16 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Create A */
-	size_t A[M];
+	/* Create x vector */
+	size_t x[M];
 
 	/* Random permutation */
-	randperm(A, N, M);
+	randperm(x, N, M);
 
 	/* Print */
 	size_t i;
 	for (i = 0; i < M; i++) {
-		printf("%d ", A[i]);
+		printf("%d ", x[i]);
 	}
 
 	end = clock();

@@ -240,6 +240,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\brisk.c" />
     <ClCompile Include="CControl\Sources\Statistics\circleaverage.c" />

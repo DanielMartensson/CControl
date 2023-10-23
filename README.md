@@ -56,6 +56,7 @@ Main focuses are:
   - Kernel for PCA and LDA
   - Neural network
   - Kernel Principal Component Analysis
+  - K-means clustering
   
 - Control Engineering
   - Kalman filter update

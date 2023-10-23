@@ -938,6 +938,9 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\CLapack\Tools\wsfe.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
