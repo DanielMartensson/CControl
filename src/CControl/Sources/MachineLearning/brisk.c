@@ -80,10 +80,10 @@ BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uin
 
 			/* Allocate memory for new row */
 			const size_t data_size = brisk_model->data_row * brisk_model->data_column;
-			brisk_model->data = (uint32_t*)realloc(brisk_model->data, (data_size + brisk_model->data_column) * sizeof(uint32_t));
+			brisk_model->data = (uint8_t*)realloc(brisk_model->data, (data_size + brisk_model->data_column) * sizeof(uint8_t));
 
 			/* Shift */
-			uint32_t* data0 = brisk_model->data;
+			uint8_t* data0 = brisk_model->data;
 			brisk_model->data += data_size;
 
 			/* Clear */

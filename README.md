@@ -136,7 +136,7 @@ Main focuses are:
   - Linear Discriminant Analysis
   - Randn
   - Mean
-  - Average of the elements inside of a circle
+  - Average of the elements inside a form e.g circle
   - Max
   - Standard deviation
   - Variance
