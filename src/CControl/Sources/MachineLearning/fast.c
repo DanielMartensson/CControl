@@ -62,7 +62,7 @@ static FAST_XY* fast9_detect_nonmax(const uint8_t* im, int xsize, int ysize, int
 	FAST_XY* corners;
 	int num_corners;
 	int* scores;
-	FAST_XY* nonmax;
+	FAST_XY* nonmax = NULL;
 
 	corners = fast9_detect(im, xsize, ysize, stride, b, &num_corners);
 	scores = fast9_score(im, stride, corners, num_corners, b);
@@ -79,7 +79,7 @@ static FAST_XY* fast10_detect_nonmax(const uint8_t* im, int xsize, int ysize, in
 	FAST_XY* corners;
 	int num_corners;
 	int* scores;
-	FAST_XY* nonmax;
+	FAST_XY* nonmax = NULL;
 
 	corners = fast10_detect(im, xsize, ysize, stride, b, &num_corners);
 	scores = fast10_score(im, stride, corners, num_corners, b);
@@ -96,7 +96,7 @@ static FAST_XY* fast11_detect_nonmax(const uint8_t* im, int xsize, int ysize, in
 	FAST_XY* corners;
 	int num_corners;
 	int* scores;
-	FAST_XY* nonmax;
+	FAST_XY* nonmax = NULL;
 
 	corners = fast11_detect(im, xsize, ysize, stride, b, &num_corners);
 	scores = fast11_score(im, stride, corners, num_corners, b);
@@ -113,7 +113,7 @@ static FAST_XY* fast12_detect_nonmax(const uint8_t* im, int xsize, int ysize, in
 	FAST_XY* corners;
 	int num_corners;
 	int* scores;
-	FAST_XY* nonmax;
+	FAST_XY* nonmax = NULL;
 
 	corners = fast12_detect(im, xsize, ysize, stride, b, &num_corners);
 	scores = fast12_score(im, stride, corners, num_corners, b);

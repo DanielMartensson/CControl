@@ -80,7 +80,8 @@ bool stability(float A[], size_t ADIM);
 void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
-void brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uint8_t threshold_fast, FAST_METHOD fast_method, float histogram[], size_t row, size_t column);
+void briskfree(BRISK* brisk_model);
+BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uint8_t threshold_fast, FAST_METHOD fast_method, size_t row, size_t column);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
 void fisherfaces(FISHER_FACES_SETTINGS* fisher_faces_settings);
@@ -88,7 +89,7 @@ size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t m
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t column);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
-uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const uint8_t radius, LBP_BIT lbp_bit);
+uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit);
 void nn(float X[], size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], size_t row, size_t column, float C, float lambda);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
@@ -174,7 +175,7 @@ void sobel(float X[], float G[], float O[], size_t row, size_t column, bool only
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);
 void center(float X[], float mu[], size_t row, size_t column);
-float circleaverage(float X[], size_t row);
+float area(float X[], size_t row, size_t* total_elements, AREA_METHOD area_method);
 void randn(float x[], size_t length, float mu, float sigma);
 void randperm(size_t x[], size_t N, size_t M);
 float mean(float x[], size_t length);

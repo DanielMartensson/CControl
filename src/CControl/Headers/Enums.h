@@ -91,4 +91,9 @@ typedef enum {
 	FAST_METHOD_12
 }FAST_METHOD;
 
+/* For area.c */
+typedef enum {
+	AREA_METHOD_CIRCLE
+}AREA_METHOD;
+
 #endif /* !CCONTROL_HEADERS_ENUMS_H_ */

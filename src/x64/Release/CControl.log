@@ -11,17 +11,301 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ArtificialIntelligence\Astar.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ArtificialIntelligence\Astar.c(147,15): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ArtificialIntelligence\Astar.c(176,23): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ArtificialIntelligence\Astar.c(177,23): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+  inpolygon.c
+  c2d.c
+  kalman.c
+  lqi.c
+  mpc.c
+  mrac.c
+  stability.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\stability.c(20,27): warning C4047: 'function': 'size_t' differs in levels of indirection from 'float *'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\stability.c(20,25): warning C4024: 'eig': different types for formal and actual parameter 6
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\stability.c(20,29): warning C4020: 'eig': too many actual parameters
+  theta2ss.c
+  concatenate_paths.c
+  count_sub_folders.c
+  scan_file_names.c
+  scan_sub_folder_names.c
+  imfree.c
+  imgaussfilt.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imgaussfilt.c(29,10): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imgaussfilt.c(37,11): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imgaussfilt.c(16,29): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imgaussfilt.c(17,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  imread.c
   imresize.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imresize.c(23,23): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imresize.c(24,23): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
-  lbp.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c(63,33): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c(64,36): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
+  imshow.c
+  pooling.c
+  rpca.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(30,35): warning C4244: 'function': conversion from 'size_t' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(30,40): warning C4244: 'function': conversion from 'size_t' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(24,31): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(67,31): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(117,31): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+  Generating Code...
+  Compiling...
+  sobel.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\sobel.c(29,39): warning C4090: 'function': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\sobel.c(30,39): warning C4090: 'function': different 'const' qualifiers
+  balance.c
+  chol.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\chol.c(25,14): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\chol.c(25,25): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+  cholupdate.c
+  conv2fft.c
+  det.c
+  dlyap.c
+  dot.c
+  eig.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig.c(44,15): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig.c(44,26): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig.c(44,38): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig.c(44,50): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig.c(371,59): warning C4028: formal parameter 4 different from declaration
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig.c(371,89): warning C4029: declared formal parameter list different from definition
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig.c(453,11): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+  eig_generalized.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig_generalized.c(35,26): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig_generalized.c(35,37): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig_generalized.c(35,48): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig_generalized.c(68,15): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig_generalized.c(68,26): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\eig_generalized.c(68,37): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+  expm.c
+  hankel.c
+  inv.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\inv.c(30,14): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\inv.c(30,23): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\inv.c(30,34): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\inv.c(107,15): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+  linsolve_chol.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\linsolve_chol.c(27,14): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\linsolve_chol.c(27,35): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\linsolve_chol.c(27,46): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+  linsolve_gauss.c
+  linsolve_lower_triangular.c
+  linsolve_lup.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\linsolve_lup.c(29,14): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\linsolve_lup.c(29,35): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\linsolve_lup.c(29,46): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+  linsolve_qr.c
+  linsolve_upper_triangular.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\linsolve_upper_triangular.c(25,16): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+  lup.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\lup.c(26,14): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\lup.c(26,25): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\lup.c(26,34): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+  Generating Code...
+  Compiling...
+  mul.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(28,16): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(28,27): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(28,43): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(33,16): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(33,27): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(33,43): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(33,56): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(33,69): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(72,16): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(72,27): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(72,43): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(90,16): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(90,27): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(90,41): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(90,57): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(90,70): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(90,86): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+  nonlinsolve.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\nonlinsolve.c(30,9): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\nonlinsolve.c(68,42): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+  norm.c
+  pinv.c
+  qr.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\qr.c(26,14): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\qr.c(26,25): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\qr.c(26,41): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+  rank.c
+  svd.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(98,40): warning C4244: 'function': conversion from 'integer' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(98,43): warning C4244: 'function': conversion from 'integer' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(98,46): warning C4244: 'function': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(117,75): warning C4133: 'function': incompatible types - from 'real *' to 'integer *'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(122,73): warning C4133: 'function': incompatible types - from 'real *' to 'integer *'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(36,15): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(36,29): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(94,15): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(94,24): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(94,38): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(94,49): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(94,61): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(611,17): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(611,34): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(639,17): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(639,28): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(686,17): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+  tran.c
   brisk.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\brisk.c(38,24): warning C4244: '=': conversion from 'float' to 'uint8_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\brisk.c(44,29): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\brisk.c(44,34): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+  dbscan.c
+  fast.c
+  fisherfaces.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(49,10): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(49,10): message : consider using '%zi' in the format string
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(189,17): warning C4477: 'fprintf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'const size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(189,17): message : consider using '%zi' in the format string
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(190,17): warning C4477: 'fprintf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'const size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(190,17): message : consider using '%zi' in the format string
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(369,10): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'const size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(369,10): message : consider using '%zi' in the format string
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(369,10): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 2 has type 'const size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(369,10): message : consider using '%zi' in the format string
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(375,13): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fisherfaces.c(375,13): message : consider using '%zi' in the format string
+  hough.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c(36,42): warning C4133: 'function': incompatible types - from 'float **' to 'size_t **'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c(39,32): warning C4133: 'function': incompatible types - from 'float **' to 'size_t **'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c(111,17): warning C4244: '=': conversion from 'size_t' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c(112,17): warning C4244: '=': conversion from 'size_t' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c(180,28): warning C4244: 'function': conversion from 'size_t' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c(180,12): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c(218,9): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c(234,17): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+  kernel.c
+  kmeans.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kmeans.c(19,10): warning C4133: 'initializing': incompatible types - from 'float *' to 'size_t *'
+  kpca.c
+  lbp.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c(63,33): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c(64,36): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
+  nn.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(54,10): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(54,10): message : consider using '%zi' in the format string
+  svm.c
+  cat.c
+  Generating Code...
+  Compiling...
+  cut.c
+  deg2rad.c
+  find.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(25,34): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(30,34): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(35,34): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(40,34): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(45,34): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
+  insert.c
+  issymmetric.c
+  pdist2.c
+  print.c
+  rad2deg.c
+  saturation.c
+  sign.c
+  sort.c
+  sum.c
+  vmax.c
+  vmin.c
+  linprog.c
+  lsqnonneg.c
+  quadprog.c
+  cluster_filter.c
+  fft.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\fft.c(53,8): warning C4267: 'function': conversion from 'size_t' to 'fftpack_int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\fft.c(56,8): warning C4267: 'function': conversion from 'size_t' to 'fftpack_int', possible loss of data
+  fft2.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\fft2.c(80,8): warning C4267: 'function': conversion from 'size_t' to 'fftpack_int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\fft2.c(89,8): warning C4267: 'function': conversion from 'size_t' to 'fftpack_int', possible loss of data
+  Generating Code...
+  Compiling...
+  fftshift.c
+  filtfilt.c
+  ifft.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\ifft.c(52,8): warning C4267: 'function': conversion from 'size_t' to 'fftpack_int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\ifft.c(62,8): warning C4267: 'function': conversion from 'size_t' to 'fftpack_int', possible loss of data
+  ifft2.c
+  ifftshift.c
+  pf.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\pf.c(122,11): warning C4047: 'function': 'size_t *' differs in levels of indirection from 'size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\pf.c(122,10): warning C4024: 'sort': different types for formal and actual parameter 2
+  sr_ukf_state_estimation.c
+  amax.c
+  center.c
+  circleaverage.c
+  cov.c
+  covm.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\covm.c(38,26): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+  lda.c
+  mean.c
+  pca.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(159,1): warning C4005: 'min': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1283,1): message : see previous definition of 'min'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\CLapack\Tools\f2c.h(160,1): warning C4005: 'max': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdlib.h(1282,1): message : see previous definition of 'max'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(58,14): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(58,23): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(58,37): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(58,48): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(58,60): warning C4267: 'initializing': conversion from 'size_t' to 'integer', possible loss of data
+  randn.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\randn.c(21,9): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+  randperm.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\randperm.c(18,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+  stddev.c
+  var.c
+  era.c
+  Generating Code...
+  Compiling...
+  okid.c
+  rls.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SystemIdentification\rls.c(66,14): warning C4267: '=': conversion from 'size_t' to 'int8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SystemIdentification\rls.c(70,14): warning C4267: '=': conversion from 'size_t' to 'int8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SystemIdentification\rls.c(74,15): warning C4267: '=': conversion from 'size_t' to 'int8_t', possible loss of data
+  sr_ukf_parameter_estimation.c
   Main.c
+C:\Users\dmn\GitHub\CControl\src\Main.c(734,9): warning C4133: 'function': incompatible types - from 'float [9]' to 'const char *const '
+C:\Users\dmn\GitHub\CControl\src\Main.c(22,24): warning C4305: 'initializing': truncation from 'double' to 'float'
   Generating Code...
   LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Release\CControl.exe

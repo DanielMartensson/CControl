@@ -199,6 +199,7 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imfree.c;C:\Us
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imgaussfilt.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\imgaussfilt.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imresize.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\imresize.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imshow.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\imshow.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kmeans.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\kmeans.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\lbp.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\brisk.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\brisk.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\circleaverage.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\circleaverage.obj

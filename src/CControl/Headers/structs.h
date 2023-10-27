@@ -62,4 +62,16 @@ typedef struct {
 	int y;
 } FAST_XY;
 
+/* For brisk.c */
+typedef struct {
+	/* Collection of corners from FAST */
+	int num_corners;
+	FAST_XY* xy;
+
+	/* Binary data [data_row * data_column] */
+	uint8_t* data;
+	size_t data_row;
+	size_t data_column;
+}BRISK;
+
 #endif /* !CCONTROL_HEADERS_STRUCTS_H_ */

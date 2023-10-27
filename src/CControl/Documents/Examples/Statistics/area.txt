@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : circleaverage.c
+ Name        : area.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
@@ -41,7 +41,8 @@ int main() {
 								22, 4, 13, 45, 2, 13, 13, 40, 15, 5, 23, 32, 15, 24, 21, 38, 30, 29, 15, 18 };
 
 	/* Compute circle average */
-	float average = circleaverage(X, row);
+	size_t number_elements;
+	float average = area(X, row, &number_elements, AREA_CIRCLE) / ((float)number_elements);
 
 	/* Print */
 	printf("Average of the elements inside the circle: %f\n", average);
