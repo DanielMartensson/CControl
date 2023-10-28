@@ -69,7 +69,7 @@ typedef struct {
 	FAST_XY* xy;
 
 	/* Binary data [data_row * data_column] */
-	uint8_t* data;
+	float* data;
 	size_t data_row;
 	size_t data_column;
 }BRISK;

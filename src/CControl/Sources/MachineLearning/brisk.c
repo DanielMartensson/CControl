@@ -29,7 +29,7 @@ BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uin
 	sobel(X, G, O, row, column, false);
 
 	/* Apply FAST on the gradients for finding interests points onto the shapes */
-	size_t i;
+	size_t i, j, k;
 	uint8_t* Xuint8 = (uint8_t*)malloc(row_column);
 	memset(Xuint8, 0, row_column);
 	for (i = 0; i < row_column; i++) {
@@ -39,13 +39,13 @@ BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uin
 	}
 
 	/* Create brisk model */
-	BRISK* brisk_model = (BRISK*)malloc(sizeof(BRISK));
-	brisk_model->data_column = 11U;
-	brisk_model->data_row = 0U;
-	brisk_model->data = NULL;
+	BRISK* brisk_data = (BRISK*)malloc(sizeof(BRISK));
+	brisk_data->data_column = 88U;
+	brisk_data->data_row = 0U;
+	brisk_data->data = NULL;
 
 	/* Use FAST */
-	brisk_model->xy = fast(Xuint8, row, column, threshold_fast, &brisk_model->num_corners, fast_method);
+	brisk_data->xy = fast(Xuint8, row, column, threshold_fast, &brisk_data->num_corners, fast_method);
 
 	/* Make another blur for computing the descriptors */
 	if (sigma2 > 0.0f) {
@@ -58,10 +58,10 @@ BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uin
 	float* O_part = (float*)malloc(O_part_row * O_part_row * sizeof(float));
 	
 	/* Fill histogram */
-	for (i = 0; i < brisk_model->num_corners; i++) {
+	for (i = 0; i < brisk_data->num_corners; i++) {
 		/* Get coordinates for the interest points - x is column and y is row */
-		const int x = brisk_model->xy[i].x;
-		const int y = brisk_model->xy[i].y;
+		const int x = brisk_data->xy[i].x;
+		const int y = brisk_data->xy[i].y;
 
 		/* Compute the squre area limits */
 		const int x_min = x - radius;
@@ -79,52 +79,64 @@ BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uin
 			float init_angle = area(O_part, O_part_row, &total_elements, AREA_METHOD_CIRCLE) / ((float)total_elements);
 
 			/* Allocate memory for new row */
-			const size_t data_size = brisk_model->data_row * brisk_model->data_column;
-			brisk_model->data = (uint8_t*)realloc(brisk_model->data, (data_size + brisk_model->data_column) * sizeof(uint8_t));
+			const size_t data_size = brisk_data->data_row * brisk_data->data_column;
+			brisk_data->data = (float*)realloc(brisk_data->data, (data_size + brisk_data->data_column) * sizeof(float));
 
 			/* Shift */
-			uint8_t* data0 = brisk_model->data;
-			brisk_model->data += data_size;
+			float* data0 = brisk_data->data;
+			brisk_data->data += data_size;
 
-			/* Clear */
-			memset(brisk_model->data, 0, brisk_model->data_column);
+			/* Clear data */
+			memset(brisk_data->data, 0, brisk_data->data_column * sizeof(float));
 			
 			/* First 16 bit data */
 			uint16_t data = lbp(X, row, column, x, y, init_angle, 8.0f, LBP_BIT_16);
-			brisk_model->data[0] = data >> 8;
-			brisk_model->data[1] = data;
+			uint8_t data11[11];
+			data11[0] = data >> 8;
+			data11[1] = data;
 
 			/* Second 16-bit data */
 			data = lbp(X, row, column, x, y, init_angle, 7.0f, LBP_BIT_16);
-			brisk_model->data[2] = data >> 8;
-			brisk_model->data[3] = data;
+			data11[2] = data >> 8;
+			data11[3] = data;
 
 			/* Third 16-bit data */
 			data = lbp(X, row, column, x, y, init_angle, 5.6f, LBP_BIT_16);
-			brisk_model->data[4] = data >> 8;
-			brisk_model->data[5] = data;
+			data11[4] = data >> 8;
+			data11[5] = data;
 
 			/* Fourth 16-bit data */
 			data = lbp(X, row, column, x, y, init_angle, 4.6f, LBP_BIT_16);
-			brisk_model->data[6] = data >> 8;
-			brisk_model->data[7] = data;
+			data11[6] = data >> 8;
+			data11[7] = data;
 
 			/* Fifth 16-bit data */
 			data = lbp(X, row, column, x, y, init_angle, 3.51f, LBP_BIT_16);
-			brisk_model->data[8] = data >> 8;
-			brisk_model->data[9] = data;
+			data11[8] = data >> 8;
+			data11[9] = data;
 
 			/* The last 8-bit data */
-			brisk_model->data[10] = lbp(X, row, column, x, y, init_angle, 2.0f, LBP_BIT_8);
+			data11[10] = lbp(X, row, column, x, y, init_angle, 2.0f, LBP_BIT_8);
+
+			/* Convert to binary - 11 elements and 8-bit, total 88 elements */
+			for (j = 0; j < 11U; j++) {
+				/* Focus on LSB */
+				for (k = 0; k < 8U; k++) {
+					if ((data11[j] >> k) && 0b1) {
+						brisk_data->data[0] = 1.0f;
+					}
+					brisk_data->data += 1;
+				}
+			}
 
 			/* Count */
-			brisk_model->data_row++;
+			brisk_data->data_row++;
 
 			/* Reset address */
-			brisk_model->data = data0;
+			brisk_data->data = data0;
 		}
 	}
-
+	
 	/* Free */
 	free(G);
 	free(O);
@@ -132,7 +144,7 @@ BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uin
 	free(Xuint8);
 
 	/* Return histogram */
-	return brisk_model;
+	return brisk_data;
 }
 
 void briskfree(BRISK* brisk_model) {
