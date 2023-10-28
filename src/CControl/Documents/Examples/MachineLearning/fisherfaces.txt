@@ -18,6 +18,7 @@ int main() {
 	/* Create fisher faces parameter struct */
 	FISHER_FACES_SETTINGS fisher_faces_settings;
 	fisher_faces_settings.isModelCreated = false;
+	fisher_faces_settings.save_model = true;
 
 	/* Select data and what to do */
 	strcpy(fisher_faces_settings.folder_path, "..\\src\\CControl\\Documents\\Data\\yale");
@@ -70,7 +71,7 @@ int main() {
 	printf("\nBias b parameters with size %i x 1\n", fisher_faces_settings.model_row);
 	print(fisher_faces_settings.model_b, fisher_faces_settings.model_row, 1);
 	printf("\nWeight W parameters have the size %i x %i\n", fisher_faces_settings.model_row, fisher_faces_settings.model_column);
-	printf("The method to find the class ID is: class_id = activation_function(W * x + b)\n");
+	printf("Use the function nn_predict to predict the class ID\n");
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

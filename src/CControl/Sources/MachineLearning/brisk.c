@@ -16,7 +16,7 @@
   * threshold_fast - Threshold for the FAST algorithm
   * fast_method - Which type of FAST methods should be used
   */
-BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uint8_t threshold_fast, FAST_METHOD fast_method, size_t row, size_t column) {
+BRISK* brisk_train(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column) {
 	/* Apply gaussian blurr for making small objects not recognizable */
 	if (sigma1 > 0.0f) {
 		imgaussfilt(X, sigma1, row, column);

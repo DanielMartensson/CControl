@@ -204,7 +204,7 @@ int main() {
 	/* Train a neural network */
 	float C = 2;
 	float lambda = 0.5;
-	nn(X, class_id, weight, bias, status, accuracy, row, column, C, lambda);
+	nn_train(X, class_id, weight, bias, status, accuracy, row, column, C, lambda);
 
 	/* Print weights, bias, status, accuracy */
 	printf("Weight\n");

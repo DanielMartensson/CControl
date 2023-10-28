@@ -81,7 +81,7 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void briskfree(BRISK* brisk_model);
-BRISK* brisk(float X[], float sigma1, float sigma2, uint8_t threshold_sobel, uint8_t threshold_fast, FAST_METHOD fast_method, size_t row, size_t column);
+BRISK* brisk_train(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
 void fisherfaces(FISHER_FACES_SETTINGS* fisher_faces_settings);
@@ -90,7 +90,10 @@ void kernel(float X[], float K[], size_t row, size_t column, float kernel_parame
 void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t column);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit);
-void nn(float X[], size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], size_t row, size_t column, float C, float lambda);
+void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const float C, const float lambda);
+size_t nn_predict(const float model_w[], const float model_b[], const float x[], const size_t row_w, const size_t column_w);
+void nn_eval(const float model_w[], const float model_b[], const float X[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t column_x);
+void nn_save(const float model_w[], const float model_b[], const char model_path[], const char model_name[], const size_t row, const size_t column);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */

@@ -35,13 +35,13 @@ int main() {
 	int threshold_fast = 50;
 
 	/* Use BRISK to find the histogram descriptors */
-	BRISK* brisk_data = brisk(X, sigma1, sigma2, sobel_threshold, threshold_fast, fast_method, row, column);
+	BRISK* brisk_data = brisk_train(X, sigma1, sigma2, sobel_threshold, threshold_fast, fast_method, row, column);
 	end = clock();
 
 	/* Print histogram */
 	for (i = 0; i < brisk_data->data_row; i++) {
 		for (j = 0; j < brisk_data->data_column; j++) {
-			printf("%f\t", brisk_data->data[i* brisk_data->data_column + j]);
+			printf("%i ", (uint8_t)brisk_data->data[i* brisk_data->data_column + j]);
 		}
 		printf("\n");
 	}

@@ -53,7 +53,7 @@ typedef struct {
 	size_t model_row;
 	size_t model_column;
 	bool isModelCreated;
-	size_t (*activation_function)(float*, size_t);
+	bool save_model;
 }FISHER_FACES_SETTINGS;
 
 /* For fast.c */
