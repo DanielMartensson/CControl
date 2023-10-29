@@ -46,11 +46,11 @@ Main focuses are:
   - Point-in-polygon algorithm for checking if a point is inside the area
 
 - Machine Learning
-  - Object Detection Binary Robust Invariant Scalable Keypoints (ODORP)
+  - Object Detection Oriented FAST Rotated Pattern (ODORP)
   - Local Binary Pattern (LBP)
   - Features from accelerated segment test (FAST)
   - Hough Transform for line detection
-  - Binary Robust Invariant Scalable Keypoints (BRISK)
+  - Oriented FAST Rotated Pattern (ORP)
   - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification and object detection
   - Density-Based Spatial Clustering of Applications with Noise
   - Support Vector Machine
