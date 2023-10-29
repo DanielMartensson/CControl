@@ -36,6 +36,10 @@ DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
 
 			/* Check if the file is .pgm */
 			if (!strstr(file_name, ".pgm")) {
+				/*
+				 * Parameters for collecting data
+				 * I recommend generate_pgm.m file for generating the .pgm files
+				 */
 				continue;
 			}
 
@@ -58,7 +62,6 @@ DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
 				/* Type of detection */
 				float* new_data = NULL;
 				size_t new_pixel_size;
-				BRISK* brisk_data;
 				size_t row;
 				switch (data_collect_settings->collect_type) {
 				case COLLECT_TYPE_FISHERFACES: {
@@ -78,25 +81,25 @@ DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
 					data_collect->column = new_pixel_size;
 					break;
 				}
-				case COLLECT_TYPE_ODBRISK: {
-					/* Get brisk data */
-					BRISK* brisk_data = brisk(X, data_collect_settings->sigma1, data_collect_settings->sigma2, data_collect_settings->threshold_sobel, data_collect_settings->threshold_fast, data_collect_settings->fast_method, image->height, image->width);
+				case COLLECT_TYPE_ORP: {
+					/* Get orp data */
+					ORP* orp_data = orp(X, data_collect_settings->sigma1, data_collect_settings->sigma2, data_collect_settings->threshold_sobel, data_collect_settings->threshold_fast, data_collect_settings->fast_method, image->height, image->width);
 					
 					/* Compute new size */
-					row = brisk_data->data_row;
-					new_pixel_size = brisk_data->data_row * brisk_data->data_column;
+					row = orp_data->data_row;
+					new_pixel_size = orp_data->data_row * orp_data->data_column;
 
 					/* Allocate new memory */
 					new_data = (float*)malloc(new_pixel_size * sizeof(float));
 					
 					/* Copy over */
-					memcpy(new_data, brisk_data->data, new_pixel_size * sizeof(float));
+					memcpy(new_data, orp_data->data, new_pixel_size * sizeof(float));
 
 					/* Column will always be the data_column size */
-					data_collect->column = brisk_data->data_column;
+					data_collect->column = orp_data->data_column;
 	
 					/* Free */
-					briskfree(brisk_data);
+					orpfree(orp_data);
 				}
 				}
 
@@ -166,4 +169,40 @@ DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
 
 	/* Return model */
 	return data_collect;
+}
+
+void collect_data_free(DATA_COLLECT* data_collect) {
+	if (data_collect) {
+		free(data_collect->class_id);
+		free(data_collect->data);
+		free(data_collect);
+	}
+}
+
+void collect_data_print(DATA_COLLECT* data_collect) {
+	if (data_collect) {
+		const size_t r = data_collect->row;
+		const size_t c = data_collect->column;
+		printf("Rows %i and columns %i\n", r, c);
+		size_t i, j;
+		float* data0 = data_collect->data;
+		for (i = 0; i < r; i++) {
+			if (i == 0) {
+				for (j = 0; j < c; j++) {
+					printf("%i\t", data_collect->class_id[j]);
+				}
+				printf("\n");
+				for (j = 0; j < c; j++) {
+					printf("_\t");
+				}
+				printf("\n");
+			}
+			for (j = 0; j < c; j++) {
+				printf("%i\t", (int32_t)(*data_collect->data++));
+			}
+			printf("\n");
+		}
+		data_collect->data = data0;
+		printf("\n");
+	}
 }

@@ -16,7 +16,7 @@ typedef struct {
 	uint8_t* pixels;
 }PGM;
 
-/* For fisherfaces.c and odbrisk.c */
+/* For data_collect.c */
 typedef struct {
 	size_t row;
 	size_t column;
@@ -29,11 +29,11 @@ typedef struct {
 	char folder_path[260];
 	COLLECT_TYPE collect_type;
 
-	/* For fisher faces */
+	/* For Fisherfaces */
 	size_t pooling_size;
 	POOLING_METHOD pooling_method;
 
-	/* For brisk */
+	/* For ORP */
 	float sigma1;
 	float sigma2;
 	uint8_t threshold_sobel;
@@ -69,7 +69,7 @@ typedef struct {
 	bool save_model;
 }FISHERFACES_SETTINGS;
 
-/* For fisherfaces.c */
+/* For odorp.c */
 typedef struct {
 	/* Source to the data */
 	DATA_COLLECT_SETTINGS collect_data_settings;
@@ -85,7 +85,7 @@ typedef struct {
 	size_t model_column;
 	bool is_model_created;
 	bool save_model;
-}ODBRISK_SETTINGS;
+}ODORP_SETTINGS;
 
 /* For fast.c */
 typedef struct {
@@ -93,7 +93,7 @@ typedef struct {
 	int y;
 } FAST_XY;
 
-/* For brisk.c */
+/* For orp.c */
 typedef struct {
 	/* Collection of corners from FAST */
 	int num_corners;
@@ -103,6 +103,6 @@ typedef struct {
 	float* data;
 	size_t data_row;
 	size_t data_column;
-}BRISK;
+}ORP;
 
 #endif /* !CCONTROL_HEADERS_STRUCTS_H_ */

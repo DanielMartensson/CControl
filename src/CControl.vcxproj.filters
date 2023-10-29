@@ -329,7 +329,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\brisk.c">
+    <ClCompile Include="CControl\Sources\MachineLearning\orp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c">
@@ -348,6 +348,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\odorp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\collect_data.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

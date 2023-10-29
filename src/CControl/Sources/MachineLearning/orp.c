@@ -1,5 +1,5 @@
 /*
- * brisk.c
+ * orp.c
  *
  *  Created on: 17 oktober 2023
  *      Author: Daniel Mårtensson
@@ -8,7 +8,7 @@
 #include "../../Headers/functions.h"
 
  /*
-  * Binary Robust Invariant Scalable Keypoints
+  * Oriented FAST Rotated Pattern
   * X[m*n]
   * sigma1 - Gaussian blurr for the background
   * sigma2 - Gaussian blurr for whole image (easier to find descriptors if the image is blurry)
@@ -16,7 +16,7 @@
   * threshold_fast - Threshold for the FAST algorithm
   * fast_method - Which type of FAST methods should be used
   */
-BRISK* brisk(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column) {
+ORP* orp(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column) {
 	/* Apply gaussian blurr for making small objects not recognizable */
 	if (sigma1 > 0.0f) {
 		imgaussfilt(X, sigma1, row, column);
@@ -38,14 +38,14 @@ BRISK* brisk(float X[], const float sigma1, const float sigma2, const uint8_t th
 		}
 	}
 
-	/* Create brisk model */
-	BRISK* brisk_data = (BRISK*)malloc(sizeof(BRISK));
-	brisk_data->data_column = 88U;
-	brisk_data->data_row = 0U;
-	brisk_data->data = NULL;
+	/* Create orp data */
+	ORP* orp_data = (ORP*)malloc(sizeof(ORP));
+	orp_data->data_column = 88U;
+	orp_data->data_row = 0U;
+	orp_data->data = NULL;
 
 	/* Use FAST */
-	brisk_data->xy = fast(Xuint8, row, column, threshold_fast, &brisk_data->num_corners, fast_method);
+	orp_data->xy = fast(Xuint8, row, column, threshold_fast, &orp_data->num_corners, fast_method);
 
 	/* Make another blur for computing the descriptors */
 	if (sigma2 > 0.0f) {
@@ -58,10 +58,10 @@ BRISK* brisk(float X[], const float sigma1, const float sigma2, const uint8_t th
 	float* O_part = (float*)malloc(O_part_row * O_part_row * sizeof(float));
 	
 	/* Fill histogram */
-	for (i = 0; i < brisk_data->num_corners; i++) {
+	for (i = 0; i < orp_data->num_corners; i++) {
 		/* Get coordinates for the interest points - x is column and y is row */
-		const int x = brisk_data->xy[i].x;
-		const int y = brisk_data->xy[i].y;
+		const int x = orp_data->xy[i].x;
+		const int y = orp_data->xy[i].y;
 
 		/* Compute the squre area limits */
 		const int x_min = x - radius;
@@ -79,15 +79,15 @@ BRISK* brisk(float X[], const float sigma1, const float sigma2, const uint8_t th
 			float init_angle = area(O_part, O_part_row, &total_elements, AREA_METHOD_CIRCLE) / ((float)total_elements);
 
 			/* Allocate memory for new row */
-			const size_t data_size = brisk_data->data_row * brisk_data->data_column;
-			brisk_data->data = (float*)realloc(brisk_data->data, (data_size + brisk_data->data_column) * sizeof(float));
+			const size_t data_size = orp_data->data_row * orp_data->data_column;
+			orp_data->data = (float*)realloc(orp_data->data, (data_size + orp_data->data_column) * sizeof(float));
 
 			/* Shift */
-			float* data0 = brisk_data->data;
-			brisk_data->data += data_size;
+			float* data0 = orp_data->data;
+			orp_data->data += data_size;
 
 			/* Clear data */
-			memset(brisk_data->data, 0, brisk_data->data_column * sizeof(float));
+			memset(orp_data->data, 0, orp_data->data_column * sizeof(float));
 			
 			/* First 16 bit data */
 			uint16_t data = lbp(X, row, column, x, y, init_angle, 8.0f, LBP_BIT_16);
@@ -123,17 +123,17 @@ BRISK* brisk(float X[], const float sigma1, const float sigma2, const uint8_t th
 				/* Focus on LSB */
 				for (k = 0; k < 8U; k++) {
 					if ((data11[j] >> k) && 0b1) {
-						brisk_data->data[0] = 1.0f;
+						orp_data->data[0] = 1.0f;
 					}
-					brisk_data->data += 1;
+					orp_data->data += 1;
 				}
 			}
 
 			/* Count */
-			brisk_data->data_row++;
+			orp_data->data_row++;
 
 			/* Reset address */
-			brisk_data->data = data0;
+			orp_data->data = data0;
 		}
 	}
 	
@@ -143,18 +143,18 @@ BRISK* brisk(float X[], const float sigma1, const float sigma2, const uint8_t th
 	free(O_part);
 	free(Xuint8);
 
-	/* Return histogram */
-	return brisk_data;
+	/* Return binary data */
+	return orp_data;
 }
 
-void briskfree(BRISK* brisk_model) {
-	if (brisk_model->data) {
-		free(brisk_model->data);
+void orpfree(ORP* orp_model) {
+	if (orp_model->data) {
+		free(orp_model->data);
 	}
-	if (brisk_model->xy) {
-		free(brisk_model->xy);
+	if (orp_model->xy) {
+		free(orp_model->xy);
 	}
-	free(brisk_model);
+	free(orp_model);
 }
 
 /*
@@ -163,10 +163,10 @@ void briskfree(BRISK* brisk_model) {
  % Binary Robust Invariant Scalable Keypoints
 % Input: X(image), sigma1(background filtering), sigma2(descriptor filtering), threshold_sobel(corner filtering), threshold_fast(corner threshold), fast_method(enter: 9, 10, 11, 12)
 % Output: data(classification data), X1(filtered background), X2(filtered data for descriptors), G(gradients for the corners), corners, scores(corner scores)
-% Example 1: [data, X1, X2, G, corners, scores] = mi.brisk(X, sigma1, sigma2, threshold_sobel, threshold_fast, fast_method);
+% Example 1: [data, X1, X2, G, corners, scores] = mi.orp(X, sigma1, sigma2, threshold_sobel, threshold_fast, fast_method);
 % Author: Daniel Mårtensson, Oktober 19:e 2023
 
-function [data, X1, X2, G, corners, scores] = brisk(varargin)
+function [data, X1, X2, G, corners, scores] = orp(varargin)
   % Check if there is any input
   if(isempty(varargin))
 	error('Missing inputs')

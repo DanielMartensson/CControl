@@ -46,7 +46,7 @@ Main focuses are:
   - Point-in-polygon algorithm for checking if a point is inside the area
 
 - Machine Learning
-  - Object Detection Binary Robust Invariant Scalable Keypoints (ODBRISK)
+  - Object Detection Binary Robust Invariant Scalable Keypoints (ODORP)
   - Local Binary Pattern (LBP)
   - Features from accelerated segment test (FAST)
   - Hough Transform for line detection

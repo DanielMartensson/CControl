@@ -37,6 +37,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\collect_data.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\fast.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\hough.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c" />
@@ -45,7 +46,8 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\brisk.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\orp.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\odorp.c" />
     <ClCompile Include="CControl\Sources\Statistics\area.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c" />

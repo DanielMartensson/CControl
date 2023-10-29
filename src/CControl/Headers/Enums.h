@@ -99,7 +99,7 @@ typedef enum {
 /* For collect_data.c */
 typedef enum {
 	COLLECT_TYPE_FISHERFACES,
-	COLLECT_TYPE_ODBRISK
+	COLLECT_TYPE_ORP
 }COLLECT_TYPE;
 
 #endif /* !CCONTROL_HEADERS_ENUMS_H_ */

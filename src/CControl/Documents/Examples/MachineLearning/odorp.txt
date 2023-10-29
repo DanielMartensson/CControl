@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : odbrisk.c
+ Name        : odorp.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
@@ -15,27 +15,27 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Create Object Detection BRISK parameter struct */
-	ODBRISK_SETTINGS odbrisk_settings;
-	odbrisk_settings.is_model_created = false;
-	odbrisk_settings.save_model = true;
+	/* Create Object Detection ORP parameter struct */
+	ODORP_SETTINGS odorp_settings;
+	odorp_settings.is_model_created = false;
+	odorp_settings.save_model = true;
 
 	/* Select data and what to do */
-	strcpy(odbrisk_settings.collect_data_settings.folder_path, "..\\src\\CControl\\Documents\\Data\\objects");
+	strcpy(odorp_settings.collect_data_settings.folder_path, "..\\src\\CControl\\Documents\\Data\\objects");
 
 	/*
-	 * BRISK configurtion:
+	 * ORP configurtion:
 	 * sigma1 is for background blurring. It helps because then FAST cannot find interest points into blurred images
 	 * sigma1 is for blurring before finding the descriptors. A blurred image is much better to use for descriptors, instead of a clear image
 	 * threshold_sobel is for removing weak corners and edges
 	 * threshold_fast is the parameter that controls who many interest points it can find
 	 * fast_method is the method for FAST algorithm
 	 */
-	odbrisk_settings.collect_data_settings.sigma1 = 2.5f;
-	odbrisk_settings.collect_data_settings.sigma2 = 1.0f;
-	odbrisk_settings.collect_data_settings.threshold_sobel = 255;
-	odbrisk_settings.collect_data_settings.threshold_fast = 100;
-	odbrisk_settings.collect_data_settings.fast_method = FAST_METHOD_12;
+	odorp_settings.collect_data_settings.sigma1 = 2.5f;
+	odorp_settings.collect_data_settings.sigma2 = 1.0f;
+	odorp_settings.collect_data_settings.threshold_sobel = 255;
+	odorp_settings.collect_data_settings.threshold_fast = 100;
+	odorp_settings.collect_data_settings.fast_method = FAST_METHOD_12;
 
 	/*
 	 * Neural network configuration:
@@ -45,16 +45,16 @@ int main() {
 	 * even if that hyperplane misclassifies more points. For very tiny values of C, you should get misclassified examples, often even if your training data is linearly separable.
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
-	odbrisk_settings.C = 1.0f;
-	odbrisk_settings.lambda = 20.0f;
+	odorp_settings.C = 1.0f;
+	odorp_settings.lambda = 20.0f;
 
-	/* Object Detection BRISK training */
-	odbrisk(&odbrisk_settings);
+	/* Object Detection ORP training */
+	odorp(&odorp_settings);
 
 	/* Here is the model parameters */
-	printf("\nBias b parameters with size %i x 1\n", odbrisk_settings.model_row);
-	print(odbrisk_settings.model_b, odbrisk_settings.model_row, 1);
-	printf("\nWeight W parameters have the size %i x %i\n", odbrisk_settings.model_row, odbrisk_settings.model_column);
+	printf("\nBias b parameters with size %i x 1\n", odorp_settings.model_row);
+	print(odorp_settings.model_b, odorp_settings.model_row, 1);
+	printf("\nWeight W parameters have the size %i x %i\n", odorp_settings.model_row, odorp_settings.model_column);
 	printf("Use the function nn_predict to predict the class ID\n");
 
 	end = clock();

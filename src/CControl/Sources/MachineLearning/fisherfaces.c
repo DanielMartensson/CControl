@@ -7,10 +7,6 @@
 
 #include "../../Headers/functions.h"
 
-/* Private functions */
-static void fisherfaces_free_model(DATA_COLLECT* fisher_model);
-static void fisherfaces_print_model(DATA_COLLECT* fisher_model);
-
 /*
  * This is an algorithm that was created in the year 1997 by Peter N. Belhumeur, Joao P. Hespanha, and David J. Kriegman.
  * But I have made som improvements to this algorithm.
@@ -157,44 +153,8 @@ void fisherfaces(FISHERFACES_SETTINGS* fisherfaces_settings) {
 	}
 
 	/* Free - The model is not needed any more */
-	fisherfaces_free_model(fisher_data);
+	collect_data_free(fisher_data);
 
 	/* End */
 	printf("9: Everything is done...\n");
-}
-
-static void fisherfaces_free_model(DATA_COLLECT* fisher_model) {
-	if (fisher_model) {
-		free(fisher_model->class_id);
-		free(fisher_model->data);
-		free(fisher_model);
-	}
-}
-
-static void fisherfaces_print_model(DATA_COLLECT* fisher_model) {
-	if (fisher_model) {
-		const size_t r = fisher_model->row;
-		const size_t c = fisher_model->column;
-		printf("Rows %i and columns %i\n", r, c);
-		size_t i, j;
-		float* data0 = fisher_model->data;
-		for (i = 0; i < r; i++) {
-			if (i == 0) {
-				for (j = 0; j < c; j++) {
-					printf("%i\t", fisher_model->class_id[j]);
-				}
-				printf("\n");
-				for (j = 0; j < c; j++) {
-					printf("_\t");
-				}
-				printf("\n");
-			}
-			for (j = 0; j < c; j++) {
-				printf("%i\t", (int32_t)(*fisher_model->data++));
-			}
-			printf("\n");
-		}
-		fisher_model->data = data0;
-		printf("\n");
-	}
 }
