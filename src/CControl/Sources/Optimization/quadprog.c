@@ -125,7 +125,8 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	float *P0 = P;
 	Ai = A;
 	for (i = 0; i < row_a; i++) {
-		linsolve_gauss(Q, P, Ai, column_a, column_a, 0.0f);
+		linsolve_chol(Q, P, Ai, column_a);
+		/* linsolve_gauss(Q, P, Ai, column_a, column_a, 0.0f); - Old */
 		P += column_a;
 		Ai += column_a;
 	}
