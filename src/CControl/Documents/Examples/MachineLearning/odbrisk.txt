@@ -1,0 +1,64 @@
+/*
+ ============================================================================
+ Name        : odbrisk.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Train and classify specific objects
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create Object Detection BRISK parameter struct */
+	ODBRISK_SETTINGS odbrisk_settings;
+	odbrisk_settings.is_model_created = false;
+	odbrisk_settings.save_model = true;
+
+	/* Select data and what to do */
+	strcpy(odbrisk_settings.collect_data_settings.folder_path, "..\\src\\CControl\\Documents\\Data\\objects");
+
+	/*
+	 * BRISK configurtion:
+	 * sigma1 is for background blurring. It helps because then FAST cannot find interest points into blurred images
+	 * sigma1 is for blurring before finding the descriptors. A blurred image is much better to use for descriptors, instead of a clear image
+	 * threshold_sobel is for removing weak corners and edges
+	 * threshold_fast is the parameter that controls who many interest points it can find
+	 * fast_method is the method for FAST algorithm
+	 */
+	odbrisk_settings.collect_data_settings.sigma1 = 2.5f;
+	odbrisk_settings.collect_data_settings.sigma2 = 1.0f;
+	odbrisk_settings.collect_data_settings.threshold_sobel = 255;
+	odbrisk_settings.collect_data_settings.threshold_fast = 100;
+	odbrisk_settings.collect_data_settings.fast_method = FAST_METHOD_12;
+
+	/*
+	 * Neural network configuration:
+	 * This neural network is build by support vector machines. The C hyperparameter tells the SVM optimization how much you want to avoid misclassifying each training example.
+	 * For large values of C, the optimization will choose a smaller-margin hyperplane if that hyperplane does a better job of getting all the training points classified correctly.
+	 * Conversely, a very small value of C will cause the optimizer to look for a larger-margin separating hyperplane,
+	 * even if that hyperplane misclassifies more points. For very tiny values of C, you should get misclassified examples, often even if your training data is linearly separable.
+	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
+	 */
+	odbrisk_settings.C = 1.0f;
+	odbrisk_settings.lambda = 20.0f;
+
+	/* Object Detection BRISK training */
+	odbrisk(&odbrisk_settings);
+
+	/* Here is the model parameters */
+	printf("\nBias b parameters with size %i x 1\n", odbrisk_settings.model_row);
+	print(odbrisk_settings.model_b, odbrisk_settings.model_row, 1);
+	printf("\nWeight W parameters have the size %i x %i\n", odbrisk_settings.model_row, odbrisk_settings.model_column);
+	printf("Use the function nn_predict to predict the class ID\n");
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+	return EXIT_SUCCESS;
+}

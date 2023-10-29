@@ -16,22 +16,35 @@ typedef struct {
 	uint8_t* pixels;
 }PGM;
 
-/* For fisherfaces.c */
+/* For fisherfaces.c and odbrisk.c */
 typedef struct {
 	size_t row;
 	size_t column;
 	size_t* class_id;
 	float* data;
-}FISHER_MODEL;
+}DATA_COLLECT;
 
-/* For fisherfaces.c */
 typedef struct {
-	/* For reduce the size of the image */
+	/* General */
+	char folder_path[260];
+	COLLECT_TYPE collect_type;
+
+	/* For fisher faces */
 	size_t pooling_size;
 	POOLING_METHOD pooling_method;
 
+	/* For brisk */
+	float sigma1;
+	float sigma2;
+	uint8_t threshold_sobel;
+	uint8_t threshold_fast;
+	FAST_METHOD fast_method;
+}DATA_COLLECT_SETTINGS;
+
+/* For fisherfaces.c */
+typedef struct {
 	/* Source to the data */
-	char folder_path[256];
+	DATA_COLLECT_SETTINGS collect_data_settings;
 
 	/* Remove outliers settings */
 	bool remove_outliers;
@@ -52,9 +65,27 @@ typedef struct {
 	float* model_b;
 	size_t model_row;
 	size_t model_column;
-	bool isModelCreated;
+	bool is_model_created;
 	bool save_model;
-}FISHER_FACES_SETTINGS;
+}FISHERFACES_SETTINGS;
+
+/* For fisherfaces.c */
+typedef struct {
+	/* Source to the data */
+	DATA_COLLECT_SETTINGS collect_data_settings;
+
+	/* Neural network settings */
+	float C;
+	float lambda;
+
+	/* This is the model parameters - The final stage */
+	float* model_w;
+	float* model_b;
+	size_t model_row;
+	size_t model_column;
+	bool is_model_created;
+	bool save_model;
+}ODBRISK_SETTINGS;
 
 /* For fast.c */
 typedef struct {

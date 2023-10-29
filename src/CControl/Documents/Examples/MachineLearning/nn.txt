@@ -14,13 +14,6 @@
 #define column 4
 #define max_classes 3
 
-/* Return the index of the largest value of vector x */
-size_t activation_function(float x[], size_t length) {
-	size_t max_index;
-	amax(x, &max_index, length);
-	return max_index;
-}
-
 int main() {
 	clock_t start, end;
 	float cpu_time_used;
@@ -211,31 +204,15 @@ int main() {
 	print(weight, max_classes, column);
 	printf("Bias\n");
 	print(bias, 1, max_classes);
-	for (i = 0; i < max_classes; i++) {
-		printf("Training: Neural Network %s with accuracy: %f at class: %i\n", status[i] ? "success" : "failed", accuracy[i], i);
-	}
 
-	/* Validate */
-	float x[max_classes];
-	size_t score = 0;
-	size_t class_id_predicted;
-	size_t j;
+	/* Evaluate */
+	nn_eval(weight, bias, X, class_id, max_classes, column, row);
+
+	/* Predict */
 	for (i = 0; i < row; i++) {
-		/* MATLAB: x = weight * X(i, :)' + bias(i) Vector transpose is just the same as regular array */
-		mul(weight, X + i * column, x, max_classes, column, 1);
-		for (j = 0; j < max_classes; j++) {
-			x[j] += bias[j];
-		}
-
-		/* Use activation function to determine the class ID */
-		class_id_predicted = activation_function(x, max_classes);
-		if (class_id[i] == class_id_predicted) {
-			score++;
-		}
+		size_t id = nn_predict(weight, bias, X + column * i, max_classes, column);
+		printf("The class ID is %i and predicted ID is %i\n", (int)class_id[i], (int)id);
 	}
-
-	/* Print status */
-	printf("The accuracy of this model is: %f\n", ((float)score) / ((float)row) * 100.0f);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
