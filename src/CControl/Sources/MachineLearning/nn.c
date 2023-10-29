@@ -74,11 +74,11 @@ void nn_train(const float X[], const size_t class_id[], float weight[], float bi
  * model_w[row_w * column_w]
  * model_b[row_w]
  * x[column_w]
+ * y[row_w]
  * Return the class ID = activation_function(model_w*x + model_b)
  */
-size_t nn_predict(const float model_w[], const float model_b[], const float x[], const size_t row_w, const size_t column_w) {
+size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w) {
 	/* Compute y = W*x + b */
-	float* y = (float*)malloc(row_w * sizeof(float));
 	mul(model_w, x, y, row_w, column_w, 1);
 	size_t i;
 	for (i = 0; i < row_w; i++) {
@@ -94,12 +94,13 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
  * model_w[row_w * column_w]
  * model_b[row_w]
  * X[row_x * column_w]
+ * Y[row_x * row_w]
  * class_id[row_x]
  */
-void nn_eval(const float model_w[], const float model_b[], const float X[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x) {
+void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x) {
 	size_t i, score = 0;
 	for (i = 0; i < row_x; i++) {
-		score += class_id[i] == nn_predict(model_w, model_b, X + column_w * i, row_w, column_w);
+		score += class_id[i] == nn_predict(model_w, model_b, X + column_w * i, Y + row_w * i, row_w, column_w);
 	}
 
 	/* Print status */

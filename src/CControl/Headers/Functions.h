@@ -82,22 +82,22 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 /* Machine learning */
 void orpfree(ORP* orp_model);
 ORP* orp(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column);
-DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings);
+DATA_COLLECT* collect_data(const DATA_SETTINGS* data_collect_settings);
 void collect_data_free(DATA_COLLECT* data_collect);
 void collect_data_print(DATA_COLLECT* data_collect);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
-void fisherfaces(FISHERFACES_SETTINGS* fisherfaces_settings);
+DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings);
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t column);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit);
 void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const float C, const float lambda);
-size_t nn_predict(const float model_w[], const float model_b[], const float x[], const size_t row_w, const size_t column_w);
-void nn_eval(const float model_w[], const float model_b[], const float X[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x);
+size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w);
+void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x);
 void nn_save(const float model_w[], const float model_b[], const char model_path[], const char model_name[], const size_t row, const size_t column);
-void odorp(ODORP_SETTINGS* odorp_settings);
+DATA_COLLECT* odorp(DATA_SETTINGS* settings);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */

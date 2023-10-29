@@ -16,12 +16,11 @@ int main() {
 	start = clock();
 
 	/* Create fisher faces parameter struct */
-	FISHERFACES_SETTINGS fisherfaces_settings;
-	fisherfaces_settings.is_model_created = false;
-	fisherfaces_settings.save_model = true;
+	DATA_SETTINGS settings;
+	settings.save_model = true;
 
 	/* Select data and what to do */
-	strcpy(fisherfaces_settings.collect_data_settings.folder_path, "..\\src\\CControl\\Documents\\Data\\yale");
+	strcpy(settings.folder_path, "..\\src\\CControl\\Documents\\Data\\yale");
 
 	/*
 	 * Face detection:
@@ -30,17 +29,17 @@ int main() {
 	 * Pooling method is which method pooling should treat the image. If you want no pooling, just set pooling_method to POOLING_METHOD_NO_POOLING
 	 * To create the .pgm files of .gif, .jpg, .png etc, head over to MataveID and run the fisherfaces.m MATLAB-file.
 	 */
-	fisherfaces_settings.collect_data_settings.pooling_size = 8;
-	fisherfaces_settings.collect_data_settings.pooling_method = POOLING_METHOD_AVERAGE;
+	settings.pooling_size = 8;
+	settings.pooling_method = POOLING_METHOD_AVERAGE;
 
 	/*
 	 * Remove outliers from the data:
 	 * epsilon is the outliers radius
 	 * min_pts is the minimum points for a cluster
 	 */
-	fisherfaces_settings.remove_outliers = true;
-	fisherfaces_settings.epsilon = 500;
-	fisherfaces_settings.min_pts = 3;
+	settings.remove_outliers = true;
+	settings.epsilon = 500;
+	settings.min_pts = 3;
 
 	/*
 	 * Kernel PCA configuration:
@@ -49,9 +48,9 @@ int main() {
 	 * I'm using about components_pca = 100 for Yale dataset. A good rule of thump is not use more than total images you have in your folders.
 	 * The array kernel_parameters is for nonlinear kernels. Some nonlinear kernels only need 1 parameters, some want more.
 	 */
-	fisherfaces_settings.components_pca = 100;
-	fisherfaces_settings.kernel_parameters[0] = 0.0000001f;
-	fisherfaces_settings.kernel_method = KERNEL_METHOD_RBF;
+	settings.components_pca = 100;
+	settings.kernel_parameters[0] = 0.0000001f;
+	settings.kernel_method = KERNEL_METHOD_RBF;
 
 	/*
 	 * Neural network configuration:
@@ -61,17 +60,20 @@ int main() {
 	 * even if that hyperplane misclassifies more points. For very tiny values of C, you should get misclassified examples, often even if your training data is linearly separable.
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
-	fisherfaces_settings.C = 1.0f;
-	fisherfaces_settings.lambda = 2.5f;
+	settings.C = 1.0f;
+	settings.lambda = 2.5f;
 
 	/* Fisherfaces training */
-	fisherfaces(&fisherfaces_settings);
+	DATA_COLLECT* data_collect = fisherfaces(&settings);
 
 	/* Here is the model parameters */
-	printf("\nBias b parameters with size %i x 1\n", fisherfaces_settings.model_row);
-	print(fisherfaces_settings.model_b, fisherfaces_settings.model_row, 1);
-	printf("\nWeight W parameters have the size %i x %i\n", fisherfaces_settings.model_row, fisherfaces_settings.model_column);
+	printf("\nBias b parameters with size %i x 1\n", data_collect->model_row);
+	print(data_collect->model_b, data_collect->model_row, 1);
+	printf("\nWeight W parameters have the size %i x %i\n", data_collect->model_row, data_collect->model_column);
 	printf("Use the function nn_predict to predict the class ID\n");
+
+	/* Free */
+	collect_data_free(data_collect);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

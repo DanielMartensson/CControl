@@ -7,12 +7,12 @@
 
 #include "../../Headers/functions.h"
 
-DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
+DATA_COLLECT* collect_data(const DATA_SETTINGS* data_collect_settings) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
 	const size_t sub_folder_count = scan_sub_folder_names(data_collect_settings->folder_path, &sub_folder_names);
 
-	/* Fischer model */
+	/* Data collect */
 	DATA_COLLECT* data_collect = (DATA_COLLECT*)malloc(sizeof(DATA_COLLECT));
 	memset(data_collect, 0, sizeof(DATA_COLLECT));
 
@@ -107,16 +107,16 @@ DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
 				free(X);
 
 				/* Allocate new rows */
-				data_collect->data = (float*)realloc(data_collect->data, (current_pixel_size + new_pixel_size) * sizeof(float));
+				data_collect->input = (float*)realloc(data_collect->input, (current_pixel_size + new_pixel_size) * sizeof(float));
 
 				/* Remember */
-				float* data0 = data_collect->data;
+				float* data0 = data_collect->input;
 
 				/* Jump */
-				data_collect->data += current_pixel_size;
+				data_collect->input += current_pixel_size;
 
 				/* Fill as row major */
-				memcpy(data_collect->data, new_data, new_pixel_size * sizeof(float));
+				memcpy(data_collect->input, new_data, new_pixel_size * sizeof(float));
 
 				/* Free new_data */
 				free(new_data);
@@ -125,18 +125,18 @@ DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
 				current_pixel_size += new_pixel_size;
 
 				/* Go back to index 0 */
-				data_collect->data = data0;
+				data_collect->input = data0;
 
 				/* Allocate new element */
-				data_collect->class_id = (size_t*)realloc(data_collect->class_id, (data_collect->row + row) * sizeof(size_t));
+				data_collect->class_id = (size_t*)realloc(data_collect->class_id, (data_collect->row_input + row) * sizeof(size_t));
 
 				/* Add new ID */
-				for (k = data_collect->row; k < data_collect->row + row; k++) {
+				for (k = data_collect->row_input; k < data_collect->row_input + row; k++) {
 					data_collect->class_id[k] = i;
 				}
 
 				/* Count rows */
-				data_collect->row += row;
+				data_collect->row_input += row;
 			}
 
 			/* Free the image */
@@ -160,10 +160,25 @@ DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
 	switch (data_collect_settings->collect_type) {
 	case COLLECT_TYPE_FISHERFACES:
 		/* Transpose becase it's much better to have row > column */
-		tran(data_collect->data, data_collect->row, data_collect->column);
-		k = data_collect->row;
-		data_collect->row = data_collect->column;
+		tran(data_collect->input, data_collect->row_input, data_collect->column);
+		k = data_collect->row_input;
+		data_collect->row_input = data_collect->column;
 		data_collect->column = k;
+
+		/* Compute max classes */
+		data_collect->classes = data_collect->class_id[data_collect->column - 1] + 1;
+
+		/* Allocate data for the output */
+		data_collect->row_output = data_collect->column;
+		data_collect->output = (float*)malloc(data_collect->row_output * data_collect->classes * sizeof(float));
+		break;
+	case COLLECT_TYPE_ORP:
+		/* Compute max classes */
+		data_collect->classes = data_collect->class_id[data_collect->row_input - 1] + 1;
+
+		/* Allocate data for the output */
+		data_collect->row_output = data_collect->row_input;
+		data_collect->output = (float*)malloc(data_collect->row_output * data_collect->classes * sizeof(float));
 		break;
 	}
 
@@ -174,18 +189,21 @@ DATA_COLLECT* collect_data(const DATA_COLLECT_SETTINGS* data_collect_settings) {
 void collect_data_free(DATA_COLLECT* data_collect) {
 	if (data_collect) {
 		free(data_collect->class_id);
-		free(data_collect->data);
+		free(data_collect->input);
+		free(data_collect->output);
+		free(data_collect->model_b);
+		free(data_collect->model_w);
 		free(data_collect);
 	}
 }
 
 void collect_data_print(DATA_COLLECT* data_collect) {
 	if (data_collect) {
-		const size_t r = data_collect->row;
+		const size_t r = data_collect->row_input;
 		const size_t c = data_collect->column;
 		printf("Rows %i and columns %i\n", r, c);
 		size_t i, j;
-		float* data0 = data_collect->data;
+		float* data0 = data_collect->input;
 		for (i = 0; i < r; i++) {
 			if (i == 0) {
 				for (j = 0; j < c; j++) {
@@ -198,11 +216,11 @@ void collect_data_print(DATA_COLLECT* data_collect) {
 				printf("\n");
 			}
 			for (j = 0; j < c; j++) {
-				printf("%i\t", (int32_t)(*data_collect->data++));
+				printf("%i\t", (int32_t)(*data_collect->input++));
 			}
 			printf("\n");
 		}
-		data_collect->data = data0;
+		data_collect->input = data0;
 		printf("\n");
 	}
 }
