@@ -93,36 +93,17 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
  * Evaluate the model 
  * model_w[row_w * column_w]
  * model_b[row_w]
- * X[column_w * column_x]
- * class_id[row_w]
+ * X[row_x * column_w]
+ * class_id[row_x]
  */
-void nn_eval(const float model_w[], const float model_b[], const float X[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t column_x) {
+void nn_eval(const float model_w[], const float model_b[], const float X[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x) {
 	size_t i, score = 0;
-	float* y = (float*)malloc(row_w * column_w * sizeof(float));
-	mul(model_w, X, y, row_w, column_w, column_x);
-	tran(y, row_w, column_x); /* Column major */
-	float* y0 = y;
-	size_t j;
-	for (i = 0; i < column_x; i++) {
-		for (j = 0; j < row_w; j++) {
-			y[j] += model_b[j];
-		}
-		y += row_w;
+	for (i = 0; i < row_x; i++) {
+		score += class_id[i] == nn_predict(model_w, model_b, X + column_w * i, row_w, column_w);
 	}
-	y = y0;
-
-	for (i = 0; i < row_w; i++) {
-		/* Use activation function to determine the class ID */
-		if (class_id[i] == activation_function(y, row_w)) {
-			score++;
-		}
-		y += row_w;
-	}
-	y = y0;
-	free(y);
 
 	/* Print status */
-	printf("\tThe accuracy of the neural network is: %f\n", ((float)score) / ((float)row_w) * 100.0f);
+	printf("The accuracy of the neural network is: %f\n", ((float)score) / ((float)row_x) * 100.0f);
 }
 
 /*
