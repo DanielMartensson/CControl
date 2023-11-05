@@ -18,7 +18,7 @@ static void center_data(float X[], float mu[], size_t row, size_t column);
  * W[m*c]
  * P[c*n]
  */
-void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size_t column) {
+void lda(const float X[], const size_t y[], float W[], float P[], const size_t c, const size_t row, const size_t column){
 	/* Create average vector mu_X = mean(X, 2) */
 	float* mu_X = (float*)malloc(row * sizeof(float));
 	average_vector(X, mu_X, row, column);

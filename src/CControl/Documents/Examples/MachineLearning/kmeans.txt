@@ -728,7 +728,7 @@ int main() {
 	float C[k * column];
 
 	/* Do K-means clustering */
-	kmeans(X, idx, C, k, row, column);
+	bool success = kmeans(X, idx, C, k, row, column);
 
 	/* Print centers */
 	print(C, k, column);
@@ -738,6 +738,9 @@ int main() {
 	for (i = 0; i < row; i++) {
 		printf("%i\n", idx[i]);
 	}
+
+	/* Print status */
+	printf("Success: %s\n", success ? "yes" : "no");
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

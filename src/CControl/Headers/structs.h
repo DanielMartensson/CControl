@@ -19,20 +19,22 @@ typedef struct {
 /* For data_collect.c */
 typedef struct {
 	/* Model */
-	float* model_w;
-	float* model_b;
-	size_t model_row;
-	size_t model_column;
-	bool is_model_created;
+	uint8_t total_models;
+	float* model_w[10];
+	float* model_b[10];
+	size_t model_row[10];
+	size_t model_column[10];
+	bool is_model_created[10];
+	ACTIVATION_FUNCTION activation_function[10];
 
 	/* Data */
-	size_t row_input;
-	size_t row_output;
+	size_t input_row;
 	size_t column;
-	size_t* class_id;
-	size_t classes;
-	float* input; /* [row_input * column] */
-	float* output; /* [row_output * classes] */
+	size_t* class_id_original;
+	size_t* class_id_k_means;
+	size_t classes_original;
+	size_t classes_k_means;
+	float* input;
 }DATA_COLLECT;
 
 typedef struct {
@@ -60,6 +62,7 @@ typedef struct {
 	KERNEL_METHOD kernel_method;
 
 	/* For ORP */
+	size_t k_value;
 	float sigma1;
 	float sigma2;
 	uint8_t threshold_sobel;

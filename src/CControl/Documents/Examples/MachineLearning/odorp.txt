@@ -30,11 +30,11 @@ int main() {
 	 * threshold_fast is the parameter that controls who many interest points it can find
 	 * fast_method is the method for FAST algorithm
 	 */
-	settings.sigma1 = 2.5f;
-	settings.sigma2 = 1.0f;
+	settings.sigma1 = 0.8f;
+	settings.sigma2 = 2.0f;
 	settings.threshold_sobel = 255;
 	settings.threshold_fast = 100;
-	settings.fast_method = FAST_METHOD_12;
+	settings.fast_method = FAST_METHOD_9;
 
 	/*
 	 * Neural network configuration:
@@ -45,13 +45,17 @@ int main() {
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
 	settings.C = 1.0f;
-	settings.lambda = 20.0f;
+	settings.lambda = 100.0f;
+
+	/*
+	 * K-means clustering:
+	 * This K-value determine how many clusters there are inside the data.
+	 * The reason why I choosen K-means clustering is because it split the data as it was gaussian, e.g. linear separated
+	 */
+	settings.k_value = 5;
 
 	/* Object Detection ORP training */
 	DATA_COLLECT* data_collect = odorp(&settings);
-
-	/* Print output */
-	print(data_collect->output, data_collect->row_output, data_collect->classes);
 
 	/* Free */
 	collect_data_free(data_collect);

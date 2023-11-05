@@ -13,7 +13,7 @@
  * B[row_b*column_a]
  * C[row_a*row_b]
  */
-void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, PDIST2_METRIC metric) {
+void pdist2(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const PDIST2_METRIC metric) {
 	/* Get size */
 	const size_t row_a_column_a = row_a * column_a;
 	const size_t sizeBytesA = row_a_column_a * sizeof(float);

@@ -7,8 +7,24 @@
 
 #include "../../Headers/functions.h"
 
+/* Return the index of the closest to +1 value of vector x */
+static size_t closest_value_index(float x[], size_t length, bool* class_id_found) {
+	size_t i, max_index = 0;
+	float t, s = FLT_MAX;
+	*class_id_found = false;
+	for (i = 0; i < length; i++) {
+		t = fabsf(x[i] - 1.0f);
+		if (t < s && t <= 1.0f) {
+			s = t;
+			max_index = i;
+			*class_id_found = true;
+		}
+	}
+	return max_index;
+}
+
 /* Return the index of the largest value of vector x */
-static size_t activation_function(float x[], size_t length) {
+static size_t highest_value_index(float x[], size_t length) {
 	size_t max_index;
 	amax(x, &max_index, length);
 	return max_index;
@@ -16,7 +32,6 @@ static size_t activation_function(float x[], size_t length) {
 
 /* Private fields */
 static bool has_been_called = false;
-
 
 /*
  * This is a neural network. It's not a deep neural network.
@@ -27,26 +42,22 @@ static bool has_been_called = false;
  * with small data. For example, with this technique, Ronald Fisher's Iris dataset, can give a
  * result of 96.7% accuracy with just one neural network with a nonlinear activation function.
  * Even if the Iris dataset (contains three classes), have two classes that are clustred together.
- * 
+ *
  * The neural network is:
  * y = weight*x + bias
- * 
+ *
  * Where the index of the maximum value of vector y, is the class ID for unknown data vector x
- * 
+ *
  * X[m*n]
  * class_id[m]
- * weight[(max(class_id) + 1)*n]
- * bias[(max(class_id) + 1)]
- * status[(max(class_id) + 1)]
- * accuracy[(max(class_id) + 1)]
+ * weight[classes*n]
+ * bias[classes]
+ * status[classes]
+ * accuracy[classes]
  */
-void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const float C, const float lambda) {
-	/* Find the max classes */
-	size_t classes = class_id[row - 1] + 1;
-
-	/* Do SVM */
-	float* labels = (float*)malloc(row * sizeof(float));
+void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const size_t classes, const float C, const float lambda) {
 	size_t i, j;
+	float* labels = (float*)malloc(row * sizeof(float));
 	for (i = 0; i < classes; i++) {
 		/* Tune in class ID */
 		for (j = 0; j < row; j++) {
@@ -62,7 +73,7 @@ void nn_train(const float X[], const size_t class_id[], float weight[], float bi
 		status[i] = svm(X, labels, weight + column * i, &bias[i], &accuracy[i], C, lambda, row, column);
 
 		/* Print the result */
-		printf("Class %i: Success: %s. The accuracy = %f\n", i, status[i] ? "yes" : "no", accuracy[i]);
+		printf("Class %i: Success: %s. The accuracy = %f\n", i, status[i] ? "yes" : "no", accuracy[i]*100.0f);
 	}
 
 	/* Free*/
@@ -75,9 +86,9 @@ void nn_train(const float X[], const size_t class_id[], float weight[], float bi
  * model_b[row_w]
  * x[column_w]
  * y[row_w]
- * Return the class ID = activation_function(model_w*x + model_b)
+ * Return the class ID = sigma(model_w*x + model_b)
  */
-size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w) {
+size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w, bool* class_id_found, const ACTIVATION_FUNCTION activation_function) {
 	/* Compute y = W*x + b */
 	mul(model_w, x, y, row_w, column_w, 1);
 	size_t i;
@@ -86,7 +97,13 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
 	}
 
 	/* Get the index of the largest value of y */
-	return activation_function(y, row_w);
+	switch (activation_function) {
+	case ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX:
+		*class_id_found = true;
+		return highest_value_index(y, row_w);
+	case ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX:
+		return closest_value_index(y, row_w, class_id_found);
+	}
 }
 
 /*
@@ -97,14 +114,29 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
  * Y[row_x * row_w]
  * class_id[row_x]
  */
-void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x) {
-	size_t i, score = 0;
+void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function) {
+	size_t i, predicted_correctly_score = 0, predicted_wrongy_score = 0, unpredicted_score = 0;
+	bool class_id_found;
 	for (i = 0; i < row_x; i++) {
-		score += class_id[i] == nn_predict(model_w, model_b, X + column_w * i, Y + row_w * i, row_w, column_w);
+		size_t class_id_predicted = nn_predict(model_w, model_b, X + column_w * i, Y + row_w * i, row_w, column_w, &class_id_found, activation_function);
+		if (class_id_found) {
+			if (class_id[i] == class_id_predicted) {
+				predicted_correctly_score++;
+			}
+			else {
+				predicted_wrongy_score++;
+			}
+		}
+		else {
+			unpredicted_score++;
+		}
 	}
 
 	/* Print status */
-	printf("The accuracy of the neural network is: %f\n", ((float)score) / ((float)row_x) * 100.0f);
+	printf("The correctly predicted accuracy of the neural network is: %f (%i of %i)\n", ((float)predicted_correctly_score) / ((float)row_x) * 100.0f, predicted_correctly_score, row_x);
+	printf("The wrongly predicted accuracy of the neural network is: %f (%i of %i)\n", ((float)predicted_wrongy_score) / ((float)row_x) * 100.0f, predicted_wrongy_score, row_x);
+	printf("The non-predicted accuracy of the neural network is: %f (%i of %i)\n", ((float)unpredicted_score) / ((float)row_x) * 100.0f, unpredicted_score, row_x);
+	printf("The totalt accuracy of the neural network is: %f (%i of %i)\n", ((float)predicted_correctly_score + unpredicted_score) / ((float)row_x) * 100.0f, predicted_correctly_score + unpredicted_score, row_x);
 }
 
 /*
@@ -112,7 +144,7 @@ void nn_eval(const float model_w[], const float model_b[], const float X[], floa
  * model_w[m*n]
  * model_b[m]
  */
-void nn_save(const float model_w[], const float model_b[], const char model_path[], const char model_name[], const size_t row, const size_t column) {
+void nn_save(const float model_w[], const float model_b[], const ACTIVATION_FUNCTION activation_function, const char model_path[], const char model_name[], const size_t row, const size_t column) {
 	/* Get time */
 	time_t t = time(NULL);
 
@@ -135,6 +167,8 @@ void nn_save(const float model_w[], const float model_b[], const char model_path
 		fprintf(file, " */\n\n");
 		fprintf(file, "#ifndef %s_H_\n", model_name);
 		fprintf(file, "#define %s_H_\n\n", model_name);
+		fprintf(file, "/* Add the CControl header file */\n");
+		fprintf(file, "#include \"ccontrol.h\"\n\n");
 		fprintf(file, "/*\n");
 		fprintf(file, " * This is a Neural Network - A model that can classify raw data.\n");
 		fprintf(file, " * Most used for images, but you can use it at any data you want as long the data is stored into .pgm files in format P2 or P5.\n");
@@ -173,6 +207,15 @@ void nn_save(const float model_w[], const float model_b[], const char model_path
 			}
 		}
 		fprintf(file, "\n");
+		fprintf(file, "const static ACTIVATION_FUNCTION %s_activtion_function = ", model_name);
+		switch (activation_function) {
+		case ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX:
+			fprintf(file, "ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX;\n\n");
+			break;
+		case ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX:
+			fprintf(file, "ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX;\n\n");
+			break;
+		}
 		fprintf(file, "#endif /* !%s_H_ */\n", model_name);
 		fclose(file);
 		printf("\tModel as been saved: %s\n", model_path);

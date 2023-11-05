@@ -18,7 +18,7 @@
  * B [column_a*column_b]
  * C [row_a*column_b]
  */
-void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t column_b) {
+void mul(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t column_b) {
 #ifdef CLAPACK_USED
 	/* Check if A is symmetric */
 	if (issymmetric(A, row_a, column_a)) {

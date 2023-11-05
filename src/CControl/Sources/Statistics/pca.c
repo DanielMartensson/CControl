@@ -16,13 +16,13 @@ static void compute_components(float X[], float W[], size_t c, size_t row, size_
 
 /*
  * Principal Component Analysis (PCA)
- * This compute the PCA of X and return components W
+ * This compute the PCA of X and return components W and projection P and average mu
  * X[m*n]
  * W[m*c]
  * P[c*n]
  * mu[n]
  */
-void pca(float X[], float W[], float P[], float mu[], size_t c, size_t row, size_t column) {
+void pca(const float X[], float W[], float P[], float mu[], const size_t c, const size_t row, const size_t column) {
 	/* Copy the data X -> Y */
 	float* Y = (float*)malloc(row * column * sizeof(float));
 	memcpy(Y, X, row * column * sizeof(float));

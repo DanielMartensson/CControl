@@ -197,7 +197,7 @@ int main() {
 	/* Train a neural network */
 	float C = 2;
 	float lambda = 0.5;
-	nn_train(X, class_id, weight, bias, status, accuracy, row, column, C, lambda);
+	nn_train(X, class_id, weight, bias, status, accuracy, row, column, max_classes, C, lambda);
 
 	/* Print weights, bias, status, accuracy */
 	printf("Weight\n");
@@ -206,12 +206,17 @@ int main() {
 	print(bias, 1, max_classes);
 
 	/* Evaluate */
-	nn_eval(weight, bias, X, class_id, max_classes, column, row);
+	float Y[row * max_classes];
+	nn_eval(weight, bias, X, Y, class_id, max_classes, column, row, ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX);
+	print(Y, row, max_classes);
 
 	/* Predict */
+	float y[max_classes];
+	bool class_found;
 	for (i = 0; i < row; i++) {
-		size_t id = nn_predict(weight, bias, X + column * i, max_classes, column);
-		printf("The class ID is %i and predicted ID is %i\n", (int)class_id[i], (int)id);
+		size_t id = nn_predict(weight, bias, X + column * i, y, max_classes, column, &class_found, ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX);
+		printf("The class ID is %i and predicted ID is %i and the class was found: %s\n", (int)class_id[i], (int)id, class_found ? "yes" : "no");
+		print(y, 1, max_classes);
 	}
 
 	end = clock();

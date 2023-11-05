@@ -89,14 +89,14 @@ void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, 
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
 DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings);
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
-void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
-void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t column);
+void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
+bool kmeans(const float X[], size_t idx[], float C[], const size_t k, const size_t row, const size_t column);
 void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
 uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit);
-void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const float C, const float lambda);
-size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w);
-void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x);
-void nn_save(const float model_w[], const float model_b[], const char model_path[], const char model_name[], const size_t row, const size_t column);
+void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const size_t classes, const float C, const float lambda);
+size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w, bool* class_id_found, const ACTIVATION_FUNCTION activation_function);
+void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function);
+void nn_save(const float model_w[], const float model_b[], const ACTIVATION_FUNCTION activation_function, const char model_path[], const char model_name[], const size_t row, const size_t column);
 DATA_COLLECT* odorp(DATA_SETTINGS* settings);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
@@ -107,7 +107,7 @@ void cut(float A[], size_t column, float B[], size_t start_row, size_t stop_row,
 void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITION_METOD condition_method);
 void insert(float A[], float B[], size_t row_a, size_t column_a, size_t column_b, size_t startRow_b, size_t startColumn_b);
 bool issymmetric(float A[], size_t row, size_t column);
-void pdist2(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, PDIST2_METRIC metric);
+void pdist2(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const PDIST2_METRIC metric);
 void print(float A[], size_t row, size_t column);
 float rad2deg(float radians);
 float deg2rad(float radians);
@@ -127,7 +127,7 @@ size_t scan_sub_folder_names(const char folder_path[], char** sub_folder_names[]
 bool inv(float A[], size_t row);
 void linsolve_upper_triangular(float A[], float x[], float b[], size_t column);
 void tran(float A[], size_t row, size_t column);
-void mul(float A[], float B[], float C[], size_t row_a, size_t column_a, size_t column_b);
+void mul(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t column_b);
 size_t rank(float A[], size_t row, size_t column);
 bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]);
 void dlyap(float A[], float P[], float Q[], size_t row);
@@ -190,8 +190,8 @@ float var(float x[], size_t length);
 float cov(float x[], float y[], size_t length);
 void covm(float X[], float Y[], size_t row, size_t column);
 float stddev(float x[], size_t length);
-void pca(float X[], float W[], float P[], float mu[], size_t c, size_t row, size_t column);
-void lda(float X[], size_t y[], float W[], float P[], size_t c, size_t row, size_t column);
+void pca(const float X[], float W[], float P[], float mu[], const size_t c, const size_t row, const size_t column);
+void lda(const float X[], const size_t y[], float W[], float P[], const size_t c, const size_t row, const size_t column);
 
 /* AI-algorithms */
 void Astar(int32_t map[], int32_t path_x[], int32_t path_y[], size_t x_start, size_t y_start, size_t x_stop, size_t y_stop, size_t height, size_t width, ASTAR_MODE astar_mode, size_t* steps);

@@ -14,7 +14,7 @@
  * C[k*n] - Coordinates of centrum
  * k - Number of expected gaussian clusters 
  */
-void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t column) {
+bool kmeans(const float X[], size_t idx[], float C[], const size_t k, const size_t row, const size_t column) {
 	/* Find a random initial start */
 	size_t* x = (float*)malloc(k * sizeof(size_t));
 	randperm(x, row, k);
@@ -27,9 +27,6 @@ void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t col
 		C += column;
 	}
 	C = C0;
-
-	/* Free */
-	free(x);
 
 	/* Copy X to X_copy */
 	float* X_copy = (float*)malloc(row * column * sizeof(float));
@@ -110,6 +107,29 @@ void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t col
 	/* Free */
 	free(D);
 	free(X_copy);
+
+	/* Check if the initial centroid C was good */
+	memset(x, 0, k * sizeof(size_t));
+	for (j = 0; j < row; j++) {
+		for (l = 0; l < k; l++) {
+			x[l] += idx[j] == l;
+		}
+	}
+
+	/* If one index is 0, then the K-means clustering has failed */
+	bool success = true;
+	for (l = 0; l < k; l++) {
+		if (x[l] == 0U) {
+			success = false;
+			break;
+		}
+	}
+
+	/* Free */
+	free(x);
+
+	/* Return status */
+	return success;
 }
 
 /*
@@ -117,18 +137,16 @@ void kmeans(float X[], size_t idx[], float C[], size_t k, size_t row, size_t col
 
  % K-means clustering
 % Input: X(data), k(amount of clusters)
-% Output: idx(row index of class ID), C(coordinates of the centers of the cluster coordinates)
-% Example 1: [idx, C] = mi.kmeans(X, k)
+% Output: idx(row index of class ID), C(coordinates of the centers of the cluster coordinates), success
+% Example 1: [idx, C, success] = mi.kmeans(X, k)
 % Author: Daniel Mårtensson, April 2023
 
-function [idx, C] = kmeans(X, k)
+function [idx, C, success] = kmeans(X, k)
   % Get size of X
   [m, n] = size(X);
 
   % Find a random initial start
-  t = [292   691   467];
-  C = X(t, :);
-
+  C = X(randperm(m, k), :);
 
   % Iterate the solution
   max_iter = 100;
@@ -147,12 +165,21 @@ function [idx, C] = kmeans(X, k)
 
 	  % Check if we are going to break the iteration
 	  new_value = sum(C(:));
-	  C
-	  difference = abs(old_value - new_value)
+	  difference = abs(old_value - new_value);
 	  if(difference < 1e-11)
 		break;
 	  end
 	  old_value = new_value;
+  end
+
+  % Check if the random initial start was succeeded
+  success = true;
+  for i = 1:k
+	% Does the idx array missing an index?
+	if(length(find(idx == i)) == 0)
+	  success = false; % Yes, it does
+	  break;
+	end
   end
 end
 

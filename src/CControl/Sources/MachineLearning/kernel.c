@@ -19,7 +19,7 @@
   * KERNEL_METHOD_GAUSSIAN -> kernel_parameters[sigma]
   * KERNEL_METHOD_EXPONENTIAL -> kernel_parameters[sigma]
   */
-void kernel(float X[], float K[], size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method) {
+void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method) {
 	size_t i, j;
 	switch (kernel_method) {
 	case KERNEL_METHOD_LINEAR: {
