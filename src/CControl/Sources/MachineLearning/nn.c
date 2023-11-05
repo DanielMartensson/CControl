@@ -102,6 +102,9 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
 		return highest_value_index(y, row_w, class_id_found);
 	case ACTIVATION_FUNCTION_CLOSEST_VALUE_INDEX:
 		return closest_value_index(y, row_w, class_id_found);
+	default:
+		*class_id_found = false;
+		return 0U;
 	}
 }
 
