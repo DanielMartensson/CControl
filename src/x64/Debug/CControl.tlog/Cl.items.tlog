@@ -7,7 +7,7 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\mpc.c;C:\Us
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\mrac.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\mrac.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\stability.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\stability.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\theta2ss.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\theta2ss.obj
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\collect_data.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\collect_data.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imcollect.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\imcollect.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fast.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\fast.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\hough.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imfree.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\imfree.obj

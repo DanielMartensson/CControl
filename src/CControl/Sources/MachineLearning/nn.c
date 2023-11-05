@@ -24,9 +24,9 @@ static size_t closest_value_index(float x[], size_t length, bool* class_id_found
 }
 
 /* Return the index of the largest value of vector x */
-static size_t highest_value_index(float x[], size_t length) {
+static size_t highest_value_index(float x[], size_t length, bool* class_id_found) {
 	size_t max_index;
-	amax(x, &max_index, length);
+	*class_id_found = amax(x, &max_index, length) >= 0.0f ? true : false;
 	return max_index;
 }
 
@@ -99,8 +99,7 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
 	/* Get the index of the largest value of y */
 	switch (activation_function) {
 	case ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX:
-		*class_id_found = true;
-		return highest_value_index(y, row_w);
+		return highest_value_index(y, row_w, class_id_found);
 	case ACTIVATION_FUNCTION_CLOSEST_VALUE_INDEX:
 		return closest_value_index(y, row_w, class_id_found);
 	}
