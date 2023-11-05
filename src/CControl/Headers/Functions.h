@@ -84,7 +84,7 @@ void orpfree(ORP* orp_model);
 ORP* orp(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
-DATA_COLLECT* fisherfaces(DATA_SETTINGS* data_settings);
+DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings);
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
 bool kmeans(const float X[], size_t idx[], float C[], const size_t k, const size_t row, const size_t column);

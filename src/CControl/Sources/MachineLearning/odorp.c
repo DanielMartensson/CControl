@@ -23,8 +23,8 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	printf("\t\t\t\tObject Detection Oriented FAST Rotated Pattern\n");
 
 	/* Collect data */
-	settings->collect_type = COLLECT_TYPE_ORP;
 	printf("1: Collecting data. Reading the .pgm files in row-major. PGM format P2 or P5 format.\n");
+	settings->data_settings_choice = DATA_SETTINGS_CHOICE_ODORP;
 	DATA_COLLECT* data_collect = imcollect(settings);
 
 	/* Create a class ID vector for K-means clustering that have the same length as the original class ID vector */

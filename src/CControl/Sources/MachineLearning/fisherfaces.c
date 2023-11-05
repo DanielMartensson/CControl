@@ -21,17 +21,17 @@
  *  - Does not offer localization
  *  - Only one object at the time
  */
-DATA_COLLECT* fisherfaces(DATA_SETTINGS* data_settings) {
+DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 	/* Header */
 	printf("\t\t\t\tFisherfaces\n");
 	
 	/* Collect data */
 	printf("1: Collecting data. Reading the .pgm files in row-major. PGM format P2 or P5 format.\n");
-	data_settings->collect_type = COLLECT_TYPE_FISHERFACES;
-	DATA_COLLECT* data_collect = imcollect(data_settings);
+    settings->data_settings_choice = DATA_SETTINGS_CHOICE_FISHERFACES;
+	DATA_COLLECT* data_collect = imcollect(settings);
 
     /* Extract */
-    DATA_SETTINGS_FISHERFACES* fisherfaces_settings = &data_settings->data_settings_fisherfaces;
+    DATA_SETTINGS_FISHERFACES* fisherfaces_settings = &settings->data_settings_fisherfaces;
     MODEL* fisherfaces_models = &data_collect->fisherfaces_models;
 
 	/* Remove outliers */

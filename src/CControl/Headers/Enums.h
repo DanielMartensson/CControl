@@ -90,12 +90,6 @@ typedef enum {
 	AREA_METHOD_CIRCLE
 }AREA_METHOD;
 
-/* For collect_data.c */
-typedef enum {
-	COLLECT_TYPE_FISHERFACES,
-	COLLECT_TYPE_ORP
-}COLLECT_TYPE;
-
 /* For nn.c */
 typedef enum {
 	ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX,

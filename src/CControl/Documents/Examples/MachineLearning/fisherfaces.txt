@@ -17,7 +17,6 @@ int main() {
 
 	/* Create fisher faces parameter struct */
 	DATA_SETTINGS settings;
-	settings.data_settings_choice = DATA_SETTINGS_CHOICE_FISHERFACES;
 	settings.data_settings_fisherfaces.save_model = true;
 
 	/* Select data and what to do */

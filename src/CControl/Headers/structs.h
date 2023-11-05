@@ -45,7 +45,6 @@ typedef struct {
 typedef struct {
 	/* General */
 	char folder_path[260];
-	COLLECT_TYPE collect_type;
 	bool save_model;
 
 	/* For nn.c */
@@ -71,7 +70,6 @@ typedef struct {
 typedef struct {
 	/* General */
 	char folder_path[260];
-	COLLECT_TYPE collect_type;
 	bool save_model;
 
 	/* For nn.c */
@@ -92,7 +90,6 @@ typedef struct {
 	DATA_SETTINGS_ODORP data_settings_odorp;
 	DATA_SETTINGS_FISHERFACES data_settings_fisherfaces;
 	DATA_SETTINGS_CHOICE data_settings_choice;
-	COLLECT_TYPE collect_type;
 }DATA_SETTINGS;
 
 /* For fast.c */

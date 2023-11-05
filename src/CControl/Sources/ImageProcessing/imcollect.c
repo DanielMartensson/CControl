@@ -78,8 +78,8 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 				float* new_data = NULL;
 				size_t new_pixel_size;
 				size_t row;
-				switch (data_settings->collect_type) {
-				case COLLECT_TYPE_FISHERFACES: {
+				switch (data_settings->data_settings_choice) {
+				case DATA_SETTINGS_CHOICE_FISHERFACES: {
 					size_t p = data_settings->data_settings_fisherfaces.pooling_size;
  					if (data_settings->data_settings_fisherfaces.pooling_method == POOLING_METHOD_NO_POOLING) {
 						/* This will cause X will have the same size as new_data */
@@ -96,7 +96,7 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 					data_collect->input_column = new_pixel_size;
 					break;
 				}
-				case COLLECT_TYPE_ORP: {
+				case DATA_SETTINGS_CHOICE_ODORP: {
 					/* Get orp data */
 					ORP* orp_data = orp(X, data_settings->data_settings_odorp.sigma1, data_settings->data_settings_odorp.sigma2, data_settings->data_settings_odorp.threshold_sobel, data_settings->data_settings_odorp.threshold_fast, data_settings->data_settings_odorp.fast_method, image->height, image->width);
 					
@@ -172,8 +172,8 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 	free(sub_folder_names);
 
 	/* Sometimes transpose is necessary */
-	switch (data_settings->collect_type) {
-	case COLLECT_TYPE_FISHERFACES:
+	switch (data_settings->data_settings_choice) {
+	case DATA_SETTINGS_CHOICE_FISHERFACES:
 		/* Transpose becase it's much better to have row > column */
 		tran(data_collect->input, data_collect->input_row, data_collect->input_column);
 		k = data_collect->input_row;
@@ -183,7 +183,7 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 		/* Compute max classes */
 		data_collect->classes_original = data_collect->class_id_original[data_collect->input_column - 1] + 1;
 		break;
-	case COLLECT_TYPE_ORP:
+	case DATA_SETTINGS_CHOICE_ODORP:
 		/* Compute max classes */
 		data_collect->classes_original = data_collect->class_id_original[data_collect->input_row - 1] + 1;
 		break;
