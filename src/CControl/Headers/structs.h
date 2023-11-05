@@ -82,7 +82,7 @@ typedef struct {
 	FAST_METHOD fast_method;
 }DATA_SETTINGS_ODORP;
 
-/* For data_collect.c */
+/* For imcollect.c */
 typedef struct {
 	DATA_SETTINGS_ODORP data_settings_odorp;
 	DATA_SETTINGS_FISHERFACES data_settings_fisherfaces;
