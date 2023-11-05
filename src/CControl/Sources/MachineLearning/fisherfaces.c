@@ -21,18 +21,21 @@
  *  - Does not offer localization
  *  - Only one object at the time
  */
-DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
+DATA_COLLECT* fisherfaces(DATA_SETTINGS* data_settings) {
 	/* Header */
 	printf("\t\t\t\tFisherfaces\n");
 	
 	/* Collect data */
 	printf("1: Collecting data. Reading the .pgm files in row-major. PGM format P2 or P5 format.\n");
-	settings->collect_type = COLLECT_TYPE_FISHERFACES;
-	DATA_COLLECT* data_collect = collect_data(settings);
+	data_settings->collect_type = COLLECT_TYPE_FISHERFACES;
+	DATA_COLLECT* data_collect = imcollect(data_settings);
+
+    /* Extract */
+    DATA_SETTINGS_FISHERFACES* fisherfaces_settings = &data_settings->data_settings_fisherfaces;
 
 	/* Remove outliers */
-	if (settings->remove_outliers) {
-		printf("\tOutliers removed: %i\n", cluster_filter(data_collect->input, data_collect->input_row, data_collect->column, settings->epsilon, settings->min_pts));
+	if (fisherfaces_settings->remove_outliers) {
+		printf("\tOutliers removed: %i\n", cluster_filter(data_collect->input, data_collect->input_row, data_collect->column, fisherfaces_settings->epsilon, fisherfaces_settings->min_pts));
 	}
 
 	/*
@@ -44,9 +47,9 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 	 * KERNEL_METHOD kernel_method = KERNEL_METHOD_RBF;
 	 */
 	printf("2: Do Kernel Principal Component Analysis for creating a linear projection for nonlinear data.\n");
-	float* Wpca = (float*)malloc(data_collect->input_row * settings->components_pca * sizeof(float));
-	float* Ppca = (float*)malloc(settings->components_pca * data_collect->column * sizeof(float));
-	kpca(data_collect->input, Wpca, Ppca, settings->components_pca, data_collect->input_row, data_collect->column, settings->kernel_parameters, settings->kernel_method);
+	float* Wpca = (float*)malloc(data_collect->input_row * fisherfaces_settings->components_pca * sizeof(float));
+	float* Ppca = (float*)malloc(fisherfaces_settings->components_pca * data_collect->column * sizeof(float));
+	kpca(data_collect->input, Wpca, Ppca, fisherfaces_settings->components_pca, data_collect->input_row, data_collect->column, fisherfaces_settings->kernel_parameters, fisherfaces_settings->kernel_method);
 
 	/*
 	 * Parametets for LDA:
@@ -54,16 +57,16 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 	 */
 	printf("3: Do Linear Discriminant Analysis for creating a linear projection for separation of class data.\n");
 	const size_t components_lda = data_collect->classes_original - 1;
-	float* Wlda = (float*)malloc(settings->components_pca * components_lda * sizeof(float));
+	float* Wlda = (float*)malloc(fisherfaces_settings->components_pca * components_lda * sizeof(float));
 	float* Plda = (float*)malloc(components_lda * data_collect->column * sizeof(float));
-	lda(Ppca, data_collect->class_id_original, Wlda, Plda, components_lda, settings->components_pca, data_collect->column);
+	lda(Ppca, data_collect->class_id_original, Wlda, Plda, components_lda, fisherfaces_settings->components_pca, data_collect->column);
 
 	/* Multiply W = Wlda'*Wpca' */
 	printf("4: Combine Kernel Principal Component Analysis projection with Linear Discriminant projection.\n");
 	float* W = (float*)malloc(components_lda * data_collect->input_row * sizeof(float));
-	tran(Wlda, settings->components_pca, components_lda);
-	tran(Wpca, data_collect->input_row, settings->components_pca);
-	mul(Wlda, Wpca, W, components_lda, settings->components_pca, data_collect->input_row);
+	tran(Wlda, fisherfaces_settings->components_pca, components_lda);
+	tran(Wpca, data_collect->input_row, fisherfaces_settings->components_pca);
+	mul(Wlda, Wpca, W, components_lda, fisherfaces_settings->components_pca, data_collect->input_row);
 
 	/* Free some matrices that are not needed any longer */
 	free(Wpca);
@@ -91,7 +94,7 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 	bool* status = (bool*)malloc(data_collect->classes_original * sizeof(bool));
 	float* weight = (float*)malloc(data_collect->classes_original * components_lda * sizeof(float));
 	data_collect->model_b[0] = (float*)malloc(data_collect->classes_original * sizeof(float));
-	nn_train(P, data_collect->class_id_original, weight, data_collect->model_b[0], status, accuracy, data_collect->column, components_lda, data_collect->classes_original, settings->C, settings->lambda);
+	nn_train(P, data_collect->class_id_original, weight, data_collect->model_b[0], status, accuracy, data_collect->column, components_lda, data_collect->classes_original, fisherfaces_settings->C, fisherfaces_settings->lambda);
 
 	/* Free */
 	free(status);
@@ -126,7 +129,7 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 
 	/* Save wW and b as a function */
 	printf("8: Saving the model to a .h file.\n");
-	if (settings->save_model) {
+	if (fisherfaces_settings->save_model) {
         char model_path[260];
         char model_name[100];
         char model_name_h[100];
@@ -137,7 +140,7 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
         for (i = 0; i < data_collect->total_models; i++) {
             sprintf(model_name_h, "%s_%i.h", model_name, i);
             sprintf(model_name_text, "%s_%i", model_name, i);
-            concatenate_paths(model_path, settings->folder_path, model_name_h);
+            concatenate_paths(model_path, fisherfaces_settings->folder_path, model_name_h);
             nn_save(data_collect->model_w[i], data_collect->model_b[i], data_collect->activation_function[i], model_path, model_name_text, data_collect->model_row[i], data_collect->model_column[i]);
         }
 	}

@@ -43,31 +43,51 @@ typedef struct {
 	COLLECT_TYPE collect_type;
 	bool save_model;
 
-	/* Neural network settings */
+	/* For nn.c */
 	float C;
 	float lambda;
 
-	/* For Fisherfaces */
+	/* For fisherfaces.c */
 	size_t pooling_size;
 	POOLING_METHOD pooling_method;
 
-	/* For Fisherfaces */
+	/* For fisherfaces.c */
 	bool remove_outliers;
 	float epsilon;
 	size_t min_pts;
 
-	/* For Fisherfaces */
+	/* For fisherfaces.c */
 	size_t components_pca;
 	float kernel_parameters[2];
-	KERNEL_METHOD kernel_method;
+	KERNEL_METHOD kernel_method;	
+}DATA_SETTINGS_FISHERFACES;
 
-	/* For ORP */
+/* For odorp.c */
+typedef struct {
+	/* General */
+	char folder_path[260];
+	COLLECT_TYPE collect_type;
+	bool save_model;
+
+	/* For nn.c */
+	float C;
+	float lambda;
+
+	/* For orp.c */
 	size_t k_value;
 	float sigma1;
 	float sigma2;
 	uint8_t threshold_sobel;
 	uint8_t threshold_fast;
 	FAST_METHOD fast_method;
+}DATA_SETTINGS_ODORP;
+
+/* For data_collect.c */
+typedef struct {
+	DATA_SETTINGS_ODORP data_settings_odorp;
+	DATA_SETTINGS_FISHERFACES data_settings_fisherfaces;
+	DATA_SETTINGS_CHOICE data_settings_choice;
+	COLLECT_TYPE collect_type;
 }DATA_SETTINGS;
 
 /* For fast.c */

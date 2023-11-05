@@ -37,7 +37,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\collect_data.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\fast.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\hough.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c" />

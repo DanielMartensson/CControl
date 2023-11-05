@@ -25,17 +25,20 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	/* Collect data */
 	settings->collect_type = COLLECT_TYPE_ORP;
 	printf("1: Collecting data. Reading the .pgm files in row-major. PGM format P2 or P5 format.\n");
-	DATA_COLLECT* data_collect = collect_data(settings);
+	DATA_COLLECT* data_collect = imcollect(settings);
 
 	/* Create a class ID vector for K-means clustering that have the same length as the original class ID vector */
 	data_collect->class_id_k_means = (size_t*)malloc(data_collect->input_row * sizeof(size_t));
 
+	/* Extract */
+	DATA_SETTINGS_ODORP* odorp_settings = &settings->data_settings_odorp;
+
 	/* Sort the data with K-means clustering so it's more linear separable with SVM */
-	float* C = (float*)malloc(settings->k_value * data_collect->column * sizeof(float));
+	float* C = (float*)malloc(odorp_settings->k_value * data_collect->column * sizeof(float));
 	bool success = false;
 	while (!success) {
 		/* Do K-means clustering */
-		success = kmeans(data_collect->input, data_collect->class_id_k_means, C, settings->k_value, data_collect->input_row, data_collect->column);
+		success = kmeans(data_collect->input, data_collect->class_id_k_means, C, odorp_settings->k_value, data_collect->input_row, data_collect->column);
 
 		/* Message */
 		if (success) {
@@ -50,14 +53,14 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	free(C);
 
 	/* Save the row and column parameters */
-	data_collect->model_row[0] = settings->k_value;
+	data_collect->model_row[0] = odorp_settings->k_value;
 	data_collect->model_column[0] = data_collect->column;
 	data_collect->is_model_created[0] = true;
 	data_collect->activation_function[0] = ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX;
 	data_collect->total_models = 1;
 
 	/* Give the K-value from the settings to the classes_k_means */
-	data_collect->classes_k_means = settings->k_value;
+	data_collect->classes_k_means = odorp_settings->k_value;
 	
 	/*
 	 * Train Neural Network model of the total projection
@@ -73,7 +76,7 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	bool* status = (bool*)malloc(data_collect->classes_k_means * sizeof(bool));
 	data_collect->model_w[0] = (float*)malloc(data_collect->classes_k_means * data_collect->column * sizeof(float));
 	data_collect->model_b[0] = (float*)malloc(data_collect->classes_k_means * sizeof(float));
-	nn_train(data_collect->input, data_collect->class_id_k_means, data_collect->model_w[0], data_collect->model_b[0], status, accuracy, data_collect->input_row, data_collect->column, data_collect->classes_k_means, settings->C, settings->lambda);
+	nn_train(data_collect->input, data_collect->class_id_k_means, data_collect->model_w[0], data_collect->model_b[0], status, accuracy, data_collect->input_row, data_collect->column, data_collect->classes_k_means, odorp_settings->C, odorp_settings->lambda);
 
 	/* Free */
 	free(status);
@@ -122,7 +125,7 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	accuracy = (float*)malloc(data_collect->classes_original * sizeof(float));
 	data_collect->model_w[1] = (float*)malloc(data_collect->classes_original * data_collect->classes_k_means * sizeof(float));
 	data_collect->model_b[1] = (float*)malloc(data_collect->classes_original * sizeof(float));
-	nn_train(histogram, class_id, data_collect->model_w[1], data_collect->model_b[1], status, accuracy, data_collect->classes_original, data_collect->classes_k_means, data_collect->classes_original, settings->C, settings->lambda);
+	nn_train(histogram, class_id, data_collect->model_w[1], data_collect->model_b[1], status, accuracy, data_collect->classes_original, data_collect->classes_k_means, data_collect->classes_original, odorp_settings->C, odorp_settings->lambda);
 	
 	/* Free */
 	free(status);
@@ -138,7 +141,7 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 
 	/* Save model */
 	printf("5: Saving the model to a .h file.\n");
-	if (settings->save_model) {
+	if (odorp_settings->save_model) {
 		char model_path[260];
 		char model_name[100];
 		char model_name_h[100];
@@ -149,7 +152,7 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 		for (i = 0; i < data_collect->total_models; i++) {
 			sprintf(model_name_h, "%s_%i.h", model_name, i);
 			sprintf(model_name_text, "%s_%i", model_name, i);
-			concatenate_paths(model_path, settings->folder_path, model_name_h);
+			concatenate_paths(model_path, odorp_settings->folder_path, model_name_h);
 			nn_save(data_collect->model_w[i], data_collect->model_b[i], data_collect->activation_function[i], model_path, model_name_text, data_collect->model_row[i], data_collect->model_column[i]);
 		}
 	}

@@ -1,5 +1,5 @@
 /*
- * collect_data.c
+ * imcollect.c
  *
  *  Created on: 28 oktober 2023
  *      Author: Daniel Mårtensson
@@ -7,11 +7,19 @@
 
 #include "../../Headers/functions.h"
 
-DATA_COLLECT* collect_data(const DATA_SETTINGS* settings) {
+DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
-	const size_t sub_folder_count = scan_sub_folder_names(settings->folder_path, &sub_folder_names);
-
+	size_t sub_folder_count;
+	switch (data_settings->data_settings_choice) {
+	case DATA_SETTINGS_CHOICE_FISHERFACES:
+		sub_folder_count = scan_sub_folder_names(data_settings->data_settings_fisherfaces.folder_path, &sub_folder_names);
+		break;
+	case DATA_SETTINGS_CHOICE_ODORP:
+		sub_folder_count = scan_sub_folder_names(data_settings->data_settings_odorp.folder_path, &sub_folder_names);
+		break;
+	}
+	
 	/* Data collect */
 	DATA_COLLECT* data_collect = (DATA_COLLECT*)malloc(sizeof(DATA_COLLECT));
 	memset(data_collect, 0, sizeof(DATA_COLLECT));
@@ -23,7 +31,14 @@ DATA_COLLECT* collect_data(const DATA_SETTINGS* settings) {
 
 		/* Combine folder name with the folder path */
 		char total_folder_path[260];
-		concatenate_paths(total_folder_path, settings->folder_path, sub_folder_name);
+		switch (data_settings->data_settings_choice) {
+		case DATA_SETTINGS_CHOICE_FISHERFACES:
+			concatenate_paths(total_folder_path, data_settings->data_settings_fisherfaces.folder_path, sub_folder_name);
+			break;
+		case DATA_SETTINGS_CHOICE_ODORP:
+			concatenate_paths(total_folder_path, data_settings->data_settings_odorp.folder_path, sub_folder_name);
+			break;
+		}
 
 		/* Scan the files */
 		char** file_names = NULL;
@@ -63,11 +78,11 @@ DATA_COLLECT* collect_data(const DATA_SETTINGS* settings) {
 				float* new_data = NULL;
 				size_t new_pixel_size;
 				size_t row;
-				switch (settings->collect_type) {
+				switch (data_settings->collect_type) {
 				case COLLECT_TYPE_FISHERFACES: {
-					size_t p = settings->pooling_size;
- 					if (settings->pooling_method == POOLING_METHOD_NO_POOLING) {
-						/* This will cause X will be the same size as new_data */
+					size_t p = data_settings->data_settings_fisherfaces.pooling_size;
+ 					if (data_settings->data_settings_fisherfaces.pooling_method == POOLING_METHOD_NO_POOLING) {
+						/* This will cause X will have the same size as new_data */
 						p = 1;
 					}
 					const size_t h = image->height / p;
@@ -75,7 +90,7 @@ DATA_COLLECT* collect_data(const DATA_SETTINGS* settings) {
 					new_pixel_size = h * w;
 					row = 1U;
 					new_data = (float*)malloc(new_pixel_size * sizeof(float));
-					pooling(X, new_data, image->height, image->width, p, settings->pooling_method);
+					pooling(X, new_data, image->height, image->width, p, data_settings->data_settings_fisherfaces.pooling_method);
 					
 					/* Column will always be the new_pixel_size size */
 					data_collect->column = new_pixel_size;
@@ -83,7 +98,7 @@ DATA_COLLECT* collect_data(const DATA_SETTINGS* settings) {
 				}
 				case COLLECT_TYPE_ORP: {
 					/* Get orp data */
-					ORP* orp_data = orp(X, settings->sigma1, settings->sigma2, settings->threshold_sobel, settings->threshold_fast, settings->fast_method, image->height, image->width);
+					ORP* orp_data = orp(X, data_settings->data_settings_odorp.sigma1, data_settings->data_settings_odorp.sigma2, data_settings->data_settings_odorp.threshold_sobel, data_settings->data_settings_odorp.threshold_fast, data_settings->data_settings_odorp.fast_method, image->height, image->width);
 					
 					/* Compute new size */
 					row = orp_data->data_row;
@@ -157,7 +172,7 @@ DATA_COLLECT* collect_data(const DATA_SETTINGS* settings) {
 	free(sub_folder_names);
 
 	/* Sometimes transpose is necessary */
-	switch (settings->collect_type) {
+	switch (data_settings->collect_type) {
 	case COLLECT_TYPE_FISHERFACES:
 		/* Transpose becase it's much better to have row > column */
 		tran(data_collect->input, data_collect->input_row, data_collect->column);

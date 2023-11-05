@@ -353,7 +353,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\odorp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\collect_data.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

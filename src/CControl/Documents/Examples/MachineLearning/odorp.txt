@@ -17,10 +17,11 @@ int main() {
 
 	/* Create Object Detection ORP parameter struct */
 	DATA_SETTINGS settings;
-	settings.save_model = true;
+	settings.data_settings_choice = DATA_SETTINGS_CHOICE_ODORP;
+	settings.data_settings_odorp.save_model = true;
 
 	/* Select data and what to do */
-	strcpy(settings.folder_path, "..\\src\\CControl\\Documents\\Data\\objects");
+	strcpy(settings.data_settings_odorp.folder_path, "..\\src\\CControl\\Documents\\Data\\objects");
 
 	/*
 	 * ORP configurtion:
@@ -30,11 +31,11 @@ int main() {
 	 * threshold_fast is the parameter that controls who many interest points it can find
 	 * fast_method is the method for FAST algorithm
 	 */
-	settings.sigma1 = 0.8f;
-	settings.sigma2 = 2.0f;
-	settings.threshold_sobel = 255;
-	settings.threshold_fast = 100;
-	settings.fast_method = FAST_METHOD_9;
+	settings.data_settings_odorp.sigma1 = 0.8f;
+	settings.data_settings_odorp.sigma2 = 2.0f;
+	settings.data_settings_odorp.threshold_sobel = 255;
+	settings.data_settings_odorp.threshold_fast = 100;
+	settings.data_settings_odorp.fast_method = FAST_METHOD_9;
 
 	/*
 	 * Neural network configuration:
@@ -44,15 +45,15 @@ int main() {
 	 * even if that hyperplane misclassifies more points. For very tiny values of C, you should get misclassified examples, often even if your training data is linearly separable.
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
-	settings.C = 1.0f;
-	settings.lambda = 100.0f;
+	settings.data_settings_odorp.C = 1.0f;
+	settings.data_settings_odorp.lambda = 100.0f;
 
 	/*
 	 * K-means clustering:
 	 * This K-value determine how many clusters there are inside the data.
 	 * The reason why I choosen K-means clustering is because it split the data as it was gaussian, e.g. linear separated
 	 */
-	settings.k_value = 5;
+	settings.data_settings_odorp.k_value = 5;
 
 	/* Object Detection ORP training */
 	DATA_COLLECT* data_collect = odorp(&settings);
