@@ -93,7 +93,7 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 					pooling(X, new_data, image->height, image->width, p, data_settings->data_settings_fisherfaces.pooling_method);
 					
 					/* Column will always be the new_pixel_size size */
-					data_collect->column = new_pixel_size;
+					data_collect->input_column = new_pixel_size;
 					break;
 				}
 				case COLLECT_TYPE_ORP: {
@@ -111,7 +111,7 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 					memcpy(new_data, orp_data->data, new_pixel_size * sizeof(float));
 
 					/* Column will always be the data_column size */
-					data_collect->column = orp_data->data_column;
+					data_collect->input_column = orp_data->data_column;
 	
 					/* Free */
 					orpfree(orp_data);
@@ -175,13 +175,13 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 	switch (data_settings->collect_type) {
 	case COLLECT_TYPE_FISHERFACES:
 		/* Transpose becase it's much better to have row > column */
-		tran(data_collect->input, data_collect->input_row, data_collect->column);
+		tran(data_collect->input, data_collect->input_row, data_collect->input_column);
 		k = data_collect->input_row;
-		data_collect->input_row = data_collect->column;
-		data_collect->column = k;
+		data_collect->input_row = data_collect->input_column;
+		data_collect->input_column = k;
 
 		/* Compute max classes */
-		data_collect->classes_original = data_collect->class_id_original[data_collect->column - 1] + 1;
+		data_collect->classes_original = data_collect->class_id_original[data_collect->input_column - 1] + 1;
 		break;
 	case COLLECT_TYPE_ORP:
 		/* Compute max classes */
@@ -200,11 +200,17 @@ void collect_data_free(DATA_COLLECT* data_collect) {
 		free(data_collect->class_id_k_means);
 		free(data_collect->input);
 
-		/* Model */
+		/* Models for fisherfaces */
 		uint8_t i;
-		for (i = 0; i < data_collect->total_models; i++) {
-			free(data_collect->model_b[i]);
-			free(data_collect->model_w[i]);
+		for (i = 0; i < data_collect->fisherfaces_models.total_models; i++) {
+			free(data_collect->fisherfaces_models.model_b[i]);
+			free(data_collect->fisherfaces_models.model_w[i]);
+		}
+
+		/* Models for ODORP */
+		for (i = 0; i < data_collect->odorp_models.total_models; i++) {
+			free(data_collect->odorp_models.model_b[i]);
+			free(data_collect->odorp_models.model_w[i]);
 		}
 
 		/* Struct */
@@ -215,7 +221,7 @@ void collect_data_free(DATA_COLLECT* data_collect) {
 void collect_data_print(DATA_COLLECT* data_collect) {
 	if (data_collect) {
 		const size_t r = data_collect->input_row;
-		const size_t c = data_collect->column;
+		const size_t c = data_collect->input_column;
 		printf("Rows %i and columns %i\n", r, c);
 		size_t i, j;
 		float* data0 = data_collect->input;

@@ -16,7 +16,7 @@ typedef struct {
 	uint8_t* pixels;
 }PGM;
 
-/* For data_collect.c */
+/* For imcollect.c */
 typedef struct {
 	/* Model */
 	uint8_t total_models;
@@ -26,10 +26,16 @@ typedef struct {
 	size_t model_column[10];
 	bool is_model_created[10];
 	ACTIVATION_FUNCTION activation_function[10];
+}MODEL;
+
+typedef struct {
+	/* Models */
+	MODEL fisherfaces_models;
+	MODEL odorp_models;
 
 	/* Data */
 	size_t input_row;
-	size_t column;
+	size_t input_column;
 	size_t* class_id_original;
 	size_t* class_id_k_means;
 	size_t classes_original;

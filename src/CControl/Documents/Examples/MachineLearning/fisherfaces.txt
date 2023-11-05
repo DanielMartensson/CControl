@@ -68,9 +68,9 @@ int main() {
 	DATA_COLLECT* data_collect = fisherfaces(&settings);
 
 	/* Here is the model parameters */
-	printf("\nBias b parameters with size %i x 1\n", data_collect->model_row[0]);
-	print(data_collect->model_b[0], data_collect->model_row[0], 1);
-	printf("\nWeight W parameters have the size %i x %i\n", data_collect->model_row[0], data_collect->model_column[0]);
+	printf("\nBias b parameters with size %i x 1\n", data_collect->fisherfaces_models.model_row[0]);
+	print(data_collect->fisherfaces_models.model_b[0], data_collect->fisherfaces_models.model_row[0], 1);
+	printf("\nWeight W parameters have the size %i x %i\n", data_collect->fisherfaces_models.model_row[0], data_collect->fisherfaces_models.model_column[0]);
 	printf("Use the function nn_predict to predict the class ID\n");
 
 	/* Free */
