@@ -101,7 +101,7 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
 	case ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX:
 		*class_id_found = true;
 		return highest_value_index(y, row_w);
-	case ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX:
+	case ACTIVATION_FUNCTION_CLOSEST_VALUE_INDEX:
 		return closest_value_index(y, row_w, class_id_found);
 	}
 }
@@ -212,8 +212,8 @@ void nn_save(const float model_w[], const float model_b[], const ACTIVATION_FUNC
 		case ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX:
 			fprintf(file, "ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX;\n\n");
 			break;
-		case ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX:
-			fprintf(file, "ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX;\n\n");
+		case ACTIVATION_FUNCTION_CLOSEST_VALUE_INDEX:
+			fprintf(file, "ACTIVATION_FUNCTION_CLOSEST_VALUE_INDEX;\n\n");
 			break;
 		}
 		fprintf(file, "#endif /* !%s_H_ */\n", model_name);

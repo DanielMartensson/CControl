@@ -56,7 +56,7 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	/* Save the row and column parameters */
 	odorp_models->model_row[0] = odorp_settings->k_value;
 	odorp_models->model_column[0] = data_collect->input_column;
-	odorp_models->activation_function[0] = ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX;
+	odorp_models->activation_function[0] = ACTIVATION_FUNCTION_CLOSEST_VALUE_INDEX;
 	odorp_models->total_models = 1;
 
 	/* Give the K-value from the settings to the classes_k_means */
@@ -84,7 +84,7 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 
 	/* Check the accuracy of the neural network */
 	float* y = (float*)malloc(data_collect->input_row * data_collect->input_column * sizeof(float));
-	nn_eval(odorp_models->model_w[0], odorp_models->model_b[0], data_collect->input, y, data_collect->class_id_k_means, data_collect->classes_k_means, data_collect->input_column, data_collect->input_row, ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX);
+	nn_eval(odorp_models->model_w[0], odorp_models->model_b[0], data_collect->input, y, data_collect->class_id_k_means, data_collect->classes_k_means, data_collect->input_column, data_collect->input_row, odorp_models->activation_function[0]);
 	
 	/* Free */
 	free(y);
@@ -93,11 +93,11 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	printf("3: Create a Neural Network for a linear model - Model 1.\n");
 	float* histogram = (float*)malloc(data_collect->classes_original * data_collect->classes_k_means * sizeof(float));
 	memset(histogram, 0, data_collect->classes_original * data_collect->classes_k_means * sizeof(float));
-	size_t i;
+	size_t i, j;
 	bool class_id_found;
 	y = (float*)malloc(data_collect->classes_k_means * sizeof(float));
 	for (i = 0; i < data_collect->input_row; i++) {
-		size_t class_id = nn_predict(odorp_models->model_w[0], odorp_models->model_b[0], data_collect->input + i * data_collect->input_column, y, odorp_models->model_row[0], odorp_models->model_column[0], &class_id_found, ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX);
+		size_t class_id = nn_predict(odorp_models->model_w[0], odorp_models->model_b[0], data_collect->input + i * data_collect->input_column, y, odorp_models->model_row[0], odorp_models->model_column[0], &class_id_found, odorp_models->activation_function[0]);
 		if (class_id_found) {
 			histogram[data_collect->class_id_original[i] * data_collect->classes_k_means + class_id]++;
 		}
@@ -115,7 +115,7 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	/* Save the row and column parameters */
 	odorp_models->model_row[1] = data_collect->classes_original;
 	odorp_models->model_column[1] = data_collect->classes_k_means;
-	odorp_models->activation_function[1] = ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX;
+	odorp_models->activation_function[1] = ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX;
 	odorp_models->total_models = 2;
 
 	/* Use that histogram to bild a new neural network */
@@ -132,11 +132,12 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 
 	/* Check the accuracy of the neural network */
 	y = (float*)malloc(data_collect->classes_original * data_collect->classes_k_means * sizeof(float));
-	nn_eval(odorp_models->model_w[1], odorp_models->model_b[1], histogram, y, class_id, data_collect->classes_original, data_collect->classes_k_means, data_collect->classes_original, ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX);
+	nn_eval(odorp_models->model_w[1], odorp_models->model_b[1], histogram, y, class_id, data_collect->classes_original, data_collect->classes_k_means, data_collect->classes_original, odorp_models->activation_function[1]);
 	
 	/* Free */
 	free(y);
 	free(class_id);
+	free(histogram);
 
 	/* Save model */
 	printf("5: Saving the model to a .h file.\n");
