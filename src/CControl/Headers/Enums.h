@@ -59,12 +59,6 @@ typedef enum {
 	POOLING_METHOD_SHAPE
 }POOLING_METHOD;
 
-/* For fisherfaces.c */
-typedef enum {
-	FISHER_FACES_DETECTION_FACES,
-	FISHER_FACES_DETECTION_OBJECTS
-}FISHER_FACES_DETECTION;
-
 /* For kernel.c */
 typedef enum {
 	KERNEL_METHOD_LINEAR,
