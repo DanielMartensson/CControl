@@ -118,7 +118,6 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* data_settings) {
 	/* Save the row and column parameters */
     fisherfaces_models->model_row[0] = data_collect->classes_original;
     fisherfaces_models->model_column[0] = data_collect->input_row;
-    fisherfaces_models->is_model_created[0] = true;
     fisherfaces_models->activation_function[0] = ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX;
     fisherfaces_models->total_models = 1;
 

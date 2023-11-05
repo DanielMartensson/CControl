@@ -24,7 +24,6 @@ typedef struct {
 	float* model_b[10];
 	size_t model_row[10];
 	size_t model_column[10];
-	bool is_model_created[10];
 	ACTIVATION_FUNCTION activation_function[10];
 }MODEL;
 

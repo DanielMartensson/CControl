@@ -56,7 +56,6 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	/* Save the row and column parameters */
 	odorp_models->model_row[0] = odorp_settings->k_value;
 	odorp_models->model_column[0] = data_collect->input_column;
-	odorp_models->is_model_created[0] = true;
 	odorp_models->activation_function[0] = ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX;
 	odorp_models->total_models = 1;
 
@@ -116,7 +115,6 @@ DATA_COLLECT* odorp(DATA_SETTINGS* settings) {
 	/* Save the row and column parameters */
 	odorp_models->model_row[1] = data_collect->classes_original;
 	odorp_models->model_column[1] = data_collect->classes_k_means;
-	odorp_models->is_model_created[1] = true;
 	odorp_models->activation_function[1] = ACTIVTION_FUNCTION_CLOSEST_VALUE_INDEX;
 	odorp_models->total_models = 2;
 
