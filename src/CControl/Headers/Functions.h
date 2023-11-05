@@ -82,8 +82,6 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 /* Machine learning */
 void orpfree(ORP* orp_model);
 ORP* orp(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column);
-void collect_data_free(DATA_COLLECT* data_collect);
-void collect_data_print(DATA_COLLECT* data_collect);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
 DATA_COLLECT* fisherfaces(DATA_SETTINGS* data_settings);
@@ -174,6 +172,7 @@ PGM* imread(const char file_path[]);
 void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings);
+void imcollect_free(DATA_COLLECT* data_collect);
 void imfree(PGM* image);
 void pooling(float X[], float P[], size_t row, size_t column, size_t p, POOLING_METHOD pooling_method);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);

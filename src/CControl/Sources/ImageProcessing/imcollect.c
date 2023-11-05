@@ -193,7 +193,7 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 	return data_collect;
 }
 
-void collect_data_free(DATA_COLLECT* data_collect) {
+void imcollect_free(DATA_COLLECT* data_collect) {
 	if (data_collect) {
 		/* Data */
 		free(data_collect->class_id_original);
@@ -215,33 +215,5 @@ void collect_data_free(DATA_COLLECT* data_collect) {
 
 		/* Struct */
 		free(data_collect);
-	}
-}
-
-void collect_data_print(DATA_COLLECT* data_collect) {
-	if (data_collect) {
-		const size_t r = data_collect->input_row;
-		const size_t c = data_collect->input_column;
-		printf("Rows %i and columns %i\n", r, c);
-		size_t i, j;
-		float* data0 = data_collect->input;
-		for (i = 0; i < r; i++) {
-			if (i == 0) {
-				for (j = 0; j < c; j++) {
-					printf("%i\t", data_collect->class_id_original[j]);
-				}
-				printf("\n");
-				for (j = 0; j < c; j++) {
-					printf("_\t");
-				}
-				printf("\n");
-			}
-			for (j = 0; j < c; j++) {
-				printf("%i\t", (int32_t)(*data_collect->input++));
-			}
-			printf("\n");
-		}
-		data_collect->input = data0;
-		printf("\n");
 	}
 }
