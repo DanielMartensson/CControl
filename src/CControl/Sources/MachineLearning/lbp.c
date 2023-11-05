@@ -70,57 +70,6 @@ uint32_t lbp(const float X[], const size_t row, const size_t column, const size_
 	return descriptor;
 }
 
-/*
-Old code:
-
-uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit) {
-const float angles8[8] = { 0.0f, 0.7854f, 1.5708f, 2.3562f, 3.1416f, 3.927f, 4.7124f, 5.4978f };
-const float angles16[16] = { 0.0f, 0.3927f, 0.7854f, 1.1781f, 1.5708f, 1.9635f, 2.3562f, 2.7489f, 3.1416f, 3.5343f, 3.927f, 4.3197f, 4.7124f, 5.1051f, 5.4978f, 5.8905f };
-const float angles24[24] = { 0.0f, 0.2618f, 0.5236f, 0.7854f, 1.0472f, 1.3090f, 1.5708f, 1.8326f, 2.0944f, 2.3562f, 2.6180f, 2.8798f, 3.1416f, 3.4034f, 3.6652f, 3.9270f, 4.1888f, 4.4506f, 4.7124f, 4.9742f, 5.2360f, 5.4978f, 5.7596f, 6.0214f };
-const float angles32[32] = { 0.0f, 0.19635f, 0.3927f, 0.58905f, 0.7854f, 0.98175f, 1.1781f, 1.3744f, 1.5708f, 1.7671f, 1.9635f, 2.1598f, 2.3562f, 2.5525f, 2.7489f, 2.9452f, 3.1416f, 3.3379f, 3.5343f, 3.7306f, 3.927f, 4.1233f, 4.3197f, 4.516f, 4.7124f, 4.9087f, 5.1051f, 5.3014f, 5.4978f, 5.6941f, 5.8905f, 6.0868f };
-
-const float P = X[y * column + x];
-
-uint8_t total_angles;
-const float* angles;
-switch (lbp_bit) {
-case LBP_BIT_8:
-	total_angles = 8U;
-	angles = angles8;
-	break;
-case LBP_BIT_16:
-	total_angles = 16U;
-	angles = angles16;
-	break;
-case LBP_BIT_24:
-	total_angles = 24U;
-	angles = angles24;
-	break;
-case LBP_BIT_32:
-	total_angles = 32U;
-	angles = angles32;
-	break;
-default:
-	total_angles = 8U;
-	angles = angles8;
-	break;
-}
-
-uint8_t i;
-uint32_t descriptor = 0U;
-for (i = 0; i < total_angles; i++) {
-	const float angle = init_angle + angles[i];
-
-	const size_t coordinate_row = roundf(y + radius * cosf(angle));
-	const size_t coordinate_column = roundf(x + radius * sinf(angle));
-
-	descriptor |= (X[coordinate_row * column + coordinate_column] > P) << i;
-}
-
-return descriptor;
-}
-*/
-
 /* C-code for drawing the circle
 #include "CControl/ccontrol.h"
 
