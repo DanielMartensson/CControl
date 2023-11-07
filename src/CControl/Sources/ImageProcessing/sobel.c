@@ -13,7 +13,7 @@
  * G[m*n] - Gradients with L2-norm
  * O[m*n] - Orientations in radians
  */
-void sobel(float X[], float G[], float O[], size_t row, size_t column, bool only_compute_G) {
+void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const bool only_compute_G){
 	/* Create kernel matrix */
 	const float kernel_x[9] = { -1.0f, 0.0f, 1.0f,
 								-2.0f, 0.0f, 2.0f,

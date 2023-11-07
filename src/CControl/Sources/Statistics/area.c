@@ -12,7 +12,7 @@
  * X[m*n]
  * m == n
  */
-float area(float X[], size_t row, size_t* total_elements, AREA_METHOD area_method) {
+float area(const float X[], const size_t row, size_t* total_elements, const AREA_METHOD area_method) {
 	/* Define area variable*/
 	float area_value = 0.0f;
 	*total_elements = 0U;

@@ -137,7 +137,7 @@ float det(float A[], size_t row);
 bool linsolve_lup(float A[], float x[], float b[], size_t row);
 bool chol(float A[], float L[], size_t row);
 void cholupdate(float L[], float x[], size_t row, bool rank_one_update);
-void conv2fft(float A[], float B[], size_t row_a, size_t column_a, float K[], size_t row_k);
+void conv2fft(const float A[], float B[], const size_t row_a, const size_t column_a, const float K[], const size_t row_k);
 bool linsolve_chol(float A[], float x[], float b[], size_t row);
 void pinv(float A[], size_t row, size_t column);
 bool hankel(float V[], float H[], size_t row_v, size_t column_v, size_t row_h, size_t column_h, size_t shift);
@@ -176,12 +176,12 @@ void imcollect_free(DATA_COLLECT* data_collect);
 void imfree(PGM* image);
 void pooling(float X[], float P[], size_t row, size_t column, size_t p, POOLING_METHOD pooling_method);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);
-void sobel(float X[], float G[], float O[], size_t row, size_t column, bool only_compute_G);
+void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const bool only_compute_G);
 
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);
 void center(float X[], float mu[], size_t row, size_t column);
-float area(float X[], size_t row, size_t* total_elements, AREA_METHOD area_method);
+float area(const float X[], const size_t row, size_t* total_elements, const AREA_METHOD area_method);
 void randn(float x[], size_t length, float mu, float sigma);
 void randperm(size_t x[], size_t N, size_t M);
 float mean(float x[], size_t length);
