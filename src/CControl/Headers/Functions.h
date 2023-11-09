@@ -21,6 +21,12 @@
 #include "defines.h"
 #include "enums.h"
 #include "structs.h"
+#include "macros.h"
+
+/* Memory leackage library for Visual Studio */
+#ifdef _MSC_VER
+#include <crtdbg.h>
+#endif /* !_MSC_VER */
 
 #ifdef __cplusplus
 extern "C" {
@@ -81,9 +87,9 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void orpfree(ORP* orp_model);
-ORP* orp(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column);
+ORP* orp(float X[], const float sigma, const uint8_t fasto_threshold, const FASTO_METHOD fasto_method, const uint8_t occurrence, const bool reset_occurrence, const size_t row, const size_t column);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
-FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method);
+FASTO_XY* fasto(const uint8_t X[], const int row, const int column, const int fasto_threshold, const uint8_t fasto_occurrence, int* num_corners, const FASTO_METHOD fasto_method, const bool reset_occurrence);
 DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings);
 size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
@@ -117,7 +123,8 @@ void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
 /* Hardware */
 void concatenate_paths(char total_path[], const char path_first[], const char path_second[]);
 size_t count_sub_folders(const char folder_path[]);
-size_t scan_file_names(const char folder_path[], char** file_names[]);
+void detectmemoryleak();
+size_t scan_file_names(const char folder_path[], char** file_names[], const char ending[]);
 size_t scan_sub_folder_names(const char folder_path[], char** sub_folder_names[]);
 
 /* Linear algebra */
@@ -172,11 +179,11 @@ PGM* imread(const char file_path[]);
 void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings);
-void imcollect_free(DATA_COLLECT* data_collect);
+void imcollectfree(DATA_COLLECT* data_collect);
 void imfree(PGM* image);
 void pooling(float X[], float P[], size_t row, size_t column, size_t p, POOLING_METHOD pooling_method);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);
-void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const bool only_compute_G);
+void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const SOBEL_METHOD sobel_method);
 
 /* Statistics */
 float amax(float x[], size_t* max_index, size_t length);

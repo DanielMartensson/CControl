@@ -13,7 +13,7 @@
  * G[m*n] - Gradients with L2-norm
  * O[m*n] - Orientations in radians
  */
-void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const bool only_compute_G){
+void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const SOBEL_METHOD sobel_method){
 	/* Create kernel matrix */
 	const float kernel_x[9] = { -1.0f, 0.0f, 1.0f,
 								-2.0f, 0.0f, 2.0f,
@@ -34,12 +34,24 @@ void sobel(const float X[], float G[], float O[], const size_t row, const size_t
 	 * Find orientations O = atan2(Gy, Gx) 
 	 */
 	size_t i;
-	if (only_compute_G) {
+	switch (sobel_method) {
+	case SOBEL_METHOD_GRADIENT:
 		for (i = 0; i < total_size; i++) {
 			G[i] = sqrtf(Gx[i] * Gx[i] + Gy[i] * Gy[i]);
 		}
-	}
-	else {
+		break;
+	case SOBEL_METHOD_ORIENTATION:
+		for (i = 0; i < total_size; i++) {
+			O[i] = atan2f(Gy[i], Gx[i]);
+		}
+		break;
+	case SOBEL_METHOD_GRADIENT_ORIENTATION:
+		for (i = 0; i < total_size; i++) {
+			G[i] = sqrtf(Gx[i] * Gx[i] + Gy[i] * Gy[i]);
+			O[i] = atan2f(Gy[i], Gx[i]);
+		}
+		break;
+	default:
 		for (i = 0; i < total_size; i++) {
 			G[i] = sqrtf(Gx[i] * Gx[i] + Gy[i] * Gy[i]);
 			O[i] = atan2f(Gy[i], Gx[i]);

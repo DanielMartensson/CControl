@@ -34,6 +34,11 @@ typedef unsigned long long size_t;
 #endif /* !__STDC_VERSION__ */
 #endif /* !__cplusplus */
 
+/* For memory leaks in Visual Studio */
+#ifdef _MSC_VER
+#define _CRTDBG_MAP_ALLOC 				
+#endif /* !_MSC_VER */
+
  /* Define for all */
 #define PI 3.14159265358979323846f		/* Constant PI */
 #define MIN_VALUE 1e-11f				/* Tuning parameter for the smalles value that can be allowed */

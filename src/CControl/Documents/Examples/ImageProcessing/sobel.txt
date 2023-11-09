@@ -30,7 +30,7 @@ int main() {
 
 	/* Compute Sobel filter */
 	bool only_compute_G = false;
-	sobel(X, G, O, row, column, only_compute_G);
+	sobel(X, G, O, row, column, SOBEL_METHOD_GRADIENT);
 
 	/* Print */
 	print(G, row, column);

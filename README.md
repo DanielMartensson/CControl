@@ -48,7 +48,7 @@ Main focuses are:
 - Machine Learning
   - Object Detection Oriented FAST Rotated Pattern (ODORP)
   - Local Binary Pattern (LBP)
-  - Features from accelerated segment test (FAST)
+  - Features from accelerated segment test occurrence (FASTO)
   - Hough Transform for line detection
   - Oriented FAST Rotated Pattern (ORP)
   - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification and object detection

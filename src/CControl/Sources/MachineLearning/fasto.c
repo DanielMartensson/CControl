@@ -1,14 +1,15 @@
 /*
- * fast.c
+ * fasto.c
  *
  *  Created on: 4 oktober 2023
- *      Author: Edward Rosten
+ *      Author: Edward Rosten & Daniel Mårtensson
  */
 
 #include "../../Headers/functions.h"
 
  /* Private define */
 #define Compare(X, Y) ((X)>=(Y))
+#define XY_HOLDER_MAX 16
 
 /* Score function */
 static int fast9_corner_score(const uint8_t* p, const int pixel[], int bstart);
@@ -17,52 +18,130 @@ static int fast11_corner_score(const uint8_t* p, const int pixel[], int bstart);
 static int fast12_corner_score(const uint8_t* p, const int pixel[], int bstart);
 
 /* Detect function */
-static FAST_XY* fast9_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
-static FAST_XY* fast10_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
-static FAST_XY* fast11_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
-static FAST_XY* fast12_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
+static FASTO_XY* fast9_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
+static FASTO_XY* fast10_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
+static FASTO_XY* fast11_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
+static FASTO_XY* fast12_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
 
 /* Score function */
-static int* fast9_score(const uint8_t* i, int stride, FAST_XY* corners, int num_corners, int b);
-static int* fast10_score(const uint8_t* i, int stride, FAST_XY* corners, int num_corners, int b);
-static int* fast11_score(const uint8_t* i, int stride, FAST_XY* corners, int num_corners, int b);
-static int* fast12_score(const uint8_t* i, int stride, FAST_XY* corners, int num_corners, int b);
+static int* fast9_score(const uint8_t* i, int stride, FASTO_XY* corners, int num_corners, int b);
+static int* fast10_score(const uint8_t* i, int stride, FASTO_XY* corners, int num_corners, int b);
+static int* fast11_score(const uint8_t* i, int stride, FASTO_XY* corners, int num_corners, int b);
+static int* fast12_score(const uint8_t* i, int stride, FASTO_XY* corners, int num_corners, int b);
 
 /* Detect function */
-static FAST_XY* fast9_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
-static FAST_XY* fast10_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
-static FAST_XY* fast11_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
-static FAST_XY* fast12_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
+static FASTO_XY* fast9_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
+static FASTO_XY* fast10_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
+static FASTO_XY* fast11_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
+static FASTO_XY* fast12_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners);
 
 /* NMS function */
-static FAST_XY* nonmax_suppression(const FAST_XY* corners, const int* scores, int num_corners, int* ret_num_nonmax);
+static FASTO_XY* nonmax_suppression(const FASTO_XY* corners, const int* scores, int num_corners, int* ret_num_nonmax);
 
 /*
- * FAST - Features from accelerated segment test
+ * FASTO - Features from accelerated segment test occurrence
  * X[m*n]
  * num_corner - Output
  */
-FAST_XY* fast(const uint8_t X[], int row, int column, int threshold, int* num_corners, FAST_METHOD fast_method) {
-	switch (fast_method) {
-	case FAST_METHOD_9:
-		return fast9_detect_nonmax(X, column, row, column, threshold, num_corners);
-	case FAST_METHOD_10:
-		return fast10_detect_nonmax(X, column, row, column, threshold, num_corners);
-	case FAST_METHOD_11:
-		return fast11_detect_nonmax(X, column, row, column, threshold, num_corners);
-	case FAST_METHOD_12:
-		return fast12_detect_nonmax(X, column, row, column, threshold, num_corners);
-	default:
-		return NULL;
+FASTO_XY* fasto(const uint8_t X[], const int row, const int column, const int fasto_threshold, const uint8_t fasto_occurrence, int* num_corners, const FASTO_METHOD fasto_method, const bool reset_occurrence) {
+	/* Total size */
+	const size_t row_column = row * column;
+	size_t i, j;
+	
+	/* Create corner holder */
+	static FASTO_XY* xy_holder[XY_HOLDER_MAX];
+	static int num_corners_holder[XY_HOLDER_MAX];
+	static bool xy_allocated[XY_HOLDER_MAX] = { false };
+	static uint8_t index_holder = 0U;
+
+	/* Reset all */
+	if (reset_occurrence) {
+		for (i = 0; i < index_holder; i++) {
+			/* Free */
+			free(xy_holder[i]);
+		}
+		index_holder = 0;
+		memset(xy_allocated, false, XY_HOLDER_MAX);
 	}
+
+	/* Reset */
+	if (index_holder >= XY_HOLDER_MAX) {
+		index_holder = 0U;
+	}
+
+	/* Delete if it's allocated */
+	if (xy_allocated[index_holder]) {
+		free(xy_holder[index_holder]);
+	}
+
+	/* Apply FAST on the gradients for finding interests points onto the shapes */	 
+	switch (fasto_method) {
+	case FASTO_METHOD_9:
+		xy_holder[index_holder] = fast9_detect_nonmax(X, column, row, column, fasto_threshold, num_corners);
+		break;
+	case FASTO_METHOD_10:
+		xy_holder[index_holder] = fast10_detect_nonmax(X, column, row, column, fasto_threshold, num_corners);
+		break;
+	case FASTO_METHOD_11:
+		xy_holder[index_holder] = fast11_detect_nonmax(X, column, row, column, fasto_threshold, num_corners);
+		break;
+	case FASTO_METHOD_12:
+		xy_holder[index_holder] = fast12_detect_nonmax(X, column, row, column, fasto_threshold, num_corners);
+		break;
+	default:
+		xy_holder[index_holder] = fast9_detect_nonmax(X, column, row, column, fasto_threshold, num_corners);
+		break;
+	}
+
+	/* Save */
+	xy_allocated[index_holder] = true;
+	num_corners_holder[index_holder] = *num_corners;
+
+	/* Count */
+	index_holder++;
+
+	/* Create matrix for see the frequency about coordinates */
+	int* matrix = (int*)malloc(row_column * sizeof(int));
+	memset(matrix, 0, row_column * sizeof(int));
+	FASTO_XY* xy_temporary;
+	for (i = 0; i < index_holder; i++) {
+		xy_temporary = xy_holder[i];
+		for (j = 0; j < num_corners_holder[i]; j++) {
+			matrix[xy_temporary[j].y * column + xy_temporary[j].x]++;
+		}
+	}
+
+	/* Count the frequency */
+	FASTO_XY* xy = NULL;
+	int corners = 0;
+	for (i = 0; i < row; i++) {
+		for (j = 0; j < column; j++) {
+			if (matrix[i * column + j] >= fasto_occurrence) {
+				/* Allocate new memory */
+				xy = (FASTO_XY*)realloc(xy, (corners + 1) * sizeof(FASTO_XY));
+
+				/* Add coordinates index = y * column + x */
+				xy[corners].x = j;
+				xy[corners].y = i;
+				corners++;
+			}
+		}
+	}
+
+	/* Free */
+	free(matrix);
+
+	/* Return FAST corners */
+	*num_corners = corners;
+	return xy;
 }
 
-static FAST_XY* fast9_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
+static FASTO_XY* fast9_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
 {
-	FAST_XY* corners;
+	FASTO_XY* corners;
 	int num_corners;
 	int* scores;
-	FAST_XY* nonmax = NULL;
+	FASTO_XY* nonmax = NULL;
 
 	corners = fast9_detect(im, xsize, ysize, stride, b, &num_corners);
 	scores = fast9_score(im, stride, corners, num_corners, b);
@@ -74,12 +153,12 @@ static FAST_XY* fast9_detect_nonmax(const uint8_t* im, int xsize, int ysize, int
 	return nonmax;
 }
 
-static FAST_XY* fast10_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
+static FASTO_XY* fast10_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
 {
-	FAST_XY* corners;
+	FASTO_XY* corners;
 	int num_corners;
 	int* scores;
-	FAST_XY* nonmax = NULL;
+	FASTO_XY* nonmax = NULL;
 
 	corners = fast10_detect(im, xsize, ysize, stride, b, &num_corners);
 	scores = fast10_score(im, stride, corners, num_corners, b);
@@ -91,12 +170,12 @@ static FAST_XY* fast10_detect_nonmax(const uint8_t* im, int xsize, int ysize, in
 	return nonmax;
 }
 
-static FAST_XY* fast11_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
+static FASTO_XY* fast11_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
 {
-	FAST_XY* corners;
+	FASTO_XY* corners;
 	int num_corners;
 	int* scores;
-	FAST_XY* nonmax = NULL;
+	FASTO_XY* nonmax = NULL;
 
 	corners = fast11_detect(im, xsize, ysize, stride, b, &num_corners);
 	scores = fast11_score(im, stride, corners, num_corners, b);
@@ -108,12 +187,12 @@ static FAST_XY* fast11_detect_nonmax(const uint8_t* im, int xsize, int ysize, in
 	return nonmax;
 }
 
-static FAST_XY* fast12_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
+static FASTO_XY* fast12_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
 {
-	FAST_XY* corners;
+	FASTO_XY* corners;
 	int num_corners;
 	int* scores;
-	FAST_XY* nonmax = NULL;
+	FASTO_XY* nonmax = NULL;
 
 	corners = fast12_detect(im, xsize, ysize, stride, b, &num_corners);
 	scores = fast12_score(im, stride, corners, num_corners, b);
@@ -3079,7 +3158,7 @@ static void make_offsets(int pixel[], int row_stride)
 
 
 
-static int* fast9_score(const uint8_t* i, int stride, FAST_XY* corners, int num_corners, int b)
+static int* fast9_score(const uint8_t* i, int stride, FASTO_XY* corners, int num_corners, int b)
 {
 	int* scores = (int*)malloc(sizeof(int) * num_corners);
 	int n;
@@ -3094,15 +3173,15 @@ static int* fast9_score(const uint8_t* i, int stride, FAST_XY* corners, int num_
 }
 
 
-static FAST_XY* fast9_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
+static FASTO_XY* fast9_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
 {
 	int num_corners = 0;
-	FAST_XY* ret_corners;
+	FASTO_XY* ret_corners;
 	int rsize = 512;
 	int pixel[16];
 	int x, y;
 
-	ret_corners = (FAST_XY*)malloc(sizeof(FAST_XY) * rsize);
+	ret_corners = (FASTO_XY*)malloc(sizeof(FASTO_XY) * rsize);
 	make_offsets(pixel, stride);
 
 	for (y = 3; y < ysize - 3; y++)
@@ -6218,7 +6297,7 @@ static FAST_XY* fast9_detect(const uint8_t* im, int xsize, int ysize, int stride
 			if (num_corners == rsize)
 			{
 				rsize *= 2;
-				ret_corners = (FAST_XY*)realloc(ret_corners, sizeof(FAST_XY) * rsize);
+				ret_corners = (FASTO_XY*)realloc(ret_corners, sizeof(FASTO_XY) * rsize);
 			}
 			ret_corners[num_corners].x = x;
 			ret_corners[num_corners].y = y;
@@ -8541,7 +8620,7 @@ static int fast10_corner_score(const uint8_t* p, const int pixel[], int bstart)
 	}
 }
 
-static int* fast10_score(const uint8_t* i, int stride, FAST_XY* corners, int num_corners, int b)
+static int* fast10_score(const uint8_t* i, int stride, FASTO_XY* corners, int num_corners, int b)
 {
 	int* scores = (int*)malloc(sizeof(int) * num_corners);
 	int n;
@@ -8556,15 +8635,15 @@ static int* fast10_score(const uint8_t* i, int stride, FAST_XY* corners, int num
 }
 
 
-static FAST_XY* fast10_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
+static FASTO_XY* fast10_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
 {
 	int num_corners = 0;
-	FAST_XY* ret_corners;
+	FASTO_XY* ret_corners;
 	int rsize = 512;
 	int pixel[16];
 	int x, y;
 
-	ret_corners = (FAST_XY*)malloc(sizeof(FAST_XY) * rsize);
+	ret_corners = (FASTO_XY*)malloc(sizeof(FASTO_XY) * rsize);
 	make_offsets(pixel, stride);
 
 	for (y = 3; y < ysize - 3; y++)
@@ -11008,7 +11087,7 @@ static FAST_XY* fast10_detect(const uint8_t* im, int xsize, int ysize, int strid
 			if (num_corners == rsize)
 			{
 				rsize *= 2;
-				ret_corners = (FAST_XY*)realloc(ret_corners, sizeof(FAST_XY) * rsize);
+				ret_corners = (FASTO_XY*)realloc(ret_corners, sizeof(FASTO_XY) * rsize);
 			}
 
 			ret_corners[num_corners].x = x;
@@ -12953,7 +13032,7 @@ static int fast11_corner_score(const uint8_t* p, const int pixel[], int bstart)
 	}
 }
 
-static int* fast11_score(const uint8_t* i, int stride, FAST_XY* corners, int num_corners, int b)
+static int* fast11_score(const uint8_t* i, int stride, FASTO_XY* corners, int num_corners, int b)
 {
 	int* scores = (int*)malloc(sizeof(int) * num_corners);
 	int n;
@@ -12968,15 +13047,15 @@ static int* fast11_score(const uint8_t* i, int stride, FAST_XY* corners, int num
 }
 
 
-static FAST_XY* fast11_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
+static FASTO_XY* fast11_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
 {
 	int num_corners = 0;
-	FAST_XY* ret_corners;
+	FASTO_XY* ret_corners;
 	int rsize = 512;
 	int pixel[16];
 	int x, y;
 
-	ret_corners = (FAST_XY*)malloc(sizeof(FAST_XY) * rsize);
+	ret_corners = (FASTO_XY*)malloc(sizeof(FASTO_XY) * rsize);
 	make_offsets(pixel, stride);
 
 	for (y = 3; y < ysize - 3; y++)
@@ -15004,7 +15083,7 @@ static FAST_XY* fast11_detect(const uint8_t* im, int xsize, int ysize, int strid
 			if (num_corners == rsize)
 			{
 				rsize *= 2;
-				ret_corners = (FAST_XY*)realloc(ret_corners, sizeof(FAST_XY) * rsize);
+				ret_corners = (FASTO_XY*)realloc(ret_corners, sizeof(FASTO_XY) * rsize);
 			}
 
 			ret_corners[num_corners].x = x;
@@ -16562,7 +16641,7 @@ static int fast12_corner_score(const uint8_t* p, const int pixel[], int bstart)
 }
 
 
-static int* fast12_score(const uint8_t* i, int stride, FAST_XY* corners, int num_corners, int b)
+static int* fast12_score(const uint8_t* i, int stride, FASTO_XY* corners, int num_corners, int b)
 {
 	int* scores = (int*)malloc(sizeof(int) * num_corners);
 	int n;
@@ -16577,15 +16656,15 @@ static int* fast12_score(const uint8_t* i, int stride, FAST_XY* corners, int num
 }
 
 
-static FAST_XY* fast12_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
+static FASTO_XY* fast12_detect(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
 {
 	int num_corners = 0;
-	FAST_XY* ret_corners;
+	FASTO_XY* ret_corners;
 	int rsize = 512;
 	int pixel[16];
 	int x, y;
 
-	ret_corners = (FAST_XY*)malloc(sizeof(FAST_XY) * rsize);
+	ret_corners = (FASTO_XY*)malloc(sizeof(FASTO_XY) * rsize);
 	make_offsets(pixel, stride);
 
 	for (y = 3; y < ysize - 3; y++)
@@ -18191,7 +18270,7 @@ static FAST_XY* fast12_detect(const uint8_t* im, int xsize, int ysize, int strid
 			if (num_corners == rsize)
 			{
 				rsize *= 2;
-				ret_corners = (FAST_XY*)realloc(ret_corners, sizeof(FAST_XY) * rsize);
+				ret_corners = (FASTO_XY*)realloc(ret_corners, sizeof(FASTO_XY) * rsize);
 			}
 
 			ret_corners[num_corners].x = x;
@@ -18204,13 +18283,13 @@ static FAST_XY* fast12_detect(const uint8_t* im, int xsize, int ysize, int strid
 
 }
 
-FAST_XY* nonmax_suppression(const FAST_XY* corners, const int* scores, int num_corners, int* ret_num_nonmax)
+FASTO_XY* nonmax_suppression(const FASTO_XY* corners, const int* scores, int num_corners, int* ret_num_nonmax)
 {
 	int num_nonmax = 0;
 	int last_row;
 	int* row_start;
 	int i, j;
-	FAST_XY* ret_nonmax;
+	FASTO_XY* ret_nonmax;
 	const int sz = (int)num_corners;
 
 	/*Point above points (roughly) to the pixel above the one of interest, if there
@@ -18225,7 +18304,7 @@ FAST_XY* nonmax_suppression(const FAST_XY* corners, const int* scores, int num_c
 		return 0;
 	}
 
-	ret_nonmax = (FAST_XY*)malloc(num_corners * sizeof(FAST_XY));
+	ret_nonmax = (FASTO_XY*)malloc(num_corners * sizeof(FASTO_XY));
 
 	/* Find where each row begins
 	   (the corners are output in raster scan order). A beginning of -1 signifies
@@ -18251,7 +18330,7 @@ FAST_XY* nonmax_suppression(const FAST_XY* corners, const int* scores, int num_c
 	for (i = 0; i < sz; i++)
 	{
 		int score = scores[i];
-		FAST_XY pos = corners[i];
+		FASTO_XY pos = corners[i];
 
 		/*Check left */
 		if (i > 0)

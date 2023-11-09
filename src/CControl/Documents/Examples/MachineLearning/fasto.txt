@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : fast.c
+ Name        : fasto.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : FAST corner detection
+ Description : FASTO corner detection
  ============================================================================
  */
 
@@ -20,8 +20,10 @@ int main() {
 
 	/* Do fast */
 	int num_corners;
-	int threshold = 50;
-	FAST_XY* xy = fast(image->pixels, image->height, image->width, threshold, &num_corners, FAST_METHOD_9);
+	int fasto_threshold = 50;
+	int fasto_occurrence = 1;
+	bool reset_occurrence = true;
+	FASTO_XY* xy = fasto(image->pixels, image->height, image->width, fasto_threshold, fasto_occurrence, &num_corners, FASTO_METHOD_9, reset_occurrence);
 
 	/* Print corners - x is column and y is row */
 	int i;

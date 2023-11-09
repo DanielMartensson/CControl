@@ -60,6 +60,7 @@ void pdist2(const float A[], const float B[], float C[], const size_t row_a, con
 		}
 
 		/* Free */
+		free(Bt);
 		free(AtimesA);
 		free(BttimesBt);
 		free(AA);

@@ -78,11 +78,10 @@ typedef struct {
 
 	/* For orp.c */
 	size_t k_value;
-	float sigma1;
-	float sigma2;
-	uint8_t threshold_sobel;
-	uint8_t threshold_fast;
-	FAST_METHOD fast_method;
+	float sigma;
+	uint8_t fasto_threshold;
+	uint8_t fasto_occurrence;
+	FASTO_METHOD fasto_method;
 }DATA_SETTINGS_ODORP;
 
 /* For imcollect.c */
@@ -92,17 +91,17 @@ typedef struct {
 	DATA_SETTINGS_CHOICE data_settings_choice;
 }DATA_SETTINGS;
 
-/* For fast.c */
+/* For fasto.c */
 typedef struct {
 	int x;
 	int y;
-} FAST_XY;
+} FASTO_XY;
 
 /* For orp.c */
 typedef struct {
-	/* Collection of corners from FAST */
+	/* Collection of corners from FASTO */
 	int num_corners;
-	FAST_XY* xy;
+	FASTO_XY* xy;
 
 	/* Binary data [data_row * data_column] */
 	float* data;

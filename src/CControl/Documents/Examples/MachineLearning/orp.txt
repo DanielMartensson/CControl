@@ -32,10 +32,11 @@ int main() {
 	float sigma2 = 6.0f;
 	uint8_t sobel_threshold = 127;
 	FAST_METHOD fast_method = FAST_METHOD_9;
-	int threshold_fast = 50;
+	int fast_threshold = 50;
+	bool fast_traning = true;
 
 	/* Use ORP to find the binary pattern */
-	ORP* orp_data = orp(X, sigma1, sigma2, sobel_threshold, threshold_fast, fast_method, row, column);
+	ORP* orp_data = orp(X, sigma1, sigma2, sobel_threshold, fast_threshold, fast_occurrence, fast_method, fast_traning, row, column);
 	end = clock();
 
 	/* Print histogram */

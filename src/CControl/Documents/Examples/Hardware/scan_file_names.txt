@@ -20,7 +20,7 @@ int main() {
 	 * Enter your folder path, in this case, it's Windows folder path for me
 	 */
 	char** file_names = NULL;
-	size_t sub_folder_count = scan_file_names("C:\\Users\\dmn\\VS", &file_names);
+	size_t sub_folder_count = scan_file_names("C:\\Users\\dmn\\VS", &file_names, NULL);
 
 	/* Print the files */
 	size_t i;

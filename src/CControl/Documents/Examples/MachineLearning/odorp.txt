@@ -24,17 +24,15 @@ int main() {
 
 	/*
 	 * ORP configurtion:
-	 * sigma1 is for background blurring. It helps because then FAST cannot find interest points into blurred images
-	 * sigma1 is for blurring before finding the descriptors. A blurred image is much better to use for descriptors, instead of a clear image
-	 * threshold_sobel is for removing weak corners and edges
-	 * threshold_fast is the parameter that controls who many interest points it can find
-	 * fast_method is the method for FAST algorithm
+	 * sigma is for blurring before finding the descriptors. A blurred image is much better to use for descriptors, instead of a clear image
+	 * fasto_threshold is the parameter that controls who many interest points it can find
+	 * fasto_occurrence is the parameter for the occurrence of the corners
+	 * fasto_method is the method for FASTO algorithm
 	 */
-	settings.data_settings_odorp.sigma1 = 0.8f;
-	settings.data_settings_odorp.sigma2 = 2.0f;
-	settings.data_settings_odorp.threshold_sobel = 255;
-	settings.data_settings_odorp.threshold_fast = 100;
-	settings.data_settings_odorp.fast_method = FAST_METHOD_9;
+	settings.data_settings_odorp.sigma = 5;
+	settings.data_settings_odorp.fasto_threshold = 40;
+	settings.data_settings_odorp.fasto_occurrence = 1;
+	settings.data_settings_odorp.fasto_method = FASTO_METHOD_9;
 
 	/*
 	 * Neural network configuration:
@@ -45,20 +43,20 @@ int main() {
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
 	settings.data_settings_odorp.C = 1.0f;
-	settings.data_settings_odorp.lambda = 100.0f;
+	settings.data_settings_odorp.lambda = 10;
 
 	/*
 	 * K-means clustering:
 	 * This K-value determine how many clusters there are inside the data.
 	 * The reason why I choosen K-means clustering is because it split the data as it was gaussian, e.g. linear separated
 	 */
-	settings.data_settings_odorp.k_value = 5;
+	settings.data_settings_odorp.k_value = 4;
 
 	/* Object Detection ORP training */
 	DATA_COLLECT* data_collect = odorp(&settings);
 
 	/* Free */
-	imcollect_free(data_collect);
+	imcollectfree(data_collect);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

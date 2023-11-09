@@ -40,23 +40,14 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 			break;
 		}
 
-		/* Scan the files */
+		/* Scan the .pgm files */
 		char** file_names = NULL;
-		const size_t file_count = scan_file_names(total_folder_path, &file_names);
+		const size_t file_count = scan_file_names(total_folder_path, &file_names, ".pgm");
 
 		/* Iterate the files */
 		for (j = 0; j < file_count; j++) {
 			/* Get the name of the file */
 			const char* file_name = file_names[j];
-
-			/* Check if the file is .pgm */
-			if (!strstr(file_name, ".pgm")) {
-				/*
-				 * Parameters for collecting data
-				 * I recommend generate_pgm.m file for generating the .pgm files
-				 */
-				continue;
-			}
 
 			/* Combine the total folder path with the file name */
 			char total_pgm_path[260];
@@ -97,9 +88,21 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 					break;
 				}
 				case DATA_SETTINGS_CHOICE_ODORP: {
+					/* This will collect all the images and find the occurrence of FASTO */
+					bool reset_occurrence = false;
+					if (j == 0) {
+						reset_occurrence = true;
+					}
+
 					/* Get orp data */
-					ORP* orp_data = orp(X, data_settings->data_settings_odorp.sigma1, data_settings->data_settings_odorp.sigma2, data_settings->data_settings_odorp.threshold_sobel, data_settings->data_settings_odorp.threshold_fast, data_settings->data_settings_odorp.fast_method, image->height, image->width);
-					
+					ORP* orp_data = orp(X, data_settings->data_settings_odorp.sigma, data_settings->data_settings_odorp.fasto_threshold, data_settings->data_settings_odorp.fasto_method, data_settings->data_settings_odorp.fasto_occurrence, reset_occurrence, image->height, image->width);
+
+					/* Only pass forward if it's the last picture */
+					if (j < file_count - 1) {
+						new_pixel_size = 0U;
+						break;
+					}
+
 					/* Compute new size */
 					row = orp_data->data_row;
 					new_pixel_size = orp_data->data_row * orp_data->data_column;
@@ -121,37 +124,40 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 				/* Free */
 				free(X);
 
-				/* Allocate new rows */
-				data_collect->input = (float*)realloc(data_collect->input, (current_pixel_size + new_pixel_size) * sizeof(float));
+				/* Check if we got some data */
+				if (new_pixel_size > 0) {
+					/* Allocate new rows */
+					data_collect->input = (float*)realloc(data_collect->input, (current_pixel_size + new_pixel_size) * sizeof(float));
 
-				/* Remember */
-				float* data0 = data_collect->input;
+					/* Remember */
+					float* data0 = data_collect->input;
 
-				/* Jump */
-				data_collect->input += current_pixel_size;
+					/* Jump */
+					data_collect->input += current_pixel_size;
 
-				/* Fill as row major */
-				memcpy(data_collect->input, new_data, new_pixel_size * sizeof(float));
+					/* Fill as row major */
+					memcpy(data_collect->input, new_data, new_pixel_size * sizeof(float));
 
-				/* Go back to index 0 */
-				data_collect->input = data0;
+					/* Go back to index 0 */
+					data_collect->input = data0;
 
-				/* Free new_data */
-				free(new_data);
+					/* Free new_data */
+					free(new_data);
 
-				/* Add current size */
-				current_pixel_size += new_pixel_size;
+					/* Add current size */
+					current_pixel_size += new_pixel_size;
 
-				/* Allocate new element */
-				data_collect->class_id_original = (size_t*)realloc(data_collect->class_id_original, (data_collect->input_row + row) * sizeof(size_t));
-				
-				/* Add new ID */
-				for (k = data_collect->input_row; k < data_collect->input_row + row; k++) {
-					data_collect->class_id_original[k] = i;
+					/* Allocate new element */
+					data_collect->class_id_original = (size_t*)realloc(data_collect->class_id_original, (data_collect->input_row + row) * sizeof(size_t));
+
+					/* Add new ID */
+					for (k = data_collect->input_row; k < data_collect->input_row + row; k++) {
+						data_collect->class_id_original[k] = i;
+					}
+
+					/* Count rows */
+					data_collect->input_row += row;
 				}
-
-				/* Count rows */
-				data_collect->input_row += row;
 			}
 
 			/* Free the image */
@@ -193,7 +199,7 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 	return data_collect;
 }
 
-void imcollect_free(DATA_COLLECT* data_collect) {
+void imcollectfree(DATA_COLLECT* data_collect) {
 	if (data_collect) {
 		/* Data */
 		free(data_collect->class_id_original);

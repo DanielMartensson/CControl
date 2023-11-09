@@ -7,49 +7,43 @@
 
 #include "../../Headers/functions.h"
 
+#define DATA_COLUMN_MAX 88U
+
  /*
-  * Oriented FAST Rotated Pattern
+  * Oriented FASTO Rotated Pattern
   * X[m*n]
-  * sigma1 - Gaussian blurr for the background
-  * sigma2 - Gaussian blurr for whole image (easier to find descriptors if the image is blurry)
-  * threshold_sobel - Make corners and edges more visible
-  * threshold_fast - Threshold for the FAST algorithm
-  * fast_method - Which type of FAST methods should be used
+  * sigma - Gaussian blurr for whole image (easier to find descriptors if the image is blurry)
+  * fasto_threshold - Threshold for the FASTO algorithm
+  * fasto_occurrence - Threshold for the occurrence of the interest points
+  * fasto_method - Which type of FAST methods should be used
+  * reset_occurrence - Reset the occurrence
   */
-ORP* orp(float X[], const float sigma1, const float sigma2, const uint8_t threshold_sobel, const uint8_t threshold_fast, const FAST_METHOD fast_method, const size_t row, const size_t column) {
-	/* Apply gaussian blurr for making small objects not recognizable */
-	if (sigma1 > 0.0f) {
-		imgaussfilt(X, sigma1, row, column);
-	}
-
-	/* Apply sobel operator onto the blurred image X for finding the shapes - Also compute the orientations for later use */
-	const size_t row_column = row * column;
-	float* G = (float*)malloc(row_column * sizeof(float));
-	float* O = (float*)malloc(row_column * sizeof(float));
-	sobel(X, G, O, row, column, false);
-
-	/* Apply FAST on the gradients for finding interests points onto the shapes */
+ORP* orp(float X[], const float sigma, const uint8_t fasto_threshold, const FASTO_METHOD fasto_method, const uint8_t fasto_occurrence, const bool reset_occurrence, const size_t row, const size_t column) {
+	/* Create uint8_t matrix of the float matrix */
 	size_t i, j, k;
+	const size_t row_column = row * column;
 	uint8_t* Xuint8 = (uint8_t*)malloc(row_column);
 	memset(Xuint8, 0, row_column);
 	for (i = 0; i < row_column; i++) {
-		if (G[i] > threshold_sobel) {
-			Xuint8[i] = (float)G[i];
-		}
+		Xuint8[i] = (float)X[i];
 	}
 
-	/* Create orp data */
+	/* Create ORP data */
 	ORP* orp_data = (ORP*)malloc(sizeof(ORP));
-	orp_data->data_column = 88U;
+	orp_data->data_column = DATA_COLUMN_MAX;
 	orp_data->data_row = 0U;
 	orp_data->data = NULL;
 
-	/* Use FAST */
-	orp_data->xy = fast(Xuint8, row, column, threshold_fast, &orp_data->num_corners, fast_method);
+	/* Apply FASTO on the gradients for finding interests points onto the shapes */
+	orp_data->xy = fasto(Xuint8, row, column, fasto_threshold, fasto_occurrence, &orp_data->num_corners, fasto_method, reset_occurrence);
+	
+	/* Apply sobel operator for computing the orientations for later use */
+	float* O = (float*)malloc(row_column * sizeof(float));
+	sobel(X, NULL, O, row, column, SOBEL_METHOD_ORIENTATION);
 
-	/* Make another blur for computing the descriptors */
-	if (sigma2 > 0.0f) {
-		imgaussfilt(X, sigma2, row, column);
+	/* Make blur for computing the descriptors */
+	if (sigma > 0.0f) {
+		imgaussfilt(X, sigma, row, column);
 	}
 
 	/* Cut one part from the orientation matrix O */
@@ -138,7 +132,6 @@ ORP* orp(float X[], const float sigma1, const float sigma2, const uint8_t thresh
 	}
 	
 	/* Free */
-	free(G);
 	free(O);
 	free(O_part);
 	free(Xuint8);
@@ -160,9 +153,9 @@ void orpfree(ORP* orp_model) {
 /*
  GNU octave code:
 % Oriented FAST Rotated Pattern
-% Input: X(image), sigma1(background filtering), sigma2(descriptor filtering), threshold_sobel(corner filtering), threshold_fast(corner threshold), fast_method(enter: 9, 10, 11, 12)
+% Input: X(image), sigma1(background filtering), sigma2(descriptor filtering), threshold_sobel(corner filtering), threshold_fast(corner threshold), fasto_method(enter: 9, 10, 11, 12)
 % Output: data(classification data), X1(filtered background), X2(filtered data for descriptors), G(gradients for the corners), corners, scores(corner scores)
-% Example 1: [data, X1, X2, G, corners, scores] = mi.orp(X, sigma1, sigma2, threshold_sobel, threshold_fast, fast_method);
+% Example 1: [data, X1, X2, G, corners, scores] = mi.orp(X, sigma1, sigma2, threshold_sobel, threshold_fast, fasto_method);
 % Author: Daniel Mårtensson, Oktober 27, 2023
 
 function [data, X1, X2, G, corners, scores] = orp(varargin)
@@ -208,7 +201,7 @@ function [data, X1, X2, G, corners, scores] = orp(varargin)
 
   % Get fast method
   if(length(varargin) >= 6)
-	fast_method = varargin{6};
+	fasto_method = varargin{6};
   else
 	error('Missing fast method')
   end
@@ -228,7 +221,7 @@ function [data, X1, X2, G, corners, scores] = orp(varargin)
   G(G <= threshold_sobel) = 0;
 
   % Use FAST
-  [corners, scores] = mi.fast(G, threshold_fast, fast_method);
+  [corners, scores] = mi.fast(G, threshold_fast, fasto_method);
 
   % Make another blur for computing the descriptors
   if(sigma2 > 0)
