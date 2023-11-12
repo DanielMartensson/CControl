@@ -77,13 +77,13 @@ typedef enum {
 	LBP_BIT_32
 }LBP_BIT;
 
-/* For fasto.c */
+/* For fast_features.c */
 typedef enum {
-	FASTO_METHOD_9,
-	FASTO_METHOD_10,
-	FASTO_METHOD_11,
-	FASTO_METHOD_12
-}FASTO_METHOD;
+	FAST_METHOD_9,
+	FAST_METHOD_10,
+	FAST_METHOD_11,
+	FAST_METHOD_12
+}FAST_METHOD;
 
 /* For area.c */
 typedef enum {
@@ -96,11 +96,11 @@ typedef enum {
 	ACTIVATION_FUNCTION_CLOSEST_VALUE_INDEX
 }ACTIVATION_FUNCTION;
 
-/* For data_collect.c */
+/* For imcollect.c */
 typedef enum {
-	DATA_SETTINGS_CHOICE_FISHERFACES,
-	DATA_SETTINGS_CHOICE_ODORP
-}DATA_SETTINGS_CHOICE;
+	MODEL_CHOICE_FISHERFACES,
+	MODEL_CHOICE_ODORP
+}ALGORITHM_CHOICE;
 
 /* For sobel.c */
 typedef enum {

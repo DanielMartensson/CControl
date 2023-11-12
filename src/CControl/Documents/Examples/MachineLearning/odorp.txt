@@ -25,14 +25,12 @@ int main() {
 	/*
 	 * ORP configurtion:
 	 * sigma is for blurring before finding the descriptors. A blurred image is much better to use for descriptors, instead of a clear image
-	 * fasto_threshold is the parameter that controls who many interest points it can find
-	 * fasto_occurrence is the parameter for the occurrence of the corners
-	 * fasto_method is the method for FASTO algorithm
+	 * fast_threshold is the parameter that controls who many interest points it can find
+	 * fast_method is the method for FASTO algorithm
 	 */
 	settings.data_settings_odorp.sigma = 5;
-	settings.data_settings_odorp.fasto_threshold = 40;
-	settings.data_settings_odorp.fasto_occurrence = 1;
-	settings.data_settings_odorp.fasto_method = FASTO_METHOD_9;
+	settings.data_settings_odorp.fast_threshold = 40;
+	settings.data_settings_odorp.fast_method = FAST_METHOD_9;
 
 	/*
 	 * Neural network configuration:

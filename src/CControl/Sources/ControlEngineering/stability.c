@@ -13,11 +13,11 @@
  * Return false is A is unstable
  */
 bool stability(float A[], size_t ADIM){
-	float *dr = (float*)malloc(ADIM * sizeof(float));			/* Real eigenvalues */
-	float *di = (float*)malloc(ADIM * sizeof(float));			/* Imaginary eigenvalues */
+	float* dr = (float*)malloc(ADIM * sizeof(float));			/* Real eigenvalues */
+	float* di = (float*)malloc(ADIM * sizeof(float));			/* Imaginary eigenvalues */
 	float* wr = (float*)malloc(ADIM * ADIM * sizeof(float));	/* Real eigenvectors */
 	float* wi = (float*)malloc(ADIM * ADIM * sizeof(float));	/* Imaginary eigenvectors */
-	eig(A, dr, di, di, wr, wi, ADIM);
+	eig(A, dr, di, wr, wi, ADIM);
 	bool stable = true; /* Assume that the system is stable */
 	size_t i;
 	float abs_value;
@@ -25,6 +25,7 @@ bool stability(float A[], size_t ADIM){
 		abs_value = sqrtf(dr[i]*dr[i] + di[i]*di[i]);
 		if(abs_value > 1){
 			stable = false;
+			break;
 		}
 	}
 	free(dr);

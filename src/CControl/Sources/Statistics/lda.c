@@ -7,7 +7,7 @@
 
 #include "../../Headers/functions.h"
 
-static void average_vector(float A[], float mu[], size_t row, size_t column);
+static void average_vector(const float X[], float mu[], const size_t row, const size_t column);
 static void center_data(float X[], float mu[], size_t row, size_t column);
 
 /*
@@ -162,7 +162,7 @@ void lda(const float X[], const size_t y[], float W[], float P[], const size_t c
 	free(index);
 }
 
-static void average_vector(float X[], float mu[], size_t row, size_t column) {
+static void average_vector(const float X[], float mu[], const size_t row, const size_t column) {
 	size_t i;
 	for (i = 0; i < row; i++) {
 		/* Average data mu = mean(X, 2) */

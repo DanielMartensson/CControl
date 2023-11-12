@@ -7,20 +7,22 @@
 
 #include "../../Headers/functions.h"
 
-#define DATA_COLUMN_MAX 88U
-
  /*
-  * Oriented FASTO Rotated Pattern
+  * Oriented FAST Rotated Pattern
   * X[m*n]
   * sigma - Gaussian blurr for whole image (easier to find descriptors if the image is blurry)
-  * fasto_threshold - Threshold for the FASTO algorithm
-  * fasto_occurrence - Threshold for the occurrence of the interest points
-  * fasto_method - Which type of FAST methods should be used
+  * fast_threshold - Threshold for the FAST algorithm
+  * fast_method - Which type of FAST methods should be used
   * reset_occurrence - Reset the occurrence
   */
-ORP* orp(float X[], const float sigma, const uint8_t fasto_threshold, const FASTO_METHOD fasto_method, const uint8_t fasto_occurrence, const bool reset_occurrence, const size_t row, const size_t column) {
+ORP* orp(float X[], const float sigma, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column) {
+	/* Create ORP data */
+	ORP* orp_data = (ORP*)malloc(sizeof(ORP));
+	orp_data->N = 0U;
+	orp_data->data = NULL;
+
 	/* Create uint8_t matrix of the float matrix */
-	size_t i, j, k;
+	size_t i;
 	const size_t row_column = row * column;
 	uint8_t* Xuint8 = (uint8_t*)malloc(row_column);
 	memset(Xuint8, 0, row_column);
@@ -28,15 +30,12 @@ ORP* orp(float X[], const float sigma, const uint8_t fasto_threshold, const FAST
 		Xuint8[i] = (float)X[i];
 	}
 
-	/* Create ORP data */
-	ORP* orp_data = (ORP*)malloc(sizeof(ORP));
-	orp_data->data_column = DATA_COLUMN_MAX;
-	orp_data->data_row = 0U;
-	orp_data->data = NULL;
-
-	/* Apply FASTO on the gradients for finding interests points onto the shapes */
-	orp_data->xy = fasto(Xuint8, row, column, fasto_threshold, fasto_occurrence, &orp_data->num_corners, fasto_method, reset_occurrence);
+	/* Apply FAST */
+	orp_data->xy = fast_features(Xuint8, row, column, fast_threshold, &orp_data->num_corners, fast_method);
 	
+	/* Free */
+	free(Xuint8);
+
 	/* Apply sobel operator for computing the orientations for later use */
 	float* O = (float*)malloc(row_column * sizeof(float));
 	sobel(X, NULL, O, row, column, SOBEL_METHOD_ORIENTATION);
@@ -72,69 +71,35 @@ ORP* orp(float X[], const float sigma, const uint8_t fasto_threshold, const FAST
 			size_t total_elements;
 			float init_angle = area(O_part, O_part_row, &total_elements, AREA_METHOD_CIRCLE) / ((float)total_elements);
 
-			/* Allocate memory for new row */
-			const size_t data_size = orp_data->data_row * orp_data->data_column;
-			orp_data->data = (float*)realloc(orp_data->data, (data_size + orp_data->data_column) * sizeof(float));
-
-			/* Shift */
-			float* data0 = orp_data->data;
-			orp_data->data += data_size;
-
-			/* Clear data */
-			memset(orp_data->data, 0, orp_data->data_column * sizeof(float));
+			/* Allocate memory */
+			orp_data->data = (uint64_t*)realloc(orp_data->data, (orp_data->N + 1) * sizeof(uint64_t));
 			
 			/* First 16 bit data */
-			uint16_t data = lbp(X, row, column, x, y, init_angle, 8.0f, LBP_BIT_16);
-			uint8_t data11[11];
-			data11[0] = data >> 8;
-			data11[1] = data;
+			orp_data->data[orp_data->N] = lbp(X, row, column, x, y, init_angle, 8.0f, LBP_BIT_16);
 
 			/* Second 16-bit data */
-			data = lbp(X, row, column, x, y, init_angle, 7.0f, LBP_BIT_16);
-			data11[2] = data >> 8;
-			data11[3] = data;
+			orp_data->data[orp_data->N] |= lbp(X, row, column, x, y, init_angle, 7.0f, LBP_BIT_16) << 16;
 
-			/* Third 16-bit data */
-			data = lbp(X, row, column, x, y, init_angle, 5.6f, LBP_BIT_16);
-			data11[4] = data >> 8;
-			data11[5] = data;
+			/* First 8-bit data */
+			orp_data->data[orp_data->N] |= lbp(X, row, column, x, y, init_angle, 6.0f, LBP_BIT_8) << 32;
 
-			/* Fourth 16-bit data */
-			data = lbp(X, row, column, x, y, init_angle, 4.6f, LBP_BIT_16);
-			data11[6] = data >> 8;
-			data11[7] = data;
+			/* Second 8-bit data */
+			orp_data->data[orp_data->N] |= lbp(X, row, column, x, y, init_angle, 5.0f, LBP_BIT_8) << 40;
 
-			/* Fifth 16-bit data */
-			data = lbp(X, row, column, x, y, init_angle, 3.51f, LBP_BIT_16);
-			data11[8] = data >> 8;
-			data11[9] = data;
+			/* Third 8-bit data */
+			orp_data->data[orp_data->N] |= lbp(X, row, column, x, y, init_angle, 3.0f, LBP_BIT_8) << 48;
 
-			/* The last 8-bit data */
-			data11[10] = lbp(X, row, column, x, y, init_angle, 2.0f, LBP_BIT_8);
-
-			/* Convert to binary - 11 elements and 8-bit, total 88 elements */
-			for (j = 0; j < 11U; j++) {
-				/* Focus on LSB */
-				for (k = 0; k < 8U; k++) {
-					if ((data11[j] >> k) && 0b1) {
-						orp_data->data[0] = 1.0f;
-					}
-					orp_data->data += 1;
-				}
-			}
+			/* Fourth 8-bit data */
+			orp_data->data[orp_data->N] |= lbp(X, row, column, x, y, init_angle, 2.0f, LBP_BIT_8) << 56;
 
 			/* Count */
-			orp_data->data_row++;
-
-			/* Reset address */
-			orp_data->data = data0;
+			orp_data->N++;
 		}
 	}
 	
 	/* Free */
 	free(O);
 	free(O_part);
-	free(Xuint8);
 
 	/* Return binary data */
 	return orp_data;
@@ -153,9 +118,9 @@ void orpfree(ORP* orp_model) {
 /*
  GNU octave code:
 % Oriented FAST Rotated Pattern
-% Input: X(image), sigma1(background filtering), sigma2(descriptor filtering), threshold_sobel(corner filtering), threshold_fast(corner threshold), fasto_method(enter: 9, 10, 11, 12)
+% Input: X(image), sigma1(background filtering), sigma2(descriptor filtering), threshold_sobel(corner filtering), threshold_fast(corner threshold), fast_method(enter: 9, 10, 11, 12)
 % Output: data(classification data), X1(filtered background), X2(filtered data for descriptors), G(gradients for the corners), corners, scores(corner scores)
-% Example 1: [data, X1, X2, G, corners, scores] = mi.orp(X, sigma1, sigma2, threshold_sobel, threshold_fast, fasto_method);
+% Example 1: [data, X1, X2, G, corners, scores] = mi.orp(X, sigma1, sigma2, threshold_sobel, threshold_fast, fast_method);
 % Author: Daniel Mårtensson, Oktober 27, 2023
 
 function [data, X1, X2, G, corners, scores] = orp(varargin)
@@ -192,18 +157,18 @@ function [data, X1, X2, G, corners, scores] = orp(varargin)
 	error('Missing threshold sobel')
   end
 
-  % Get threshold fast
+  % Get threshold fast_features
   if(length(varargin) >= 5)
 	threshold_fast = varargin{5};
   else
-	error('Missing threshold fast')
+	error('Missing threshold fast_features')
   end
 
-  % Get fast method
+  % Get fast_features method
   if(length(varargin) >= 6)
-	fasto_method = varargin{6};
+	fast_method = varargin{6};
   else
-	error('Missing fast method')
+	error('Missing fast_features method')
   end
 
   % Compute rows and columns
@@ -221,7 +186,7 @@ function [data, X1, X2, G, corners, scores] = orp(varargin)
   G(G <= threshold_sobel) = 0;
 
   % Use FAST
-  [corners, scores] = mi.fast(G, threshold_fast, fasto_method);
+  [corners, scores] = mi.fast_features(G, threshold_fast, fast_method);
 
   % Make another blur for computing the descriptors
   if(sigma2 > 0)

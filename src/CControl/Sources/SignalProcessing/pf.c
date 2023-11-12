@@ -119,7 +119,11 @@ static void kernel_density_estimation(float P[], float H[], float horizon[], flo
 
 	/* Sort smallest values first because H is like a histogram with only one count for each values */
 	memcpy(H, horizon, m * p * sizeof(float));
-	sort(H, m, p, 2, 1);
+	size_t* index = (size_t*)malloc(m * p * sizeof(size_t));
+	sort(H, index, m, p, SORT_MODE_COLUMN_DIRECTION_DESCEND);
+
+	/* Free */
+	free(index);
 
 	/* Create empty array */
 	memset(P, 0, m * p * sizeof(float));
@@ -151,7 +155,7 @@ static void kernel_density_estimation(float P[], float H[], float horizon[], flo
 	float y[1];
 	for (i = 0; i < m; i++) {
 		/* Do a sum of P */
-		sum(&P0[0], y, 1, p, 2U); /* Column direction, get one value back */
+		sum(&P0[0], y, 1, p, false); /* Column direction, get one value back */
 		for (j = 0; j < p; j++) {
 			P0[j] /= y[0];
 		}

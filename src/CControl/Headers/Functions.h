@@ -87,20 +87,20 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void orpfree(ORP* orp_model);
-ORP* orp(float X[], const float sigma, const uint8_t fasto_threshold, const FASTO_METHOD fasto_method, const uint8_t occurrence, const bool reset_occurrence, const size_t row, const size_t column);
+ORP* orp(float X[], const float sigma, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
-FASTO_XY* fasto(const uint8_t X[], const int row, const int column, const int fasto_threshold, const uint8_t fasto_occurrence, int* num_corners, const FASTO_METHOD fasto_method, const bool reset_occurrence);
-DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings);
-size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column);
+FAST_XY* fast_features(const uint8_t X[], const int row, const int column, const int fast_threshold, int* num_corners, const FAST_METHOD fast_method);
+MODEL* fisherfaces(MODEL_SETTINGS* model_settings);
+size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
 bool kmeans(const float X[], size_t idx[], float C[], const size_t k, const size_t row, const size_t column);
-void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method);
+void kpca(const float X[], float W[], float P[], const size_t c, const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
 uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit);
 void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const size_t classes, const float C, const float lambda);
 size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w, bool* class_id_found, const ACTIVATION_FUNCTION activation_function);
 void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function);
 void nn_save(const float model_w[], const float model_b[], const ACTIVATION_FUNCTION activation_function, const char model_path[], const char model_name[], const size_t row, const size_t column);
-DATA_COLLECT* odorp(DATA_SETTINGS* settings);
+MODEL* odorp(MODEL_SETTINGS* settings);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */
@@ -111,6 +111,7 @@ void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITIO
 void insert(float A[], float B[], size_t row_a, size_t column_a, size_t column_b, size_t startRow_b, size_t startColumn_b);
 bool issymmetric(float A[], size_t row, size_t column);
 void pdist2(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const PDIST2_METRIC metric);
+uint8_t popcount(uint64_t x);
 void print(float A[], size_t row, size_t column);
 float rad2deg(float radians);
 float deg2rad(float radians);
@@ -178,8 +179,8 @@ void imshow(PGM* image);
 PGM* imread(const char file_path[]);
 void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
-DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings);
-void imcollectfree(DATA_COLLECT* data_collect);
+MODEL* imcollect(const MODEL_SETTINGS* model_settings);
+void imcollectfree(MODEL* model);
 void imfree(PGM* image);
 void pooling(float X[], float P[], size_t row, size_t column, size_t p, POOLING_METHOD pooling_method);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);

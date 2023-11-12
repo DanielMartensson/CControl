@@ -123,10 +123,11 @@ int main() {
 	// Draw a circle
 	drawCircle(M, N, 8, matrix, init_angle * PI / 180.0f, steps16, 16);
 	drawCircle(M, N, 7, matrix, init_angle * PI / 180.0f, steps16, 16);
-	drawCircle(M, N, 5.6, matrix, init_angle * PI / 180.0f, steps16, 16);
-	drawCircle(M, N, 4.6, matrix, init_angle * PI / 180.0f, steps16, 16);
-	drawCircle(M, N, 3.51, matrix, init_angle * PI / 180.0f, steps16, 16);
-	drawCircle(M, N, 2, matrix, init_angle * PI / 180.0f, steps8, 8);
+	drawCircle(M, N, 6, matrix, init_angle * PI / 180.0f, steps8, 8);
+	drawCircle(M, N, 5, matrix, init_angle * PI / 180.0f, steps8, 8);
+	drawCircle(M, N, 4, matrix, init_angle * PI / 180.0f, steps8, 8);
+	drawCircle(M, N, 3, matrix, init_angle * PI / 180.0f, steps8, 8);
+
 
 	// Print a circle
 	printMatrix(M, N, matrix);

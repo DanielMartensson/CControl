@@ -24,6 +24,7 @@
     <ClInclude Include="CControl\Headers\defines.h" />
     <ClInclude Include="CControl\Headers\enums.h" />
     <ClInclude Include="CControl\Headers\functions.h" />
+    <ClInclude Include="CControl\Headers\macros.h" />
     <ClInclude Include="CControl\Headers\structs.h" />
     <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.h" />
   </ItemGroup>
@@ -37,8 +38,9 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
+    <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\fast.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\fast_features.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\hough.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c" />
@@ -48,6 +50,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\orp.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\odorp.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\popcount.c" />
     <ClCompile Include="CControl\Sources\Statistics\area.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c" />

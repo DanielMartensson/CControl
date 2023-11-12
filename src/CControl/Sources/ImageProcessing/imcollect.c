@@ -7,36 +7,39 @@
 
 #include "../../Headers/functions.h"
 
-DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
+MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
 	size_t sub_folder_count;
-	switch (data_settings->data_settings_choice) {
-	case DATA_SETTINGS_CHOICE_FISHERFACES:
-		sub_folder_count = scan_sub_folder_names(data_settings->data_settings_fisherfaces.folder_path, &sub_folder_names);
+	switch (model_settings->model_choice) {
+	case MODEL_CHOICE_FISHERFACES:
+		sub_folder_count = scan_sub_folder_names(model_settings->data_settings_fisherfaces.folder_path, &sub_folder_names);
 		break;
-	case DATA_SETTINGS_CHOICE_ODORP:
-		sub_folder_count = scan_sub_folder_names(data_settings->data_settings_odorp.folder_path, &sub_folder_names);
+	case MODEL_CHOICE_ODORP:
+		sub_folder_count = scan_sub_folder_names(model_settings->data_settings_odorp.folder_path, &sub_folder_names);
 		break;
 	}
-	
-	/* Data collect */
-	DATA_COLLECT* data_collect = (DATA_COLLECT*)malloc(sizeof(DATA_COLLECT));
-	memset(data_collect, 0, sizeof(DATA_COLLECT));
 
-	size_t i, j, k, current_pixel_size = 0;
+	/* Create model */
+	MODEL* model = (MODEL*)malloc(sizeof(MODEL));
+	memset(model, 0, sizeof(MODEL));
+
+	/* Copy over */
+	model->model_choice = model_settings->model_choice;
+
+	size_t i, j, k;
 	for (i = 0; i < sub_folder_count; i++) {
 		/* Get sub folder name */
 		const char* sub_folder_name = sub_folder_names[i];
 
 		/* Combine folder name with the folder path */
 		char total_folder_path[260];
-		switch (data_settings->data_settings_choice) {
-		case DATA_SETTINGS_CHOICE_FISHERFACES:
-			concatenate_paths(total_folder_path, data_settings->data_settings_fisherfaces.folder_path, sub_folder_name);
+		switch (model_settings->model_choice) {
+		case MODEL_CHOICE_FISHERFACES:
+			concatenate_paths(total_folder_path, model_settings->data_settings_fisherfaces.folder_path, sub_folder_name);
 			break;
-		case DATA_SETTINGS_CHOICE_ODORP:
-			concatenate_paths(total_folder_path, data_settings->data_settings_odorp.folder_path, sub_folder_name);
+		case MODEL_CHOICE_ODORP:
+			concatenate_paths(total_folder_path, model_settings->data_settings_odorp.folder_path, sub_folder_name);
 			break;
 		}
 
@@ -66,98 +69,75 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 				}
 
 				/* Type of detection */
-				float* new_data = NULL;
-				size_t new_pixel_size;
-				size_t row;
-				switch (data_settings->data_settings_choice) {
-				case DATA_SETTINGS_CHOICE_FISHERFACES: {
-					size_t p = data_settings->data_settings_fisherfaces.pooling_size;
- 					if (data_settings->data_settings_fisherfaces.pooling_method == POOLING_METHOD_NO_POOLING) {
+				switch (model_settings->model_choice) {
+				case MODEL_CHOICE_FISHERFACES: {
+					size_t p = model_settings->data_settings_fisherfaces.pooling_size;
+					if (model_settings->data_settings_fisherfaces.pooling_method == POOLING_METHOD_NO_POOLING) {
 						/* This will cause X will have the same size as new_data */
 						p = 1;
 					}
 					const size_t h = image->height / p;
 					const size_t w = image->width / p;
-					new_pixel_size = h * w;
-					row = 1U;
-					new_data = (float*)malloc(new_pixel_size * sizeof(float));
-					pooling(X, new_data, image->height, image->width, p, data_settings->data_settings_fisherfaces.pooling_method);
-					
+					const size_t new_pixel_size = h * w;
+					float* new_data = (float*)malloc(new_pixel_size * sizeof(float));
+					pooling(X, new_data, image->height, image->width, p, model_settings->data_settings_fisherfaces.pooling_method);
+
+					/* Compute current pixel size */
+					const size_t current_pixel_size = model->fisherfaces_model.input_row * model->fisherfaces_model.input_column;
+
+					/* Allocate new rows */
+					model->fisherfaces_model.input = (float*)realloc(model->fisherfaces_model.input, (current_pixel_size + new_pixel_size) * sizeof(float));
+
 					/* Column will always be the new_pixel_size size */
-					data_collect->input_column = new_pixel_size;
+					model->fisherfaces_model.input_column = new_pixel_size;
+
+					/* Fill as row major */
+					memcpy(model->fisherfaces_model.input + current_pixel_size, new_data, new_pixel_size * sizeof(float));
+
+					/* Free new_data */
+					free(new_data);
+
+					/* Allocate new element */
+					model->fisherfaces_model.class_id = (size_t*)realloc(model->fisherfaces_model.class_id, (model->fisherfaces_model.input_row + 1) * sizeof(size_t));
+
+					/* Add new ID */
+					model->fisherfaces_model.class_id[model->fisherfaces_model.input_row] = i;
+					
+					/* Count rows */
+					model->fisherfaces_model.input_row += 1;
+
 					break;
 				}
-				case DATA_SETTINGS_CHOICE_ODORP: {
-					/* This will collect all the images and find the occurrence of FASTO */
-					bool reset_occurrence = false;
-					if (j == 0) {
-						reset_occurrence = true;
-					}
-
+				case MODEL_CHOICE_ODORP: {
 					/* Get orp data */
-					ORP* orp_data = orp(X, data_settings->data_settings_odorp.sigma, data_settings->data_settings_odorp.fasto_threshold, data_settings->data_settings_odorp.fasto_method, data_settings->data_settings_odorp.fasto_occurrence, reset_occurrence, image->height, image->width);
+					ORP* orp_data = orp(X, model_settings->data_settings_odorp.sigma, model_settings->data_settings_odorp.fast_threshold, model_settings->data_settings_odorp.fast_method, image->height, image->width);
 
-					/* Only pass forward if it's the last picture */
-					if (j < file_count - 1) {
-						new_pixel_size = 0U;
-						break;
+					/* Allocate new rows */
+					model->odorp_model.data = (uint64_t*)realloc(model->odorp_model.data, (model->odorp_model.N + orp_data->N) * sizeof(uint64_t));
+
+					/* Fill as row major */
+					memcpy(model->odorp_model.data + model->odorp_model.N, orp_data->data, orp_data->N * sizeof(uint64_t));
+
+					/* Allocate new elements */
+					model->odorp_model.class_id = (uint8_t*)realloc(model->odorp_model.class_id, (model->odorp_model.N + orp_data->N) * sizeof(uint8_t));
+
+					/* Add new IDs */
+					for (k = model->odorp_model.N; k < model->odorp_model.N + orp_data->N; k++) {
+						model->odorp_model.class_id[k] = (uint8_t)i;
 					}
 
-					/* Compute new size */
-					row = orp_data->data_row;
-					new_pixel_size = orp_data->data_row * orp_data->data_column;
+					/* Count rows */
+					model->odorp_model.N += orp_data->N;
 
-					/* Allocate new memory */
-					new_data = (float*)malloc(new_pixel_size * sizeof(float));
-					
-					/* Copy over */
-					memcpy(new_data, orp_data->data, new_pixel_size * sizeof(float));
-
-					/* Column will always be the data_column size */
-					data_collect->input_column = orp_data->data_column;
-	
 					/* Free */
 					orpfree(orp_data);
+
+					break;
 				}
 				}
 
 				/* Free */
 				free(X);
-
-				/* Check if we got some data */
-				if (new_pixel_size > 0) {
-					/* Allocate new rows */
-					data_collect->input = (float*)realloc(data_collect->input, (current_pixel_size + new_pixel_size) * sizeof(float));
-
-					/* Remember */
-					float* data0 = data_collect->input;
-
-					/* Jump */
-					data_collect->input += current_pixel_size;
-
-					/* Fill as row major */
-					memcpy(data_collect->input, new_data, new_pixel_size * sizeof(float));
-
-					/* Go back to index 0 */
-					data_collect->input = data0;
-
-					/* Free new_data */
-					free(new_data);
-
-					/* Add current size */
-					current_pixel_size += new_pixel_size;
-
-					/* Allocate new element */
-					data_collect->class_id_original = (size_t*)realloc(data_collect->class_id_original, (data_collect->input_row + row) * sizeof(size_t));
-
-					/* Add new ID */
-					for (k = data_collect->input_row; k < data_collect->input_row + row; k++) {
-						data_collect->class_id_original[k] = i;
-					}
-
-					/* Count rows */
-					data_collect->input_row += row;
-				}
 			}
 
 			/* Free the image */
@@ -178,48 +158,51 @@ DATA_COLLECT* imcollect(const DATA_SETTINGS* data_settings) {
 	free(sub_folder_names);
 
 	/* Sometimes transpose is necessary */
-	switch (data_settings->data_settings_choice) {
-	case DATA_SETTINGS_CHOICE_FISHERFACES:
+	switch (model_settings->model_choice) {
+	case MODEL_CHOICE_FISHERFACES:
 		/* Transpose becase it's much better to have row > column */
-		tran(data_collect->input, data_collect->input_row, data_collect->input_column);
-		k = data_collect->input_row;
-		data_collect->input_row = data_collect->input_column;
-		data_collect->input_column = k;
+		tran(model->fisherfaces_model.input, model->fisherfaces_model.input_row, model->fisherfaces_model.input_column);
+		k = model->fisherfaces_model.input_row;
+		model->fisherfaces_model.input_row = model->fisherfaces_model.input_column;
+		model->fisherfaces_model.input_column = k;
 
 		/* Compute max classes */
-		data_collect->classes_original = data_collect->class_id_original[data_collect->input_column - 1] + 1;
-		break;
-	case DATA_SETTINGS_CHOICE_ODORP:
+		if (model->fisherfaces_model.input_column > 0) {
+			model->fisherfaces_model.classes = model->fisherfaces_model.class_id[model->fisherfaces_model.input_column - 1] + 1;
+		}
+	case MODEL_CHOICE_ODORP:
 		/* Compute max classes */
-		data_collect->classes_original = data_collect->class_id_original[data_collect->input_row - 1] + 1;
+		if (model->odorp_model.N > 0) {
+			model->odorp_model.classes = model->odorp_model.class_id[model->odorp_model.N - 1] + 1;
+		}
 		break;
 	}
 
-	/* Return data collection */
-	return data_collect;
+	/* Return model */
+	return model;
 }
 
-void imcollectfree(DATA_COLLECT* data_collect) {
-	if (data_collect) {
-		/* Data */
-		free(data_collect->class_id_original);
-		free(data_collect->class_id_k_means);
-		free(data_collect->input);
+void imcollectfree(MODEL* model) {
+	if (model) {
+		/* Model choice */
+		switch (model->model_choice) {
+		case MODEL_CHOICE_FISHERFACES: {
+			uint8_t i;
+			for (i = 0; i < model->fisherfaces_model.total_models; i++) {
+				free(model->fisherfaces_model.model_b[i]);
+				free(model->fisherfaces_model.model_w[i]);
+			}
+			free(model->fisherfaces_model.input);
+			free(model->fisherfaces_model.class_id);
+			break;
 
-		/* Models for fisherfaces */
-		uint8_t i;
-		for (i = 0; i < data_collect->fisherfaces_models.total_models; i++) {
-			free(data_collect->fisherfaces_models.model_b[i]);
-			free(data_collect->fisherfaces_models.model_w[i]);
 		}
-
-		/* Models for ODORP */
-		for (i = 0; i < data_collect->odorp_models.total_models; i++) {
-			free(data_collect->odorp_models.model_b[i]);
-			free(data_collect->odorp_models.model_w[i]);
+		case MODEL_CHOICE_ODORP:
+			free(model->odorp_model.data);
+			free(model->odorp_model.class_id);
 		}
 
 		/* Struct */
-		free(data_collect);
+		free(model);
 	}
 }

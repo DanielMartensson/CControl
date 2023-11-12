@@ -1,10 +1,10 @@
 /*
  * layer_1.h
  *
- * Created on : 2023-11-09 17:09:27
+ * Created on : 2023-11-10 10:42:57
  * Author: <Your name>
  * Purpose: <Classify <your things>
- * Model ID: 27831
+ * Model ID: 22886
  */
 
 #ifndef layer_1_H_
@@ -28,12 +28,12 @@
 #define layer_1_row 4
 #define layer_1_column 4
 
-const static float layer_1_w[layer_1_row * layer_1_column] = { -4.257213324e-02f, -1.929119788e-02f, 1.060624793e-02f, 4.654415697e-02f, 
--1.793883368e-02f, -2.503215149e-02f, -1.343332604e-02f, -4.691827670e-02f, 
-6.113479286e-02f, -4.367932677e-03f, 6.550223380e-02f, 1.746478677e-02f, 
-5.107760429e-03f, 1.181051731e-01f, -1.170670092e-01f, 1.252001524e-02f };
+const static float layer_1_w[layer_1_row * layer_1_column] = { 2.365885675e-02f, -3.755737841e-02f, 4.190059006e-02f, -7.452640682e-02f, 
+-1.484431326e-02f, -1.224883273e-02f, -5.445378646e-02f, -1.269723289e-02f, 
+4.429288208e-02f, -2.044397593e-02f, 3.405645490e-03f, 6.473565847e-02f, 
+-1.034014970e-01f, 1.331095099e-01f, 3.303021193e-02f, 1.844692230e-02f };
 
-const static float layer_1_b[layer_1_row] = { -2.282210112e+00f, 2.943168879e+00f, -4.178847790e+00f, -1.440275669e+00f };
+const static float layer_1_b[layer_1_row] = { -7.083738446e-01f, 2.934538603e+00f, -2.332067490e+00f, -4.824001312e+00f };
 
 const static ACTIVATION_FUNCTION layer_1_activtion_function = ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX;
 

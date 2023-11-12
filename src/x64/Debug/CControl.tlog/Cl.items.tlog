@@ -7,8 +7,9 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\mpc.c;C:\Us
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\mrac.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\mrac.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\stability.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\stability.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\theta2ss.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\theta2ss.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Hardware\detectmemoryleak.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\detectmemoryleak.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imcollect.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\imcollect.obj
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fast.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\fast.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\fast_features.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\fast_features.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\hough.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\hough.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imfree.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\imfree.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imgaussfilt.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\imgaussfilt.obj
@@ -18,6 +19,7 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kmeans.c;C:\Us
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\lbp.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\orp.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\orp.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\odorp.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\odorp.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\popcount.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\popcount.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\area.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\area.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\deg2rad.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\deg2rad.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\rad2deg.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\rad2deg.obj

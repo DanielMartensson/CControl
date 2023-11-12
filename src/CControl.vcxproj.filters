@@ -33,6 +33,9 @@
     <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CControl\Headers\macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c">
@@ -317,7 +320,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\fast.c">
+    <ClCompile Include="CControl\Sources\MachineLearning\fast_features.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c">
@@ -354,6 +357,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\popcount.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,9 +7,9 @@
 
 #include "../../Headers/functions.h"
 
-static float* hough_scores(float X[], float p, size_t* r_half, size_t row, size_t column);
-static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, float epsilon, size_t min_pts, size_t r_half);
-static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[], size_t r_half);
+static float* hough_scores(const float X[], const float p, size_t* r_half, const size_t row, const size_t column);
+static size_t hough_cluster(const float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, const float epsilon, const size_t min_pts, const size_t r_half);
+static void hough_lines(const float* x[], const float* y[], const float* z[], const size_t L, const size_t N, const size_t* index[], float* K[], float* M[], const size_t r_half);
 
 /*
  * Hough Transform - Line detection of an edge image 
@@ -22,7 +22,7 @@ static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, 
  * 
  * Hough Transform will define the matricies K and M and the size of them (N)
  */
-size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t min_pts, size_t row, size_t column) {
+size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column) {
 	/* Compute scores for the lines */
 	size_t r_half;
 	float* P = hough_scores(X, p, &r_half, row, column);
@@ -35,11 +35,13 @@ size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t m
 	size_t L;
 	size_t N = hough_cluster(P, &x, &y, &z, &index, &L, epsilon, min_pts, r_half);
 
+	/* Free */
+	free(P);
+
 	/* Compute lines */
 	hough_lines(&x, &y, &z, L, N, &index, K, M, r_half);
 
 	/* Free */
-	free(P);
 	free(x);
 	free(y);
 	free(z);
@@ -49,7 +51,7 @@ size_t hough(float X[], float* K[], float* M[], float p, float epsilon, size_t m
 	return N;
 }
 
-static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, size_t* index[], float* K[], float* M[], size_t r_half) {
+static void hough_lines(const float* x[], const float* y[], const float* z[], const size_t L, const size_t N, const size_t* index[], float* K[], float* M[], const size_t r_half) {
 	/* Create K and M - They are holders for the output */
 	*K = (float*)malloc(N * sizeof(float));
 	*M = (float*)malloc(N * sizeof(float));
@@ -96,7 +98,7 @@ static void hough_lines(float* x[], float* y[], float* z[], size_t L, size_t N, 
 	}
 }
 
-static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, float epsilon, size_t min_pts, size_t r_half) {
+static size_t hough_cluster(const float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, const float epsilon, const size_t min_pts, const size_t r_half) {
 	/* Turn matrix P into 3 vectors - This is the same as [x, y, z] = find(P) in Matlab */
 	const size_t r_max = 2 * r_half;
 	size_t i, j, bytes, k = 0;
@@ -161,7 +163,7 @@ static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_
 	return N;
 }
 
-static float* hough_scores(float X[], float p, size_t* r_half, size_t row, size_t column) {
+static float* hough_scores(const float X[], const float p, size_t* r_half, const size_t row, const size_t column) {
 	/* Choose angles between -90 and 90 in radians with 1 degree in step */
 	float K[181];
 	size_t i;

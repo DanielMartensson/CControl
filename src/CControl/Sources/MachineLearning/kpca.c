@@ -13,7 +13,7 @@
   * W[m*c]
   * P[c*n]
   */
-void kpca(float X[], float W[], float P[], size_t c, size_t row, size_t column, float kernel_parameters[], KERNEL_METHOD kernel_method) {
+void kpca(const float X[], float W[], float P[], const size_t c, const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method) {
 	/* Create kernel matrix K */
 	float* K = (float*)malloc(row * row * sizeof(float));
 	kernel(X, K, row, column, kernel_parameters, kernel_method);

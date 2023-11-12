@@ -21,22 +21,22 @@
  *  - Does not offer localization
  *  - Only one object at the time
  */
-DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
+MODEL* fisherfaces(MODEL_SETTINGS* model_settings) {
 	/* Header */
 	printf("\t\t\t\tFisherfaces\n");
 	
 	/* Collect data */
 	printf("1: Collecting data. Reading the .pgm files in row-major. PGM format P2 or P5 format.\n");
-    settings->data_settings_choice = DATA_SETTINGS_CHOICE_FISHERFACES;
-	DATA_COLLECT* data_collect = imcollect(settings);
+    model_settings->model_choice = MODEL_CHOICE_FISHERFACES;
+	MODEL* model = imcollect(model_settings);
 
     /* Extract */
-    DATA_SETTINGS_FISHERFACES* fisherfaces_settings = &settings->data_settings_fisherfaces;
-    MODEL* fisherfaces_models = &data_collect->fisherfaces_models;
+    DATA_SETTINGS_FISHERFACES* fisherfaces_settings = &model_settings->data_settings_fisherfaces;
+    MODEL_FISHERFACES* fisherfaces_model = &model->fisherfaces_model;
 
 	/* Remove outliers */
 	if (fisherfaces_settings->remove_outliers) {
-		printf("\tOutliers removed: %i\n", cluster_filter(data_collect->input, data_collect->input_row, data_collect->input_column, fisherfaces_settings->epsilon, fisherfaces_settings->min_pts));
+		printf("\tOutliers removed: %i\n", cluster_filter(model->fisherfaces_model.input, model->fisherfaces_model.input_row, model->fisherfaces_model.input_column, fisherfaces_settings->epsilon, fisherfaces_settings->min_pts));
 	}
 
 	/*
@@ -48,26 +48,26 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 	 * KERNEL_METHOD kernel_method = KERNEL_METHOD_RBF;
 	 */
 	printf("2: Do Kernel Principal Component Analysis for creating a linear projection for nonlinear data.\n");
-	float* Wpca = (float*)malloc(data_collect->input_row * fisherfaces_settings->components_pca * sizeof(float));
-	float* Ppca = (float*)malloc(fisherfaces_settings->components_pca * data_collect->input_column * sizeof(float));
-	kpca(data_collect->input, Wpca, Ppca, fisherfaces_settings->components_pca, data_collect->input_row, data_collect->input_column, fisherfaces_settings->kernel_parameters, fisherfaces_settings->kernel_method);
+	float* Wpca = (float*)malloc(model->fisherfaces_model.input_row * fisherfaces_settings->components_pca * sizeof(float));
+	float* Ppca = (float*)malloc(fisherfaces_settings->components_pca * model->fisherfaces_model.input_column * sizeof(float));
+	kpca(model->fisherfaces_model.input, Wpca, Ppca, fisherfaces_settings->components_pca, model->fisherfaces_model.input_row, model->fisherfaces_model.input_column, fisherfaces_settings->kernel_parameters, fisherfaces_settings->kernel_method);
 
 	/*
 	 * Parametets for LDA:
 	 * components_lda must be classes - 1 because we want to avoid zero eigenvalues
 	 */
 	printf("3: Do Linear Discriminant Analysis for creating a linear projection for separation of class data.\n");
-	const size_t components_lda = data_collect->classes_original - 1;
+	const size_t components_lda = model->fisherfaces_model.classes - 1;
 	float* Wlda = (float*)malloc(fisherfaces_settings->components_pca * components_lda * sizeof(float));
-	float* Plda = (float*)malloc(components_lda * data_collect->input_column * sizeof(float));
-	lda(Ppca, data_collect->class_id_original, Wlda, Plda, components_lda, fisherfaces_settings->components_pca, data_collect->input_column);
+	float* Plda = (float*)malloc(components_lda * model->fisherfaces_model.input_column * sizeof(float));
+	lda(Ppca, model->fisherfaces_model.class_id, Wlda, Plda, components_lda, fisherfaces_settings->components_pca, model->fisherfaces_model.input_column);
 
 	/* Multiply W = Wlda'*Wpca' */
 	printf("4: Combine Kernel Principal Component Analysis projection with Linear Discriminant projection.\n");
-	float* W = (float*)malloc(components_lda * data_collect->input_row * sizeof(float));
+	float* W = (float*)malloc(components_lda * model->fisherfaces_model.input_row * sizeof(float));
 	tran(Wlda, fisherfaces_settings->components_pca, components_lda);
-	tran(Wpca, data_collect->input_row, fisherfaces_settings->components_pca);
-	mul(Wlda, Wpca, W, components_lda, fisherfaces_settings->components_pca, data_collect->input_row);
+	tran(Wpca, model->fisherfaces_model.input_row, fisherfaces_settings->components_pca);
+	mul(Wlda, Wpca, W, components_lda, fisherfaces_settings->components_pca, model->fisherfaces_model.input_row);
 
 	/* Free some matrices that are not needed any longer */
 	free(Wpca);
@@ -77,8 +77,8 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 
 	/* Find the total projection */
 	printf("5: Find the total projection of the nonlinear data.\n");
-	float* P = (float*)malloc(components_lda * data_collect->input_column * sizeof(float));
-	mul(W, data_collect->input, P, components_lda, data_collect->input_row, data_collect->input_column);
+	float* P = (float*)malloc(components_lda * model->fisherfaces_model.input_column * sizeof(float));
+	mul(W, model->fisherfaces_model.input, P, components_lda, model->fisherfaces_model.input_row, model->fisherfaces_model.input_column);
 
 	/*
 	 * Train Neural Network model of the total projection
@@ -90,12 +90,12 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 	 * float lambda = 2.5;
 	 */
 	printf("6: Create a Neural Network for a linear model that can handle nonlinear data.\n");
-	tran(P, components_lda, data_collect->input_column);
-	float* accuracy = (float*)malloc(data_collect->classes_original * sizeof(float));
-	bool* status = (bool*)malloc(data_collect->classes_original * sizeof(bool));
-	float* weight = (float*)malloc(data_collect->classes_original * components_lda * sizeof(float));
-    fisherfaces_models->model_b[0] = (float*)malloc(data_collect->classes_original * sizeof(float));
-	nn_train(P, data_collect->class_id_original, weight, fisherfaces_models->model_b[0], status, accuracy, data_collect->input_column, components_lda, data_collect->classes_original, fisherfaces_settings->C, fisherfaces_settings->lambda);
+	tran(P, components_lda, model->fisherfaces_model.input_column);
+	float* accuracy = (float*)malloc(model->fisherfaces_model.classes * sizeof(float));
+	bool* status = (bool*)malloc(model->fisherfaces_model.classes * sizeof(bool));
+	float* weight = (float*)malloc(model->fisherfaces_model.classes * components_lda * sizeof(float));
+    fisherfaces_model->model_b[0] = (float*)malloc(model->fisherfaces_model.classes * sizeof(float));
+	nn_train(P, model->fisherfaces_model.class_id, weight, fisherfaces_model->model_b[0], status, accuracy, model->fisherfaces_model.input_column, components_lda, model->fisherfaces_model.classes, fisherfaces_settings->C, fisherfaces_settings->lambda);
 
 	/* Free */
 	free(status);
@@ -108,23 +108,23 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 	 * The index of the largest value of vector y is the class ID of imagevector
 	 */
 	printf("7: Creating the model for nonlinear data.\n");
-    fisherfaces_models->model_w[0] = (float*)malloc(data_collect->classes_original * data_collect->input_row * sizeof(float));
-	mul(weight, W, fisherfaces_models->model_w[0], data_collect->classes_original, components_lda, data_collect->input_row);
+    fisherfaces_model->model_w[0] = (float*)malloc(model->fisherfaces_model.classes * model->fisherfaces_model.input_row * sizeof(float));
+	mul(weight, W, fisherfaces_model->model_w[0], model->fisherfaces_model.classes, components_lda, model->fisherfaces_model.input_row);
 
 	/* Free */
 	free(W);
 	free(weight);
 
 	/* Save the row and column parameters */
-    fisherfaces_models->model_row[0] = data_collect->classes_original;
-    fisherfaces_models->model_column[0] = data_collect->input_row;
-    fisherfaces_models->activation_function[0] = ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX;
-    fisherfaces_models->total_models = 1;
+    fisherfaces_model->model_row[0] = model->fisherfaces_model.classes;
+    fisherfaces_model->model_column[0] = model->fisherfaces_model.input_row;
+    fisherfaces_model->activation_function[0] = ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX;
+    fisherfaces_model->total_models = 1;
 
 	/* Check the accuracy of the model */
-	tran(data_collect->input, data_collect->input_row, data_collect->input_column);
-    float* y = (float*)malloc(data_collect->input_column * data_collect->classes_original * sizeof(float));
-	nn_eval(fisherfaces_models->model_w[0], fisherfaces_models->model_b[0], data_collect->input, y, data_collect->class_id_original, data_collect->classes_original, data_collect->input_row, data_collect->input_column, ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX);
+	tran(model->fisherfaces_model.input, model->fisherfaces_model.input_row, model->fisherfaces_model.input_column);
+    float* y = (float*)malloc(model->fisherfaces_model.input_column * model->fisherfaces_model.classes * sizeof(float));
+	nn_eval(fisherfaces_model->model_w[0], fisherfaces_model->model_b[0], model->fisherfaces_model.input, y, model->fisherfaces_model.class_id, model->fisherfaces_model.classes, model->fisherfaces_model.input_row, model->fisherfaces_model.input_column, ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX);
     free(y);
 
 	/* Save wW and b as a function */
@@ -137,11 +137,11 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
         printf("Enter a model name: ");
         scanf("%s", model_name);
         uint8_t i;
-        for (i = 0; i < fisherfaces_models->total_models; i++) {
+        for (i = 0; i < fisherfaces_model->total_models; i++) {
             sprintf(model_name_h, "%s_%i.h", model_name, i);
             sprintf(model_name_text, "%s_%i", model_name, i);
             concatenate_paths(model_path, fisherfaces_settings->folder_path, model_name_h);
-            nn_save(fisherfaces_models->model_w[i], fisherfaces_models->model_b[i], fisherfaces_models->activation_function[i], model_path, model_name_text, fisherfaces_models->model_row[i], fisherfaces_models->model_column[i]);
+            nn_save(fisherfaces_model->model_w[i], fisherfaces_model->model_b[i], fisherfaces_model->activation_function[i], model_path, model_name_text, fisherfaces_model->model_row[i], fisherfaces_model->model_column[i]);
         }
 	}
 	else {
@@ -152,7 +152,7 @@ DATA_COLLECT* fisherfaces(DATA_SETTINGS* settings) {
 	printf("9: Everything is done...\n");
 
 	/* Return data */
-	return data_collect;
+	return model;
 }
 
 /* 
@@ -216,7 +216,7 @@ function fisherfaces_remove_outliers()
   while(choice == 2)
     amount_of_outliers = length(find(idx == 0));
     total_clusters = max(idx);
-    choice = input(sprintf('Total outliers detected was %i. Total clusters of DBscan was %i. What do you want to do next?\n1. Remove them\n2. Change DBscan settings\nEnter choice number: ', amount_of_outliers, total_clusters));
+    choice = input(sprintf('Total outliers detected was %i. Total clusters of DBscan was %i. What do you want to do next?\n1. Remove them\n2. Change DBscan model_settings\nEnter choice number: ', amount_of_outliers, total_clusters));
     switch(choice)
       case 1
         % Outliers are at idx

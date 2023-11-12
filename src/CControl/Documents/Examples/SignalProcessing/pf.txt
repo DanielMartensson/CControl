@@ -88,7 +88,7 @@ int main() {
 	float horizon[m * p] = { 0 }; 								/* Horizon matrix */
 	float xhatp[m] = { 0 }; 									/* Past estimated state */
 	float xhat[m] = { 0 };										/* Estimated state */
-	uint8_t k = 0;												/* Horizon counting (will be counted to p-1. Do not change this) */
+	size_t k = 0;												/* Horizon counting (will be counted to p-1. Do not change this) */
 	float x[m] = { 0 };											/* State vector measurement */
 	float noise[m * p] = { 0.2, 0.6, 0.1, 0.9, 0.3 }; 			/* Random noise, not normal distributed */
 
@@ -104,6 +104,8 @@ int main() {
 	/* Print the filtrated y */
 	print(yf, n, m);
 
+	/* Memory leak */
+	detectmemoryleak();
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
@@ -133,7 +135,7 @@ int main() {
 	% Particle filter - Simulation
 	for i = 1:n
 	  x = y(:, i);                                                              % Get the state
-	  [xhat, horizon, k, noise] = pf(x, xhatp, k, horizon, noise);
+	  [xhat, horizon, k, noise] = mi.pf(x, xhatp, k, horizon, noise);
 	  yf(:, i) = xhat;                                                        % Estimated state
 	  xhatp = xhat;                                                         % This is the past estimated state
 	end
