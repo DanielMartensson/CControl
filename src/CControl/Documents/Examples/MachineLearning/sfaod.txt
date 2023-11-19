@@ -36,7 +36,7 @@ int main() {
 	 */
 	model_settings.data_settings_sfa.settings_general.remove_outliers = false;
 	model_settings.data_settings_sfa.settings_general.epsilon = 500;
-	model_settings.data_settings_sfa.settings_general.min_pts = 3;
+	model_settings.data_settings_sfa.settings_general.min_pts = 100;
 
 	/*
 	 * Kernel PCA configuration:
@@ -45,8 +45,8 @@ int main() {
 	 * I'm using about components_pca = 100 for Yale dataset. A good rule of thump is not use more than total images you have in your folders.
 	 * The array kernel_parameters is for nonlinear kernels. Some nonlinear kernels only need 1 parameters, some want more.
 	 */
-	model_settings.data_settings_sfa.settings_general.components_pca = 100;
-	model_settings.data_settings_sfa.settings_general.kernel_parameters[0] = 0.0000001f;
+	model_settings.data_settings_sfa.settings_general.components_pca = 110;
+	model_settings.data_settings_sfa.settings_general.kernel_parameters[0] = 1.5f;
 	model_settings.data_settings_sfa.settings_general.kernel_method = KERNEL_METHOD_RBF;
 
 	/*
@@ -58,7 +58,7 @@ int main() {
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
 	model_settings.data_settings_sfa.settings_general.C = 1.0f;
-	model_settings.data_settings_sfa.settings_general.lambda = 2.5f;
+	model_settings.data_settings_sfa.settings_general.lambda = 0.1f;
 
 	/* Fisherfaces training */
 	MODEL* model = sfaod(&model_settings);
