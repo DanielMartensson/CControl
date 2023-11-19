@@ -15,12 +15,12 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	/* Create fisher faces parameter struct */
+	/* Create Fisherfaces parameter struct */
 	MODEL_SETTINGS model_settings;
-	model_settings.data_settings_fisherfaces.save_model = true;
+	model_settings.data_settings_fisherfaces.settings_general.save_model = true;
 
 	/* Select data and what to do */
-	strcpy(model_settings.data_settings_fisherfaces.folder_path, "..\\src\\CControl\\Documents\\Data\\yale");
+	strcpy(model_settings.data_settings_fisherfaces.settings_general.folder_path, "..\\src\\CControl\\Documents\\Data\\yale");
 
 	/*
 	 * Face detection:
@@ -29,17 +29,17 @@ int main() {
 	 * Pooling method is which method pooling should treat the image. If you want no pooling, just set pooling_method to POOLING_METHOD_NO_POOLING
 	 * To create the .pgm files of .gif, .jpg, .png etc, head over to MataveID and run the fisherfaces.m MATLAB-file.
 	 */
-	model_settings.data_settings_fisherfaces.pooling_size = 8;
-	model_settings.data_settings_fisherfaces.pooling_method = POOLING_METHOD_AVERAGE;
+	model_settings.data_settings_fisherfaces.settings_fisherfaces.pooling_size = 8;
+	model_settings.data_settings_fisherfaces.settings_fisherfaces.pooling_method = POOLING_METHOD_AVERAGE;
 
 	/*
 	 * Remove outliers from the data:
 	 * epsilon is the outliers radius
 	 * min_pts is the minimum points for a cluster
 	 */
-	model_settings.data_settings_fisherfaces.remove_outliers = true;
-	model_settings.data_settings_fisherfaces.epsilon = 500;
-	model_settings.data_settings_fisherfaces.min_pts = 3;
+	model_settings.data_settings_fisherfaces.settings_general.remove_outliers = true;
+	model_settings.data_settings_fisherfaces.settings_general.epsilon = 500;
+	model_settings.data_settings_fisherfaces.settings_general.min_pts = 3;
 
 	/*
 	 * Kernel PCA configuration:
@@ -48,9 +48,9 @@ int main() {
 	 * I'm using about components_pca = 100 for Yale dataset. A good rule of thump is not use more than total images you have in your folders.
 	 * The array kernel_parameters is for nonlinear kernels. Some nonlinear kernels only need 1 parameters, some want more.
 	 */
-	model_settings.data_settings_fisherfaces.components_pca = 100;
-	model_settings.data_settings_fisherfaces.kernel_parameters[0] = 0.0000001f;
-	model_settings.data_settings_fisherfaces.kernel_method = KERNEL_METHOD_RBF;
+	model_settings.data_settings_fisherfaces.settings_general.components_pca = 100;
+	model_settings.data_settings_fisherfaces.settings_general.kernel_parameters[0] = 0.0000001f;
+	model_settings.data_settings_fisherfaces.settings_general.kernel_method = KERNEL_METHOD_RBF;
 
 	/*
 	 * Neural network configuration:
@@ -60,8 +60,8 @@ int main() {
 	 * even if that hyperplane misclassifies more points. For very tiny values of C, you should get misclassified examples, often even if your training data is linearly separable.
 	 * Lambda is regularization for the SVM. Large lambda value makes it faster to optimize, with less accuracy.
 	 */
-	model_settings.data_settings_fisherfaces.C = 1.0f;
-	model_settings.data_settings_fisherfaces.lambda = 2.5f;
+	model_settings.data_settings_fisherfaces.settings_general.C = 1.0f;
+	model_settings.data_settings_fisherfaces.settings_general.lambda = 2.5f;
 
 	/* Fisherfaces training */
 	MODEL* model = fisherfaces(&model_settings);

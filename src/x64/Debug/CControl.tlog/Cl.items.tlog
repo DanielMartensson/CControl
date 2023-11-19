@@ -16,9 +16,11 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imgaussfilt.c;
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imresize.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\imresize.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imshow.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\imshow.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kmeans.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\kmeans.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kpca_lda_nn.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\kpca_lda_nn.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\lbp.obj
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\orp.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\orp.obj
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\odorp.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\odorp.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\sfa.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\sfa.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\sfaod.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\sfaod.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\anglevector.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\anglevector.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\popcount.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\popcount.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\area.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\area.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\deg2rad.c;C:\Users\dmn\GitHub\CControl\src\x64\Debug\deg2rad.obj

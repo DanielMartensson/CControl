@@ -1,3 +1,3 @@
 ﻿  Main.c
-C:\Users\dmn\GitHub\CControl\src\Main.c(93,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\dmn\GitHub\CControl\src\Main.c(25,12): warning C4101: 'j': unreferenced local variable
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Debug\CControl.exe

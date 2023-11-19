@@ -332,7 +332,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\orp.c">
+    <ClCompile Include="CControl\Sources\MachineLearning\sfa.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c">
@@ -353,7 +353,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\odorp.c">
+    <ClCompile Include="CControl\Sources\MachineLearning\sfaod.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c">
@@ -363,6 +363,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\popcount.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\anglevector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : orp.c
+ Name        : sfa.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Oriented FAST Rotated Pattern
+ Description : Sobel FAST Angle
  ============================================================================
  */
 
@@ -28,29 +28,24 @@ int main() {
 	}
 
 	/* Tuning parameters */
-	float sigma1 = 1.0f;
-	float sigma2 = 6.0f;
-	uint8_t sobel_threshold = 127;
 	FAST_METHOD fast_method = FAST_METHOD_9;
 	int fast_threshold = 50;
-	bool fast_traning = true;
 
-	/* Use ORP to find the binary pattern */
-	ORP* orp_data = orp(X, sigma1, sigma2, sobel_threshold, fast_threshold, fast_occurrence, fast_method, fast_traning, row, column);
+	/* Find histogram by using SFA */
+	uint8_t histogram_size;
+	float* histogram = sfa(X, fast_threshold, fast_method, &histogram_size, row, column);
 	end = clock();
 
 	/* Print histogram */
-	for (i = 0; i < orp_data->data_row; i++) {
-		for (j = 0; j < orp_data->data_column; j++) {
-			printf("%i ", (uint8_t)orp_data->data[i * orp_data->data_column + j]);
-		}
-		printf("\n");
-	}
+	print(histogram, histogram_size, 1);
 
 	/* Free */
 	free(X);
 	imfree(image);
-	orpfree(orp_data);
+	free(histogram);
+
+	/* Detect memory leakage */
+	detectmemoryleak();
 
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);

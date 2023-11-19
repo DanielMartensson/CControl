@@ -46,11 +46,11 @@ Main focuses are:
   - Point-in-polygon algorithm for checking if a point is inside the area
 
 - Machine Learning
-  - Object Detection Oriented FAST Rotated Pattern (ODORP)
+  - Sobel FAST Angle Object Detection (SFAOD)
   - Local Binary Pattern (LBP)
-  - Features from accelerated segment test (FAST)
+  - Features From Accelerated Segment Test (FAST)
   - Hough Transform for line detection
-  - Oriented FAST Rotated Pattern (ORP)
+  - Sobel FAST Angle (SFA)
   - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification and object detection
   - Density-Based Spatial Clustering of Applications with Noise
   - Support Vector Machine
@@ -113,6 +113,7 @@ Main focuses are:
   - Convolution matrix
 
 - Miscellaneous
+  - Angle of two vectors
   - Concatenate
   - Cut matrix
   - Find
