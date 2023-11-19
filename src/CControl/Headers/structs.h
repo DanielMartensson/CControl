@@ -16,7 +16,6 @@ typedef struct {
 	uint8_t* pixels;
 }PGM;
 
-/* For imcollect.c */
 typedef struct {
 	/* Model */
 	uint8_t total_models;
@@ -32,24 +31,28 @@ typedef struct {
 	size_t* class_id;
 	size_t classes;
 	float* input;
-}MODEL_FISHERFACES;
-
-/* For imcollect.c */
-typedef struct {
-	/* Model */
-	uint64_t* data;
-	size_t N;
-	uint8_t* class_id;
-	uint8_t classes;
-}MODEL_ODORP;
+}MODEL_NN;
 
 typedef struct {
 	/* Models */
-	MODEL_FISHERFACES fisherfaces_model;
-	MODEL_ODORP odorp_model;
-	ALGORITHM_CHOICE model_choice;
+	MODEL_NN fisherfaces_model;
+	MODEL_NN sfa_model;
+	SETTINGS_CHOICE settings_choice;
 }MODEL;
 
+/* For sfa.c */
+typedef struct {
+	FAST_METHOD fast_method;
+	uint8_t fast_threshold;
+}SETTINGS_SFA;
+
+/* For fisherfaces.c */
+typedef struct {
+	size_t pooling_size;
+	POOLING_METHOD pooling_method;
+}SETTINGS_FISHERFACES;
+
+/* For all models */
 typedef struct {
 	/* General */
 	char folder_path[260];
@@ -59,38 +62,31 @@ typedef struct {
 	float C;
 	float lambda;
 
-	/* For fisherfaces.c */
-	size_t pooling_size;
-	POOLING_METHOD pooling_method;
-
-	/* For fisherfaces.c */
+	/* For kpda_lda_nn.c */
 	bool remove_outliers;
 	float epsilon;
 	size_t min_pts;
 
-	/* For fisherfaces.c */
+	/* For kpda_lda_nn.c */
 	size_t components_pca;
 	float kernel_parameters[2];
-	KERNEL_METHOD kernel_method;	
-}DATA_SETTINGS_FISHERFACES;
+	KERNEL_METHOD kernel_method;
+}SETTINGS_GENERAL;
 
-/* For odorp.c */
 typedef struct {
-	/* General */
-	char folder_path[260];
-	bool save_model;
+	/* General settings */
+	SETTINGS_GENERAL settings_general;
 
-	/* For orp.c */
-	float sigma;
-	uint8_t fast_threshold;
-	FAST_METHOD fast_method;
-}DATA_SETTINGS_ODORP;
+	/* Specific Settings */
+	SETTINGS_SFA settings_sfa;
+	SETTINGS_FISHERFACES settings_fisherfaces;
+}DATA_SETTINGS;
 
 /* For imcollect.c */
 typedef struct {
-	DATA_SETTINGS_ODORP data_settings_odorp;
-	DATA_SETTINGS_FISHERFACES data_settings_fisherfaces;
-	ALGORITHM_CHOICE model_choice;
+	DATA_SETTINGS data_settings_sfa;
+	DATA_SETTINGS data_settings_fisherfaces;
+	SETTINGS_CHOICE settings_choice;
 }MODEL_SETTINGS;
 
 /* For fast_features.c */
@@ -98,16 +94,5 @@ typedef struct {
 	int x;
 	int y;
 } FAST_XY;
-
-/* For orp.c */
-typedef struct {
-	/* Collection of corners from FAST */
-	int num_corners;
-	FAST_XY* xy;
-
-	/* Binary data with legnth N */
-	uint64_t* data;
-	size_t N;
-}ORP;
 
 #endif /* !CCONTROL_HEADERS_STRUCTS_H_ */

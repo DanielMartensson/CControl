@@ -98,9 +98,9 @@ typedef enum {
 
 /* For imcollect.c */
 typedef enum {
-	MODEL_CHOICE_FISHERFACES,
-	MODEL_CHOICE_ODORP
-}ALGORITHM_CHOICE;
+	SETTINGS_CHOICE_FISHERFACES,
+	SETTINGS_CHOICE_SFA
+}SETTINGS_CHOICE;
 
 /* For sobel.c */
 typedef enum {
