@@ -44,6 +44,7 @@ typedef struct {
 typedef struct {
 	FAST_METHOD fast_method;
 	uint8_t fast_threshold;
+	uint8_t sobel_threshold;
 }SETTINGS_SFA;
 
 /* For fisherfaces.c */

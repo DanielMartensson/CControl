@@ -28,6 +28,7 @@ int main() {
 	 */
 	model_settings.data_settings_sfa.settings_sfa.fast_method = FAST_METHOD_9;
 	model_settings.data_settings_sfa.settings_sfa.fast_threshold = 50;
+	model_settings.data_settings_sfa.settings_sfa.sobel_threshold = 250;
 
 	/*
 	 * Remove outliers from the data:
