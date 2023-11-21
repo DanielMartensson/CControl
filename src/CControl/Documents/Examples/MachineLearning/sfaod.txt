@@ -25,10 +25,12 @@ int main() {
 	/*
 	 * Object detection:
 	 * This algoritm is using feature points from F.A.S.T algorithm.
+	 * Notice that histogram_size cannot be smaller than components_pca
 	 */
 	model_settings.data_settings_sfa.settings_sfa.fast_method = FAST_METHOD_9;
 	model_settings.data_settings_sfa.settings_sfa.fast_threshold = 50;
 	model_settings.data_settings_sfa.settings_sfa.sobel_threshold = 250;
+	model_settings.data_settings_sfa.settings_sfa.histogram_size = 130;
 
 	/*
 	 * Remove outliers from the data:

@@ -16,7 +16,7 @@ static void find_longest_distance(const int* num_corners, int* current_x, int* c
   * fast_threshold - Threshold for the FAST algorithm
   * fast_method - Which type of FAST methods should be used
   */
-float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, uint8_t* histogram_size, const size_t row, const size_t column) {
+float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, uint8_t histogram_size, const size_t row, const size_t column) {
 	/* Sobel operator */
 	const size_t row_column = row * column;
 	float* G = (float*)malloc(row_column * sizeof(float));
@@ -47,9 +47,8 @@ float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshol
 	memset(used, false, num_corners * sizeof(bool));
 
 	/* Create histogram */
-	*histogram_size = 180;
-	float* histogram = (float*)malloc(*histogram_size * sizeof(float));
-	memset(histogram, 0, *histogram_size * sizeof(float));
+	float* histogram = (float*)malloc(histogram_size * sizeof(float));
+	memset(histogram, 0, histogram_size * sizeof(float));
 
 	/* Holders */
 	int x = 0, y = 0;
@@ -82,7 +81,7 @@ float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshol
 			const float b[2] = { current_x[2] - current_x[1], current_y[2] - current_x[1] };
 
 			/* Compute the angle between two vectors */	
-			int angle = anglevector(a, b, 2);
+			int angle = anglevector(a, b, 2) * ((float)histogram_size / 180.0f) - 1;
 
 			/* Set the angle */
 			histogram[angle]++;
