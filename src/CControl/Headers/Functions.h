@@ -87,7 +87,7 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
-FAST_XY* fast_features(const uint8_t X[], const int row, const int column, const int fast_threshold, int* num_corners, const FAST_METHOD fast_method, const uint8_t length_grid, const uint8_t points_grid);
+FAST_XY* fast_features(const uint8_t X[], const int row, const int column, const int fast_threshold, int* num_corners, const FAST_METHOD fast_method);
 MODEL* fisherfaces(MODEL_SETTINGS* model_settings);
 size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
@@ -100,7 +100,7 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
 void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function);
 void nn_save(const float model_w[], const float model_b[], const ACTIVATION_FUNCTION activation_function, const char model_path[], const char model_name[], const size_t row, const size_t column);
 MODEL* sfaod(MODEL_SETTINGS* settings);
-float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, const uint8_t histogram_size, const uint8_t length_grid, const uint8_t points_grid, const size_t row, const size_t column);
+float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, const uint8_t histogram_size, const float histogram_filter_K, const size_t row, const size_t column);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */
@@ -165,7 +165,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], 
 
 /* Signal processing */
 size_t cluster_filter(float X[], size_t row, size_t column, float epsilon, size_t min_pts);
-void filtfilt(float y[], float t[], size_t l, float K);
+void filtfilt(float y[], const float t[], const size_t l, const float K);
 void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], size_t m, size_t p, size_t* k);
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L);
 void fft(float xr[], float xi[], size_t n);

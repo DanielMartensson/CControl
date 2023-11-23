@@ -15,7 +15,7 @@ static void find_longest_distance(const int* num_corners, int* current_x, int* c
   * X[m*n]
   * Return a histogram of angles with length histogram_size
   */
-float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, const uint8_t histogram_size, const uint8_t length_grid, const uint8_t points_grid, const size_t row, const size_t column) {
+float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, const uint8_t histogram_size, const float histogram_filter_K, const size_t row, const size_t column) {
 	/* Sobel operator */
 	const size_t row_column = row * column;
 	float* G = (float*)malloc(row_column * sizeof(float));
@@ -36,7 +36,7 @@ float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshol
 
 	/* Apply FAST */
 	int num_corners;
-	FAST_XY* xy = fast_features(Xuint8, row, column, fast_threshold, &num_corners, fast_method, length_grid, points_grid);
+	FAST_XY* xy = fast_features(Xuint8, row, column, fast_threshold, &num_corners, fast_method);
 
 	/* Free */
 	free(Xuint8);
@@ -103,6 +103,10 @@ float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshol
 	/* Free */
 	free(xy);
 	free(used);
+
+	/* Filter histogram */
+	const float t[2] = { 0, 1 };
+	filtfilt(histogram, t, histogram_size, histogram_filter_K);
 
 	/* Return histogram */
 	return histogram;
