@@ -44,6 +44,17 @@ float area(const float X[], const size_t row, size_t* total_elements, const AREA
 				X += 1;
 			}
 		}
+
+		break;
+	}case AREA_METHOD_SQURE: {
+		/* Total iterations */
+		size_t i;
+		const size_t row_row = row * row;
+		for (i = 0; i < row_row; i++) {
+			area_value += X[i];
+			(*total_elements)++;
+		}
+		break;
 	}
 	}
 

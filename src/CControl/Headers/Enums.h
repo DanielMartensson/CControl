@@ -87,7 +87,8 @@ typedef enum {
 
 /* For area.c */
 typedef enum {
-	AREA_METHOD_CIRCLE
+	AREA_METHOD_CIRCLE,
+	AREA_METHOD_SQURE
 }AREA_METHOD;
 
 /* For nn.c */

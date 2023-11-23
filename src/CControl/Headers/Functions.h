@@ -87,7 +87,7 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
-FAST_XY* fast_features(const uint8_t X[], const int row, const int column, const int fast_threshold, int* num_corners, const FAST_METHOD fast_method);
+FAST_XY* fast_features(const uint8_t X[], const int row, const int column, const int fast_threshold, int* num_corners, const FAST_METHOD fast_method, const uint8_t length_grid, const uint8_t points_grid);
 MODEL* fisherfaces(MODEL_SETTINGS* model_settings);
 size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
@@ -100,7 +100,7 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
 void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function);
 void nn_save(const float model_w[], const float model_b[], const ACTIVATION_FUNCTION activation_function, const char model_path[], const char model_name[], const size_t row, const size_t column);
 MODEL* sfaod(MODEL_SETTINGS* settings);
-float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, uint8_t histogram_size, const size_t row, const size_t column);
+float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, const uint8_t histogram_size, const uint8_t length_grid, const uint8_t points_grid, const size_t row, const size_t column);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */

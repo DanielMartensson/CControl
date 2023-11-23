@@ -13,10 +13,9 @@ static void find_longest_distance(const int* num_corners, int* current_x, int* c
  /*
   * Sobel Fast Angle
   * X[m*n]
-  * fast_threshold - Threshold for the FAST algorithm
-  * fast_method - Which type of FAST methods should be used
+  * Return a histogram of angles with length histogram_size
   */
-float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, uint8_t histogram_size, const size_t row, const size_t column) {
+float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, const uint8_t histogram_size, const uint8_t length_grid, const uint8_t points_grid, const size_t row, const size_t column) {
 	/* Sobel operator */
 	const size_t row_column = row * column;
 	float* G = (float*)malloc(row_column * sizeof(float));
@@ -37,7 +36,7 @@ float* sfa(float X[], const uint8_t fast_threshold, const uint8_t sobel_threshol
 
 	/* Apply FAST */
 	int num_corners;
-	FAST_XY* xy = fast_features(Xuint8, row, column, fast_threshold, &num_corners, fast_method);
+	FAST_XY* xy = fast_features(Xuint8, row, column, fast_threshold, &num_corners, fast_method, length_grid, points_grid);
 
 	/* Free */
 	free(Xuint8);

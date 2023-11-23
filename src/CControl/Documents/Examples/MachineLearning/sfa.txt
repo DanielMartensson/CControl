@@ -32,9 +32,11 @@ int main() {
 	int fast_threshold = 50;
 	uint8_t sobel_threshold = 250;
 	uint8_t histogram_size = 10;
+	uint8_t length_grid = 4;
+	uint8_t points_grid = 2;
 
 	/* Find histogram by using SFA */
-	float* histogram = sfa(X, fast_threshold, sobel_threshold, fast_method, histogram_size, row, column);
+	float* histogram = sfa(X, fast_threshold, sobel_threshold, fast_method, histogram_size, length_grid, points_grid, row, column);
 	end = clock();
 
 	/* Print histogram */

@@ -42,20 +42,80 @@ static FAST_XY* nonmax_suppression(const FAST_XY* corners, const int* scores, in
  * X[m*n]
  * num_corner - Output
  */
-FAST_XY* fast_features(const uint8_t X[], const int row, const int column, const int fast_threshold, int* num_corners, const FAST_METHOD fast_method){
-	/* Apply FAST on the gradients for finding interests points onto the shapes */
+FAST_XY* fast_features(const uint8_t X[], const int row, const int column, const int fast_threshold, int* num_corners, const FAST_METHOD fast_method, const uint8_t length_grid, const uint8_t points_grid){
+	/* Apply FAST on the gradients for finding interests points */
+	FAST_XY* xy = NULL;
 	switch (fast_method) {
 	case FAST_METHOD_9:
-		return fast9_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast9_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		break;
 	case FAST_METHOD_10:
-		return fast10_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast10_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		break;
 	case FAST_METHOD_11:
-		return fast11_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast11_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
 	case FAST_METHOD_12:
-		return fast12_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast12_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		break;
 	default:
-		return fast9_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast9_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		break;
 	}
+
+	/* Check if length_grid is not used */
+	if (length_grid <= 1) {
+		return xy;
+	}
+
+	/* Create empty grid */
+	const size_t row_column = row * column;
+	float* grid = (float*)malloc(row_column * sizeof(float));
+	memset(grid, 0, row_column * sizeof(float));
+
+	/* Insert points */
+	int i, j;
+	for (i = 0; i < *num_corners; i++) {
+		grid[xy[i].y * column + xy[i].x] = 1.0f;
+	}
+
+	/* Free */
+	free(xy);
+	xy = NULL;
+
+	/*  */
+	float* part = (float*)malloc(length_grid * length_grid * sizeof(float));
+	const int row_m1 = row - 1;
+	const int column_m1 = row - 1;
+	const int length_grid_m1 = length_grid - 1;
+	const int half_length_grid = length_grid / 2U;
+	size_t total_elements;
+	*num_corners = 0;
+	for (i = 0; i < row_m1; i += length_grid) {
+		for (j = 0; j < column_m1; j += length_grid) {
+			/* Cut one part */
+			cut(grid, column, part, i, i + length_grid_m1, j, j + length_grid_m1);
+
+			/* Check the sum of the area */
+			if (area(part, length_grid, &total_elements, AREA_METHOD_SQURE) >= points_grid) {
+				/* Allocate new coordinate */
+				xy = (FAST_XY*)realloc(xy, (*num_corners + 1) * sizeof(FAST_XY));
+				
+				/* Insert coordinate */
+				xy[*num_corners].x = (j + 1) * length_grid - half_length_grid;
+				xy[*num_corners].y = (i + 1) * length_grid - half_length_grid;
+
+				/* Count coordinates */
+				(*num_corners)++;
+			}
+		}
+	}
+
+	/* Free */
+	free(part);
+	free(grid);
+
+	/* Return xy */
+	return xy;
 }
 
 static FAST_XY* fast9_detect_nonmax(const uint8_t* im, int xsize, int ysize, int stride, int b, int* ret_num_corners)
