@@ -1,0 +1,52 @@
+/*
+ ============================================================================
+ Name        : conv2.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : FASTO corner detection
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row_a 5
+#define column_a 5
+#define row_k 3
+#define column_k 3
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create A matrix */
+	float A[row_a * column_a] = { 0.935086,  -0.480385,  -0.875302,  -0.677128,   0.255999,
+							  -0.773298,   0.197727,   1.438380,  -0.951924,   0.631314,
+							  -0.437025,  -1.718994,   2.055227,  -0.015823,   0.191900,
+							  -0.519992,   0.255302,  -0.212999,   1.557090,   0.385686,
+							  -1.075335,   0.769227,  -1.276885,  -0.190819,  -2.962199 };
+
+	/* Create K kernel */
+	float K[row_k * column_k] = { 1,   0, -1,
+							   0,   2,   0,
+							  -1,   0,   1 };
+
+	/* Create output B - For "same" argument setting */
+	float B[row_a * column_a];
+
+	/* Do conv2 */
+	conv2(A, K, B, row_a, column_a, row_k, column_k, CONV2_SHAPE_SAME);
+
+	/* Print output */
+	print(B, row_a, column_a);
+
+	/* Memory leak */
+	detectmemoryleak();
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

@@ -19,7 +19,7 @@ int main() {
 	float cpu_time_used;
 	start = clock();
 
-	
+
 	/* Create X */
 	float X[row * column] = { -1.050452,   0.414110,   0.149972,   0.994917, -0.209254,   0.589792,   0.584076, -0.083662,   0.177192, 0.246984,
 							   1.509006, -1.333137, -1.660069,   0.681378, -1.053084, -1.337782,   0.225150, -0.268287,   0.832647, -0.104689,
@@ -37,6 +37,9 @@ int main() {
 
 	/* Print */
 	print(X, row, column);
+
+	/* Detect memory leakage */
+	detectmemoryleak();
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

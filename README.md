@@ -48,8 +48,6 @@ Main focuses are:
 - Machine Learning
   - Sobel FAST Angle Object Detection (SFAOD)
   - Local Binary Pattern (LBP)
-  - Features From Accelerated Segment Test (FAST)
-  - Hough Transform for line detection
   - Sobel FAST Angle (SFA)
   - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification and object detection
   - Density-Based Spatial Clustering of Applications with Noise
@@ -75,6 +73,8 @@ Main focuses are:
   - Portable Gray Map (PGM) reader, print and free
   - Image resize
   - Pooling Max, Average and Shape
+  - Features From Accelerated Segment Test (FAST)
+  - Hough Transform for line detection
 
 - Signal Processing
   - Fast Fourier Transform Shift

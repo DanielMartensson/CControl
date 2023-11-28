@@ -19,10 +19,10 @@ int main() {
 	start = clock();
 
 	/* Create X */
-	float X[row * column] = { -0.945344, - 0.856752, - 0.676417, - 0.736404,
-							 - 1.822269,   0.973867,   1.690098,   1.575369,
-							 - 0.516069, - 0.442481, - 0.547304,   0.488175,
-							 - 0.316735, - 0.099759, - 0.476811,   1.660791 };
+	float X[row * column] = { -0.945344, -0.856752, -0.676417, -0.736404,
+							 -1.822269,   0.973867,   1.690098,   1.575369,
+							 -0.516069, -0.442481, -0.547304,   0.488175,
+							 -0.316735, -0.099759, -0.476811,   1.660791 };
 
 	/* Create gradients G and orientations O in radians */
 	float G[row * column];
@@ -30,60 +30,17 @@ int main() {
 
 	/* Compute Sobel filter */
 	bool only_compute_G = false;
-	sobel(X, G, O, row, column, SOBEL_METHOD_GRADIENT);
+	sobel(X, G, O, row, column, SOBEL_METHOD_GRADIENT_ORIENTATION);
 
 	/* Print */
 	print(G, row, column);
 	print(O, row, column);
+
+	/* Check memory leak */
+	detectmemoryleak();
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 	return EXIT_SUCCESS;
 }
-
-/* GNU Octave code
-	% Sobel filter
-	% Input: data matrix(X)
-	% Output: G(Gradients), O(Orientations)
-	% Example 1: [G, O] = mi.sobel(X)
-	% Author: Daniel Mårtensson, 6 September 2023
-
-	function [G, O] = sobel(varargin)
-	  % Check if there is any input
-	  if(isempty(varargin))
-		error('Missing input')
-	  end
-
-	  % Get X
-	  X = varargin{1};
-
-	  % Create kernels for X-direction and Y-direction
-	  K_x = [-1 0 1; -2 0 2; -1 0 1];
-	  K_y = [-1 -2 -1; 0 0 0; 1 2 1];
-
-	  % Do conv2 with FFT
-	  Gx = conv2_fft(X, K_x);
-	  Gy = conv2_fft(X, K_y);
-
-	  % Compute the gradients
-	  G = abs(sqrt(Gx.^2 + Gy.^2));
-
-	  % Compute the orientations
-	  O = atan2d(Gy, Gx);
-
-	end
-
-	function G = conv2_fft(X, K)
-	  % Create kernel
-	  kernel = zeros(size(X));
-	  kernel(1:3, 1:3) = K;
-
-	  % Do FFT2 on X and kernel
-	  A = fft2(X);
-	  B = fft2(kernel);
-
-	  % Compute the convolutional matrix - abs to remove zero imaginary numbers
-	  G = abs(ifft2(A.*B));
-	end
-*/

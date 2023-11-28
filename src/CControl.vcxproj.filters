@@ -302,16 +302,13 @@
     <ClCompile Include="CControl\Sources\SignalProcessing\ifft2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\sobel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\hough.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\hough.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c">
@@ -320,7 +317,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\fast_features.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\fast_features.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c">
@@ -369,6 +366,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\fspecial.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

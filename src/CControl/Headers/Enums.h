@@ -110,4 +110,16 @@ typedef enum {
 	SOBEL_METHOD_GRADIENT_ORIENTATION
 }SOBEL_METHOD;
 
+/* For conv2.c */
+typedef enum {
+	CONV2_SHAPE_FULL,
+	CONV2_SHAPE_SAME,
+	CONV2_SHAPE_VALID
+}CONV2_SHAPE;
+
+/* For fspecial.c */
+typedef enum {
+	FSPECIAL_TYPE_GAUSSIAN
+}FSPECIAL_TYPE;
+
 #endif /* !CCONTROL_HEADERS_ENUMS_H_ */

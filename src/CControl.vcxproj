@@ -39,13 +39,15 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\fspecial.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\fast_features.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\hough.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\fast_features.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\hough.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />
@@ -70,7 +72,6 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\balance.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\chol.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\cholupdate.c" />
-    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\det.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\dlyap.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\dot.c" />
