@@ -13,8 +13,8 @@
  */
 void imgaussfilt(float X[], float sigma, size_t row, size_t column) {
 	/* Get gaussian kernel */
-	const size_t K_size = 2 * roundf(6.0f * sigma) + 1;
-	float* K_g = fspecial(row, column, sigma, FSPECIAL_TYPE_GAUSSIAN);
+	size_t K_size;
+	float* K_g = fspecial(row, column, sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN);
 
 	/* Do conv2 */
 	float* Y = (float*)malloc(row * column * sizeof(float));

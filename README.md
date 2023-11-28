@@ -75,6 +75,7 @@ Main focuses are:
   - Pooling Max, Average and Shape
   - Features From Accelerated Segment Test (FAST)
   - Hough Transform for line detection
+  - Harris corner detection
 
 - Signal Processing
   - Fast Fourier Transform Shift

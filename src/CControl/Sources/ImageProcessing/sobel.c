@@ -51,11 +51,13 @@ void sobel(const float X[], float G[], float O[], const size_t row, const size_t
 			O[i] = atan2f(Gy[i], Gx[i]);
 		}
 		break;
+	case SOBEL_METHOD_GRADIENT_X_Y:
+		memcpy(G, Gx, total_size * sizeof(float));
+		memcpy(O, Gy, total_size * sizeof(float));
+		break;
 	default:
-		for (i = 0; i < total_size; i++) {
-			G[i] = sqrtf(Gx[i] * Gx[i] + Gy[i] * Gy[i]);
-			O[i] = atan2f(Gy[i], Gx[i]);
-		}
+		/* None */
+		break;
 	}
 
 	/* Free */

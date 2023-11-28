@@ -9,13 +9,9 @@
 
 /*
  * Create different types of matricies for image processing
- * output[size * size]
- * 
- * For gaussian:
- * size = 2 * roundf(6.0f * value) + 1;
- * 
+ * output[output_size * output_size]
  */
-float* fspecial(const size_t row, const size_t column, const float value, const FSPECIAL_TYPE type) {
+float* fspecial(const size_t row, const size_t column, const float value, size_t* output_size, const FSPECIAL_TYPE type) {
 	/* Create output */
 	float* output = NULL;
 	
@@ -35,6 +31,7 @@ float* fspecial(const size_t row, const size_t column, const float value, const 
 
 		/* Create mesh grid */
 		const size_t xy_size = 2 * kernel_size + 1;
+		*output_size = xy_size;
 		const size_t xy_size_bytes = xy_size * sizeof(float);
 		float* x = (float*)malloc(xy_size * xy_size * sizeof(float));
 		float* y = (float*)malloc(xy_size * xy_size * sizeof(float));

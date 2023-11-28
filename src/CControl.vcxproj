@@ -40,6 +40,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\fspecial.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\harris.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\fast_features.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\hough.c" />

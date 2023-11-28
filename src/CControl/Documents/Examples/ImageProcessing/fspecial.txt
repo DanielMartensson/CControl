@@ -21,11 +21,14 @@ int main() {
 
 
 	/* Create kernel K */
-	const size_t K_size = 2 * roundf(6.0f * sigma) + 1;
-	float* K = fspecial(row, column, sigma, FSPECIAL_TYPE_GAUSSIAN);
+	size_t K_size;
+	float* K = fspecial(row, column, sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN);
 
 	/* Print */
-	print(K, row, column);
+	print(K, K_size, K_size);
+
+	/* Free */
+	free(K);
 
 	/* Detect memory leakage */
 	detectmemoryleak();

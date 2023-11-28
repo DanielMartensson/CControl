@@ -1,0 +1,50 @@
+/*
+ ============================================================================
+ Name        : harris.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Harris corner detection score
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Read a PGM image */
+	PGM* image = imread("..\\src\\CControl\\Documents\\Data\\harris\\chess.pgm");
+
+	/* Create X */
+	size_t i;
+	float* X = (float*)malloc(image->height * image->width * sizeof(float));
+	for (i = 0; i < image->height * image->width; i++) {
+		X[i] = (float)image->pixels[i];
+	}
+
+	/* Do Harris */
+	float* H = (float*)malloc(image->height * image->width * sizeof(float));
+	const uint8_t edge = 3;
+	const float sigma = 5;
+	harris(X, H, sigma, edge, image->height, image->width);
+
+	/* Print */
+	print(H, image->height, image->width);
+
+	/* Free */
+	imfree(image);
+	free(H);
+	free(X);
+
+	/* Detect memory leakage */
+	detectmemoryleak();
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

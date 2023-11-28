@@ -374,6 +374,9 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\fspecial.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\harris.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
