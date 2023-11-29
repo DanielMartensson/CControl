@@ -73,6 +73,14 @@ float tanhf(float x) {
 float roundf(float x) {
 	return (float)round(x);
 }
+
+float ceilf(float x) {
+	return (float)ceil(x);
+}
+
+float floorf(float x) {
+	return (float)floor(x);
+}
 #endif /* !_MSC_VER */
 #endif /* !__STDC_VERSION___ */
 
@@ -145,6 +153,7 @@ bool linsolve_lup(float A[], float x[], float b[], size_t row);
 bool chol(float A[], float L[], size_t row);
 void cholupdate(float L[], float x[], size_t row, bool rank_one_update);
 void conv2(const float A[], const float K[], float B[], const size_t row_a, const size_t column_a, const size_t row_k, const size_t column_k, const CONV2_SHAPE shape);
+void conv2fft(const float A[], float B[], const size_t row_a, const size_t column_a, const float K[], const size_t row_k);
 bool linsolve_chol(float A[], float x[], float b[], size_t row);
 void pinv(float A[], size_t row, size_t column);
 bool hankel(float V[], float H[], size_t row_v, size_t column_v, size_t row_h, size_t column_h, size_t shift);

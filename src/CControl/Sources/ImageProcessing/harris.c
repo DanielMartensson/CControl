@@ -32,7 +32,6 @@ void harris(const float X[], float H[], const float sigma, const uint8_t edge, c
 		Iy[i] = Iy[i] * Iy[i];
 	}
 
-
 	/* Do Gaussian blurring */
 	float* Ix2 = (float*)malloc(row_column * sizeof(float));
 	float* Iy2 = (float*)malloc(row_column * sizeof(float));
@@ -57,7 +56,7 @@ void harris(const float X[], float H[], const float sigma, const uint8_t edge, c
 	size_t index;
 	float value = fabsf(amax(H, &index, row_column));
 	for (i = 0; i < row_column; i++) {
-		H[i] = 1000.0f / value * H[i];
+		H[i] = 10000.0f / value * H[i];
 	}
 
 	/* Free */

@@ -49,6 +49,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c" />
+    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />

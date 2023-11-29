@@ -37,6 +37,16 @@ void conv2(const float A[], const float K[], float B[], const size_t row_a, cons
         edge_cols = kernel_cols - 1;
         break;
     case CONV2_SHAPE_SAME:
+        /* Check if kernel size is over 11 */
+        if (row_k > CONV2_MAX_KERNEL_FFT_INSTEAD) {
+            /* row_k must be an odd number */
+            if (row_k % 2 >= 1) {
+                /* Do FFT instead */
+                conv2fft(A, B, row_a, column_a, K, row_k);
+                return;
+            }
+        }
+
         dst_row = src_row;
         dst_cols = src_cols;
         edge_row = (kernel_row - 1) / 2;
