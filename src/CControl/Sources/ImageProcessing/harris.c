@@ -76,3 +76,48 @@ void harris(const float X[], float H[], const float sigma, const uint8_t edge, c
 		}
 	}
 }
+
+/*
+ GNU Octave code:
+	 function H = harris_score(I)
+
+	  % Gray scale
+	  if(size(I, 3) > 1)
+		I = rgb2gray(I);
+	  end
+	  I = double(I);
+
+	  % Parameters
+	  sigma=5;
+	  r = 0;
+
+	  % Sobel
+	  dx = [-1 0 1; -2 0 2; -1 0 1];
+	  dy = [-1 -2 -1; 0 0 0; 1 2 1];
+	  Ix = conv2(I, dx, 'same');
+	  Iy = conv2(I, dy, 'same');
+
+	  % Create mesh grid
+	  kernel_size = round(6 * sigma);
+	  [x, y] = meshgrid(-kernel_size:kernel_size, -kernel_size:kernel_size);
+
+	  % Create gaussian 2D kernel
+	  g = 1/(2*pi*sigma^2)*exp(-(x.^2 + y.^2)/(2*sigma^2));
+
+	  Ix2 = mc.conv2fft(Ix.^2, g);
+	  Iy2 = mc.conv2fft(Iy.^2, g);
+	  Ixy = mc.conv2fft(Ix.*Iy, g);
+
+	  k = 0.04;
+	  Hp = (Ix2.*Iy2 - Ixy.^2) - k*(Ix2 + Iy2).^2;
+
+	  % Normalize
+	  H = (10000/max(abs(Hp(:))))*Hp;
+
+	  % set edges zeros
+	  H(1:r,:) = 0;
+	  H(:,1:r) = 0;
+	  H(end-r+1:end,:) = 0;
+	  H(:,end-r+1:end) = 0;
+	end
+*/
