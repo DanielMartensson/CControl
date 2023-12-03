@@ -115,6 +115,7 @@ Main focuses are:
 
 - Miscellaneous
   - Angle of two vectors
+  - Orientation of a matrix by using Intensity Centroid
   - Concatenate
   - Cut matrix
   - Find

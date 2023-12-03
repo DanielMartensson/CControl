@@ -56,6 +56,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\sfa.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\sfaod.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\anglevector.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\orientation.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\popcount.c" />
     <ClCompile Include="CControl\Sources\Statistics\area.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c" />
