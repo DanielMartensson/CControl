@@ -13,7 +13,7 @@
   * max_index is the maximum index of the maximum value
   * L = Length of vector x
   */
-float amax(float x[], size_t* max_index, size_t length) {
+float amax(const float x[], size_t* max_index, const size_t length) {
 	/* Default settings */
 	float max_value = x[0];
 	*max_index = 0;
