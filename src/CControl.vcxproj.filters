@@ -380,7 +380,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Miscellaneous\orientation.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\orientation.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

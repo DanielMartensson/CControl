@@ -76,6 +76,7 @@ Main focuses are:
   - Features From Accelerated Segment Test (FAST)
   - Hough Transform for line detection
   - Harris corner detection
+  - Orientation of a matrix by using Intensity Centroid
 
 - Signal Processing
   - Fast Fourier Transform Shift
@@ -115,7 +116,6 @@ Main focuses are:
 
 - Miscellaneous
   - Angle of two vectors
-  - Orientation of a matrix by using Intensity Centroid
   - Concatenate
   - Cut matrix
   - Find
