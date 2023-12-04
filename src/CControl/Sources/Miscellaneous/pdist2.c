@@ -69,7 +69,7 @@ void pdist2(const float A[], const float B[], float C[], const size_t row_a, con
 	}
 	case PDIST2_METRIC_EUCLIDEAN: {
 		pdist2(A, B, C, row_a, column_a, row_b, PDIST2_METRIC_SQEUCLIDEAN);
-		size_t row_a_row_b = row_a * row_b;
+		const size_t row_a_row_b = row_a * row_b;
 		for (i = 0; i < row_a_row_b; i++) {
 			C[i] = sqrtf(C[i]);
 		}
