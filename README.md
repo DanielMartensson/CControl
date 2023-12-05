@@ -56,6 +56,8 @@ Main focuses are:
   - Neural network
   - Kernel Principal Component Analysis
   - K-means clustering
+  - Compute centroid of a cluster
+  - Cluster size
   
 - Control Engineering
   - Kalman filter update
@@ -77,7 +79,6 @@ Main focuses are:
   - Hough Transform for line detection
   - Harris corner detection
   - Orientation of a matrix by using Intensity Centroid
-  - Comput centroid of a cluster
 
 - Signal Processing
   - Fast Fourier Transform Shift

@@ -392,7 +392,10 @@
     <ClCompile Include="CControl\Sources\MachineLearning\clustersdistance.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\centroid.c">
+    <ClCompile Include="CControl\Sources\MachineLearning\centroid.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\MachineLearning\clustersize.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

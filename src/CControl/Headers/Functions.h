@@ -94,6 +94,9 @@ bool stability(float A[], size_t ADIM);
 void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
+void centroid(const float X[], float C[], const size_t row, const size_t column);
+float clusterdensity(const float X[], const size_t row, const size_t column);
+float clustersdistance(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column, const CLUSTER_DISTANCE_METHOD cluster_distance_method);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 MODEL* fisherfaces(MODEL_SETTINGS* model_settings);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
@@ -113,7 +116,7 @@ bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, fl
 float anglevector(const float a[], const float b[], const size_t row);
 void cat(bool row_wise, float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, size_t column_b, size_t row_c, size_t column_c);
 float saturation(float input, float lower_limit, float upper_limit);
-void cut(float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
+void cut(const float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
 void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITION_METOD condition_method);
 void insert(float A[], float B[], size_t row_a, size_t column_a, size_t column_b, size_t startRow_b, size_t startColumn_b);
 bool issymmetric(float A[], size_t row, size_t column);
@@ -144,7 +147,7 @@ void mul(const float A[], const float B[], float C[], const size_t row_a, const 
 size_t rank(float A[], size_t row, size_t column);
 bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]);
 void dlyap(float A[], float P[], float Q[], size_t row);
-float dot(float a[], float b[], size_t row);
+float dot(const float a[], const float b[], const size_t row);
 bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool only_compute_R);
 bool linsolve_qr(float A[], float x[], float b[], size_t row, size_t column);
 void linsolve_lower_triangular(float A[], float x[], float b[], size_t row);
@@ -200,7 +203,8 @@ void rpca(float X[], float L[], float S[], size_t row, size_t column);
 void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const SOBEL_METHOD sobel_method);
 
 /* Statistics */
-float amax(float x[], size_t* max_index, size_t length);
+float amax(const float x[], size_t* max_index, const size_t length);
+float amin(const float x[], size_t* min_index, const size_t length);
 void center(float X[], float mu[], size_t row, size_t column);
 float area(const float X[], const size_t row, size_t* total_elements, const AREA_METHOD area_method);
 void randn(float x[], size_t length, float mu, float sigma);
