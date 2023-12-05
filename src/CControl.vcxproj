@@ -50,6 +50,8 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\centroid.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\clusterscompare.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />
@@ -58,6 +60,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\anglevector.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\orientation.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\popcount.c" />
+    <ClCompile Include="CControl\Sources\Statistics\amin.c" />
     <ClCompile Include="CControl\Sources\Statistics\area.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c" />
@@ -118,6 +121,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\pdist2.c" />
     <ClCompile Include="CControl\Sources\Optimization\lsqnonneg.c" />
     <ClCompile Include="CControl\Sources\Statistics\center.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\clustersdistance.c" />
     <ClCompile Include="CControl\Sources\Statistics\cov.c" />
     <ClCompile Include="CControl\Sources\Statistics\covm.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kernel.c" />

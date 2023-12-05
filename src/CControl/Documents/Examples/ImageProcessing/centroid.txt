@@ -1,0 +1,48 @@
+/*
+ ============================================================================
+ Name        : centroid.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute the centroid of a matrix X
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 10
+#define column 3
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create matrix X */
+	float X[row * column] = { 0.883569,   0.137782,  -1.370748,
+							 -0.287254,  -0.523210,  -0.055695,
+							 -1.453730,   1.136529,  -0.270079,
+							 -0.912358,  -1.012460,  -0.221850,
+							  0.456170,   1.452307,   0.688098,
+							 -0.493595,  -1.457424,  -0.861034,
+							  1.024440,  -1.620565,  -0.763060,
+							  1.892080,   1.060947,   0.091925,
+							 -0.484114,  -1.524378,   0.325710,
+							  0.693651,  -0.502022,  -1.009710 };
+
+	/* Find the centroid */
+	float C[column];
+	centroid(X, C, row, column);
+
+	/* Print */
+	print(C, 1, column);
+
+	/* Detect memory leakage */
+	detectmemoryleak();
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

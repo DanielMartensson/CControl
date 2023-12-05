@@ -77,6 +77,7 @@ Main focuses are:
   - Hough Transform for line detection
   - Harris corner detection
   - Orientation of a matrix by using Intensity Centroid
+  - Comput centroid of a cluster
 
 - Signal Processing
   - Fast Fourier Transform Shift
