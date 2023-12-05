@@ -15,7 +15,7 @@
  * If you have a matrix A 5 x 6 and you want to cut the values from A to matrix B with size 3 x 3 and you want to start at 0,0 and end at 3,3
  * Code: cut(A, 5, B, 0, 2, 0, 2); // Because indexing from zero
  */
-void cut(float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column) {
+void cut(const float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column) {
 	/* Create adata matrix */
 	float* data = A + start_row * column + start_column;
 
