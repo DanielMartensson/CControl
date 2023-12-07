@@ -68,9 +68,10 @@ float opa(const float X[], float Y[], const size_t row, const size_t column) {
 
 	/* Transformed coordinates */
 	mul(Y0, T, Y, row, column, column);
+	const float normX_traceTA = normX * traceTA;
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < column; j++) {
-			Y[j] *= normX * traceTA;
+			Y[j] *= normX_traceTA;
 			Y[j] += muX[j];
 		}
 		Y += column;
