@@ -62,7 +62,6 @@ int main() {
 }
 
 /* GNU octave code
-
 % Clear all
 close all
 clear
@@ -81,12 +80,39 @@ X = X + [342 -425];
 X = [11 39;17 42;25 42;25 40;23 36;19 35;30 34;35 29; 30 20;18 19];
 Y = [15 31;20 37;30 40;29 35;25 29;29 31;31 31;35 20; 29 10;25 18];
 
+%rng(42); % För att få samma slumpmässiga värden vid varje körning
+punktMoln1 = 0.8 * randn(50, 2) + [-8, 3];
+punktMoln2 = 0.5 * randn(30, 2) + [5, 7];
+punktMoln3 = 0.4 * randn(40, 2) + [8, 4];
+
+% Samla alla punkter i en enda matris
+X = [punktMoln1; punktMoln2; punktMoln3];
+
+% Rotationsvinkel i grader
+theta = 45;
+
+% Skapa en rotationsmatris för att rotera med 45 grader
+rotationMatrix = [cosd(theta), -sind(theta); sind(theta), cosd(theta)];
+
+% Flyttavektor
+translationVector = [3, 2];
+
+% Skalningsfaktor
+scalingFactor = 1.5;
+
+% Skapa transformationsmatrisen
+transformationMatrix = scalingFactor * rotationMatrix + translationVector;
+
+% Utför transformationen på alla punkter
+Y1 = X * transformationMatrix;
+
+
 % Procrustes analysis
-[Y, d] = procrustes(X, Y);
-Y = Y + 0.01;
+[Y, d] = procrustes(X, Y1);
 
 % Plot
-plot(X(:,1), X(:,2),'r-', Y(:,1), Y(:,2),'b-');
-legend('X = Target','Y = Comparison')
+plot(X(:,1), X(:,2),'r-', Y(:,1), Y(:,2),'b-', Y1(:,1), Y1(:,2),'g-');
+legend('X = Target','Y = Comparison', 'Y1 = Candidate')
+
 
 */
