@@ -50,9 +50,10 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\centroid.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\clustersize.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\clusterscompare.c" />
+    <ClCompile Include="CControl\Sources\Statistics\centroid.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\clusterangle.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\clusterratio.c" />
+    <ClCompile Include="CControl\Sources\Statistics\opa.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />

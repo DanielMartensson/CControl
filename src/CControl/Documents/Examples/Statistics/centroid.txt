@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : clustersize.c
+ Name        : centroid.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Compute the cluster size of a matrix X
+ Description : Compute the centroid of a matrix X
  ============================================================================
  */
 
@@ -30,8 +30,12 @@ int main() {
 							 -0.484114,  -1.524378,   0.325710,
 							  0.693651,  -0.502022,  -1.009710 };
 
+	/* Find the centroid */
+	float C[column];
+	centroid(X, C, row, column);
+
 	/* Print */
-	printf("The size of the cluster is: %f\n", clustersize(X, row, column));
+	print(C, 1, column);
 
 	/* Detect memory leakage */
 	detectmemoryleak();

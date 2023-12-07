@@ -1,0 +1,92 @@
+/*
+ ============================================================================
+ Name        : opa.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute the Ordinary Procrustes Analysis of matrix X and Y
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 10
+#define column 2
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create matrix X */
+	float X[row * column] = { 11, 39,
+							  17, 42,
+							  25, 42,
+	  						  25, 40,
+							  23, 36,
+							  19, 35,
+							  30, 34,
+	 						  35, 29,
+							  30, 20,
+							  18, 19 };
+	
+	/* Create matrix Y */
+	float Y[row * column] = { 15, 31,
+							  20, 37,
+							  30, 40,
+							  29, 35,
+							  25, 29,
+						 	  29, 31,
+							  31, 31,
+							  35, 20,
+							  29, 10,
+							  25, 18 };
+
+	/* Do Ordinary Procrustes Analysis */
+	float distance = opa(X, Y, row, column);
+
+	/* Print distance */
+	printf("The distance between X and transformed Y is: %f\n", distance);
+
+	/* Print matrix Y */
+	print(Y, row, column);
+
+	/* Detect memory leakage */
+	detectmemoryleak();
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
+
+/* GNU octave code
+
+% Clear all
+close all
+clear
+clc
+
+
+%A = [0 39;17 42;25 42;25 40;23 36;19 35;30 34;35 29; 30 20;18 19];
+%B = [15 31;20 37;30 40;29 35;25 29;29 31;31 31;35 20; 29 10;25 18];
+
+% Data
+X = [linspace(0, 10)', linspace(10, 10)'; linspace(10, 10)' linspace(10, 0)'];
+Y = 3*[linspace(0, -10)', linspace(-10, -10)'; linspace(-10, -10)' linspace(-10, 0)'];
+
+X = X + [342 -425];
+
+X = [11 39;17 42;25 42;25 40;23 36;19 35;30 34;35 29; 30 20;18 19];
+Y = [15 31;20 37;30 40;29 35;25 29;29 31;31 31;35 20; 29 10;25 18];
+
+% Procrustes analysis
+[Y, d] = procrustes(X, Y);
+Y = Y + 0.01;
+
+% Plot
+plot(X(:,1), X(:,2),'r-', Y(:,1), Y(:,2),'b-');
+legend('X = Target','Y = Comparison')
+
+*/
