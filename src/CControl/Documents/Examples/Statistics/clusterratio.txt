@@ -1,17 +1,17 @@
 /*
  ============================================================================
- Name        : clusterangle.c
+ Name        : clusterratio.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Compute the angle between two clusters
+ Description : Compute the cluster ratio of a matrix X
  ============================================================================
  */
 
 #include "CControl/ccontrol.h"
 
 #define row_x 10
-#define row_y 15
+#define row_y 10
 #define column 3
 
 int main() {
@@ -31,27 +31,20 @@ int main() {
 							 -0.484114,  -1.524378,   0.325710,
 							  0.693651,  -0.502022,  -1.009710 };
 
-	float Y[row_y * column] = { -0.064353,      -0.8624,     -0.21605,
-								 -0.55669,       1.4952,      0.43564,
-								  0.21065,      0.18946,      0.14506,
-								   1.6708,      0.26324,      0.03596,
-								 -0.18211,     -0.61669,     -0.25232,
-								  0.25096,       1.6943,      -1.8788,
-								 0.018378,      0.29606,      -1.5736,
-								  0.23836,      0.10119,       1.6397,
-								  0.97635,      -2.0772,       1.4075,
-								  0.77212,      0.84091,     -0.45089,
-								  -0.5955,     -0.61256,     -0.25984,
-								 0.038671,       1.0032,       0.5447,
-								-0.019792,       1.7625,      0.17298,
-								  -1.8842,      0.89741,       2.1853,
-								  -0.5853,       1.0306,      0.49361 };
-
-	/* Compute the angle between the clusters */
-	float angle = clusterangle(X, Y, row_x, row_y, column);
+	/* Create matrix Y */
+	float Y[row_y * column] = { 0.051683,   0.423031,  -6.026104,
+							 -0.319140,  -0.237961,   0.288949,
+							 -1.555616,   1.421778,   5.074565,
+							 -8.044244,  -0.227211,   0.122794,
+							  0.324284,   1.437556,   1.032742,
+							 -6.625481,  -1.472175,  -0.516390,
+							  0.892554,   1.335316,  -0.418416,
+							  3.760194,   6.346196,   2.436569,
+							 -6.616000,  -1.239129,   0.670354,
+							  9.561765,  -0.216773,  -0.665066 };
 
 	/* Print */
-	printf("The angle is: %f\n", angle);
+	printf("The ratio between X and Y is: %f\n", clusterratio(X, Y, row_x, row_y, column));
 
 	/* Detect memory leakage */
 	detectmemoryleak();

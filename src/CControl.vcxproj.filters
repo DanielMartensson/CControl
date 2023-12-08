@@ -389,16 +389,13 @@
     <ClCompile Include="CControl\Sources\Statistics\amin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\clustersdistance.c">
+    <ClCompile Include="CControl\Sources\Statistics\clustersdistance.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\centroid.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\clusterratio.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\clusterangle.c">
+    <ClCompile Include="CControl\Sources\Statistics\clusterratio.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

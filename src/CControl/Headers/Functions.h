@@ -95,9 +95,8 @@ void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime);
 
 /* Machine learning */
 void centroid(const float X[], float C[], const size_t row, const size_t column);
-float clusterangle(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column);
-float clusterratio(const float X[], const float Y[], const size_t row, const size_t column);
-float clusterdistance(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column, const CLUSTER_DISTANCE_METHOD cluster_distance_method);
+float clusterratio(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column);
+float clusterdistance(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
 MODEL* fisherfaces(MODEL_SETTINGS* model_settings);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);

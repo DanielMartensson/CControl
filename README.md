@@ -56,7 +56,6 @@ Main focuses are:
   - Neural network
   - Kernel Principal Component Analysis
   - K-means clustering
-  - Cluster size, angle, position
   
 - Control Engineering
   - Kalman filter update
@@ -150,6 +149,8 @@ Main focuses are:
   - Center
   - Ordinary Procrustes Analysis
   - Compute centroid of a cluster
+  - Cluster distance
+  - Cluster ratio
 
 - System Identification
   - Observer Kalman Filter identification

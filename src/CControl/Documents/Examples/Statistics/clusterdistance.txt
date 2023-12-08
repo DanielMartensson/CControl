@@ -48,7 +48,7 @@ int main() {
 								  -0.5853,       1.0306,      0.49361 };
 
 	/* Compute the distance between the clusters */
-	float distance = clusterdistance(X, Y, row_x, row_y, column, CLUSTER_DISTANCE_METHOD_R_AXIS);
+	float distance = clusterdistance(X, Y, row_x, row_y, column);
 
 	/* Print */
 	printf("The distance is: %f\n", distance);
