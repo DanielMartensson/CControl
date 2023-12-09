@@ -28,7 +28,7 @@ int main() {
 	for (i = 0; i < N; i++) {
 		printf("%i %i\n", xy[i].x, xy[i].y);
 	}
-	printf("Features = %i\n", N);
+	printf("Number of features = %i\n", N);
 
 	/* Free */
 	free(xy);
