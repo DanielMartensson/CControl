@@ -39,10 +39,11 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\cornerdetection.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\fspecial.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\harris.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c" />
-    <ClCompile Include="CControl\Sources\ImageProcessing\fast_features.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\featuredetection.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\hough.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imfree.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c" />
@@ -56,7 +57,7 @@
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\sfa.c" />
+    <ClCompile Include="CControl\Sources\MachineLearning\clusterclassification.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\sfaod.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\anglevector.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\orientation.c" />

@@ -317,7 +317,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\fast_features.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\featuredetection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c">
@@ -329,7 +329,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\sfa.c">
+    <ClCompile Include="CControl\Sources\MachineLearning\clusterclassification.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c">
@@ -396,6 +396,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\clusterratio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\cornerdetection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : fast_features.c
+ Name        : cornerdetection.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : FASTO corner detection
+ Description : Corner detection
  ============================================================================
  */
 
@@ -19,16 +19,17 @@ int main() {
 	PGM* image = imread("..\\src\\CControl\\Documents\\Data\\fast\\lab.pgm");
 
 	/* Do fast */
-	int num_corners;
-	int fast_threshold = 50;
-	FAST_XY* xy = fast_features(image->pixels, image->height, image->width, fast_threshold, &num_corners, FAST_METHOD_9);
+	size_t N = 200;
+	float sigma = 5;
+	int fast_threshold = 20;
+	FAST_XY* xy = cornerdetection(image->pixels, sigma, &N, fast_threshold, FAST_METHOD_9, image->height, image->width);
 
 	/* Print corners - x is column and y is row */
 	int i;
-	for (i = 0; i < num_corners; i++) {
+	for (i = 0; i < N; i++) {
 		printf("%i %i\n", xy[i].x, xy[i].y);
 	}
-	printf("num_corners = %i\n", num_corners);
+	printf("Number of corners = %i\n", N);
 
 	/* Free */
 	free(xy);

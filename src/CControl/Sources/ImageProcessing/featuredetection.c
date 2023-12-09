@@ -1,5 +1,5 @@
 /*
- * fast_features.c
+ * featuredetection.c
  *
  *  Created on: 4 oktober 2023
  *      Author: Edward Rosten
@@ -42,23 +42,23 @@ static FAST_XY* nonmax_suppression(const FAST_XY* corners, const int* scores, in
  * X[m*n]
  * num_corner - Output
  */
-FAST_XY* fast_features(const uint8_t X[], const int row, const int column, const int fast_threshold, int* num_corners, const FAST_METHOD fast_method){
+FAST_XY* featuredetection(const uint8_t X[], int* N, const int fast_threshold, const FAST_METHOD fast_method, const int row, const int column){
 	/* Apply FAST on the gradients for finding interests points */
 	FAST_XY* xy = NULL;
 	switch (fast_method) {
 	case FAST_METHOD_9:
-		xy = fast9_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast9_detect_nonmax(X, column, row, column, fast_threshold, N);
 		break;
 	case FAST_METHOD_10:
-		xy = fast10_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast10_detect_nonmax(X, column, row, column, fast_threshold, N);
 		break;
 	case FAST_METHOD_11:
-		xy = fast11_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast11_detect_nonmax(X, column, row, column, fast_threshold, N);
 	case FAST_METHOD_12:
-		xy = fast12_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast12_detect_nonmax(X, column, row, column, fast_threshold, N);
 		break;
 	default:
-		xy = fast9_detect_nonmax(X, column, row, column, fast_threshold, num_corners);
+		xy = fast9_detect_nonmax(X, column, row, column, fast_threshold, N);
 		break;
 	}
 

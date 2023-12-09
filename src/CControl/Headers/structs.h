@@ -92,7 +92,7 @@ typedef struct {
 	SETTINGS_CHOICE settings_choice;
 }MODEL_SETTINGS;
 
-/* For fast_features.c */
+/* For featuredetection.c */
 typedef struct {
 	int x;
 	int y;

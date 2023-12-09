@@ -77,7 +77,7 @@ typedef enum {
 	LBP_BIT_32
 }LBP_BIT;
 
-/* For fast_features.c */
+/* For featuredetection.c */
 typedef enum {
 	FAST_METHOD_9,
 	FAST_METHOD_10,
