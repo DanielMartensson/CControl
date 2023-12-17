@@ -62,6 +62,7 @@ FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uin
 	free(x);
 	free(y);
 	free(corners);
+	free(index);
 
 	/* Return corners */
 	return xy;

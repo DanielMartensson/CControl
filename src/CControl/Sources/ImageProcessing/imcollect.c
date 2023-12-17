@@ -111,6 +111,7 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 				case SETTINGS_CHOICE_SFA: {
 					/* Get SFA histogram */
 					uint8_t new_size = model_settings->data_settings_sfa.settings_sfa.histogram_size;
+					//cornerdetection(image->pixels, )
 					float* new_data = NULL;// sfa(X, model_settings->data_settings_sfa.settings_sfa.fast_threshold, model_settings->data_settings_sfa.settings_sfa.sobel_threshold, model_settings->data_settings_sfa.settings_sfa.fast_method, new_size, model_settings->data_settings_sfa.settings_sfa.histogram_filter_K, image->height, image->width);
 
 					/* Compute current size */ 

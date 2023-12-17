@@ -130,6 +130,9 @@ Main focuses are:
   - Value max
   - Sort
   - Sum
+  - Unit vector
+  - Vector rotation 2D
+  - Vector scalar
   
 - Optimization
   - Linear programming

@@ -98,4 +98,18 @@ typedef struct {
 	int y;
 } FAST_XY;
 
+/* For generalizedhough.c */
+typedef struct {
+	bool clock_wise_direction;
+	float alpha;
+	float R;
+	float shortest;
+}GENERALIZED_HOUGH_VOTE;
+
+/* For generalizedhough.c */
+typedef struct {
+	GENERALIZED_HOUGH_VOTE* vote;
+	size_t votes_active;
+}GENERALIZED_HOUGH_MODEL;
+
 #endif /* !CCONTROL_HEADERS_STRUCTS_H_ */

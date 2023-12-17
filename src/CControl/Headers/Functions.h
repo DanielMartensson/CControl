@@ -124,12 +124,15 @@ void pdist2(const float A[], const float B[], float C[], const size_t row_a, con
 uint8_t popcount(uint64_t x);
 void print(float A[], size_t row, size_t column);
 float rad2deg(const float radians);
+void rot2d(float x[], const float radians);
 float deg2rad(const float radians);
+void scalar(float x[], const float k, const size_t row);
 float sign(float number);
 float vmax(float a, float b);
 float vmin(float a, float b);
 void sort(float X[], size_t index[], size_t row, size_t column, SORT_MODE sort_mode);
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
+void unit(float x[], const size_t row);
 
 /* Hardware */
 void concatenate_paths(char total_path[], const char path_first[], const char path_second[]);
@@ -193,6 +196,9 @@ void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column);
 FAST_XY* featuredetection(const uint8_t X[], int* N, const int fast_threshold, const FAST_METHOD fast_method, const int row, const int column);
 float* fspecial(const size_t row, const size_t column, const float value, size_t* output_size, const FSPECIAL_TYPE type);
+GENERALIZED_HOUGH_MODEL* generalizedhough_create_model(const float X[], const size_t row);
+void generalizedhough_eval_votes(const float X[], const GENERALIZED_HOUGH_MODEL model[], size_t* xc, size_t* yc, const size_t row);
+void generalizedhough_free_model(const GENERALIZED_HOUGH_MODEL model[]);
 void harris(const float X[], float H[], const float sigma, const uint8_t edge, const size_t row, const size_t column);
 size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column);
 MODEL* imcollect(const MODEL_SETTINGS* model_settings);

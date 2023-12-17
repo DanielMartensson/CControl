@@ -51,6 +51,10 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\generalizedhough.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\rot2d.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\scalar.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\unit.c" />
     <ClCompile Include="CControl\Sources\Statistics\centroid.c" />
     <ClCompile Include="CControl\Sources\Statistics\clusterratio.c" />
     <ClCompile Include="CControl\Sources\Statistics\opa.c" />
