@@ -65,13 +65,15 @@ void harris(const float X[], float H[], const float sigma, const uint8_t edge, c
 	free(Ixy2);
 
 	/* Set edges to zero */
-	size_t j;
-	const size_t row_minus_edge = row - edge;
-	const size_t column_minus_edge = column - edge;
-	for (i = 0; i < row; i++) {
-		for (j = 0; j < column; j++) {
-			if (i < edge || i >= row_minus_edge || j < edge || j >= column_minus_edge) {
-				H[i * column + j] = 0.0f;
+	if (edge > 0) {
+		size_t j;
+		const size_t row_minus_edge = row - edge;
+		const size_t column_minus_edge = column - edge;
+		for (i = 0; i < row; i++) {
+			for (j = 0; j < column; j++) {
+				if (i < edge || i >= row_minus_edge || j < edge || j >= column_minus_edge) {
+					H[i * column + j] = 0.0f;
+				}
 			}
 		}
 	}
