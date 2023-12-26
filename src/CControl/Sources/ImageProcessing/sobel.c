@@ -26,8 +26,8 @@ void sobel(const float X[], float G[], float O[], const size_t row, const size_t
 	const size_t total_size = row * column;
 	float* Gx = (float*)malloc(total_size * sizeof(float));
 	float* Gy = (float*)malloc(total_size * sizeof(float));
-	conv2(X, kernel_x, Gx, row, column, 3, 3, CONV2_SHAPE_SAME);
-	conv2(X, kernel_y, Gy, row, column, 3, 3, CONV2_SHAPE_SAME);
+	conv2(X, kernel_x, Gx, row, column, 3U, 3U, CONV2_SHAPE_SAME_NO_FFT);
+	conv2(X, kernel_y, Gy, row, column, 3U, 3U, CONV2_SHAPE_SAME_NO_FFT);
 
 	/* 
 	 * Find gradients G = sqrt(Gx^2 + Gy^2) 
