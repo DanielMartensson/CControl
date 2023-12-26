@@ -7,7 +7,7 @@
 
 #include "../../Headers/functions.h"
 
-bool issymmetric(float A[], size_t row, size_t column) {
+bool issymmetric(const float A[], const size_t row, const size_t column) {
 	/* Check size */
 	if (row != column) {
 		return false;
@@ -15,8 +15,8 @@ bool issymmetric(float A[], size_t row, size_t column) {
 
     /* Check the total matrix */
     size_t i, j;
-    float* B = A;
-    float* B0 = B;
+    float* B;
+    const float* B0 = A;
     for (i = 0; i < row; i++) {
         B = B0;
         for (j = 0; j < column; j++) {
