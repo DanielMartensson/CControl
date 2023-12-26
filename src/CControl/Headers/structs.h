@@ -28,32 +28,16 @@ typedef struct {
 	/* Data */
 	size_t input_row;
 	size_t input_column;
+	float* input;
 	size_t* class_id;
 	size_t classes;
-	float* input;
 }MODEL_NN;
 
 typedef struct {
 	/* Models */
 	MODEL_NN fisherfaces_model;
-	MODEL_NN sfa_model;
 	SETTINGS_CHOICE settings_choice;
 }MODEL;
-
-/* For sfa.c */
-typedef struct {
-	FAST_METHOD fast_method;
-	uint8_t fast_threshold;
-	uint8_t sobel_threshold;
-	uint8_t histogram_size;
-	float histogram_filter_K;
-}SETTINGS_SFA;
-
-/* For fisherfaces.c */
-typedef struct {
-	size_t pooling_size;
-	POOLING_METHOD pooling_method;
-}SETTINGS_FISHERFACES;
 
 /* For all models */
 typedef struct {
@@ -74,21 +58,15 @@ typedef struct {
 	size_t components_pca;
 	float kernel_parameters[2];
 	KERNEL_METHOD kernel_method;
-}SETTINGS_GENERAL;
 
-typedef struct {
-	/* General settings */
-	SETTINGS_GENERAL settings_general;
-
-	/* Specific Settings */
-	SETTINGS_SFA settings_sfa;
-	SETTINGS_FISHERFACES settings_fisherfaces;
-}DATA_SETTINGS;
+	/* For pooing.c */
+	size_t pooling_size;
+	POOLING_METHOD pooling_method;
+}MODEL_GENERAL_SETTINGS;
 
 /* For imcollect.c */
 typedef struct {
-	DATA_SETTINGS data_settings_sfa;
-	DATA_SETTINGS data_settings_fisherfaces;
+	MODEL_GENERAL_SETTINGS settings_fisherfaces;
 	SETTINGS_CHOICE settings_choice;
 }MODEL_SETTINGS;
 
@@ -100,7 +78,6 @@ typedef struct {
 
 /* For generalizedhough.c */
 typedef struct {
-	bool clock_wise_direction;
 	float alpha;
 	float R;
 	float shortest;
