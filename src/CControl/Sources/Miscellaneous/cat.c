@@ -14,7 +14,7 @@
  * C[(ma + mb)*na] if row_wise = true
  * C[ma*(na + nb)] if row_wise = false
  */
-void cat(bool row_wise, float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, size_t column_b, size_t row_c, size_t column_c) {
+void cat(const bool row_wise, const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const size_t column_b, const size_t row_c, const size_t column_c) {
 	if (row_wise){
 		/* C = [A; B] */
 		memcpy(C, A, row_a * column_a * sizeof(float));
