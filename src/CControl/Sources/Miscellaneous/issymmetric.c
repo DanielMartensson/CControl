@@ -15,7 +15,7 @@ bool issymmetric(const float A[], const size_t row, const size_t column) {
 
     /* Check the total matrix */
     size_t i, j;
-    float* B;
+    const float* B;
     const float* B0 = A;
     for (i = 0; i < row; i++) {
         B = B0;

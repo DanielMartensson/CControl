@@ -119,7 +119,7 @@ void cut(const float A[], size_t column, float B[], size_t start_row, size_t sto
 void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITION_METOD condition_method);
 void ind2sub(const size_t index, const size_t column, size_t* row_index, size_t* column_index);
 void insert(const float A[], float B[], const size_t row_a, const size_t column_a, const size_t column_b, const size_t start_row_b, const size_t start_column_b);
-bool issymmetric(float A[], size_t row, size_t column);
+bool issymmetric(const float A[], const size_t row, const size_t column);
 float orientation(const float X[], const size_t radius, const size_t x, const size_t y, const size_t row, const size_t column);
 void pdist2(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const PDIST2_METRIC metric);
 uint8_t popcount(const uint64_t x);
