@@ -20,7 +20,7 @@ void conv2fft(const float A[], float B[], const size_t row_a, const size_t colum
 	float* A_real = (float*)malloc(bytes_A);
 	memcpy(A_real, A, bytes_A);
 	
-	/* Do FFT onto A */
+	/* Do FFT2 onto A */
 	float* A_imag = (float*)malloc(bytes_A);
 	fft2(A_real, A_imag, row_a, column_a);
 
@@ -65,7 +65,7 @@ void conv2fft(const float A[], float B[], const size_t row_a, const size_t colum
 		}
 	}
 
-	/* Do FFT on kernel */
+	/* Do FFT2 on kernel */
 	float* kernel_imag = (float*)malloc(bytes_A);
 	fft2(kernel_real, kernel_imag, row_a, column_a);
 
