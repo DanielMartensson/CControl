@@ -10,7 +10,7 @@
 /*
  * Return min value of a and b
  */
-float vmin(float a, float b){
+float vmin(const float a, const float b){
 	if (a < b) {
 		return a;
 	}

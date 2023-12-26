@@ -10,7 +10,7 @@
  /*
   * Sign function
   */
-float sign(float number) {
+float sign(const float number) {
 	float s;
 	if (number > 0.0f) {
 		s = 1.0f; 
