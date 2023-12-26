@@ -1,0 +1,57 @@
+/*
+ ============================================================================
+ Name        : conv.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Do 1D vector convolution
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+    /* Input */
+    const float input[] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
+    
+    /* Output */
+    float output[7];  
+
+    /* Kernel */
+    const float kernel[] = { 0.5, 1.0, 0.5 };
+
+    /* Full */
+    conv(input, kernel, output, 5, 3, CONV_SHAPE_FULL);
+    printf("Full:\n");
+    size_t i;
+    for (i = 0; i < 7; i++) {
+        printf("%f ", output[i]);
+    }
+
+    /* Same */
+    conv(input, kernel, output, 5, 3, CONV_SHAPE_SAME);
+    printf("\n\nSame:\n");
+    for (i = 0; i < 5; i++) {
+        printf("%f ", output[i]);
+    }
+
+    /* Valid */
+    conv(input, kernel, output, 5, 3, CONV_SHAPE_VALID);
+    printf("\n\nValid:\n");
+    for (i = 0; i < 3; i++) {
+        printf("%f ", output[i]);
+    }
+
+	/* Memory leak */
+	detectmemoryleak();
+   
+    end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\n\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

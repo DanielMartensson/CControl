@@ -18,7 +18,7 @@
  * 
  * Found code at: https://blog.csdn.net/celerychen2009/article/details/38852105
  */
-void conv2(const float A[], const float K[], float B[], const size_t row_a, const size_t column_a, const size_t row_k, const size_t column_k, const CONV2_SHAPE shape) {
+void conv2(const float A[], const float K[], float B[], const size_t row_a, const size_t column_a, const size_t row_k, const size_t column_k, const CONV_SHAPE shape) {
     /* Constants */
     const int src_row = row_a;
     const int src_cols = column_a;
@@ -34,13 +34,13 @@ void conv2(const float A[], const float K[], float B[], const size_t row_a, cons
 
     /* Select method */
     switch (shape) {
-    case CONV2_SHAPE_FULL:
+    case CONV_SHAPE_FULL:
         dst_row = src_row + kernel_row - 1;
         dst_cols = src_cols + kernel_cols - 1;
         edge_row = kernel_row - 1;
         edge_cols = kernel_cols - 1;
         break;
-    case CONV2_SHAPE_SAME:
+    case CONV_SHAPE_SAME:
         /* Check if kernel size is over CONV2_MAX_KERNEL_FFT_INSTEAD */
         if (row_k > CONV2_MAX_KERNEL_FFT_INSTEAD) {
             /* row_k must be an odd number */
@@ -56,13 +56,13 @@ void conv2(const float A[], const float K[], float B[], const size_t row_a, cons
         edge_row = (kernel_row - 1) / 2;
         edge_cols = (kernel_cols - 1) / 2;
         break;
-    case CONV2_SHAPE_SAME_NO_FFT:
+    case CONV_SHAPE_SAME_NO_FFT:
         dst_row = src_row;
         dst_cols = src_cols;
         edge_row = (kernel_row - 1) / 2;
         edge_cols = (kernel_cols - 1) / 2;
         break;
-    case CONV2_SHAPE_VALID:
+    case CONV_SHAPE_VALID:
         dst_row = src_row - kernel_row + 1;
         dst_cols = src_cols - kernel_cols + 1;
         edge_row = edge_cols = 0;

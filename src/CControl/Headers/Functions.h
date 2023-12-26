@@ -113,10 +113,10 @@ bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, fl
 
 /* Miscellaneous */
 float anglevector(const float a[], const float b[], const size_t row);
-void cat(bool row_wise, float A[], float B[], float C[], size_t row_a, size_t column_a, size_t row_b, size_t column_b, size_t row_c, size_t column_c);
-float saturation(float input, float lower_limit, float upper_limit);
+void cat(const bool row_wise, const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const size_t column_b, const size_t row_c, const size_t column_c);
+float saturation(const float input, const float lower_limit, const float upper_limit);
 void cut(const float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
-void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITION_METOD condition_method);
+void find(const float A[], int32_t index[], const float condition, const size_t row, const FIND_CONDITION_METOD condition_method);
 void ind2sub(const size_t index, const size_t column, size_t* row_index, size_t* column_index);
 void insert(const float A[], float B[], const size_t row_a, const size_t column_a, const size_t column_b, const size_t start_row_b, const size_t start_column_b);
 bool issymmetric(const float A[], const size_t row, const size_t column);
@@ -159,7 +159,8 @@ float det(float A[], size_t row);
 bool linsolve_lup(float A[], float x[], float b[], size_t row);
 bool chol(float A[], float L[], size_t row);
 void cholupdate(float L[], float x[], size_t row, bool rank_one_update);
-void conv2(const float A[], const float K[], float B[], const size_t row_a, const size_t column_a, const size_t row_k, const size_t column_k, const CONV2_SHAPE shape);
+void conv(const float a[], const float k[], float b[], const size_t row_a, const size_t row_k, const CONV_SHAPE shape);
+void conv2(const float A[], const float K[], float B[], const size_t row_a, const size_t column_a, const size_t row_k, const size_t column_k, const CONV_SHAPE shape);
 void conv2fft(const float A[], float B[], const size_t row_a, const size_t column_a, const float K[], const size_t row_k);
 bool linsolve_chol(float A[], float x[], float b[], size_t row);
 void pinv(float A[], size_t row, size_t column);

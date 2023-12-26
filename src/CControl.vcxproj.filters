@@ -350,9 +350,6 @@
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\sfaod.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -411,6 +408,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\scalar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\ind2sub.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\conv.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -85,6 +85,12 @@ typedef enum {
 	FAST_METHOD_12
 }FAST_METHOD;
 
+/* For generalizedhough.c */
+typedef enum {
+	GENERALIZED_HOUGH_METHOD_CORNER_DETECTION,
+	GENERALIZED_HOUGH_METHOD_FEATURE_DETECTION
+}GENERALIZED_HOUGH_METHOD;
+
 /* For area.c */
 typedef enum {
 	AREA_METHOD_CIRCLE,
@@ -100,7 +106,6 @@ typedef enum {
 /* For imcollect.c */
 typedef enum {
 	SETTINGS_CHOICE_FISHERFACES,
-	SETTINGS_CHOICE_SFA
 }SETTINGS_CHOICE;
 
 /* For sobel.c */
@@ -111,12 +116,13 @@ typedef enum {
 	SOBEL_METHOD_GRADIENT_X_Y
 }SOBEL_METHOD;
 
-/* For conv2.c */
+/* For conv.c and conv2.c */
 typedef enum {
-	CONV2_SHAPE_FULL,
-	CONV2_SHAPE_SAME,
-	CONV2_SHAPE_VALID
-}CONV2_SHAPE;
+	CONV_SHAPE_FULL,
+	CONV_SHAPE_SAME,
+	CONV_SHAPE_SAME_NO_FFT,
+	CONV_SHAPE_VALID
+}CONV_SHAPE;
 
 /* For fspecial.c */
 typedef enum {

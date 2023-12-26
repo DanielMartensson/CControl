@@ -38,9 +38,9 @@ int main() {
 	float B_full[(row_a + row_k - 1) * (column_a + column_k - 1)];
 
 	/* Do conv2 */
-	conv2(A, K, B_same, row_a, column_a, row_k, column_k, CONV2_SHAPE_SAME);
-	conv2(A, K, B_valid, row_a, column_a, row_k, column_k, CONV2_SHAPE_VALID);
-	conv2(A, K, B_full, row_a, column_a, row_k, column_k, CONV2_SHAPE_FULL);
+	conv2(A, K, B_same, row_a, column_a, row_k, column_k, CONV_SHAPE_SAME);
+	conv2(A, K, B_valid, row_a, column_a, row_k, column_k, CONV_SHAPE_VALID);
+	conv2(A, K, B_full, row_a, column_a, row_k, column_k, CONV_SHAPE_FULL);
 
 	/* Print output */
 	printf("Same\n");

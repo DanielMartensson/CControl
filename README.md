@@ -46,9 +46,7 @@ Main focuses are:
   - Point-in-polygon algorithm for checking if a point is inside the area
 
 - Machine Learning
-  - Sobel FAST Angle Object Detection (SFAOD)
   - Local Binary Pattern (LBP)
-  - Sobel FAST Angle (SFA)
   - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification and object detection
   - Density-Based Spatial Clustering of Applications with Noise
   - Support Vector Machine
@@ -77,6 +75,7 @@ Main focuses are:
   - Hough Transform for line detection
   - Harris corner detection
   - Orientation of a matrix by using Intensity Centroid
+  - Generalized Hough Transform for arbitrary shapes
 
 - Signal Processing
   - Fast Fourier Transform Shift
@@ -112,7 +111,8 @@ Main focuses are:
   - Norm
   - Matrix exponential
   - Rank
-  - Convolution matrix
+  - Convolution matrix multiplication
+  - Convolution vector multiplication
 
 - Miscellaneous
   - Angle of two vectors
@@ -133,6 +133,7 @@ Main focuses are:
   - Unit vector
   - Vector rotation 2D
   - Vector scalar
+  - Convert linear indices to subscripts
   
 - Optimization
   - Linear programming
