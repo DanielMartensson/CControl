@@ -25,13 +25,10 @@
   */
 void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings) {
 	/* Extract */
-	SETTINGS_GENERAL* general_settings = NULL;
+	MODEL_GENERAL_SETTINGS* general_settings = NULL;
 	switch (model_settings->settings_choice) {
 	case SETTINGS_CHOICE_FISHERFACES:
-		general_settings = &model_settings->data_settings_fisherfaces.settings_general;
-		break;
-	case SETTINGS_CHOICE_SFA:
-		general_settings = &model_settings->data_settings_sfa.settings_general;
+		general_settings = &model_settings->settings_fisherfaces;
 		break;
 	}
 
