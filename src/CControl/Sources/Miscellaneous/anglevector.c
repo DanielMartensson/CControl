@@ -33,3 +33,26 @@ float anglevector(const float a[], const float b[], const size_t row) {
     /* Return */
     return angleDegrees;
 }
+
+/* GNU octave code
+function angleDegrees = anglevector(a, b)
+  % Calculate the dot product
+  dotProduct = dot(a, b);
+
+  % Calculate the lengths of the vectors
+  lengthA = norm(a, 2);
+  lengthB = norm(b, 2);
+
+  % Calculate the cosine of the angle
+  cosineAngle = dotProduct / (lengthA * lengthB);
+
+  % Ensure that cosineAngle is within the range[-1, 1]
+  cosineAngle = min(max(cosineAngle, -1), 1);
+
+  % Use atan2 to get the angle in radians
+  angleRadians = atan2(sqrt(1 - cosineAngle * cosineAngle), cosineAngle);
+
+  % Convert the angle from radians to degrees
+  angleDegrees = rad2deg(angleRadians);
+end
+*/
