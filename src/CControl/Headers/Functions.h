@@ -108,7 +108,7 @@ void nn_train(const float X[], const size_t class_id[], float weight[], float bi
 size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w, bool* class_id_found, const ACTIVATION_FUNCTION activation_function);
 void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function);
 void nn_save(const float model_w[], const float model_b[], const ACTIVATION_FUNCTION activation_function, const char model_path[], const char model_name[], const size_t row, const size_t column);
-MODEL* sfaod(MODEL_SETTINGS* settings);
+MODEL* ght(MODEL_SETTINGS* settings);
 bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
 
 /* Miscellaneous */
@@ -117,19 +117,20 @@ void cat(bool row_wise, float A[], float B[], float C[], size_t row_a, size_t co
 float saturation(float input, float lower_limit, float upper_limit);
 void cut(const float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
 void find(float A[], int32_t index[], float condition, size_t row, FIND_CONDITION_METOD condition_method);
-void insert(float A[], float B[], size_t row_a, size_t column_a, size_t column_b, size_t startRow_b, size_t startColumn_b);
+void ind2sub(const size_t index, const size_t column, size_t* row_index, size_t* column_index);
+void insert(const float A[], float B[], const size_t row_a, const size_t column_a, const size_t column_b, const size_t start_row_b, const size_t start_column_b);
 bool issymmetric(float A[], size_t row, size_t column);
 float orientation(const float X[], const size_t radius, const size_t x, const size_t y, const size_t row, const size_t column);
 void pdist2(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const PDIST2_METRIC metric);
-uint8_t popcount(uint64_t x);
-void print(float A[], size_t row, size_t column);
+uint8_t popcount(const uint64_t x);
+void print(const float A[], const size_t row, const size_t column);
 float rad2deg(const float radians);
 void rot2d(float x[], const float radians);
 float deg2rad(const float radians);
 void scalar(float x[], const float k, const size_t row);
-float sign(float number);
-float vmax(float a, float b);
-float vmin(float a, float b);
+float sign(const float number);
+float vmax(const float a, const float b);
+float vmin(const float a, const float b);
 void sort(float X[], size_t index[], size_t row, size_t column, SORT_MODE sort_mode);
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
 void unit(float x[], const size_t row);
@@ -196,8 +197,9 @@ void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column);
 FAST_XY* featuredetection(const uint8_t X[], int* N, const int fast_threshold, const FAST_METHOD fast_method, const int row, const int column);
 float* fspecial(const size_t row, const size_t column, const float value, size_t* output_size, const FSPECIAL_TYPE type);
+float* generalizedhough_create_data(const uint8_t image[], const size_t row, const size_t column, const int max_points, size_t* max_classes, const float sigma, const uint8_t fast_threshold, const FAST_METHOD fast_method, const float epsilon, const size_t min_pts, const GENERALIZED_HOUGH_METHOD generalized_hough_method);
 GENERALIZED_HOUGH_MODEL* generalizedhough_create_model(const float X[], const size_t row);
-void generalizedhough_eval_votes(const float X[], const GENERALIZED_HOUGH_MODEL model[], size_t* xc, size_t* yc, const size_t row);
+void generalizedhough_eval_votes(const float X[], const GENERALIZED_HOUGH_MODEL model[], const float smoothing_accumulator, float* max_value_accumulator, size_t* xc, size_t* yc, const size_t row);
 void generalizedhough_free_model(const GENERALIZED_HOUGH_MODEL model[]);
 void harris(const float X[], float H[], const float sigma, const uint8_t edge, const size_t row, const size_t column);
 size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column);
