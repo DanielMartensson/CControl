@@ -32,14 +32,25 @@ int main() {
 							   0,   2,   0,
 							  -1,   0,   1 };
 
-	/* Create output B - For "same" argument setting */
-	float B[row_a * column_a];
+	/* Create output B */
+	float B_same[row_a * column_a];
+	float B_valid[row_k * column_k];
+	float B_full[(row_a + row_k - 1) * (column_a + column_k - 1)];
 
 	/* Do conv2 */
-	conv2(A, K, B, row_a, column_a, row_k, column_k, CONV2_SHAPE_SAME);
+	conv2(A, K, B_same, row_a, column_a, row_k, column_k, CONV2_SHAPE_SAME);
+	conv2(A, K, B_valid, row_a, column_a, row_k, column_k, CONV2_SHAPE_VALID);
+	conv2(A, K, B_full, row_a, column_a, row_k, column_k, CONV2_SHAPE_FULL);
 
 	/* Print output */
-	print(B, row_a, column_a);
+	printf("Same\n");
+	print(B_same, row_a, column_a);
+
+	printf("Valid\n");
+	print(B_valid, row_k, column_k);
+
+	printf("Full\n");
+	print(B_full, row_a + row_k - 1, column_a + column_k - 1);
 
 	/* Memory leak */
 	detectmemoryleak();
