@@ -11,12 +11,12 @@
  * Create different types of matricies for image processing
  * output[output_size * output_size]
  */
-float* fspecial(const size_t row, const size_t column, const float value, size_t* output_size, const FSPECIAL_TYPE type) {
+float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type) {
 	/* Create output */
 	float* output = NULL;
 	
 	switch (type){
-	case FSPECIAL_TYPE_GAUSSIAN: {
+	case FSPECIAL_TYPE_GAUSSIAN_2D: {
 		/* Create gaussian kernel size
 		  kernel_size = round(6 * sigma);
 
@@ -75,6 +75,27 @@ float* fspecial(const size_t row, const size_t column, const float value, size_t
 		free(x);
 		free(y);
 		break;
+	}
+	case FSPECIAL_TYPE_GAUSSIAN_1D: {
+		/*
+		  kernel_size = round(6 * sigma);
+		  x = -kernel_size:kernel_size;
+	      y = 1/(sqrt(2*pi)*sigma * exp(-x.^2/(2*sigma^2));
+		 */
+		const size_t kernel_size = roundf(6.0f * value);
+		const size_t x_size = 2 * kernel_size + 1;
+		*output_size = x_size;
+		output = (float*)malloc(x_size * sizeof(float));
+		const float a = 1.0f / (sqrtf(2.0f * PI) * value * value);
+		const float b = 2.0f * value * value;
+		size_t i;
+		float x = -((float)kernel_size);
+		for (i = 0; i < x_size; i++) {
+			output[i] = a * expf(-x * x / b);
+			x += 1.0f;
+		}
+
+		return output;
 	}
 	}
 

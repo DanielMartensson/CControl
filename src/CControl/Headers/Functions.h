@@ -197,7 +197,7 @@ void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column);
 FAST_XY* featuredetection(const uint8_t X[], int* N, const int fast_threshold, const FAST_METHOD fast_method, const int row, const int column);
-float* fspecial(const size_t row, const size_t column, const float value, size_t* output_size, const FSPECIAL_TYPE type);
+float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type);
 float* generalizedhough_create_data(const uint8_t image[], const size_t row, const size_t column, const int max_points, size_t* max_classes, const float sigma, const uint8_t fast_threshold, const FAST_METHOD fast_method, const float epsilon, const size_t min_pts, const GENERALIZED_HOUGH_METHOD generalized_hough_method);
 GENERALIZED_HOUGH_MODEL* generalizedhough_create_model(const float X[], const size_t row);
 void generalizedhough_eval_votes(const float X[], const GENERALIZED_HOUGH_MODEL model[], const float smoothing_accumulator, float* max_value_accumulator, size_t* xc, size_t* yc, const size_t row);

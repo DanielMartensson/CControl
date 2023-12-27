@@ -10,9 +10,7 @@
 
 #include "CControl/ccontrol.h"
 
-#define row 10
-#define column 10
-#define sigma 0.8
+#define sigma 1.0
 
 int main() {
 	clock_t start, end;
@@ -20,12 +18,21 @@ int main() {
 	start = clock();
 
 
-	/* Create kernel K */
+	/* Create 2D gaussian  */
 	size_t K_size;
-	float* K = fspecial(row, column, sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN);
+	float* K = fspecial(sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN_2D);
 
 	/* Print */
 	print(K, K_size, K_size);
+
+	/* Free */
+	free(K);
+
+	/* Create 1D gaussian */
+	K = fspecial(sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN_1D);
+
+	/* Print */
+	print(K, K_size, 1);
 
 	/* Free */
 	free(K);
