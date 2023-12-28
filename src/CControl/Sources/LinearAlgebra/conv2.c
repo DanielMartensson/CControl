@@ -51,12 +51,12 @@ void conv2(const float A[], const float K[], float B[], const size_t row_a, cons
         edge_cols = kernel_cols - 1;
         break;
     case CONV_SHAPE_SAME:
-        /* Check if kernel size is over CONV2_MAX_KERNEL_FFT_INSTEAD */
-        if (row_k > CONV2_MAX_KERNEL_FFT_INSTEAD) {
+        /* Check if kernel size is over CONV_MAX_KERNEL_FFT_INSTEAD */
+        if (row_k > CONV_MAX_KERNEL_FFT_INSTEAD) {
             /* row_k must be an odd number */
             if (row_k % 2 >= 1) {
                 /* Do FFT instead */
-                conv2fft(A, B, row_a, column_a, K, row_k);
+                conv2fft(A, K, B, row_a, column_a, row_k);
                 return;
             }
         }
@@ -73,7 +73,43 @@ void conv2(const float A[], const float K[], float B[], const size_t row_a, cons
         edge_cols = (kernel_cols - 1) / 2;
         break;
     case CONV_SHAPE_SAME_SEPARABLE_KERNEL: {
-        /* This is a special case were you can use 1D convolution for separable kernels */
+        /* This is a special case were you can use 1D convolution for separable kernels 
+                A = [-1.050452,   0.414110,   0.149972,   0.994917, -0.209254,   0.589792,   0.584076, -0.083662,   0.177192, 0.246984,
+			        1.509006,  -1.333137, -1.660069,   0.681378, -1.053084, -1.337782,   0.225150, -0.268287,   0.832647, -0.104689,
+			        0.109541,   0.434334,   0.268967, -1.115649, -1.887634,   1.789973, -0.129688, -0.426573,   0.265466, -1.561944,
+		          0.081410,   0.803230, -0.014688,   0.350058, -0.246994,   1.392739, -0.210225, -0.348374,   0.280731, -1.255628,
+		         -1.760850,   0.195185,   1.921482, -1.712214, -1.220659, -1.123662, -0.583558,   0.504691, -0.939355, 0.589897,
+		         -0.971111,   0.685378, -1.280834,   0.718914, -0.988931,   0.805904,   0.540353, -0.224010,   1.270656, 0.569799,
+		         -0.357689,  -1.730907,   2.075645, -1.206756, -0.552441, -0.123188, -0.015025, -2.148288, -0.647478, -1.287194,
+			        0.500089,   0.027562,   0.015011, -0.981528,   0.634455, -1.214154,   0.340079, -1.651628,   1.055575, -0.774350,
+			        1.292942,   0.051219, -0.591766, -0.375308, -3.435261, -0.482075, -1.488143, -1.242304,   0.021370, 1.358115,
+			        0.278103,   3.624124, -0.263088,   0.545802,   0.271732,   0.225901,   0.219443,   0.025991, -1.009268, 0.127537];
+      
+        sigma = 0.8;
+        kernel_size = round(6 * sigma);
+        [x, y] = meshgrid(-kernel_size:kernel_size, -kernel_size:kernel_size);
+        K = 1/(2*pi*sigma^2)*exp(-(x.^2 + y.^2)/(2*sigma^2));
+        result = conv2(A, K, 'same');
+
+
+        x = -kernel_size:kernel_size;
+        y = x.';
+        a = 1/(sqrt(2*pi)*sigma);
+        b = 2*sigma*sigma;
+        kr = 1/(sqrt(2*pi)*sigma) * exp(-x.^2/b);
+        kc = 1/(sqrt(2*pi)*sigma) * exp(-y.^2/(2*sigma^2));
+
+        result_sep = NaN(size(A));
+        for r = 1:size(A,1)
+            result_sep(r,:) = conv(A(r,:), kr, 'same');
+        end
+        result_sep = result_sep';
+        for c = 1:size(A,2)
+            result_sep(c, :) = conv(result_sep(c, :), kr, 'same');
+        end
+        result_sep = result_sep'
+        max(max(abs(result-result_sep)))
+        */
         float* B_copy = (float*)malloc(row_a * column_a * sizeof(float));
         float* B_copy0 = B_copy;
         float* B0 = B;

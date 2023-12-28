@@ -45,7 +45,19 @@ void conv(const float a[], const float k[], float b[], const size_t row_a, const
 
         break;
     }
-    case CONV_SHAPE_SAME: {
+    case CONV_SHAPE_SAME:
+        /* Check if kernel size is over CONV_MAX_KERNEL_FFT_INSTEAD */
+        if (row_k > CONV_MAX_KERNEL_FFT_INSTEAD) {
+            /* row_k must be an odd number */
+            if (row_k % 2 >= 1) {
+                /* Do FFT instead */
+                convfft(a, k, b, row_a, row_k);
+                return;
+            }
+        }
+        conv(a, k, b, row_a, row_k, CONV_SHAPE_SAME_NO_FFT);
+        break;
+    case CONV_SHAPE_SAME_NO_FFT: {
         const size_t padding = (row_k - 1) / 2;
         const size_t row_a1 = row_a + 2 * padding;
         memset(b, 0, row_a * sizeof(float));
