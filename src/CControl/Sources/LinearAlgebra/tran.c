@@ -9,6 +9,7 @@
 
 /*
  * Turn A into transponse A^T
+ * A[m*n]
  */
 void tran(float A[], size_t row, size_t column) {
 	/* Decleration */
