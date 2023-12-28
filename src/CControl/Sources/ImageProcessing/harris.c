@@ -22,7 +22,7 @@ void harris(const float X[], float H[], const float sigma, const uint8_t edge, c
 
 	/* Get gaussian matrix kernel */
 	size_t K_size;
-	float* K = fspecial(row, column, sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN);
+	float* K = fspecial(sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN_1D);
 
 	/* Raise by two */
 	size_t i;
@@ -36,9 +36,9 @@ void harris(const float X[], float H[], const float sigma, const uint8_t edge, c
 	float* Ix2 = (float*)malloc(row_column * sizeof(float));
 	float* Iy2 = (float*)malloc(row_column * sizeof(float));
 	float* Ixy2 = (float*)malloc(row_column * sizeof(float));
-	conv2(Ix, K, Ix2, row, column, K_size, K_size, CONV2_SHAPE_SAME);
-	conv2(Iy, K, Iy2, row, column, K_size, K_size, CONV2_SHAPE_SAME);
-	conv2(Ixy, K, Ixy2, row, column, K_size, K_size, CONV2_SHAPE_SAME);
+	conv2(Ix, K, Ix2, row, column, K_size, K_size, CONV_SHAPE_SAME_SEPARABLE_KERNEL);
+	conv2(Iy, K, Iy2, row, column, K_size, K_size, CONV_SHAPE_SAME_SEPARABLE_KERNEL);
+	conv2(Ixy, K, Ixy2, row, column, K_size, K_size, CONV_SHAPE_SAME_SEPARABLE_KERNEL);
 
 	/* Free */
 	free(Ix);

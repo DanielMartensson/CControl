@@ -52,6 +52,17 @@ int main() {
 	printf("Full\n");
 	print(B_full, row_a + row_k - 1, column_a + column_k - 1);
 
+	/* We do a special case for separable vector */
+	size_t gaussian_1D_size;
+	float* K_separable = fspecial(0.1, &gaussian_1D_size, FSPECIAL_TYPE_GAUSSIAN_1D);
+	conv2(A, K_separable, B_same, row_a, column_a, gaussian_1D_size, 1, CONV_SHAPE_SAME_SEPARABLE_KERNEL);
+
+	printf("Same - Separable kernel \n");
+	print(B_same, row_a, column_a);
+
+	/* Free */
+	free(K_separable);
+
 	/* Memory leak */
 	detectmemoryleak();
 

@@ -14,11 +14,11 @@
 void imgaussfilt(float X[], float sigma, size_t row, size_t column) {
 	/* Get gaussian kernel */
 	size_t K_size;
-	float* K_g = fspecial(row, column, sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN);
+	float* K_g = fspecial(sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN_1D);
 
 	/* Do conv2 */
 	float* Y = (float*)malloc(row * column * sizeof(float));
-	conv2(X, K_g, Y, row, column, K_size, K_size, CONV2_SHAPE_SAME);
+	conv2(X, K_g, Y, row, column, K_size, 1, CONV_SHAPE_SAME_SEPARABLE_KERNEL);
 
 	/* Free */
 	free(K_g);

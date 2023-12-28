@@ -86,7 +86,7 @@ float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type
 		const size_t x_size = 2 * kernel_size + 1;
 		*output_size = x_size;
 		output = (float*)malloc(x_size * sizeof(float));
-		const float a = 1.0f / (sqrtf(2.0f * PI) * value * value);
+		const float a = 1.0f / (sqrtf(2.0f * PI) * value);
 		const float b = 2.0f * value * value;
 		size_t i;
 		float x = -((float)kernel_size);

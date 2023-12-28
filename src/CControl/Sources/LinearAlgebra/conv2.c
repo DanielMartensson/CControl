@@ -16,6 +16,9 @@
  * B_valid[row_k * column_k] - Output
  * B_full[(row_a + row_k - 1) * (column_a + column_k - 1)] - Output
  * 
+ * When using CONV_SHAPE_SAME_SEPARABLE_KERNEL
+ * Then K[row_k] as a kernel vector
+ * 
  * Found code at: https://blog.csdn.net/celerychen2009/article/details/38852105
  */
 void conv2(const float A[], const float K[], float B[], const size_t row_a, const size_t column_a, const size_t row_k, const size_t column_k, const CONV_SHAPE shape) {
@@ -25,12 +28,19 @@ void conv2(const float A[], const float K[], float B[], const size_t row_a, cons
     const int kernel_row = row_k;
     const int kernel_cols = column_k;
 
-    /* Integer variables */
+    /* Variables */
     int dst_row = 0;
     int dst_cols = 0;
     int edge_row = 0;
     int edge_cols = 0;
     int i, j, kernel_i, kernel_ii, kernel_j, kernel_jj, src_i, src_ii, src_j, src_jj;
+    float sum;
+
+    /* Pointer arrays */
+    float* ptr_src_line_i;
+    float* ptr_kernel_line_i;
+    float* A0;
+    float* K0;
 
     /* Select method */
     switch (shape) {
@@ -62,22 +72,57 @@ void conv2(const float A[], const float K[], float B[], const size_t row_a, cons
         edge_row = (kernel_row - 1) / 2;
         edge_cols = (kernel_cols - 1) / 2;
         break;
+    case CONV_SHAPE_SAME_SEPARABLE_KERNEL: {
+        /* This is a special case were you can use 1D convolution for separable kernels */
+        float* B_copy = (float*)malloc(row_a * column_a * sizeof(float));
+        float* B_copy0 = B_copy;
+        float* B0 = B;
+        for (i = 0; i < row_a; i++) {
+            conv(A, K, B_copy, column_a, row_k, CONV_SHAPE_SAME);
+
+            /* Next row */
+            A += column_a;
+            B_copy += column_a;
+        }
+
+        /* Reset */
+        B_copy = B_copy0;
+
+        /* Transpose of B copy */
+        tran(B_copy, row_a, column_a);
+
+        /* Again */
+        for (i = 0; i < column_a; i++) {
+            conv(B_copy, K, B, row_a, row_k, CONV_SHAPE_SAME);
+
+            /* Next row */
+            B_copy += row_a;
+            B += row_a;
+        }
+
+        /* Reset */
+        B_copy = B_copy0;
+        B = B0;
+
+        /* Free */
+        free(B_copy);
+
+        /* Transpose of B */
+        tran(B, column_a, row_a);
+
+        return;
+    }
     case CONV_SHAPE_VALID:
         dst_row = src_row - kernel_row + 1;
         dst_cols = src_cols - kernel_cols + 1;
         edge_row = edge_cols = 0;
         break;
+    default:
+        printf("No support for that shape yet\n");
+        return;
     }
 
-    /* Pointer arrays */
-    float* ptr_src_line_i;
-    float* ptr_kernel_line_i;
-    float* A0;
-    float* K0;
-
-    /* Variables */
-    float sum;
-
+    /* 2D convolution */
     for (i = 0; i < dst_row; i++) {
         /* Boundary checks - Save the index */
         kernel_ii = kernel_row - 1.0f - vmax(0.0f, edge_row - i);
