@@ -47,7 +47,7 @@ void harris(const float X[], float H[], const float sigma, const uint8_t edge, c
 	free(K);
 
 	/* Find Harris score */
-	const float k = 0.04f;
+	const float k = 0.07f;
 	for (i = 0; i < row_column; i++) {
 		H[i] = Ix2[i] * Iy2[i] - Ixy2[i] * Ixy2[i] - k * (Ix2[i] + Iy2[i]) * (Ix2[i] + Iy2[i]);
 	}
