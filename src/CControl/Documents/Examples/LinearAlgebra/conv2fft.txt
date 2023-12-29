@@ -38,7 +38,7 @@ int main() {
 							   0.769967,   0.790160,   0.302300 };
 
 	/* Do conv2fft */
-	conv2fft(A, B, row_a, column_a, K, row_k);
+	conv2fft(A, K, B, row_a, column_a, row_k);
 
 	/* Print B */
 	print(B, row_a, column_a);
