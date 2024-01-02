@@ -35,18 +35,7 @@ void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, 
 	for (i = 0; i < row; i++) {
 		if (!visited[i]) {
 			visited[i] = true;
-			find(C + i * row, neighbors, epsilon, row, FIND_CONDITION_METOD_GE);
-
-			/* Count number of elements */
-			n1 = 0;
-			for (m = 0; m < row; m++) {
-				if (neighbors[m] >= 0) {
-					n1++;
-				}
-				else {
-					break;
-				}
-			}
+			n1 = find(C + i * row, neighbors, epsilon, row, FIND_CONDITION_METOD_GE);
 
 			/* Create */
 			int32_t* neighbors1 = (int32_t*)malloc(n1 * sizeof(int32_t));
@@ -55,31 +44,17 @@ void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, 
 			if (n1 > min_pts) {
 				l++;
 				idx[i] = l;
-
 				k = 0;
 				while (true) {
 					j = neighbors1[k];
 					if (!visited[j]) {
 						visited[j] = true;
-						find(C + j * row, neighbors2, epsilon, row, FIND_CONDITION_METOD_GE);
+						n2 = find(C + j * row, neighbors2, epsilon, row, FIND_CONDITION_METOD_GE);
 						
-						/* Count number of elements */
-						n2 = 0;
-						for (m = 0; m < row; m++) {
-							if (neighbors2[m] >= 0) {
-								n2++;
-							}
-							else {
-								break;
-							}
-						}
-
 						/* MATLAB: neighbors1 = [neighbors1 neighbors2] */
 						if (n2 >= min_pts) {
 							neighbors1 = (int32_t*)realloc(neighbors1, (n1 + n2) * sizeof(int32_t));
-							for (m = 0; m < n2; m++) {
-								neighbors1[n1 + m] = neighbors2[m];
-							}
+							memcpy(neighbors1 + n1, neighbors2, n2 * sizeof(int32_t));
 							n1 += n2;
 						}
 					}
