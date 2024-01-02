@@ -27,19 +27,23 @@ void sort(float X[], size_t index[], const size_t row, const size_t column, cons
 		sort(X, index, column, row, sort_mode == SORT_MODE_ROW_DIRECTION_ASCEND ? SORT_MODE_COLUMN_DIRECTION_ASCEND : SORT_MODE_COLUMN_DIRECTION_DESCEND);
 		
 		/* Restore back - Transpose */
-		tran(X, column, row);
-		size_t* indexT = (size_t*)malloc(row * column * sizeof(size_t));
+		const size_t row_column = row * column;
+		size_t* indexT = (size_t*)malloc(row_column * sizeof(size_t));
+		float* XT = (float*)malloc(row_column * sizeof(float));
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < column; j++) {
+				XT[i * column + j] = X[j * row + i];
 				indexT[i * column + j] = index[j * row + i];
 			}
 		}
 
 		/* Copy over */
-		memcpy(index, indexT, column * row * sizeof(size_t));
+		memcpy(X, XT, row_column * sizeof(float));
+		memcpy(index, indexT, row_column * sizeof(size_t));
 
 		/* Free */
 		free(indexT);
+		free(XT);
 
 		return;
 	}
