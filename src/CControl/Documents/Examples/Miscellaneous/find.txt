@@ -22,7 +22,7 @@ int main() {
 	int32_t index[row] = { 0 };
 
 	/* Compute find */
-	find(A, index, 0.1, row, FIND_CONDITION_METOD_L);
+	size_t N = find(A, index, 0.1, row, FIND_CONDITION_METOD_L);
 
 	/* Print index */
 	size_t i;
@@ -31,6 +31,7 @@ int main() {
 			printf("%i ", index[i]);
 		}
 	}
+	printf("Total finds: %i\n", (int)N);
 
 	end = clock();
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
