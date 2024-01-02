@@ -16,7 +16,6 @@
 int main() {
 	clock_t start, end;
 	float cpu_time_used;
-	start = clock();
 
 	/* Define X, idx, epsilon and min_pts */
     float X[row * column] = { -0.251521, 1.045117, -1.281658,
@@ -89,11 +88,13 @@ int main() {
      -22, -34, 53 };
 
 	size_t idx[row] = { 0 };
-	float epsilon = 1;
-	size_t min_pts = 1;
+	float epsilon = 10;
+	size_t min_pts = 3;
 
 	/* Compute dbscan */
+    start = clock();
 	dbscan(X, idx, epsilon, min_pts, row, column);
+    end = clock();
 
 	/* Print idx */
 	size_t i;
@@ -101,7 +102,6 @@ int main() {
 		printf("%i\n", idx[i]);
 	}
 
-	end = clock();
 	cpu_time_used = ((float) (end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
