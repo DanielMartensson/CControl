@@ -31,7 +31,7 @@ void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, 
 	int32_t* neighbors2 = (int32_t*)malloc(row * sizeof(int32_t));
 
 	/* Process */
-	size_t n1, n2, n3, i, j, k, l = 0, m;
+	size_t n1, n2, i, j, k, l = 0, m;
 	for (i = 0; i < row; i++) {
 		if (!visited[i]) {
 			visited[i] = true;
@@ -63,16 +63,7 @@ void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, 
 						idx[j] = l;
 					}
 					k++;
-					n3 = 0;
-					for (m = 0; m < n1; m++) {
-						if (neighbors1[m] >= 0) {
-							n3++;
-						}
-						else {
-							break;
-						}
-					}
-					if (k >= n3) {
+					if (k >= n1) {
 						break;
 					}
 				}
