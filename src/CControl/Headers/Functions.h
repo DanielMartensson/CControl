@@ -98,6 +98,7 @@ void centroid(const float X[], float C[], const size_t row, const size_t column)
 float clusterratio(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column);
 float clusterdistance(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column);
 void dbscan(float X[], size_t idx[], float epsilon, size_t min_pts, size_t row, size_t column);
+void dbscan2(const float X[], size_t idx[], const float epsilon, const size_t min_pts, const size_t row, const size_t column);
 MODEL* fisherfaces(MODEL_SETTINGS* model_settings);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
 bool kmeans(const float X[], size_t idx[], float C[], const size_t k, const size_t row, const size_t column);
@@ -116,7 +117,7 @@ float anglevector(const float a[], const float b[], const size_t row);
 void cat(const bool row_wise, const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const size_t column_b, const size_t row_c, const size_t column_c);
 float saturation(const float input, const float lower_limit, const float upper_limit);
 void cut(const float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
-void find(const float A[], int32_t index[], const float condition, const size_t row, const FIND_CONDITION_METOD condition_method);
+size_t find(const float A[], int32_t index[], const float condition, const size_t row, const FIND_CONDITION_METOD condition_method);
 void ind2sub(const size_t index, const size_t column, size_t* row_index, size_t* column_index);
 void insert(const float A[], float B[], const size_t row_a, const size_t column_a, const size_t column_b, const size_t start_row_b, const size_t start_column_b);
 bool issymmetric(const float A[], const size_t row, const size_t column);
@@ -131,7 +132,7 @@ void scalar(float x[], const float k, const size_t row);
 float sign(const float number);
 float vmax(const float a, const float b);
 float vmin(const float a, const float b);
-void sort(float X[], size_t index[], size_t row, size_t column, SORT_MODE sort_mode);
+void sort(float X[], size_t index[], const size_t row, const size_t column, const SORT_MODE sort_mode);
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
 void unit(float x[], const size_t row);
 
@@ -145,7 +146,7 @@ size_t scan_sub_folder_names(const char folder_path[], char** sub_folder_names[]
 /* Linear algebra */
 bool inv(float A[], size_t row);
 void linsolve_upper_triangular(float A[], float x[], float b[], size_t column);
-void tran(float A[], size_t row, size_t column);
+void tran(float A[], const size_t row, const size_t column);
 void mul(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t column_b);
 size_t rank(float A[], size_t row, size_t column);
 bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]);
