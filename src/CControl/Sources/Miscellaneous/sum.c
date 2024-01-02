@@ -18,7 +18,7 @@ void sum(float x[], float y[], size_t row, size_t column, bool row_direction) {
 	size_t i, j;
 
 	/* Save address */
-	float *x0 = x;
+	float* x0 = x;
 
 	if (row_direction) {
 		/* Clear */
@@ -34,7 +34,7 @@ void sum(float x[], float y[], size_t row, size_t column, bool row_direction) {
 		}
 	}else{
 		/* Clear */
-		memset(y, 0, row*sizeof(float));
+		memset(y, 0, row * sizeof(float));
 
 		/* Fill */
 		for(i = 0; i < row; i++){
