@@ -10,6 +10,8 @@
 /*
  * Create different types of matricies for image processing
  * output[output_size * output_size]
+ * 
+ * When FSPEICAL_TYPE_SOBEL_X and FSPEICAL_TYPE_SOBEL_Y is used, output_size can be NULL and value can be 0
  */
 float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type) {
 	/* Create output */
@@ -96,6 +98,22 @@ float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type
 		}
 
 		return output;
+	}
+	case FSPEICAL_TYPE_SOBEL_X: {
+		/* Create kernel matrix */
+		static const float kernel_x[9] = { -1.0f, 0.0f, 1.0f,
+										   -2.0f, 0.0f, 2.0f,
+										   -1.0f, 0.0f, 1.0f };
+		return kernel_x;
+		break;
+	}
+	case FSPEICAL_TYPE_SOBEL_Y: {
+		/* Create kernel matrix */
+		static const float kernel_y[9] = { -1.0f, -2.0f, -1.0f,
+											0.0f,  0.0f,  0.0f,
+											1.0f,  2.0f,  1.0f };
+		return kernel_y;
+		break;
 	}
 	}
 

@@ -14,13 +14,9 @@
  * O[m*n] - Orientations in radians
  */
 void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const SOBEL_METHOD sobel_method){
-	/* Create kernel matrix */
-	const float kernel_x[9] = { -1.0f, 0.0f, 1.0f,
-								-2.0f, 0.0f, 2.0f,
-								-1.0f, 0.0f, 1.0f };
-	const float kernel_y[9] = { -1.0f, -2.0f, -1.0f,
-								 0.0f,  0.0f,  0.0f,
-								 1.0f,  2.0f,  1.0f };
+	/* Create kernels */
+	const float* kernel_x = fspecial(0.0f, NULL, FSPEICAL_TYPE_SOBEL_X);
+	const float* kernel_y = fspecial(0.0f, NULL, FSPEICAL_TYPE_SOBEL_Y);
 
 	/* Do conv2 */
 	const size_t total_size = row * column;
