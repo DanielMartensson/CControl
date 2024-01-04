@@ -80,9 +80,9 @@ void conv(const float a[], const float k[], float b[], const size_t row_a, const
         break;
     }
     case CONV_SHAPE_VALID: {
-        const size_t result_length = row_a >= row_k ? row_a - row_k + 1 : 0;
-        memset(b, 0, result_length * sizeof(float));
-        for (i = 0; i < result_length; i++) {
+        const size_t row_b = row_a - row_k + 1;
+        memset(b, 0, row_b * sizeof(float));
+        for (i = 0; i < row_b; i++) {
             for (j = 0; j < row_k; j++) {
                 b[i] += a[j] * k[j];
             }

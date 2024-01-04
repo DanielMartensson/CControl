@@ -365,9 +365,6 @@
     <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\fspecial.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -417,6 +414,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\LinearAlgebra\convfft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
