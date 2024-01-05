@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "controlengineering.h"
 
 static void integral(size_t ANTI_WINDUP, float xi[], float r[], float y[], size_t RDIM);
 

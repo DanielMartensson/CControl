@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "miscellaneous.h"
 
 bool issymmetric(const float A[], const size_t row, const size_t column) {
 	/* Check size */

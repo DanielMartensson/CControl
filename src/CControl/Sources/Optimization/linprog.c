@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "optimization.h"
 
 static bool opti(float c[], float A[], float b[], float x[], size_t row_a, size_t column_a, bool maximization);
 

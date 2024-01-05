@@ -1,0 +1,73 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/dmn/GitHub/CControl/src/CControl/Sources/SignalProcessing/FFTpack/fftpack.c"
+                },
+                "region": {
+                  "startLine": 2663,
+                  "startColumn": 24,
+                  "endLine": 2663,
+                  "endColumn": 28
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "sinti",
+                  "decoratedName": "sinti",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.37.32825.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/dmn/GitHub/CControl/src/CControl/Sources/SignalProcessing/FFTpack/fftpack.c"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "95cc55060b7e45fba9a49a8adae91c9bfa61782ca0e10a04ecb65b5d8a421dd7"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/dmn/github/ccontrol/src/ccontrol/sources/signalprocessing/fftpack/fftpack.h"
+          },
+          "hashes": {
+            "sha-256": "71692e54f7a5ac84d09f5a8183b15d2a8af10657c16e35de874423e73f6016f2"
+          }
+        }
+      ]
+    }
+  ]
+}

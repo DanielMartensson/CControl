@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>generalizedhough.c</FILENAME>
+      <LINE>23</LINE>
+      <COLUMN>20</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>generalizedhough_create_data</FUNCTION>
+    <DECORATED>generalizedhough_create_data</DECORATED>
+    <FUNCLINE>14</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>generalizedhough.c</FILENAME>
+      <LINE>156</LINE>
+      <COLUMN>47</COLUMN>
+    </SFA>
+    <DEFECTCODE>6308</DEFECTCODE>
+    <DESCRIPTION>'realloc' might return null pointer: assigning null pointer to 'model[theta].vote', which is passed as an argument to 'realloc', will cause the original memory block to be leaked.</DESCRIPTION>
+    <FUNCTION>generalizedhough_create_model</FUNCTION>
+    <DECORATED>generalizedhough_create_model</DECORATED>
+    <FUNCLINE>77</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>generalizedhough.c</FILENAME>
+      <LINE>211</LINE>
+      <COLUMN>15</COLUMN>
+    </SFA>
+    <DEFECTCODE>6319</DEFECTCODE>
+    <DESCRIPTION>Use of the comma-operator in a tested expression causes the left argument to be ignored when it has no side-effects.</DESCRIPTION>
+    <FUNCTION>generalizedhough_create_model</FUNCTION>
+    <DECORATED>generalizedhough_create_model</DECORATED>
+    <FUNCLINE>77</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>generalizedhough.c</FILENAME>
+      <LINE>359</LINE>
+      <COLUMN>19</COLUMN>
+    </SFA>
+    <DEFECTCODE>6319</DEFECTCODE>
+    <DESCRIPTION>Use of the comma-operator in a tested expression causes the left argument to be ignored when it has no side-effects.</DESCRIPTION>
+    <FUNCTION>generalizedhough_eval_votes</FUNCTION>
+    <DECORATED>generalizedhough_eval_votes</DECORATED>
+    <FUNCLINE>245</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>generalizedhough.c</FILENAME>
+      <LINE>359</LINE>
+      <COLUMN>23</COLUMN>
+    </SFA>
+    <DEFECTCODE>6269</DEFECTCODE>
+    <DESCRIPTION>Possibly incorrect order of operations.</DESCRIPTION>
+    <FUNCTION>generalizedhough_eval_votes</FUNCTION>
+    <DECORATED>generalizedhough_eval_votes</DECORATED>
+    <FUNCLINE>245</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

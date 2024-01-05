@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Hardware\</FILEPATH>
+      <FILENAME>scan_sub_folder_names.c</FILENAME>
+      <LINE>36</LINE>
+      <COLUMN>34</COLUMN>
+    </SFA>
+    <DEFECTCODE>6308</DEFECTCODE>
+    <DESCRIPTION>'realloc' might return null pointer: assigning null pointer to '*sub_folder_names', which is passed as an argument to 'realloc', will cause the original memory block to be leaked.</DESCRIPTION>
+    <FUNCTION>scan_sub_folder_names</FUNCTION>
+    <DECORATED>scan_sub_folder_names</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "linearalgebra.h"
 
  /* Regular SVD routines */
 bool svd_golub_reinsch(float A[], size_t row, size_t column, float U[], float S[], float V[]);

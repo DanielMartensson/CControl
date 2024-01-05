@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "miscellaneous.h"
 
 /*
  * Return max value of a and b

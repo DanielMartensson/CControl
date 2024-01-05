@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "signalprocessing.h"
 
  /*
   * Inverse FFT shift

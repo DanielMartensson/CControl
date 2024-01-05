@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "optimization.h"
 
 /*
  * Non-Negative Least Squares (NNLS) Algorithm 

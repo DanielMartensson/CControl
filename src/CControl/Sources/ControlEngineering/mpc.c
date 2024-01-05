@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "controlengineering.h"
 
 static void obsv(float PHI[], float A[], float C[], size_t ADIM, size_t YDIM, size_t HORIZON);
 static void cab(float GAMMA[], float PHI[], float B[], float C[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON);

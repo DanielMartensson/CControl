@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "miscellaneous.h"
 
 /*
  * Create a unit vector of x

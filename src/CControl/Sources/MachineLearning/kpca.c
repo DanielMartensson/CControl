@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "machinelearning.h"
 
  /*
   * Kernel Principal Component Analysis

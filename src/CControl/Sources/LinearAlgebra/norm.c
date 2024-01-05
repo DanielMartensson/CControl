@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "linearalgebra.h"
 
 /*
  * Find the norm of X. Use the NORM_METOD enum

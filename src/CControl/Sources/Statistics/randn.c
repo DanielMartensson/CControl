@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "statistics.h"
 
 static float generate_gauss(float mu, float sigma);
 static bool has_been_called = false;

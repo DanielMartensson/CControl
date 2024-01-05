@@ -5,7 +5,7 @@
  *      Author: Daniel M�rtensson
  */
 
-#include "../../Headers/functions.h"
+#include "machinelearning.h"
 
 /*
  * Do Support Vector Machine

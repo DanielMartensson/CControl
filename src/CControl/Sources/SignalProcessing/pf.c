@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "signalprocessing.h"
 
 static void shift_matrix(float matrix[], float x[], size_t p, size_t* k, size_t m);
 static void kernel_density_estimation(float P[], float H[], float horizon[], float noise[], size_t m, size_t p);

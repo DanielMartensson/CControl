@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "artificialintelligence.h"
 
 static void heuristic_map(int32_t map[], size_t x_stop, size_t y_stop, size_t height, size_t width, ASTAR_MODE astar_mode);
 

@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "statistics.h"
 
 /*
  * Compute the mean of vector x

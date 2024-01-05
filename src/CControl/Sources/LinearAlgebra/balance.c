@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "linearalgebra.h"
 
 /*
  * Balance a real matrix

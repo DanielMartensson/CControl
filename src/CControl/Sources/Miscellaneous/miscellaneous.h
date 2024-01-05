@@ -1,0 +1,37 @@
+#ifndef MISCELLANIEOUS_H_
+#define MISCELLANIEOUS_H_
+
+#include "../../Headers/headers.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+float anglevector(const float a[], const float b[], const size_t row);
+void cat(const bool row_wise, const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const size_t column_b, const size_t row_c, const size_t column_c);
+float saturation(const float input, const float lower_limit, const float upper_limit);
+void cut(const float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
+size_t find(const float A[], int32_t index[], const float condition, const size_t row, const FIND_CONDITION_METOD condition_method);
+void ind2sub(const size_t index, const size_t column, size_t* row_index, size_t* column_index);
+void insert(const float A[], float B[], const size_t row_a, const size_t column_a, const size_t column_b, const size_t start_row_b, const size_t start_column_b);
+bool issymmetric(const float A[], const size_t row, const size_t column);
+float orientation(const float X[], const size_t radius, const size_t x, const size_t y, const size_t row, const size_t column);
+void pdist2(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const PDIST2_METRIC metric);
+uint8_t popcount(const uint64_t x);
+void print(const float A[], const size_t row, const size_t column);
+float rad2deg(const float radians);
+void rot2d(float x[], const float radians);
+float deg2rad(const float radians);
+void scalar(float x[], const float k, const size_t row);
+float sign(const float number);
+float vmax(const float a, const float b);
+float vmin(const float a, const float b);
+void sort(float X[], size_t index[], const size_t row, const size_t column, const SORT_MODE sort_mode);
+void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
+void unit(float x[], const size_t row);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* !MISCELLANIEOUS_H_ */

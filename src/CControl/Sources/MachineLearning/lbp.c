@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "machinelearning.h"
 
 /*
  * Local Binary Pattern - Use the commented C-code inside lbp.c to tune in the radius

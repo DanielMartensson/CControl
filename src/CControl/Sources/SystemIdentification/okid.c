@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "systemidentification.h"
 
 /*
  * Observer kalman filter identification.

@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "linearalgebra.h"
 
 /*
  * Pseudo inverse by using Singular Value Decomposition

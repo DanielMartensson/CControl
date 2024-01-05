@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "statistics.h"
 
 /* 
  * Compute the cluster ratio between the X and Y matrix

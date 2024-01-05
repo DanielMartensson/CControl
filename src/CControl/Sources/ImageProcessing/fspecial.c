@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "imageprocessing.h"
 
 /*
  * Create different types of matricies for image processing

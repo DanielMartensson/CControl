@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "imageprocessing.h"
 
 PGM* imread(const char file_path[]) {
 	/* Check if file_path holds .pgm */

@@ -5,7 +5,7 @@
 *      Author: Daniel Mårtensson
 */
 
-#include "../../Headers/functions.h"
+#include "machinelearning.h"
 
 /*
  * K-means clustering for gaussian clustering

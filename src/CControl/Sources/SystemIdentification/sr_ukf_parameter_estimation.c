@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "systemidentification.h"
 
 static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, size_t L);
 static void scale_Sw_with_lambda_rls_factor(float Sw[], float lambda_rls, size_t L);

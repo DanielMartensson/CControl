@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "artificialintelligence.h"
 
 /*
  * Check if the coordinates x and y are inside the polygon px and py

@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "miscellaneous.h"
 
 static void insertion_sort(float X[], size_t index[], const size_t n, const SORT_MODE sort_mode);
 

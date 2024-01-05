@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "signalprocessing.h"
 
 static void simulation(float K, float y[], float t[], size_t l);
 static void flip(float y[], size_t l);

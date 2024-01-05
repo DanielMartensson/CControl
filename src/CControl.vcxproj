@@ -24,9 +24,22 @@
     <ClInclude Include="CControl\Headers\defines.h" />
     <ClInclude Include="CControl\Headers\enums.h" />
     <ClInclude Include="CControl\Headers\functions.h" />
+    <ClInclude Include="CControl\Headers\headers.h" />
     <ClInclude Include="CControl\Headers\macros.h" />
     <ClInclude Include="CControl\Headers\structs.h" />
+    <ClInclude Include="CControl\Sources\ArtificialIntelligence\artificialintelligence.h" />
+    <ClInclude Include="CControl\Sources\ControlEngineering\controlengineering.h" />
+    <ClInclude Include="CControl\Sources\Hardware\hardware.h" />
+    <ClInclude Include="CControl\Sources\ImageProcessing\imageprocessing.h" />
+    <ClInclude Include="CControl\Sources\LinearAlgebra\linearalgebra.h" />
+    <ClInclude Include="CControl\Sources\MachineLearning\machinelearning.h" />
+    <ClInclude Include="CControl\Sources\Miscellaneous\miscellaneous.h" />
+    <ClInclude Include="CControl\Sources\Optimization\optimization.h" />
     <ClInclude Include="CControl\Sources\SignalProcessing\FFTpack\fftpack.h" />
+    <ClInclude Include="CControl\Sources\SignalProcessing\signalprocessing.h" />
+    <ClInclude Include="CControl\Sources\sources.h" />
+    <ClInclude Include="CControl\Sources\Statistics\statistics.h" />
+    <ClInclude Include="CControl\Sources\SystemIdentification\systemidentification.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c" />

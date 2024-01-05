@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "imageprocessing.h"
 
 /*
  * Gaussian 2D filtering of a matrix

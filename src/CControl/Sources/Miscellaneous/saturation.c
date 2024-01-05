@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "miscellaneous.h"
 
 /*
  * This will saturate the input value with limits

@@ -5,8 +5,8 @@
  *      Author: Daniel Mårtensson
  */
 
-#ifndef CCONTROL_HEADERS_ENUMS_H_
-#define CCONTROL_HEADERS_ENUMS_H_
+#ifndef ENUMS_H_
+#define ENUMS_H_
 
  /* For lqi.c */
 typedef enum {
@@ -133,4 +133,4 @@ typedef enum {
 	FSPEICAL_TYPE_SOBEL_Y
 }FSPECIAL_TYPE;
 
-#endif /* !CCONTROL_HEADERS_ENUMS_H_ */
+#endif /* !ENUMS_H_ */

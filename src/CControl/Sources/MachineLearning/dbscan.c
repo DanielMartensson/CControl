@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "machinelearning.h"
 
 /* 
  * Create ID's of clusters

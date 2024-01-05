@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "statistics.h"
 
 /*
  * Return a row vector containing a random permutation of '0:N-1' of M values

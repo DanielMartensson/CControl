@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "miscellaneous.h"
 
 /*
  * This is the MATLAB function ind2sub for generate the coordinate of an index at a matrix

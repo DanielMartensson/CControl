@@ -5,8 +5,8 @@
  *      Author: Daniel Mårtensson
  */
 
-#ifndef CCONTROL_HEADERS_DEFINES_H_
-#define CCONTROL_HEADERS_DEFINES_H_
+#ifndef DEFINES_H_
+#define DEFINES_H_
 
 #ifndef __cplusplus
 /* In ANSI C (C89), the __STDC_VERSION__ is not defined */
@@ -51,9 +51,6 @@ typedef unsigned long long size_t;
 #define MKL_FFT_USED					/* For large matrices on a regular computer */
 /* #define CLAPACK_USED   				/* For larger embedded systems */
 
-/* Load the MKL library */
-#if defined(MKL_LAPACK_USED) || defined(MKL_FFT_USED)
-#include <mkl.h>
-#endif
 
-#endif /* !CCONTROL_HEADERS_DEFINES_H_ */
+
+#endif /* !DEFINES_H_ */

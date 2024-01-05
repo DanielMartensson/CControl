@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "imageprocessing.h"
 
 MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 	/* Each sub folder is a class */

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>hough.c</FILENAME>
+      <LINE>110</LINE>
+      <COLUMN>17</COLUMN>
+    </SFA>
+    <DEFECTCODE>6308</DEFECTCODE>
+    <DESCRIPTION>'realloc' might return null pointer: assigning null pointer to '*x', which is passed as an argument to 'realloc', will cause the original memory block to be leaked.</DESCRIPTION>
+    <FUNCTION>hough_cluster</FUNCTION>
+    <DECORATED>hough_cluster</DECORATED>
+    <FUNCLINE>101</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>hough.c</FILENAME>
+      <LINE>111</LINE>
+      <COLUMN>17</COLUMN>
+    </SFA>
+    <DEFECTCODE>6308</DEFECTCODE>
+    <DESCRIPTION>'realloc' might return null pointer: assigning null pointer to '*y', which is passed as an argument to 'realloc', will cause the original memory block to be leaked.</DESCRIPTION>
+    <FUNCTION>hough_cluster</FUNCTION>
+    <DECORATED>hough_cluster</DECORATED>
+    <FUNCLINE>101</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>hough.c</FILENAME>
+      <LINE>112</LINE>
+      <COLUMN>17</COLUMN>
+    </SFA>
+    <DEFECTCODE>6308</DEFECTCODE>
+    <DESCRIPTION>'realloc' might return null pointer: assigning null pointer to '*z', which is passed as an argument to 'realloc', will cause the original memory block to be leaked.</DESCRIPTION>
+    <FUNCTION>hough_cluster</FUNCTION>
+    <DECORATED>hough_cluster</DECORATED>
+    <FUNCLINE>101</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

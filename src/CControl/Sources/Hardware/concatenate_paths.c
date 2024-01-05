@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "hardware.h"
 
 /*
  * Concatenate two C-strings with \\ as delimeter

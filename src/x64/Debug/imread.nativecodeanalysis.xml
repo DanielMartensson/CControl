@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>imread.c</FILENAME>
+      <LINE>41</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>imread</FUNCTION>
+    <DECORATED>imread</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>imread.c</FILENAME>
+      <LINE>48</LINE>
+      <COLUMN>1</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'sscanf'.</DESCRIPTION>
+    <FUNCTION>imread</FUNCTION>
+    <DECORATED>imread</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>imread.c</FILENAME>
+      <LINE>60</LINE>
+      <COLUMN>3</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'fscanf'.</DESCRIPTION>
+    <FUNCTION>imread</FUNCTION>
+    <DECORATED>imread</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\</FILEPATH>
+      <FILENAME>imread.c</FILENAME>
+      <LINE>52</LINE>
+      <COLUMN>21</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>imread</FUNCTION>
+    <DECORATED>imread</DECORATED>
+    <FUNCLINE>10</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

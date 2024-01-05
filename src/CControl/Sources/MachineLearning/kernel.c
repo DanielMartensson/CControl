@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "machinelearning.h"
 
  /*
   * This should be used with e.g before PCA or LDA for better classification/separation of classes-

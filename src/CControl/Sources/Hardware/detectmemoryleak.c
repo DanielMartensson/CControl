@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "hardware.h"
 
 void detectmemoryleak() {
 	/* Memory leacks - Only for Visual Studio */

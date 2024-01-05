@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "machinelearning.h"
 
  /*
   * This is an algorithm that was created in the year 1997 by Peter N. Belhumeur, Joao P. Hespanha, and David J. Kriegman.

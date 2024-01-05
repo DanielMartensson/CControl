@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "linearalgebra.h"
 
  /* Regular routines */
 bool eig_regular(float A[], float dr[], float di[], size_t row);

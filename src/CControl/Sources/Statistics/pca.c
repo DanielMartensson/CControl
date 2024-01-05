@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "statistics.h"
 
 static void compute_components(float X[], float W[], size_t c, size_t row, size_t column);
 

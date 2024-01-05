@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "statistics.h"
 
 static void average_vector(const float X[], float mu[], const size_t row, const size_t column);
 static void center_data(float X[], float mu[], size_t row, size_t column);

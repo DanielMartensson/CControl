@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "machinelearning.h"
 
 /* Return the index of the closest to +1 value of vector x */
 static size_t closest_value_index(float x[], size_t length, bool* class_id_found) {

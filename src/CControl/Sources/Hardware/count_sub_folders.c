@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "hardware.h"
 
 /*
  * Return the amount of sub folders

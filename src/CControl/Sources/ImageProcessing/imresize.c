@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "imageprocessing.h"
 
 /*
  * Resize an image of the scale d that is larger than 1

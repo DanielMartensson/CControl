@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "signalprocessing.h"
 
 static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, size_t L);
 static void create_sigma_point_matrix(float X[], float x[], float S[], float alpha, float kappa, size_t L);

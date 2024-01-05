@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\</FILEPATH>
+      <FILENAME>clusterclassification.c</FILENAME>
+      <LINE>25</LINE>
+      <COLUMN>22</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>fsm</FUNCTION>
+    <DECORATED>fsm</DECORATED>
+    <FUNCLINE>14</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

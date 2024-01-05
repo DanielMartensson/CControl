@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "signalprocessing.h"
 
  /* Import the library FFTPack */
 #ifndef MKL_FFT_USED

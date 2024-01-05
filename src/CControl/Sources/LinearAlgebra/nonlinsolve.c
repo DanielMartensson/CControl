@@ -5,7 +5,7 @@
  *      Author: Daniel MÃƒÂ¥rtensson
  */
 
-#include "../../Headers/functions.h"
+#include "linearalgebra.h"
 
 static float check_solution(float dx[], float x[], float* past_sqrt_sum_dx, float best_x[], size_t* elements);
 

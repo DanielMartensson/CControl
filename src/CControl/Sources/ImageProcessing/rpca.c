@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "imageprocessing.h"
 
 static float do_Frobenius_on_A(float A[], float X[], float L[], float S[], size_t row, size_t column);
 static void SVT(float A[], float X[], float S[], float Y[], float L[], float tau, size_t row, size_t column);

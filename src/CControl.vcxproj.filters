@@ -36,6 +36,45 @@
     <ClInclude Include="CControl\Headers\macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CControl\Sources\LinearAlgebra\linearalgebra.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Headers\headers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\SystemIdentification\systemidentification.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\ArtificialIntelligence\artificialintelligence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\ControlEngineering\controlengineering.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\Hardware\hardware.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\ImageProcessing\imageprocessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\MachineLearning\machinelearning.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\Miscellaneous\miscellaneous.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\Optimization\optimization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\SignalProcessing\signalprocessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\Statistics\statistics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CControl\Sources\sources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c">

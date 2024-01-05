@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "linearalgebra.h"
 
 size_t rank(float A[], size_t row, size_t column) {
 	/* Do QR factorization */

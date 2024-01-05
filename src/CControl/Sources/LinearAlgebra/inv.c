@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "linearalgebra.h"
 
 static bool solve(float x[], float b[], int P[], float LU[], size_t row);
 

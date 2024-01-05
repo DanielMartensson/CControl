@@ -5,8 +5,8 @@
  *      Author: Daniel Mårtensson
  */
 
-#ifndef CCONTROL_HEADERS_STRUCTS_H_
-#define CCONTROL_HEADERS_STRUCTS_H_
+#ifndef STRUCTS_H_
+#define STRUCTS_H_
 
 /* For imshow.c and imread.c */
 typedef struct {
@@ -89,4 +89,4 @@ typedef struct {
 	size_t votes_active;
 }GENERALIZED_HOUGH_MODEL;
 
-#endif /* !CCONTROL_HEADERS_STRUCTS_H_ */
+#endif /* !STRUCTS_H_ */

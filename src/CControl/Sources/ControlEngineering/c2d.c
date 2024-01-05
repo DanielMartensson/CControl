@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "controlengineering.h"
 
 /*
  * Continuous to discrete

@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "controlengineering.h"
 
 /*
  * Check the stability of the matrix A by checking the eigenvalues

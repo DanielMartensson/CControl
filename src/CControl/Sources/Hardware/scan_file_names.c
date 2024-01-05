@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "../../Headers/functions.h"
+#include "hardware.h"
 
 #ifdef _WIN32
 #undef UNICODE /* We want to use ANSI */

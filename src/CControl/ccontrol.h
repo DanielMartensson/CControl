@@ -8,7 +8,7 @@
 #ifndef CCONTROL_H_
 #define CCONTROL_H_
 
-#include "Headers/functions.h"
+#include "Headers/headers.h"
 
 #endif
 
