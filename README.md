@@ -68,7 +68,7 @@ Main focuses are:
   - Gaussian filtering for images
   - Robust Principal Component Analysis
   - Sobel filter
-  - Portable Gray Map (PGM) reader, print and free
+  - Portable Gray Map (PGM) reader, print, write and free
   - Image resize
   - Pooling Max, Average and Shape
   - Features From Accelerated Segment Test (FAST)

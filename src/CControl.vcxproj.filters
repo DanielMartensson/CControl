@@ -458,6 +458,9 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\imwrite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

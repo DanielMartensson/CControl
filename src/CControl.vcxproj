@@ -62,6 +62,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\imwrite.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c" />
