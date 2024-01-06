@@ -62,6 +62,9 @@ PGM* imread(const char file_path[]) {
 		}
 	}
 
+	/* Close the image */
+	fclose(file);
+
 	/* Everything went fine */
 	return image;
 }

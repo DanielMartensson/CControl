@@ -1,0 +1,38 @@
+/*
+ ============================================================================
+ Name        : imwrite.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Write an image
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Read image */
+	const char* read_path = "..\\src\\CControl\\Documents\\Data\\generalizedhough\\train.pgm";
+	PGM* image = imread(read_path);
+
+	/* Write the image */
+	const char* write_path = "..\\src\\CControl\\Documents\\Data\\generalizedhough\\train_copy.pgm";
+	bool status = imwrite(image->pixels, write_path, image->height, image->width);
+	printf("Writing was %s\n", status ? "Successful" : "Failing");
+	end = clock();
+
+	/* Free */
+	imfree(image);
+
+	/* Memory leak */
+	detectmemoryleak();
+
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
