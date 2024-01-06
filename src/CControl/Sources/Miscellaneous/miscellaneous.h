@@ -12,6 +12,7 @@ void cat(const bool row_wise, const float A[], const float B[], float C[], const
 float saturation(const float input, const float lower_limit, const float upper_limit);
 void cut(const float A[], size_t column, float B[], size_t start_row, size_t stop_row, size_t start_column, size_t stop_column);
 size_t find(const float A[], int32_t index[], const float condition, const size_t row, const FIND_CONDITION_METOD condition_method);
+uint8_t* float2uint(const float X[], const size_t row, const size_t column);
 void ind2sub(const size_t index, const size_t column, size_t* row_index, size_t* column_index);
 void insert(const float A[], float B[], const size_t row_a, const size_t column_a, const size_t column_b, const size_t start_row_b, const size_t start_column_b);
 bool issymmetric(const float A[], const size_t row, const size_t column);
