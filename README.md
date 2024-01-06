@@ -134,6 +134,7 @@ Main focuses are:
   - Vector rotation 2D
   - Vector scalar
   - Convert linear indices to subscripts
+  - Float <-> uint8_t converter
   
 - Optimization
   - Linear programming
