@@ -368,9 +368,6 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imgaussfilt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\clusterclassification.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -459,6 +456,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imwrite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\landmarkdetection.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\uint2float.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

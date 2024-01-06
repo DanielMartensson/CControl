@@ -28,6 +28,7 @@ float vmax(const float a, const float b);
 float vmin(const float a, const float b);
 void sort(float X[], size_t index[], const size_t row, const size_t column, const SORT_MODE sort_mode);
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction);
+float* uint2float(const uint8_t X[], const size_t row, const size_t column);
 void unit(float x[], const size_t row);
 
 #ifdef __cplusplus
