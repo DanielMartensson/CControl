@@ -16,7 +16,7 @@
 float opa(const float X[], float Y[], const size_t row, const size_t column) {
 	/* Copy */
 	const size_t row_column = row * column;
-	const size_t total_bytes = row * column * sizeof(float);
+	const size_t total_bytes = row_column * sizeof(float);
 	float* X0 = (float*)malloc(total_bytes);
 	float* Y0 = (float*)malloc(total_bytes);
 	memcpy(X0, X, total_bytes);
@@ -33,11 +33,8 @@ float opa(const float X[], float Y[], const size_t row, const size_t column) {
 	float normY = norm(Y0, row, column, NORM_METHOD_FROBENIUS);
 
 	/* Scale to equal (unit) norm */
-	size_t i, j;
-	for (i = 0; i < row_column; i++) {
-		X0[i] /= normX;
-		Y0[i] /= normY;
-	}
+	scalar(X0, 1.0f / normX, row_column);
+	scalar(Y0, 1.0f / normY, row_column);
 
 	/* Turn X_copy to transpose */
 	tran(X0, row, column);
@@ -59,16 +56,15 @@ float opa(const float X[], float Y[], const size_t row, const size_t column) {
 
 	/* Find trace */
 	float traceTA = 0.0f;
-	for (i = 0; i < column; i++) {
-		traceTA += S[i];
-	}
-
+	sum(S, &traceTA, column, 1, true);
+	
 	/* Standardized distance between X and b*Y*T + c */
 	const float d = 1.0f - traceTA * traceTA;
 
 	/* Transformed coordinates */
 	mul(Y0, T, Y, row, column, column);
 	const float normX_traceTA = normX * traceTA;
+	size_t i, j;
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < column; j++) {
 			Y[j] *= normX_traceTA;
