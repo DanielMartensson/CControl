@@ -42,7 +42,7 @@ int main() {
 
 	/* Compute circle average */
 	size_t number_elements;
-	float average = area(X, row, &number_elements, AREA_CIRCLE) / ((float)number_elements);
+	float average = area(X, row, &number_elements, AREA_METHOD_CIRCLE) / ((float)number_elements);
 
 	/* Print */
 	printf("Average of the elements inside the circle: %f\n", average);
