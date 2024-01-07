@@ -18,21 +18,17 @@ FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uin
 	FAST_XY* xy = featuredetection(X, &num_features, fast_threshold, fast_method, row, column);
 
 	/* uint8_t X to float */
-	size_t i;
-	const size_t row_column = row * column;
-	float* X_float = (float*)malloc(row_column * sizeof(float));
-	for (i = 0; i < row_column; i++) {
-		X_float[i] = (float)X[i];
-	}
+	float* X_float = uint2float(X, row, column);
 
 	/* Do Harris corner detection */
-	float* H = (float*)malloc(row_column * sizeof(float));
+	float* H = (float*)malloc(row * column * sizeof(float));
 	harris(X_float, H, sigma, 0, row, column);
 
 	/* Collect corners and its coordinates */
 	float* corners = (float*)malloc(num_features * sizeof(float));
 	int* x = (int*)malloc(num_features * sizeof(int));
 	int* y = (int*)malloc(num_features * sizeof(int));
+	size_t i;
 	for (i = 0; i < num_features; i++) {
 		corners[i] = H[xy[i].y * column + xy[i].x];
 		x[i] = xy[i].x;
