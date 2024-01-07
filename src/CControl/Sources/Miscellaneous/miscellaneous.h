@@ -21,6 +21,7 @@ void pdist2(const float A[], const float B[], float C[], const size_t row_a, con
 uint8_t popcount(const uint64_t x);
 void print(const float A[], const size_t row, const size_t column);
 float rad2deg(const float radians);
+float* radianvector(const size_t N);
 void rot2d(float x[], const float radians);
 float deg2rad(const float radians);
 void scalar(float x[], const float k, const size_t row);

@@ -10,6 +10,7 @@ extern "C" {
 void imshow(PGM* image);
 PGM* imread(const char file_path[]);
 bool imwrite(const uint8_t X[], const char file_path[], const size_t row, const size_t column);
+FAST_XY* landmarkdetection(const uint8_t X[], int* N, const size_t row, const size_t column);
 void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column);
