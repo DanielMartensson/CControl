@@ -32,17 +32,17 @@ float area(const float X[], const size_t row, size_t* total_elements, const AREA
 				/* Compute the distance by giving the row and column coordinates for L2-norm */
 				coordinate[0] = (float)radius - i;
 				coordinate[1] = (float)radius - j;
-				distance = sqrtf(coordinate[0] * coordinate[0] + coordinate[1] * coordinate[1]);
+				distance = norm(coordinate, 2, 1, NORM_METHOD_L2);
 
 				/* Check if distance is equal or less */
 				if (distance <= radius) {
-					area_value += X[0];
+					area_value += X[j];
 					(*total_elements)++;
 				}
-
-				/* Shift index one step */
-				X += 1;
 			}
+
+			/* New row */
+			X += row;
 		}
 
 		break;
