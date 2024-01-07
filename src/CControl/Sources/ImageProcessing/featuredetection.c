@@ -54,6 +54,7 @@ FAST_XY* featuredetection(const uint8_t X[], int* N, const int fast_threshold, c
 		break;
 	case FAST_METHOD_11:
 		xy = fast11_detect_nonmax(X, column, row, column, fast_threshold, N);
+		break;
 	case FAST_METHOD_12:
 		xy = fast12_detect_nonmax(X, column, row, column, fast_threshold, N);
 		break;
