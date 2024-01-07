@@ -4,13 +4,11 @@
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Gaussian kernel
+ Description : Generate 1D or 2D kernels
  ============================================================================
  */
 
 #include "CControl/ccontrol.h"
-
-#define sigma 1.0
 
 int main() {
 	clock_t start, end;
@@ -18,8 +16,9 @@ int main() {
 	start = clock();
 
 
-	/* Create 2D gaussian  */
+	/* Create 2D gaussian */
 	size_t K_size;
+	float sigma = 1.0;
 	float* K = fspecial(sigma, &K_size, FSPECIAL_TYPE_GAUSSIAN_2D);
 
 	/* Print */
@@ -33,6 +32,15 @@ int main() {
 
 	/* Print */
 	print(K, K_size, 1);
+
+	/* Free */
+	free(K);
+
+	/* Create circular pattern */
+	K = fspecial(sigma, &K_size, FSPECIAL_TYPE_BOX_OF_ONES);
+
+	/* Print */
+	print(K, K_size, K_size);
 
 	/* Free */
 	free(K);
