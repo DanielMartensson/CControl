@@ -71,6 +71,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\convfft.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\float2uint.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\ind2sub.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\radianvector.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rot2d.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\scalar.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\uint2float.c" />

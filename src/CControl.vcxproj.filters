@@ -467,6 +467,9 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\float2uint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\radianvector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

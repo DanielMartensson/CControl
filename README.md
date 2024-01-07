@@ -135,6 +135,7 @@ Main focuses are:
   - Vector scalar
   - Convert linear indices to subscripts
   - Float <-> uint8_t converter
+  - Radian vector
   
 - Optimization
   - Linear programming
