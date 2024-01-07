@@ -10,8 +10,8 @@
 /*
  * Find the sum
  * x[m*n]
- * y[m] if row_direction = true
- * y[n] if row_direction = false
+ * y[n] if row_direction = true
+ * y[m] if row_direction = false
  */
 void sum(float x[], float y[], size_t row, size_t column, bool row_direction) {
 	/* Decleration */
