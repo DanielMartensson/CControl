@@ -11,7 +11,10 @@
  * Create different types of matricies for image processing
  * output[output_size * output_size]
  * 
- * When FSPEICAL_TYPE_SOBEL_X and FSPEICAL_TYPE_SOBEL_Y is used, output_size can be NULL and value can be 0
+ * When FSPEICAL_TYPE_SOBEL_X,
+ *		FSPEICAL_TYPE_SOBEL_Y,
+ *		FSPECIAL_TYPE_BOX_OF_ONES
+ *		is used, output_size can be NULL and value can be 0.0f
  */
 float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type) {
 	/* Create output */
@@ -104,7 +107,12 @@ float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type
 		static const float kernel_x[9] = { -1.0f, 0.0f, 1.0f,
 										   -2.0f, 0.0f, 2.0f,
 										   -1.0f, 0.0f, 1.0f };
-		return kernel_x;
+		output = kernel_x;
+
+		/* Check if it's not NULL */
+		if (output_size) {
+			*output_size = 3;
+		}
 		break;
 	}
 	case FSPEICAL_TYPE_SOBEL_Y: {
@@ -112,7 +120,25 @@ float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type
 		static const float kernel_y[9] = { -1.0f, -2.0f, -1.0f,
 											0.0f,  0.0f,  0.0f,
 											1.0f,  2.0f,  1.0f };
-		return kernel_y;
+		output = kernel_y;
+
+		/* Check if it's not NULL */
+		if (output_size) {
+			*output_size = 3;
+		}
+		break;
+	}
+	case FSPECIAL_TYPE_BOX_OF_ONES: {
+		/* Create kernel matrix */
+		static const float kernel[9] = { 1.0f, 1.0f, 1.0f, 
+										 1.0f, 1.0f, 1.0f, 
+										 1.0f, 1.0f, 0.1f};
+		output = kernel;
+
+		/* Check if it's not NULL */
+		if (output_size) {
+			*output_size = 3;
+		}
 		break;
 	}
 	}
