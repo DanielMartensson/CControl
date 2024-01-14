@@ -24,6 +24,9 @@ FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uin
 	float* H = (float*)malloc(row * column * sizeof(float));
 	harris(X_float, H, sigma, 0, row, column);
 
+	/* Free */
+	free(X_float);
+
 	/* Collect corners and its coordinates */
 	float* corners = (float*)malloc(num_features * sizeof(float));
 	int* x = (int*)malloc(num_features * sizeof(int));
@@ -37,7 +40,6 @@ FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uin
 
 	/* Free */
 	free(xy);
-	free(X_float);
 	free(H);
 	
 	/* Sort */
