@@ -9,9 +9,10 @@
 
 /*
  * Get the orientation of the matrix by using Intensity Centroid
+ * Use this if you want to find the principal rotation in a whole image, not parts of an image
  * X[m*n]
  */
-float orientation(const float X[], const size_t radius, const size_t x, const size_t y, const size_t row, const size_t column) {
+float intensitycentroid(const float X[], const size_t radius, const size_t x, const size_t y, const size_t row, const size_t column) {
 	/* Create variables */
 	size_t i, j;
 	float distance, pixel;
@@ -33,7 +34,7 @@ float orientation(const float X[], const size_t radius, const size_t x, const si
 			/* Compute the distance by giving the row and column coordinates for L2-norm */
 			coordinate[0] = (float)y - i;
 			coordinate[1] = (float)x - j;
-			distance = sqrtf(coordinate[0] * coordinate[0] + coordinate[1] * coordinate[1]);
+			distance = norm(coordinate, 2, 1, NORM_METHOD_L2);
 
 			/* Check if distance is equal or less */
 			if (distance <= radius) {

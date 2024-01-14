@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : orientation.c
+ Name        : intensitycentroid.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
@@ -31,7 +31,7 @@ int main() {
 	const size_t column = image->width;
 	const size_t x = row / 2;
 	const size_t y = column / 2;
-	float angle = orientation(X, radius, x, y, row, column);
+	float angle = intensitycentroid(X, radius, x, y, row, column);
 
 	/* Print orientation in degrees */
 	printf("The orientation is: %f\n", rad2deg(angle));
