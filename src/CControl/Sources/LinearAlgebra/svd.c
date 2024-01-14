@@ -25,7 +25,7 @@ bool svd_jacobi_one_sided(float A[], size_t row, float U[], float S[], float V[]
  * Return true = Success
  * Return false = fail
  */
-bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]) {
+bool svd(const float A[], const size_t row, const size_t column, float U[], float S[], float V[]) {
 	/* Check if matrix is symmetric */
 	bool symmetric = issymmetric(A, row, row);
 
