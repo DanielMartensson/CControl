@@ -14,7 +14,7 @@ float area(const float X[], const size_t row, size_t* total_elements, const AREA
 void randn(float x[], size_t length, float mu, float sigma);
 void randperm(size_t x[], size_t N, size_t M);
 float mean(float x[], size_t length);
-INLINE float normpdf(float x, float mu, float sigma);
+INLINE float normpdf(const float x, const float mu, const float sigma);
 float opa(const float X[], float Y[], const size_t row, const size_t column);
 float var(float x[], size_t length);
 float cov(float x[], float y[], size_t length);
