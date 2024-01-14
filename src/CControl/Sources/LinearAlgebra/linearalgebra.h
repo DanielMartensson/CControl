@@ -12,7 +12,7 @@ void linsolve_upper_triangular(float A[], float x[], float b[], size_t column);
 void tran(float A[], const size_t row, const size_t column);
 void mul(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t column_b);
 size_t rank(float A[], size_t row, size_t column);
-bool svd(float A[], size_t row, size_t column, float U[], float S[], float V[]);
+bool svd(const float A[], const size_t row, const size_t column, float U[], float S[], float V[]);
 void dlyap(float A[], float P[], float Q[], size_t row);
 float dot(const float a[], const float b[], const size_t row);
 bool qr(float A[], float Q[], float R[], size_t row_a, size_t column_a, bool only_compute_R);
@@ -33,7 +33,7 @@ bool hankel(float V[], float H[], size_t row_v, size_t column_v, size_t row_h, s
 void balance(float A[], size_t row);
 bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row);
 bool eig_generalized(float A[], float B[], size_t row, float dr[], float di[], float wr[], float wi[]);
-float norm(float X[], size_t row, size_t column, NORM_METHOD norm_method);
+float norm(const float X[], const size_t row, const size_t column, const NORM_METHOD norm_method);
 bool expm(float A[], size_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], size_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
 void linsolve_gauss(float A[], float x[], float b[], size_t row, size_t column, float alpha);

@@ -16,7 +16,7 @@ void kernel(const float X[], float K[], const size_t row, const size_t column, c
 bool kmeans(const float X[], size_t idx[], float C[], const size_t k, const size_t row, const size_t column);
 void kpca(const float X[], float W[], float P[], const size_t c, const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
 void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings);
-uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit);
+uint32_t lbp(const uint8_t X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit);
 void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const size_t classes, const float C, const float lambda);
 size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w, bool* class_id_found, const ACTIVATION_FUNCTION activation_function);
 void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function);

@@ -76,6 +76,7 @@ Main focuses are:
   - Harris corner detection
   - Orientation of a matrix by using Intensity Centroid
   - Generalized Hough Transform for arbitrary shapes
+  - Landmark detection
 
 - Signal Processing
   - Fast Fourier Transform Shift
@@ -157,6 +158,7 @@ Main focuses are:
   - Compute centroid of a cluster
   - Cluster distance
   - Cluster ratio
+  - Normal propability density function
 
 - System Identification
   - Observer Kalman Filter identification

@@ -8,9 +8,10 @@ extern "C" {
 #endif
 
 void imshow(PGM* image);
+void imfree(PGM* image);
 PGM* imread(const char file_path[]);
 bool imwrite(const uint8_t X[], const char file_path[], const size_t row, const size_t column);
-FAST_XY* landmarkdetection(const uint8_t X[], int* N, const size_t row, const size_t column);
+FAST_XY* shapedetection(const uint8_t X[], int* N, const uint8_t fast_threshold, const uint8_t sobel_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column);
 void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column);
@@ -24,7 +25,8 @@ void harris(const float X[], float H[], const float sigma, const uint8_t edge, c
 size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column);
 MODEL* imcollect(const MODEL_SETTINGS* model_settings);
 void imcollectfree(MODEL* model);
-void imfree(PGM* image);
+float intensitycentroid(const float X[], const size_t radius, const size_t x, const size_t y, const size_t row, const size_t column);
+FAST_XY* landmarkdetection(const uint8_t X[], int* N, const uint8_t descriptor_threshold, const uint32_t descriptors[], const uint8_t total_descriptors, const size_t row, const size_t column);
 void pooling(float X[], float P[], size_t row, size_t column, size_t p, POOLING_METHOD pooling_method);
 void rpca(float X[], float L[], float S[], size_t row, size_t column);
 void sobel(const float X[], float G[], float O[], const size_t row, const size_t column, const SOBEL_METHOD sobel_method);

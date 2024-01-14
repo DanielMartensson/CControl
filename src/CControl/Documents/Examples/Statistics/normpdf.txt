@@ -1,0 +1,42 @@
+/*
+ ============================================================================
+ Name        : normpdf.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute normal propability density function
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define N 5
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create x */
+	float x[N] = { 11, 17, 42, 25, 13};
+
+	/* Compute the standard deviation */
+	float std_value = stddev(x, N);
+
+	/* Compute mean */
+	float mu_value = mean(x, N);
+
+	/* Compute normal propability density function */
+	size_t i;
+	for(i = 0; i < N; i++){
+		x[i] = normpdf(x[i], mu, std_value);
+	}
+
+	/* Print */
+	print(x, 1, N);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+	return EXIT_SUCCESS;
+}

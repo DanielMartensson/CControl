@@ -18,31 +18,23 @@ int main() {
 	/* Read image */
 	PGM* image = imread("..\\src\\CControl\\Documents\\Data\\fast\\lab.pgm");
 
-	/* Create X */
-	const size_t row_column = image->height * image->width;
-	float* X = (float*)malloc(row_column * sizeof(float));
-	size_t i;
-	for (i = 0; i < row_column; i++) {
-		X[i] = image->pixels[i];
-	}
-
 	/* Local binary pattern - Use the commented C-code inside lbp.c to tune in the radius */
 	uint8_t radius = 100;
 	float init_angle = 0.0f * PI / 180.0f;
 	LBP_BIT lbp_bit = LBP_BIT_32;
 	const size_t x = 109;
 	const size_t y = 109;
-	uint32_t descriptor = lbp(X, image->height, image->width, x, y, init_angle, radius, lbp_bit);
+	uint32_t descriptor = lbp(image->pixels, image->height, image->width, x, y, init_angle, radius, lbp_bit);
 
 	/* Print descriptor */
 	printf("%i = 0b", descriptor);
+	size_t i;
 	for (i = 0; i < 32; i++) {
 		printf("%i", 0b1 & (descriptor >> i));
 	}
 	printf("\n");
 
 	/* Free */
-	free(X);
 	imfree(image);
 
 	end = clock();

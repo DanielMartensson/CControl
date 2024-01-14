@@ -16,7 +16,7 @@ int main() {
 	start = clock();
 
 	/* Create binary number */
-	uint64_t x = 0b1100011011000001;
+	uint32_t x = 0b1100011011000001;
 
 	/* Print */
 	printf("Total 1:s are: %i\n", popcount(x));
