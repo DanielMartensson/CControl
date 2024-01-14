@@ -2,7 +2,7 @@
  * enums.h
  *
  *  Created on: 20 Juli. 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #ifndef ENUMS_H_
