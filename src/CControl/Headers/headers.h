@@ -10,16 +10,17 @@
 #include <stddef.h>						/* Requried for NULL */
 #include <time.h> 						/* For srand, clock */
 
-/* Memory leackage library for Visual Studio */
+/* Libraries for Visual Studio */
 #ifdef _MSC_VER
 #include <crtdbg.h>
+#include <intrin.h>
 #endif /* !_MSC_VER */
 
 /* CControl headers */
 #include "defines.h"
 #include "enums.h"
-#include "functions.h"
 #include "macros.h"
+#include "functions.h"
 #include "structs.h"
 
 /* Load the MKL library */

@@ -25,6 +25,7 @@ typedef signed int int32_t;
 typedef uint8_t bool;
 #define true 1
 #define false 0
+#define IS_C89
 #ifndef _MSC_VER
 #define NULL ((void *)0)
 typedef unsigned long long size_t;
