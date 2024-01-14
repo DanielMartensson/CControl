@@ -9,7 +9,6 @@
 
 static void shift_matrix(float matrix[], float x[], size_t p, size_t* k, size_t m);
 static void kernel_density_estimation(float P[], float H[], float horizon[], float noise[], size_t m, size_t p);
-static float normal_pdf(float x, float mu, float sigma);
 
 /*
  * Particle filter
@@ -140,7 +139,7 @@ static void kernel_density_estimation(float P[], float H[], float horizon[], flo
 		for (j = 0; j < p; j++) {
 			/* Fill the array P(:, k) */
 			for (k = 0; k < p; k++) {
-				P0[k] += normal_pdf(H[k], H[j], sigma);
+				P0[k] += normpdf(H[k], H[j], sigma);
 			}
 		}
 
@@ -163,8 +162,4 @@ static void kernel_density_estimation(float P[], float H[], float horizon[], flo
 		/* Shift to next row */
 		P0 += p;
 	}
-}
-
-static float normal_pdf(float x, float mu, float sigma) {
-	return 1.0f / (sigma * sqrtf(2.0f * PI)) * expf(-1.0f / 2.0f * (x - mu) * (x - mu) / (sigma * sigma));
 }
