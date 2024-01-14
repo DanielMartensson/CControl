@@ -9,16 +9,16 @@
 
 /*
  * Local Binary Pattern - Use the commented C-code inside lbp.c to tune in the radius
- * X[m*n]
+ * X[m*n] - The image
  * x(column) and y(row) - The coordinate of the center pixel P
  * radius - The radius of the circle
  * init_angle - The beginning of the 360 degrees angle in radian
  * angles[total_angles] - Angles in radians
  * total_angles - Total angles
  */
-uint32_t lbp(const float X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit) {
+uint32_t lbp(const uint8_t X[], const size_t row, const size_t column, const size_t x, const size_t y, const float init_angle, const float radius, LBP_BIT lbp_bit) {
 	/* Center pixel */
-	const float P = X[y * column + x];
+	const uint8_t P = X[y * column + x];
 
 	/* Get the angle */
 	uint8_t total_angles;
