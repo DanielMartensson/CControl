@@ -11,7 +11,7 @@
  * Find the norm of X. Use the NORM_METOD enum
  * A[m*n]
  */
-float norm(float X[], size_t row, size_t column, NORM_METHOD norm_method){
+float norm(const float X[], const size_t row, const size_t column, const NORM_METHOD norm_method){
 	/* Create a new matrix A */
 	float* A = (float*)malloc(row * column * sizeof(float));
 	memcpy(A, X, row * column * sizeof(float));
