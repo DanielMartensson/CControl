@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-size_t cluster_filter(float X[], size_t row, size_t column, float epsilon, size_t min_pts);
+size_t clusterfilter(const float X[], const size_t row, const size_t column, const float epsilon, const uint8_t min_pts);
 void filtfilt(float y[], const float t[], const size_t l, const float K);
 void pf(float x[], float xhat[], float xhatp[], float horizon[], float noise[], size_t m, size_t p, size_t* k);
 void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L);

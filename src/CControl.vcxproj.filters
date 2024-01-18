@@ -323,7 +323,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\rank.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\SignalProcessing\cluster_filter.c">
+    <ClCompile Include="CControl\Sources\SignalProcessing\clusterfilter.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\MachineLearning\nn.c">

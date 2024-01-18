@@ -30,16 +30,16 @@ int main() {
 	 * To create the .pgm files of .gif, .jpg, .png etc, head over to MataveID and run the fisherfaces.m MATLAB-file.
 	 */
 	model_settings.settings_fisherfaces.pooling_size = 8;
-	model_settings.settings_fisherfaces.pooling_method = POOLING_METHOD_AVERAGE;
+	model_settings.settings_fisherfaces.pooling_method = POOLING_METHOD_SHAPE;
 
 	/*
 	 * Remove outliers from the data:
 	 * epsilon is the outliers radius
 	 * min_pts is the minimum points for a cluster
 	 */
-	model_settings.settings_fisherfaces.remove_outliers = true;
-	model_settings.settings_fisherfaces.epsilon = 500;
-	model_settings.settings_fisherfaces.min_pts = 3;
+	model_settings.settings_fisherfaces.remove_outliers = false;
+	model_settings.settings_fisherfaces.epsilon = 400;
+	model_settings.settings_fisherfaces.min_pts = 1;
 
 	/*
 	 * Kernel PCA configuration:
@@ -73,7 +73,7 @@ int main() {
 	printf("Use the function nn_predict to predict the class ID\n");
 
 	/* Verify with an unknown image */
-	PGM* image_unknown = imread("..\\src\\CControl\\Documents\\Data\\yale\\happy.pgm");
+	PGM* image_unknown = imread("..\\src\\CControl\\Documents\\Data\\yale\\unknown.pgm");
 
 	/* Convert to float */
 	float* X = uint2float(image_unknown->pixels, image_unknown->height, image_unknown->width);
@@ -87,10 +87,11 @@ int main() {
 	/* Predict the class */
 	float* y = (float*)malloc(model->fisherfaces_model.model_row[0] * sizeof(float));
 	bool class_id_found;
-	uint8_t class_id = nn_predict(model->fisherfaces_model.model_w[0], model->fisherfaces_model.model_b[0], P, y, model->fisherfaces_model.model_row[0], model->fisherfaces_model.model_column[0], &class_id_found, ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX);
+	uint8_t class_id = nn_predict(model->fisherfaces_model.model_w[0], model->fisherfaces_model.model_b[0], P, y, model->fisherfaces_model.model_row[0], model->fisherfaces_model.model_column[0], &class_id_found, model->fisherfaces_model.activation_function[0]);
 
 	/* Print the class ID */
-	printf("class id: %i", class_id);
+	printf("\n\n----------------------------------------------------\n\n");
+	printf("%s detected class ID of the uknown image is: %i", class_id_found ? "Successfully" : "Not", class_id);
 
 	/* Free */
 	imcollectfree(model);

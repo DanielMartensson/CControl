@@ -40,7 +40,7 @@ void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings) {
 
 	/* Remove outliers */
 	if (general_settings->remove_outliers) {
-		printf("\tOutliers removed: %i\n", cluster_filter(model_nn->input, model_nn->input_row, model_nn->input_column, general_settings->epsilon, general_settings->min_pts));
+		printf("\tOutliers removed: %i\n", clusterfilter(model_nn->input, model_nn->input_row, model_nn->input_column, general_settings->epsilon, general_settings->min_pts));
 	}
 
 	/*

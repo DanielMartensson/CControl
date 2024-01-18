@@ -93,7 +93,7 @@
     <ClCompile Include="CControl\Sources\Statistics\area.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c" />
-    <ClCompile Include="CControl\Sources\SignalProcessing\cluster_filter.c" />
+    <ClCompile Include="CControl\Sources\SignalProcessing\clusterfilter.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\fftshift.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\filtfilt.c" />
     <ClCompile Include="CControl\Sources\SignalProcessing\ifftshift.c" />

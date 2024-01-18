@@ -1,6 +1,6 @@
 /*
  ============================================================================
- Name        : cluster_filter.c
+ Name        : clusterfilter.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
@@ -45,8 +45,8 @@ int main() {
 
 	/* Do cluter filtering */
 	float epsilon = 50;
-	size_t min_pts = 4;
-	size_t total_outliers = cluster_filter(X, row, column, epsilon, min_pts);
+	uint8_t min_pts = 4;
+	size_t total_outliers = clusterfilter(X, row, column, epsilon, min_pts);
 
 	/* Print components matrix X */
 	print(X, row, column);

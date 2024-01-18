@@ -30,11 +30,9 @@ void pooling(float X[], float P[], size_t row, size_t column, uint8_t p, POOLING
 	float* B = (float*)malloc(pp * sizeof(float));
 
 	/* When you want minimal structures left */
-	float mean_X, max_X;
+	float ratio_mean_max = 1.0f;
 	if (pooling_method == POOLING_METHOD_SHAPE) {
-		const size_t row_column = row * column;
-		mean_X = mean(X, row_column);
-		max_X = amax(X, &max_index, row_column);
+		ratio_mean_max = amax(X, &max_index, row * column) / mean(X, row * column);
 	}
 
 	/* Loop */
@@ -57,7 +55,7 @@ void pooling(float X[], float P[], size_t row, size_t column, uint8_t p, POOLING
 				P[j] = amax(B, &max_index, pp);
 				break;
 			case POOLING_METHOD_SHAPE:
-				P[j] = mean(B, pp) / mean_X * max_X;
+				P[j] = mean(B, pp) * ratio_mean_max;
 				break;
 			}
 		}

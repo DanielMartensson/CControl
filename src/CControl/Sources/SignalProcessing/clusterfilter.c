@@ -1,5 +1,5 @@
 /*
- * cluster_filter.c
+ * clusterfilter.c
  *
  *  Created on: 18 augusti 2023
  *      Author: Daniel Mårtensson
@@ -14,7 +14,7 @@
  * epsilon = Raduis of the clusters
  * min_pts = Minimum points of a valid cluster
  */
-size_t cluster_filter(float X[], size_t row, size_t column, float epsilon, size_t min_pts){
+size_t clusterfilter(const float X[], const size_t row, const size_t column, const float epsilon, const uint8_t min_pts){
 	/* Create the new indexes */
 	size_t* idx = (size_t*)malloc(row * sizeof(size_t));
 	dbscan(X, idx, epsilon, min_pts, row, column);
