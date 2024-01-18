@@ -11,8 +11,8 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
 	size_t sub_folder_count;
-	switch (model_settings->settings_choice) {
-	case SETTINGS_CHOICE_FISHERFACES:
+	switch (model_settings->model_choice) {
+	case MODEL_CHOICE_FISHERFACES:
 		sub_folder_count = scan_sub_folder_names(model_settings->settings_fisherfaces.folder_path, &sub_folder_names);
 		break;
 	}
@@ -22,7 +22,7 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 	memset(model, 0, sizeof(MODEL));
 
 	/* Copy over */
-	model->settings_choice = model_settings->settings_choice;
+	model->model_choice = model_settings->model_choice;
 
 	size_t i, j, k;
 	for (i = 0; i < sub_folder_count; i++) {
@@ -31,8 +31,8 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 
 		/* Combine folder name with the folder path */
 		char total_folder_path[260];
-		switch (model_settings->settings_choice) {
-		case SETTINGS_CHOICE_FISHERFACES:
+		switch (model_settings->model_choice) {
+		case MODEL_CHOICE_FISHERFACES:
 			concatenate_paths(total_folder_path, model_settings->settings_fisherfaces.folder_path, sub_folder_name);
 			break;
 		}
@@ -53,6 +53,9 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 			/* Read the pgm file */
 			PGM* image = imread(total_pgm_path);
 
+			/* Display class and path */
+			printf("Class ID: %i. Image path: %s\n", i, total_pgm_path);
+
 			/* Check if image is valid */
 			if (image) {
 				/* Get the total new pixels */
@@ -63,8 +66,8 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 				}
 
 				/* Type of detection */
-				switch (model_settings->settings_choice) {
-				case SETTINGS_CHOICE_FISHERFACES: {
+				switch (model_settings->model_choice) {
+				case MODEL_CHOICE_FISHERFACES: {
 					size_t p = model_settings->settings_fisherfaces.pooling_size;
 					if (model_settings->settings_fisherfaces.pooling_method == POOLING_METHOD_NO_POOLING) {
 						/* This will cause X will have the same size as new_data */
@@ -135,8 +138,8 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 void imcollectfree(MODEL* model) {
 	if (model) {
 		/* Model choice */
-		switch (model->settings_choice) {
-		case SETTINGS_CHOICE_FISHERFACES: {
+		switch (model->model_choice) {
+		case MODEL_CHOICE_FISHERFACES: {
 			uint8_t i;
 			for (i = 0; i < model->fisherfaces_model.total_models; i++) {
 				free(model->fisherfaces_model.model_b[i]);
