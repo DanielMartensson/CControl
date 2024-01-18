@@ -13,7 +13,7 @@
  * P[(m/p)*(n/p)]
  * If you don't want to use pooling, just set p = 1 and pooling_method to POOLING_METHOD_NO_POOLING
  */
-void pooling(float X[], float P[], size_t row, size_t column, size_t p, POOLING_METHOD pooling_method) {
+void pooling(float X[], float P[], size_t row, size_t column, uint8_t p, POOLING_METHOD pooling_method) {
 	/* Check if we want no pooling */
 	if (POOLING_METHOD_NO_POOLING == pooling_method) {
 		memcpy(P, X, row * column * sizeof(float));

@@ -55,7 +55,7 @@ static bool has_been_called = false;
  * status[classes]
  * accuracy[classes]
  */
-void nn_train(const float X[], const size_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const size_t classes, const float C, const float lambda) {
+void nn_train(const float X[], const uint8_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const uint8_t classes, const float C, const float lambda) {
 	size_t i, j;
 	float* labels = (float*)malloc(row * sizeof(float));
 	for (i = 0; i < classes; i++) {
@@ -88,7 +88,7 @@ void nn_train(const float X[], const size_t class_id[], float weight[], float bi
  * y[row_w]
  * Return the class ID = sigma(model_w*x + model_b)
  */
-size_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w, bool* class_id_found, const ACTIVATION_FUNCTION activation_function) {
+uint8_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w, bool* class_id_found, const ACTIVATION_FUNCTION activation_function) {
 	/* Compute y = W*x + b */
 	mul(model_w, x, y, row_w, column_w, 1);
 	size_t i;
@@ -116,11 +116,11 @@ size_t nn_predict(const float model_w[], const float model_b[], const float x[],
  * Y[row_x * row_w]
  * class_id[row_x]
  */
-void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const size_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function) {
+void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const uint8_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function) {
 	size_t i, predicted_correctly_score = 0, predicted_wrongy_score = 0, unpredicted_score = 0;
 	bool class_id_found;
 	for (i = 0; i < row_x; i++) {
-		size_t class_id_predicted = nn_predict(model_w, model_b, X + column_w * i, Y + row_w * i, row_w, column_w, &class_id_found, activation_function);
+		uint8_t class_id_predicted = nn_predict(model_w, model_b, X + column_w * i, Y + row_w * i, row_w, column_w, &class_id_found, activation_function);
 		if (class_id_found) {
 			if (class_id[i] == class_id_predicted) {
 				predicted_correctly_score++;

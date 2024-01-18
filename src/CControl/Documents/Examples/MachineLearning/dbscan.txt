@@ -89,7 +89,7 @@ int main() {
 
 	size_t idx[row] = { 0 };
 	float epsilon = 10;
-	size_t min_pts = 3;
+	uint8_t min_pts = 3;
 
 	/* Compute dbscan */
     start = clock();

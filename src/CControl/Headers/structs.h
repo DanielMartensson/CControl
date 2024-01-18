@@ -8,6 +8,15 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
+ /* For landmarkdetection.c */
+typedef struct {
+	uint32_t id_descriptors[256];
+	uint16_t x_descriptors[256];
+	uint16_t y_descriptors[256];
+	uint8_t total_descriptors;
+	bool is_descriptors_available;
+}DESCRIPTORS_BINARY_32;
+
 /* For imshow.c and imread.c */
 typedef struct {
 	size_t width;
@@ -29,17 +38,18 @@ typedef struct {
 	size_t input_row;
 	size_t input_column;
 	float* input;
-	size_t* class_id;
-	size_t classes;
+	uint8_t* class_id;
+	uint8_t classes;
 }MODEL_NN;
 
+/* Model holder */
 typedef struct {
-	/* Models */
 	MODEL_NN fisherfaces_model;
-	SETTINGS_CHOICE settings_choice;
+	DESCRIPTORS_BINARY_32 landmark_model;
+	MODEL_CHOICE model_choice;
 }MODEL;
 
-/* For all models */
+/* For NN models */
 typedef struct {
 	/* General */
 	char folder_path[260];
@@ -52,7 +62,7 @@ typedef struct {
 	/* For kpda_lda_nn.c */
 	bool remove_outliers;
 	float epsilon;
-	size_t min_pts;
+	uint8_t min_pts;
 
 	/* For kpda_lda_nn.c */
 	size_t components_pca;
@@ -60,14 +70,14 @@ typedef struct {
 	KERNEL_METHOD kernel_method;
 
 	/* For pooing.c */
-	size_t pooling_size;
+	uint8_t pooling_size;
 	POOLING_METHOD pooling_method;
-}MODEL_GENERAL_SETTINGS;
+}MODEL_NN_SETTINGS;
 
 /* For imcollect.c */
 typedef struct {
-	MODEL_GENERAL_SETTINGS settings_fisherfaces;
-	SETTINGS_CHOICE settings_choice;
+	MODEL_NN_SETTINGS settings_fisherfaces;
+	MODEL_CHOICE model_choice;
 }MODEL_SETTINGS;
 
 /* For featuredetection.c */

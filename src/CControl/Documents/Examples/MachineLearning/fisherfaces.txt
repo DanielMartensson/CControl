@@ -17,7 +17,7 @@ int main() {
 
 	/* Create Fisherfaces parameter struct */
 	MODEL_SETTINGS model_settings;
-	model_settings.settings_fisherfaces.save_model = true;
+	model_settings.settings_fisherfaces.save_model = false;
 
 	/* Select data and what to do */
 	strcpy(model_settings.settings_fisherfaces.folder_path, "..\\src\\CControl\\Documents\\Data\\yale");
@@ -72,8 +72,32 @@ int main() {
 	printf("\nWeight W parameters have the size %i x %i\n", model->fisherfaces_model.model_row[0], model->fisherfaces_model.model_column[0]);
 	printf("Use the function nn_predict to predict the class ID\n");
 
+	/* Verify with an unknown image */
+	PGM* image_unknown = imread("..\\src\\CControl\\Documents\\Data\\yale\\happy.pgm");
+
+	/* Convert to float */
+	float* X = uint2float(image_unknown->pixels, image_unknown->height, image_unknown->width);
+	
+	/* Do pooling of X */
+	const size_t m = image_unknown->height / model_settings.settings_fisherfaces.pooling_size;
+	const size_t n = image_unknown->width / model_settings.settings_fisherfaces.pooling_size;
+	float* P = (float*)malloc(m * n * sizeof(float));
+	pooling(X, P, image_unknown->height, image_unknown->width, model_settings.settings_fisherfaces.pooling_size, model_settings.settings_fisherfaces.pooling_method);
+
+	/* Predict the class */
+	float* y = (float*)malloc(model->fisherfaces_model.model_row[0] * sizeof(float));
+	bool class_id_found;
+	uint8_t class_id = nn_predict(model->fisherfaces_model.model_w[0], model->fisherfaces_model.model_b[0], P, y, model->fisherfaces_model.model_row[0], model->fisherfaces_model.model_column[0], &class_id_found, ACTIVATION_FUNCTION_HIGHEST_VALUE_INDEX);
+
+	/* Print the class ID */
+	printf("class id: %i", class_id);
+
 	/* Free */
 	imcollectfree(model);
+	free(P);
+	free(X);
+	free(y);
+	imfree(image_unknown);
 
 	/* Memory leak */
 	detectmemoryleak();

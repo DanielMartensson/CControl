@@ -13,7 +13,7 @@ MODEL* fisherfaces(MODEL_SETTINGS* model_settings) {
 	
 	/* Collect data */
 	printf("1: Collecting data. Reading the .pgm files in row-major. PGM format P2 or P5 format.\n");
-    model_settings->settings_choice = SETTINGS_CHOICE_FISHERFACES;
+    model_settings->model_choice = MODEL_CHOICE_FISHERFACES;
 	MODEL* model = imcollect(model_settings);
 
     /* Create model */

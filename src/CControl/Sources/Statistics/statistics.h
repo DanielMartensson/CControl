@@ -21,7 +21,7 @@ float cov(float x[], float y[], size_t length);
 void covm(float X[], float Y[], size_t row, size_t column);
 INLINE float stddev(float x[], size_t length);
 void pca(const float X[], float W[], float P[], float mu[], const size_t c, const size_t row, const size_t column);
-void lda(const float X[], const size_t y[], float W[], float P[], const size_t c, const size_t row, const size_t column);
+void lda(const float X[], const uint8_t y[], float W[], float P[], const size_t c, const size_t row, const size_t column);
 
 #ifdef __cplusplus
 }

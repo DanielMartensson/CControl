@@ -25,9 +25,9 @@
   */
 void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings) {
 	/* Extract */
-	MODEL_GENERAL_SETTINGS* general_settings = NULL;
-	switch (model_settings->settings_choice) {
-	case SETTINGS_CHOICE_FISHERFACES:
+	MODEL_NN_SETTINGS* general_settings = NULL;
+	switch (model_settings->model_choice) {
+	case MODEL_CHOICE_FISHERFACES:
 		general_settings = &model_settings->settings_fisherfaces;
 		break;
 	}
@@ -61,7 +61,7 @@ void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings) {
 	 * components_lda must be classes - 1 because we want to avoid zero eigenvalues
 	 */
 	printf("3: Do Linear Discriminant Analysis for creating a linear projection for separation of class data.\n");
-	const size_t components_lda = model_nn->classes - 1;
+	const uint8_t components_lda = model_nn->classes - 1;
 	float* Wlda = (float*)malloc(general_settings->components_pca * components_lda * sizeof(float));
 	float* Plda = (float*)malloc(components_lda * model_nn->input_column * sizeof(float));
 	lda(Ppca, model_nn->class_id, Wlda, Plda, components_lda, general_settings->components_pca, model_nn->input_column);
