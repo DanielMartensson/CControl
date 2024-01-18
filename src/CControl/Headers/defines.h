@@ -2,7 +2,7 @@
  * defines.h
  *
  *  Created on: 20 Juli. 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #ifndef DEFINES_H_
@@ -48,8 +48,8 @@ typedef unsigned long long size_t;
 #define CONV_MAX_KERNEL_FFT_INSTEAD 80  /* When we are going to use FFT with conv or conv2 */
 
 /* Select library by uncomment - If non of these are uncomment, then CControl will use the internal library instead */
-#define MKL_LAPACK_USED 				/* For large matrices on a regular computer */
-#define MKL_FFT_USED					/* For large matrices on a regular computer */
+//#define MKL_LAPACK_USED 				/* For large matrices on a regular computer */
+//#define MKL_FFT_USED					/* For large matrices on a regular computer */
 /* #define CLAPACK_USED   				/* For larger embedded systems */
 
 
