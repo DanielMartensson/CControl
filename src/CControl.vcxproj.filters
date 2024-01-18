@@ -410,7 +410,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\orientation.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\intensitycentroid.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\opa.c">
@@ -458,7 +458,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imwrite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\landmarkdetection.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\shapedetection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\uint2float.c">
@@ -468,6 +468,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\radianvector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\landmarkdetection.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Statistics\normpdf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\cumsum.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\integralimage.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

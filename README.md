@@ -77,6 +77,7 @@ Main focuses are:
   - Orientation of a matrix by using Intensity Centroid
   - Generalized Hough Transform for arbitrary shapes
   - Landmark detection
+  - Integral image
 
 - Signal Processing
   - Fast Fourier Transform Shift
@@ -137,6 +138,7 @@ Main focuses are:
   - Convert linear indices to subscripts
   - Float <-> uint8_t converter
   - Radian vector
+  - Column summation
   
 - Optimization
   - Linear programming
