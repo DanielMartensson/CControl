@@ -1,0 +1,41 @@
+/*
+ ============================================================================
+ Name        : cumsum.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Do cumulative sum
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 5
+#define column 3
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create input matrix */
+	float A[row * column] = { 1, 2, 3,
+							  5, 2, 1,
+							  6, 2, 8,
+							  0, 0, -4,
+							  10, 9, 8 };
+
+	/* Create output matrix */
+	float B[row * column];
+
+	/* Do cumulative sum */
+	cumsum(A, B, row, column);
+
+	/* Print output */
+	print(B, row, column);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+	return EXIT_SUCCESS;
+}
