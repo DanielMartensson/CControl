@@ -1,5 +1,5 @@
 /*
- * landmarkdetection.c
+ * landmarkdetection_collect.c
  *
  *  Created on: 9 Januari 2024
  *      Author: Daniel Mårtensson
@@ -7,28 +7,52 @@
 
 #include "imageprocessing.h"
 
+/* 
+ * Analyse landmarks
+ * X[m*n]
+ * x and y are coordinates of the pixel position
+ */
+uint32_t landmarkdetection_analyze(const uint8_t X[], const size_t row, size_t column, const int x, const int y) {
+	/* Inital map */
+	static const uint8_t map[81] = { 0, 0, 0, 1, 1, 1, 0, 0, 0,
+									 0, 0, 1, 0, 0, 0, 1, 0, 0,
+									 0, 1, 0, 0, 0, 0, 0, 1, 0,
+									 1, 0, 0, 0, 0, 0, 0, 0, 1,
+									 1, 0, 0, 0, 1, 0, 0, 0, 1,
+									 1, 0, 0, 0, 0, 0, 0, 0, 1,
+									 0, 1, 0, 0, 0, 0, 0, 1, 0,
+									 0, 0, 1, 0, 0, 0, 1, 0, 0,
+									 0, 0, 0, 1, 1, 1, 0, 0, 0,
+	};
+
+	/* Get the descriptor */
+	uint32_t descriptor = 0;
+	if (x >= 5 && y >= 5 && x <= column - 5 && y <= row - 5) {
+		
+	}
+
+	/* Return the descriptor */
+	return descriptor;
+}
+
 /*
  * Find landmarks
  * X[m*n]
  * descriptors[total_descriptors] - Need to contains binary 32-bit descriptor from Local Binary Pattern
  */
-FAST_XY* landmarkdetection(const uint8_t X[], int* N, const uint8_t descriptor_threshold, const uint32_t descriptors[], const uint8_t total_descriptors, const size_t row, const size_t column) {
+FAST_XY* landmarkdetection_collect(const uint8_t X[], int* N, const uint8_t descriptor_threshold, const uint32_t descriptors[], const uint8_t total_descriptors, const size_t row, const size_t column) {
 	/* Collect all landmarks */
 	FAST_XY* landmarks = NULL;
 	int x, y, i, j;
 
-	/* Inital angles */
-	static const float init_angle_radius_4 = 10.0f * PI / 180.0f;
-	static const float init_angle_radius_5 = 20.0f * PI / 180.0f;
+	// Reset
+	*N = 0;
 
 	/* Interate the image */
 	for (y = 5; y < row - 5; y++) {
 		for (x = 5; x < column - 5; x++) {
 			/* Find the descriptor from Local Binary Pattern */
-			uint32_t descriptor = lbp(X, row, column, x, y, 2.0f, 0.0f, LBP_BIT_8);
-			descriptor |= lbp(X, row, column, x, y, 3.0f, 0.0f, LBP_BIT_8) << 8;
-			descriptor |= lbp(X, row, column, x, y, 4.0f, init_angle_radius_4, LBP_BIT_8) << 16;
-			descriptor |= lbp(X, row, column, x, y, 5.0f, init_angle_radius_5, LBP_BIT_8) << 24;
+			uint32_t descriptor = landmarkdetection_analyze(X, row, column, x, y);
 
 			/* Classify the descriptor by rotating it and compare with hamming distance */
 			uint8_t least_ones = 32;
@@ -59,6 +83,9 @@ FAST_XY* landmarkdetection(const uint8_t X[], int* N, const uint8_t descriptor_t
 			}
 		}
 	}
+
+	/* Return landmarks */
+	return landmarks;
 }
 
 /*

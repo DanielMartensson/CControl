@@ -85,13 +85,6 @@ typedef enum {
 	FAST_METHOD_12
 }FAST_METHOD;
 
-/* For generalizedhough.c */
-typedef enum {
-	GENERALIZED_HOUGH_METHOD_CORNER_DETECTION,
-	GENERALIZED_HOUGH_METHOD_FEATURE_DETECTION,
-	GENERALIZED_HOUGH_METHOD_SHAPE_DETECTION
-}GENERALIZED_HOUGH_METHOD;
-
 /* For area.c */
 typedef enum {
 	AREA_METHOD_CIRCLE,
@@ -106,8 +99,9 @@ typedef enum {
 
 /* For imcollect.c */
 typedef enum {
-	SETTINGS_CHOICE_FISHERFACES,
-}SETTINGS_CHOICE;
+	MODEL_CHOICE_FISHERFACES,
+	MODEL_CHOICE_LANDMARK
+}MODEL_CHOICE;
 
 /* For sobel.c */
 typedef enum {
