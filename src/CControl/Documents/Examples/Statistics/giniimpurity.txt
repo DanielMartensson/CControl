@@ -1,0 +1,36 @@
+/*
+ ============================================================================
+ Name        : giniimpurity.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Compute the Gini Impurity value
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row 5
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create data */
+	float weight[row] = { 155, 180, 190, 205, 225 };
+	bool heart_disease[row] = { false, true, false, true, true };
+	const float threshold = 222.5f;
+
+	/* Compute Gini impurity */
+	float gini_value = giniimpurity(weight, threshold, heart_disease, row);
+
+	/* Print */
+	printf("The gini value is: %f\n", gini_value);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}

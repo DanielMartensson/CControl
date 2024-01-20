@@ -161,6 +161,7 @@ Main focuses are:
   - Cluster distance
   - Cluster ratio
   - Normal propability density function
+  - Gini impurity
 
 - System Identification
   - Observer Kalman Filter identification

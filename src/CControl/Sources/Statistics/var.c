@@ -12,7 +12,7 @@
  * x[L] Vector with values
  * L = Length of vector x
  */
-float var(float x[], size_t length) {
+float var(const float x[], const size_t length) {
 	const float mu = mean(x, length);
 	float sigma = 0.0f;
 	float p;
