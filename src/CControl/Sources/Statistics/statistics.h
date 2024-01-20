@@ -13,7 +13,7 @@ void center(float X[], float mu[], size_t row, size_t column);
 float area(const float X[], const size_t row, size_t* total_elements, const AREA_METHOD area_method);
 void randn(float x[], size_t length, float mu, float sigma);
 void randperm(size_t x[], size_t N, size_t M);
-float mean(float x[], size_t length);
+float mean(float x[], const size_t length);
 INLINE float normpdf(const float x, const float mu, const float sigma);
 float opa(const float X[], float Y[], const size_t row, const size_t column);
 float var(float x[], size_t length);

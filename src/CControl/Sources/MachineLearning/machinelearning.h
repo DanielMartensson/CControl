@@ -21,7 +21,7 @@ void nn_train(const float X[], const uint8_t class_id[], float weight[], float b
 uint8_t nn_predict(const float model_w[], const float model_b[], const float x[], float y[], const size_t row_w, const size_t column_w, bool* class_id_found, const ACTIVATION_FUNCTION activation_function);
 void nn_eval(const float model_w[], const float model_b[], const float X[], float Y[], const uint8_t class_id[], const size_t row_w, const size_t column_w, const size_t row_x, const ACTIVATION_FUNCTION activation_function);
 void nn_save(const float model_w[], const float model_b[], const ACTIVATION_FUNCTION activation_function, const char model_path[], const char model_name[], const size_t row, const size_t column);
-bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column);
+bool svm(const float X[], const float y[], float w[], float* b, float* accuracy, const float C, const float lambda, const size_t row, const size_t column);
 
 #ifdef __cplusplus
 }

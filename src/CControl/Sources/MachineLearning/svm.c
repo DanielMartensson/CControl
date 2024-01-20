@@ -21,7 +21,7 @@
  * class_ID = sign(w*x + b), where x is an unknown measurement vector
  * 
  */
-bool svm(float X[], float y[], float w[], float* b, float* accuracy, float C, float lambda, size_t row, size_t column) {
+bool svm(const float X[], const float y[], float w[], float* b, float* accuracy, const float C, const float lambda, const size_t row, const size_t column) {
 	/* Create Q = (y*y').*(X*X') */
 	float* Q = (float*)malloc(row * row * sizeof(float));
 	float* Q0 = Q;
