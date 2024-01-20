@@ -12,8 +12,8 @@
 extern "C" {
 #endif
 
-#if __STDC_VERSION___ < 199901L
-#ifndef _MSC_VER
+#if __STDC_VERSION__ < 199901L
+#if !defined(_MSC_VER) && !defined(ARM_IS_USED)
 INLINE float sqrtf(float x) {
 	return (float)sqrt(x);
 }
@@ -66,8 +66,8 @@ INLINE float fmodf(float x, float y) {
 	return (float)fmod(x, y);
 }
 
-#endif /* !_MSC_VER */
-#endif /* !__STDC_VERSION___ */
+#endif /* !defined(_MSC_VER) && !defined(ARM_IS_USED) */
+#endif /* !__STDC_VERSION__ */
 #ifdef __cplusplus
 }
 #endif
