@@ -139,4 +139,10 @@ typedef enum {
 	HOG_BINS_20
 }HOG_BINS;
 
+/* For normalize.c */
+typedef enum {
+	NORMALIZE_METHOD_UNIT_CIRCLE,
+	NORMALIZE_METHOD_TOTAL_SUM_1
+}NORMALIZE_METHOD;
+
 #endif /* !ENUMS_H_ */

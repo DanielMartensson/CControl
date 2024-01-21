@@ -139,6 +139,7 @@ Main focuses are:
   - Float <-> uint8_t converter
   - Radian vector
   - Column summation
+  - Normalize vector
   
 - Optimization
   - Linear programming

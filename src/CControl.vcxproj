@@ -75,6 +75,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\cumsum.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\float2uint.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\ind2sub.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\normalize.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\radianvector.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rot2d.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\scalar.c" />

@@ -488,6 +488,9 @@
     <ClCompile Include="CControl\Sources\Statistics\giniimpurity.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\normalize.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

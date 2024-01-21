@@ -17,6 +17,7 @@ uint8_t* float2uint(const float X[], const size_t row, const size_t column);
 void ind2sub(const size_t index, const size_t column, size_t* row_index, size_t* column_index);
 void insert(const float A[], float B[], const size_t row_a, const size_t column_a, const size_t column_b, const size_t start_row_b, const size_t start_column_b);
 bool issymmetric(const float A[], const size_t row, const size_t column);
+void normalize(float x[], const size_t row, const NORMALIZE_METHOD normalize_method);
 void pdist2(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t row_b, const PDIST2_METRIC metric);
 INLINE uint8_t popcount(const uint32_t x);
 void print(const float A[], const size_t row, const size_t column);

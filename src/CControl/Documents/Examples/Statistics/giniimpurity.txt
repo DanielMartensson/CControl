@@ -10,7 +10,7 @@
 
 #include "CControl/ccontrol.h"
 
-#define row 5
+#define row 8
 
 int main() {
 	clock_t start, end;
@@ -18,15 +18,31 @@ int main() {
 	start = clock();
 
 	/* Create data */
-	float weight[row] = { 155, 180, 190, 205, 225 };
-	bool heart_disease[row] = { false, true, false, true, true };
-	const float threshold = 222.5f;
+	float weight[row] = { 205, 180, 210, 167, 156, 125, 168, 172 };
+	bool heart_disease[row] = { true, true, true, true, false, false, false, false };
+	bool is_numerical = true;
+	float numerical_threshold;
 
 	/* Compute Gini impurity */
-	float gini_value = giniimpurity(weight, threshold, heart_disease, row);
+	float gini_index_numerical = giniimpurity(weight, is_numerical, heart_disease, &numerical_threshold, row);
+
+	/* Change the data */
+	is_numerical = false;
+	weight[0] = 1;
+	weight[1] = 1;
+	weight[2] = 0;
+	weight[3] = 1;
+	weight[4] = 1;
+	weight[5] = 1;
+	weight[6] = 0;
+	weight[7] = 1;
+	float gini_index_binary = giniimpurity(weight, is_numerical, heart_disease, NULL, row);
 
 	/* Print */
-	printf("The gini value is: %f\n", gini_value);
+	printf("The numerical gini index is: %f (threshold = %f),\nThe binary gini index is: %f\n", gini_index_numerical, numerical_threshold, gini_index_binary);
+
+	/* Detect memory leak */
+	detectmemoryleak();
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
