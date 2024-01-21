@@ -28,9 +28,6 @@ int main() {
 							 1, 0, 168,
 							 1, 1, 172 };
 
-	/* Create index */
-	size_t index[row];
-
 	/* Create is numerical */
 	bool is_numerical[column] = { false, false, true };
 
