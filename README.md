@@ -54,6 +54,7 @@ Main focuses are:
   - Neural network
   - Kernel Principal Component Analysis
   - K-means clustering
+  - AdaBoost classifier
   
 - Control Engineering
   - Kalman filter update
