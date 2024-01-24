@@ -22,7 +22,8 @@ int main() {
 
 	/* Do unique */
 	size_t length;
-	float* B = unique(X, N, &length);
+	bool sorting = true;
+	float* B = unique(X, N, &length, sorting);
 
 	/* Print B */
 	print(B, 1, length);

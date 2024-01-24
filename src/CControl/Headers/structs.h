@@ -99,4 +99,12 @@ typedef struct {
 	size_t votes_active;
 }GENERALIZED_HOUGH_MODEL;
 
+/* For adaboost.c */
+typedef struct {
+	float polarity;
+	size_t feature_index;
+	float threshold;
+	float alpha;
+}ADABOOST_MODEL;
+
 #endif /* !STRUCTS_H_ */
