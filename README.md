@@ -141,6 +141,7 @@ Main focuses are:
   - Radian vector
   - Column summation
   - Normalize vector
+  - Find unique numbers
   
 - Optimization
   - Linear programming

@@ -80,6 +80,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\rot2d.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\scalar.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\uint2float.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\unique.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\unit.c" />
     <ClCompile Include="CControl\Sources\Statistics\centroid.c" />
     <ClCompile Include="CControl\Sources\Statistics\clusterratio.c" />
