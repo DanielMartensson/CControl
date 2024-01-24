@@ -42,7 +42,7 @@ ADABOOST_MODEL* adaboost_train(const float X[], const float y[], const size_t N,
 
 			/* Sort the columns so only unique values are with the training */
 			size_t length;
-			float* unique_values = unique(feature_column, row, &length, true);
+			float* unique_values = unique(feature_column, row, &length, false);
 
 			size_t k;
 			for (k = 0; k < length; k++) {
