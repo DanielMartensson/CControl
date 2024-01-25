@@ -17,7 +17,6 @@ ADABOOST_MODEL* adaboost_train(const float X[], const float y[], const size_t N,
 	/* Initialize weights to 1/N */
 	float* weights = (float*)malloc(row * sizeof(float));
 	size_t i;
-	int k = 0;
 	for (i = 0; i < row; i++) {
 		weights[i] = 1.0f / ((float)row);
 	}

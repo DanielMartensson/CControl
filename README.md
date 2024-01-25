@@ -65,19 +65,23 @@ Main focuses are:
   - Stability check
   - Continuous to discrete
 
+ - Computer Vision
+  - Generalized Hough Transform for arbitrary shapes
+  - Features From Accelerated Segment Test (FAST)
+  - Hough Transform for line detection
+  - Corner detection
+  - Shape detection
+  - Landmark detection
+
 - Image Processing
   - Gaussian filtering for images
   - Robust Principal Component Analysis
   - Sobel filter
+  - Harris corner score
   - Portable Gray Map (PGM) reader, print, write and free
   - Image resize
   - Pooling Max, Average and Shape
-  - Features From Accelerated Segment Test (FAST)
-  - Hough Transform for line detection
-  - Harris corner detection
   - Orientation of a matrix by using Intensity Centroid
-  - Generalized Hough Transform for arbitrary shapes
-  - Landmark detection
   - Integral image
 
 - Signal Processing

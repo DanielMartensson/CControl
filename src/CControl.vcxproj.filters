@@ -75,6 +75,9 @@
     <ClInclude Include="CControl\Sources\sources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CControl\Sources\ComputerVision\computervision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c">
@@ -347,7 +350,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\sobel.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\hough.c">
+    <ClCompile Include="CControl\Sources\ComputerVision\hough.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\rad2deg.c">
@@ -356,7 +359,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\deg2rad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\featuredetection.c">
+    <ClCompile Include="CControl\Sources\ComputerVision\featuredetection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c">
@@ -428,10 +431,10 @@
     <ClCompile Include="CControl\Sources\Statistics\clusterratio.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\cornerdetection.c">
+    <ClCompile Include="CControl\Sources\ComputerVision\cornerdetection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\generalizedhough.c">
+    <ClCompile Include="CControl\Sources\ComputerVision\generalizedhough.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\unit.c">
@@ -458,7 +461,7 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imwrite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\shapedetection.c">
+    <ClCompile Include="CControl\Sources\ComputerVision\shapedetection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\uint2float.c">
@@ -470,7 +473,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\radianvector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ImageProcessing\landmarkdetection.c">
+    <ClCompile Include="CControl\Sources\ComputerVision\landmarkdetection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\normpdf.c">

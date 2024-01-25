@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "imageprocessing.h"
+#include "computervision.h"
 
 /*
  * Find specific landmarks from an image 

@@ -5,7 +5,7 @@
  *      Author: Edward Rosten
  */
 
-#include "imageprocessing.h"
+#include "computervision.h"
 
  /* Private define */
 #define Compare(X, Y) ((X)>=(Y))

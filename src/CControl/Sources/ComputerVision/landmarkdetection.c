@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "imageprocessing.h"
+#include "computervision.h"
 
 /* 
  * Analyse landmarks

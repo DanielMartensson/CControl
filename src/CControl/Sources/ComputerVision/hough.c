@@ -5,7 +5,7 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "imageprocessing.h"
+#include "computervision.h"
 
 static float* hough_scores(const float X[], const float p, size_t* r_half, const size_t row, const size_t column);
 static size_t hough_cluster(const float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, const float epsilon, const size_t min_pts, const size_t r_half);
