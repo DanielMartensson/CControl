@@ -96,7 +96,7 @@ ADABOOST_MODEL* adaboost_train(const float X[], const float y[], const size_t N,
 		}
 
 		/* Calculate the alpha which is used to update the sample weights. Alpha is also an approximation of this classifier's proficiency */
-		models[i].alpha = 0.5f * log((1.0f - min_error) / (min_error + 1e-10f));
+		models[i].alpha = 0.5f * log((1.0f - min_error) / (min_error + FLT_EPSILON));
 
 		/* The indexes where the sample values are below threshold */
 		for (j = 0; j < row; j++) {
