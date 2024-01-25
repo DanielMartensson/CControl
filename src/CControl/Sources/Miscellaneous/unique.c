@@ -11,6 +11,7 @@
  * Create an array of unique numbers 
  * A[N]
  * Return: B[length]
+ * Sorting means that if the output array B should be sorted in ascending order
  */
 float* unique(const float A[], const size_t N, size_t* length, const bool sorting) {
     float* B = NULL;
