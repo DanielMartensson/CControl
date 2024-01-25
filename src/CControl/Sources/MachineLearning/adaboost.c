@@ -282,7 +282,7 @@ function models = train(X, y, N)
 	  feature_column = X(:, j);
 
 	  % Sort the columns so only unique values are with the training
-	  unique_values = unique(feature_column);
+	  unique_values = unique(feature_column, 'stable');
 
 	  for threshold = unique_values'
 		% Set the initital polarty
