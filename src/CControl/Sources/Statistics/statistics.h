@@ -14,6 +14,7 @@ void centroid(const float X[], float C[], const size_t row, const size_t column)
 float clusterratio(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column);
 float clusterdistance(const float X[], const float Y[], const size_t row_x, const size_t row_y, const size_t column);
 float area(const float X[], const size_t row, size_t* total_elements, const AREA_METHOD area_method);
+INLINE size_t randi(const size_t x);
 void randn(float x[], size_t length, float mu, float sigma);
 void randperm(size_t x[], size_t N, size_t M);
 float mean(float x[], const size_t length);
