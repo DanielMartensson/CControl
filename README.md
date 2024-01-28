@@ -63,7 +63,7 @@ Main focuses are:
   - Stability check
   - Continuous to discrete
 
- - Computer Vision
+- Computer Vision
   - Generalized Hough Transform for arbitrary shapes
   - Features From Accelerated Segment Test (FAST)
   - Hough Transform for line detection
