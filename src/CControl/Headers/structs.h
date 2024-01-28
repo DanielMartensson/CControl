@@ -8,15 +8,6 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
- /* For landmarkdetection.c */
-typedef struct {
-	uint32_t id_descriptors[256];
-	uint16_t x_descriptors[256];
-	uint16_t y_descriptors[256];
-	uint8_t total_descriptors;
-	bool is_descriptors_available;
-}DESCRIPTORS_BINARY_32;
-
 /* For imshow.c and imread.c */
 typedef struct {
 	size_t width;
@@ -45,7 +36,6 @@ typedef struct {
 /* Model holder */
 typedef struct {
 	MODEL_NN fisherfaces_model;
-	DESCRIPTORS_BINARY_32 landmark_model;
 	MODEL_CHOICE model_choice;
 }MODEL;
 
@@ -84,7 +74,7 @@ typedef struct {
 typedef struct {
 	int x;
 	int y;
-} FAST_XY;
+} COORDINATE_XY;
 
 /* For generalizedhough.c */
 typedef struct {
@@ -106,5 +96,12 @@ typedef struct {
 	float threshold;
 	float alpha;
 }ADABOOST_MODEL;
+
+/* For haarlike.c */
+typedef struct {
+	HARLIIKE_FEATURE_CHOICE haarlike_feature_choice;
+	uint8_t x1, x2, x3, x4, y1, y2, y3, y4;
+	float value;
+}HAARLIKE_FEATURE;
 
 #endif /* !STRUCTS_H_ */

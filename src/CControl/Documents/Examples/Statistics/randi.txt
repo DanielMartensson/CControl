@@ -18,8 +18,8 @@ int main() {
 	/* Set the seed */
 	randn(NULL, 0, 0.0f, 1.0f);
 
-	/* Find a random integer number between 0 and x */
-	const size_t x = 75;
+	/* Find a random integer number between 0 and x-1 */
+	const size_t x = 4;
 	const size_t y = randi(x);
 
 	/* Print the random integer number */

@@ -26,6 +26,7 @@ float* radianvector(const size_t N);
 void rot2d(float x[], const float radians);
 INLINE float deg2rad(const float radians);
 void scalar(float x[], const float k, const size_t row);
+void shuffle(float X[], size_t index[], const bool row_wise, const size_t row, const size_t column);
 INLINE float sign(const float number);
 INLINE float vmax(const float a, const float b);
 INLINE float vmin(const float a, const float b);

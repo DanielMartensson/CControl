@@ -15,12 +15,9 @@ int main() {
 	float cpu_time_used;
 
 	/* Parameters for setup */
-	const int max_points = 200;
-	const float sigma = 5;
 	const int fast_threshold = 50;
 	const float epsilon = 10;
 	const size_t min_pts = 2;
-	const GENERALIZED_HOUGH_METHOD generalized_hough_method = GENERALIZED_HOUGH_METHOD_FEATURE_DETECTION;
 	const FAST_METHOD fast_method = FAST_METHOD_9;
 	const char* path_train = "..\\src\\CControl\\Documents\\Data\\generalizedhough\\train.pgm";
 	const char* path_test = "..\\src\\CControl\\Documents\\Data\\generalizedhough\\test_scaled.pgm";
@@ -34,13 +31,13 @@ int main() {
 	PGM* image = imread(path_train);
 
 	/* Create train data */
-	float* C = generalizedhough_create_data(image->pixels, image->height, image->width, max_points, &max_classes, sigma, fast_threshold, fast_method, epsilon, min_pts, generalized_hough_method);
-
+	float* C = generalizedhough_collect(image->pixels, image->height, image->width, fast_threshold, fast_method, epsilon, min_pts, &max_classes);
+	
 	/* Free */
 	imfree(image);
 
 	/* Train Hough model */
-	GENERALIZED_HOUGH_MODEL* model = generalizedhough_create_model(C, max_classes);
+	GENERALIZED_HOUGH_MODEL* model = generalizedhough_train(C, max_classes);
 
 	/* Free */
 	free(C);
@@ -50,13 +47,13 @@ int main() {
 
 	/* Create test data */
 	start = clock();
-	C = generalizedhough_create_data(image->pixels, image->height, image->width, max_points, &max_classes, sigma, fast_threshold, fast_method, epsilon, min_pts, generalized_hough_method);
+	C = generalizedhough_collect(image->pixels, image->height, image->width, fast_threshold, fast_method, epsilon, min_pts, &max_classes);
 
 	/* Free */
 	imfree(image);
 
 	/* Compare test data with the model */
-	generalizedhough_eval_votes(C, model, smoothing_accumulator, &max_value_accumulator, &xc, &yc, max_classes);
+	generalizedhough_eval(C, model, smoothing_accumulator, &max_value_accumulator, &xc, &yc, max_classes);
 	end = clock();
 
 	/* Print result */
@@ -64,7 +61,7 @@ int main() {
 
 	/* Free */
 	free(C);
-	generalizedhough_free_model(model);
+	generalizedhough_free(model);
 
 	/* Memory leak */
 	detectmemoryleak();

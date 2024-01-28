@@ -19,20 +19,28 @@ int main() {
 	start = clock();
 
 	/* Create input matrix */
-	float A[row * column] = { 1, 2, 3,
+	uint8_t A[row * column] = { 1, 2, 3,
 							  5, 2, 1,
 							  6, 2, 8,
-							  0, 0, -4,
+							  0, 0, 4,
 							  10, 9, 8 };
 
 	/* Create output matrix */
-	float B[row * column];
+	uint32_t B[row * column];
 
 	/* Do integral image */
 	integralimage(A, B, row, column);
 
 	/* Print output */
-	print(B, row, column);
+	size_t i, j;
+	for (i = 0; i < row; i++) {
+		for (j = 0; j < column; j++) {
+			printf("%i\t", B[i * column + j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;

@@ -45,6 +45,7 @@
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c" />
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\inpolygon.c" />
+    <ClCompile Include="CControl\Sources\ComputerVision\violajones.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\c2d.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\kalman.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\lqi.c" />
@@ -55,9 +56,10 @@
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\cornerdetection.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\fspecial.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\haarlike.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\harris.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\integralimage.c" />
-    <ClCompile Include="CControl\Sources\ComputerVision\landmarkdetection.c" />
+    <ClCompile Include="CControl\Sources\ComputerVision\hog.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\featuredetection.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\hough.c" />
@@ -66,7 +68,6 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imresize.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imshow.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imwrite.c" />
-    <ClCompile Include="CControl\Sources\ComputerVision\shapedetection.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\conv2fft.c" />
@@ -78,6 +79,8 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\ind2sub.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\normalize.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\radianvector.c" />
+    <ClCompile Include="CControl\Sources\Miscellaneous\shuffle.c" />
+    <ClCompile Include="CControl\Sources\Statistics\randi.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\rot2d.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\scalar.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\uint2float.c" />
@@ -90,7 +93,7 @@
     <ClCompile Include="CControl\Sources\Statistics\opa.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kmeans.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\kpca_lda_nn.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\lbp.c" />
+    <ClCompile Include="CControl\Sources\ImageProcessing\lbp.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\anglevector.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\intensitycentroid.c" />
     <ClCompile Include="CControl\Sources\Miscellaneous\popcount.c" />
@@ -136,7 +139,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\svd.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\tran.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\dbscan.c" />
-    <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c" />
+    <ClCompile Include="CControl\Sources\ComputerVision\fisherfaces.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\nn.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\pooling.c" />
     <ClCompile Include="CControl\Sources\MachineLearning\svm.c" />
@@ -311,6 +314,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Precise</FloatingPointModel>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

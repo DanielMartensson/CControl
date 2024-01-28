@@ -12,10 +12,10 @@
  * X[m*n]
  * N is the desired corners
  */
-FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column) {
+COORDINATE_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uint8_t fast_threshold, const FAST_METHOD fast_method, const size_t row, const size_t column) {
 	/* Do FAST feature detection */
 	int num_features;
-	FAST_XY* xy = featuredetection(X, &num_features, fast_threshold, fast_method, row, column);
+	COORDINATE_XY* xy = featuredetection(X, &num_features, fast_threshold, fast_method, row, column);
 
 	/* uint8_t X to float */
 	float* X_float = uint2float(X, row, column);
@@ -50,7 +50,7 @@ FAST_XY* cornerdetection(const uint8_t X[], const float sigma, int* N, const uin
 	if (num_features < *N) {
 		*N = num_features;
 	}
-	xy = (FAST_XY*)malloc(*N * sizeof(FAST_XY));
+	xy = (COORDINATE_XY*)malloc(*N * sizeof(COORDINATE_XY));
 	for (i = 0; i < *N; i++) {
 		xy[i].x = x[index[i]];
 		xy[i].y = y[index[i]];

@@ -46,8 +46,6 @@ Main focuses are:
   - Point-in-polygon algorithm for checking if a point is inside the area
 
 - Machine Learning
-  - Local Binary Pattern (LBP)
-  - Fisherfaces with pooling, Kernel PCA, LDA and Neural Network for image classification and object detection
   - Density-Based Spatial Clustering of Applications with Noise
   - Support Vector Machine
   - Kernel for PCA and LDA
@@ -69,9 +67,9 @@ Main focuses are:
   - Generalized Hough Transform for arbitrary shapes
   - Features From Accelerated Segment Test (FAST)
   - Hough Transform for line detection
-  - Corner detection
-  - Shape detection
-  - Landmark detection
+  - Harris corner detection
+  - Fisherfaces
+  - Viola Jones for object detection (not only face detection)
 
 - Image Processing
   - Gaussian filtering for images
@@ -83,6 +81,8 @@ Main focuses are:
   - Pooling Max, Average and Shape
   - Orientation of a matrix by using Intensity Centroid
   - Integral image
+  - Local Binary Pattern
+  - Haar-Like features
 
 - Signal Processing
   - Fast Fourier Transform Shift
@@ -146,6 +146,7 @@ Main focuses are:
   - Column summation
   - Normalize vector
   - Find unique numbers
+  - Data shuffle
   
 - Optimization
   - Linear programming
@@ -156,6 +157,7 @@ Main focuses are:
   - Principal Component Analysis
   - Linear Discriminant Analysis
   - Randn
+  - Randi
   - Mean
   - Average of the elements inside a form e.g circle
   - Max

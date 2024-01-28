@@ -21,7 +21,7 @@ int main() {
 	/* Do feature detection */
 	int N;
 	int fast_threshold = 50;
-	FAST_XY* xy = featuredetection(image->pixels, &N, fast_threshold, FAST_METHOD_9, image->height, image->width);
+	COORDINATE_XY* xy = featuredetection(image->pixels, &N, fast_threshold, FAST_METHOD_9, image->height, image->width);
 
 	/* Print features - x is column and y is row */
 	int i;

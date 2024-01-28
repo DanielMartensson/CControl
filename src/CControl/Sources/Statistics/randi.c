@@ -5,8 +5,11 @@
  *      Author: Daniel Mårtensson
  */
 
-#include "miscellaneous.h"
+#include "statistics.h"
 
+/* 
+ * Compute random number between 0 and x - 1
+ */
 INLINE size_t randi(const size_t x) {
 	return rand() % x;
 }

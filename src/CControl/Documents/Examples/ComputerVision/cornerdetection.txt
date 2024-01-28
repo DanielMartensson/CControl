@@ -22,7 +22,7 @@ int main() {
 	int N = 200;
 	float sigma = 5;
 	int fast_threshold = 20;
-	FAST_XY* xy = cornerdetection(image->pixels, sigma, &N, fast_threshold, FAST_METHOD_9, image->height, image->width);
+	COORDINATE_XY* xy = cornerdetection(image->pixels, sigma, &N, fast_threshold, FAST_METHOD_9, image->height, image->width);
 
 	/* Print corners - x is column and y is row */
 	int i;

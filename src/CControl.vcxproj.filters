@@ -251,7 +251,7 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\eig_generalized.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\fisherfaces.c">
+    <ClCompile Include="CControl\Sources\ComputerVision\fisherfaces.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\var.c">
@@ -380,7 +380,7 @@
     <ClCompile Include="CControl\Sources\SignalProcessing\ifftshift.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\MachineLearning\lbp.c">
+    <ClCompile Include="CControl\Sources\ImageProcessing\lbp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\area.c">
@@ -461,9 +461,6 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\imwrite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ComputerVision\shapedetection.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\uint2float.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -473,7 +470,7 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\radianvector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ComputerVision\landmarkdetection.c">
+    <ClCompile Include="CControl\Sources\ComputerVision\hog.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\normpdf.c">
@@ -495,6 +492,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\Miscellaneous\unique.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ComputerVision\violajones.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Statistics\randi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\ImageProcessing\haarlike.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\Miscellaneous\shuffle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

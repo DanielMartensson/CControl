@@ -11,10 +11,10 @@
  * Create data by using corner detection
  * Return a matrix C with size [max_classes*2]
  */
-float* generalizedhough_create_data(const uint8_t X[], const size_t row, const size_t column, uint8_t* max_classes, const uint8_t descriptor_threshold, const uint32_t descriptors[], const uint8_t total_descriptors, const float epsilon, const size_t min_pts) {
+float* generalizedhough_collect(const uint8_t X[], const size_t row, const size_t column, const uint8_t fast_threshold, const FAST_METHOD fast_method, const float epsilon, const size_t min_pts, size_t* max_classes) {
 	/* Landmark detection */
 	int N;
-	FAST_XY* xy = landmarkdetection_collect(X, &N, descriptor_threshold, descriptors, total_descriptors, row, column);
+	COORDINATE_XY* xy = featuredetection(X, &N, fast_threshold, fast_method, row, column);
 
 	/* Convert to float for using with DBSCAN */
 	float* xy_float = (float*)malloc(N * 2 * sizeof(float));
@@ -70,7 +70,7 @@ float* generalizedhough_create_data(const uint8_t X[], const size_t row, const s
  * X[m*2] - Contains feature points from an image e.g corner detection
  * Return back the generalized hough model
  */
-GENERALIZED_HOUGH_MODEL* generalizedhough_create_model(const float X[], const size_t row) {
+GENERALIZED_HOUGH_MODEL* generalizedhough_train(const float X[], const size_t row) {
 	/* Constants and variables */
 	const size_t column = 2;
 	const size_t column_bytes = column * sizeof(float);
@@ -238,7 +238,7 @@ GENERALIZED_HOUGH_MODEL* generalizedhough_create_model(const float X[], const si
  * X[m*2] - Contains feature points from an image e.g corner detection
  * xc and yc are center coordinates for the detected object
  */
-void generalizedhough_eval_votes(const float X[], const GENERALIZED_HOUGH_MODEL model[], const float smoothing_accumulator, float* max_value_accumulator, size_t* xc, size_t* yc, const size_t row) {
+void generalizedhough_eval(const float X[], const GENERALIZED_HOUGH_MODEL model[], const float smoothing_accumulator, float* max_value_accumulator, size_t* xc, size_t* yc, const size_t row) {
 	/* Constants and variables */
 	const size_t column = 2;
 	const size_t column_bytes = column * sizeof(float);
@@ -380,7 +380,7 @@ void generalizedhough_eval_votes(const float X[], const GENERALIZED_HOUGH_MODEL 
 /*
  * Free the generalized hough model
  */
-void generalizedhough_free_model(const GENERALIZED_HOUGH_MODEL model[]) {
+void generalizedhough_free(const GENERALIZED_HOUGH_MODEL model[]) {
 	uint8_t i;
 	for (i = 0; i < 181; i++) {
 		if (model[i].votes_active > 0) {

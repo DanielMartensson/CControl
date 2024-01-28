@@ -12,6 +12,36 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ArtificialIntelligence\Astar.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ArtificialIntelligence\Astar.c(176,23): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ArtificialIntelligence\Astar.c(177,23): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
   inpolygon.c
+  cornerdetection.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\cornerdetection.c(18,86): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\cornerdetection.c(18,91): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+  featuredetection.c
+  fisherfaces.c
+  generalizedhough.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(17,75): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(17,80): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(29,33): warning C4267: 'function': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(147,9): warning C4114: same type qualifier used more than once
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(160,47): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(125,10): warning C4090: 'initializing': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(147,20): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(303,9): warning C4114: same type qualifier used more than once
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(257,9): warning C4090: 'initializing': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(284,10): warning C4090: 'initializing': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(303,20): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\generalizedhough.c(393,12): warning C4090: 'function': different 'const' qualifiers
+  hog.c
+  hough.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(36,42): warning C4133: 'function': incompatible types - from 'float **' to 'size_t **'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(42,32): warning C4133: 'function': incompatible types - from 'float **' to 'const size_t **'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(113,17): warning C4244: '=': conversion from 'size_t' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(114,17): warning C4244: '=': conversion from 'size_t' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(147,29): warning C4267: 'function': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(182,28): warning C4244: 'function': conversion from 'const size_t' to 'float', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(182,12): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(220,9): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(236,17): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
+  violajones.c
   c2d.c
   kalman.c
   lqi.c
@@ -23,11 +53,9 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ArtificialIntelligence\Astar.c
   count_sub_folders.c
   detectmemoryleak.c
   scan_file_names.c
+  Generating Code...
+  Compiling...
   scan_sub_folder_names.c
-  cornerdetection.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\cornerdetection.c(18,80): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\cornerdetection.c(18,85): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
-  featuredetection.c
   fspecial.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\fspecial.c(48,11): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\fspecial.c(56,12): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
@@ -37,33 +65,50 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\fspecial.c(136
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\fspecial.c(34,30): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\fspecial.c(35,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\fspecial.c(90,30): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
-  generalizedhough.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(26,65): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(26,70): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(30,30): warning C4047: 'function': 'int *' differs in levels of indirection from 'int'
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(30,30): warning C4024: 'shapedetection': different types for formal and actual parameter 2
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(161,9): warning C4114: same type qualifier used more than once
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(174,47): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(139,10): warning C4090: 'initializing': different 'const' qualifiers
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(161,20): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(317,9): warning C4114: same type qualifier used more than once
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(271,9): warning C4090: 'initializing': different 'const' qualifiers
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(298,10): warning C4090: 'initializing': different 'const' qualifiers
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(317,20): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\generalizedhough.c(407,12): warning C4090: 'function': different 'const' qualifiers
+  haarlike.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(46,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(47,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(48,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(49,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(58,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(76,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(77,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(78,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(79,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(88,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(105,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(106,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(107,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(108,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(117,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(118,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(136,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(137,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(138,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(139,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(148,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(149,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(167,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(168,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(169,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(170,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(179,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(180,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(181,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(182,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(200,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(201,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(202,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(203,21): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(212,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(213,64): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
   harris.c
-  hough.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\hough.c(36,42): warning C4133: 'function': incompatible types - from 'float **' to 'size_t **'
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\hough.c(42,32): warning C4133: 'function': incompatible types - from 'float **' to 'const size_t **'
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\hough.c(113,17): warning C4244: '=': conversion from 'size_t' to 'float', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\hough.c(114,17): warning C4244: '=': conversion from 'size_t' to 'float', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\hough.c(182,28): warning C4244: 'function': conversion from 'const size_t' to 'float', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\hough.c(182,12): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\hough.c(220,9): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\hough.c(236,17): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
-  Generating Code...
-  Compiling...
   imcollect.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imcollect.c(57,11): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imcollect.c(57,11): message : consider using '%zi' in the format string
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imcollect.c(80,56): warning C4267: 'function': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imcollect.c(98,40): warning C4133: '=': incompatible types - from 'size_t *' to 'uint8_t *'
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imcollect.c(101,78): warning C4267: '=': conversion from 'size_t' to 'uint8_t', possible loss of data
   imfree.c
   imgaussfilt.c
   imread.c
@@ -76,9 +121,12 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imwrite.c(26,1
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imwrite.c(26,16): message : consider using '%zu' in the format string
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imwrite.c(26,16): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 2 has type 'const size_t'
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imwrite.c(26,16): message : consider using '%zu' in the format string
+  integralimage.c
   intensitycentroid.c
-  landmarkdetection.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\landmarkdetection.c(17,15): warning C4101: 'j': unreferenced local variable
+  lbp.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\lbp.c(60,13): warning C4090: 'function': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\lbp.c(52,33): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\lbp.c(53,36): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
   pooling.c
   rpca.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(30,35): warning C4244: 'function': conversion from 'size_t' to 'const float', possible loss of data
@@ -86,23 +134,21 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(30,40):
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(24,31): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(67,31): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\rpca.c(117,31): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
-  shapedetection.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\shapedetection.c(41,74): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\shapedetection.c(41,79): warning C4267: 'function': conversion from 'size_t' to 'const int', possible loss of data
   sobel.c
   balance.c
   chol.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\chol.c(40,54): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\chol.c(40,62): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
   cholupdate.c
+  Generating Code...
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c(339): warning C4715: 'haarlike_value': not all control paths return a value
+  Compiling...
   conv.c
   conv2.c
   conv2fft.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\conv2fft.c(32,26): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
   convfft.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\convfft.c(19,23): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-  Generating Code...
-  Compiling...
   det.c
   dlyap.c
   dot.c
@@ -161,6 +207,8 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(109,12): w
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(124,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(125,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\mul.c(126,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  Compiling...
   nonlinsolve.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\nonlinsolve.c(30,9): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\nonlinsolve.c(68,42): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
@@ -178,8 +226,6 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\qr.c(184,46): wa
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\qr.c(184,53): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\qr.c(184,63): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\qr.c(184,76): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
-  Compiling...
   rank.c
   svd.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(154,56): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
@@ -192,9 +238,10 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(639,17): w
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(639,28): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\LinearAlgebra\svd.c(686,17): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
   tran.c
+  adaboost.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\adaboost.c(99,26): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   dbscan.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\dbscan.c(34,33): warning C4101: 'm': unreferenced local variable
-  fisherfaces.c
   kernel.c
   kmeans.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kmeans.c(19,10): warning C4133: 'initializing': incompatible types - from 'float *' to 'size_t *'
@@ -204,14 +251,11 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kmeans.c(23,9)
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kpca_lda_nn.c(31,59): warning C4090: '=': different 'const' qualifiers
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kpca_lda_nn.c(43,10): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\kpca_lda_nn.c(43,10): message : consider using '%zi' in the format string
-  lbp.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c(61,13): warning C4090: 'function': different 'const' qualifiers
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c(53,33): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\lbp.c(54,36): warning C4244: 'initializing': conversion from 'float' to 'const size_t', possible loss of data
   nn.c
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(73,20): warning C4090: 'function': different 'const' qualifiers
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(76,10): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(76,10): message : consider using '%zi' in the format string
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(102,10): warning C4267: 'return': conversion from 'size_t' to 'uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(104,10): warning C4267: 'return': conversion from 'size_t' to 'uint8_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(138,9): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 2 has type 'size_t'
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(138,9): message : consider using '%zi' in the format string
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(138,9): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 3 has type 'const size_t'
@@ -230,11 +274,15 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(141,9): w
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(141,9): message : consider using '%zi' in the format string
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\nn.c(155,9): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
   svm.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\MachineLearning\svm.c(98,9): warning C4090: 'initializing': different 'const' qualifiers
   anglevector.c
   cat.c
+  cumsum.c
   cut.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\cut.c(20,9): warning C4090: 'initializing': different 'const' qualifiers
   deg2rad.c
+  Generating Code...
+  Compiling...
   find.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(26,34): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(31,34): warning C4267: '=': conversion from 'size_t' to 'int32_t', possible loss of data
@@ -244,9 +292,8 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(46,34): w
   float2uint.c
   ind2sub.c
   insert.c
-  Generating Code...
-  Compiling...
   issymmetric.c
+  normalize.c
   pdist2.c
   popcount.c
   print.c
@@ -255,19 +302,25 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Miscellaneous\find.c(46,34): w
   rot2d.c
   saturation.c
   scalar.c
+  shuffle.c
   sign.c
   sort.c
   sum.c
   uint2float.c
+  unique.c
+  Generating Code...
+  Compiling...
   unit.c
   vmax.c
   vmin.c
   linprog.c
   lsqnonneg.c
   quadprog.c
-  cluster_filter.c
-  Generating Code...
-  Compiling...
+  clusterfilter.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\clusterfilter.c(20,10): warning C4090: 'function': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\clusterfilter.c(30,12): warning C4090: 'function': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\clusterfilter.c(69,12): warning C4090: 'function': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\clusterfilter.c(24,9): warning C4090: 'initializing': different 'const' qualifiers
   fft.c
   fft2.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\fft2.c(29,28): warning C4267: 'initializing': conversion from 'size_t' to 'long', possible loss of data
@@ -287,18 +340,22 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SignalProcessing\ifft2.c(26,33
   amin.c
   area.c
   center.c
+  Generating Code...
+  Compiling...
   centroid.c
   clusterratio.c
   clustersdistance.c
   cov.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\cov.c(17,21): warning C4090: 'function': different 'const' qualifiers
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\cov.c(18,21): warning C4090: 'function': different 'const' qualifiers
   covm.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\covm.c(38,26): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+  giniimpurity.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\giniimpurity.c(17,26): warning C4028: formal parameter 1 different from declaration
   lda.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\lda.c(46,26): warning C4090: 'initializing': different 'const' qualifiers
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\lda.c(169,17): warning C4090: 'function': different 'const' qualifiers
   mean.c
-  Generating Code...
-  Compiling...
   normpdf.c
   opa.c
   pca.c
@@ -307,12 +364,14 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(103,50): warn
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(103,61): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(103,75): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\pca.c(103,86): warning C4267: 'function': conversion from 'size_t' to 'int', possible loss of data
+  randi.c
   randn.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\randn.c(21,9): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
   randperm.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\randperm.c(18,11): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
   stddev.c
   var.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Statistics\var.c(16,25): warning C4090: 'function': different 'const' qualifiers
   era.c
   okid.c
   rls.c
@@ -320,6 +379,12 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SystemIdentification\rls.c(66,
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SystemIdentification\rls.c(70,14): warning C4267: '=': conversion from 'size_t' to 'int8_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SystemIdentification\rls.c(74,15): warning C4267: '=': conversion from 'size_t' to 'int8_t', possible loss of data
   sr_ukf_parameter_estimation.c
+  Generating Code...
+  Compiling...
   Main.c
+C:\Users\dmn\GitHub\CControl\src\Main.c(28,109): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\Main.c(28,114): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\Main.c(59,92): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\Main.c(59,97): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
   Generating Code...
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Debug\CControl.exe
