@@ -20,10 +20,12 @@ int main() {
 	const char* train_path_non_faces = "..\\src\\CControl\\Documents\\Data\\violajones\\train\\non-face";
 	const char* test_path_faces = "..\\src\\CControl\\Documents\\Data\\violajones\\test\\face";
 	const char* test_path_non_faces = "..\\src\\CControl\\Documents\\Data\\violajones\\test\\non-face";
+	const char* initial_features_path = "..\\src\\CControl\\Documents\\Data\\violajones\\initial_features";
+	const char* initial_accuracy_path = "..\\src\\CControl\\Documents\\Data\\violajones\\initial_accuracy";
 	const size_t row = 19;
 	const size_t column = 19;
-	const uint8_t N = 8;
-	const size_t total_haarlikes = 100;
+	const uint8_t N = 30;
+	const size_t total_haarlikes = 500;
 
 	/* Initial train and test data */
 	uint32_t* train_data = NULL;
@@ -36,22 +38,68 @@ int main() {
 	voilajones_collect(&test_data, &test_y, &total_test_data_rows, test_path_faces, test_path_non_faces, row, column);
 
 	/* Create the save */
-	HAARLIKE_FEATURE* save = (HAARLIKE_FEATURE*)malloc(N * sizeof(HAARLIKE_FEATURE));
+	HAARLIKE_FEATURE* best_features = (HAARLIKE_FEATURE*)malloc(N * sizeof(HAARLIKE_FEATURE));
+	
+	/* Load initial features */
+	if (!saveload((uint8_t*)best_features, N * sizeof(HAARLIKE_FEATURE), initial_features_path, false)) {
+		/* Did not exist */
+		printf("Could not find %s\n", initial_features_path);
+		memset(best_features, 0, N * sizeof(HAARLIKE_FEATURE));
+	}
+
+	/* Load the initial accuracy so we don't overwrite */
+	uint8_t accuarcy_uint8[4];
+	float best_accuracy;
+	if (saveload(accuarcy_uint8, sizeof(accuarcy_uint8), initial_accuracy_path, false)) {
+		FLOAT_UINT8 float_uint8_converter;
+		memcpy(float_uint8_converter.array, accuarcy_uint8, sizeof(accuarcy_uint8));
+		best_accuracy = float_uint8_converter.value;
+	}
+	else {
+		printf("Could not find %s\n", initial_accuracy_path);
+		best_accuracy = 0.0f;
+	}
+	
+	/* Display initial features */
+	printf("This is the initial features with initial accuracy %f:\n", best_accuracy);
+	size_t i;
+	for (i = 0; i < N; i++) {
+		switch (best_features[i].haarlike_feature_choice) {
+		case HARLIIKE_FEATURE_CHOICE_SQUARES:
+			printf("Squares:");
+			break;
+		case HARLIIKE_FEATURE_CHOICE_LINE_VERTICAL:
+			printf("Line vertical:");
+			break;
+		case HARLIIKE_FEATURE_CHOICE_LINE_HORIZONTAL:
+			printf("Line horizontal:");
+			break;
+		case HARLIIKE_FEATURE_CHOICE_EDGE_VERTICAL:
+			printf("Edge vertical:");
+			break;
+		case HARLIIKE_FEATURE_CHOICE_EDGE_HORIZONTAL:
+			printf("Edge horizontal:");
+			break;
+		case HARLIIKE_FEATURE_CHOICE_CENTER:
+			printf("Center:");
+			break;
+		}
+		printf(" x1 = %i, x2 = %i, x3 = %i, x4 = %i, y1 = %i, y2 = %i, y3 = %i, y4 = %i\n", best_features[i].x1, best_features[i].x2, best_features[i].x3, best_features[i].x4, best_features[i].y1, best_features[i].y2, best_features[i].y3, best_features[i].y4);
+	}
 
 	/* Train Viola Jones model */
+	printf("\nBegin training the Viola Jones model\n");
 	size_t iter;
-	float max_accuracy = 0.0f;
-	for (iter = 0; iter < MAX_ITERATIONS; iter++) {
+	for (iter = 0; iter < LLONG_MAX; iter++) {
 		/* Get features */
-		HAARLIKE_FEATURE* features = violajones_train(train_data, train_y, total_train_data_rows, total_haarlikes, N, row, column);
+		HAARLIKE_FEATURE* features = violajones_train(best_features, train_data, train_y, total_train_data_rows, total_haarlikes, N, row, column);
 
 		/* Do evaluation */
 		const float accuracy = violajones_eval(features, N, test_data, test_y, total_test_data_rows, row, column);
 
 		/* Remmeber */
-		if (accuracy > max_accuracy) {
+		if (accuracy > best_accuracy) {
 			/* Print */
-			size_t i;
 			for (i = 0; i < N; i++) {
 				switch (features[i].haarlike_feature_choice) {
 				case HARLIIKE_FEATURE_CHOICE_SQUARES:
@@ -75,23 +123,35 @@ int main() {
 				}
 				printf(" x1 = %i, x2 = %i, x3 = %i, x4 = %i, y1 = %i, y2 = %i, y3 = %i, y4 = %i\n", features[i].x1, features[i].x2, features[i].x3, features[i].x4, features[i].y1, features[i].y2, features[i].y3, features[i].y4);
 			}
-			max_accuracy = accuracy;
+			/* Remember the best accuracy */
+			best_accuracy = accuracy;
 			printf("The accuracy is: %f at iteration %i\n", accuracy, iter);
-			memcpy(save, features, N * sizeof(HAARLIKE_FEATURE));
+
+			/* Copy over the best features */
+			memcpy(best_features, features, N * sizeof(HAARLIKE_FEATURE));
+
+			/* Save the best features */
+			saveload((uint8_t*)best_features, N * sizeof(HAARLIKE_FEATURE), initial_features_path, true);
+			
+			/* Save the best accuracy */
+			FLOAT_UINT8 float_uint8_converter;
+			float_uint8_converter.value = best_accuracy;
+			memcpy(accuarcy_uint8, float_uint8_converter.array, sizeof(accuarcy_uint8));
+			saveload(accuarcy_uint8, sizeof(accuarcy_uint8), initial_accuracy_path, true);
 		}
 
 		/* Free */
 		free(features);
 
 		/* Break if we have more than 90% accuracy */
-		if (max_accuracy > 90.0f) {
+		if (best_accuracy > 90.0f) {
 			printf("Breaking the traing at iteration %i\n", iter);
 			break;
 		}
 	}
 
 	/* Free */
-	free(save);
+	free(best_features);
 	free(train_data);
 	free(test_data);
 	free(train_y);
