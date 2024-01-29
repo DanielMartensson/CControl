@@ -44,7 +44,7 @@ If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and inc
 CControl have sevral algorithms for computer vision. They are chosen and reduced so they will fit embedded systems.
 
 | Name                         | Model                | Multi classification | Localization          | Noise invariant       | Lummination invariant | Rotation invariant | Scale invariant | Translation invariant | Suitable for |
-| ---------------------------- | -------------------- | -------------------- | --------------------- | --------------------- | --------------------- | ------------------ | ------------ -- | --------------------- | ------------ |
+| ---------------------------- | -------------------- | -------------------- | --------------------- | --------------------- | --------------------- | ------------------ | --------------- | --------------------- | ------------ |
 | `Fisherfaces`                | `1-Layer NN`         | `Yes`                | `No`                  | `Yes`                 | `Yes`                 | `No`               | `No`            | `No`                  | `Objects`    |
 | `Viola Jones`                | `Haar-Likes`         | `No`                 | `No`                  | `Yes`                 | `Yes`                 | `No`               | `No`            | `No`                  | `Objects`    |
 | `Generalized Hough Transform`| `Hough model`        | `No`                 | `Yes`                 | `No`                  | `Yes`                 | `Yes`              | `Yes`           | `Yes`                 | `Objects`    |             
