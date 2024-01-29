@@ -39,6 +39,19 @@ If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and inc
 | `Missing` | Eigenvectors for general matrices | Nothing | Nothing | Nothing |
 | `Memory requirements` | Lightweight | Large | Medium | Lightweight | Lightweight |
 
+# Computer vision support
+
+CControl have sevral algorithms for computer vision. They are chosen and reduced so they will fit embedded systems.
+
+| Name                         | Model                | Multi classification | Localization          | Lummination invariant | Rotation invariant| Scale invariant | Translation invariant | Suitable for|
+| -----------------------------| -------------------- | ------------------- -| ----------------------| ----------------------| ------------------|-----------------|-----------------------|-------------|
+| `Fisherfaces`                | `1-Layer NN`         | `Yes`                | `No`                  | `Yes`                 | `No`              | `No`            | `No`                  | `Objects`   |
+| `Viola Jones`                | `Haar-Likes`         | `No`                 | `No`                  | `Yes`                 | `No`              | `No`            | `No`                  | `Objects`   |
+| `Generalized Hough Transform`| `Hough model`        | `No`                 | `Yes`                 | `Yes`                 | `Yes`             | `Yes`           | `Yes`                 | `Objects`   |             
+| `Hough Transform`            | `Hough model`        | `Yes`                | `Yes`                 | `Yes`                 | `Yes`             | `Yes`           | `Yes`                 | `Lines`     |
+| `Harris corner detection`    | `No`                 | `Yes`                | `Yes`                 | `Yes`                 | `Yes`             | `Yes`           | `Yes`                 | `Corners`   |
+
+
 Main focuses are:
 
 - Artificial Intelligence
