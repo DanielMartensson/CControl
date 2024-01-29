@@ -98,16 +98,22 @@ void voilajones_collect(uint32_t* data[], int8_t* y[], size_t* total_data_rows, 
  * row - Row size of the image in X
  * column - Column size of the image in X
  */
-HAARLIKE_FEATURE* violajones_train(const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column) {
+HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column) {
 	/* Generate the Haar-like features */
 	HAARLIKE_FEATURE* features = haarlike_pattern(total_haarlikes, row, column);
+
+	/* Add in the old best features as a feedback */
+	size_t i;
+	for (i = 0; i < N; i++) {
+		features[i] = best_features[i];
+	}
 
 	/* Create adaboost data */
 	float* data = (float*)malloc(total_train_data_rows * total_haarlikes * sizeof(float));
 	float* y_float = (float*)malloc(total_train_data_rows * sizeof(float));
 
 	/* Generate the data for objects and non-objects */
-	size_t i, j;
+	size_t j;
 	const size_t row_column = row * column;
 	for (i = 0; i < total_train_data_rows; i++) {
 		/* Collect the data from haar-like features */
@@ -150,7 +156,7 @@ HAARLIKE_FEATURE* violajones_train(const uint32_t X[], const int8_t y[], const s
  * row - Row size of the image in X
  * column - Column size of the image in X
  */
-float violajones_eval(const HAARLIKE_FEATURE* features, const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column) {
+float violajones_eval(const HAARLIKE_FEATURE features[], const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column) {
 	/* Generate the data for faces */
 	size_t i, j;
 	float object_found = 0.0f;

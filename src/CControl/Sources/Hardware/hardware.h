@@ -12,6 +12,7 @@ size_t count_sub_folders(const char folder_path[]);
 void detectmemoryleak();
 size_t scan_file_names(const char folder_path[], char** file_names[], const char ending[]);
 size_t scan_sub_folder_names(const char folder_path[], char** sub_folder_names[]);
+bool saveload(uint8_t data[], const uint32_t data_length, char file_name[], const bool save);
 
 #ifdef __cplusplus
 }
