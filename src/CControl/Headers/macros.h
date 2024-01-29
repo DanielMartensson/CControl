@@ -21,6 +21,4 @@
 #define INLINE
 #endif /* !IS_C89 */
 
-
-
 #endif /* !MACROS_H_*/
