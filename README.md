@@ -160,6 +160,7 @@ Main focuses are:
   - Normalize vector
   - Find unique numbers
   - Data shuffle
+  - Union converters
   
 - Optimization
   - Linear programming

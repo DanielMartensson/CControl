@@ -27,6 +27,7 @@
     <ClInclude Include="CControl\Headers\headers.h" />
     <ClInclude Include="CControl\Headers\macros.h" />
     <ClInclude Include="CControl\Headers\structs.h" />
+    <ClInclude Include="CControl\Headers\unions.h" />
     <ClInclude Include="CControl\Sources\ArtificialIntelligence\artificialintelligence.h" />
     <ClInclude Include="CControl\Sources\ComputerVision\computervision.h" />
     <ClInclude Include="CControl\Sources\ControlEngineering\controlengineering.h" />
@@ -55,6 +56,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\cornerdetection.c" />
+    <ClCompile Include="CControl\Sources\Hardware\saveload.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\fspecial.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\haarlike.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\harris.c" />
