@@ -1,5 +1,5 @@
 /*
- * haarlike_features.c
+ * haarlike.c
  *
  *  Created on: 27 Januari 2024
  *      Author: Daniel Mårtensson
