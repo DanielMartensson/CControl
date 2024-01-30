@@ -168,7 +168,7 @@ HAARLIKE_FEATURE* haarlike_pattern(const size_t total_haar_likes, const uint8_t 
 			features[i].y1 = randi(row);
 			features[i].x4 = randi(column);
 			features[i].y4 = randi(row);
-			/* If x1 is larger than x2 */
+			/* If x1 is larger than x4 */
 			if (features[i].x1 > features[i].x4) {
 				SWAP(features[i].x1, features[i].x4, uint8_t);
 			}
@@ -199,8 +199,8 @@ HAARLIKE_FEATURE* haarlike_pattern(const size_t total_haar_likes, const uint8_t 
 			features[i].haarlike_feature_choice = HARLIIKE_FEATURE_CHOICE_SQUARES;
 			features[i].x1 = randi(column);
 			features[i].y1 = randi(row);
-			features[i].x2 = randi(column);
-			features[i].y2 = randi(row);
+			features[i].x3 = randi(column);
+			features[i].y3 = randi(row);
 			/* If x1 is larger than x3 */
 			if (features[i].x1 > features[i].x3) {
 				SWAP(features[i].x1, features[i].x3, uint8_t);
@@ -332,7 +332,7 @@ int8_t haarlike_value(const uint32_t X[], const HAARLIKE_FEATURE* feature, const
 		 * o__________o__________o (x3, y3)
 		 * (x1, y3)   (x2, y3)
 		 */
-		white = compute_area(X, column, f->x3, f->x4, f->y2, f->y3) + compute_area(X, column, f->x1, f->x2, f->y1, f->y2);
+		white = compute_area(X, column, f->x2, f->x3, f->y2, f->y3) + compute_area(X, column, f->x1, f->x2, f->y1, f->y2);
 		black = compute_area(X, column, f->x1, f->x2, f->y2, f->y3) + compute_area(X, column, f->x2, f->x3, f->y1, f->y2);
 		return white > black ? 1 : -1;
 	}
