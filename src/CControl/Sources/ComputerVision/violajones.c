@@ -100,12 +100,13 @@ void voilajones_collect(uint32_t* data[], int8_t* y[], size_t* total_data_rows, 
  */
 HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column) {
 	/* Generate the Haar-like features */
-	HAARLIKE_FEATURE* features = haarlike_pattern(total_haarlikes, row, column);
+	HAARLIKE_FEATURE* features = haarlike_pattern(total_haarlikes - N, row, column);
 
-	/* Add in the old best features as a feedback */
+	/* Add in the old best features as a feedback at the bottom */
+	features = realloc(features, total_haarlikes * sizeof(HAARLIKE_FEATURE));
 	size_t i;
-	for (i = 0; i < N; i++) {
-		features[i] = best_features[i];
+	for (i = total_haarlikes - N; i < total_haarlikes; i++) {
+		features[i] = best_features[i - (total_haarlikes - N)];
 	}
 
 	/* Create adaboost data */
