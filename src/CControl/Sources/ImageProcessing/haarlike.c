@@ -244,7 +244,7 @@ int8_t haarlike_value(const uint32_t X[], const HAARLIKE_FEATURE* feature, const
 		return white > black ? 1 : -1;
 	case HARLIIKE_FEATURE_CHOICE_EDGE_HORIZONTAL:
 		/* 
-	         * (x1, y1)
+		 * (x1, y1)
 		 * o_____________________o (x2, y1)
 		 * |                     |
 		 * |          Black      |
