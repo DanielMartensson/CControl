@@ -19,7 +19,7 @@ int main() {
 	const size_t total_haar_likes = 255;
 	const uint8_t row = 32;
 	const uint8_t column = 32;
-	HAARLIKE_FEATURE* features = haarlike_pattern(total_haar_likes, row, column);
+	HAARLIKE_FEATURE* features = haarlike_features(total_haar_likes, row, column);
 
 	/* Print */
 	size_t i;

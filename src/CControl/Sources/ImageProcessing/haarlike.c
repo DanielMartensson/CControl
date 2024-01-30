@@ -1,5 +1,5 @@
 /*
- * haarlike_pattern.c
+ * haarlike_features.c
  *
  *  Created on: 27 Januari 2024
  *      Author: Daniel Mårtensson
@@ -14,11 +14,11 @@ INLINE static uint32_t compute_area(const uint32_t X[], const uint8_t column, co
  * Return the randomly genereated Haar-Like features 
  * This is made for Integral Image
  */
-HAARLIKE_FEATURE* haarlike_pattern(const size_t total_haar_likes, const uint8_t row, const uint8_t column) {
+HAARLIKE_FEATURE* haarlike_features(const size_t total_haar_likes, const uint8_t row, const uint8_t column) {
 	/* This is only for resetting the srand seed */
 	randn(NULL, 0, 0.0f, 0.0f);
 
-	/* Declare features */
+	/* Generate features */
 	HAARLIKE_FEATURE* features = (HAARLIKE_FEATURE*)malloc(total_haar_likes * sizeof(HAARLIKE_FEATURE));
 	memset(features, 0, total_haar_likes * sizeof(HAARLIKE_FEATURE));
 
@@ -219,7 +219,7 @@ HAARLIKE_FEATURE* haarlike_pattern(const size_t total_haar_likes, const uint8_t 
 	return features;
 }
 
-int8_t haarlike_value(const uint32_t X[], const HAARLIKE_FEATURE* feature, const uint8_t row, const uint8_t column) {
+int8_t haarlike_predict(const uint32_t X[], const HAARLIKE_FEATURE* feature, const uint8_t row, const uint8_t column) {
 	const HAARLIKE_FEATURE* f = feature;
 	uint32_t white;
 	uint32_t black;

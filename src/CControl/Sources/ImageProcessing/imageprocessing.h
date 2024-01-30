@@ -14,8 +14,8 @@ bool imwrite(const uint8_t X[], const char file_path[], const size_t row, const 
 void imresize(float X[], float Y[], float d, size_t row, size_t column);
 void imgaussfilt(float X[], float sigma, size_t row, size_t column);
 float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type);
-HAARLIKE_FEATURE* haarlike_pattern(const size_t total_haar_likes, const uint8_t row, const uint8_t column);
-int8_t haarlike_value(const uint32_t X[], const HAARLIKE_FEATURE* feature, const uint8_t row, const uint8_t column);
+HAARLIKE_FEATURE* haarlike_features(const size_t total_haar_likes, const uint8_t row, const uint8_t column);
+int8_t haarlike_predict(const uint32_t X[], const HAARLIKE_FEATURE* feature, const uint8_t row, const uint8_t column);
 void harris(const float X[], float H[], const float sigma, const uint8_t edge, const size_t row, const size_t column);
 MODEL* imcollect(const MODEL_SETTINGS* model_settings);
 void imcollectfree(MODEL* model);

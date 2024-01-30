@@ -100,7 +100,7 @@ void voilajones_collect(uint32_t* data[], int8_t* y[], size_t* total_data_rows, 
  */
 HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column) {
 	/* Generate the Haar-like features */
-	HAARLIKE_FEATURE* features = haarlike_pattern(total_haarlikes - N, row, column);
+	HAARLIKE_FEATURE* features = haarlike_features(total_haarlikes - N, row, column);
 
 	/* Add in the old best features as a feedback at the bottom */
 	features = realloc(features, total_haarlikes * sizeof(HAARLIKE_FEATURE));
@@ -119,7 +119,7 @@ HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const
 	for (i = 0; i < total_train_data_rows; i++) {
 		/* Collect the data from haar-like features */
 		for (j = 0; j < total_haarlikes; j++) {
-			features[j].value = haarlike_value(X + i * row_column, &features[j], row, column);
+			features[j].value = haarlike_predict(X + i * row_column, &features[j], row, column);
 			data[i * total_haarlikes + j] = (float)features[j].value;
 		}
 	}
@@ -169,7 +169,7 @@ float violajones_eval(const HAARLIKE_FEATURE features[], const size_t N, const u
 		size_t count = 0;
 		/* Do cascade classification - It's very fast */
 		for (j = 0; j < N; j++) {
-			if (features[j].value == haarlike_value(X + i * row_column, &features[j], row, column)) {
+			if (features[j].value == haarlike_predict(X + i * row_column, &features[j], row, column)) {
 				count++;
 			}
 			else {
