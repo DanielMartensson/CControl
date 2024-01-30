@@ -50,6 +50,7 @@ CControl have sevral algorithms for computer vision. They are chosen and reduced
 | `Generalized Hough Transform`| `Hough model`        | `No`                 | `Yes`                 | `No`                  | `Yes`                 | `Yes`              | `Yes`           | `Yes`                 | `Objects`    |             
 | `Hough Transform`            | `Hough model`        | `Yes`                | `Yes`                 | `Yes`                 | `Yes`                 | `Yes`              | `Yes`           | `Yes`                 | `Lines`      |
 | `Harris corner detection`    | `No`                 | `Yes`                | `Yes`                 | `No`                  | `Yes`                 | `Yes`              | `Yes`           | `Yes`                 | `Corners`    |
+| `Feature detection`    | `No`                 | `Yes`                | `Yes`                 | `No`                  | `Yes`                 | `Yes`              | `Yes`           | `Yes`                 | `Features`    |
 
 
 Main focuses are:

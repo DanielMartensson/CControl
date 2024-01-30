@@ -61,7 +61,6 @@
     <ClCompile Include="CControl\Sources\ImageProcessing\haarlike.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\harris.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\integralimage.c" />
-    <ClCompile Include="CControl\Sources\ComputerVision\hog.c" />
     <ClCompile Include="CControl\Sources\ImageProcessing\imcollect.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\featuredetection.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\hough.c" />

@@ -473,9 +473,6 @@
     <ClCompile Include="CControl\Sources\Miscellaneous\radianvector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ComputerVision\hog.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\Statistics\normpdf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
