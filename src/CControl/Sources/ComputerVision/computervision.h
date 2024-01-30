@@ -14,7 +14,6 @@ float* generalizedhough_collect(const uint8_t X[], const size_t row, const size_
 GENERALIZED_HOUGH_MODEL* generalizedhough_train(const float X[], const size_t row);
 void generalizedhough_eval(const float X[], const GENERALIZED_HOUGH_MODEL model[], const float smoothing_accumulator, float* max_value_accumulator, size_t* xc, size_t* yc, const size_t row);
 void generalizedhough_free(const GENERALIZED_HOUGH_MODEL model[]);
-static float* hog(const float X[], const size_t block_size, const HOG_BINS hog_bins, const size_t row, const size_t column, size_t* descriptors_row, size_t* descriptors_column, uint8_t* histogram_size);
 size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column);
 void voilajones_collect(uint32_t* data[], int8_t* y[], size_t* total_data_rows, const char train_path_objects[], const char train_path_non_objects[], const size_t row, const size_t column);
 HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column);
