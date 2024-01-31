@@ -144,12 +144,6 @@ int main() {
 
 		/* Free */
 		free(models);
-
-		/* Break if we have more than 90% accuracy */
-		if (best_accuracy > 90.0f) {
-			printf("Breaking the traing at iteration %i\n", iter);
-			break;
-		}
 	}
 
 	/* Free */

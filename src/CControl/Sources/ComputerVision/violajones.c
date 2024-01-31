@@ -174,10 +174,10 @@ float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uin
 	
 	/* Generate the data for faces */
 	size_t j;
-	float object_found = 0.0f;
-	float non_object_found = 0.0f;
-	float total_objects = 0.0f;
-	float total_non_objects = 0.0f;
+	float TP = 0.0f;
+	float TN = 0.0f;
+	float FP = 0.0f;
+	float FN = 0.0f;
 	const size_t row_column = row * column;
 	for (i = 0; i < total_test_data_rows; i++) {
 		size_t count = 0;
@@ -190,20 +190,24 @@ float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uin
 		if(y[i] == 1){
 			/* Check if it's was true */
 			if (adaboost_predict(adaboost_models, x, N) == 1) {
-				object_found++;
+				/* True positive :) */
+				TP++;
 			}
-
-			/* Count the total objects */
-			total_objects++;
+			else {
+				/* False positive :( */
+				FP++;
+			}
 		}
 		else {
 			/* Check if it's was true */
 			if (adaboost_predict(adaboost_models, x, N, N) == -1) {
-				non_object_found++;
+				/* True negative :) */
+				TN++;
 			}
-
-			/* Count the total non objects */
-			total_non_objects++;
+			else {
+				/* False negative :( */
+				FN++;
+			}
 		}
 	}
 
@@ -212,5 +216,5 @@ float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uin
 	free(x);
 
 	/* Compute the accuracy */
-	return object_found / total_objects * non_object_found / total_non_objects * 100.0f;
+	return (TP + TN) / (TP + TN + FP + FN) * 100.0f;
 }
