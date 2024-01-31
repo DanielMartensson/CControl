@@ -90,18 +90,18 @@ int main() {
 	/* Train Viola Jones model */
 	printf("\nBegin training the Viola Jones model\n");
 	size_t iter;
-	for (iter = 0; iter < LLONG_MAX; iter++) {
-		/* Get features */
-		HAARLIKE_FEATURE* features = violajones_train(best_features, train_data, train_y, total_train_data_rows, total_haarlikes, N, row, column);
+	for (iter = 0; iter < SIZE_MAX; iter++) {
+		/* Get model */
+		VIOLAJONES_MODEL* models = violajones_train(best_features, train_data, train_y, total_train_data_rows, total_haarlikes, N, row, column);
 
 		/* Do evaluation */
-		const float accuracy = violajones_eval(features, N, test_data, test_y, total_test_data_rows, row, column);
+		const float accuracy = violajones_eval(models, N, test_data, test_y, total_test_data_rows, row, column);
 
 		/* Remmeber */
 		if (accuracy > best_accuracy) {
 			/* Print */
 			for (i = 0; i < N; i++) {
-				switch (features[i].haarlike_feature_choice) {
+				switch (models[i].haarlike_feature.haarlike_feature_choice) {
 				case HARLIIKE_FEATURE_CHOICE_SQUARES:
 					printf("Squares:");
 					break;
@@ -121,14 +121,16 @@ int main() {
 					printf("Center:");
 					break;
 				}
-				printf(" x1 = %i, x2 = %i, x3 = %i, x4 = %i, y1 = %i, y2 = %i, y3 = %i, y4 = %i\n", features[i].x1, features[i].x2, features[i].x3, features[i].x4, features[i].y1, features[i].y2, features[i].y3, features[i].y4);
+				printf(" x1 = %i, x2 = %i, x3 = %i, x4 = %i, y1 = %i, y2 = %i, y3 = %i, y4 = %i\n", models[i].haarlike_feature.x1, models[i].haarlike_feature.x2, models[i].haarlike_feature.x3, models[i].haarlike_feature.x4, models[i].haarlike_feature.y1, models[i].haarlike_feature.y2, models[i].haarlike_feature.y3, models[i].haarlike_feature.y4);
 			}
 			/* Remember the best accuracy */
 			best_accuracy = accuracy;
 			printf("The accuracy is: %f at iteration %i\n", accuracy, iter);
 
 			/* Copy over the best features */
-			memcpy(best_features, features, N * sizeof(HAARLIKE_FEATURE));
+			for (i = 0; i < N; i++) {
+				best_features[i] = models[i].haarlike_feature;
+			}
 
 			/* Save the best features */
 			saveload((uint8_t*)best_features, N * sizeof(HAARLIKE_FEATURE), initial_features_path, true);
@@ -141,7 +143,7 @@ int main() {
 		}
 
 		/* Free */
-		free(features);
+		free(models);
 
 		/* Break if we have more than 90% accuracy */
 		if (best_accuracy > 90.0f) {
