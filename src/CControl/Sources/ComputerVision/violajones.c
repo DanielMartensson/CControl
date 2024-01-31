@@ -189,7 +189,7 @@ float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uin
 		/* Check what we are going to count */
 		if(y[i] == 1){
 			/* Check if it's was true */
-			if (adaboost_predict(adaboost_models, x, N, N) == 1) {
+			if (adaboost_predict(adaboost_models, x, N) == 1) {
 				object_found++;
 			}
 
