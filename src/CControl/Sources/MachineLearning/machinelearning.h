@@ -9,7 +9,7 @@ extern "C" {
 
 ADABOOST_MODEL* adaboost_train(const float X[], const float y[], const size_t N, const size_t row, const size_t column);
 float adaboost_eval(const ADABOOST_MODEL* models, const float X[], const float y[], const size_t N, const size_t row, const size_t column);
-float adaboost_predict(const ADABOOST_MODEL* models, const float x[], const size_t row, const size_t N);
+int8_t adaboost_predict(const ADABOOST_MODEL* models, const float x[], const size_t N);
 void dbscan(float X[], size_t idx[], float epsilon, uint8_t min_pts, size_t row, size_t column);
 void kernel(const float X[], float K[], const size_t row, const size_t column, const float kernel_parameters[], const KERNEL_METHOD kernel_method);
 bool kmeans(const float X[], size_t idx[], float C[], const size_t k, const size_t row, const size_t column);

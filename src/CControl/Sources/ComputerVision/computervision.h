@@ -16,8 +16,8 @@ void generalizedhough_eval(const float X[], const GENERALIZED_HOUGH_MODEL model[
 void generalizedhough_free(const GENERALIZED_HOUGH_MODEL model[]);
 size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column);
 void voilajones_collect(uint32_t* data[], int8_t* y[], size_t* total_data_rows, const char train_path_objects[], const char train_path_non_objects[], const size_t row, const size_t column);
-HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column);
-float violajones_eval(const HAARLIKE_FEATURE features[], const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column);
+VIOLAJONES_MODEL* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column);
+float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column);
 
 #ifdef __cplusplus
 }

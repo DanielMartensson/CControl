@@ -238,8 +238,8 @@ int main() {
 	/* Print */
 	printf("Accuracy: %f\n", accuracy);
 
-	/* Predict class */
-	printf("Class id: %f\n", adaboost_predict(models, &X_test[4 * column], column, N));
+	/* Predict class - Notice that the feature index inside models cannot exceed the index of X_test, in this case "column" */
+	printf("Class id: %i\n", adaboost_predict(models, &X_test[4 * column], N));
 
 	/* Free */
 	free(models);

@@ -98,7 +98,7 @@ void voilajones_collect(uint32_t* data[], int8_t* y[], size_t* total_data_rows, 
  * row - Row size of the image in X
  * column - Column size of the image in X
  */
-HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column) {
+VIOLAJONES_MODEL* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column) {
 	/* Generate the Haar-like features */
 	HAARLIKE_FEATURE* features = haarlike_features(total_haarlikes - N, row, column);
 
@@ -135,9 +135,13 @@ HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const
 	ADABOOST_MODEL* model_adaboost = adaboost_train(data, y_float, N, total_train_data_rows, total_haarlikes);
 
 	/* Check which feature indexes of the model that we are going to save */
-	HAARLIKE_FEATURE* model = (HAARLIKE_FEATURE*)malloc(N * sizeof(HAARLIKE_FEATURE));
+	VIOLAJONES_MODEL* model = (VIOLAJONES_MODEL*)malloc(N * sizeof(VIOLAJONES_MODEL));
 	for (i = 0; i < N; i++) {
-		model[i] = features[model_adaboost[i].feature_index];
+		model[i].adaboost_model = model_adaboost[i];
+		model[i].haarlike_feature = features[model_adaboost[i].feature_index];
+
+		/* It's important to send the feature index to i for the adaboost prediction */
+		model[i].adaboost_model.feature_index = i;
 	}
 
 	/* Free */
@@ -157,9 +161,19 @@ HAARLIKE_FEATURE* violajones_train(const HAARLIKE_FEATURE best_features[], const
  * row - Row size of the image in X
  * column - Column size of the image in X
  */
-float violajones_eval(const HAARLIKE_FEATURE features[], const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column) {
+float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column) {
+	/* Bring adaboost model */
+	ADABOOST_MODEL* adaboost_models = (ADABOOST_MODEL*)malloc(N * sizeof(ADABOOST_MODEL));
+	size_t i;
+	for (i = 0; i < N; i++) {
+		adaboost_models[i] = models[i].adaboost_model;
+	}
+
+	/* Create x vector */
+	float* x = (float*)malloc(N * sizeof(float));
+	
 	/* Generate the data for faces */
-	size_t i, j;
+	size_t j;
 	float object_found = 0.0f;
 	float non_object_found = 0.0f;
 	float total_objects = 0.0f;
@@ -167,21 +181,15 @@ float violajones_eval(const HAARLIKE_FEATURE features[], const size_t N, const u
 	const size_t row_column = row * column;
 	for (i = 0; i < total_test_data_rows; i++) {
 		size_t count = 0;
-		/* Do cascade classification - It's very fast */
+		/* Do Collect data */
 		for (j = 0; j < N; j++) {
-			if (features[j].value == haarlike_predict(X + i * row_column, &features[j], row, column)) {
-				count++;
-			}
-			else {
-				/* No object */
-				break;
-			}
+			x[j] = (float)haarlike_predict(X + i * row_column, &models[j].haarlike_feature, row, column);
 		}
 
 		/* Check what we are going to count */
 		if(y[i] == 1){
-			/* Check if count was the same as N */
-			if (count == N) {
+			/* Check if it's was true */
+			if (adaboost_predict(adaboost_models, x, N, N) == 1) {
 				object_found++;
 			}
 
@@ -189,8 +197,8 @@ float violajones_eval(const HAARLIKE_FEATURE features[], const size_t N, const u
 			total_objects++;
 		}
 		else {
-			/* Check if count was not the same as N */
-			if (count != N) {
+			/* Check if it's was true */
+			if (adaboost_predict(adaboost_models, x, N, N) == -1) {
 				non_object_found++;
 			}
 
@@ -198,6 +206,10 @@ float violajones_eval(const HAARLIKE_FEATURE features[], const size_t N, const u
 			total_non_objects++;
 		}
 	}
+
+	/* Free */
+	free(adaboost_models);
+	free(x);
 
 	/* Compute the accuracy */
 	return object_found / total_objects * non_object_found / total_non_objects * 100.0f;

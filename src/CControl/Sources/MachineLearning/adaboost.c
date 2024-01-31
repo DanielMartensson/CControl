@@ -177,10 +177,10 @@ float adaboost_eval(const ADABOOST_MODEL* models, const float X[], const float y
 }
 
 /*
- * x[m] - Input unknown data
+ * x[m] - Input unknown data - Notice that models[i].feature_index cannot exceed the element index of x[]
  * N - Total models
  */
-float adaboost_predict(const ADABOOST_MODEL* models, const float x[], const size_t row, const size_t N) {
+int8_t adaboost_predict(const ADABOOST_MODEL* models, const float x[], const size_t N) {
 	/* Iterate all models */
 	float s = 0.0f;
 	size_t i;
@@ -194,7 +194,7 @@ float adaboost_predict(const ADABOOST_MODEL* models, const float x[], const size
 	}
 
 	/* The final answer */
-	return sign(s);
+	return s > 0.0f ? 1 : -1;
 }
 
 /* GNU octave code
