@@ -10,11 +10,11 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\stability.c
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ControlEngineering\theta2ss.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\theta2ss.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Hardware\detectmemoryleak.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\detectmemoryleak.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\cornerdetection.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\cornerdetection.obj
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\Hardware\saveload.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\saveload.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\fspecial.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\fspecial.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\haarlike.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\haarlike.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\harris.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\harris.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\integralimage.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\integralimage.obj
-C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hog.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\hog.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ImageProcessing\imcollect.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\imcollect.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\featuredetection.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\featuredetection.obj
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c;C:\Users\dmn\GitHub\CControl\src\x64\Release\hough.obj

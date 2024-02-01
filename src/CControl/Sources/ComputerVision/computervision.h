@@ -18,6 +18,7 @@ size_t hough(const float X[], float* K[], float* M[], const float p, const float
 void voilajones_collect(uint32_t* data[], int8_t* y[], size_t* total_data_rows, const char train_path_objects[], const char train_path_non_objects[], const size_t row, const size_t column);
 VIOLAJONES_MODEL* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column);
 float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column);
+int8_t violajones_predict(const VIOLAJONES_MODEL models[], const size_t N, const uint32_t X[], const uint8_t row, const uint8_t column);
 
 #ifdef __cplusplus
 }

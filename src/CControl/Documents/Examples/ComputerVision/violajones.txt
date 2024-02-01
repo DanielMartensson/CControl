@@ -24,8 +24,8 @@ int main() {
 	const char* initial_accuracy_path = "..\\src\\CControl\\Documents\\Data\\violajones\\initial_accuracy";
 	const size_t row = 19;
 	const size_t column = 19;
-	const uint8_t N = 30;
-	const size_t total_haarlikes = 500;
+	const uint8_t N = HAARLIKE_FEATURE_TOTAL_HAARLIKES;
+	const size_t total_haarlikes = 100;
 
 	/* Initial train and test data */
 	uint32_t* train_data = NULL;
@@ -59,30 +59,92 @@ int main() {
 		printf("Could not find %s\n", initial_accuracy_path);
 		best_accuracy = 0.0f;
 	}
+
+	/* Reset if to high */
+	if (best_accuracy > 100.0f) {
+		best_accuracy = 0.0f;
+	}
 	
 	/* Display initial features */
 	printf("This is the initial features with initial accuracy %f:\n", best_accuracy);
 	size_t i;
 	for (i = 0; i < N; i++) {
 		switch (best_features[i].haarlike_feature_choice) {
-		case HARLIIKE_FEATURE_CHOICE_SQUARES:
+		case HAARLIKE_FEATURE_CHOICE_SQUARES:
 			printf("Squares:");
 			break;
-		case HARLIIKE_FEATURE_CHOICE_LINE_VERTICAL:
+		case HAARLIKE_FEATURE_CHOICE_LINE_VERTICAL:
 			printf("Line vertical:");
 			break;
-		case HARLIIKE_FEATURE_CHOICE_LINE_HORIZONTAL:
+		case HAARLIKE_FEATURE_CHOICE_LINE_HORIZONTAL:
 			printf("Line horizontal:");
 			break;
-		case HARLIIKE_FEATURE_CHOICE_EDGE_VERTICAL:
+		case HAARLIKE_FEATURE_CHOICE_EDGE_VERTICAL:
 			printf("Edge vertical:");
 			break;
-		case HARLIIKE_FEATURE_CHOICE_EDGE_HORIZONTAL:
+		case HAARLIKE_FEATURE_CHOICE_EDGE_HORIZONTAL:
 			printf("Edge horizontal:");
 			break;
-		case HARLIIKE_FEATURE_CHOICE_CENTER:
+		case HAARLIKE_FEATURE_CHOICE_CENTER:
 			printf("Center:");
 			break;
+		case HAARLIKE_FEATURE_CHOICE_CROSS:
+			printf("Cross:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_UP_U:
+			printf("Up U:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_DOWN_U:
+			printf("Down U:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_X:
+			printf("X:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_UP_T:
+			printf("Up T:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_DOWN_T:
+			printf("Down T:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_TILTED_LEFT_T:
+			printf("Tilted left T");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_TILTED_RIGHT_T:
+			printf("Tilted right T");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_UP_L:
+			printf("Up L:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_DOWN_L:
+			printf("Down L:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_UP_MIRROR_L:
+			printf("Up mirror L:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_DOWN_MIRROR_L:
+			printf("Down mirror L:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_H:
+			printf("H:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_TILTED_H:
+			printf("Tilted H:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_UP_Y:
+			printf("Up Y:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_DOWN_Y:
+			printf("Down Y:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_TILTED_LEFT_Y:
+			printf("Tilted left Y:");
+			break;
+		case HAARLIKE_FEATURE_CHOICE_TILTED_RIGHT_Y:
+			printf("Tilted right Y:");
+			break;
+		default:
+			printf("New unknown:");
+			memset(&best_features[i], 0, sizeof(HAARLIKE_FEATURE));
 		}
 		printf(" x1 = %i, x2 = %i, x3 = %i, x4 = %i, y1 = %i, y2 = %i, y3 = %i, y4 = %i\n", best_features[i].x1, best_features[i].x2, best_features[i].x3, best_features[i].x4, best_features[i].y1, best_features[i].y2, best_features[i].y3, best_features[i].y4);
 	}
@@ -102,23 +164,77 @@ int main() {
 			/* Print */
 			for (i = 0; i < N; i++) {
 				switch (models[i].haarlike_feature.haarlike_feature_choice) {
-				case HARLIIKE_FEATURE_CHOICE_SQUARES:
+				case HAARLIKE_FEATURE_CHOICE_SQUARES:
 					printf("Squares:");
 					break;
-				case HARLIIKE_FEATURE_CHOICE_LINE_VERTICAL:
+				case HAARLIKE_FEATURE_CHOICE_LINE_VERTICAL:
 					printf("Line vertical:");
 					break;
-				case HARLIIKE_FEATURE_CHOICE_LINE_HORIZONTAL:
+				case HAARLIKE_FEATURE_CHOICE_LINE_HORIZONTAL:
 					printf("Line horizontal:");
 					break;
-				case HARLIIKE_FEATURE_CHOICE_EDGE_VERTICAL:
+				case HAARLIKE_FEATURE_CHOICE_EDGE_VERTICAL:
 					printf("Edge vertical:");
 					break;
-				case HARLIIKE_FEATURE_CHOICE_EDGE_HORIZONTAL:
+				case HAARLIKE_FEATURE_CHOICE_EDGE_HORIZONTAL:
 					printf("Edge horizontal:");
 					break;
-				case HARLIIKE_FEATURE_CHOICE_CENTER:
+				case HAARLIKE_FEATURE_CHOICE_CENTER:
 					printf("Center:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_CROSS:
+					printf("Cross:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_UP_U:
+					printf("Up U:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_DOWN_U:
+					printf("Down U:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_X:
+					printf("X:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_UP_T:
+					printf("Up T:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_DOWN_T:
+					printf("Down T:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_TILTED_LEFT_T:
+					printf("Tilted left T");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_TILTED_RIGHT_T:
+					printf("Tilted right T");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_UP_L:
+					printf("Up L:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_DOWN_L:
+					printf("Down L:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_UP_MIRROR_L:
+					printf("Up mirror L:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_DOWN_MIRROR_L:
+					printf("Down mirror L:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_H:
+					printf("H:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_TILTED_H:
+					printf("Tilted H:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_UP_Y:
+					printf("Up Y:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_DOWN_Y:
+					printf("Down Y:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_TILTED_LEFT_Y:
+					printf("Tilted left Y:");
+					break;
+				case HAARLIKE_FEATURE_CHOICE_TILTED_RIGHT_Y:
+					printf("Tilted right Y:");
 					break;
 				}
 				printf(" x1 = %i, x2 = %i, x3 = %i, x4 = %i, y1 = %i, y2 = %i, y3 = %i, y4 = %i\n", models[i].haarlike_feature.x1, models[i].haarlike_feature.x2, models[i].haarlike_feature.x3, models[i].haarlike_feature.x4, models[i].haarlike_feature.y1, models[i].haarlike_feature.y2, models[i].haarlike_feature.y3, models[i].haarlike_feature.y4);

@@ -99,7 +99,7 @@ typedef struct {
 
 /* For haarlike.c */
 typedef struct {
-	HARLIIKE_FEATURE_CHOICE haarlike_feature_choice;
+	HAARLIKE_FEATURE_CHOICE haarlike_feature_choice;
 	uint8_t x1, x2, x3, x4, y1, y2, y3, y4;
 	int8_t value;
 }HAARLIKE_FEATURE;

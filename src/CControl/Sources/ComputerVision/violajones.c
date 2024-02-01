@@ -157,12 +157,53 @@ VIOLAJONES_MODEL* violajones_train(const HAARLIKE_FEATURE best_features[], const
 
 /*
  * Evaluate the Haar-Like features on a test data set 
- * features[N]
+ * models[N]
+ * y[total_test_data_rows]
+ * X[(total_test_data_rows) * (row*column)]
  * row - Row size of the image in X
  * column - Column size of the image in X
  */
-float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column) {
-	/* Bring adaboost model */
+float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uint32_t X[], const int8_t y[], const size_t total_test_data_rows, const uint8_t row, const uint8_t column) {	
+	/* Generate the data for faces */
+	size_t i;
+	float true_positive = 0.0f;
+	float true_negative = 0.0f;
+	float count_positive = 0.0f;
+	float count_negative = 0.0f;
+	const size_t row_column = row * column;
+	for (i = 0; i < total_test_data_rows; i++) {
+		/* Find class ID */
+		const int8_t class_ID = violajones_predict(models, N, X + i * row_column, row, column);
+
+		/* Check what we are going to count */
+		if(y[i] == 1){
+			/* Check if it's was true */
+			if (class_ID == 1) {
+				true_positive++;
+			}
+			count_positive++;
+		}
+		else {
+			/* Check if it's was true */
+			if (class_ID == -1) {
+				true_negative++;
+			}
+			count_negative++;
+		}
+	}
+
+	/* Compute the accuracy */
+	const float accuracy = true_positive / count_positive * true_negative / count_negative * 100.0f;
+	return accuracy;
+}
+
+/*
+ * Predict with adaboost
+ * X[m*n]
+ * models[N]
+ */
+int8_t violajones_predict(const VIOLAJONES_MODEL models[], const size_t N, const uint32_t X[], const uint8_t row, const uint8_t column) {
+	/* Bring forth the adaboost model */
 	ADABOOST_MODEL* adaboost_models = (ADABOOST_MODEL*)malloc(N * sizeof(ADABOOST_MODEL));
 	size_t i;
 	for (i = 0; i < N; i++) {
@@ -171,50 +212,19 @@ float violajones_eval(const VIOLAJONES_MODEL models[], const size_t N, const uin
 
 	/* Create x vector */
 	float* x = (float*)malloc(N * sizeof(float));
-	
-	/* Generate the data for faces */
-	size_t j;
-	float TP = 0.0f;
-	float TN = 0.0f;
-	float FP = 0.0f;
-	float FN = 0.0f;
-	const size_t row_column = row * column;
-	for (i = 0; i < total_test_data_rows; i++) {
-		size_t count = 0;
-		/* Do Collect data */
-		for (j = 0; j < N; j++) {
-			x[j] = (float)haarlike_predict(X + i * row_column, &models[j].haarlike_feature, row, column);
-		}
 
-		/* Check what we are going to count */
-		if(y[i] == 1){
-			/* Check if it's was true */
-			if (adaboost_predict(adaboost_models, x, N) == 1) {
-				/* True positive :) */
-				TP++;
-			}
-			else {
-				/* False positive :( */
-				FP++;
-			}
-		}
-		else {
-			/* Check if it's was true */
-			if (adaboost_predict(adaboost_models, x, N, N) == -1) {
-				/* True negative :) */
-				TN++;
-			}
-			else {
-				/* False negative :( */
-				FN++;
-			}
-		}
+	/* Do Collect data */
+	for (i = 0; i < N; i++) {
+		x[i] = (float)haarlike_predict(X, &models[i].haarlike_feature, row, column);
 	}
+
+	/* Compute the class ID with adaboost */
+	const int8_t class_id = adaboost_predict(adaboost_models, x, N);
 
 	/* Free */
 	free(adaboost_models);
 	free(x);
 
-	/* Compute the accuracy */
-	return (TP + TN) / (TP + TN + FP + FN) * 100.0f;
+	/* Return class ID*/
+	return class_id;
 }

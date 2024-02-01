@@ -42,6 +42,7 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(182,12)
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(220,9): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
 C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\hough.c(236,17): warning C4244: '=': conversion from 'float' to 'size_t', possible loss of data
   violajones.c
+C:\Users\dmn\GitHub\CControl\src\CControl\Sources\ComputerVision\violajones.c(75,30): warning C4244: '=': conversion from 'float' to 'int8_t', possible loss of data
   c2d.c
   kalman.c
   lqi.c
@@ -382,9 +383,13 @@ C:\Users\dmn\GitHub\CControl\src\CControl\Sources\SystemIdentification\rls.c(74,
   Generating Code...
   Compiling...
   Main.c
-C:\Users\dmn\GitHub\CControl\src\Main.c(28,109): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\Main.c(28,114): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\Main.c(59,92): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
-C:\Users\dmn\GitHub\CControl\src\Main.c(59,97): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\Main.c(47,128): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\Main.c(47,133): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\Main.c(50,96): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\Main.c(50,101): warning C4267: 'function': conversion from 'size_t' to 'const uint8_t', possible loss of data
+C:\Users\dmn\GitHub\CControl\src\Main.c(80,11): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 2 has type 'size_t'
+C:\Users\dmn\GitHub\CControl\src\Main.c(80,11): message : consider using '%zi' in the format string
+C:\Users\dmn\GitHub\CControl\src\Main.c(89,11): warning C4477: 'printf' : format string '%i' requires an argument of type 'int', but variadic argument 1 has type 'size_t'
+C:\Users\dmn\GitHub\CControl\src\Main.c(89,11): message : consider using '%zi' in the format string
   Generating Code...
   CControl.vcxproj -> C:\Users\dmn\GitHub\CControl\x64\Debug\CControl.exe
