@@ -98,7 +98,7 @@ void voilajones_collect(uint32_t* data[], int8_t* y[], size_t* total_data_rows, 
  * row - Row size of the image in X
  * column - Column size of the image in X
  */
-VIOLAJONES_MODEL* violajones_train(const HAARLIKE_FEATURE best_features[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column) {
+VIOLAJONES_MODEL* violajones_train(const VIOLAJONES_MODEL best_models[], const uint32_t X[], const int8_t y[], const size_t total_train_data_rows, const size_t total_haarlikes, const uint8_t N, const uint8_t row, const uint8_t column) {
 	/* Generate the Haar-like features */
 	HAARLIKE_FEATURE* features = haarlike_features(total_haarlikes - N, row, column);
 
@@ -106,7 +106,7 @@ VIOLAJONES_MODEL* violajones_train(const HAARLIKE_FEATURE best_features[], const
 	features = realloc(features, total_haarlikes * sizeof(HAARLIKE_FEATURE));
 	size_t i;
 	for (i = total_haarlikes - N; i < total_haarlikes; i++) {
-		features[i] = best_features[i - (total_haarlikes - N)];
+		features[i] = best_models[i - (total_haarlikes - N)].haarlike_feature;
 	}
 
 	/* Create adaboost data */
@@ -135,13 +135,13 @@ VIOLAJONES_MODEL* violajones_train(const HAARLIKE_FEATURE best_features[], const
 	ADABOOST_MODEL* model_adaboost = adaboost_train(data, y_float, N, total_train_data_rows, total_haarlikes);
 
 	/* Check which feature indexes of the model that we are going to save */
-	VIOLAJONES_MODEL* model = (VIOLAJONES_MODEL*)malloc(N * sizeof(VIOLAJONES_MODEL));
+	VIOLAJONES_MODEL* models = (VIOLAJONES_MODEL*)malloc(N * sizeof(VIOLAJONES_MODEL));
 	for (i = 0; i < N; i++) {
-		model[i].adaboost_model = model_adaboost[i];
-		model[i].haarlike_feature = features[model_adaboost[i].feature_index];
+		models[i].adaboost_model = model_adaboost[i];
+		models[i].haarlike_feature = features[model_adaboost[i].feature_index];
 
 		/* It's important to send the feature index to i for the adaboost prediction */
-		model[i].adaboost_model.feature_index = i;
+		models[i].adaboost_model.feature_index = i;
 	}
 
 	/* Free */
@@ -152,7 +152,7 @@ VIOLAJONES_MODEL* violajones_train(const HAARLIKE_FEATURE best_features[], const
 	free(features);
 
 	/* Return model */
-	return model;
+	return models;
 }
 
 /*
