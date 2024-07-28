@@ -87,40 +87,7 @@ void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], size
 }
 
 
-/*
- * [C*A^1; C*A^2; C*A^3; ... ; C*A^HORIZON] % Extended observability matrix
- */
-static void obsv(float PHI[], float A[], float C[], size_t ADIM, size_t YDIM, size_t HORIZON) {
-	/* Decleration */
-	size_t i;
 
-	/* This matrix will A^(i+1) all the time */
-	float *A_copy = (float*)malloc(ADIM * ADIM * sizeof(float));
-	memcpy(A_copy, A, ADIM * ADIM * sizeof(float));
-
-	/* Temporary matrix */
-	float *T = (float*)malloc(YDIM * ADIM * sizeof(float));
-
-	/* Regular T = C*A^(1+i) */
-	mul(C, A, T, YDIM, ADIM, ADIM);
-
-	/* Insert temporary T into PHI */
-	memcpy(PHI, T, YDIM*ADIM*sizeof(float));
-
-	/* Do the rest C*A^(i+1) because we have already done i = 0 */
-	float *A_pow = (float*)malloc(ADIM * ADIM * sizeof(float));
-	for(i = 1; i < HORIZON; i++){
-		mul(A, A_copy, A_pow, ADIM, ADIM, ADIM); /*  Matrix power A_pow = A*A_copy */
-		mul(C, A_pow, T, YDIM, ADIM, ADIM); /* T = C*A^(1+i) */
-		memcpy(PHI + i*YDIM*ADIM, T, YDIM*ADIM*sizeof(float)); /* Insert temporary T into PHI */
-		memcpy(A_copy, A_pow, ADIM * ADIM * sizeof(float)); /* A_copy <- A_pow */
-	}
-
-	/* Free */
-	free(A_copy);
-	free(T);
-	free(A_pow);
-}
 
 /*
  * Lower triangular toeplitz of extended observability matrix

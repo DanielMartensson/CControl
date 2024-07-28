@@ -76,6 +76,7 @@ Main focuses are:
   - Transfer function to state space
   - Stability check
   - Continuous to discrete
+  - Observability matrix
 
 - Computer Vision
   - Generalized Hough Transform for arbitrary shapes
