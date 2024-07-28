@@ -78,6 +78,7 @@ Main focuses are:
   - Continuous to discrete
   - Observability matrix
   - Lower triangular toeplitz of extended observability matrix
+  - Add integral action into a state space model
 
 - Computer Vision
   - Generalized Hough Transform for arbitrary shapes

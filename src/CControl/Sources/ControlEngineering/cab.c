@@ -16,7 +16,7 @@
  * B[row_a*columb_b]
  * C[row_c*row_a]
  */
-void cab(float GAMMA[], float PHI[], float B[], float C[], size_t row_a, size_t row_c, size_t column_b, size_t N) {
+void cab(float GAMMA[], const float PHI[], const float B[], const float C[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N) {
 	/* Decleration */
 	size_t i, j;
 

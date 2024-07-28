@@ -515,6 +515,9 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\cab.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\ControlEngineering\ssint.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

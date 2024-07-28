@@ -1,5 +1,5 @@
 /*
- * mpc.c
+ * qmpc.c
  *
  *  Created on: 1 mars 2020
  *      Author: Daniel Mårtensson
@@ -7,14 +7,15 @@
 
 #include "controlengineering.h"
 
-static void obsv(float PHI[], float A[], float C[], size_t ADIM, size_t YDIM, size_t HORIZON);
-static void cab(float GAMMA[], float PHI[], float B[], float C[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON);
 
 /*
  * Model predictive control with linear programming
- * Hint: Look up lmpc.m in Matavecontrol
+ * Hint: Look up qmpc.m in Matavecontrol
  */
-void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON, bool has_integration){
+void qmpc(float GAMMA[], float PHI[], float x[], float u[], float r[], size_t row_a, size_t row_c, size_t column_b, size_t N, bool has_integration) {
+	
+	
+	
 	/* TODO: This is under development 
 	
 	// Create the extended observability matrix
@@ -84,48 +85,4 @@ void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], size
 		}
 	}
 	*/
-}
-
-
-
-
-/*
- * Lower triangular toeplitz of extended observability matrix
- * CAB stands for C*A^i*B because every element is C*A*B
- */
-void cab(float GAMMA[], float PHI[], float B[], float C[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON){
-	/* Decleration */
-	size_t i, j;
-
-	/* First create the initial C*A^0*B == C*I*B == C*B */
-	float *CB = (float*)malloc(YDIM * RDIM * sizeof(float));
-	mul(C, B, CB, YDIM, ADIM, RDIM);
-
-	/* Take the transpose of CB so it will have dimension RDIM*YDIM instead */
-	tran(CB, YDIM, RDIM);
-
-	/* Create the CAB matrix from PHI*B */
-	float *PHIB = (float*)malloc(HORIZON * YDIM * RDIM * sizeof(float));
-	mul(PHI, B, PHIB, HORIZON*YDIM, ADIM, RDIM); /* CAB = PHI*B */
-	tran(PHIB, HORIZON*YDIM, RDIM);
-
-	/*
-	 * We insert GAMMA = [CB PHI;
-	 *                    0  CB PHI;
-	 *            		  0   0  CB PHI;
-	 *            		  0   0   0  CB PHI] from left to right
-	 */
-	for(i = 0; i < HORIZON; i++) {
-		for(j = 0; j < RDIM; j++) {
-			memcpy(GAMMA + HORIZON*YDIM*(i*RDIM+j) + YDIM*i, CB + YDIM*j, YDIM*sizeof(float)); /* Add CB */
-			memcpy(GAMMA + HORIZON*YDIM*(i*RDIM+j) + YDIM*i + YDIM, PHIB + HORIZON*YDIM*j, (HORIZON-i-1)*YDIM*sizeof(float)); /* Add PHI*B */
-		}
-	}
-
-	/* Transpose of gamma */
-	tran(GAMMA, HORIZON*RDIM, HORIZON*YDIM);
-
-	/* Free */
-	free(CB);
-	free(PHIB);
 }

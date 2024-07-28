@@ -95,15 +95,20 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 		memset(di, 0, row * sizeof(float));
 	}
 	else {
+		/* Create copy */
+		size_t i = row * row * sizeof(float);
+		float* A_copy = (float*)malloc(i);
+		memcpy(A_copy, A, i);
+
 		/* Eigenvalues and eigenvectors */
-		float* vl = (float*)malloc(row * row * sizeof(float));
-		float* vr = (float*)malloc(row * row * sizeof(float));
+		float* vl = (float*)malloc(i);
+		float* vr = (float*)malloc(i);
 
 		/* Compute*/
-		status = LAPACKE_sgeev(LAPACK_COL_MAJOR, 'V', 'N', row, A, row, dr, di, vl, row, vr, row) == 0;
+		status = LAPACKE_sgeev(LAPACK_COL_MAJOR, 'V', 'N', row, A_copy, row, dr, di, vl, row, vr, row) == 0;
 		
 		/* Fill the eigenvectors */
-		size_t i, j, s = 0, t = 0;
+		size_t j, s = 0, t = 0;
 		memset(wi, 0, row * row * sizeof(float));
 		for (i = 0; i < row; i++) {
 			if (fabsf(di[i]) < MIN_VALUE) {
@@ -125,6 +130,7 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 		}
 
 		/* Free */
+		free(A_copy);
 		free(vl);
 		free(vr);
 	}
