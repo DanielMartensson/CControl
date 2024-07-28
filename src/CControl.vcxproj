@@ -48,6 +48,7 @@
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\inpolygon.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\violajones.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\c2d.c" />
+    <ClCompile Include="CControl\Sources\ControlEngineering\cab.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\kalman.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\lqi.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\mpc.c" />

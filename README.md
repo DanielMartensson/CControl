@@ -77,6 +77,7 @@ Main focuses are:
   - Stability check
   - Continuous to discrete
   - Observability matrix
+  - Lower triangular toeplitz of extended observability matrix
 
 - Computer Vision
   - Generalized Hough Transform for arbitrary shapes

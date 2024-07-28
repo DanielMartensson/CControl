@@ -93,7 +93,7 @@ void lmpc(float A[], float B[], float C[], float x[], float u[], float r[], size
  * Lower triangular toeplitz of extended observability matrix
  * CAB stands for C*A^i*B because every element is C*A*B
  */
-static void cab(float GAMMA[], float PHI[], float B[], float C[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON){
+void cab(float GAMMA[], float PHI[], float B[], float C[], size_t ADIM, size_t YDIM, size_t RDIM, size_t HORIZON){
 	/* Decleration */
 	size_t i, j;
 

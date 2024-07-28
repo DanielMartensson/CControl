@@ -29,7 +29,7 @@ int main() {
 							 5,   1,   3 };
 
 	/* Create the observability matrix PHI */
-	float PHI[(row_c * N) * row_a];
+	float PHI[(N * row_c) * row_a];
 
 	/* Make observability matrix */
 	obsv(PHI, A, C, row_a, row_c, N);

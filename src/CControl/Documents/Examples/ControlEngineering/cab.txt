@@ -1,0 +1,93 @@
+/*
+ ============================================================================
+ Name        : cab.c
+ Author      : <Your Name Here>
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Create lower triangular toeplitz of extended observability matrix
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row_a 4
+#define column_b 2
+#define row_c 3
+#define N 5
+
+int main() {
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Create A matrix */
+	float A[row_a * row_a] = { 2,   3,   4,   4,
+							   2,   5,   1,   5,
+							   6,   3,   2,   2,
+                               4,   5,   5,   6};
+
+	/* Create B matrix */
+	float B[row_a * column_b] = { 4,   3,
+								  2,   5,
+								  2,   1,
+								  3,   4 };
+
+	/* Create C matrix */
+	float C[row_c * row_a] = { 2,   3,   4,   3,
+							   5,   1,   3,   4,
+							   2,   1,   5,   5 };
+
+	/* Create the observability matrix PHI */
+	float PHI[(N * row_c) * row_a];
+
+	/* Create the lower triangular toeplitz of extended observability matrix */
+	float GAMMA[(N * row_c) * (N * column_b)];
+
+	/* Make observability matrix */
+	obsv(PHI, A, C, row_a, row_c, N);
+
+	/* Make the lower triangular toeplitz of extended observability matrix */
+	cab(GAMMA, PHI, B, C, row_a, row_c, column_b, N);
+
+	/* Print the observability matrix */
+	print(PHI, row_c * N, row_a);
+
+	/* Print the lower triangular toeplitz of extended observability matrix */
+	print(GAMMA, N * row_c, N * column_b);
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+	return EXIT_SUCCESS;
+}
+
+/*
+GNU Octave code:
+
+function mpc_test()
+  A =[
+			  2            3            4            4
+			  2            5            1            5
+			  6            3            2            2
+			  4            5            5            6];
+
+
+  B = [
+
+			  4            3
+			  2            5
+			  2            1
+			  3            4];
+
+
+  C = [
+
+			  2            3            4            3
+			  5            1            3            4
+			  2            1            5            5];
+
+
+  gammaMat(A, B, C, 5)
+end
+*/

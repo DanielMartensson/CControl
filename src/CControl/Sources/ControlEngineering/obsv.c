@@ -12,7 +12,7 @@
   * [C*A^1; C*A^2; C*A^3; ... ; C*A^N] % Extended observability matrix
   * A[row_a*row_a]
   * C[row_c*row_a]
-  * PHI[(row_c*N)*row_a]
+  * PHI[(N*row_c)*row_a]
   */
 void obsv(float PHI[], float A[], float C[], size_t row_a, size_t row_c, size_t N) {
 	/* Decleration */
