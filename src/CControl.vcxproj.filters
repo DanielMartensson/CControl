@@ -509,6 +509,9 @@
     <ClCompile Include="CControl\Sources\Hardware\saveload.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\ControlEngineering\obsv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

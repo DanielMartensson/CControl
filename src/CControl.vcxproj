@@ -52,6 +52,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\lqi.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\mpc.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c" />
+    <ClCompile Include="CControl\Sources\ControlEngineering\obsv.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c" />
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
