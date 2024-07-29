@@ -12,7 +12,7 @@
  * A[m*n]
  * m == n
  */
-bool expm(float A[], size_t row){
+bool expm(float A[], const size_t row){
 	/* Decleration */
 	size_t i;
 
@@ -26,8 +26,8 @@ bool expm(float A[], size_t row){
 	memset(F, 0, row_row_size);
 	memset(T, 0, row_row_size);
 	for(i = 0; i < row; i++){
-		F[i*row + i] = 1;
-		T[i*row + i] = 1;
+		F[i * row + i] = 1;
+		T[i * row + i] = 1;
 	}
 	float k = 1.0f;
 	size_t iterations = 0;

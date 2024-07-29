@@ -34,7 +34,7 @@ void balance(float A[], size_t row);
 bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row);
 bool eig_generalized(float A[], float B[], size_t row, float dr[], float di[], float wr[], float wi[]);
 float norm(const float X[], const size_t row, const size_t column, const NORM_METHOD norm_method);
-bool expm(float A[], size_t row);
+bool expm(float A[], const size_t row);
 void nonlinsolve(void (*nonlinear_equation_system)(float[], float[], float[]), float b[], float x[], size_t elements, float alpha, float max_value, float min_value, bool random_guess_active);
 void linsolve_gauss(float A[], float x[], float b[], size_t row, size_t column, float alpha);
 

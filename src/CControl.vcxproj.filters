@@ -98,7 +98,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\lqi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ControlEngineering\mpc.c">
+    <ClCompile Include="CControl\Sources\ControlEngineering\qmpc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c">

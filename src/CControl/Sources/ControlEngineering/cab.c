@@ -11,7 +11,7 @@
  * Lower triangular toeplitz of extended observability matrix
  * CAB stands for C*A^i*B because every element is C*A*B
  * 
- * GAMMA[(N*row_c)*(N*columb_b)]
+ * GAMMA[(N*row_c)*(N*column_b)]
  * PHI[(N*row_c)*row_a]
  * B[row_a*columb_b]
  * C[row_c*row_a]

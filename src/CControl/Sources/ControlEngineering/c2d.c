@@ -10,32 +10,35 @@
 /*
  * Continuous to discrete
  * Turn A and B into discrete form
+ * 
+ * A[row_a*row_a]
+ * B[row_a*column_b]
  */
-void c2d(float A[], float B[], size_t ADIM, size_t RDIM, float sampleTime) {
-	size_t bytes_of_M = (ADIM + RDIM) * (ADIM + RDIM) * sizeof(float);
+void c2d(float A[], float B[], const size_t row_a, const size_t column_b, const float sampleTime) {
+	size_t bytes_of_M = (row_a + column_b) * (row_a + column_b) * sizeof(float);
 	float *M = (float*)malloc(bytes_of_M);
 	memset(M, 0, bytes_of_M);
 	size_t i, j;
 	/* Create M = [A B; zeros(RDIM, ADIM) zeros(RDIM, RDIM)] */
-	for (i = 0; i < ADIM; i++) {
+	for (i = 0; i < row_a; i++) {
 		/* For A row */
-		for (j = 0; j < ADIM; j++) {
-			M[i * (ADIM + RDIM) + j] = A[i * ADIM + j] * sampleTime;
+		for (j = 0; j < row_a; j++) {
+			M[i * (row_a + column_b) + j] = A[i * row_a + j] * sampleTime;
 		}
 		/* For B row */
-		for (j = 0; j < RDIM; j++) {
-			M[i * (ADIM + RDIM) + j + ADIM] = B[i * RDIM + j] * sampleTime;
+		for (j = 0; j < column_b; j++) {
+			M[i * (row_a + column_b) + j + row_a] = B[i * column_b + j] * sampleTime;
 		}
 	}
-	expm(M, ADIM + RDIM);
-	for (i = 0; i < ADIM; i++) {
+	expm(M, row_a + column_b);
+	for (i = 0; i < row_a; i++) {
 		/* For A row */
-		for (j = 0; j < ADIM; j++) {
-			A[i * ADIM + j] = M[i * (ADIM + RDIM) + j];
+		for (j = 0; j < row_a; j++) {
+			A[i * row_a + j] = M[i * (row_a + column_b) + j];
 		}
 		/* For B row */
-		for (j = 0; j < RDIM; j++) {
-			B[i * RDIM + j] = M[i * (ADIM + RDIM) + j + ADIM];
+		for (j = 0; j < column_b; j++) {
+			B[i * column_b + j] = M[i * (row_a + column_b) + j + row_a];
 		}
 	}
 

@@ -51,7 +51,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\cab.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\kalman.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\lqi.c" />
-    <ClCompile Include="CControl\Sources\ControlEngineering\mpc.c" />
+    <ClCompile Include="CControl\Sources\ControlEngineering\qmpc.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\obsv.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\ssint.c" />

@@ -10,9 +10,9 @@
 
 #include "CControl/ccontrol.h"
 
-#define row_a 4
-#define column_b 2
-#define row_c 3
+#define row_a 2
+#define column_b 1
+#define row_c 1
 
 int main() {
 	clock_t start, end;
@@ -20,21 +20,15 @@ int main() {
 	start = clock();
 
 	/* Create A matrix */
-	float A[row_a * row_a] = { 2,   3,   4,   4,
-							   2,   5,   1,   5,
-							   6,   3,   2,   2,
-                               4,   5,   5,   6};
+	float A[row_a * row_a] = { 0, 1,
+							  -1, -1 };
 
 	/* Create B matrix */
-	float B[row_a * column_b] = { 4,   3,
-								  2,   5,
-								  2,   1,
-								  3,   4 };
+	float B[row_a * column_b] = { 0, 
+		                          1 };
 
 	/* Create C matrix */
-	float C[row_c * row_a] = { 2,   3,   4,   3,
-							   5,   1,   3,   4,
-							   2,   1,   5,   5 };
+	float C[row_c * row_a] = { 1, 0};
 
 	/* Create Ai matrix */
 	float Ai[(row_a + column_b) * (row_a + column_b)];
