@@ -1,10 +1,10 @@
 /*
  ============================================================================
- Name        : ssint.c
+ Name        : qmpc.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Add integral action
+ Description : Model Predictive Control with integral action and constraints on inputs and outputs
  ============================================================================
  */
 
