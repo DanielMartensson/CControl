@@ -112,5 +112,6 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 	free(bqp);
 	free(qqp);
 	free(cqp);
+	free(aqp);
 	free(PHIx_R);
 }
