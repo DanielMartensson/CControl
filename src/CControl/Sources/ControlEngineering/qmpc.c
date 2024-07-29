@@ -41,7 +41,6 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 	/* Create PHIx vector */
 	float* PHIx = (float*)malloc(N * row_c * sizeof(float));
 	mul(PHI, x, PHIx, N * row_c, row_a, 1);
-	print(PHIx, N * row_c, 1);
 
 	/* Create bqp = [R - PHIx; Umax; Umax*0] vector */
 	float* bqp = malloc((N * row_c + N * column_b + N * column_b) * sizeof(float));
@@ -91,7 +90,7 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 
 	/* Find the optimal solution with quadprog - We are using R as the output, instead of u */
 	quadprog(qqp, cqp, aqp, bqp, NULL, NULL, R, N * row_c + N * column_b + N * column_b, 0, N * column_b, false);
-	print(R, N * row_c, 1);
+
 	/* We select the best input values, depending on if we have integration behavior or not in our model */
 	if(has_integration_action){
 		/* Set first R to u */
