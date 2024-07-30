@@ -809,6 +809,12 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::UI::Shell::ITaskbarManagerDesktopAppSupportStatics> : produce_base<D, winrt::Windows::UI::Shell::ITaskbarManagerDesktopAppSupportStatics>
+    {
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::UI::Shell::ITaskbarManagerStatics> : produce_base<D, winrt::Windows::UI::Shell::ITaskbarManagerStatics>
     {
         int32_t __stdcall GetDefault(void** result) noexcept final try
@@ -1289,6 +1295,7 @@ namespace std
     template<> struct hash<winrt::Windows::UI::Shell::IShareWindowCommandSourceStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Shell::ITaskbarManager> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Shell::ITaskbarManager2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Shell::ITaskbarManagerDesktopAppSupportStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Shell::ITaskbarManagerStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Shell::IWindowTab> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Shell::IWindowTabCloseRequestedEventArgs> : winrt::impl::hash_base {};

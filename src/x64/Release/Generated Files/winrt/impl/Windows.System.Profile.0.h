@@ -22,6 +22,12 @@ WINRT_EXPORT namespace winrt::Windows::System
 }
 WINRT_EXPORT namespace winrt::Windows::System::Profile
 {
+    enum class PlatformAutomaticAppSignInPolicy : int32_t
+    {
+        Unknown = 0,
+        PermissionRequired = 1,
+        AlwaysAllowed = 2,
+    };
     enum class PlatformDataCollectionLevel : int32_t
     {
         Security = 0,
@@ -56,6 +62,7 @@ WINRT_EXPORT namespace winrt::Windows::System::Profile
     struct IHardwareIdentificationStatics;
     struct IHardwareToken;
     struct IKnownRetailInfoPropertiesStatics;
+    struct IPlatformAutomaticAppSignInManagerStatics;
     struct IPlatformDiagnosticsAndUsageDataSettingsStatics;
     struct IRetailInfoStatics;
     struct ISharedModeSettingsStatics;
@@ -73,6 +80,7 @@ WINRT_EXPORT namespace winrt::Windows::System::Profile
     struct HardwareIdentification;
     struct HardwareToken;
     struct KnownRetailInfoProperties;
+    struct PlatformAutomaticAppSignInManager;
     struct PlatformDiagnosticsAndUsageDataSettings;
     struct RetailInfo;
     struct SharedModeSettings;
@@ -94,6 +102,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::System::Profile::IHardwareIdentificationStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::System::Profile::IHardwareToken>{ using type = interface_category; };
     template <> struct category<winrt::Windows::System::Profile::IKnownRetailInfoPropertiesStatics>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::System::Profile::IPlatformDiagnosticsAndUsageDataSettingsStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::System::Profile::IRetailInfoStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::System::Profile::ISharedModeSettingsStatics>{ using type = interface_category; };
@@ -111,6 +120,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::System::Profile::HardwareIdentification>{ using type = class_category; };
     template <> struct category<winrt::Windows::System::Profile::HardwareToken>{ using type = class_category; };
     template <> struct category<winrt::Windows::System::Profile::KnownRetailInfoProperties>{ using type = class_category; };
+    template <> struct category<winrt::Windows::System::Profile::PlatformAutomaticAppSignInManager>{ using type = class_category; };
     template <> struct category<winrt::Windows::System::Profile::PlatformDiagnosticsAndUsageDataSettings>{ using type = class_category; };
     template <> struct category<winrt::Windows::System::Profile::RetailInfo>{ using type = class_category; };
     template <> struct category<winrt::Windows::System::Profile::SharedModeSettings>{ using type = class_category; };
@@ -120,6 +130,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::System::Profile::SystemSetupInfo>{ using type = class_category; };
     template <> struct category<winrt::Windows::System::Profile::UnsupportedAppRequirement>{ using type = class_category; };
     template <> struct category<winrt::Windows::System::Profile::WindowsIntegrityPolicy>{ using type = class_category; };
+    template <> struct category<winrt::Windows::System::Profile::PlatformAutomaticAppSignInPolicy>{ using type = enum_category; };
     template <> struct category<winrt::Windows::System::Profile::PlatformDataCollectionLevel>{ using type = enum_category; };
     template <> struct category<winrt::Windows::System::Profile::SystemIdentificationSource>{ using type = enum_category; };
     template <> struct category<winrt::Windows::System::Profile::SystemOutOfBoxExperienceState>{ using type = enum_category; };
@@ -131,6 +142,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::HardwareIdentification> = L"Windows.System.Profile.HardwareIdentification";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::HardwareToken> = L"Windows.System.Profile.HardwareToken";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::KnownRetailInfoProperties> = L"Windows.System.Profile.KnownRetailInfoProperties";
+    template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::PlatformAutomaticAppSignInManager> = L"Windows.System.Profile.PlatformAutomaticAppSignInManager";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::PlatformDiagnosticsAndUsageDataSettings> = L"Windows.System.Profile.PlatformDiagnosticsAndUsageDataSettings";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::RetailInfo> = L"Windows.System.Profile.RetailInfo";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::SharedModeSettings> = L"Windows.System.Profile.SharedModeSettings";
@@ -140,6 +152,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::SystemSetupInfo> = L"Windows.System.Profile.SystemSetupInfo";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::UnsupportedAppRequirement> = L"Windows.System.Profile.UnsupportedAppRequirement";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::WindowsIntegrityPolicy> = L"Windows.System.Profile.WindowsIntegrityPolicy";
+    template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::PlatformAutomaticAppSignInPolicy> = L"Windows.System.Profile.PlatformAutomaticAppSignInPolicy";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::PlatformDataCollectionLevel> = L"Windows.System.Profile.PlatformDataCollectionLevel";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::SystemIdentificationSource> = L"Windows.System.Profile.SystemIdentificationSource";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::SystemOutOfBoxExperienceState> = L"Windows.System.Profile.SystemOutOfBoxExperienceState";
@@ -153,6 +166,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::IHardwareIdentificationStatics> = L"Windows.System.Profile.IHardwareIdentificationStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::IHardwareToken> = L"Windows.System.Profile.IHardwareToken";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::IKnownRetailInfoPropertiesStatics> = L"Windows.System.Profile.IKnownRetailInfoPropertiesStatics";
+    template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics> = L"Windows.System.Profile.IPlatformAutomaticAppSignInManagerStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::IPlatformDiagnosticsAndUsageDataSettingsStatics> = L"Windows.System.Profile.IPlatformDiagnosticsAndUsageDataSettingsStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::IRetailInfoStatics> = L"Windows.System.Profile.IRetailInfoStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::System::Profile::ISharedModeSettingsStatics> = L"Windows.System.Profile.ISharedModeSettingsStatics";
@@ -172,6 +186,7 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::System::Profile::IHardwareIdentificationStatics>{ 0x971260E0,0xF170,0x4A42,{ 0xBD,0x55,0xA9,0x00,0xB2,0x12,0xDA,0xE2 } }; // 971260E0-F170-4A42-BD55-A900B212DAE2
     template <> inline constexpr guid guid_v<winrt::Windows::System::Profile::IHardwareToken>{ 0x28F6D4C0,0xFB12,0x40A4,{ 0x81,0x67,0x7F,0x4E,0x03,0xD2,0x72,0x4C } }; // 28F6D4C0-FB12-40A4-8167-7F4E03D2724C
     template <> inline constexpr guid guid_v<winrt::Windows::System::Profile::IKnownRetailInfoPropertiesStatics>{ 0x99571178,0x500F,0x487E,{ 0x8E,0x75,0x29,0xE5,0x51,0x72,0x87,0x12 } }; // 99571178-500F-487E-8E75-29E551728712
+    template <> inline constexpr guid guid_v<winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics>{ 0x1AC9AFCE,0x8DD5,0x5C2D,{ 0xB4,0x20,0x76,0x7D,0x1F,0x3B,0x7D,0x03 } }; // 1AC9AFCE-8DD5-5C2D-B420-767D1F3B7D03
     template <> inline constexpr guid guid_v<winrt::Windows::System::Profile::IPlatformDiagnosticsAndUsageDataSettingsStatics>{ 0xB6E24C1B,0x7B1C,0x4B32,{ 0x8C,0x62,0xA6,0x65,0x97,0xCE,0x72,0x3A } }; // B6E24C1B-7B1C-4B32-8C62-A66597CE723A
     template <> inline constexpr guid guid_v<winrt::Windows::System::Profile::IRetailInfoStatics>{ 0x0712C6B8,0x8B92,0x4F2A,{ 0x84,0x99,0x03,0x1F,0x17,0x98,0xD6,0xEF } }; // 0712C6B8-8B92-4F2A-8499-031F1798D6EF
     template <> inline constexpr guid guid_v<winrt::Windows::System::Profile::ISharedModeSettingsStatics>{ 0x893DF40E,0xCAD6,0x4D50,{ 0x8C,0x49,0x6F,0xCF,0xC0,0x3E,0xDB,0x29 } }; // 893DF40E-CAD6-4D50-8C49-6FCFC03EDB29
@@ -272,6 +287,13 @@ namespace winrt::impl
             virtual int32_t __stdcall get_HasOpticalDrive(void**) noexcept = 0;
             virtual int32_t __stdcall get_IsOfficeInstalled(void**) noexcept = 0;
             virtual int32_t __stdcall get_WindowsEdition(void**) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_Policy(int32_t*) noexcept = 0;
         };
     };
     template <> struct abi<winrt::Windows::System::Profile::IPlatformDiagnosticsAndUsageDataSettingsStatics>
@@ -465,6 +487,15 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::System::Profile::IKnownRetailInfoPropertiesStatics>
     {
         template <typename D> using type = consume_Windows_System_Profile_IKnownRetailInfoPropertiesStatics<D>;
+    };
+    template <typename D>
+    struct consume_Windows_System_Profile_IPlatformAutomaticAppSignInManagerStatics
+    {
+        [[nodiscard]] auto Policy() const;
+    };
+    template <> struct consume<winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics>
+    {
+        template <typename D> using type = consume_Windows_System_Profile_IPlatformAutomaticAppSignInManagerStatics<D>;
     };
     template <typename D>
     struct consume_Windows_System_Profile_IPlatformDiagnosticsAndUsageDataSettingsStatics

@@ -23,6 +23,22 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
         static auto CreateAlac(uint32_t sampleRate, uint32_t channelCount, uint32_t bitsPerSample);
         static auto CreateFlac(uint32_t sampleRate, uint32_t channelCount, uint32_t bitsPerSample);
     };
+    struct Av1ProfileIds
+    {
+        Av1ProfileIds() = delete;
+        [[nodiscard]] static auto MainChromaSubsampling420BitDepth8();
+        [[nodiscard]] static auto MainChromaSubsampling420BitDepth10();
+        [[nodiscard]] static auto MainChromaSubsampling400BitDepth8();
+        [[nodiscard]] static auto MainChromaSubsampling400BitDepth10();
+        [[nodiscard]] static auto HighChromaSubsampling444BitDepth8();
+        [[nodiscard]] static auto HighChromaSubsampling444BitDepth10();
+        [[nodiscard]] static auto ProfessionalChromaSubsampling420BitDepth12();
+        [[nodiscard]] static auto ProfessionalChromaSubsampling400BitDepth12();
+        [[nodiscard]] static auto ProfessionalChromaSubsampling444BitDepth12();
+        [[nodiscard]] static auto ProfessionalChromaSubsampling422BitDepth8();
+        [[nodiscard]] static auto ProfessionalChromaSubsampling422BitDepth10();
+        [[nodiscard]] static auto ProfessionalChromaSubsampling422BitDepth12();
+    };
     struct __declspec(empty_bases) ContainerEncodingProperties : winrt::Windows::Media::MediaProperties::IContainerEncodingProperties,
         impl::require<ContainerEncodingProperties, winrt::Windows::Media::MediaProperties::IContainerEncodingProperties2>
     {
@@ -43,6 +59,32 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
         [[nodiscard]] static auto High444();
         [[nodiscard]] static auto StereoHigh();
         [[nodiscard]] static auto MultiviewHigh();
+    };
+    struct HevcProfileIds
+    {
+        HevcProfileIds() = delete;
+        [[nodiscard]] static auto MainChromaSubsampling420BitDepth8();
+        [[nodiscard]] static auto MainChromaSubsampling420BitDepth10();
+        [[nodiscard]] static auto MainChromaSubsampling420BitDepth12();
+        [[nodiscard]] static auto MainChromaSubsampling422BitDepth10();
+        [[nodiscard]] static auto MainChromaSubsampling422BitDepth12();
+        [[nodiscard]] static auto MainChromaSubsampling444BitDepth8();
+        [[nodiscard]] static auto MainChromaSubsampling444BitDepth10();
+        [[nodiscard]] static auto MainChromaSubsampling444BitDepth12();
+        [[nodiscard]] static auto MonochromeBitDepth12();
+        [[nodiscard]] static auto MonochromeBitDepth16();
+        [[nodiscard]] static auto MainIntraChromaSubsampling420BitDepth8();
+        [[nodiscard]] static auto MainIntraChromaSubsampling420BitDepth10();
+        [[nodiscard]] static auto MainIntraChromaSubsampling420BitDepth12();
+        [[nodiscard]] static auto MainIntraChromaSubsampling422BitDepth10();
+        [[nodiscard]] static auto MainIntraChromaSubsampling422BitDepth12();
+        [[nodiscard]] static auto MainIntraChromaSubsampling444BitDepth8();
+        [[nodiscard]] static auto MainIntraChromaSubsampling444BitDepth10();
+        [[nodiscard]] static auto MainIntraChromaSubsampling444BitDepth12();
+        [[nodiscard]] static auto MainIntraChromaSubsampling444BitDepth16();
+        [[nodiscard]] static auto MainStillChromaSubsampling420BitDepth8();
+        [[nodiscard]] static auto MainStillChromaSubsampling444BitDepth8();
+        [[nodiscard]] static auto MainStillChromaSubsampling444BitDepth16();
     };
     struct __declspec(empty_bases) ImageEncodingProperties : winrt::Windows::Media::MediaProperties::IImageEncodingProperties,
         impl::require<ImageEncodingProperties, winrt::Windows::Media::MediaProperties::IImageEncodingProperties2>
@@ -75,6 +117,8 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
         static auto CreateAlac(winrt::Windows::Media::MediaProperties::AudioEncodingQuality const& quality);
         static auto CreateFlac(winrt::Windows::Media::MediaProperties::AudioEncodingQuality const& quality);
         static auto CreateHevc(winrt::Windows::Media::MediaProperties::VideoEncodingQuality const& quality);
+        static auto CreateVp9(winrt::Windows::Media::MediaProperties::VideoEncodingQuality const& quality);
+        static auto CreateAv1(winrt::Windows::Media::MediaProperties::VideoEncodingQuality const& quality);
     };
     struct MediaEncodingSubtypes
     {
@@ -131,6 +175,7 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
         [[nodiscard]] static auto Srt();
         [[nodiscard]] static auto Ssa();
         [[nodiscard]] static auto VobSub();
+        [[nodiscard]] static auto Av1();
     };
     struct __declspec(empty_bases) MediaPropertySet : winrt::Windows::Foundation::Collections::IMap<winrt::guid, winrt::Windows::Foundation::IInspectable>
     {
@@ -173,6 +218,15 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
         static auto CreateMpeg2();
         static auto CreateUncompressed(param::hstring const& subtype, uint32_t width, uint32_t height);
         static auto CreateHevc();
+        static auto CreateVp9();
+        static auto CreateAv1();
+    };
+    struct Vp9ProfileIds
+    {
+        Vp9ProfileIds() = delete;
+        [[nodiscard]] static auto Profile0ChromaSubsampling420BitDepth8();
+        [[nodiscard]] static auto Profile2ChromaSubsampling420BitDepth10();
+        [[nodiscard]] static auto Profile2ChromaSubsampling420BitDepth12();
     };
 }
 #endif

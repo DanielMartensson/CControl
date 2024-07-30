@@ -560,6 +560,15 @@ WINRT_EXPORT namespace winrt::Windows::UI::Composition
         using impl::consume_t<CompositionTarget, winrt::Windows::UI::Composition::ICompositionObject>::StartAnimation;
         using impl::consume_t<CompositionTarget, winrt::Windows::UI::Composition::ICompositionObject5>::StartAnimation;
     };
+    struct __declspec(empty_bases) CompositionTexture : winrt::Windows::UI::Composition::ICompositionTexture,
+        impl::base<CompositionTexture, winrt::Windows::UI::Composition::CompositionObject>,
+        impl::require<CompositionTexture, winrt::Windows::UI::Composition::ICompositionSurface, winrt::Windows::UI::Composition::ICompositionObject, winrt::Windows::UI::Composition::ICompositionObject2, winrt::Windows::UI::Composition::ICompositionObject3, winrt::Windows::UI::Composition::ICompositionObject4, winrt::Windows::UI::Composition::ICompositionObject5, winrt::Windows::Foundation::IClosable, winrt::Windows::UI::Composition::IAnimationObject>
+    {
+        CompositionTexture(std::nullptr_t) noexcept {}
+        CompositionTexture(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::UI::Composition::ICompositionTexture(ptr, take_ownership_from_abi) {}
+        using impl::consume_t<CompositionTexture, winrt::Windows::UI::Composition::ICompositionObject>::StartAnimation;
+        using impl::consume_t<CompositionTexture, winrt::Windows::UI::Composition::ICompositionObject5>::StartAnimation;
+    };
     struct __declspec(empty_bases) CompositionTransform : winrt::Windows::UI::Composition::ICompositionTransform,
         impl::base<CompositionTransform, winrt::Windows::UI::Composition::CompositionObject>,
         impl::require<CompositionTransform, winrt::Windows::UI::Composition::ICompositionObject, winrt::Windows::UI::Composition::ICompositionObject2, winrt::Windows::UI::Composition::ICompositionObject3, winrt::Windows::UI::Composition::ICompositionObject4, winrt::Windows::UI::Composition::ICompositionObject5, winrt::Windows::Foundation::IClosable, winrt::Windows::UI::Composition::IAnimationObject>

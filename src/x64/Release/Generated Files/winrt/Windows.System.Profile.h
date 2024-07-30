@@ -218,6 +218,12 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::System::Profile::IKnownRetailInfoPropertiesStatics)->get_WindowsEdition(&value));
         return hstring{ value, take_ownership_from_abi };
     }
+    template <typename D> auto consume_Windows_System_Profile_IPlatformAutomaticAppSignInManagerStatics<D>::Policy() const
+    {
+        winrt::Windows::System::Profile::PlatformAutomaticAppSignInPolicy value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics)->get_Policy(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
     template <typename D> auto consume_Windows_System_Profile_IPlatformDiagnosticsAndUsageDataSettingsStatics<D>::CollectionLevel() const
     {
         winrt::Windows::System::Profile::PlatformDataCollectionLevel value{};
@@ -709,6 +715,19 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics> : produce_base<D, winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics>
+    {
+        int32_t __stdcall get_Policy(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::System::Profile::PlatformAutomaticAppSignInPolicy>(this->shim().Policy());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::System::Profile::IPlatformDiagnosticsAndUsageDataSettingsStatics> : produce_base<D, winrt::Windows::System::Profile::IPlatformDiagnosticsAndUsageDataSettingsStatics>
     {
         int32_t __stdcall get_CollectionLevel(int32_t* value) noexcept final try
@@ -1100,6 +1119,10 @@ WINRT_EXPORT namespace winrt::Windows::System::Profile
     {
         return impl::call_factory_cast<hstring(*)(IKnownRetailInfoPropertiesStatics const&), KnownRetailInfoProperties, IKnownRetailInfoPropertiesStatics>([](IKnownRetailInfoPropertiesStatics const& f) { return f.WindowsEdition(); });
     }
+    inline auto PlatformAutomaticAppSignInManager::Policy()
+    {
+        return impl::call_factory_cast<winrt::Windows::System::Profile::PlatformAutomaticAppSignInPolicy(*)(IPlatformAutomaticAppSignInManagerStatics const&), PlatformAutomaticAppSignInManager, IPlatformAutomaticAppSignInManagerStatics>([](IPlatformAutomaticAppSignInManagerStatics const& f) { return f.Policy(); });
+    }
     inline auto PlatformDiagnosticsAndUsageDataSettings::CollectionLevel()
     {
         return impl::call_factory_cast<winrt::Windows::System::Profile::PlatformDataCollectionLevel(*)(IPlatformDiagnosticsAndUsageDataSettingsStatics const&), PlatformDiagnosticsAndUsageDataSettings, IPlatformDiagnosticsAndUsageDataSettingsStatics>([](IPlatformDiagnosticsAndUsageDataSettingsStatics const& f) { return f.CollectionLevel(); });
@@ -1221,6 +1244,7 @@ namespace std
     template<> struct hash<winrt::Windows::System::Profile::IHardwareIdentificationStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::IHardwareToken> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::IKnownRetailInfoPropertiesStatics> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::System::Profile::IPlatformAutomaticAppSignInManagerStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::IPlatformDiagnosticsAndUsageDataSettingsStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::IRetailInfoStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::ISharedModeSettingsStatics> : winrt::impl::hash_base {};
@@ -1238,6 +1262,7 @@ namespace std
     template<> struct hash<winrt::Windows::System::Profile::HardwareIdentification> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::HardwareToken> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::KnownRetailInfoProperties> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::System::Profile::PlatformAutomaticAppSignInManager> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::PlatformDiagnosticsAndUsageDataSettings> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::RetailInfo> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::System::Profile::SharedModeSettings> : winrt::impl::hash_base {};

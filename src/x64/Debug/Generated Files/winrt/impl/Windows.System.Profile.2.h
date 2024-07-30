@@ -69,6 +69,11 @@ WINRT_EXPORT namespace winrt::Windows::System::Profile
         [[nodiscard]] static auto IsOfficeInstalled();
         [[nodiscard]] static auto WindowsEdition();
     };
+    struct PlatformAutomaticAppSignInManager
+    {
+        PlatformAutomaticAppSignInManager() = delete;
+        [[nodiscard]] static auto Policy();
+    };
     struct PlatformDiagnosticsAndUsageDataSettings
     {
         PlatformDiagnosticsAndUsageDataSettings() = delete;

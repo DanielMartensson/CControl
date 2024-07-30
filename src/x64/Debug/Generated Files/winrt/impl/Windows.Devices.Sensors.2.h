@@ -202,7 +202,8 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Sensors
         static auto FromId(param::hstring const& sensorId);
         static auto GetDefault();
     };
-    struct __declspec(empty_bases) HumanPresenceSensorReading : winrt::Windows::Devices::Sensors::IHumanPresenceSensorReading
+    struct __declspec(empty_bases) HumanPresenceSensorReading : winrt::Windows::Devices::Sensors::IHumanPresenceSensorReading,
+        impl::require<HumanPresenceSensorReading, winrt::Windows::Devices::Sensors::IHumanPresenceSensorReading2>
     {
         HumanPresenceSensorReading(std::nullptr_t) noexcept {}
         HumanPresenceSensorReading(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Sensors::IHumanPresenceSensorReading(ptr, take_ownership_from_abi) {}
@@ -211,6 +212,12 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Sensors
     {
         HumanPresenceSensorReadingChangedEventArgs(std::nullptr_t) noexcept {}
         HumanPresenceSensorReadingChangedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Sensors::IHumanPresenceSensorReadingChangedEventArgs(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) HumanPresenceSensorReadingUpdate : winrt::Windows::Devices::Sensors::IHumanPresenceSensorReadingUpdate
+    {
+        HumanPresenceSensorReadingUpdate(std::nullptr_t) noexcept {}
+        HumanPresenceSensorReadingUpdate(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Sensors::IHumanPresenceSensorReadingUpdate(ptr, take_ownership_from_abi) {}
+        HumanPresenceSensorReadingUpdate();
     };
     struct __declspec(empty_bases) HumanPresenceSettings : winrt::Windows::Devices::Sensors::IHumanPresenceSettings,
         impl::require<HumanPresenceSettings, winrt::Windows::Devices::Sensors::IHumanPresenceSettings2>

@@ -117,6 +117,78 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAudioEncodingPropertiesWithFormatUserData)->GetFormatUserData(impl::put_size_abi(value), put_abi(value)));
     }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::MainChromaSubsampling420BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_MainChromaSubsampling420BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::MainChromaSubsampling420BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_MainChromaSubsampling420BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::MainChromaSubsampling400BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_MainChromaSubsampling400BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::MainChromaSubsampling400BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_MainChromaSubsampling400BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::HighChromaSubsampling444BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_HighChromaSubsampling444BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::HighChromaSubsampling444BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_HighChromaSubsampling444BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::ProfessionalChromaSubsampling420BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_ProfessionalChromaSubsampling420BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::ProfessionalChromaSubsampling400BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_ProfessionalChromaSubsampling400BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::ProfessionalChromaSubsampling444BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_ProfessionalChromaSubsampling444BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::ProfessionalChromaSubsampling422BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_ProfessionalChromaSubsampling422BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::ProfessionalChromaSubsampling422BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_ProfessionalChromaSubsampling422BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IAv1ProfileIdsStatics<D>::ProfessionalChromaSubsampling422BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics)->get_ProfessionalChromaSubsampling422BitDepth12(&value));
+        return value;
+    }
     template <typename D> auto consume_Windows_Media_MediaProperties_IContainerEncodingProperties2<D>::Copy() const
     {
         void* result{};
@@ -181,6 +253,138 @@ namespace winrt::impl
     {
         int32_t value{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IH264ProfileIdsStatics)->get_MultiviewHigh(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainChromaSubsampling420BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainChromaSubsampling420BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainChromaSubsampling420BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainChromaSubsampling420BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainChromaSubsampling420BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainChromaSubsampling420BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainChromaSubsampling422BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainChromaSubsampling422BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainChromaSubsampling422BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainChromaSubsampling422BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainChromaSubsampling444BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainChromaSubsampling444BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainChromaSubsampling444BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainChromaSubsampling444BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainChromaSubsampling444BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainChromaSubsampling444BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MonochromeBitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MonochromeBitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MonochromeBitDepth16() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MonochromeBitDepth16(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling420BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling420BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling420BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling420BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling420BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling420BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling422BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling422BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling422BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling422BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling444BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling444BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling444BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling444BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling444BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling444BitDepth12(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainIntraChromaSubsampling444BitDepth16() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainIntraChromaSubsampling444BitDepth16(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainStillChromaSubsampling420BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainStillChromaSubsampling420BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainStillChromaSubsampling444BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainStillChromaSubsampling444BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IHevcProfileIdsStatics<D>::MainStillChromaSubsampling444BitDepth16() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics)->get_MainStillChromaSubsampling444BitDepth16(&value));
         return value;
     }
     template <typename D> auto consume_Windows_Media_MediaProperties_IImageEncodingProperties<D>::Width(uint32_t value) const
@@ -376,6 +580,18 @@ namespace winrt::impl
         void* value{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics3)->CreateHevc(static_cast<int32_t>(quality), &value));
         return winrt::Windows::Media::MediaProperties::MediaEncodingProfile{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IMediaEncodingProfileStatics4<D>::CreateVp9(winrt::Windows::Media::MediaProperties::VideoEncodingQuality const& quality) const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics4)->CreateVp9(static_cast<int32_t>(quality), &result));
+        return winrt::Windows::Media::MediaProperties::MediaEncodingProfile{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IMediaEncodingProfileStatics4<D>::CreateAv1(winrt::Windows::Media::MediaProperties::VideoEncodingQuality const& quality) const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics4)->CreateAv1(static_cast<int32_t>(quality), &result));
+        return winrt::Windows::Media::MediaProperties::MediaEncodingProfile{ result, take_ownership_from_abi };
     }
     template <typename D> auto consume_Windows_Media_MediaProperties_IMediaEncodingProperties<D>::Properties() const
     {
@@ -711,6 +927,12 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics6)->get_VobSub(&value));
         return hstring{ value, take_ownership_from_abi };
     }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IMediaEncodingSubtypesStatics7<D>::Av1() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics7)->get_Av1(&value));
+        return hstring{ value, take_ownership_from_abi };
+    }
     template <typename D> auto consume_Windows_Media_MediaProperties_IMediaRatio<D>::Numerator(uint32_t value) const
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IMediaRatio)->put_Numerator(value));
@@ -901,6 +1123,36 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IVideoEncodingPropertiesStatics2)->CreateHevc(&value));
         return winrt::Windows::Media::MediaProperties::VideoEncodingProperties{ value, take_ownership_from_abi };
     }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IVideoEncodingPropertiesStatics3<D>::CreateVp9() const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IVideoEncodingPropertiesStatics3)->CreateVp9(&result));
+        return winrt::Windows::Media::MediaProperties::VideoEncodingProperties{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IVideoEncodingPropertiesStatics3<D>::CreateAv1() const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IVideoEncodingPropertiesStatics3)->CreateAv1(&result));
+        return winrt::Windows::Media::MediaProperties::VideoEncodingProperties{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IVp9ProfileIdsStatics<D>::Profile0ChromaSubsampling420BitDepth8() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IVp9ProfileIdsStatics)->get_Profile0ChromaSubsampling420BitDepth8(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IVp9ProfileIdsStatics<D>::Profile2ChromaSubsampling420BitDepth10() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IVp9ProfileIdsStatics)->get_Profile2ChromaSubsampling420BitDepth10(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_MediaProperties_IVp9ProfileIdsStatics<D>::Profile2ChromaSubsampling420BitDepth12() const
+    {
+        int32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::MediaProperties::IVp9ProfileIdsStatics)->get_Profile2ChromaSubsampling420BitDepth12(&value));
+        return value;
+    }
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
     struct produce<D, winrt::Windows::Media::MediaProperties::IAudioEncodingProperties> : produce_base<D, winrt::Windows::Media::MediaProperties::IAudioEncodingProperties>
@@ -1081,6 +1333,96 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics> : produce_base<D, winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics>
+    {
+        int32_t __stdcall get_MainChromaSubsampling420BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling420BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling420BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling420BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling400BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling400BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling400BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling400BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_HighChromaSubsampling444BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().HighChromaSubsampling444BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_HighChromaSubsampling444BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().HighChromaSubsampling444BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ProfessionalChromaSubsampling420BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().ProfessionalChromaSubsampling420BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ProfessionalChromaSubsampling400BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().ProfessionalChromaSubsampling400BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ProfessionalChromaSubsampling444BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().ProfessionalChromaSubsampling444BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ProfessionalChromaSubsampling422BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().ProfessionalChromaSubsampling422BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ProfessionalChromaSubsampling422BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().ProfessionalChromaSubsampling422BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ProfessionalChromaSubsampling422BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().ProfessionalChromaSubsampling422BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::Media::MediaProperties::IContainerEncodingProperties> : produce_base<D, winrt::Windows::Media::MediaProperties::IContainerEncodingProperties>
     {
     };
@@ -1170,6 +1512,166 @@ namespace winrt::impl
         {
             typename D::abi_guard guard(this->shim());
             *value = detach_from<int32_t>(this->shim().MultiviewHigh());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics> : produce_base<D, winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics>
+    {
+        int32_t __stdcall get_MainChromaSubsampling420BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling420BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling420BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling420BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling420BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling420BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling422BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling422BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling422BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling422BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling444BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling444BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling444BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling444BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainChromaSubsampling444BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainChromaSubsampling444BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MonochromeBitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MonochromeBitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MonochromeBitDepth16(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MonochromeBitDepth16());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling420BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling420BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling420BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling420BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling420BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling420BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling422BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling422BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling422BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling422BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling444BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling444BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling444BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling444BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling444BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling444BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainIntraChromaSubsampling444BitDepth16(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainIntraChromaSubsampling444BitDepth16());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainStillChromaSubsampling420BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainStillChromaSubsampling420BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainStillChromaSubsampling444BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainStillChromaSubsampling444BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_MainStillChromaSubsampling444BitDepth16(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().MainStillChromaSubsampling444BitDepth16());
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -1506,6 +2008,28 @@ namespace winrt::impl
             clear_abi(value);
             typename D::abi_guard guard(this->shim());
             *value = detach_from<winrt::Windows::Media::MediaProperties::MediaEncodingProfile>(this->shim().CreateHevc(*reinterpret_cast<winrt::Windows::Media::MediaProperties::VideoEncodingQuality const*>(&quality)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics4> : produce_base<D, winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics4>
+    {
+        int32_t __stdcall CreateVp9(int32_t quality, void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::Media::MediaProperties::MediaEncodingProfile>(this->shim().CreateVp9(*reinterpret_cast<winrt::Windows::Media::MediaProperties::VideoEncodingQuality const*>(&quality)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall CreateAv1(int32_t quality, void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::Media::MediaProperties::MediaEncodingProfile>(this->shim().CreateAv1(*reinterpret_cast<winrt::Windows::Media::MediaProperties::VideoEncodingQuality const*>(&quality)));
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -2000,6 +2524,20 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics7> : produce_base<D, winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics7>
+    {
+        int32_t __stdcall get_Av1(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<hstring>(this->shim().Av1());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::Media::MediaProperties::IMediaRatio> : produce_base<D, winrt::Windows::Media::MediaProperties::IMediaRatio>
     {
         int32_t __stdcall put_Numerator(uint32_t value) noexcept final try
@@ -2323,6 +2861,55 @@ namespace winrt::impl
         catch (...) { return to_hresult(); }
     };
 #endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Media::MediaProperties::IVideoEncodingPropertiesStatics3> : produce_base<D, winrt::Windows::Media::MediaProperties::IVideoEncodingPropertiesStatics3>
+    {
+        int32_t __stdcall CreateVp9(void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::Media::MediaProperties::VideoEncodingProperties>(this->shim().CreateVp9());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall CreateAv1(void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::Media::MediaProperties::VideoEncodingProperties>(this->shim().CreateAv1());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Media::MediaProperties::IVp9ProfileIdsStatics> : produce_base<D, winrt::Windows::Media::MediaProperties::IVp9ProfileIdsStatics>
+    {
+        int32_t __stdcall get_Profile0ChromaSubsampling420BitDepth8(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().Profile0ChromaSubsampling420BitDepth8());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_Profile2ChromaSubsampling420BitDepth10(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().Profile2ChromaSubsampling420BitDepth10());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_Profile2ChromaSubsampling420BitDepth12(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<int32_t>(this->shim().Profile2ChromaSubsampling420BitDepth12());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
 }
 WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
 {
@@ -2389,6 +2976,54 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
     {
         return impl::call_factory<AudioEncodingProperties, IAudioEncodingPropertiesStatics2>([&](IAudioEncodingPropertiesStatics2 const& f) { return f.CreateFlac(sampleRate, channelCount, bitsPerSample); });
     }
+    inline auto Av1ProfileIds::MainChromaSubsampling420BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.MainChromaSubsampling420BitDepth8(); });
+    }
+    inline auto Av1ProfileIds::MainChromaSubsampling420BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.MainChromaSubsampling420BitDepth10(); });
+    }
+    inline auto Av1ProfileIds::MainChromaSubsampling400BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.MainChromaSubsampling400BitDepth8(); });
+    }
+    inline auto Av1ProfileIds::MainChromaSubsampling400BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.MainChromaSubsampling400BitDepth10(); });
+    }
+    inline auto Av1ProfileIds::HighChromaSubsampling444BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.HighChromaSubsampling444BitDepth8(); });
+    }
+    inline auto Av1ProfileIds::HighChromaSubsampling444BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.HighChromaSubsampling444BitDepth10(); });
+    }
+    inline auto Av1ProfileIds::ProfessionalChromaSubsampling420BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.ProfessionalChromaSubsampling420BitDepth12(); });
+    }
+    inline auto Av1ProfileIds::ProfessionalChromaSubsampling400BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.ProfessionalChromaSubsampling400BitDepth12(); });
+    }
+    inline auto Av1ProfileIds::ProfessionalChromaSubsampling444BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.ProfessionalChromaSubsampling444BitDepth12(); });
+    }
+    inline auto Av1ProfileIds::ProfessionalChromaSubsampling422BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.ProfessionalChromaSubsampling422BitDepth8(); });
+    }
+    inline auto Av1ProfileIds::ProfessionalChromaSubsampling422BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.ProfessionalChromaSubsampling422BitDepth10(); });
+    }
+    inline auto Av1ProfileIds::ProfessionalChromaSubsampling422BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IAv1ProfileIdsStatics const&), Av1ProfileIds, IAv1ProfileIdsStatics>([](IAv1ProfileIdsStatics const& f) { return f.ProfessionalChromaSubsampling422BitDepth12(); });
+    }
     inline ContainerEncodingProperties::ContainerEncodingProperties() :
         ContainerEncodingProperties(impl::call_factory_cast<ContainerEncodingProperties(*)(winrt::Windows::Foundation::IActivationFactory const&), ContainerEncodingProperties>([](winrt::Windows::Foundation::IActivationFactory const& f) { return f.template ActivateInstance<ContainerEncodingProperties>(); }))
     {
@@ -2432,6 +3067,94 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
     inline auto H264ProfileIds::MultiviewHigh()
     {
         return impl::call_factory_cast<int32_t(*)(IH264ProfileIdsStatics const&), H264ProfileIds, IH264ProfileIdsStatics>([](IH264ProfileIdsStatics const& f) { return f.MultiviewHigh(); });
+    }
+    inline auto HevcProfileIds::MainChromaSubsampling420BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainChromaSubsampling420BitDepth8(); });
+    }
+    inline auto HevcProfileIds::MainChromaSubsampling420BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainChromaSubsampling420BitDepth10(); });
+    }
+    inline auto HevcProfileIds::MainChromaSubsampling420BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainChromaSubsampling420BitDepth12(); });
+    }
+    inline auto HevcProfileIds::MainChromaSubsampling422BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainChromaSubsampling422BitDepth10(); });
+    }
+    inline auto HevcProfileIds::MainChromaSubsampling422BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainChromaSubsampling422BitDepth12(); });
+    }
+    inline auto HevcProfileIds::MainChromaSubsampling444BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainChromaSubsampling444BitDepth8(); });
+    }
+    inline auto HevcProfileIds::MainChromaSubsampling444BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainChromaSubsampling444BitDepth10(); });
+    }
+    inline auto HevcProfileIds::MainChromaSubsampling444BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainChromaSubsampling444BitDepth12(); });
+    }
+    inline auto HevcProfileIds::MonochromeBitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MonochromeBitDepth12(); });
+    }
+    inline auto HevcProfileIds::MonochromeBitDepth16()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MonochromeBitDepth16(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling420BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling420BitDepth8(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling420BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling420BitDepth10(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling420BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling420BitDepth12(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling422BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling422BitDepth10(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling422BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling422BitDepth12(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling444BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling444BitDepth8(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling444BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling444BitDepth10(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling444BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling444BitDepth12(); });
+    }
+    inline auto HevcProfileIds::MainIntraChromaSubsampling444BitDepth16()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainIntraChromaSubsampling444BitDepth16(); });
+    }
+    inline auto HevcProfileIds::MainStillChromaSubsampling420BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainStillChromaSubsampling420BitDepth8(); });
+    }
+    inline auto HevcProfileIds::MainStillChromaSubsampling444BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainStillChromaSubsampling444BitDepth8(); });
+    }
+    inline auto HevcProfileIds::MainStillChromaSubsampling444BitDepth16()
+    {
+        return impl::call_factory_cast<int32_t(*)(IHevcProfileIdsStatics const&), HevcProfileIds, IHevcProfileIdsStatics>([](IHevcProfileIdsStatics const& f) { return f.MainStillChromaSubsampling444BitDepth16(); });
     }
     inline ImageEncodingProperties::ImageEncodingProperties() :
         ImageEncodingProperties(impl::call_factory_cast<ImageEncodingProperties(*)(winrt::Windows::Foundation::IActivationFactory const&), ImageEncodingProperties>([](winrt::Windows::Foundation::IActivationFactory const& f) { return f.template ActivateInstance<ImageEncodingProperties>(); }))
@@ -2512,6 +3235,14 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
     inline auto MediaEncodingProfile::CreateHevc(winrt::Windows::Media::MediaProperties::VideoEncodingQuality const& quality)
     {
         return impl::call_factory<MediaEncodingProfile, IMediaEncodingProfileStatics3>([&](IMediaEncodingProfileStatics3 const& f) { return f.CreateHevc(quality); });
+    }
+    inline auto MediaEncodingProfile::CreateVp9(winrt::Windows::Media::MediaProperties::VideoEncodingQuality const& quality)
+    {
+        return impl::call_factory<MediaEncodingProfile, IMediaEncodingProfileStatics4>([&](IMediaEncodingProfileStatics4 const& f) { return f.CreateVp9(quality); });
+    }
+    inline auto MediaEncodingProfile::CreateAv1(winrt::Windows::Media::MediaProperties::VideoEncodingQuality const& quality)
+    {
+        return impl::call_factory<MediaEncodingProfile, IMediaEncodingProfileStatics4>([&](IMediaEncodingProfileStatics4 const& f) { return f.CreateAv1(quality); });
     }
     inline auto MediaEncodingSubtypes::Aac()
     {
@@ -2721,6 +3452,10 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
     {
         return impl::call_factory_cast<hstring(*)(IMediaEncodingSubtypesStatics6 const&), MediaEncodingSubtypes, IMediaEncodingSubtypesStatics6>([](IMediaEncodingSubtypesStatics6 const& f) { return f.VobSub(); });
     }
+    inline auto MediaEncodingSubtypes::Av1()
+    {
+        return impl::call_factory_cast<hstring(*)(IMediaEncodingSubtypesStatics7 const&), MediaEncodingSubtypes, IMediaEncodingSubtypesStatics7>([](IMediaEncodingSubtypesStatics7 const& f) { return f.Av1(); });
+    }
     inline MediaPropertySet::MediaPropertySet() :
         MediaPropertySet(impl::call_factory_cast<MediaPropertySet(*)(winrt::Windows::Foundation::IActivationFactory const&), MediaPropertySet>([](winrt::Windows::Foundation::IActivationFactory const& f) { return f.template ActivateInstance<MediaPropertySet>(); }))
     {
@@ -2785,6 +3520,26 @@ WINRT_EXPORT namespace winrt::Windows::Media::MediaProperties
     {
         return impl::call_factory_cast<winrt::Windows::Media::MediaProperties::VideoEncodingProperties(*)(IVideoEncodingPropertiesStatics2 const&), VideoEncodingProperties, IVideoEncodingPropertiesStatics2>([](IVideoEncodingPropertiesStatics2 const& f) { return f.CreateHevc(); });
     }
+    inline auto VideoEncodingProperties::CreateVp9()
+    {
+        return impl::call_factory_cast<winrt::Windows::Media::MediaProperties::VideoEncodingProperties(*)(IVideoEncodingPropertiesStatics3 const&), VideoEncodingProperties, IVideoEncodingPropertiesStatics3>([](IVideoEncodingPropertiesStatics3 const& f) { return f.CreateVp9(); });
+    }
+    inline auto VideoEncodingProperties::CreateAv1()
+    {
+        return impl::call_factory_cast<winrt::Windows::Media::MediaProperties::VideoEncodingProperties(*)(IVideoEncodingPropertiesStatics3 const&), VideoEncodingProperties, IVideoEncodingPropertiesStatics3>([](IVideoEncodingPropertiesStatics3 const& f) { return f.CreateAv1(); });
+    }
+    inline auto Vp9ProfileIds::Profile0ChromaSubsampling420BitDepth8()
+    {
+        return impl::call_factory_cast<int32_t(*)(IVp9ProfileIdsStatics const&), Vp9ProfileIds, IVp9ProfileIdsStatics>([](IVp9ProfileIdsStatics const& f) { return f.Profile0ChromaSubsampling420BitDepth8(); });
+    }
+    inline auto Vp9ProfileIds::Profile2ChromaSubsampling420BitDepth10()
+    {
+        return impl::call_factory_cast<int32_t(*)(IVp9ProfileIdsStatics const&), Vp9ProfileIds, IVp9ProfileIdsStatics>([](IVp9ProfileIdsStatics const& f) { return f.Profile2ChromaSubsampling420BitDepth10(); });
+    }
+    inline auto Vp9ProfileIds::Profile2ChromaSubsampling420BitDepth12()
+    {
+        return impl::call_factory_cast<int32_t(*)(IVp9ProfileIdsStatics const&), Vp9ProfileIds, IVp9ProfileIdsStatics>([](IVp9ProfileIdsStatics const& f) { return f.Profile2ChromaSubsampling420BitDepth12(); });
+    }
 }
 namespace std
 {
@@ -2795,9 +3550,11 @@ namespace std
     template<> struct hash<winrt::Windows::Media::MediaProperties::IAudioEncodingPropertiesStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IAudioEncodingPropertiesStatics2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IAudioEncodingPropertiesWithFormatUserData> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::IAv1ProfileIdsStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IContainerEncodingProperties> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IContainerEncodingProperties2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IH264ProfileIdsStatics> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::IHevcProfileIdsStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IImageEncodingProperties> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IImageEncodingProperties2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IImageEncodingPropertiesStatics> : winrt::impl::hash_base {};
@@ -2809,6 +3566,7 @@ namespace std
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics3> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingProfileStatics4> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingProperties> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics2> : winrt::impl::hash_base {};
@@ -2816,6 +3574,7 @@ namespace std
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics4> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics5> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics6> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaEncodingSubtypesStatics7> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMediaRatio> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IMpeg2ProfileIdsStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::ITimedMetadataEncodingProperties> : winrt::impl::hash_base {};
@@ -2827,9 +3586,13 @@ namespace std
     template<> struct hash<winrt::Windows::Media::MediaProperties::IVideoEncodingProperties5> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IVideoEncodingPropertiesStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::IVideoEncodingPropertiesStatics2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::IVideoEncodingPropertiesStatics3> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::IVp9ProfileIdsStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::AudioEncodingProperties> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::Av1ProfileIds> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::ContainerEncodingProperties> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::H264ProfileIds> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::HevcProfileIds> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::ImageEncodingProperties> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::MediaEncodingProfile> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::MediaEncodingSubtypes> : winrt::impl::hash_base {};
@@ -2838,6 +3601,7 @@ namespace std
     template<> struct hash<winrt::Windows::Media::MediaProperties::Mpeg2ProfileIds> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::TimedMetadataEncodingProperties> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::MediaProperties::VideoEncodingProperties> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::MediaProperties::Vp9ProfileIds> : winrt::impl::hash_base {};
 #endif
 #ifdef __cpp_lib_format
 #endif

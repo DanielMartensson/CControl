@@ -362,6 +362,7 @@ export module winrt;
 #include "winrt/Windows.UI.Input.Spatial.h"
 #include "winrt/Windows.UI.Notifications.h"
 #include "winrt/Windows.UI.Notifications.Management.h"
+#include "winrt/Windows.UI.Notifications.Preview.h"
 #include "winrt/Windows.UI.Popups.h"
 #include "winrt/Windows.UI.Shell.h"
 #include "winrt/Windows.UI.StartScreen.h"

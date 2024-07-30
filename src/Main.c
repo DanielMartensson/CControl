@@ -1,26 +1,122 @@
 /*
  ============================================================================
- Name        : Main.c
+ Name        : qmpc.c
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Initial template
+ Description : Model Predictive Control with integral action and constraints on inputs and outputs
  ============================================================================
  */
 
 #include "CControl/ccontrol.h"
 
+#define row_a 2
+#define column_b 1
+#define row_c 1
+#define row_ai (row_a + column_b)
+#define column_bi column_b
+#define row_ci row_c
+#define N 10
+#define SAMPLE_TIME 0.5f
+#define SETPOINT 6.0f
+#define LAMBDA 0.2f
+#define MAX_U 0.4f
+#define INTEGRATION_CONSTANT 0.2f
+#define HAS_INTEGRATION_ACTION true
+
 int main() {
+
+	/* Create A matrix */
+	float A[row_a * row_a] = { 0, 1,
+							  -1, -1 };
+
+	/* Create B matrix */
+	float B[row_a * column_b] = { 0, 
+		                          1 };
+
+	/* Create C matrix */
+	float C[row_c * row_a] = { 1, 0};
+
+	/* Turn the SS model into a discrete SS model */
+	c2d(A, B, row_a, column_b, SAMPLE_TIME);
+
+	/* Create Ai matrix */
+	float Ai[row_ai * row_ai];
+
+	/* Create Bi matrix */
+	float Bi[row_ai * column_bi];
+
+	/* Create Ci matrix */
+	float Ci[row_ci * row_ai];
+
+	/* Add integral action */
+	ssint(A, B, C, Ai, Bi, Ci, row_a, column_b, row_c);
+	
+	/* Create PHI matrix */
+	float PHI[(N * row_ci) * row_ai];
+	obsv(PHI, Ai, Ci, row_ai, row_ci, N);
+
+	/* Create GAMMA matrix */
+	float GAMMA[(N * row_ci) * (N * column_bi)];
+	cab(GAMMA, PHI, Bi, Ci, row_ai, row_ci, column_bi, N);
+
+	/* Create vectors: state vector x, input signal u, reference vector r, maximum output signal Umax, slack variable values S */
+	float x[row_ai], u[column_bi], r[row_ci], Umax[column_bi], S[row_ci];
+	u[0] = 0;
+	r[0] = SETPOINT;
+	S[0] = 2.0f;
+	Umax[0] = MAX_U;
+	x[0] = -3;
+	x[1] = 20;
+	x[2] = 0;
+
 	clock_t start, end;
 	float cpu_time_used;
 	start = clock();
 
-	/* Your ANSI C logic here */
+	/* This function should be placed inside a while-loop inside a microcontroller */
+	qmpc(GAMMA, PHI, x, u, Umax, S, r, row_ai, row_ci, column_bi, N, LAMBDA, HAS_INTEGRATION_ACTION, INTEGRATION_CONSTANT);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);
 
+	/* Print the output signal */
+	print(u, column_bi, 1);
+
+	/* Detect memory leak */
+	detectmemoryleak();
 
 	return EXIT_SUCCESS;
 }
+
+/* GNU octave code:
+% You need to install MataveControl from GitHub https://github.com/DanielMartensson/MataveControl/
+
+close all
+clear all
+clc
+
+sys = mc.ss(0, [0 1; -1 -1], [0;1], [1 0]); % SISO state space model
+
+sysd = mc.c2d(sys, 0.5); % To discrete
+
+R = [6]; % Reference for the SISO model. If MIMO -> R need to be a vector
+N = 10; % Horizon predict constant
+T = 35; % Horizon time constant
+lambda = 7; % Regularization for smoother inputs u
+
+[y, t, x, u] = mc.lmpc(sysd, N, R, T, lambda); % Simulate MPC with linear programming
+hold on
+plot(t, u)
+
+I = 0.2; % Integral action constant
+Umax = [0.4]; % Maximum input signal vector
+S = [2]; % Slack variable says that the output can be +2 over the reference R, in this case: 6+2 = 8
+lambda = 0.2; % Regularization for smoother inputs u
+figure(2); % New figure
+x0 = [-8; 20];
+[y, t, x, u] = mc.qmpc(sysd, N, R, T, lambda, Umax, S, I, x0); % Simulate MPC with quadratic programming
+hold on
+plot(t, u)
+*/

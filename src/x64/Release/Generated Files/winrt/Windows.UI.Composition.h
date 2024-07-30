@@ -1855,6 +1855,36 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Composition::ICompositionTarget)->put_Root(*(void**)(&value)));
     }
+    template <typename D> auto consume_Windows_UI_Composition_ICompositionTexture<D>::SourceRect() const
+    {
+        winrt::Windows::Graphics::RectInt32 value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Composition::ICompositionTexture)->get_SourceRect(put_abi(value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Composition_ICompositionTexture<D>::SourceRect(winrt::Windows::Graphics::RectInt32 const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Composition::ICompositionTexture)->put_SourceRect(impl::bind_in(value)));
+    }
+    template <typename D> auto consume_Windows_UI_Composition_ICompositionTexture<D>::AlphaMode() const
+    {
+        winrt::Windows::Graphics::DirectX::DirectXAlphaMode value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Composition::ICompositionTexture)->get_AlphaMode(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Composition_ICompositionTexture<D>::AlphaMode(winrt::Windows::Graphics::DirectX::DirectXAlphaMode const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Composition::ICompositionTexture)->put_AlphaMode(static_cast<int32_t>(value)));
+    }
+    template <typename D> auto consume_Windows_UI_Composition_ICompositionTexture<D>::ColorSpace() const
+    {
+        winrt::Windows::Graphics::DirectX::DirectXColorSpace value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Composition::ICompositionTexture)->get_ColorSpace(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Composition_ICompositionTexture<D>::ColorSpace(winrt::Windows::Graphics::DirectX::DirectXColorSpace const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Composition::ICompositionTexture)->put_ColorSpace(static_cast<int32_t>(value)));
+    }
     template <typename D> auto consume_Windows_UI_Composition_ICompositionViewBox<D>::HorizontalAlignmentRatio() const
     {
         float value{};
@@ -6945,6 +6975,61 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::UI::Composition::ICompositionTexture> : produce_base<D, winrt::Windows::UI::Composition::ICompositionTexture>
+    {
+        int32_t __stdcall get_SourceRect(struct struct_Windows_Graphics_RectInt32* value) noexcept final try
+        {
+            zero_abi<winrt::Windows::Graphics::RectInt32>(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Graphics::RectInt32>(this->shim().SourceRect());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_SourceRect(struct struct_Windows_Graphics_RectInt32 value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().SourceRect(*reinterpret_cast<winrt::Windows::Graphics::RectInt32 const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_AlphaMode(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Graphics::DirectX::DirectXAlphaMode>(this->shim().AlphaMode());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_AlphaMode(int32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().AlphaMode(*reinterpret_cast<winrt::Windows::Graphics::DirectX::DirectXAlphaMode const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ColorSpace(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Graphics::DirectX::DirectXColorSpace>(this->shim().ColorSpace());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_ColorSpace(int32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ColorSpace(*reinterpret_cast<winrt::Windows::Graphics::DirectX::DirectXColorSpace const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::UI::Composition::ICompositionTextureFactory> : produce_base<D, winrt::Windows::UI::Composition::ICompositionTextureFactory>
+    {
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::UI::Composition::ICompositionTransform> : produce_base<D, winrt::Windows::UI::Composition::ICompositionTransform>
     {
     };
@@ -10302,6 +10387,8 @@ namespace std
     template<> struct hash<winrt::Windows::UI::Composition::ICompositionSurfaceFacade> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::ICompositionTarget> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::ICompositionTargetFactory> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Composition::ICompositionTexture> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Composition::ICompositionTextureFactory> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::ICompositionTransform> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::ICompositionTransformFactory> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::ICompositionViewBox> : winrt::impl::hash_base {};
@@ -10442,6 +10529,7 @@ namespace std
     template<> struct hash<winrt::Windows::UI::Composition::CompositionStrokeDashArray> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::CompositionSurfaceBrush> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::CompositionTarget> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Composition::CompositionTexture> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::CompositionTransform> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::CompositionViewBox> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Composition::CompositionVirtualDrawingSurface> : winrt::impl::hash_base {};

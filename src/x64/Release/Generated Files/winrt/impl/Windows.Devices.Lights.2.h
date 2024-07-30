@@ -15,7 +15,8 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Lights
         static auto FromIdAsync(param::hstring const& deviceId);
         static auto GetDefaultAsync();
     };
-    struct __declspec(empty_bases) LampArray : winrt::Windows::Devices::Lights::ILampArray
+    struct __declspec(empty_bases) LampArray : winrt::Windows::Devices::Lights::ILampArray,
+        impl::require<LampArray, winrt::Windows::Devices::Lights::ILampArray2>
     {
         LampArray(std::nullptr_t) noexcept {}
         LampArray(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Lights::ILampArray(ptr, take_ownership_from_abi) {}

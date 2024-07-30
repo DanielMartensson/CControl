@@ -69,6 +69,13 @@ WINRT_EXPORT namespace winrt::Windows::System::Profile
         IKnownRetailInfoPropertiesStatics(std::nullptr_t = nullptr) noexcept {}
         IKnownRetailInfoPropertiesStatics(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IPlatformAutomaticAppSignInManagerStatics :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IPlatformAutomaticAppSignInManagerStatics>
+    {
+        IPlatformAutomaticAppSignInManagerStatics(std::nullptr_t = nullptr) noexcept {}
+        IPlatformAutomaticAppSignInManagerStatics(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IPlatformDiagnosticsAndUsageDataSettingsStatics :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IPlatformDiagnosticsAndUsageDataSettingsStatics>

@@ -32,6 +32,7 @@ WINRT_EXPORT namespace winrt::Windows::Graphics
 WINRT_EXPORT namespace winrt::Windows::Graphics::DirectX
 {
     enum class DirectXAlphaMode : int32_t;
+    enum class DirectXColorSpace : int32_t;
     enum class DirectXPixelFormat : int32_t;
 }
 WINRT_EXPORT namespace winrt::Windows::Graphics::Effects
@@ -292,6 +293,8 @@ WINRT_EXPORT namespace winrt::Windows::UI::Composition
     struct ICompositionSurfaceFacade;
     struct ICompositionTarget;
     struct ICompositionTargetFactory;
+    struct ICompositionTexture;
+    struct ICompositionTextureFactory;
     struct ICompositionTransform;
     struct ICompositionTransformFactory;
     struct ICompositionViewBox;
@@ -432,6 +435,7 @@ WINRT_EXPORT namespace winrt::Windows::UI::Composition
     struct CompositionStrokeDashArray;
     struct CompositionSurfaceBrush;
     struct CompositionTarget;
+    struct CompositionTexture;
     struct CompositionTransform;
     struct CompositionViewBox;
     struct CompositionVirtualDrawingSurface;
@@ -582,6 +586,8 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::UI::Composition::ICompositionSurfaceFacade>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Composition::ICompositionTarget>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Composition::ICompositionTargetFactory>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::UI::Composition::ICompositionTexture>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::UI::Composition::ICompositionTextureFactory>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Composition::ICompositionTransform>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Composition::ICompositionTransformFactory>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Composition::ICompositionViewBox>{ using type = interface_category; };
@@ -722,6 +728,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::UI::Composition::CompositionStrokeDashArray>{ using type = class_category; };
     template <> struct category<winrt::Windows::UI::Composition::CompositionSurfaceBrush>{ using type = class_category; };
     template <> struct category<winrt::Windows::UI::Composition::CompositionTarget>{ using type = class_category; };
+    template <> struct category<winrt::Windows::UI::Composition::CompositionTexture>{ using type = class_category; };
     template <> struct category<winrt::Windows::UI::Composition::CompositionTransform>{ using type = class_category; };
     template <> struct category<winrt::Windows::UI::Composition::CompositionViewBox>{ using type = class_category; };
     template <> struct category<winrt::Windows::UI::Composition::CompositionVirtualDrawingSurface>{ using type = class_category; };
@@ -848,6 +855,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::CompositionStrokeDashArray> = L"Windows.UI.Composition.CompositionStrokeDashArray";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::CompositionSurfaceBrush> = L"Windows.UI.Composition.CompositionSurfaceBrush";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::CompositionTarget> = L"Windows.UI.Composition.CompositionTarget";
+    template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::CompositionTexture> = L"Windows.UI.Composition.CompositionTexture";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::CompositionTransform> = L"Windows.UI.Composition.CompositionTransform";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::CompositionViewBox> = L"Windows.UI.Composition.CompositionViewBox";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::CompositionVirtualDrawingSurface> = L"Windows.UI.Composition.CompositionVirtualDrawingSurface";
@@ -1016,6 +1024,8 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::ICompositionSurfaceFacade> = L"Windows.UI.Composition.ICompositionSurfaceFacade";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::ICompositionTarget> = L"Windows.UI.Composition.ICompositionTarget";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::ICompositionTargetFactory> = L"Windows.UI.Composition.ICompositionTargetFactory";
+    template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::ICompositionTexture> = L"Windows.UI.Composition.ICompositionTexture";
+    template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::ICompositionTextureFactory> = L"Windows.UI.Composition.ICompositionTextureFactory";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::ICompositionTransform> = L"Windows.UI.Composition.ICompositionTransform";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::ICompositionTransformFactory> = L"Windows.UI.Composition.ICompositionTransformFactory";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Composition::ICompositionViewBox> = L"Windows.UI.Composition.ICompositionViewBox";
@@ -1198,6 +1208,8 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Composition::ICompositionSurfaceFacade>{ 0xE01622C8,0x2332,0x55C7,{ 0x88,0x68,0xA7,0x31,0x2C,0x5C,0x22,0x9D } }; // E01622C8-2332-55C7-8868-A7312C5C229D
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Composition::ICompositionTarget>{ 0xA1BEA8BA,0xD726,0x4663,{ 0x81,0x29,0x6B,0x5E,0x79,0x27,0xFF,0xA6 } }; // A1BEA8BA-D726-4663-8129-6B5E7927FFA6
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Composition::ICompositionTargetFactory>{ 0x93CD9D2B,0x8516,0x4B14,{ 0xA8,0xCE,0xF4,0x9E,0x21,0x19,0xEC,0x42 } }; // 93CD9D2B-8516-4B14-A8CE-F49E2119EC42
+    template <> inline constexpr guid guid_v<winrt::Windows::UI::Composition::ICompositionTexture>{ 0x347D03A0,0x1C0A,0x4C0B,{ 0xB2,0x32,0x85,0x70,0xB2,0xB1,0xA4,0xEA } }; // 347D03A0-1C0A-4C0B-B232-8570B2B1A4EA
+    template <> inline constexpr guid guid_v<winrt::Windows::UI::Composition::ICompositionTextureFactory>{ 0x09D9523D,0x471C,0x5AB5,{ 0xB0,0x53,0xB5,0x68,0xEE,0x46,0xEB,0xFB } }; // 09D9523D-471C-5AB5-B053-B568EE46EBFB
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Composition::ICompositionTransform>{ 0x7CD54529,0xFBED,0x4112,{ 0xAB,0xC5,0x18,0x59,0x06,0xDD,0x92,0x7C } }; // 7CD54529-FBED-4112-ABC5-185906DD927C
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Composition::ICompositionTransformFactory>{ 0xAAAECA26,0xC149,0x517A,{ 0x8F,0x72,0x6B,0xFF,0x7A,0x65,0xCE,0x08 } }; // AAAECA26-C149-517A-8F72-6BFF7A65CE08
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Composition::ICompositionViewBox>{ 0xB440BF07,0x068F,0x4537,{ 0x84,0xC6,0x4E,0xCB,0xE0,0x19,0xE1,0xF4 } }; // B440BF07-068F-4537-84C6-4ECBE019E1F4
@@ -1338,6 +1350,7 @@ namespace winrt::impl
     template <> struct default_interface<winrt::Windows::UI::Composition::CompositionStrokeDashArray>{ using type = winrt::Windows::Foundation::Collections::IVector<float>; };
     template <> struct default_interface<winrt::Windows::UI::Composition::CompositionSurfaceBrush>{ using type = winrt::Windows::UI::Composition::ICompositionSurfaceBrush; };
     template <> struct default_interface<winrt::Windows::UI::Composition::CompositionTarget>{ using type = winrt::Windows::UI::Composition::ICompositionTarget; };
+    template <> struct default_interface<winrt::Windows::UI::Composition::CompositionTexture>{ using type = winrt::Windows::UI::Composition::ICompositionTexture; };
     template <> struct default_interface<winrt::Windows::UI::Composition::CompositionTransform>{ using type = winrt::Windows::UI::Composition::ICompositionTransform; };
     template <> struct default_interface<winrt::Windows::UI::Composition::CompositionViewBox>{ using type = winrt::Windows::UI::Composition::ICompositionViewBox; };
     template <> struct default_interface<winrt::Windows::UI::Composition::CompositionVirtualDrawingSurface>{ using type = winrt::Windows::UI::Composition::ICompositionVirtualDrawingSurface; };
@@ -2345,6 +2358,24 @@ namespace winrt::impl
         };
     };
     template <> struct abi<winrt::Windows::UI::Composition::ICompositionTargetFactory>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+        };
+    };
+    template <> struct abi<winrt::Windows::UI::Composition::ICompositionTexture>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_SourceRect(struct struct_Windows_Graphics_RectInt32*) noexcept = 0;
+            virtual int32_t __stdcall put_SourceRect(struct struct_Windows_Graphics_RectInt32) noexcept = 0;
+            virtual int32_t __stdcall get_AlphaMode(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall put_AlphaMode(int32_t) noexcept = 0;
+            virtual int32_t __stdcall get_ColorSpace(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall put_ColorSpace(int32_t) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::UI::Composition::ICompositionTextureFactory>
     {
         struct __declspec(novtable) type : inspectable_abi
         {
@@ -4369,6 +4400,28 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::UI::Composition::ICompositionTargetFactory>
     {
         template <typename D> using type = consume_Windows_UI_Composition_ICompositionTargetFactory<D>;
+    };
+    template <typename D>
+    struct consume_Windows_UI_Composition_ICompositionTexture
+    {
+        [[nodiscard]] auto SourceRect() const;
+        auto SourceRect(winrt::Windows::Graphics::RectInt32 const& value) const;
+        [[nodiscard]] auto AlphaMode() const;
+        auto AlphaMode(winrt::Windows::Graphics::DirectX::DirectXAlphaMode const& value) const;
+        [[nodiscard]] auto ColorSpace() const;
+        auto ColorSpace(winrt::Windows::Graphics::DirectX::DirectXColorSpace const& value) const;
+    };
+    template <> struct consume<winrt::Windows::UI::Composition::ICompositionTexture>
+    {
+        template <typename D> using type = consume_Windows_UI_Composition_ICompositionTexture<D>;
+    };
+    template <typename D>
+    struct consume_Windows_UI_Composition_ICompositionTextureFactory
+    {
+    };
+    template <> struct consume<winrt::Windows::UI::Composition::ICompositionTextureFactory>
+    {
+        template <typename D> using type = consume_Windows_UI_Composition_ICompositionTextureFactory<D>;
     };
     template <typename D>
     struct consume_Windows_UI_Composition_ICompositionTransform

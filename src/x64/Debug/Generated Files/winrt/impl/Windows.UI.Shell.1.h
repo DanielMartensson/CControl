@@ -84,6 +84,13 @@ WINRT_EXPORT namespace winrt::Windows::UI::Shell
         ITaskbarManager2(std::nullptr_t = nullptr) noexcept {}
         ITaskbarManager2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) ITaskbarManagerDesktopAppSupportStatics :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<ITaskbarManagerDesktopAppSupportStatics>
+    {
+        ITaskbarManagerDesktopAppSupportStatics(std::nullptr_t = nullptr) noexcept {}
+        ITaskbarManagerDesktopAppSupportStatics(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) ITaskbarManagerStatics :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<ITaskbarManagerStatics>

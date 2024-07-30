@@ -65,6 +65,7 @@ WINRT_EXPORT namespace winrt::Windows::UI::Shell
     struct IShareWindowCommandSourceStatics;
     struct ITaskbarManager;
     struct ITaskbarManager2;
+    struct ITaskbarManagerDesktopAppSupportStatics;
     struct ITaskbarManagerStatics;
     struct IWindowTab;
     struct IWindowTabCloseRequestedEventArgs;
@@ -107,6 +108,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::UI::Shell::IShareWindowCommandSourceStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Shell::ITaskbarManager>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Shell::ITaskbarManager2>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::UI::Shell::ITaskbarManagerDesktopAppSupportStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Shell::ITaskbarManagerStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Shell::IWindowTab>{ using type = interface_category; };
     template <> struct category<winrt::Windows::UI::Shell::IWindowTabCloseRequestedEventArgs>{ using type = interface_category; };
@@ -170,6 +172,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Shell::IShareWindowCommandSourceStatics> = L"Windows.UI.Shell.IShareWindowCommandSourceStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Shell::ITaskbarManager> = L"Windows.UI.Shell.ITaskbarManager";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Shell::ITaskbarManager2> = L"Windows.UI.Shell.ITaskbarManager2";
+    template <> inline constexpr auto& name_v<winrt::Windows::UI::Shell::ITaskbarManagerDesktopAppSupportStatics> = L"Windows.UI.Shell.ITaskbarManagerDesktopAppSupportStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Shell::ITaskbarManagerStatics> = L"Windows.UI.Shell.ITaskbarManagerStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Shell::IWindowTab> = L"Windows.UI.Shell.IWindowTab";
     template <> inline constexpr auto& name_v<winrt::Windows::UI::Shell::IWindowTabCloseRequestedEventArgs> = L"Windows.UI.Shell.IWindowTabCloseRequestedEventArgs";
@@ -193,6 +196,7 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Shell::IShareWindowCommandSourceStatics>{ 0xB0EB6656,0x9CAC,0x517C,{ 0xB6,0xC7,0x8E,0xF7,0x15,0x08,0x42,0x95 } }; // B0EB6656-9CAC-517C-B6C7-8EF715084295
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Shell::ITaskbarManager>{ 0x87490A19,0x1AD9,0x49F4,{ 0xB2,0xE8,0x86,0x73,0x8D,0xC5,0xAC,0x40 } }; // 87490A19-1AD9-49F4-B2E8-86738DC5AC40
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Shell::ITaskbarManager2>{ 0x79F0A06E,0x7B02,0x4911,{ 0x91,0x8C,0xDE,0xE0,0xBB,0xD2,0x0B,0xA4 } }; // 79F0A06E-7B02-4911-918C-DEE0BBD20BA4
+    template <> inline constexpr guid guid_v<winrt::Windows::UI::Shell::ITaskbarManagerDesktopAppSupportStatics>{ 0xCDFEFD63,0xE879,0x4134,{ 0xB9,0xA7,0x82,0x83,0xF0,0x5F,0x94,0x80 } }; // CDFEFD63-E879-4134-B9A7-8283F05F9480
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Shell::ITaskbarManagerStatics>{ 0xDB32AB74,0xDE52,0x4FE6,{ 0xB7,0xB6,0x95,0xFF,0x9F,0x83,0x95,0xDF } }; // DB32AB74-DE52-4FE6-B7B6-95FF9F8395DF
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Shell::IWindowTab>{ 0x551E776A,0x7928,0x4D60,{ 0xBD,0xD9,0x67,0x2B,0x5A,0x57,0x58,0xEB } }; // 551E776A-7928-4D60-BDD9-672B5A5758EB
     template <> inline constexpr guid guid_v<winrt::Windows::UI::Shell::IWindowTabCloseRequestedEventArgs>{ 0x477282E9,0xEEC4,0x5882,{ 0x98,0x89,0x2D,0xD6,0x4D,0x0F,0x9F,0xB6 } }; // 477282E9-EEC4-5882-9889-2DD64D0F9FB6
@@ -320,6 +324,12 @@ namespace winrt::impl
             virtual int32_t __stdcall IsSecondaryTilePinnedAsync(void*, void**) noexcept = 0;
             virtual int32_t __stdcall RequestPinSecondaryTileAsync(void*, void**) noexcept = 0;
             virtual int32_t __stdcall TryUnpinSecondaryTileAsync(void*, void**) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::UI::Shell::ITaskbarManagerDesktopAppSupportStatics>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
         };
     };
     template <> struct abi<winrt::Windows::UI::Shell::ITaskbarManagerStatics>
@@ -568,6 +578,14 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::UI::Shell::ITaskbarManager2>
     {
         template <typename D> using type = consume_Windows_UI_Shell_ITaskbarManager2<D>;
+    };
+    template <typename D>
+    struct consume_Windows_UI_Shell_ITaskbarManagerDesktopAppSupportStatics
+    {
+    };
+    template <> struct consume<winrt::Windows::UI::Shell::ITaskbarManagerDesktopAppSupportStatics>
+    {
+        template <typename D> using type = consume_Windows_UI_Shell_ITaskbarManagerDesktopAppSupportStatics<D>;
     };
     template <typename D>
     struct consume_Windows_UI_Shell_ITaskbarManagerStatics

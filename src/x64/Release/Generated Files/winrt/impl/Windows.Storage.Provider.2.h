@@ -8,6 +8,17 @@
 #include "winrt/impl/Windows.Storage.Provider.1.h"
 WINRT_EXPORT namespace winrt::Windows::Storage::Provider
 {
+    struct StorageProviderKnownFolderSyncRequestedHandler : winrt::Windows::Foundation::IUnknown
+    {
+        StorageProviderKnownFolderSyncRequestedHandler(std::nullptr_t = nullptr) noexcept {}
+        StorageProviderKnownFolderSyncRequestedHandler(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IUnknown(ptr, take_ownership_from_abi) {}
+        template <typename L> StorageProviderKnownFolderSyncRequestedHandler(L lambda);
+        template <typename F> StorageProviderKnownFolderSyncRequestedHandler(F* function);
+        template <typename O, typename M> StorageProviderKnownFolderSyncRequestedHandler(O* object, M method);
+        template <typename O, typename M> StorageProviderKnownFolderSyncRequestedHandler(com_ptr<O>&& object, M method);
+        template <typename O, typename M> StorageProviderKnownFolderSyncRequestedHandler(weak_ref<O>&& object, M method);
+        auto operator()(winrt::Windows::Storage::Provider::StorageProviderKnownFolderSyncRequestArgs const& args) const;
+    };
     struct CachedFileUpdater
     {
         CachedFileUpdater() = delete;
@@ -69,6 +80,23 @@ WINRT_EXPORT namespace winrt::Windows::Storage::Provider
         StorageProviderItemPropertyDefinition(std::nullptr_t) noexcept {}
         StorageProviderItemPropertyDefinition(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderItemPropertyDefinition(ptr, take_ownership_from_abi) {}
         StorageProviderItemPropertyDefinition();
+    };
+    struct __declspec(empty_bases) StorageProviderKnownFolderEntry : winrt::Windows::Storage::Provider::IStorageProviderKnownFolderEntry
+    {
+        StorageProviderKnownFolderEntry(std::nullptr_t) noexcept {}
+        StorageProviderKnownFolderEntry(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderKnownFolderEntry(ptr, take_ownership_from_abi) {}
+        StorageProviderKnownFolderEntry();
+    };
+    struct __declspec(empty_bases) StorageProviderKnownFolderSyncInfo : winrt::Windows::Storage::Provider::IStorageProviderKnownFolderSyncInfo
+    {
+        StorageProviderKnownFolderSyncInfo(std::nullptr_t) noexcept {}
+        StorageProviderKnownFolderSyncInfo(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderKnownFolderSyncInfo(ptr, take_ownership_from_abi) {}
+        StorageProviderKnownFolderSyncInfo();
+    };
+    struct __declspec(empty_bases) StorageProviderKnownFolderSyncRequestArgs : winrt::Windows::Storage::Provider::IStorageProviderKnownFolderSyncRequestArgs
+    {
+        StorageProviderKnownFolderSyncRequestArgs(std::nullptr_t) noexcept {}
+        StorageProviderKnownFolderSyncRequestArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderKnownFolderSyncRequestArgs(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) StorageProviderMoreInfoUI : winrt::Windows::Storage::Provider::IStorageProviderMoreInfoUI
     {
