@@ -17,15 +17,15 @@
  * x[row_a]
  * u[column_b]
  * Umax[column_b]
- * Ymax[row_c]
+ * S[row_c]
  * r[row_c]
  */
-void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], const float Umax[], const float Ymax[], const float r[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N, const float lambda, const bool has_integration_action, const float integration_constant) {
+void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], const float Umax[], const float S[], const float r[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N, const float lambda, const bool has_integration_action, const float integration_constant) {
 	/*
 	% Solve: R = PHI*x + GAMMA*U with quadratic programming: Min: 1/2x^TQx + c^Tx, S.t: Ax <= b, x >= 0
     % Q = a*eye(size(GAMMA))
     % cqp = GAMMA'*Q*(PHI*x - R)
-    % bqp = [Ymax + R - PHI*x; Umax; Umax*0]
+    % bqp = [S + R - PHI*x; Umax; Umax*0]
     % aqp = [GAMMA; I; -I]
     % qqp = GAMMA'*GAMMA + Q
 	*/
@@ -43,12 +43,12 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 	float* PHIx = (float*)malloc(N * row_c * sizeof(float));
 	mul(PHI, x, PHIx, N * row_c, row_a, 1);
 
-	/* Create bqp = [R - PHIx; Umax; Umax*0] vector */
+	/* Create bqp = [S + R - PHIx; Umax; Umax*0] vector */
 	float* bqp = malloc((N * row_c + N * column_b + N * column_b) * sizeof(float));
 	memset(bqp, 0, (N * row_c + N * column_b + N * column_b) * sizeof(float));
 	for(i = 0; i < N; i++) {
         for (j = 0; j < row_c; j++) {
-            bqp[i * row_c + j] = Ymax[j] + R[i] - PHIx[i];
+            bqp[i * row_c + j] = S[j] + R[i] - PHIx[i];
         }
 	}
 	for (i = N * row_c; i < N * row_c + N; i++) {
@@ -119,21 +119,19 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 }
 
 /*
-GNU Octave code:
-
 % Use Model Predictive Control with integral action and quadratic programming
-% Input: sysd(Discrete state space model), N(Horizon number), R(Reference vector), T(End time), a(lambda regularization parameter), Umax(Maximum input signal, optional), Ymax(Maximum output signal, optional), I(integral parameter 0 to 1, optional), x0(Initial state, optional)
+% Input: sysd(Discrete state space model), N(Horizon number), R(Reference vector), T(End time), a(lambda regularization parameter), Umax(Maximum input signal, optional), S(Slack variables for output, optional), I(integral parameter 0 to 1, optional), x0(Initial state, optional)
 % Output: y(Output signal), T(Discrete time vector), X(State vector), U(Output signal)
 % Example 1: [Y, T, X, U] = mc.qmpc(sysd, N, R, T)
 % Example 2: [Y, T, X, U] = mc.qmpc(sysd, N, R, T, a)
 % Example 3: [Y, T, X, U] = mc.qmpc(sysd, N, R, T, a, Umax)
-% Example 4: [Y, T, X, U] = mc.qmpc(sysd, N, R, T, a, Umax, Ymax)
-% Example 5: [Y, T, X, U] = mc.qmpc(sysd, N, R, T, a, Umax, Ymax, I)
-% Example 6: [Y, T, X, U] = mc.qmpc(sysd, N, R, T, a, Umax, Ymax, I, x0)
+% Example 4: [Y, T, X, U] = mc.qmpc(sysd, N, R, T, a, Umax, S)
+% Example 5: [Y, T, X, U] = mc.qmpc(sysd, N, R, T, a, Umax, S, I)
+% Example 6: [Y, T, X, U] = mc.qmpc(sysd, N, R, T, a, Umax, S, I, x0)
 % Author: Daniel Mårtensson 2022 September 3
 % Update 2023-02-18: Faster quadprog, also renamed quadprog2 to quadprog
 % Update 2024-07-29: Boundaries for input signals and output signals
-% Update 2024-07-30: Soft constraints on output
+% Update 2024-07-30: Soft constraints S on output
 
 function [Y, T, X, U] = qmpc(varargin)
   % Check if there is any input
@@ -197,11 +195,11 @@ function [Y, T, X, U] = qmpc(varargin)
       Umax = R;
     end
 
-    % Get the max output value
+    % Get the slack variable value
     if(length(varargin) >= 7)
-      Ymax = repmat(varargin{7}, N/length(varargin{7}), 1);
+      S = repmat(varargin{7}, N/length(varargin{7}), 1);
     else
-      Ymax = 0;
+      S = 0;
     end
 
     % Get the integral action parameter
@@ -245,7 +243,7 @@ function [Y, T, X, U] = qmpc(varargin)
     % Solve: R = PHI*x + GAMMA*U with quadratic programming: Min: 1/2x^TQx + c^Tx, S.t: Ax <= b, x >= 0
     % Q = a*eye(size(GAMMA))
     % cqp = GAMMA'*Q*(PHI*x - R)
-    % bqp = [R - PHI*x; Umax; 0]
+    % bqp = [S + R - PHI*x; Umax; 0]
     % aqp = [GAMMA; I; -I]
     % qqp = GAMMA'*GAMMA + Q
 
@@ -275,7 +273,7 @@ function [Y, T, X, U] = qmpc(varargin)
       cqp = GAMMA'*Q*(PHI*x - R);
 
       % Update the constraints
-      bqp = [Ymax + R-PHI*x; Umax; Umax*0];
+      bqp = [S + R-PHI*x; Umax; Umax*0];
 
       % Quadratic programming
       if(isOctave == 1)
@@ -286,7 +284,7 @@ function [Y, T, X, U] = qmpc(varargin)
       else
         [u, solution] = mc.quadprog(qqp, cqp, aqp, bqp); % Used for MATLAB users
         if(solution == false)
-          error('Quadratic programming quadprog could not optimize input signals. Try to decrease the horizion N number or remove/change lambda regularization.');
+          error('Quadratic programming quadprog could not optimize input signals. Try to decrease the horizion N number or remove/change lambda regularization. Perhaps increase the slack variable.');
         end
       end
 
