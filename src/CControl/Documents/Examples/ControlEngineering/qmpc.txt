@@ -4,7 +4,7 @@
  Author      : <Your Name Here>
  Version     : 1.0
  Copyright   : MIT
- Description : Model Predictive Control with integral action and constraints on inputs and outputs
+ Description : Model Predictive Control with integral action and hard constraints on inputs and soft constraints on outputs
  ============================================================================
  */
 
@@ -19,7 +19,7 @@
 #define N 10
 #define SAMPLE_TIME 0.5f
 #define SETPOINT 6.0f
-#define LAMBDA 1.2f
+#define LAMBDA 0.2f
 #define MAX_U 0.4f
 #define INTEGRATION_CONSTANT 0.2f
 #define HAS_INTEGRATION_ACTION true
@@ -61,12 +61,13 @@ int main() {
 	cab(GAMMA, PHI, Bi, Ci, row_ai, row_ci, column_bi, N);
 
 	/* Create vectors: x, u, r, Umax */
-	float x[row_ai], u[column_bi], r[row_ci], Umax[column_bi];
+	float x[row_ai], u[column_bi], r[row_ci], Umax[column_bi], Ymax[row_ci];
 	u[0] = 0;
 	r[0] = SETPOINT;
+	Ymax[0] = r[0] + 1.0f;
 	Umax[0] = MAX_U;
-	x[0] = -5;
-	x[1] = -3;
+	x[0] = -3;
+	x[1] = 20;
 	x[2] = 0;
 
 	clock_t start, end;
@@ -74,7 +75,7 @@ int main() {
 	start = clock();
 
 	/* This function should be placed inside a while-loop inside a microcontroller */
-	qmpc(GAMMA, PHI, x, u, Umax, r, row_ai, row_ci, column_bi, N, LAMBDA, HAS_INTEGRATION_ACTION, INTEGRATION_CONSTANT);
+	qmpc(GAMMA, PHI, x, u, Umax, Ymax, r, row_ai, row_ci, column_bi, N, LAMBDA, HAS_INTEGRATION_ACTION, INTEGRATION_CONSTANT);
 
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
@@ -88,3 +89,30 @@ int main() {
 
 	return EXIT_SUCCESS;
 }
+
+/* GNU octave code:
+% You need to install MataveControl from GitHub https://github.com/DanielMartensson/MataveControl/
+
+close all
+clear all
+clc
+
+sys = mc.ss(0, [0 1; -1 -1], [0;1], [1 0]); % SISO state space model
+
+sysd = mc.c2d(sys, 0.5); % To discrete
+
+R = [6]; % Reference for the SISO model. If MIMO -> R need to be a vector
+N = 10; % Horizon predict constant
+T = 35; % Horizon time constant
+lambda = 7; % Regularization for smoother inputs u
+
+I = 0.2; % Integral action constant
+Umax = [0.4]; % Maximum input signal vector
+Ymax = [R + 1]; % We say that the output can be +1 over the reference R
+lambda = 0.2; % Regularization for smoother inputs u
+figure(2); % New figure
+x0 = [-3; 20];
+[y, t, x, u] = mc.qmpc(sysd, N, R, T, lambda, Umax, Ymax, I, x0); % Simulate MPC with quadratic programming
+hold on
+plot(t, u)
+*/

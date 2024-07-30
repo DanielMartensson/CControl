@@ -71,7 +71,7 @@ Main focuses are:
 - Control Engineering
   - Kalman filter update
   - Linear Quadratic Integral regulator
-  - Model Predictive Control with quadratic programming, integral action and constraints on inputs and outputs
+  - Model Predictive Control with integral action, quadratic optimization, hard constraints on inputs and soft constraints on outputs
   - Model Reference Adaptive Control
   - Transfer function to state space
   - Stability check
