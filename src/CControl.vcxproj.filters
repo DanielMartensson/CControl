@@ -92,22 +92,13 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\c2d.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ControlEngineering\kalman.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\ControlEngineering\lqi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CControl\Sources\ControlEngineering\qmpc.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CControl\Sources\ControlEngineering\mrac.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\ControlEngineering\theta2ss.c">
+    <ClCompile Include="CControl\Sources\SystemIdentification\theta2ss.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\SignalProcessing\filtfilt.c">
