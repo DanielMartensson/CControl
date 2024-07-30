@@ -25,7 +25,7 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 	% Solve: R = PHI*x + GAMMA*U with quadratic programming: Min: 1/2x^TQx + c^Tx, S.t: Ax <= b, x >= 0
     % Q = a*eye(size(GAMMA))
     % cqp = GAMMA'*Q*(PHI*x - R)
-    % bqp = [R - PHI*x; Umax; 0]
+    % bqp = [Ymax + R - PHI*x; Umax; Umax*0]
     % aqp = [GAMMA; I; -I]
     % qqp = GAMMA'*GAMMA + Q
 	*/
