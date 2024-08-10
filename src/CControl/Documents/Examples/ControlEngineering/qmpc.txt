@@ -29,7 +29,7 @@ int main() {
 	/* 
 	 * Notice that this is linear MPC. If you're dealing with non-linear systems, use:
 	 * - Multiple linear models and replace the models depending on the state variable
-	 * - Kalman filter (Unscented Kalman Filter is prefered) for estimating the state variable
+	 * - Kalman filter (Unscented Kalman Filter is preferred) for estimating the state variable
 	 *
 	 * If you want to understand Model Predictive Control, you should go to this page:
 	 * https://github.com/DanielMartensson/MataveControl/
