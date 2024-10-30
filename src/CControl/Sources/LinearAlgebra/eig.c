@@ -8,7 +8,7 @@
 #include "linearalgebra.h"
 
  /* Regular routines */
-bool eig_regular(float A[], float dr[], float di[], size_t row);
+bool eig_regular(float A[], float dr[], float di[], float wr[], float wi[], size_t row);
 bool eig_sym(float A[], float d[], float wr[], size_t row);
 
 /* Include LAPACK routines */

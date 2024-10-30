@@ -53,7 +53,7 @@ typedef unsigned long long size_t;
 #define CONV_MAX_KERNEL_FFT_INSTEAD 80  /* When we are going to use FFT with conv or conv2 */
 
 /* Select library by uncomment - If non of these are uncomment, then CControl will use the internal library instead */
-#ifndef ARM_IS_USED
+#ifdef ARM_IS_USED
 #define MKL_LAPACK_USED 				/* For large matrices on a regular computer */
 #define MKL_FFT_USED					/* For large matrices on a regular computer */
 #else

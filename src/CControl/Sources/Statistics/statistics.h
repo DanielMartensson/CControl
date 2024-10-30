@@ -23,7 +23,7 @@ float opa(const float X[], float Y[], const size_t row, const size_t column);
 float var(const float x[], const size_t length);
 float cov(const float x[], const float y[], const size_t length);
 void covm(float X[], float Y[], size_t row, size_t column);
-float giniimpurity(const float x[], const bool is_numerical, const bool labels[], float* threshold, const size_t row);
+float giniimpurity(float x[], const bool is_numerical, const bool labels[], float* threshold, const size_t row);
 INLINE float stddev(const float x[], const size_t length);
 void pca(const float X[], float W[], float P[], float mu[], const size_t c, const size_t row, const size_t column);
 void lda(const float X[], const uint8_t y[], float W[], float P[], const size_t c, const size_t row, const size_t column);

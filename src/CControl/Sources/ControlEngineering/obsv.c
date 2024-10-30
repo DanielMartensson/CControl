@@ -14,7 +14,7 @@
   * C[row_c*row_a]
   * PHI[(N*row_c)*row_a]
   */
-void obsv(float PHI[], float A[], float C[], size_t row_a, size_t row_c, size_t N) {
+void obsv(float PHI[], const float A[], const float C[], const size_t row_a, const size_t row_c, const size_t N) {
 	/* Decleration */
 	size_t i;
 
