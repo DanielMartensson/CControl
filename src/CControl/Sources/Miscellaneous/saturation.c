@@ -10,7 +10,7 @@
 /*
  * This will saturate the input value with limits
  */
-INLINE float saturation(const float input, const float lower_limit, const float upper_limit){
+float saturation(const float input, const float lower_limit, const float upper_limit){
 	if(input > upper_limit){
 		return upper_limit;
 	}else if(input < lower_limit){

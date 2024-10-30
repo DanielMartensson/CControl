@@ -12,6 +12,6 @@
  * x[L] Vector with values
  * L = Length of vector x
  */
-INLINE float stddev(const float x[], const size_t length) {
+float stddev(const float x[], const size_t length) {
 	return sqrtf(var(x, length));
 }

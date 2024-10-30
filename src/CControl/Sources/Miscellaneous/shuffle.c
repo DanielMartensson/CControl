@@ -26,7 +26,7 @@ void shuffle(float X[], size_t index[], const bool row_wise, const size_t row, c
 			index[i] = i;
 		}
 		for (i = 0; i < row; i++) {
-			size_t p = randi(row);
+            size_t p = randi(row);
 			/* Do swapping */
 			SWAP(index[p], index[i], size_t);
 			memcpy(temp, X + i * column, column_bytes);

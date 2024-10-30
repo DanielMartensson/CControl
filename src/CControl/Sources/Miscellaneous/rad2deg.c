@@ -10,6 +10,6 @@
 /*
  * Turn radians into degrees
  */
-INLINE float rad2deg(const float radians) {
+float rad2deg(const float radians) {
 	return radians * 180.0f / PI;
 }

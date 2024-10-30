@@ -26,68 +26,68 @@
 
 int main() {
 
-	/* Create A matrix */
-	float A[row_a * row_a] = { 0, 1,
-							  -1, -1 };
+    /* Create A matrix */
+    float A[row_a * row_a] = { 0, 1,
+                              -1, -1 };
 
-	/* Create B matrix */
-	float B[row_a * column_b] = { 0, 
-		                          1 };
+    /* Create B matrix */
+    float B[row_a * column_b] = { 0,
+                                  1 };
 
-	/* Create C matrix */
-	float C[row_c * row_a] = { 1, 0};
+    /* Create C matrix */
+    float C[row_c * row_a] = { 1, 0};
 
-	/* Turn the SS model into a discrete SS model */
-	c2d(A, B, row_a, column_b, SAMPLE_TIME);
+    /* Turn the SS model into a discrete SS model */
+    c2d(A, B, row_a, column_b, SAMPLE_TIME);
 
-	/* Create Ai matrix */
-	float Ai[row_ai * row_ai];
+    /* Create Ai matrix */
+    float Ai[row_ai * row_ai];
 
-	/* Create Bi matrix */
-	float Bi[row_ai * column_bi];
+    /* Create Bi matrix */
+    float Bi[row_ai * column_bi];
 
-	/* Create Ci matrix */
-	float Ci[row_ci * row_ai];
+    /* Create Ci matrix */
+    float Ci[row_ci * row_ai];
 
-	/* Add integral action */
-	ssint(A, B, C, Ai, Bi, Ci, row_a, column_b, row_c);
-	
-	/* Create PHI matrix */
-	float PHI[(N * row_ci) * row_ai];
-	obsv(PHI, Ai, Ci, row_ai, row_ci, N);
+    /* Add integral action */
+    ssint(A, B, C, Ai, Bi, Ci, row_a, column_b, row_c);
 
-	/* Create GAMMA matrix */
-	float GAMMA[(N * row_ci) * (N * column_bi)];
-	cab(GAMMA, PHI, Bi, Ci, row_ai, row_ci, column_bi, N);
+    /* Create PHI matrix */
+    float PHI[(N * row_ci) * row_ai];
+    obsv(PHI, Ai, Ci, row_ai, row_ci, N);
 
-	/* Create vectors: state vector x, input signal u, reference vector r, maximum output signal Umax, slack variable values S */
-	float x[row_ai], u[column_bi], r[row_ci], Umax[column_bi], S[row_ci];
-	u[0] = 0;
-	r[0] = SETPOINT;
-	S[0] = 2.0f;
-	Umax[0] = MAX_U;
-	x[0] = -3;
-	x[1] = 20;
-	x[2] = 0;
+    /* Create GAMMA matrix */
+    float GAMMA[(N * row_ci) * (N * column_bi)];
+    cab(GAMMA, PHI, Bi, Ci, row_ai, row_ci, column_bi, N);
 
-	clock_t start, end;
-	float cpu_time_used;
-	start = clock();
+    /* Create vectors: state vector x, input signal u, reference vector r, maximum output signal Umax, slack variable values S */
+    float x[row_ai], u[column_bi], r[row_ci], Umax[column_bi], S[row_ci];
+    u[0] = 0;
+    r[0] = SETPOINT;
+    S[0] = 2.0f;
+    Umax[0] = MAX_U;
+    x[0] = -3;
+    x[1] = 20;
+    x[2] = 0;
 
-	/* This function should be placed inside a while-loop inside a microcontroller */
-	qmpc(GAMMA, PHI, x, u, Umax, S, r, row_ai, row_ci, column_bi, N, LAMBDA, HAS_INTEGRATION_ACTION, INTEGRATION_CONSTANT);
+    clock_t start, end;
+    float cpu_time_used;
+    start = clock();
 
-	end = clock();
-	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
-	printf("\nTotal speed  was %f\n", cpu_time_used);
+    /* This function should be placed inside a while-loop inside a microcontroller */
+    qmpc(GAMMA, PHI, x, u, Umax, S, r, row_ai, row_ci, column_bi, N, LAMBDA, HAS_INTEGRATION_ACTION, INTEGRATION_CONSTANT);
 
-	/* Print the output signal */
-	print(u, column_bi, 1);
+    end = clock();
+    cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+    printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	/* Detect memory leak */
-	detectmemoryleak();
+    /* Print the output signal */
+    print(u, column_bi, 1);
 
-	return EXIT_SUCCESS;
+    /* Detect memory leak */
+    detectmemoryleak();
+
+    return EXIT_SUCCESS;
 }
 
 /* GNU octave code:

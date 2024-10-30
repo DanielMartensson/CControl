@@ -92,7 +92,7 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 	scalar(cqp, lambda, N * column_b);
 
 	/* Find the optimal solution with quadprog - We are using R as the output, instead of u */
-	quadprog(qqp, cqp, aqp, bqp, NULL, NULL, R, N * row_c + N * column_b + N * column_b, 0, N * column_b, false);
+    quadprog(qqp, cqp, aqp, bqp, NULL, NULL, R, N * row_c + N * column_b + N * column_b, 0, N * column_b, false);
 
     /* We select the best input values, depending on if we have integration behavior or not in our model */
 	if(has_integration_action){

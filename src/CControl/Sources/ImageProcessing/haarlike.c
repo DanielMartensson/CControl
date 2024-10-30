@@ -8,8 +8,8 @@
 #include "imageprocessing.h"
 
 /* Private functions */
-INLINE static uint32_t compute_area(const uint32_t X[], const uint8_t column, const uint8_t x1, const uint8_t x2, const uint8_t y1, const uint8_t y2);
-INLINE static void generate_9x9(HAARLIKE_FEATURE* feature, const HAARLIKE_FEATURE_CHOICE feature_choice, const uint8_t row, const uint8_t column);
+static uint32_t compute_area(const uint32_t X[], const uint8_t column, const uint8_t x1, const uint8_t x2, const uint8_t y1, const uint8_t y2);
+static void generate_9x9(HAARLIKE_FEATURE* feature, const HAARLIKE_FEATURE_CHOICE feature_choice, const uint8_t row, const uint8_t column);
 
 /*
  * Return the randomly genereated Haar-Like features 
@@ -1025,7 +1025,7 @@ int8_t haarlike_predict(const uint32_t X[], const HAARLIKE_FEATURE* feature, con
 	}
 }
 
-INLINE static uint32_t compute_area(const uint32_t X[], const uint8_t column, const uint8_t x1, const uint8_t x2, const uint8_t y1, const uint8_t y2) {
+static uint32_t compute_area(const uint32_t X[], const uint8_t column, const uint8_t x1, const uint8_t x2, const uint8_t y1, const uint8_t y2) {
 	const uint32_t A = X[y1 * column + x1];
 	const uint32_t B = X[y1 * column + x2] - A;
 	const uint32_t C = X[y2 * column + x1] - A;
@@ -1033,7 +1033,7 @@ INLINE static uint32_t compute_area(const uint32_t X[], const uint8_t column, co
 	return D;
 }
 
-INLINE static void generate_9x9(HAARLIKE_FEATURE* feature, const HAARLIKE_FEATURE_CHOICE feature_choice, const uint8_t row, const uint8_t column) {
+static void generate_9x9(HAARLIKE_FEATURE* feature, const HAARLIKE_FEATURE_CHOICE feature_choice, const uint8_t row, const uint8_t column) {
 	feature->haarlike_feature_choice = feature_choice;
 	feature->x1 = randi(column);
 	feature->y1 = randi(row);

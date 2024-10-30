@@ -2,7 +2,7 @@
  * macros.h
  *
  *  Created on: 8 November 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel M?rtensson
  */
 
 #ifndef MACROS_H_
@@ -13,12 +13,5 @@
 
 /* Swap macro */
 #define SWAP(x, y, T) do { T SWAP = x; x = y; y = SWAP; } while (0)
-
-/* Declare inline */
-#ifndef IS_C89
-#define INLINE inline
-#else
-#define INLINE
-#endif /* !IS_C89 */
 
 #endif /* !MACROS_H_*/

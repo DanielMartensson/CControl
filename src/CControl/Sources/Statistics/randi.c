@@ -10,6 +10,6 @@
 /* 
  * Compute random number between 0 and x - 1
  */
-INLINE size_t randi(const size_t x) {
+size_t randi(const size_t x) {
 	return rand() % x;
 }

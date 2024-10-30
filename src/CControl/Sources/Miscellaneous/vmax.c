@@ -10,7 +10,7 @@
 /*
  * Return max value of a and b
  */
-INLINE float vmax(const float a, const float b){
+float vmax(const float a, const float b){
 	if (a > b) {
 		return a;
 	}
