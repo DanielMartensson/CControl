@@ -16,6 +16,10 @@
 #include <intrin.h>
 #endif /* !_MSC_VER */
 
+/* Load the MKL library
+#include <mkl.h>
+*/
+
 /* CControl headers */
 #include "defines.h"
 #include "enums.h"
@@ -23,11 +27,6 @@
 #include "functions.h"
 #include "structs.h"
 #include "unions.h"
-
-/* Load the MKL library */
-#if defined(MKL_LAPACK_USED) || defined(MKL_FFT_USED)
-#include <mkl.h>
-#endif
 
 /* CControl functions */
 #include "../Sources/sources.h"
