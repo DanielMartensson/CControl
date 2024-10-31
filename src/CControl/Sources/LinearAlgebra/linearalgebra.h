@@ -31,7 +31,7 @@ bool linsolve_chol(float A[], float x[], float b[], size_t row);
 void pinv(float A[], size_t row, size_t column);
 bool hankel(float V[], float H[], size_t row_v, size_t column_v, size_t row_h, size_t column_h, size_t shift);
 void balance(float A[], size_t row);
-bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row);
+bool eig(const float A[], float dr[], float di[], float wr[], float wi[], size_t row);
 bool eig_generalized(float A[], float B[], size_t row, float dr[], float di[], float wr[], float wi[]);
 float norm(const float X[], const size_t row, const size_t column, const NORM_METHOD norm_method);
 bool expm(float A[], const size_t row);

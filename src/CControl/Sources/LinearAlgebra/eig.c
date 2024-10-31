@@ -26,9 +26,14 @@ bool eig_sym(float A[], float d[], float wr[], size_t row);
  * Return true = success
  * Return false = fail
  */
-bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) {
+bool eig(const float A[], float dr[], float di[], float wr[], float wi[], size_t row) {
+    /* Create copy */
+    size_t i = row * row * sizeof(float);
+    float* A_copy = (float*)malloc(i);
+    memcpy(A_copy, A, i);
+
 	/* Check if matrix is symmetric */
-	bool symmetric = issymmetric(A, row, row);
+    bool symmetric = issymmetric(A_copy, row, row);
 
 	/* Status flag */
 	bool status = false;
@@ -36,7 +41,7 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 #ifdef CLAPACK_USED
 	if (symmetric) {
 		/* Compute the SVD is the same for EIG for a symmetric matrix */
-		status = svd(A, row, row, wr, dr, wi);
+        status = svd(A_copy, row, row, wr, dr, wi);
 		memset(wi, 0, row * row * sizeof(float));
 		memset(di, 0, row * sizeof(float));
 	}else{
@@ -50,18 +55,18 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 
 		/* Allocate memory */
 		lwork = -1;
-		sgeev_("V", "N", &n, A, &lda, dr, di, vl, &ldvl, vr, &ldvr, &wkopt, &lwork, &info);
+        sgeev_("V", "N", &n, A_copy, &lda, dr, di, vl, &ldvl, vr, &ldvr, &wkopt, &lwork, &info);
 		lwork = (integer)wkopt;
 		real* work = (real*)malloc(lwork * sizeof(real));
 
 		/* Compute  */
-		sgeev_("V", "N", &n, A, &lda, dr, di, vl, &ldvl, vr, &ldvr, work, &lwork, &info);
+        sgeev_("V", "N", &n, A_copy, &lda, dr, di, vl, &ldvl, vr, &ldvr, work, &lwork, &info);
 
 		/* Check status */
 		status = info == 0;
 
 		/* Fill the eigenvectors in row major */
-		size_t i, j, s = 0, t = 0;
+        size_t j, s = 0, t = 0;
 		memset(wi, 0, row * row * sizeof(float));
 		for (i = 0; i < n; i++) {
 			if (fabsf(di[i]) < MIN_VALUE) {
@@ -95,11 +100,6 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 		memset(di, 0, row * sizeof(float));
 	}
 	else {
-		/* Create copy */
-		size_t i = row * row * sizeof(float);
-		float* A_copy = (float*)malloc(i);
-		memcpy(A_copy, A, i);
-
 		/* Eigenvalues and eigenvectors */
 		float* vl = (float*)malloc(i);
 		float* vr = (float*)malloc(i);
@@ -144,6 +144,9 @@ bool eig(float A[], float dr[], float di[], float wr[], float wi[], size_t row) 
 		status = eig_regular(A, dr, di, wr, wi, row);
 	}
 #endif
+
+    /* Free */
+    free(A_copy);
 
 	/* Return status */
 	return status;

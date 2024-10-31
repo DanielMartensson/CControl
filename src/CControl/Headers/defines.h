@@ -2,7 +2,7 @@
  * defines.h
  *
  *  Created on: 20 Juli. 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel M?rtensson
  */
 
 #ifndef DEFINES_H_
@@ -38,7 +38,7 @@ typedef unsigned long long size_t;
 
 /* For memory leaks in Visual Studio */
 #ifdef _MSC_VER
-#define _CRTDBG_MAP_ALLOC 				
+#define _CRTDBG_MAP_ALLOC
 #endif /* !_MSC_VER */
 
 /* If ARM compiler is used */
@@ -53,11 +53,11 @@ typedef unsigned long long size_t;
 #define CONV_MAX_KERNEL_FFT_INSTEAD 80  /* When we are going to use FFT with conv or conv2 */
 
 /* Select library by uncomment - If non of these are uncomment, then CControl will use the internal library instead */
-#ifdef __INTEL_MKL__
+#ifdef ARM_IS_USED
 #define MKL_LAPACK_USED 				/* For large matrices on a regular computer */
 #define MKL_FFT_USED					/* For large matrices on a regular computer */
 #else
 #define CLAPACK_USED   					/* For larger embedded systems */
-#endif /* !__INTEL_MKL__ */
+#endif /* !ARM_IS_USED */
 
 #endif /* !DEFINES_H_ */

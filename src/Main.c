@@ -66,7 +66,7 @@ int main() {
     r[0] = SETPOINT;
     S[0] = 2.0f;
     Umax[0] = MAX_U;
-    x[0] = -3;
+    x[0] = -8;
     x[1] = 20;
     x[2] = 0;
 
