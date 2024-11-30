@@ -11,7 +11,7 @@
 #include "CControl/ccontrol.h"
 
  /* Our transition function - This is the orifice equation Q = a*sqrt(P2 - P1) for hydraulics */
-void G(float dw[], float x[], float w[]) {
+void G(float dw[], const float x[], const float w[]) {
 	dw[0] = w[0] * sqrtf(x[1] - x[0]);
 
 	/* We only need to use w[0] so we assume that w[1] and w[2] will become close to 1.0 */

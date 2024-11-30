@@ -7,14 +7,14 @@
 
 #include "signalprocessing.h"
 
-static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, size_t L);
-static void create_sigma_point_matrix(float X[], float x[], float S[], float alpha, float kappa, size_t L);
-static void compute_transistion_function(float Xstar[], float X[], float u[], void (*F)(float[], float[], float[]), size_t L);
-static void multiply_sigma_point_matrix_to_weights(float x[], float X[], float W[], size_t L);
-static void create_state_estimation_error_covariance_matrix(float S[], float W[], float X[], float x[], float R[], size_t L);
-static void H(float Y[], float X[], size_t L);
-static void create_state_cross_covariance_matrix(float P[], float W[], float X[], float Y[], float x[], float y[], size_t L);
-static void update_state_covarariance_matrix_and_state_estimation_vector(float S[], float xhat[], float yhat[], float y[], float Sy[], float Pxy[], size_t L);
+static void create_weights(float Wc[], float Wm[], const float alpha, const float beta, const float kappa, const size_t L);
+static void create_sigma_point_matrix(float X[], const float x[], const float S[], const float alpha, const float kappa, const size_t L);
+static void compute_transistion_function(float Xstar[], float X[], const float u[], void (*F)(float[], const float[], const float[]), const size_t L);
+static void multiply_sigma_point_matrix_to_weights(float x[], const float X[], const float W[], const size_t L);
+static void create_state_estimation_error_covariance_matrix(float S[], const float W[], const float X[], const float x[], const float R[], const size_t L);
+static void H(float Y[], const float X[], const size_t L);
+static void create_state_cross_covariance_matrix(float P[], const float W[], float X[], float Y[], const float x[], const float y[], const size_t L);
+static void update_state_covarariance_matrix_and_state_estimation_vector(float S[], float xhat[], const float yhat[], const float y[], const float Sy[], const float Pxy[], const size_t L);
 
 /*
  * Square Root Unscented Kalman Filter For State Estimation (A better version than regular UKF)
@@ -30,22 +30,22 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
  * xhat[L] = Estimated state (our input)
  * y[L] = Measurement state (our output)
  */
-void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], float u[], void (*F)(float[], float[], float[]), float S[], float alpha, float beta, size_t L){
+void sr_ukf_state_estimation(const float y[], const float xhat[], const float Rn[], const float Rv[], const float u[], void (*F)(float[], const float[], const float[]), float S[], const float alpha, const float beta, const size_t L){
 	/* Create the size N */
-	size_t N = 2 * L + 1;
+	const size_t N = 2 * L + 1;
 
 	/* Predict: Create the weights */
-	float *Wc = (float*)malloc(N * sizeof(float));
-	float *Wm = (float*)malloc(N * sizeof(float));
-	float kappa = 0.0f; /* kappa is 0 for state estimation */
+	float* Wc = (float*)malloc(N * sizeof(float));
+	float* Wm = (float*)malloc(N * sizeof(float));
+	const float kappa = 0.0f; /* kappa is 0 for state estimation */
 	create_weights(Wc, Wm, alpha, beta, kappa, L);
 
 	/* Predict: Create sigma point matrix for F function  */
-	float *X = (float*)malloc(L * N * sizeof(float));
+	float* X = (float*)malloc(L * N * sizeof(float));
 	create_sigma_point_matrix(X, xhat, S, alpha, kappa, L);
 
 	/* Predict: Compute the transition function F */
-	float *Xstar = (float*)malloc(L * N * sizeof(float));
+	float* Xstar = (float*)malloc(L * N * sizeof(float));
 	compute_transistion_function(Xstar, X, u, F, L);
 
 	/* Predict: Multiply sigma points to weights for xhat */
@@ -58,19 +58,19 @@ void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], fl
 	create_sigma_point_matrix(X, xhat, S, alpha, kappa, L);
 
 	/* Predict: Compute the observability function H */
-	float *Y = (float*)malloc(L * N * sizeof(float));
+	float* Y = (float*)malloc(L * N * sizeof(float));
 	H(Y, X, L);
 
 	/* Predict: Multiply sigma points to weights for yhat */
-	float *yhat = (float*)malloc(L * sizeof(float));
+	float* yhat = (float*)malloc(L * sizeof(float));
 	multiply_sigma_point_matrix_to_weights(yhat, Y, Wm, L);
 
 	/* Update: Create measurement covariance matrix */
-	float *Sy = (float*)malloc(L * L * sizeof(float));
+	float* Sy = (float*)malloc(L * L * sizeof(float));
 	create_state_estimation_error_covariance_matrix(Sy, Wc, Y, yhat, Rn, L);
 
 	/* Update: Create state covariance matrix */
-	float *Pxy = (float*)malloc(L * L * sizeof(float));
+	float* Pxy = (float*)malloc(L * L * sizeof(float));
 	create_state_cross_covariance_matrix(Pxy, Wc, X, Y, xhat, yhat, L);
 
 	/* Update: Perform state update and covariance update */
@@ -87,12 +87,12 @@ void sr_ukf_state_estimation(float y[], float xhat[], float Rn[], float Rv[], fl
 	free(Pxy);
 }
 
-static void create_weights(float Wc[], float Wm[], float alpha, float beta, float kappa, size_t L){
+static void create_weights(float Wc[], float Wm[], const float alpha, const float beta, const float kappa, const size_t L){
 	/* Create the size N */
-	size_t N = 2 * L + 1;
+	const size_t N = 2 * L + 1;
 
 	/* Compute lambda and gamma parameters */
-	float lambda = alpha * alpha * (L + kappa) - L;
+	const float lambda = alpha * alpha * (L + kappa) - L;
 
 	/* Insert at first index */
 	Wm[0] = lambda/(L + lambda);
@@ -106,17 +106,17 @@ static void create_weights(float Wc[], float Wm[], float alpha, float beta, floa
 	}
 }
 
-static void create_sigma_point_matrix(float X[], float x[], float S[], float alpha, float kappa, size_t L){
+static void create_sigma_point_matrix(float X[], const float x[], const float S[], const float alpha, const float kappa, const size_t L){
 	/* Decleration */
 	size_t i, j;
 
 	/* Create the size N and K */
-	size_t N = 2 * L + 1;
-	size_t K = L + 1;
+	const size_t N = 2 * L + 1;
+	const size_t K = L + 1;
 
 	/* Compute lambda and gamma parameters */
-	float lambda = alpha * alpha * (L + kappa) - L;
-	float gamma = sqrtf(L + lambda);
+	const float lambda = alpha * alpha * (L + kappa) - L;
+	const float gamma = sqrtf(L + lambda);
 
 	/* Insert first column in X */
 	for (i = 0; i < L; i++) {
@@ -139,16 +139,16 @@ static void create_sigma_point_matrix(float X[], float x[], float S[], float alp
 
 }
 
-static void compute_transistion_function(float Xstar[], float X[], float u[], void (*F)(float[], float[], float[]), size_t L){
+static void compute_transistion_function(float Xstar[], float X[], const float u[], void (*F)(float[], const float[], const float[]), const size_t L){
 	/* Decleration */
 	size_t i, j;
 	
 	/* Create the size N */
-	size_t N = 2 * L + 1;
+	const size_t N = 2 * L + 1;
 
 	/* Create the derivative state and state vector */
-	float *dx = (float*)malloc(L * sizeof(float));
-	float *x = (float*)malloc(L * sizeof(float));
+	float* dx = (float*)malloc(L * sizeof(float));
+	float* x = (float*)malloc(L * sizeof(float));
 
 	/* Call the F transition function with X matrix */
 	for(j = 0; j < N; j++){
@@ -171,12 +171,12 @@ static void compute_transistion_function(float Xstar[], float X[], float u[], vo
 	free(x);
 }
 
-static void multiply_sigma_point_matrix_to_weights(float x[], float X[], float W[], size_t L){
+static void multiply_sigma_point_matrix_to_weights(float x[], const float X[], const float W[], const size_t L){
 	/* Decleration */
 	size_t i, j;
 	
 	/* Create the size N */
-	size_t N = 2 * L + 1;
+	const size_t N = 2 * L + 1;
 
 	/* Clear x */
 	memset(x, 0, L * sizeof(float));
@@ -190,22 +190,22 @@ static void multiply_sigma_point_matrix_to_weights(float x[], float X[], float W
 
 }
 
-static void create_state_estimation_error_covariance_matrix(float S[], float W[], float X[], float x[], float R[], size_t L){
+static void create_state_estimation_error_covariance_matrix(float S[], const float W[], const float X[], const float x[], const float R[], const size_t L){
 	/* Decleration */
 	size_t i, j;
 	
 	/* Create the size N, M and K */
-	size_t N = 2 * L + 1;
-	size_t M = 2 * L + L;
-	size_t K = 2 * L;
+	const size_t N = 2 * L + 1;
+	const size_t M = 2 * L + L;
+	const size_t K = 2 * L;
 
 	/* Square root parameter of index 1 */
-	float weight1 = sqrtf(fabsf(W[1]));
+	const float weight1 = sqrtf(fabsf(W[1]));
 
 	/* Create [Q, R_] = qr(A') */
-	float *AT = (float*)malloc(L * M * sizeof(float));
-	float *Q = (float*)malloc(M * M * sizeof(float));
-	float *R_ = (float*)malloc(M * L * sizeof(float));
+	float* AT = (float*)malloc(L * M * sizeof(float));
+	float* Q = (float*)malloc(M * M * sizeof(float));
+	float* R_ = (float*)malloc(M * L * sizeof(float));
 	for(j = 0; j < K; j++){
 		for(i = 0; i < L; i++){
 			AT[i*M + j] = weight1 * (X[i * N + j+1] - x[i]);
@@ -227,11 +227,11 @@ static void create_state_estimation_error_covariance_matrix(float S[], float W[]
 	memcpy(S, R_, L * L * sizeof(float));
 
 	/* Perform cholesky update on S */
-	float *b = (float*)malloc(L * sizeof(float));
+	float* b = (float*)malloc(L * sizeof(float));
 	for (i = 0; i < L; i++) {
 		b[i] = X[i * N] - x[i];
 	}
-	bool rank_one_update = W[0] < 0.0f ? false : true;
+	const bool rank_one_update = W[0] < 0.0f ? false : true;
 	cholupdate(S, b, L, rank_one_update);
 
 	/* Free */
@@ -241,21 +241,21 @@ static void create_state_estimation_error_covariance_matrix(float S[], float W[]
 	free(b);
 }
 
-static void H(float Y[], float X[], size_t L){
+static void H(float Y[], const float X[], const size_t L){
 	/* Create the size N */
-	size_t N = 2 * L + 1;
+	const size_t N = 2 * L + 1;
 
 	/* Compute Y = I*X where I is identity matrix */
 	memcpy(Y, X, L * N * sizeof(float));
 }
 
-static void create_state_cross_covariance_matrix(float P[], float W[], float X[], float Y[], float x[], float y[], size_t L){
+static void create_state_cross_covariance_matrix(float P[], const float W[], float X[], float Y[], const float x[], const float y[], const size_t L){
 	/* Decleration */
 	size_t i, j;
 	
 	/* Create the size N and K */
-	size_t N = 2 * L + 1;
-	size_t K = 2 * L;
+	const size_t N = 2 * L + 1;
+	const size_t K = 2 * L;
 
 	/* clear P */
 	memset(P, 0, K * sizeof(float));
@@ -269,7 +269,7 @@ static void create_state_cross_covariance_matrix(float P[], float W[], float X[]
 	}
 
 	/* Create diagonal matrix */
-	float *diagonal_W = (float*)malloc(N * N * sizeof(float));
+	float* diagonal_W = (float*)malloc(N * N * sizeof(float));
 	memset(diagonal_W, 0, N*N*sizeof(float));
 	for (i = 0; i < N; i++) {
 		diagonal_W[i * N + i] = W[i];
@@ -277,7 +277,7 @@ static void create_state_cross_covariance_matrix(float P[], float W[], float X[]
 
 	/* Do P = X*diagonal_W*Y' */
 	tran(Y, L, N);
-	float *diagonal_WY = (float*)malloc(N * L * sizeof(float));
+	float* diagonal_WY = (float*)malloc(N * L * sizeof(float));
 	mul(diagonal_W, Y, diagonal_WY, N, N, L);
 	mul(X, diagonal_WY, P, L, N, L);
 
@@ -286,29 +286,29 @@ static void create_state_cross_covariance_matrix(float P[], float W[], float X[]
 	free(diagonal_WY);
 }
 
-static void update_state_covarariance_matrix_and_state_estimation_vector(float S[], float xhat[], float yhat[], float y[], float Sy[], float Pxy[], size_t L){
+static void update_state_covarariance_matrix_and_state_estimation_vector(float S[], float xhat[], const float yhat[], const float y[], const float Sy[], const float Pxy[], const size_t L){
 	/* Decleration */
 	size_t i, j;
 	
 	/* Transpose of Sy */
-	float *SyT = (float*)malloc(L * L * sizeof(float));
+	float* SyT = (float*)malloc(L * L * sizeof(float));
 	memcpy(SyT, Sy, L * L * sizeof(float));
 	tran(SyT, L, L);
 
 	/* Multiply Sy and Sy' to Sy'Sy */
-	float *SyTSy = (float*)malloc(L * L * sizeof(float));
+	float* SyTSy = (float*)malloc(L * L * sizeof(float));
 	mul(SyT, Sy, SyTSy, L, L, L);
 
 	/* Take inverse of Sy'Sy - Inverse is using LUP-decomposition */
 	inv(SyTSy, L);
 
 	/* Compute kalman gain K from Sy'Sy * K = Pxy => K = Pxy * inv(SyTSy) */
-	float *K = (float*)malloc(L * L * sizeof(float));
+	float* K = (float*)malloc(L * L * sizeof(float));
 	mul(Pxy, SyTSy, K, L, L, L);
 
 	/* Compute xhat = xhat + K*(y - yhat) */
-	float *yyhat = (float*)malloc(L * sizeof(float));
-	float *Ky = (float*)malloc(L * sizeof(float));
+	float* yyhat = (float*)malloc(L * sizeof(float));
+	float* Ky = (float*)malloc(L * sizeof(float));
 	for (i = 0; i < L; i++) {
 		yyhat[i] = y[i] - yhat[i];
 	}
@@ -318,11 +318,11 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
 	}
 
 	/* Compute U = K*Sy */
-	float *U = (float*)malloc(L * L * sizeof(float));
+	float* U = (float*)malloc(L * L * sizeof(float));
 	mul(K, Sy, U, L, L, L);
 
 	/* Compute S = cholupdate(S, Uk, -1) because Uk is a vector and U is a matrix */
-	float *Uk = (float*)malloc(L * sizeof(float));
+	float* Uk = (float*)malloc(L * sizeof(float));
 	for(j = 0; j < L; j++){
 		for (i = 0; i < L; i++) {
 			Uk[i] = U[i * L + j];

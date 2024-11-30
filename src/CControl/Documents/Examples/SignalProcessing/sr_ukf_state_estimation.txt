@@ -11,7 +11,7 @@
 #include "CControl/ccontrol.h"
 
  /* Our transition function */
-void F(float dx[], float x[], float u[]) {
+void F(float dx[], const float x[], const float u[]) {
 	dx[0] = x[1];
 	dx[1] = x[2];
 	dx[2] = 0.05 * x[0] * (x[1] + x[2]);

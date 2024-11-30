@@ -22,7 +22,7 @@ bool lup(float A[], float LU[], int P[], size_t row);
 float det(float A[], size_t row);
 bool linsolve_lup(float A[], float x[], float b[], size_t row);
 bool chol(float A[], float L[], size_t row);
-void cholupdate(float L[], float x[], size_t row, bool rank_one_update);
+void cholupdate(float L[], float x[], const size_t row, const bool rank_one_update);
 void conv(const float a[], const float k[], float b[], const size_t row_a, const size_t row_k, const CONV_SHAPE shape);
 void conv2(const float A[], const float K[], float B[], const size_t row_a, const size_t column_a, const size_t row_k, const size_t column_k, const CONV_SHAPE shape);
 void conv2fft(const float A[], const float K[], float B[], const size_t row_a, const size_t column_a, const size_t row_k);

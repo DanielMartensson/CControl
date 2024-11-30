@@ -14,7 +14,7 @@
  * x [m]
  * n == m
  */
-void cholupdate(float L[], float x[], size_t row, bool rank_one_update){
+void cholupdate(float L[], float x[], const size_t row, const bool rank_one_update){
 	/* Decleration */
 	size_t i, k;
 
