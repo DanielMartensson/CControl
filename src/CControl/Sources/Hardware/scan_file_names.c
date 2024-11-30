@@ -62,7 +62,7 @@ size_t scan_file_names(const char folder_path[], char** file_names[], const char
 }
 #else
 size_t scan_file_names(const char folder_path[], char** file_names[], const char ending[]) {
-	print("scan_file_names.c not implemented for your operative system!\n");
+	printf("scan_file_names.c not implemented for your operative system!\n");
 	return 0;
 }
 #endif
