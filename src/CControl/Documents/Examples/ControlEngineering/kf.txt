@@ -1,0 +1,141 @@
+/*
+ ============================================================================
+ Name        : kf.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Estimate state vector using linear kalman filter
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+#define row_a 1
+#define row_c 1
+#define column_b 1
+#define L 20
+
+int main() {
+
+	/* Create matrices */
+	float A[row_a] = { 9.9154e-01 };
+	float B[row_a * column_b] = { 4.8969e-03 };
+	float C[row_c * row_a] = { 1.0f };
+	float Q[row_a * row_a] = { 0.05f };
+	float R[row_c * row_c] = { 1.0f };
+	float P[row_a * row_a] = { 1.0f };
+
+	/* Create vector */
+	float xhat[row_a] = { 0 };
+
+	/* Create data */
+	float u[L] = { 0, 335.926, 335.926, 335.926, 335.841, 335.926, 335.926, 335.926, 335.926, 335.841, 335.926, 335.841, 335.841, 335.926, 335.841, 335.926, 335.841, 335.841, 335.841, 334.899 };
+	float y[L] = { 0, 199.438, 199.438, 200.578, 199.362, 199.286, 199.438, 199.97, 199.362, 200.578, 199.362, 199.134, 199.134, 199.286, 199.362, 198.906, 199.362, 199.362, 199.286, 199.438 };
+
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
+
+	/* Compute kalman filter */
+	uint8_t i;
+	for (i = 0; i < L; i++) {
+		kf(A, B, C, &u[i], &y[i], Q, R, xhat, P, row_a, row_c, column_b);
+
+		/* Print the xhat and P */
+		printf("xhat[%i] = %f\nP[%i] = %f\n", i, xhat[0], i, P[0]);
+	}
+
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
+
+
+	return EXIT_SUCCESS;
+}
+
+/*
+GNU Octave code:
+
+function test1
+  clc;
+  clear;
+
+  % Load the data
+  X = csvread('Measurement_WellerToJBC.csv');
+  setpoint = X(:, 2);
+  temperature = X(:, 3);
+
+  % Fix some corrupted data points
+  setpoint(setpoint < 0) = [];
+  for i = 2:length(temperature)
+	if(temperature(i) < 50)
+	  temperature(i) = temperature(i - 1);
+	end
+  end
+
+  % Same length as temperature
+  setpoint(end + 1) = setpoint(end);
+
+  % Create first order model
+  sys = mc.ss(0, 9.9154e-01, 4.8969e-03);
+
+  % Disturbance covariance
+  Q = 0.05;
+
+  % Noise covariance
+  R = 1;
+
+  setpoint = [0
+335.926
+335.926
+335.926
+335.841
+335.926
+335.926
+335.926
+335.926
+335.841
+335.926
+335.841
+335.841
+335.926
+335.841
+335.926
+335.841
+335.841
+335.841
+334.899];
+
+temperature = [0
+199.438
+199.438
+200.578
+199.362
+199.286
+199.438
+199.97
+199.362
+200.578
+199.362
+199.134
+199.134
+199.286
+199.362
+198.906
+199.362
+199.362
+199.286
+199.438];
+
+  % Kalman filter
+  xhat = mi.kf(sys, setpoint', temperature', Q, R)
+
+  % Plot
+  plot(xhat);
+  hold on
+  plot(temperature);
+  legend('Estimated', 'Real');
+  grid on
+
+end
+*/
