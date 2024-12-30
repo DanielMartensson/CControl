@@ -509,6 +509,9 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\ssint.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\ControlEngineering\kf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

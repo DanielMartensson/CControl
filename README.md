@@ -75,6 +75,7 @@ Main focuses are:
   - Observability matrix
   - Lower triangular toeplitz of extended observability matrix
   - Add integral action into a state space model
+  - Linear kalman filter for microcontrollers
 
 - Computer Vision
   - Generalized Hough Transform for arbitrary shapes
