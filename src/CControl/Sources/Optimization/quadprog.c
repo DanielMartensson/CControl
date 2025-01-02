@@ -168,7 +168,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 			value = lambda[j] - lambda_p[j];
 			w += value * value;
 		}
-		if (w < MIN_VALUE) {
+		if (w < MIN_VALUE || isnanf(w)) {
 			break;
 		}
 	}
