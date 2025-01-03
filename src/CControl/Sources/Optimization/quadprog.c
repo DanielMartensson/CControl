@@ -168,9 +168,15 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 			value = lambda[j] - lambda_p[j];
 			w += value * value;
 		}
+#ifdef _MSC_VER
+		if (w < MIN_VALUE || _isnanf(w)) {
+			break;
+		}
+#else
 		if (w < MIN_VALUE || isnanf(w)) {
 			break;
 		}
+#endif
 	}
 
 	/* Solve x = x + P*lambda (Notice that x is negative (see above)) */
@@ -187,7 +193,18 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	free(lambda);
 	free(lambda_p);
 	free(Plambda);
-	
+
+	/* If w was nan - return false */
+#ifdef _MSC_VER
+	if (_isnanf(w)) {
+		return false;
+	}
+#else
+	if (isnanf(w)) {
+		return false;
+	}
+#endif
+
 	/* If i equal to MAX_ITERATIONS, then it did not find a solution */
 	return i < MAX_ITERATIONS;
 }
