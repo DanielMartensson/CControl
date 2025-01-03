@@ -19,8 +19,9 @@
  * Umax[column_b]
  * S[row_c]
  * r[row_c]
+ * Return true if quadprog found a solution, else false
  */
-void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], const float Umax[], const float S[], const float r[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N, const float lambda, const bool has_integration_action, const float integration_constant) {
+bool qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], const float Umax[], const float S[], const float r[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N, const float lambda, const bool has_integration_action, const float integration_constant) {
 	/*
 	% Solve: R = PHI*x + GAMMA*U with quadratic programming: Min: 1/2x^TQx + c^Tx, S.t: Ax <= b, x >= 0
     % Q = a*eye(size(GAMMA))
@@ -92,7 +93,7 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 	scalar(cqp, lambda, N * column_b);
 
 	/* Find the optimal solution with quadprog - We are using R as the output, instead of u */
-    quadprog(qqp, cqp, aqp, bqp, NULL, NULL, R, N * row_c + N * column_b + N * column_b, 0, N * column_b, false);
+    const bool status = quadprog(qqp, cqp, aqp, bqp, NULL, NULL, R, N * row_c + N * column_b + N * column_b, 0, N * column_b, false);
 
     /* We select the best input values, depending on if we have integration behavior or not in our model */
 	if(has_integration_action){
@@ -116,6 +117,9 @@ void qmpc(const float GAMMA[], const float PHI[], const float x[], float u[], co
 	free(cqp);
 	free(aqp);
 	free(PHIx_R);
+
+    /* Return the status */
+    return status;
 }
 
 /*
