@@ -31,7 +31,7 @@ size_t hough(const float X[], float* K[], float* M[], const float p, const float
 	float* x = NULL;
 	float* y = NULL;
 	float* z = NULL;
-	float* index = NULL;
+	size_t* index = NULL;
 	size_t L;
 	size_t N = hough_cluster(P, &x, &y, &z, &index, &L, epsilon, min_pts, r_half);
 
