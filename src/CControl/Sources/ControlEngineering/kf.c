@@ -19,8 +19,9 @@
  * R[row_c*row_c]
  * xhat[row_a]
  * P[row_a*row_a]
+ * Return true if state was estimated, else false
  */
-void kf(const float A[], const float B[], const float C[], const float u[], const float y[], const float Q[], const float R[], float xhat[], float P[], const size_t row_a, const size_t row_c, const size_t column_b) {
+bool kf(const float A[], const float B[], const float C[], const float u[], const float y[], const float Q[], const float R[], float xhat[], float P[], const size_t row_a, const size_t row_c, const size_t column_b) {
 	/* Prediction */
 	float* dx = (float*)malloc(row_a * sizeof(float));
 	float* Ax = (float*)malloc(row_a * sizeof(float));
@@ -60,7 +61,7 @@ void kf(const float A[], const float B[], const float C[], const float u[], cons
 
 	/* Find kalman gain */
 	float* K = (float*)malloc(row_a * row_c * sizeof(float));
-	inv(S, row_c);
+	const bool status = inv(S, row_c);
 	mul(PCT, S, K, row_a, row_c, row_c);
 
 	/* Update state */
@@ -103,6 +104,9 @@ void kf(const float A[], const float B[], const float C[], const float u[], cons
 	free(Ky_Cx);
 	free(KC);
 	free(P_copy);
+
+	/* Return the status */
+	return status;
 }
 
 /*

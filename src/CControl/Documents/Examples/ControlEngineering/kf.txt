@@ -39,10 +39,16 @@ int main() {
 	/* Compute kalman filter */
 	uint8_t i;
 	for (i = 0; i < L; i++) {
-		kf(A, B, C, &u[i], &y[i], Q, R, xhat, P, row_a, row_c, column_b);
+		const bool status = kf(A, B, C, &u[i], &y[i], Q, R, xhat, P, row_a, row_c, column_b);
 
 		/* Print the xhat and P */
 		printf("xhat[%i] = %f\nP[%i] = %f\n", i, xhat[0], i, P[0]);
+
+		if(!status){
+			/* Estimated the state ? */
+			printf("The state was: %s", status ? "Estimated" : "Not estimated");
+			break;
+		}
 	}
 
 	end = clock();
