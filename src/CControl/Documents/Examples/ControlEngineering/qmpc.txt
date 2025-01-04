@@ -93,7 +93,7 @@ int main() {
 	/* Print the output signal */
 	print(u, column_bi, 1);
 
-	/* Find the solution ? /*
+	/* Find the solution ? */
 	printf("The solution was: %s", status ? "Found" : "Not found");
 
 	/* Detect memory leak */
