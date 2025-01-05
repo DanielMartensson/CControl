@@ -89,6 +89,17 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	/* Turn x negative */
 	for (i = 0; i < column_a; i++) {
 		x[i] = -x[i];
+
+		/* If x was nan - return false - Use higher value on lambda constant! */
+#ifdef _MSC_VER
+		if (_isnanf(x[i])) {
+			return false;
+		}
+#else
+		if (isnanf(x[i])) {
+			return false;
+		}
+#endif
 	}
 
 	/* Count how many constraints A*x > b */
@@ -109,7 +120,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 		K[i] = b[i] - value;
 
 		/* Count violation */
-		if (K[i] <= 0.0f) {
+		if (K[i] < 0.0f) {
 			violations++;
 		}
 	}
@@ -240,7 +251,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	  K = b - A*x;
 
 	  % Check constraint violation
-	  if(sum(K <= 0) == 0)
+	  if(sum(K <= 0) >= 0)
 		return; % No violation
 	  end
 
