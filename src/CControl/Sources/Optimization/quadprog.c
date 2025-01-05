@@ -251,7 +251,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	  K = b - A*x;
 
 	  % Check constraint violation
-	  if(sum(K <= 0) >= 0)
+	  if(sum(K < 0) == 0)
 		return; % No violation
 	  end
 
