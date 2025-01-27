@@ -81,6 +81,9 @@
     <ClInclude Include="CControl\Headers\unions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CControl\Sources\DifferentialEquation\differentialequation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CControl\Sources\ArtificialIntelligence\Astar.c">
@@ -510,6 +513,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CControl\Sources\ControlEngineering\kf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\DifferentialEquation\rk4.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

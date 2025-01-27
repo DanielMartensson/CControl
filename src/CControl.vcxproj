@@ -31,6 +31,7 @@
     <ClInclude Include="CControl\Sources\ArtificialIntelligence\artificialintelligence.h" />
     <ClInclude Include="CControl\Sources\ComputerVision\computervision.h" />
     <ClInclude Include="CControl\Sources\ControlEngineering\controlengineering.h" />
+    <ClInclude Include="CControl\Sources\DifferentialEquation\differentialequation.h" />
     <ClInclude Include="CControl\Sources\Hardware\hardware.h" />
     <ClInclude Include="CControl\Sources\ImageProcessing\imageprocessing.h" />
     <ClInclude Include="CControl\Sources\LinearAlgebra\linearalgebra.h" />
@@ -54,6 +55,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\obsv.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\ssint.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
+    <ClCompile Include="CControl\Sources\DifferentialEquation\rk4.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\theta2ss.c" />
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\cornerdetection.c" />

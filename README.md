@@ -77,6 +77,9 @@ Main focuses are:
   - Add integral action into a state space model
   - Linear kalman filter for microcontrollers
 
+- Differential Equations
+  - Fourth Order Runge-Kutta
+
 - Computer Vision
   - Generalized Hough Transform for arbitrary shapes
   - Features From Accelerated Segment Test (FAST)

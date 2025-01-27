@@ -119,13 +119,13 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 		/* Constraints difference */
 		K[i] = b[i] - value;
 
-		/* Count violation */
+		/* Check constraint violation */
 		if (K[i] < 0.0f) {
 			violations++;
 		}
 	}
 
-	/* Check constraint violation */
+	/* No violation */
 	if (violations == 0) {
 		free(K);
 		return true;
@@ -222,7 +222,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 
 /* GNU Octave code:
  *
- *  % This is quadratic programming with Hildreth's method
+	% This is quadratic programming with Hildreth's method
 	% Min 1/2x^TQx + c^Tx
 	% S.t Ax <= b
 	%
@@ -230,19 +230,19 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	%
 	% Max 1/2x^T(-Q)x + (-c)^Tx
 	% S.t Ax <= b
-	% 	   
+	%
 	% Input: Q(Symmetric matrix), c(Objective function), A(Constraint matrix), b(Constraint vector)
 	% Output: x(Solution vector), solution(boolean flag)
-	% Example 1: [x, solution] = quadprog(Q, c, A, b)
+	% Example 1: [x, solution] = mc.quadprog(Q, c, A, b)
 	% Author: Daniel Mårtensson 2022 September 3
 
 	function [x, solution] = quadprog(Q, c, A, b)
 	  % Assume that the solution is true
 	  solution = true;
 
-	  % Same as in C code
-	  MIN_VALUE = 1e-14;
-	  MAX_ITERATIONS = 2000;
+	  % Same as in C code for Functions.h at CControl
+	  MIN_VALUE = 1e-11;
+	  MAX_ITERATIONS = 10000;
 
 	  % Unconstrained solution
 	  x = -linsolve(Q, c);
