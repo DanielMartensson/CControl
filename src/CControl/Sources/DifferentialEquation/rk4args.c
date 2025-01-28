@@ -15,7 +15,7 @@
   * y[N] - Initial state vector
   * N - Dimension for y-vector
   * odefun(const float t, float y[], const float* matrices[], const size_t rows[], const size_t columns[])
-  * ... = matrixA, rowA, columnA, matrixB, rowB, columnB, matrixC, rowC, columnC, etc...
+  * ... = const float matrixA[], const size_t rowA, const size_t columnA, const float matrixB[], const size_t rowB, const size_t columnB, const float matrixC[], const size_t rowC, const size_t columnC, etc...
   */
 void rk4args(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*, const float**, const size_t*, const size_t*), const size_t number_of_pointers, ...) {
 	/* Variables */
