@@ -2,19 +2,19 @@
  * rk4.c
  *
  *  Created on: 24:e Januari 2025
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "differentialequation.h"
 
 /*
- * Fourth-order Runge–Kutta method.
+ * Fourth-order Rungeâ€“Kutta method.
  * Runge-Kutta method is not the best ODE solver, but it's the best ODE solver for fixed step time iteration. 
  * h - Step time
  * Y[iterations*N] - Output
  * y[N] - Initial state vector 
  * N - Dimension for y-vector
- * odefun(float t[], float y[])
+ * odefun(const float t[], float y[])
  */
 void rk4(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*)) {
 	/* Variables */
