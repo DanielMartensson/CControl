@@ -79,6 +79,7 @@ Main focuses are:
 
 - Differential Equations
   - Fourth Order Runge-Kutta
+  - Fourth Order Runge-Kutta with variable sized arguments
 
 - Computer Vision
   - Generalized Hough Transform for arbitrary shapes

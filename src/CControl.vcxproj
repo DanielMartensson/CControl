@@ -56,6 +56,7 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\ssint.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\stability.c" />
     <ClCompile Include="CControl\Sources\DifferentialEquation\rk4.c" />
+    <ClCompile Include="CControl\Sources\DifferentialEquation\rk4args.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\theta2ss.c" />
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\cornerdetection.c" />
