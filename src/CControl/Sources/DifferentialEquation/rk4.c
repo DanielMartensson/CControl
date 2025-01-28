@@ -14,7 +14,7 @@
  * Y[iterations*N] - Output
  * y[N] - Initial state vector 
  * N - Dimension for y-vector
- * odefun(const float t[], float y[])
+ * odefun(const float t, float y[])
  */
 void rk4(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*)) {
 	/* Variables */
