@@ -76,6 +76,7 @@ Main focuses are:
   - Lower triangular toeplitz of extended observability matrix
   - Add integral action into a state space model
   - Linear kalman filter for microcontrollers
+  - Discrete Algebraic Riccati Equations
 
 - Differential Equations
   - Fourth Order Runge-Kutta

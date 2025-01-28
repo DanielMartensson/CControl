@@ -521,6 +521,9 @@
     <ClCompile Include="CControl\Sources\DifferentialEquation\rk4args.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\ControlEngineering\dare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
