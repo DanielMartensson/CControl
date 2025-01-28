@@ -68,7 +68,7 @@ int main() {
     const float B[row_b * column_b] = { 0, 1 / m };
     const float u[row_u * column_u] = { F };
 
-    /* Perform Runge-Kutta 4:th order with extended arguments ... */
+    /* Perform Runge-Kutta 4:th order with extended arguments ... of const float[], const size_t, const size_t etc... */
     rk4args(ITERATIONS, h, Y, y0, N, odefun, number_of_pointers, A, (const size_t)row_a, (const size_t)column_a, B, (const size_t)row_b, (const size_t)column_b, u, (const size_t)row_u, (const size_t)column_u);
 
     end = clock();
