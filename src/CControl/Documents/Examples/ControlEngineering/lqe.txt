@@ -1,0 +1,91 @@
+/*
+ ============================================================================
+ Name        : lqe.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Discrete Linear Quadratic Estimator
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+ /* Constants */
+#define sampleTime 0.5f
+#define row_a 2
+#define column_b 2
+#define row_c 2
+#define ITERATIONS 6000
+
+int main() {
+    clock_t start, end;
+    float cpu_time_used;
+    start = clock();
+
+    /* Mass damping spring system of second order. Described as state space x(k+1) = A*x(k) + B*u(k) */
+    const float k = 1.0f;    /* Spring constant [N/m] */
+    const float b = 10.4f;   /* Damper constant [Ns/m] */
+    const float m = 1.0f;    /* Mass [kg] */
+    float A[row_a * row_a] = { 0, 1, -k / m, -b / m };
+    float B[row_a * column_b] = { 0, 0, 1 / m, 1/m};
+    const float C[row_c * row_a] = { 1, 0, 0, 1 };
+
+    /* Discrete state space model */
+    c2d(A, B, row_a, column_b, sampleTime);
+
+    /* Q and R */
+    const float Q[row_a * row_a] = { 1, 0, 0, 1 };
+    const float R[row_c * row_c] = { 1, 0, 0, 0.5 };
+
+    /* Kalman gain matrix */
+    float K[row_c * row_a];
+
+    /* Perform LQE */
+    lqe(ITERATIONS, sampleTime, A, C, Q, R, K, row_a, row_c);
+    
+    end = clock();
+    cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+    printf("\nTotal speed  was %f\n", cpu_time_used);
+
+    /* Print solution */
+    printf("The gain matrix K:\n");
+    print(K, row_c, row_a);
+
+    /* Check memory */
+    detectmemoryleak();
+
+    return EXIT_SUCCESS;
+}
+
+/*
+ GNU Octave code:
+
+m = 1;
+b = 10.4;
+k = 1;
+
+% Definiera systemparametrar
+A = [0 1; -k/m -b/m];      % Tillståndsmatris
+B = [0 0; 1/m 1/m];          % Ingångsmatris
+C = [1 0; 0 1];
+
+sys = mc.ss(0, A, B, C);
+sys1 = ss(A, B, C);
+sysd = mc.c2d(sys, 0.5);
+sysd1 = c2d(sys1, 0.5);
+A = sysd.A
+B = sysd.B
+
+pkg load control
+
+Q = [1 0; 0 1];
+R = [1 0; 0 0.5];
+
+%[X, L, K] = dare(A, B, Q, R)
+%[X, K, L] = mc.are(sysd, Q, R)
+%L = lqr(sysd1, Q, R)
+%L = mc.lqr(sysd, Q, R)
+K = lqe(sysd1, Q, R)
+K = mc.lqe(sysd, Q, R)
+ 
+*/

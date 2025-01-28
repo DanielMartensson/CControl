@@ -51,6 +51,8 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\c2d.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\cab.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\dare.c" />
+    <ClCompile Include="CControl\Sources\ControlEngineering\lqe.c" />
+    <ClCompile Include="CControl\Sources\ControlEngineering\lqr.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\kf.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\qmpc.c" />
     <ClCompile Include="CControl\Sources\ControlEngineering\obsv.c" />

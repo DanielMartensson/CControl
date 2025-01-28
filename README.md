@@ -77,6 +77,8 @@ Main focuses are:
   - Add integral action into a state space model
   - Linear kalman filter for microcontrollers
   - Discrete Algebraic Riccati Equations
+  - Discrete Linear Quadratic Regulator
+  - Discrete Linear Quadratic Estimator
 
 - Differential Equations
   - Fourth Order Runge-Kutta

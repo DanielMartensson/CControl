@@ -106,9 +106,9 @@ static void odefun(const float t, float X[], const float* matrices[], const size
 }	
 
 /*
- * Discrete Algebraic Riccati Equations
+ * Discrete Algebraic Riccati Equation
  * Find the solution X from: A'*X*A - X - A'*X*B*inv(B'*X*B + R)*B'*X*A + Q = 0 
- * iterations = Iterations for the RK4 e.g 1000
+ * iterations = Iterations for the ODE solver e.g 1000
  * sampleTime = Sample time for the discrete matrices A and B
  * A[row_a * row_a]
  * B[row_a * column_b]
