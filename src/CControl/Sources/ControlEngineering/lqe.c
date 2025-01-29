@@ -36,6 +36,6 @@ void lqe(const size_t iterations, const float sampleTime, const float A[], const
 	free(AT);
 	free(CT);
 
-  /* Transpose on K */
-  tran(K, row_c, row_a);
+     /* Transpose on K */
+     tran(K, row_c, row_a);
 }
