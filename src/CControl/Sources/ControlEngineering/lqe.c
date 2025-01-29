@@ -2,7 +2,7 @@
  * lqe.c
  *
  *  Created on: 28 Januari 2025
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "controlengineering.h"
@@ -35,4 +35,7 @@ void lqe(const size_t iterations, const float sampleTime, const float A[], const
 	/* Free */
 	free(AT);
 	free(CT);
+
+  /* Transpose on K */
+  tran(K, row_c, row_a);
 }
