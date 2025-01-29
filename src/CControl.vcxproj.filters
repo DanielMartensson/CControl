@@ -530,6 +530,12 @@
     <ClCompile Include="CControl\Sources\ControlEngineering\lqe.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CControl\Sources\ControlEngineering\mpc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CControl\Sources\LinearAlgebra\eye.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

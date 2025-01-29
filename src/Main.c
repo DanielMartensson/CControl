@@ -1,136 +1,95 @@
 /*
  ============================================================================
- Name        : main.c
+ Name        : lqr.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Simple test
+ Description : Discrete Linear Quadratic Regulator
  ============================================================================
  */
 
 #include "CControl/ccontrol.h"
 
  /* Constants */
-#define row_A 2
-#define column_B 2
-
-/*
- * Compute R'*Y*U = I
- * R[row_r * column_r]
- * Y[row_y * column_y]
- * U[row_u * column_u]
- * I[column_r * column_u]
- */
-static void RTYUI(const float R[], const float Y[], const float U[], float I[], const size_t row_r, const size_t column_r, const size_t row_y, const size_t column_y, const size_t row_u, const size_t column_u) {
-	/* Turn R into transpose */
-	float* RT = (float*)malloc(row_r * column_r * sizeof(float));
-	memcpy(RT, R, row_r * column_r * sizeof(float));
-	tran(RT, row_r, column_r);
-
-	/* Compute YU = Y*U */
-	float* YU = (float*)malloc(row_y * column_u * sizeof(float));
-	mul(Y, U, YU, row_y, column_y, column_u);
-
-	/* Compute I = RT*YU */
-	mul(RT, YU, I, column_r, row_r, column_u);
-
-	/* Free */
-	free(RT);
-	free(YU);
-}
-
-/* Discrete Algebraic Riccati Equation
- * Iterate: X = A'*X*A - X - A'*X*B*(B'*X*B + R)^{-1}*B'*X*A + Q
- */
-static void odefun(const float t, float X[], const float* matrices[], const size_t rows[], const size_t columns[]) {
-	/* Get the matrices */
-	const float* A = matrices[0];
-	const float* B = matrices[1];
-	const float* Q = matrices[2];
-	const float* R = matrices[3];
-
-	/* row_a and column_a has the same value */
-	const size_t row_a = rows[0];
-	const size_t column_a = columns[0];
-
-	/* row_b has the same value as row_a */
-	const size_t row_b = rows[1];
-	const size_t column_b = columns[1];
-
-	/* row_q and column_q has the same value as row_a and column_a */
-	const size_t row_q = rows[2];
-	const size_t column_q = columns[2];
-
-	/* row_r and column_r has the same value as column_b */
-	const size_t row_r = rows[3];
-	const size_t column_r = columns[3];
-
-	/* row_x and column_x has the same value as row_a and column_a */
-	const size_t row_x = row_a;
-	const size_t column_x = column_a;
-
-	/* Compute A'*X*A = ATXA */
-	float* ATXA = (float*)malloc(column_a * column_a * sizeof(float));
-	RTYUI(A, X, A, ATXA, row_a, column_a, row_x, column_x, row_a, column_a);
-
-	/* Compute A'*X*B = ATXB */
-	float* ATXB = (float*)malloc(column_a * column_b * sizeof(float));
-	RTYUI(A, X, B, ATXB, row_a, column_a, row_x, column_x, row_b, column_b);
-
-	/* Compute B'*X*B + R = BTXBpR */
-	float* BTXBpR = (float*)malloc(column_b * column_b * sizeof(float));
-	RTYUI(B, X, B, BTXBpR, row_b, column_b, row_x, column_x, row_b, column_b);
-	size_t i;
-	for (i = 0; i < column_b * column_b; i++) {
-		BTXBpR[i] = R[i];
-	}
-
-	/* Do inverse of BTXBpR */
-	inv(BTXBpR, column_b);
-
-	/* Compute B'*X*A = BTXA */
-	float* BTXA = (float*)malloc(column_b * column_a * sizeof(float));
-	RTYUI(B, X, A, BTXA, row_b, column_b, row_x, column_x, row_a, column_a);
-
-	/* Compute ATXB * BTXBpR * BTXA = ATXB_BTXBpR_BTXA */
-	float* BTXBpR_BTXA = (float*)malloc(column_b * column_a * sizeof(float));
-	mul(BTXBpR, BTXA, BTXBpR_BTXA, column_b, column_b, column_a);
-	float* ATXB_BTXBpR_BTXA = (float*)malloc(column_a * column_a * sizeof(float));
-	mul(ATXB, BTXBpR_BTXA, ATXB_BTXBpR_BTXA, column_a, column_b, column_a);
-
-	/* Return X */
-	for (i = 0; i < row_x * column_x; i++) {
-		X[i] = ATXA[i] - X[i] - ATXB_BTXBpR_BTXA[i] + Q[i];
-	}
-
-	/* Free */
-	free(ATXA);
-	free(ATXB);
-	free(BTXBpR);
-	free(BTXA);
-	free(BTXBpR_BTXA);
-	free(ATXB_BTXBpR_BTXA);
-}
+#define SAMPLETIME 0.5f
+#define row_a 2
+#define column_b 1
+#define row_c 1
+#define column_e 1
+#define ITERATIONS 100
+#define N 5
 
 int main() {
     clock_t start, end;
     float cpu_time_used;
     start = clock();
 
-	const float A[row_A * row_A] = { 1, 2, 3, 4 };
-	const float B[row_A * column_B] = { -2, 1, 4, 0 };
-	const float Q[row_A * row_A] = { 1, 0, 2, 3 };
-	const float R[column_B * column_B] = { -1, -2, -3, 4 };
-	float X[row_A * row_A] = {0, 1, -2, 1 };
+    /* Mass damping spring system of second order. Described as state space x(k+1) = A*x(k) + B*u(k) */
+    const float k = 1.0f;    /* Spring constant [N/m] */
+    const float b = 10.4f;   /* Damper constant [Ns/m] */
+    const float m = 1.0f;    /* Mass [kg] */
+    const float A[row_a * row_a] = { 0, 1, -k / m, -b / m };
+    const float B[row_a * column_b] = { 0, 1/m };
+    const float C[row_c * row_a] = { 1, 0 };
+    const float E[row_a * column_e] = { 0, 1/m };
 
-	const float* matrices[4] = { A, B, Q, R };
-	const size_t rows[4] = { row_A, row_A, row_A, column_B };
-	const size_t columns[4] = { row_A, column_B, row_A, column_B };
+    /* Create discrete matrices */
+    float Ad[row_a * row_a];
+    float Bd[row_a * column_b];
+    float Cd[row_c * row_a];
+    float Ed[row_a * column_e];
+    mpc_discrete_matrices(SAMPLETIME, A, B, C, E, Ad, Bd, Cd, Ed, row_a, column_b, row_c, column_e);
 
-	odefun(0, X, matrices, rows, columns);
+    /* Debug */
+    print(Ad, row_a, row_a);
+    print(Bd, row_a, column_b);
+    print(Cd, row_c, row_a);
+    print(Ed, row_a, column_e);
 
-	printf("This is X:\n");
-	print(X, row_A, row_A);
+    /* Compute kalman gain */
+    const float Q[row_a * row_a] = { 1, 0, 0, 1 };
+    const float R[column_b * column_b] = { 1 };
+    float K[row_a * row_c];
+    mpc_kalman_gain(ITERATIONS, SAMPLETIME, Ad, Cd, Q, R, K, row_a, row_c);
+
+    /* Debug */
+    print(K, row_a, row_c);
+
+    /* Observability matrix */
+    float Phi[(N * row_c) * row_a];
+    mpc_phi_matrix(Phi, Ad, Cd, row_a, row_c, N);
+
+    /* Debug */
+    print(Phi, N * row_c, row_a);
+
+    /* Lower triangular toeplitz of extended observability matrix */
+    float Gamma[(N * row_c) * (N * column_b)];
+    mpc_gamma_matrix(Gamma, Phi, Bd, Cd, row_a, row_c, column_b, N);
+
+    /* Debug */
+    print(Gamma, N * row_c, N * column_b);
+
+    /* Reference vector */
+    float R[N * row_c];
+    const float r[row_c] = { 10 };
+    mpc_vector(R, r, row_c, N);
+
+    /* Debug */
+    print(R, N, row_c);
+
+    /* Weight matrix */
+    float QZ[(N * row_c) * (N * row_c)];
+    const float Qz[row_c * row_c] = { 1 };
+    mpc_QZ_matrix(QZ, Qz, row_c, N);
+
+    /* Debug */
+    print(QZ, N * row_c, N * row_c);
+
+    /* Regularization matrix */
+    float S[column_b * column_b];
+    const float s = 1.0f;
+    mpc_S_matrix(S, s, column_b, column_b);
+
 
 
     end = clock();
@@ -147,13 +106,29 @@ int main() {
 /*
  GNU Octave code:
 
+m = 1;
+b = 10.4;
+k = 1;
 
-A = [ 1, 2; 3, 4 ];
-B = [ -2, 1; 4, 0 ];
-Q = [ 1, 0; 2, 3 ];
-R = [ -1, -2; -3, 4 ];
-X = [0, 1; -2, 1 ];
+% Definiera systemparametrar
+A = [0 1; -k/m -b/m];      % Tillståndsmatris
+B = [0, k 1; m -1/m b/m ];          % Ingångsmatris
+C = [1 0; 0 1];
 
-X = A'*X*A - X - A'*X*B*inv(B'*X*B + R)*B'*X*A + Q
+pkg load control
+
+sys = mc.ss(0, A, B, C);
+sys1 = ss(A, B, C);
+sysd = mc.c2d(sys, 0.5);
+sysd1 = c2d(sys1, 0.5);
+
+
+Q = [1 0; 0 1];
+R = [ 1, 0, 0; 0, 0.5, 0; 0, 0, 3 ];
+
+%[X, L, K] = dare(A, B, Q, R)
+%[X, K, L] = mc.are(sysd, Q, R)
+L = lqr(sysd1, Q, R)
+L = mc.lqr(sysd, Q, R)
 
 */
