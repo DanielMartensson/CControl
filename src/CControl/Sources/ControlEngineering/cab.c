@@ -11,12 +11,12 @@
  * Lower triangular toeplitz of extended observability matrix
  * CAB stands for C*A^i*B because every element is C*A*B
  * 
- * GAMMA[(N*row_c)*(N*column_b)]
- * PHI[(N*row_c)*row_a]
+ * Gamma[(N*row_c)*(N*column_b)]
+ * Phi[(N*row_c)*row_a]
  * B[row_a*columb_b]
  * C[row_c*row_a]
  */
-void cab(float GAMMA[], const float PHI[], const float B[], const float C[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N) {
+void cab(float Gamma[], const float Phi[], const float B[], const float C[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N) {
 	/* Decleration */
 	size_t i, j;
 
@@ -27,49 +27,49 @@ void cab(float GAMMA[], const float PHI[], const float B[], const float C[], con
 	/* Take the transpose of CB so it will have dimension column_b*row_c instead */
 	tran(CB, row_c, column_b);
 
-	/* Create the CAB matrix from PHI*B */
-	float* PHIB = (float*)malloc(N * row_c * column_b * sizeof(float));
-	mul(PHI, B, PHIB, N * row_c, row_a, column_b); /* CAB = PHI*B */
-	tran(PHIB, N * row_c, column_b);
+	/* Create the CAB matrix from Phi*B */
+	float* PhiB = (float*)malloc(N * row_c * column_b * sizeof(float));
+	mul(Phi, B, PhiB, N * row_c, row_a, column_b); /* CAB = Phi*B */
+	tran(PhiB, N * row_c, column_b);
 
 	/*
-	 * We insert GAMMA = [CB PHI;
-	 *                    0  CB PHI;
-	 *            		  0   0  CB PHI;
-	 *            		  0   0   0  CB PHI] from left to right
+	 * We insert Gamma = [CB Phi;
+	 *                    0  CB Phi;
+	 *            		  0   0  CB Phi;
+	 *            		  0   0   0  CB Phi] from left to right
 	 */
-	memset(GAMMA, 0, N * row_c * N * column_b * sizeof(float));
+	memset(Gamma, 0, N * row_c * N * column_b * sizeof(float));
 	for (i = 0; i < N; i++) {
 		for (j = 0; j < column_b; j++) {
-			memcpy(GAMMA + N * row_c * (i * column_b + j) + row_c * i, CB + row_c * j, row_c * sizeof(float)); /* Add CB */
-			memcpy(GAMMA + N * row_c * (i * column_b + j) + row_c * i + row_c, PHIB + N * row_c * j, (N - i - 1) * row_c * sizeof(float)); /* Add PHI*B */
+			memcpy(Gamma + N * row_c * (i * column_b + j) + row_c * i, CB + row_c * j, row_c * sizeof(float)); /* Add CB */
+			memcpy(Gamma + N * row_c * (i * column_b + j) + row_c * i + row_c, PhiB + N * row_c * j, (N - i - 1) * row_c * sizeof(float)); /* Add Phi*B */
 		}
 	}
 
 	/* Transpose of gamma */
-	tran(GAMMA, N * column_b, N * row_c);
+	tran(Gamma, N * column_b, N * row_c);
 
 	/* Free */
 	free(CB);
-	free(PHIB);
+	free(PhiB);
 }
 
 /*
 GNU octave code:
 
-function GAMMA = gammaMat(A, B, C, N)
+function Gamma = gammaMat(A, B, C, N)
 
   % Create the lower triangular toeplitz matrix
-  GAMMA = [];
+  Gamma = [];
   for i = 1:N
-	GAMMA = horzcat(GAMMA, vertcat(zeros((i-1)*size(C*A*B, 1), size(C*A*B, 2)),cabMat(A, B, C, N-i+1)));
+	Gamma = horzcat(Gamma, vertcat(zeros((i-1)*size(C*A*B, 1), size(C*A*B, 2)),cabMat(A, B, C, N-i+1)));
   end
 
 end
 
 function CAB = cabMat(A, B, C, N)
 
-  % Create the column for the GAMMA matrix
+  % Create the column for the Gamma matrix
   CAB = [];
   for i = 0:N-1
 	CAB = vertcat(CAB, C*A^i*B);
