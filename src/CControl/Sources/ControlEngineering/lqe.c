@@ -9,7 +9,7 @@
 
 /*
  * Discrete Linear Quadratic Estimator
- * Find the gain matrix K = lqr(A', C', Q, R)
+ * Find the gain matrix K = lqr(A', C', Q, R)'
  * iterations = Iterations for the ODE solver e.g 1000
  * sampleTime = Sample time for the discrete matrices A and C
  * A[row_a * row_a]
