@@ -14,7 +14,7 @@
 #define sampleTime 0.5f
 #define row_a 2
 #define column_b 2
-#define row_c 2
+#define row_c 3
 #define ITERATIONS 6000
 
 int main() {
@@ -27,29 +27,29 @@ int main() {
     const float b = 10.4f;   /* Damper constant [Ns/m] */
     const float m = 1.0f;    /* Mass [kg] */
     float A[row_a * row_a] = { 0, 1, -k / m, -b / m };
-    float B[row_a * column_b] = { 0, 0, 1 / m, 1/m};
-    const float C[row_c * row_a] = { 1, 0, 0, 1 };
+    float B[row_a * column_b] = { 0, 0, 1 / m, 1 / m };
+    const float C[row_c * row_a] = { 1, 0, 0, 1, 1, 1 };
 
     /* Discrete state space model */
     c2d(A, B, row_a, column_b, sampleTime);
 
     /* Q and R */
     const float Q[row_a * row_a] = { 1, 0, 0, 1 };
-    const float R[row_c * row_c] = { 1, 0, 0, 0.5 };
+    const float R[row_c * row_c] = { 1, 0, 0, 0, 0.5, 0, 0, 0, 1 };
 
     /* Kalman gain matrix */
-    float K[row_c * row_a];
+    float K[row_a * row_c];
 
     /* Perform LQE */
     lqe(ITERATIONS, sampleTime, A, C, Q, R, K, row_a, row_c);
-    
+
     end = clock();
     cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
     printf("\nTotal speed  was %f\n", cpu_time_used);
 
     /* Print solution */
     printf("The gain matrix K:\n");
-    print(K, row_c, row_a);
+    print(K, row_a, row_c);
 
     /* Check memory */
     detectmemoryleak();
@@ -67,19 +67,18 @@ k = 1;
 % Definiera systemparametrar
 A = [0 1; -k/m -b/m];      % Tillståndsmatris
 B = [0 0; 1/m 1/m];          % Ingångsmatris
-C = [1 0; 0 1];
+C = [1 0; 0 1; 1 1];
+
+pkg load control
 
 sys = mc.ss(0, A, B, C);
 sys1 = ss(A, B, C);
 sysd = mc.c2d(sys, 0.5);
 sysd1 = c2d(sys1, 0.5);
-A = sysd.A
-B = sysd.B
 
-pkg load control
 
 Q = [1 0; 0 1];
-R = [1 0; 0 0.5];
+R = [1 0 0; 0 0.5 0; 0, 0, 1];
 
 %[X, L, K] = dare(A, B, Q, R)
 %[X, K, L] = mc.are(sysd, Q, R)
@@ -87,5 +86,5 @@ R = [1 0; 0 0.5];
 %L = mc.lqr(sysd, Q, R)
 K = lqe(sysd1, Q, R)
 K = mc.lqe(sysd, Q, R)
- 
+
 */

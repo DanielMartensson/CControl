@@ -16,7 +16,7 @@
  * C[row_c * row_a]
  * Q[row_a * row_a]
  * R[row_c * row_c]
- * K[row_c * row_a]
+ * K[row_a * row_c]
  */
 void lqe(const size_t iterations, const float sampleTime, const float A[], const float C[], const float Q[], const float R[], float K[], const size_t row_a, const size_t row_c) {
 	/* Turn A to transpose */
@@ -35,7 +35,7 @@ void lqe(const size_t iterations, const float sampleTime, const float A[], const
 	/* Free */
 	free(AT);
 	free(CT);
-
-        /* Transpose on K */
-        tran(K, row_c, row_a);
+	
+	/* Transpose on K */
+	tran(K, row_c, row_a);
 }
