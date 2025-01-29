@@ -2,7 +2,7 @@
  * lqr.c
  *
  *  Created on: 28 Januari 2025
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "controlengineering.h"
@@ -55,7 +55,7 @@ void lqr(const size_t iterations, const float sampleTime, const float A[], const
 	RTYUI(B, X, B, BTXBpR, row_a, column_b, row_a, row_a, row_a, column_b);
 	size_t i;
 	for (i = 0; i < column_b * column_b; i++) {
-		BTXBpR[i] = R[i];
+		BTXBpR[i] += R[i];
 	}
 
 	/* Do inverse of BTXBpR */
