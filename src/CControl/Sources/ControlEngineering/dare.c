@@ -2,7 +2,7 @@
  * dare.c
  *
  *  Created on: 28 Januari 2025
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "controlengineering.h"
@@ -75,7 +75,7 @@ static void odefun(const float t, float X[], const float* matrices[], const size
 	RTYUI(B, X, B, BTXBpR, row_b, column_b, row_x, column_x, row_b, column_b);
 	size_t i;
 	for (i = 0; i < column_b * column_b; i++) {
-		BTXBpR[i] = R[i];
+		BTXBpR[i] += R[i];
 	}
 
 	/* Do inverse of BTXBpR */
