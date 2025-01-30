@@ -82,58 +82,233 @@ void mpc_vector(float V[], const float v[], const size_t dim_v, const size_t N) 
 }
 
 /*
- * QZ[(N * row) * (N * row)]
- * Qz[row * row]
+ * QZ[(N * row_c) * (N * row_c)]
+ * Qz[row_c * row_c]
  */
-void mpc_QZ_matrix(float QZ[], const float Qz[], const size_t row, const size_t N) {
-	memset(QZ, 0, (N * row) * (N * row) * sizeof(float));
+void mpc_QZ_matrix(float QZ[], const float Qz[], const size_t row_c, const size_t N) {
+	memset(QZ, 0, (N * row_c) * (N * row_c) * sizeof(float));
 	size_t i;
 	for (i = 0; i < N; i++) {
-		insert(Qz, QZ, row, row, N * row, i * row, i * row);
+		insert(Qz, QZ, row_c, row_c, N * row_c, i * row_c, i * row_c);
 	}
 }
 
 /*
- * S[row * column]
+ * S[column_b * column_b]
  */
-void mpc_S_matrix(float S[], const float s, const size_t row, const size_t column) {
-	eye(S, row, column);
-	scalar(S, s, row * column);
+void mpc_S_matrix(float S[], const float s, const size_t column_b) {
+	eye(S, column_b, column_b);
+	scalar(S, s, column_b * column_b);
 }
 
 /*
- * HS[(N * row) * (N * row)]
- * S[row * row]
+ * HS[(N * column_b) * (N * column_b)]
+ * S[column_b * column_b]
  */
-void mpc_HS_matrix(float HS[], const float S[], const size_t row, const size_t N) {
+void mpc_HS_matrix(float HS[], const float S[], const size_t column_b, const size_t N) {
 	/* Positive 2*S */
-	float* p2S = (float*)malloc(row * row * sizeof(float));
-	memcpy(p2S, S, row * row * sizeof(float));
-	scalar(p2S, 2.0f, row * row);
+	float* p2S = (float*)malloc(column_b * column_b * sizeof(float));
+	memcpy(p2S, S, column_b * column_b * sizeof(float));
+	scalar(p2S, 2.0f, column_b * column_b);
 
 	/* Negative -2*S */
-	float* m2S = (float*)malloc(row * row * sizeof(float));
-	memcpy(m2S, S, row * row * sizeof(float));
-	scalar(m2S, -2.0f, row * row);
+	float* m2S = (float*)malloc(column_b * column_b * sizeof(float));
+	memcpy(m2S, S, column_b * column_b * sizeof(float));
+	scalar(m2S, -2.0f, column_b * column_b);
 
 	/* Negative S */
-	float* mS = (float*)malloc(row * row * sizeof(float));
-	memcpy(mS, S, row * row * sizeof(float));
-	scalar(mS, -1.0f, row * row);
+	float* mS = (float*)malloc(column_b * column_b * sizeof(float));
+	memcpy(mS, S, column_b * column_b * sizeof(float));
+	scalar(mS, -1.0f, column_b * column_b);
 
 	/* Fill */
 	if (N == 1) {
-		memset(HS, S, row * row * sizeof(float));
+		memset(HS, S, column_b * column_b * sizeof(float));
 	}
 	else {
-		memset(HS, 0, N * row * N * row * sizeof(float));
-		insert(p2S, HS, row, row, N * row, 0, 0);
-		insert(mS, HS, row, row, N * row, row, 0);
-		size_t k, k_row;
-		for (k = 0; k < N - 2; k++) {
-			k_row = k * row;
-
+		memset(HS, 0, N * column_b * N * column_b * sizeof(float));
+		insert(p2S, HS, column_b, column_b, N * column_b, 0, 0);
+		insert(mS, HS, column_b, column_b, N * column_b, column_b, 0);
+		size_t i, i_column_b;
+		for (i = 0; i < N - 2; i++) {
+			i_column_b = i * column_b;
+			insert(mS, HS, column_b, column_b, N * column_b, i_column_b, i_column_b + column_b);
+			insert(p2S, HS, column_b, column_b, N * column_b, i_column_b + column_b, i_column_b + column_b);
+			insert(m2S, HS, column_b, column_b, N * column_b, i_column_b + 2 * column_b, i_column_b + column_b);
 		}
-
+		i = N - 1;
+		i_column_b = i * column_b;
+		insert(mS, HS, column_b, column_b, N * column_b, i_column_b, i_column_b + column_b);
+		insert(S, HS, column_b, column_b, N * column_b, i_column_b + column_b, i_column_b + column_b);
 	}
+
+	/* Free */
+	free(p2S);
+	free(m2S);
+	free(mS);
+}
+
+/* 
+ * H[(N * column_b) * (N * column_b)]
+ * Gamma[(N * row_c) * (N * column_b)]
+ * QZ[(N * column_b) * (N * column_b)]
+ * HS[(N * column_b) * (N * column_b)]
+ */
+void mpc_H_matrix(float H[], const float Gamma[], const float QZ[], const float HS[], const size_t row_c, const size_t column_b, const size_t N) {
+	/* Transpose Gamma */
+	float* GammaT = (float*)malloc((N * row_c) * (N * column_b) * sizeof(float));
+	memcpy(GammaT, Gamma, (N * row_c) * (N * column_b) * sizeof(float));
+	tran(GammaT, N * row_c, N * column_b);
+
+	/* Compute QZGamma = QZ * Gamma */
+	float* QZGamma = (float*)malloc(N * column_b * N * column_b * sizeof(float));
+	mul(QZ, Gamma, QZGamma, N * column_b, N * column_b, N * column_b);
+
+	/* Compute H = GammaT * QZGamma + HS */
+	mul(GammaT, QZGamma, H, N * column_b, N * row_c, N * column_b);
+	size_t i;
+	for (i = 0; i < N * column_b * N * column_b; i++) {
+		H[i] += HS[i];
+	}
+
+	/* Free */
+	free(GammaT);
+	free(QZGamma);
+}
+
+/*
+ * Mx0[(N * column_b) * row_a] 
+ * Gamma[(N * row_c) * (N * column_b)]
+ * QZ[(N * column_b) * (N * column_b)]
+ * Phi[(N * row_c) * row_a]
+ */
+void mpc_Mx0_matrix(float Mx0[], const float Gamma[], const float QZ[], const float Phi[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N) {
+	/* Transpose Gamma */
+	float* GammaT = (float*)malloc((N * row_c) * (N * column_b) * sizeof(float));
+	memcpy(GammaT, Gamma, (N * row_c) * (N * column_b) * sizeof(float));
+	tran(GammaT, N * row_c, N * column_b);
+
+	/* Compute QZPhi = QZ * Phi */
+	float* QZPhi = (float*)malloc(N * column_b * row_a * sizeof(float));
+	mul(QZ, Phi, QZPhi, N * column_b, N * column_b, row_a);
+
+	/* Compute Mx0 = GammaT * QZPhi */
+	mul(GammaT, QZPhi, Mx0, N * column_b, N * row_c, row_a);
+
+	/* Free */
+	free(GammaT);
+	free(QZPhi);
+}
+
+/*
+ * Mum1[(N * column_b) * column_b]
+ * S[column_b * column_b]
+ */
+void mpc_Mum1_matrix(float Mum1[], const float S[], const size_t column_b, const size_t N) {
+	/* Negative S */
+	float* mS = (float*)malloc(column_b * column_b * sizeof(float));
+	memcpy(mS, S, column_b * column_b * sizeof(float));
+	scalar(mS, -1.0f, column_b * column_b);
+
+	/* Insert */
+	memset(Mum1, 0, (N * column_b) * column_b * sizeof(float));
+	insert(mS, Mum1, column_b, column_b, column_b, 0, 0);
+
+	/* Free */
+	free(mS);
+}
+
+/*
+ * MR[(N * column_b) * (N * column_b)] 
+ * Gamma[(N * row_c) * (N * column_b)]
+ * QZ[(N * column_b) * (N * column_b)]
+ */
+void mpc_MR_matrix(float MR[], const float Gamma[], const float QZ[], const size_t row_c, const size_t column_b, const size_t N) {
+	/* Transpose -Gamma */
+	float* GammaT = (float*)malloc((N * row_c) * (N * column_b) * sizeof(float));
+	memcpy(GammaT, Gamma, (N * row_c) * (N * column_b) * sizeof(float));
+	tran(GammaT, N * row_c, N * column_b);
+	size_t i;
+	for (i = 0; i < (N * row_c) * (N * column_b); i++) {
+		GammaT[i] = -GammaT[i];
+	}
+
+	/* MR = -GammaT * QZ */
+	mul(GammaT, QZ, MR, N * column_b, N * row_c, N * column_b);
+
+	/* Free */
+	free(GammaT);
+}
+
+/*
+ * MD[(N * column_b) * (N * column_b)] 
+ * Gamma[(N * row_c) * (N * column_b)]
+ * QZ[(N * column_b) * (N * column_b)]
+ * Gamma[(N * row_c) * (N * column_b)]
+ */
+void mpc_MD_matrix(float MD[], const float Gamma[], const float Gammad[], const float QZ[], const size_t row_c, const size_t column_b, const size_t N) {
+	/* Transpose Gamma */
+	float* GammaT = (float*)malloc((N * row_c) * (N * column_b) * sizeof(float));
+	memcpy(GammaT, Gamma, (N * row_c) * (N * column_b) * sizeof(float));
+	tran(GammaT, N * row_c, N * column_b);
+
+	/* Compute QZGamma = QZ * Gammad */
+	float* QZGammad = (float*)malloc(N * column_b * N * column_b * sizeof(float));
+	mul(QZ, Gammad, QZGammad, N * column_b, N * column_b, N * column_b);
+
+	/* Compute MD = GammaT * QZGammad */
+	mul(GammaT, QZGammad, MD, N * column_b, N * row_c, N * column_b);
+
+	/* Free */
+	free(GammaT);
+	free(QZGammad);
+}
+
+/*
+ * Lambda[((N-1)*column_b) * column_b]
+ */
+void mpc_Lambda_matrix(float Lambda[], const size_t column_b, const size_t N) {
+	float* I = (float*)malloc(column_b * column_b * sizeof(float));
+	eye(I, column_b, column_b);
+	float* T = (float*)malloc(column_b * (2 * column_b) * sizeof(float));
+	insert(I, T, column_b, column_b, 2 * column_b, 0, column_b);
+	scalar(I, -1.0f, column_b * column_b);
+	insert(I, T, column_b, column_b, 2 * column_b, 0, 0);
+	size_t i;
+	for (i = 0; i < N - 1; i++) {
+		insert(T, Lambda, column_b, 2 * column_b, N * column_b, i * column_b, (i + 1) * column_b);
+	}
+
+	/* Free */
+	free(I);
+	free(T);
+}
+
+/*
+ * barSpsi[(N * column_b * (N * column_b)]
+ */
+void mpc_barSpsi_matrix(float barSpsi[], const float Spsi, const size_t column_b, const size_t N) {
+	eye(barSpsi, N * column_b, N * column_b);
+	scalar(barSpsi, Spsi, N * column_b * N * column_b);
+}
+
+/*
+ * barspsi[N]
+ */
+void mpc_barspsi_vector(float barspsi[], const float spsi, const size_t N) {
+	size_t i;
+	for (i = 0; i < N; i++) {
+		barspsi[i] = spsi;
+	}
+}
+
+/*
+ * barH[(2 * N * column_b) * (2 * N * column_b)]
+ * H[(N * column_b) * (N * column_b)]
+ * barSpsi[(N * column_b) * (N * column_b)]
+ */
+void mpc_barH_matrix(float barH[], const float H[], const float barSpsi[], const size_t column_b, const size_t N) {
+	memset(barH, 0, (2 * N * column_b) * (2 * N * column_b) * sizeof(float));
+	insert(H, barH, N * column_b, N * column_b, 2 * N * column_b, 0, 0);
+	insert(barSpsi, barH, N * column_b, N * column_b, 2 * N * column_b, N * column_b, N * column_b);
 }
