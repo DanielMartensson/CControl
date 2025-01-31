@@ -172,7 +172,7 @@ int main() {
 								5.9, 3, 5.1, 1.8 };
 
 	/* Class ID */
-	size_t class_id[row];
+	uint8_t class_id[row];
 	size_t i;
 	for (i = 0; i < 50; i++) {
 		class_id[i] = 0;
