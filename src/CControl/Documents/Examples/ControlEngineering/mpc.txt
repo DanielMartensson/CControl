@@ -237,11 +237,11 @@ int main() {
     print(barZmax, N * row_c, 1); */
 
     /* Create gradient bar g - Equation (3.51) */
-    float barg[N * column_b + N];
+    float barg[N * column_b + column_b * N];
     mpc_barg_vector(barg, g, barspsi, column_b, N);
 
     /* Debug 
-    print(barg, N * column_b + N, 1); */
+    print(barg, N * column_b + column_b * N, 1); */
 
     /* Create barUmin and barUmax - Equation (3.52) */
     float barUmin[N * column_b + N];
@@ -289,7 +289,6 @@ int main() {
     end = clock();
     cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
     printf("\nTotal speed  was %f\n", cpu_time_used);
-
 
     /* Check memory */
     detectmemoryleak();

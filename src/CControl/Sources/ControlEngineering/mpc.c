@@ -483,7 +483,7 @@ void mpc_barZmax_vector(float barZmax[], const float Zmax[], const float Phi[], 
 }
 
 /*
- * barg[N * column_b + N] 
+ * barg[N * column_b + column_b * N] 
  * g[N * column_b]
  * barspsi[N * column_b]
  */
