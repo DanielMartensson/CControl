@@ -1,0 +1,328 @@
+/*
+ ============================================================================
+ Name        : mpc.c
+ Author      : Daniel Mårtensson
+ Version     : 1.0
+ Copyright   : MIT
+ Description : Model Predictive Control with integral action
+ ============================================================================
+ */
+
+#include "CControl/ccontrol.h"
+
+ /* Constants */
+#define SAMPLETIME 0.5f
+#define row_a 2
+#define column_b 2
+#define row_c 3
+#define column_e 1
+#define ITERATIONS 1000
+#define N 2
+
+int main() {
+    clock_t start, end;
+    float cpu_time_used;
+    start = clock();
+
+    /* Mass damping spring system of second order. Described as state space x(k+1) = A*x(k) + B*u(k) */
+    const float k = 18.7f;    /* Spring constant [N/m] */
+    const float b = 3.1f;   /* Damper constant [Ns/m] */
+    const float m = 13.5f;    /* Mass [kg] */
+    const float A[row_a * row_a] = { 0, 1, -k / m, -b / m };
+    const float B[row_a * column_b] = { 0, 0, 1/m, 1/m };
+    const float C[row_c * row_a] = { 0.5f, 0, 0, 1, 1, 1 };
+    const float E[row_a * column_e] = { 0, 1/m };
+
+    /* Create discrete matrices - Equation (2.9) */
+    float Ad[row_a * row_a];
+    float Bd[row_a * column_b];
+    float Cd[row_c * row_a];
+    float Ed[row_a * column_e];
+    mpc_discrete_matrices(SAMPLETIME, A, B, C, E, Ad, Bd, Cd, Ed, row_a, column_b, row_c, column_e);
+
+    /* Debug 
+    print(Ad, row_a, row_a);
+    print(Bd, row_a, column_b);
+    print(Cd, row_c, row_a);
+    print(Ed, row_a, column_e);  */
+
+    /* Create the kalman gain matrix K - Here we use Kalman-Bucy (1961) filter instead of Kalman Filter (1960) */
+    const float Qf[row_a * row_a] = { 1, 0, 0, 1 };
+    const float Rf[row_c * row_c] = { 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1 };
+    float K[row_a * row_c];
+    mpc_kalman_gain(ITERATIONS, SAMPLETIME, Ad, Cd, Qf, Rf, K, row_a, row_c);
+
+    /* Debug 
+    print(K, row_a, row_c); */
+
+    /* Create the Phi matrix and lower hankel toeplitz Gamma matrix of inputs - Equation (3.6) */
+    float Phi[(N * row_c) * row_a];
+    mpc_phi_matrix(Phi, Ad, Cd, row_a, row_c, N);
+
+    /* Debug 
+    print(Phi, N * row_c, row_a); */
+
+    /* Lower triangular toeplitz of extended observability matrix */
+    float Gamma[(N * row_c) * (N * column_b)];
+    mpc_gamma_matrix(Gamma, Phi, Bd, Cd, row_a, row_c, column_b, N);
+
+    /* Debug 
+    print(Gamma, N * row_c, N * column_b); */
+
+    /* Create reference vector - Equation (3.8) */
+    float R[N * row_c];
+    const float r[row_c] = { 10, 10, 10 };
+    mpc_vector(R, r, row_c, N);
+
+    /* Debug 
+    print(R, N * row_c, 1); */
+
+    /* Create the weigth matrix - Equation (3.10) */
+    float QZ[(N * row_c) * (N * row_c)];
+    const float Qz[row_c * row_c] = { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    mpc_QZ_matrix(QZ, Qz, row_c, N);
+
+    /* Debug 
+    print(QZ, N * row_c, N * row_c); */
+
+    /* Create the regularization matrix - Equation (3.21) */
+    float S[column_b * column_b];
+    const float s = 1.0f;
+    mpc_S_matrix(S, s, column_b);
+    float HS[(N * column_b) * (N * column_b)];
+    mpc_HS_matrix(HS, S, column_b, N);
+
+    /* Debug 
+    print(S, column_b, column_b);
+    print(HS, N * column_b, N * column_b); */
+
+    /* Create the QP solver H matrix - Equation (3.24) */
+    float H[(N * column_b) * (N * column_b)];
+    mpc_H_matrix(H, Gamma, QZ, HS, row_c, column_b, N);
+
+    /* Debug 
+    print(H, N * column_b, N * column_b); */
+
+    /* Create the lower hankel toeplitz Gamma matrix of disturbance and its disturbance vector - Equation (3.27) */
+    float Gammad[(N * row_c) * (N * column_e)];
+    mpc_gamma_matrix(Gammad, Phi, Ed, Cd, row_a, row_c, column_e, N);
+    float D[N * column_e];
+    const float d[column_e] = { 3 };
+    mpc_vector(D, d, column_e, N);
+
+    /* Debug 
+    print(Gammad, N * row_c, N * column_e);
+    print(D, N * column_e, 1); */
+
+    /* Create the QP solver matrix for the gradient - Equation (3.32) */
+    float Mx0[(N * column_b) * row_a];
+    mpc_Mx0_matrix(Mx0, Gamma, QZ, Phi, row_a, row_c, column_b, N);
+    float Mum1[(N * column_b) * column_b];
+    mpc_Mum1_matrix(Mum1, S, column_b, N);
+    float MR[(N * column_b) * (N * row_c)];
+    mpc_MR_matrix(MR, Gamma, QZ, row_c, column_b, N);
+    float MD[(N * column_b) * (N * column_e)];
+    mpc_MD_matrix(MD, Gamma, Gammad, QZ, row_c, column_b, column_e, N);
+
+    /* Debug 
+    print(Mx0, N * column_b, row_a);
+    print(Mum1, N * column_b, column_b);
+    print(MR, N * column_b, N * row_c);
+    print(MD, N * column_b, N * column_e); */
+
+    /* Create constraints on the movment - Equation (3.38) */
+    float deltaUmin[(N - 1) * column_b];
+    const float deltaumin[column_b] = { -10, -10 };
+    mpc_vector(deltaUmin, deltaumin, column_b, N - 1);
+    float deltaUmax[(N - 1) * column_b];
+    const float deltaumax[column_b] = { 10, 10 };
+    mpc_vector(deltaUmax, deltaumax, column_b, N - 1);
+    float Lambda[((N - 1) * column_b) * (N * column_b)];
+    mpc_Lambda_matrix(Lambda, column_b, N);
+
+    /* Debug 
+    print(deltaUmin, (N - 1) * column_b, 1);
+    print(deltaUmax, (N - 1) * column_b, 1);
+    print(Lambda, (N - 1) * column_b, N * column_b); */
+
+    /* Create constraints on outputs - Equation (3.43) */
+    float Zmin[N * row_c];
+    const float zmin[row_c] = { -1, -1, -1 };
+    mpc_vector(Zmin, zmin, row_c, N);
+    float Zmax[N * row_c];
+    const float zmax[row_c] = { 100, 100, 100 };
+    mpc_vector(Zmax, zmax, row_c, N);
+
+    /* Debug 
+    print(Zmin, N * row_c, 1);
+    print(Zmax, N * row_c, 1); */
+
+    /* Create the slack variables - Equation (3.49) */
+    float barSpsi[(N * column_b) * (N * column_b)];
+    const float Spsi_spsi = 1;
+    const float Spsi = Spsi_spsi;
+    mpc_barSpsi_matrix(barSpsi, Spsi, column_b, N);
+    float barspsi[N*column_b];
+    const float spsi = Spsi_spsi;
+    mpc_barspsi_vector(barspsi, spsi, column_b, N);
+
+    /* Debug 
+    print(barSpsi, N * column_b, N * column_b);
+    print(barspsi, N, 1); */
+
+    /* Create QP solver matrix - Equation (3.51) */
+    float barH[(2 * N * column_b) * (2 * N * column_b)];
+    mpc_barH_matrix(barH, H, barSpsi, column_b, N);
+
+    /* Debug 
+    print(barH, 2 * N * column_b, 2 * N * column_b); */
+
+    /* All code below should be placed inside the While-loop */
+
+    /* Integral action - Equation (3.66) */
+    float eta[row_c] = { 0 };
+    float y[row_c] = { 0, 0, 0 };
+    const float lambda = 0.5f;
+    mpc_eta_vector(eta, r, y, lambda, row_c);
+
+    /* Debug 
+    print(eta, row_c, 1); */
+
+    /* Anti-windup */
+    const float antiwindup = 3.4f;
+    mpc_antiwindup_vector(eta, antiwindup, row_c);
+
+    /* Debug 
+    print(eta, row_c, 1); */
+
+    /* Compute candidate state x - Equation (3.65) */
+    float x[row_a] = { 0 };
+    float u[column_b] = { 0 };
+    mpc_stateupdate_vector(x, Ad, Bd, Ed, u, d, row_a, column_b, column_e);
+
+    /* Debug 
+    print(x, row_a, 1); */
+
+    /* 
+     * Create gradient g. Also add the integral eta together with reference vector R for adjust the reference settings - Equation (3.32)
+     * The reason why adjusting the reference R vector is because then the integral action will be optimized inside the QP-solver.
+     */
+    float g[N * column_b];
+    float um1[column_b] = { 0 };
+    mpc_g_vector(g, Mx0, x, MR, R, eta, MD, D, Mum1, um1, row_a, row_c, column_b, column_e, N);
+
+    /* Debug 
+    print(g, N * column_b, 1); */
+
+    /* Create constraints on inputs - Equation (3.40) */
+    float Umin[N * column_b];
+    const float umin[column_b] = { -10, -10 };
+    mpc_Umin_vector(Umin, umin, deltaumin, um1, N, column_b);
+    float Umax[N * column_b];
+    const float umax[column_b] = { 60, 60 };
+    mpc_Umax_vector(Umax, umax, deltaumax, um1, N, column_b);
+
+    /* Debug 
+    print(Umin, N * column_b, 1);
+    print(Umax, N * column_b, 1); */
+
+    /* Create constraints for the output - Equation (3.44) */
+    float barZmin[N * row_c];
+    mpc_barZmin_vector(barZmin, Zmin, Phi, x, Gammad, D, row_a, row_c, column_b, column_e, N);
+    float barZmax[N * row_c];
+    mpc_barZmax_vector(barZmax, Zmax, Phi, x, Gammad, D, row_a, row_c, column_b, column_e, N);
+
+    /* Debug 
+    print(barZmin, N * row_c, 1);
+    print(barZmax, N * row_c, 1); */
+
+    /* Create gradient bar g - Equation (3.51) */
+    float barg[N * column_b + N];
+    mpc_barg_vector(barg, g, barspsi, column_b, N);
+
+    /* Debug 
+    print(barg, N * column_b + N, 1); */
+
+    /* Create barUmin and barUmax - Equation (3.52) */
+    float barUmin[N * column_b + N];
+    mpc_barUmin_vector(barUmin, Umin, column_b, N);
+    float barUmax[N * column_b + N];
+    mpc_barUmax_vector(barUmax, Umax, column_b, N);
+
+    /* Debug 
+    print(barUmin, N * column_b + N, 1);
+    print(barUmax, N * column_b + N, 1); */
+
+    /* Create bmin, bmax and A - Equation (3.56) */
+    float bmin[(N - 1) * column_b + N * row_c + N * row_c];
+    float bmax[(N - 1) * column_b + N * row_c + N * row_c];
+    float AA[((N - 1) * column_b + 2 * N * row_c) * (2 * N * column_b)];
+    mpc_bmax_vector(bmax, deltaUmax, barZmax, column_b, row_c, N);
+    mpc_bmin_vector(bmin, deltaUmin, barZmin, column_b, row_c, N);
+    mpc_AA_matrix(AA, Lambda, Gamma, row_c, column_b, N);
+
+    /* Debug 
+    print(bmin, (N - 1) * column_b + N * row_c + N * row_c, 1);
+    print(bmax, (N - 1) * column_b + N * row_c + N * row_c, 1);
+    print(AA, (N - 1) * column_b + 2 * N * row_c, 2 * N * column_b); */
+
+    /* Create for QP - Equation (3.57) */
+    float aqp[(2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N)) * (2 * N * column_b)] = { 0 };
+    mpc_aqp_matrix(aqp, AA, column_b, row_c, N);
+    float bqp[2 * (N * column_b + N) + 2 * ((N - 1) * column_b + N * row_c + N * row_c)];
+    mpc_bqp_vector(bqp, barUmin, barUmax, bmin, bmax, column_b, row_c, N);
+
+    /* Debug 
+    print(aqp, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 2 * N * column_b);
+    print(bqp, 2 * (N * column_b + N) + 2 * ((N - 1) * column_b + N * row_c + N * row_c), 1); */
+
+    /* Quadraptic programming output */
+    float U[2 * N * column_b] = { 0 };
+    quadprog(barH, barg, aqp, bqp, NULL, NULL, U, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 0, 2 * N * column_b, false);
+
+    /* Get amount of output from U */
+    size_t i;
+    for (i = 0; i < 2 * N * column_b; i++) {
+        printf("Output %i: %f\n", i, U[i]);
+    }
+
+    end = clock();
+    cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+    printf("\nTotal speed  was %f\n", cpu_time_used);
+
+
+    /* Check memory */
+    detectmemoryleak();
+
+    return EXIT_SUCCESS;
+}
+
+/*
+ GNU Octave code:
+
+m = 1;
+b = 10.4;
+k = 1;
+
+% Definiera systemparametrar
+A = [0 1; -k/m -b/m];      % Tillståndsmatris
+B = [0, k 1; m -1/m b/m ];          % Ingångsmatris
+C = [1 0; 0 1];
+
+pkg load control
+
+sys = mc.ss(0, A, B, C);
+sys1 = ss(A, B, C);
+sysd = mc.c2d(sys, 0.5);
+sysd1 = c2d(sys1, 0.5);
+
+
+Q = [1 0; 0 1];
+R = [ 1, 0, 0; 0, 0.5, 0; 0, 0, 3 ];
+
+%[X, L, K] = dare(A, B, Q, R)
+%[X, K, L] = mc.are(sysd, Q, R)
+L = lqr(sysd1, Q, R)
+L = mc.lqr(sysd, Q, R)
+
+*/

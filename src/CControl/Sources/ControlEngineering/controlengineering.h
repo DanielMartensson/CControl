@@ -31,11 +31,28 @@ void mpc_H_matrix(float H[], const float Gamma[], const float QZ[], const float 
 void mpc_Mx0_matrix(float Mx0[], const float Gamma[], const float QZ[], const float Phi[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t N);
 void mpc_Mum1_matrix(float Mum1[], const float S[], const size_t column_b, const size_t N);
 void mpc_MR_matrix(float MR[], const float Gamma[], const float QZ[], const size_t row_c, const size_t column_b, const size_t N);
-void mpc_MD_matrix(float MD[], const float Gamma[], const float Gammad[], const float QZ[], const size_t row_c, const size_t column_b, const size_t N);
+void mpc_MD_matrix(float MD[], const float Gamma[], const float Gammad[], const float QZ[], const size_t row_c, const size_t column_b, const size_t column_e, const size_t N);
 void mpc_Lambda_matrix(float Lambda[], const size_t column_b, const size_t N);
 void mpc_barSpsi_matrix(float barSpsi[], const float Spsi, const size_t column_b, const size_t N);
-void mpc_barspsi_vector(float barspsi[], const float spsi, const size_t N);
+void mpc_barspsi_vector(float barspsi[], const float spsi, const size_t column_b, const size_t N);
 void mpc_barH_matrix(float barH[], const float H[], const float barSpsi[], const size_t column_b, const size_t N);
+void mpc_eta_vector(float eta[], const float r[], const float y[], const float lambda, const size_t row_c);
+void mpc_antiwindup_vector(float eta[], const float antiwindup, const size_t row_c);
+void mpc_stateupdate_vector(float x[], const float Ad[], const float Bd[], const float Ed[], const float u[], const float d[], const size_t row_a, const size_t column_b, const size_t column_e);
+void mpc_g_vector(float g[], const float Mx0[], const float x[], const float MR[], const float R[], const float eta[], const float MD[], const float D[], const float Mum1[], const float um1[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t column_e, const size_t N);
+void mpc_Umin_vector(float Umin[], const float umin[], const float deltaumin[], const float um1[], const size_t N, const size_t column_b);
+void mpc_Umax_vector(float Umax[], const float umax[], const float deltaumax[], const float um1[], const size_t N, const size_t column_b);
+void mpc_barZmin_vector(float barZmin[], const float Zmin[], const float Phi[], const float x0[], const float Gammad[], const float D[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t column_e, const size_t N);
+void mpc_barZmax_vector(float barZmax[], const float Zmax[], const float Phi[], const float x0[], const float Gammad[], const float D[], const size_t row_a, const size_t row_c, const size_t column_b, const size_t column_e, const size_t N);
+void mpc_barg_vector(float barg[], const float g[], const float barspsi[], const size_t column_b, const size_t N);
+void mpc_barUmin_vector(float barUmin[], const float Umin[], const size_t column_b, const size_t N);
+void mpc_barUmax_vector(float barUmax[], const float Umax[], const size_t column_b, const size_t N);
+void mpc_bmin_vector(float bmin[], const float deltaUmin[], const float barZmin[], const size_t column_b, const size_t row_c, const size_t N);
+void mpc_bmax_vector(float bmin[], const float deltaUmax[], const float barZmax[], const size_t column_b, const size_t row_c, const size_t N);
+void mpc_AA_matrix(float AA[], const float Lambda[], const float Gamma[], const size_t row_c, const size_t column_b, const size_t N);
+void mpc_aqp_matrix(float aqp[], const float AA[], const size_t column_b, const size_t row_c, const size_t N);
+void mpc_bqp_vector(float bqp[], const float barUmin[], const float barUmax[], const float bmin[], const float bmax[], const size_t column_b, const size_t row_c, const size_t N);
+
 
 #ifdef __cplusplus
 }

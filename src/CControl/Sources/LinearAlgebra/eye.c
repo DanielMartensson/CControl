@@ -11,10 +11,11 @@
  * Create identity matrix I
  * I[row * column]
  */
-void eye(float I[], const size_t row, const size_t column) {
+void eye(float I[], const float value, const size_t row, const size_t column) {
 	memset(I, 0, row * column * sizeof(float));
 	size_t i;
-	for (i = 0; i < row; i++) {
-		I[i * column] = 1.0f;
+	const size_t smallest = (size_t)vmin(row, column);
+	for (i = 0; i < smallest; i++) {
+		I[i * column + i] = value;
 	}
 }
