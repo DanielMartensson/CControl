@@ -110,4 +110,67 @@ typedef struct {
 	ADABOOST_MODEL adaboost_model;
 }VIOLAJONES_MODEL;
 
+/* For mpc.c */
+typedef struct {
+	/* Flag */
+	bool is_initlized; /* Flag of initialization */
+
+	size_t row_a;      /* Constant dimension of A matrix */
+	size_t column_b;   /* Constant columns of B matrix */
+	size_t row_c;      /* Constant dimension of C matrix */
+	size_t column_e;   /* Constant columns of E matrix */
+	size_t N;          /* Constant horizon */
+
+	/* Discrete model */
+	float* Ad;         /* [row_a * row_a] */
+	float* Bd;         /* [row_a * column_b] */
+	float* Cd;         /* [row_c * row_a] */
+	float* Ed;         /* [row_a * column_e] */
+
+	/* Kalman Filter */
+	float* K;          /* [row_a * row_c] */
+
+	/* Phi matrix */
+	float* Phi;        /* [(N * row_c) * row_a] */
+
+	/* Disturbance */
+	float* Gammad;     /* [(N * row_c) * (N * column_e)] */
+
+	/* Gradient */
+	float* Mx0;        /* [(N * column_b) * row_a] */
+	float* Mum1;       /* [(N * column_b) * column_b] */
+	float* MR;         /* [(N * column_b) * (N * row_c)] */
+	float* MD;         /* [(N * column_b) * (N * column_e)] */
+
+	/* Constraints on movement */
+	float* deltaUmin;  /* [(N - 1) * column_b] */
+	float* deltaUmax;  /* [(N - 1) * column_b] */
+	float* deltaumin;  /* [column_b] */
+	float* deltaumax;  /* [column_b] */
+
+	/* Constraints on output */
+	float* Zmin;       /* [N * row_c] */
+	float* Zmax;       /* [N * row_c] */
+
+	/* Constraints on inputs */
+	float* umin;       /* [column_b] */
+	float* umax;       /* [column_b] */
+
+	/* Slack variables */
+	float* barspsi;    /* [N * column_b] */
+
+	/* QP Solver matrix */
+	float* barH;       /* [(2 * N * column_b) * (2 * N * column_b)] */
+
+	/* Inequality constraints */
+	float* AA;         /* [((N - 1) * column_b + 2 * N * row_c) * (2 * N * column_b)] */
+
+	/* Integral action */
+	float* eta;        /* [row_c] */
+
+	/* State */
+	float* x;          /* [row_a] */
+
+}MPC;
+
 #endif /* !STRUCTS_H_ */
