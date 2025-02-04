@@ -11,18 +11,20 @@
 #include "CControl/ccontrol.h"
 
  /* Constants */
-#define sampleTime 1.0f
-#define row_a 2
-#define column_b 1
-#define row_c 1
-#define column_e 1
-#define iterations 1000
-#define N 10
-#define qw 1.0f
-#define rv 0.1f
-#define qz 1.0f
-#define s 1.0f
-#define Spsi_spsi 1.0f
+#define sampleTime 1.0f.         /* Sample time of discrete model */
+#define row_a 2                  /* Dimension of A */
+#define column_b 1               /* Columns of B */
+#define row_c 1                  /* Dimension of C */
+#define column_e 1               /* Columns of E */
+#define iterations 1000          /* Simulation for finding kalman gain K */
+#define N 10                     /* MPC control horizon */
+#define qw 1.0f                  /* Kalman scalar for disturbance covariance matrix Q */
+#define rv 0.1f                  /* Kalman scalar for noise covariance matrix R */
+#define qz 1.0f                  /* Weight scalar for weight matrix QZ */
+#define s 1.0f                   /* Regularization scalar for regularization matrix S */
+#define Spsi_spsi 1.0f           /* Slack variable scalar for slack variable matrix Spsi and slack vector spsi */
+#define alpha 0.1f               /* Integral action constant */
+#define antiwindup 100.0f        /* Anti-windup max/min limitation for the integral action */
 
 int main() {
     clock_t start, end;
@@ -44,21 +46,19 @@ int main() {
     bool is_initlized = mpc_init(&mpc, A, B, C, E, sampleTime, qw, rv, qz, s, Spsi_spsi, row_a, column_b, row_c, column_e, N, iterations);
 
     /* Set constraints */
-    const float deltaumin[column_b] = { -30 };
-    const float deltaumax[column_b] = { 30 };
-    const float umin[column_b] = { 0 };
-    const float umax[column_b] = { 60 };
-    const float zmin[row_c] = { -1 };
-    const float zmax[row_c] = { 100 };
+    const float deltaumin[column_b] = { -30 }; /* Minimum rate of change for input u */
+    const float deltaumax[column_b] = { 30 };  /* Maximum rate of change for input u */
+    const float umin[column_b] = { 0 };        /* Minimum limit for input u */
+    const float umax[column_b] = { 60 };       /* Maximum limit for input u */
+    const float zmin[row_c] = { -1 };          /* Minimum limit for output y */
+    const float zmax[row_c] = { 100 };         /* Maximum limit for output y */
     mpc_set_constraints(&mpc, umin, umax, zmin, zmax, deltaumin, deltaumax);
 
     /* Compute u */
-    float u[column_b] = { 0 };
-    const float r[row_c] = { 10 };
-    const float y[row_c] = { 0.5f };
-    const float d[column_e] = { 0 };
-    const float alpha = 0.1f;
-    const float antiwindup = 100.0f;
+    float u[column_b] = { 0 };                 /* This will be computed by MPC */
+    const float r[row_c] = { 10 };             /* User setpoint for the trajectory */
+    const float y[row_c] = { 0.5f };           /* User mesured output */
+    const float d[column_e] = { 0 };           /* User mesured known process disturbance */
     start = clock();
     mpc_optimize(&mpc, u, r, y, d, alpha, antiwindup);
 
