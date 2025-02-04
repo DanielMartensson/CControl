@@ -1046,32 +1046,32 @@ void mpc_estimate(MPC* mpc, const float y[]) {
 }
 
 void mpc_free(MPC* mpc){
-  /* This follows the MPC struct */
-  free(mpc->Ad);
-  free(mpc->Bd);
-  free(mpc->Cd);
-  free(mpc->Ed);
-  free(mpc->K);
-  free(mpc->Phi);
-  free(mpc->Gammad);
-  free(mpc->Mx0);
-  free(mpc->Mum1);
-  free(mpc->MR);
-  free(mpc->MD);
-  free(mpc->deltaUmin);
-  free(mpc->deltaUmax);
-  free(mpc->deltaumin);
-  free(mpc->deltaumax);
-  free(mpc->Zmin);
-  free(mpc->Zmax);
-  free(mpc->umin);
-  free(mpc->umax);
-  free(mpc->barspsi);
-  free(mpc->barH);
-  free(mpc->AA);
-  free(mpc->eta);
-  free(mpc->x);
-  mpc->is_initlized = false;
+        /* This follows the MPC struct */
+        free(mpc->Ad);
+        free(mpc->Bd);
+        free(mpc->Cd);
+        free(mpc->Ed);
+        free(mpc->K);
+        free(mpc->Phi);
+        free(mpc->Gammad);
+        free(mpc->Mx0);
+        free(mpc->Mum1);
+        free(mpc->MR);
+        free(mpc->MD);
+        free(mpc->deltaUmin);
+        free(mpc->deltaUmax);
+        free(mpc->deltaumin);
+        free(mpc->deltaumax);
+        free(mpc->Zmin);
+        free(mpc->Zmax);
+        free(mpc->umin);
+        free(mpc->umax);
+        free(mpc->barspsi);
+        free(mpc->barH);
+        free(mpc->AA);
+        free(mpc->eta);
+        free(mpc->x);
+        mpc->is_initlized = false;
 }
 
 /* GNU Octave code
