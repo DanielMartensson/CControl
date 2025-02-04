@@ -30,7 +30,7 @@ int main() {
     clock_t start, end;
     float cpu_time_used;
 
-    /* Mass damping spring system of second order. Described as state space x(k+1) = A*x(k) + B*u(k) */
+    /* Mass damping spring system of second order with disturbance input d. Described as state space x(k+1) = A*x(k) + B*u(k) + E*d(k) */
     const float k = 8.7f;                       /* Spring constant [N/m] */
     const float b = 3.1f;                       /* Damper constant [Ns/m] */
     const float m = 13.5f;                      /* Mass [kg] */
