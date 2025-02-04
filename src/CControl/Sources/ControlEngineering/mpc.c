@@ -844,8 +844,8 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 	/* Flag */
 	mpc->is_initlized = true;
 
-  /* Return true */
-  return true;
+    /* Return true */
+    return true;
 }
 
 /*
