@@ -31,9 +31,9 @@ int main() {
     float cpu_time_used;
 
     /* Mass damping spring system of second order. Described as state space x(k+1) = A*x(k) + B*u(k) */
-    const float k = 8.7f;    /* Spring constant [N/m] */
-    const float b = 3.1f;   /* Damper constant [Ns/m] */
-    const float m = 13.5f;    /* Mass [kg] */
+    const float k = 8.7f;                       /* Spring constant [N/m] */
+    const float b = 3.1f;                       /* Damper constant [Ns/m] */
+    const float m = 13.5f;                      /* Mass [kg] */
     const float A[row_a * row_a] = { 0, 1, -k / m, -b / m };
     const float B[row_a * column_b] = { 0, 1/m };
     const float C[row_c * row_a] = { 0.5f, 0 };
