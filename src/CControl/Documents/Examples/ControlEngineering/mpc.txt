@@ -60,7 +60,7 @@ int main() {
     const float y[row_c] = { 0.5f };           /* User mesured output */
     const float d[column_e] = { 0 };           /* User mesured known process disturbance */
     start = clock();
-    const status = mpc_optimize(&mpc, u, r, y, d, alpha, antiwindup);
+    const bool status = mpc_optimize(&mpc, u, r, y, d, alpha, antiwindup);
 
     /* Compute next state x */
     mpc_estimate(&mpc, y);
