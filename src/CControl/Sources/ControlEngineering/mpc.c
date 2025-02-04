@@ -856,7 +856,7 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
  * deltaumin[column_b]
  * deltaumax[column_b]
  */
-void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const float zmin[], const float zmax[], float deltaumin[], const float deltaumax[]) {
+void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const float zmin[], const float zmax[], const float deltaumin[], const float deltaumax[]) {
 	mpc_set_input_constraints(mpc, umin, umax);
 	mpc_set_output_constraints(mpc, zmin, zmax);
 	mpc_set_input_change_constraints(mpc, deltaumin, deltaumax);
