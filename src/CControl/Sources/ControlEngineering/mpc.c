@@ -699,9 +699,7 @@ void mpc_set_input_constraints(MPC* mpc, const float umin[], const float umax[])
  * E[row_a * column_e]
  */
 bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations) {
-	/* This MPC code follows this thesis: https://github.com/DanielMartensson/MataveControl/blob/master/Model%20Predictive%20Control%20for%20an%20artifical%20pancreas%20-%20Matias%20S%C3%B8rensen%20og%20Simon%20Kristiansen.pdf */
-
- /* Check if the mpc has been initlized before */
+  /* Check if the mpc has been initlized before */
 	if (mpc->is_initlized) {
     return false;
 	}
@@ -1075,7 +1073,9 @@ void mpc_free(MPC* mpc){
 
 /* GNU Octave code
 
-% Use Model Predictive Control with integral action, quadratic programming and kalman-bucy filter
+% Use Model Predictive Control with integral action, quadratic programming and kalman-bucy filter.
+% This MPC code follows this thesis: https://github.com/DanielMartensson/MataveControl/blob/master/Model%20Predictive%20Control%20for%20an%20artifical%20pancreas%20-%20Matias%20S%C3%B8rensen%20og%20Simon%20Kristiansen.pdf
+
 % Input: sysp(State space model of the plant), sysc(State space model of the controller), N(Horizon number), r(Reference vector),
 % umin(Minimum input vector), umax(Maximum input vector), zmin(Minimum output vector), zmax(Maximum output vector),
 % deltaumin(Minimum output vector rate of change), deltaumax(Maximum rate of change output vector), antiwindup(Maximum/Minimum value of integral),
