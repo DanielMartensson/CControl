@@ -60,14 +60,14 @@ int main() {
     const float y[row_c] = { 0.5f };           /* User mesured output */
     const float d[column_e] = { 0 };           /* User mesured known process disturbance */
     start = clock();
-    mpc_optimize(&mpc, u, r, y, d, alpha, antiwindup);
+    const status = mpc_optimize(&mpc, u, r, y, d, alpha, antiwindup);
 
     /* Compute next state x */
     mpc_estimate(&mpc, y);
     end = clock();
 
     /* Print u */
-    printf("Optimized output u:\n");
+    printf("Optimized output u (success: %s):\n", status ? "yes" : "no");
     print(u, column_b, 1);
 
     /* Print x */
