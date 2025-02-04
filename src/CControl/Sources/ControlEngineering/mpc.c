@@ -129,7 +129,7 @@ void mpc_HS_matrix(float HS[], const float S[], const size_t column_b, const siz
 
 	/* Fill */
 	if (N == 1) {
-		memset(HS, S, column_b * column_b * sizeof(float));
+		memcpy(HS, S, column_b * column_b * sizeof(float));
 	}
 	else {
 		memset(HS, 0, N * column_b * N * column_b * sizeof(float));
