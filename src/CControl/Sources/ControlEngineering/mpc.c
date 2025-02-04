@@ -699,10 +699,10 @@ void mpc_set_input_constraints(MPC* mpc, const float umin[], const float umax[])
  * E[row_a * column_e]
  */
 bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations) {
-        /* Check if the mpc has been initlized before */
-        if (mpc->is_initlized) {
-                return false;
-        }
+	/* Check if the mpc has been initlized before */
+	if (mpc->is_initlized) {
+		return false;
+    }
 
 	/* Set sizes */
 	mpc->row_a = row_a;           /* Dimension of A matrix */
@@ -856,10 +856,12 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
  * deltaumin[column_b]
  * deltaumax[column_b]
  */
-void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const float zmin[], const float zmax[], const float deltaumin[], const float deltaumax[]) {
+void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const float zmin[], const float zmax[], const float deltaumin[], const float deltaumax[], const float alpha, const float antiwindup) {
 	mpc_set_input_constraints(mpc, umin, umax);
 	mpc_set_output_constraints(mpc, zmin, zmax);
 	mpc_set_input_change_constraints(mpc, deltaumin, deltaumax);
+	mpc->alpha = alpha;
+	mpc->antiwindup = antiwindup;
 }
 
 /*
@@ -868,7 +870,7 @@ void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const
  * y[row_c]
  * d[column_e]
  */
-bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const float d[], const float alpha, const float antiwindup) {
+bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const float d[]) {
 	/* Get sizes */
 	const size_t row_a = mpc->row_a;
 	const size_t column_b = mpc->column_b;
@@ -877,13 +879,13 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 	const size_t N = mpc->N;
 
 	/* Integral action - Equation (3.66) */
-	mpc_eta_vector(mpc->eta, r, y, alpha, row_c);
+	mpc_eta_vector(mpc->eta, r, y, mpc->alpha, row_c);
 
 	/* Debug
 	print(mpc->eta, row_c, 1); */
 
 	/* Anti-windup */
-	mpc_antiwindup_vector(mpc->eta, antiwindup, row_c);
+	mpc_antiwindup_vector(mpc->eta, mpc->antiwindup, row_c);
 
 	/* Debug
 	print(mpc->eta, row_c, 1); */

@@ -52,7 +52,7 @@ int main() {
     const float umax[column_b] = { 60 };       /* Maximum limit for input u */
     const float zmin[row_c] = { -1 };          /* Minimum limit for output y */
     const float zmax[row_c] = { 100 };         /* Maximum limit for output y */
-    mpc_set_constraints(&mpc, umin, umax, zmin, zmax, deltaumin, deltaumax);
+    mpc_set_constraints(&mpc, umin, umax, zmin, zmax, deltaumin, deltaumax, alpha, antiwindup);
 
     /* Compute u */
     float u[column_b] = { 0 };                 /* Control output e.g PWM signal for your e.g real process. MPC will compute u depending on the provided matrices and vectors. */
@@ -60,7 +60,7 @@ int main() {
     const float y[row_c] = { 0 };           /* User mesured output */
     const float d[column_e] = { 0 };           /* User mesured known process disturbance */
     start = clock();
-    const bool status = mpc_optimize(&mpc, u, r, y, d, alpha, antiwindup);
+    const bool status = mpc_optimize(&mpc, u, r, y, d);
 
     /* Compute next state x */
     mpc_estimate(&mpc, u, y, d);

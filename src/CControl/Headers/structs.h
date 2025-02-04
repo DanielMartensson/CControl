@@ -167,6 +167,8 @@ typedef struct {
 
 	/* Integral action */
 	float* eta;        /* [row_c] */
+	float alpha;       /* Constant for integration rate */
+	float antiwindup;  /* Constant for integral limitation */
 
 	/* State */
 	float* x;          /* [row_a] */
