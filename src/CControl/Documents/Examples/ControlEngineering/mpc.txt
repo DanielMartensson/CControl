@@ -43,7 +43,7 @@ int main() {
     MPC mpc = { 0 };
 
     /* Init the structure */
-    bool is_initlized = mpc_init(&mpc, A, B, C, E, sampleTime, qw, rv, qz, s, Spsi_spsi, row_a, column_b, row_c, column_e, N, iterations);
+    const bool is_initlized = mpc_init(&mpc, A, B, C, E, sampleTime, qw, rv, qz, s, Spsi_spsi, row_a, column_b, row_c, column_e, N, iterations);
 
     /* Set constraints */
     const float deltaumin[column_b] = { -30 }; /* Minimum rate of change for input u */
