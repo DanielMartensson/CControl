@@ -12,10 +12,10 @@
 
  /* Constants */
 #define sampleTime 1.0f          /* Sample time of discrete model */
-#define row_a 2                  /* Dimension of A */
-#define column_b 1               /* Columns of B */
-#define row_c 1                  /* Dimension of C */
-#define column_e 1               /* Columns of E */
+#define row_a 2                  /* Dimension of system matrix A */
+#define column_b 1               /* Columns of input matrix B */
+#define row_c 1                  /* Dimension of output matrix C */
+#define column_e 1               /* Columns of disturbance matrix E */
 #define iterations 1000          /* Simulation for finding kalman gain K */
 #define N 10                     /* MPC control horizon */
 #define qw 1.0f                  /* Kalman scalar for disturbance covariance matrix Q */
