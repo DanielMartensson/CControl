@@ -1042,7 +1042,7 @@ void mpc_estimate(MPC* mpc, const float y[]) {
 	free(Ke);
 }
 
-void mpc_free(MPC* MPC){
+void mpc_free(MPC* mpc){
   /* This follows the MPC struct */
   free(mpc->Ad);
   free(mpc->Bd);
