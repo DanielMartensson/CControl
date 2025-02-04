@@ -868,7 +868,7 @@ void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const
  * y[row_c]
  * d[column_e]
  */
-void mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const float d[], const float alpha, const float antiwindup) {
+bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const float d[], const float alpha, const float antiwindup) {
 	/* Get sizes */
 	const size_t row_a = mpc->row_a;
 	const size_t column_b = mpc->column_b;
@@ -984,7 +984,7 @@ void mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 
 	/* Quadraptic programming output */
 	float* U = (float*)malloc(2 * N * column_b * sizeof(float));
-	quadprog(mpc->barH, barg, aqp, bqp, NULL, NULL, U, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 0, 2 * N * column_b, false);
+	const status = quadprog(mpc->barH, barg, aqp, bqp, NULL, NULL, U, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 0, 2 * N * column_b, false);
 
 	/* Get amount of output from U */
 	memcpy(u, U, column_b * sizeof(float));
@@ -1005,6 +1005,9 @@ void mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 	free(aqp);
 	free(bqp);
 	free(U);
+
+  /* Return status */
+  return status;
 
 }
 
