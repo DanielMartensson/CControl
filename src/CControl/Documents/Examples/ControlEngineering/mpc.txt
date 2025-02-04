@@ -11,7 +11,7 @@
 #include "CControl/ccontrol.h"
 
  /* Constants */
-#define sampleTime 1.0f.         /* Sample time of discrete model */
+#define sampleTime 1.0f          /* Sample time of discrete model */
 #define row_a 2                  /* Dimension of A */
 #define column_b 1               /* Columns of B */
 #define row_c 1                  /* Dimension of C */
