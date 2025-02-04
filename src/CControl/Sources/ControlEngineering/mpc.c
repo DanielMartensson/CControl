@@ -1010,13 +1010,17 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
     return status;
 }
 
-/* 
+/*
+ * u[column_b]
  * y[row_c]
+ * d[column_e]
  */
-void mpc_estimate(MPC* mpc, const float y[]) {
-	/* Get size */
+void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]) {
+	/* Get sizes */
 	const size_t row_c = mpc->row_c;
 	const size_t row_a = mpc->row_a;
+	const size_t column_b = mpc->column_b;
+	const size_t column_e = mpc->column_e;
 
 	/* Compute model output */
 	float* Cdx = (float*)malloc(row_c * sizeof(float));
@@ -1038,10 +1042,24 @@ void mpc_estimate(MPC* mpc, const float y[]) {
 		mpc->x[i] = mpc->x[i] + Ke[i];
 	}
 
+	/* Compute next state x */
+	float* Adx = (float*)malloc(row_a * sizeof(float));
+	mul(mpc->Ad, mpc->x, Adx, row_a, row_a, 1);
+	float* Bdu = (float*)malloc(row_a * sizeof(float));
+	mul(mpc->Bd, u, Bdu, row_a, column_b, 1);
+	float* Edd = (float*)malloc(row_a * sizeof(float));
+	mul(mpc->Ed, d, Edd, row_a, column_e, 1);
+	for (i = 0; i < row_a; i++) {
+		mpc->x[i] = Adx[i] + Bdu[i] + Edd[i];
+	}
+
 	/* Free */
 	free(Cdx);
 	free(e);
 	free(Ke);
+	free(Adx);
+	free(Bdu);
+	free(Edd);
 }
 
 bool mpc_free(MPC* mpc){
