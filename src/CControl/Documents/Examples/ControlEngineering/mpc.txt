@@ -55,7 +55,7 @@ int main() {
     mpc_set_constraints(&mpc, umin, umax, zmin, zmax, deltaumin, deltaumax);
 
     /* Compute u */
-    float u[column_b] = { 0 };                 /* This will be computed by MPC */
+    float u[column_b] = { 0 };                 /* Control output e.g PWM signal for your e.g real process */
     const float r[row_c] = { 10 };             /* User setpoint for the trajectory */
     const float y[row_c] = { 0.5f };           /* User mesured output */
     const float d[column_e] = { 0 };           /* User mesured known process disturbance */
