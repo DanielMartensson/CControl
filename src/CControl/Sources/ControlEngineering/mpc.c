@@ -843,9 +843,9 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 
 	/* Flag */
 	mpc->is_initlized = true;
-
-    /* Return true */
-    return true;
+ 
+        /* Return true */
+        return true;
 }
 
 /*
@@ -984,7 +984,7 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 
 	/* Quadraptic programming output */
 	float* U = (float*)malloc(2 * N * column_b * sizeof(float));
-	const status = quadprog(mpc->barH, barg, aqp, bqp, NULL, NULL, U, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 0, 2 * N * column_b, false);
+	const bool status = quadprog(mpc->barH, barg, aqp, bqp, NULL, NULL, U, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 0, 2 * N * column_b, false);
 
 	/* Get amount of output from U */
 	memcpy(u, U, column_b * sizeof(float));
@@ -1006,8 +1006,8 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 	free(bqp);
 	free(U);
 
-  /* Return status */
-  return status;
+        /* Return status */
+        return status;
 
 }
 
