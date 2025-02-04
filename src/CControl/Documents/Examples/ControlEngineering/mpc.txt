@@ -75,7 +75,7 @@ int main() {
     print(mpc.x, row_a, 1);
 
     /* Is struct initlized */
-    printed("Is MPC struct initlized after mpc_init: %s", is_initlized ? "yes" : "no");
+    printf("Is MPC struct initlized after mpc_init: %s", is_initlized ? "yes" : "no");
 
     /* Free */
     mpc_free(&mpc);
