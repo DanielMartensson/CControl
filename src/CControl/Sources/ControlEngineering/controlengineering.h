@@ -23,7 +23,7 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const float zmin[], const float zmax[], float deltaumin[], const float deltaumax[]);
 bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const float d[], const float alpha, const float antiwindup);
 void mpc_estimate(MPC* mpc, const float y[]);
-void mpc_free(MPC* mpc);
+bool mpc_free(MPC* mpc);
 
 
 #ifdef __cplusplus
