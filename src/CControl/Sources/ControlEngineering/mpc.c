@@ -2,7 +2,7 @@
  * mpc.c
  *
  *  Created on: 29 Januari 2025
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "controlengineering.h"
@@ -698,13 +698,10 @@ void mpc_set_input_constraints(MPC* mpc, const float umin[], const float umax[])
  * C[row_c * row_a]
  * E[row_a * column_e]
  */
-void mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations) {
+bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations) {
 	/* Check if the mpc has been initlized before */
-	if (!mpc->is_initlized) {
-		if (!mpc) {
-			free(mpc);
-		}
-		memset(mpc, 0, sizeof(MPC));
+	if (mpc->is_initlized) {
+    return false;
 	}
 
 	/* Set sizes */
@@ -846,6 +843,9 @@ void mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 
 	/* Flag */
 	mpc->is_initlized = true;
+
+  /* Return true */
+  return true;
 }
 
 /*
@@ -1042,6 +1042,35 @@ void mpc_estimate(MPC* mpc, const float y[]) {
 	free(Ke);
 }
 
+void mpc_free(MPC* MPC){
+  /* This follows the MPC struct */
+  free(mpc->Ad);
+  free(mpc->Bd);
+  free(mpc->Cd);
+  free(mpc->Ed);
+  free(mpc->K);
+  free(mpc->Phi);
+  free(mpc->Gammad);
+  free(mpc->Mx0);
+  free(mpc->Mum1);
+  free(mpc->MR);
+  free(mpc->MD);
+  free(mpc->deltaUmin);
+  free(mpc->deltaUmax);
+  free(mpc->deltaumin);
+  free(mpc->deltaumax);
+  free(mpc->Zmin);
+  free(mpc->Zmax);
+  free(mpc->umin);
+  free(mpc->umax);
+  free(mpc->barspsi);
+  free(mpc->barH);
+  free(mpc->AA);
+  free(mpc->eta);
+  free(mpc->x);
+  mpc->is_initlized = false;
+}
+
 /* GNU Octave code
 
 % Use Model Predictive Control with integral action, quadratic programming and kalman-bucy filter
@@ -1065,7 +1094,7 @@ void mpc_estimate(MPC* mpc, const float y[]) {
 % Example 10: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz, qw, rv, Spsi_spsi)
 % Example 11: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz, qw, rv, Spsi_spsi, d)
 % Example 12: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz, qw, rv, Spsi_spsi, d, E)
-% Author: Daniel Mårtensson 2025 Januari 20
+% Author: Daniel MÃ¥rtensson 2025 Januari 20
 
 function [Y, T, X, U] = kf_qmpc(varargin)
   % Check if there is any input
