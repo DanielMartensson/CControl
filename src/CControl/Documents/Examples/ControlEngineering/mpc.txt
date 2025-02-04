@@ -4,7 +4,7 @@
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Model Predictive Control with integral action
+ Description : Model Predictive Control with integral action and kalman filtering
  ============================================================================
  */
 
