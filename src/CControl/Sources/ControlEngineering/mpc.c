@@ -699,7 +699,9 @@ void mpc_set_input_constraints(MPC* mpc, const float umin[], const float umax[])
  * E[row_a * column_e]
  */
 bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations) {
-	/* Check if the mpc has been initlized before */
+	/* This MPC code follows this thesis: https://github.com/DanielMartensson/MataveControl/blob/master/Model%20Predictive%20Control%20for%20an%20artifical%20pancreas%20-%20Matias%20S%C3%B8rensen%20og%20Simon%20Kristiansen.pdf */
+
+ /* Check if the mpc has been initlized before */
 	if (mpc->is_initlized) {
     return false;
 	}
