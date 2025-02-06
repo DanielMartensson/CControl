@@ -141,7 +141,7 @@ void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings) {
 		char model_name[100];
 		char model_name_h[100];
 		char model_name_text[100];
-		/* This can result to buffer overflow - Keep a short name! */
+		/* This can result to buffer overflow - Keep a short name! Or use snprintf (C99) */
 		printf("Enter a model name: ");
 		scanf("%s", model_name);
 		uint8_t i;
