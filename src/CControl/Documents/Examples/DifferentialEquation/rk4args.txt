@@ -22,7 +22,7 @@
 #define ITERATIONS 200
 
 /* Create ODE equation */
-void odefun(const float t, float y[], const float* matrices[], const size_t rows[], const size_t columns[]) {
+void odefun(const float t, float y[], float* matrices[], const size_t rows[], const size_t columns[]) {
     /* Get the matrices */
     float* A = matrices[0];
     float* B = matrices[1];

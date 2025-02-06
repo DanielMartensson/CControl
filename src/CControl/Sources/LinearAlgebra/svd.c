@@ -1,15 +1,15 @@
-/*
+ï»¿/*
  * svd.c
  *
  *  Created on: 1 mars 2020
- *      Author: Daniel Mårtensson
+ *      Author: Daniel Mï¿½rtensson
  */
 
 #include "linearalgebra.h"
 
  /* Regular SVD routines */
-bool svd_golub_reinsch(float A[], size_t row, size_t column, float U[], float S[], float V[]);
-bool svd_jacobi_one_sided(float A[], size_t row, float U[], float S[], float V[]);
+bool svd_golub_reinsch(const float A[], size_t row, size_t column, float U[], float S[], float V[]);
+bool svd_jacobi_one_sided(const float A[], size_t row, float U[], float S[], float V[]);
 
 /* Include LAPACK routines */
 #ifdef CLAPACK_USED
@@ -149,14 +149,14 @@ bool svd(const float A[], const size_t row, const size_t column, float U[], floa
 	if (symmetric) {
 		/* Copy over */
 		memcpy(U, A, row * column * sizeof(float));
-		
+
 		/* Do SVD */
 		int status = LAPACKE_ssyevd(MKL_ROW_MAJOR, 'V', 'U', row, U, row, S);
 
 		/* Sort S */
 		size_t* index = (size_t*)malloc(column * sizeof(size_t));
 		sort(S, index, 1, column, SORT_MODE_COLUMN_DIRECTION_DESCEND);
-		
+
 		/* Sort V */
 		size_t i, j;
 		float* U0 = U;
@@ -186,7 +186,7 @@ bool svd(const float A[], const size_t row, const size_t column, float U[], floa
 		int n = column;
 		float* u = (float*)malloc(m * m * sizeof(float));
 		int status = LAPACKE_sgesdd(LAPACK_ROW_MAJOR, 'S', m, n, Acopy, n, S, u, m, V, n);
-		
+
 		/* Get the components from U */
 		float* u0 = u;
 		size_t i, bytes_shift = column * sizeof(float);
@@ -227,7 +227,7 @@ bool svd(const float A[], const size_t row, const size_t column, float U[], floa
   * Return true = Success
   * Return false = fail
   */
-bool svd_jacobi_one_sided(float A[], size_t row, float U[], float S[], float V[]) {
+bool svd_jacobi_one_sided(const float A[], size_t row, float U[], float S[], float V[]) {
 	/* Copy over A to Acopy */
 	float* Acopy = (float*)malloc(row * row * sizeof(float));
 	memcpy(Acopy, A, row * row * sizeof(float));
@@ -451,7 +451,7 @@ bool svd_jacobi_one_sided(float A[], size_t row, float U[], float S[], float V[]
  */
 
  /* Private functions */
-static void Householders_Reduction_to_Bidiagonal_Form(float* A, size_t nrows, size_t ncols, float* U, float* V, float* diagonal, float* superdiagonal);
+static void Householders_Reduction_to_Bidiagonal_Form(const float* A, size_t nrows, size_t ncols, float* U, float* V, float* diagonal, float* superdiagonal);
 static bool Givens_Reduction_to_Diagonal_Form(size_t nrows, size_t ncols, float* U, float* V, float* diagonal, float* superdiagonal);
 static void Sort_by_Decreasing_Singular_Values(size_t nrows, size_t ncols, float* singular_value, float* U, float* V);
 
@@ -493,7 +493,7 @@ static void Sort_by_Decreasing_Singular_Values(size_t nrows, size_t ncols, float
  * Return true = Success.
  * Return false = Fail.
  */
-bool svd_golub_reinsch(float A[], size_t row, size_t column, float U[], float S[], float V[]) {
+bool svd_golub_reinsch(const float A[], size_t row, size_t column, float U[], float S[], float V[]) {
 	float* dummy_array = (float*)malloc(column * sizeof(float));
 
 	Householders_Reduction_to_Bidiagonal_Form(A, row, column, U, V, S, dummy_array);
@@ -510,7 +510,7 @@ bool svd_golub_reinsch(float A[], size_t row, size_t column, float U[], float S[
 	return ok; /* Solved */
 }
 
-static void Householders_Reduction_to_Bidiagonal_Form(float* A, size_t nrows, size_t ncols, float* U, float* V, float* diagonal, float* superdiagonal) {
+static void Householders_Reduction_to_Bidiagonal_Form(const float* A, size_t nrows, size_t ncols, float* U, float* V, float* diagonal, float* superdiagonal) {
 	int32_t i, j, k, ip1;
 	float s, s2, si, scale;
 	float* pu, * pui, * pv, * pvi;

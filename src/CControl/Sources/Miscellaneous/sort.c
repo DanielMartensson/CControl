@@ -98,5 +98,8 @@ static void insertion_sort(float X[], size_t index[], const size_t column, const
 			index[j] = i;
 		}
 		break;
+	default:
+		/* Nothing */
+		break;
 	}
 }

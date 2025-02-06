@@ -60,7 +60,7 @@ bool inv(float A[], const size_t row) {
 
 	/* Check if the determinant is 0 */
 	float* LU = (float*)malloc(row * row * sizeof(float));
-	int* P = (size_t*)malloc(row * sizeof(int));
+	int* P = (int*)malloc(row * sizeof(int));
 	bool ok = lup(A, LU, P, row);
     if (ok) {
         /* Create the inverse */

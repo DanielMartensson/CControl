@@ -14,7 +14,7 @@
  * epsilon = Raduis of the clusters
  * min_pts = Minimum points of a valid cluster
  */
-void dbscan(float X[], size_t idx[], float epsilon, uint8_t min_pts, size_t row, size_t column) {
+void dbscan(const float X[], size_t idx[], float epsilon, uint8_t min_pts, size_t row, size_t column) {
 	/* Create idx */
 	memset(idx, 0, row * sizeof(size_t));
 
@@ -31,7 +31,7 @@ void dbscan(float X[], size_t idx[], float epsilon, uint8_t min_pts, size_t row,
 	int32_t* neighbors2 = (int32_t*)malloc(row * sizeof(int32_t));
 
 	/* Process */
-	size_t n1, n2, i, j, k, l = 0, m;
+	size_t n1, n2, i, j, k, l = 0;
 	for (i = 0; i < row; i++) {
 		if (!visited[i]) {
 			visited[i] = true;

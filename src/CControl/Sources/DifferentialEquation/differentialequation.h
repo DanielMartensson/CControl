@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 void rk4(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*));
-void rk4args(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*, const float**, const size_t*, const size_t*), const size_t number_of_pointers, ...);
+void rk4args(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*, float**, const size_t*, const size_t*), const size_t number_of_pointers, ...);
 
 #ifdef __cplusplus
 }

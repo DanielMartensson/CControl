@@ -25,10 +25,13 @@
   */
 void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings) {
 	/* Extract */
-	MODEL_NN_SETTINGS* general_settings = NULL;
+	const MODEL_NN_SETTINGS* general_settings = NULL;
 	switch (model_settings->model_choice) {
 	case MODEL_CHOICE_FISHERFACES:
 		general_settings = &model_settings->settings_fisherfaces;
+		break;
+	default:
+		/* Nothing */
 		break;
 	}
 
@@ -138,6 +141,7 @@ void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings) {
 		char model_name[100];
 		char model_name_h[100];
 		char model_name_text[100];
+		/* This can result to buffer overflow - Keep a short name! */
 		printf("Enter a model name: ");
 		scanf("%s", model_name);
 		uint8_t i;

@@ -95,7 +95,7 @@ bool svm(const float X[], const float y[], float w[], float* b, float* accuracy,
 	bool solution = quadprog(Q, c, G, h, NULL, NULL, alpha, row_g, 0, row, false);
 
 	/* Find weights w = (alpha.*y')*X */
-	float* X0 = X;
+	const float* X0 = X;
 	const float tol = 1e-05f;
 	for (j = 0; j < column; j++) {
 		/* Support vectors have non zero lagrange multipliers */

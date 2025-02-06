@@ -521,6 +521,9 @@ HAARLIKE_FEATURE* haarlike_features(const size_t total_haar_likes, const uint8_t
 			 */
 			generate_9x9(&features[i], feature_choice, row, column);
 			break;
+		default:
+			/* Nothing */
+			break;
 		}
 	}
 
@@ -1022,7 +1025,12 @@ int8_t haarlike_predict(const uint32_t X[], const HAARLIKE_FEATURE* feature, con
 				compute_area(X, column, f->x1, f->x3, f->y3, f->y4) +
 				compute_area(X, column, f->x3, f->x4, f->y2, f->y3);
 		return white > black ? 1 : -1;
+	default:
+		/* Nothing */
+		break;
 	}
+
+	return 0;
 }
 
 static uint32_t compute_area(const uint32_t X[], const uint8_t column, const uint8_t x1, const uint8_t x2, const uint8_t y1, const uint8_t y2) {

@@ -16,7 +16,7 @@
 void convfft(const float a[], const float k[], float b[], const size_t row_a, const size_t row_k) {	
 	/* Constants */
 	const size_t N = (row_k - 1) / 2;
-	const length = row_a + N;
+	const size_t length = row_a + N;
 
 	/* Do FFT on xr */
 	float* xr = (float*)malloc(length * sizeof(float));

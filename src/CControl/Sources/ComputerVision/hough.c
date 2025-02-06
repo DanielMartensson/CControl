@@ -1,26 +1,26 @@
-/*
+ï»¿/*
  * hough.c
  *
  *  Created on: 16 september 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel Mï¿½rtensson
  */
 
 #include "computervision.h"
 
 static float* hough_scores(const float X[], const float p, size_t* r_half, const size_t row, const size_t column);
-static size_t hough_cluster(const float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, const float epsilon, const size_t min_pts, const size_t r_half);
-static void hough_lines(const float* x[], const float* y[], const float* z[], const size_t L, const size_t N, const size_t* index[], float* K[], float* M[], const size_t r_half);
+static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, const float epsilon, const size_t min_pts, const size_t r_half);
+static void hough_lines(float* x[], float* y[], float* z[], const size_t L, const size_t N, size_t* index[], float* K[], float* M[], const size_t r_half);
 
 /*
- * Hough Transform - Line detection of an edge image 
+ * Hough Transform - Line detection of an edge image
  * X[m*n] = Data matrix of an edge image
  * K[N] = Slope for the line
  * M[N] = Bias for the line
  * p = Line length threshold in precent
  * epsilon = Minimum radius for hough cluster
  * min_pts = Minimum points for hough cluster
- * 
- * Hough Transform will define the matricies K and M and the size of them (N)
+ *
+ * Hough Transform will define the matrices K and M and the size of them (N)
  */
 size_t hough(const float X[], float* K[], float* M[], const float p, const float epsilon, const size_t min_pts, const size_t row, const size_t column) {
 	/* Compute scores for the lines */
@@ -51,7 +51,7 @@ size_t hough(const float X[], float* K[], float* M[], const float p, const float
 	return N;
 }
 
-static void hough_lines(const float* x[], const float* y[], const float* z[], const size_t L, const size_t N, const size_t* index[], float* K[], float* M[], const size_t r_half) {
+static void hough_lines(float* x[], float* y[], float* z[], const size_t L, const size_t N, size_t* index[], float* K[], float* M[], const size_t r_half) {
 	/* Create K and M - They are holders for the output */
 	*K = (float*)malloc(N * sizeof(float));
 	*M = (float*)malloc(N * sizeof(float));
@@ -82,7 +82,8 @@ static void hough_lines(const float* x[], const float* y[], const float* z[], co
 		/* This is the trick to make sure r pointing at the right direction */
 		if (r > r_half) {
 			r = r - r_half;
-		}else{
+		}
+		else {
 			r = -r;
 		}
 
@@ -93,12 +94,12 @@ static void hough_lines(const float* x[], const float* y[], const float* z[], co
 
 		/* y = k*x + m can be expressed as x*sin(angle) + y*cos(angle) = r */
 		angle = deg2rad(angle);
-		(*K)[i-1] = sinf(angle) / -cosf(angle);
-		(*M)[i-1] = -r / -cosf(angle);
+		(*K)[i - 1] = sinf(angle) / -cosf(angle);
+		(*M)[i - 1] = -r / -cosf(angle);
 	}
 }
 
-static size_t hough_cluster(const float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, const float epsilon, const size_t min_pts, const size_t r_half) {
+static size_t hough_cluster(float P[], float* x[], float* y[], float* z[], size_t* index[], size_t* L, const float epsilon, const size_t min_pts, const size_t r_half) {
 	/* Turn matrix P into 3 vectors - This is the same as [x, y, z] = find(P) in Matlab */
 	const size_t r_max = 2 * r_half;
 	size_t i, j, bytes, k = 0;
@@ -122,7 +123,7 @@ static size_t hough_cluster(const float P[], float* x[], float* y[], float* z[],
 	/* Sort so the longest line comes first */
 	size_t* sorted_indexes = (size_t*)malloc(k * sizeof(size_t));
 	sort(*z, sorted_indexes, k, 1, SORT_MODE_ROW_DIRECTION_DESCEND);
-	
+
 	/* Sort the rest */
 	float* y_sorted = (float*)malloc(k * sizeof(float));
 	float* x_sorted = (float*)malloc(k * sizeof(float));
@@ -139,7 +140,7 @@ static size_t hough_cluster(const float P[], float* x[], float* y[], float* z[],
 	free(sorted_indexes);
 	free(x_sorted);
 	free(y_sorted);
-	
+
 	/* Do dbscan - All idx values that are 0, are noise */
 	float* C = (float*)malloc(k * 2 * sizeof(float));
 	cat(false, *x, *y, C, k, 1, k, 1, k, 2);
@@ -267,7 +268,7 @@ static float* hough_scores(const float X[], const float p, size_t* r_half, const
 	for (i = 0; i < P_total_size; i++) {
 		if (P[i] < threshold) {
 			P[i] = 0.0f;
-		} 
+		}
 	}
 
 	/* Return P */
@@ -281,7 +282,7 @@ static float* hough_scores(const float X[], const float p, size_t* r_half, const
 % Input: X(Data matrix of an edge image), p(Line length threshold in precent), epsilon(Minimum radius for hough cluster), min_pts(Minimum points for hough cluster)
 % Output: N(Number of lines), K(Slopes for the lines), M(Bias for the lines)
 % Example 1: [N, K, M] = mi.hough(X, p, epsilon, min_pts);
-% Author: Daniel Mårtensson, 14 September 2023
+% Author: Daniel Mï¿½rtensson, 14 September 2023
 
 function [N, K, M] = hough(varargin)
   % Check if there is any input
@@ -468,5 +469,5 @@ function [K, M] = hough_lines(x, y, z, N, index, r_half)
 	M(i) = - r/-cos(angle);
   end
 end
- 
+
 */

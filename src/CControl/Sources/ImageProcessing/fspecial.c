@@ -107,7 +107,8 @@ float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type
 		static const float kernel_x[9] = { -1.0f, 0.0f, 1.0f,
 										   -2.0f, 0.0f, 2.0f,
 										   -1.0f, 0.0f, 1.0f };
-		output = kernel_x;
+		output = (float*)malloc(9 * sizeof(float));
+		memcpy(output, kernel_x, 9 * sizeof(float));
 
 		/* Check if it's not NULL */
 		if (output_size) {
@@ -120,7 +121,8 @@ float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type
 		static const float kernel_y[9] = { -1.0f, -2.0f, -1.0f,
 											0.0f,  0.0f,  0.0f,
 											1.0f,  2.0f,  1.0f };
-		output = kernel_y;
+		output = (float*)malloc(9 * sizeof(float));
+		memcpy(output, kernel_y, 9 * sizeof(float));
 
 		/* Check if it's not NULL */
 		if (output_size) {
@@ -132,8 +134,10 @@ float* fspecial(const float value, size_t* output_size, const FSPECIAL_TYPE type
 		/* Create kernel matrix */
 		static const float kernel[9] = { 1.0f, 1.0f, 1.0f, 
 										 1.0f, 1.0f, 1.0f, 
-										 1.0f, 1.0f, 0.1f};
-		output = kernel;
+										 1.0f, 1.0f, 1.0f};
+
+		output = (float*)malloc(9 * sizeof(float));
+		memcpy(output, kernel, 9 * sizeof(float));
 
 		/* Check if it's not NULL */
 		if (output_size) {

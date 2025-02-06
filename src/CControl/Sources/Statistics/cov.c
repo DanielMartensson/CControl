@@ -14,8 +14,8 @@
    * L = Length of vector x and y
    */
 float cov(const float x[], const float y[], const size_t length) {
-	float x_mu = mean(x, length);
-	float y_mu = mean(y, length);
+	const float x_mu = mean(x, length);
+	const float y_mu = mean(y, length);
 	float sigma = 0.0f;
 	size_t i;
 	for (i = 0; i < length; i++) {

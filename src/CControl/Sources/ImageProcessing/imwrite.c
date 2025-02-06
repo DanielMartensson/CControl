@@ -23,7 +23,7 @@ bool imwrite(const uint8_t X[], const char file_path[], const size_t row, const 
 	fprintf(file, "%s\n", "P5");
 
 	/* Write the size */
-	fprintf(file, "%lu %lu\n", column, row);
+	fprintf(file, "%zu %zu\n", column, row);
 
 	/* Find the max of X */
 	size_t i;

@@ -17,7 +17,7 @@
   * odefun(const float t, float y[], const float* matrices[], const size_t rows[], const size_t columns[])
   * ... = const float matrixA[], const size_t rowA, const size_t columnA, const float matrixB[], const size_t rowB, const size_t columnB, const float matrixC[], const size_t rowC, const size_t columnC, etc...
   */
-void rk4args(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*, const float**, const size_t*, const size_t*), const size_t number_of_pointers, ...) {
+void rk4args(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*, float**, const size_t*, const size_t*), const size_t number_of_pointers, ...) {
 	/* Variables */
 	size_t i, j;
 
@@ -41,7 +41,7 @@ void rk4args(const size_t iterations, const float h, float Y[], float y[], const
 
 	/* Variable arguments */
 	va_list args;
-	va_start(args, 3 * number_of_pointers);
+	va_start(args, number_of_pointers);
 
 	/* Pointers */
 	float** matrices = (float**)malloc(number_of_pointers * sizeof(float*));
@@ -50,7 +50,7 @@ void rk4args(const size_t iterations, const float h, float Y[], float y[], const
 
 	/* Get the arguments */
 	for (i = 0; i < number_of_pointers; i++) {
-		matrices[i] = va_arg(args, const float*);
+		matrices[i] = va_arg(args, float*);
 		rows[i] = va_arg(args, const size_t);
 		columns[i] = va_arg(args, const size_t);
 	}

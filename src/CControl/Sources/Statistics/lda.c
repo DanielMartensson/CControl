@@ -31,7 +31,6 @@ void lda(const float X[], const uint8_t y[], float W[], float P[], const size_t 
 	float* Sw = (float*)malloc(scatter_matrix_size * sizeof(float));
 	memset(Sw, 0, scatter_matrix_size * sizeof(float));
 	float* Sb = (float*)malloc(scatter_matrix_size * sizeof(float));
-	float* Sb0 = Sb;
 	memset(Sb, 0, scatter_matrix_size * sizeof(float));
 
 	/* How many samples of each class */
@@ -43,7 +42,8 @@ void lda(const float X[], const uint8_t y[], float W[], float P[], const size_t 
 	}
 
 	/* Iterate all classes */
-	float* Xi, *XiT, *Xi0, *X0 = X;
+	float* Xi, * XiT, * Xi0;
+	const float *X0 = X;
 	float* XiXiT = (float*)malloc(row * row * sizeof(float));
 	float* mu_Xi = (float*)malloc(row * sizeof(float));
 	float* diff = (float*)malloc(row * sizeof(float));

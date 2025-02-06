@@ -12,7 +12,7 @@
  * x[L] Vector with values
  * L = Length of vector x
  */
-float mean(float x[], const size_t length) {
+float mean(const float x[], const size_t length) {
 	float s = 0.0f;
 	size_t i;
 	for (i = 0; i < length; i++) {

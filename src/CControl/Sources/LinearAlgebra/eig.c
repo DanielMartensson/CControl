@@ -8,8 +8,8 @@
 #include "linearalgebra.h"
 
  /* Regular routines */
-bool eig_regular(float A[], float dr[], float di[], float wr[], float wi[], size_t row);
-bool eig_sym(float A[], float d[], float wr[], size_t row);
+bool eig_regular(const float A[], float dr[], float di[], float wr[], float wi[], size_t row);
+bool eig_sym(const float A[], float d[], float wr[], size_t row);
 
 /* Include LAPACK routines */
 #ifdef CLAPACK_USED
@@ -18,7 +18,7 @@ bool eig_sym(float A[], float d[], float wr[], size_t row);
 
 /*
  * A[m*n]
- * dr[m] - Real eigenvalues 
+ * dr[m] - Real eigenvalues
  * di[m] - Imaginary eigenvalues
  * wr[m*n] - Real eigenvectors
  * wi[m*n] - Imaginary eigenvectors
@@ -27,13 +27,13 @@ bool eig_sym(float A[], float d[], float wr[], size_t row);
  * Return false = fail
  */
 bool eig(const float A[], float dr[], float di[], float wr[], float wi[], size_t row) {
-    /* Create copy */
-    size_t i = row * row * sizeof(float);
-    float* A_copy = (float*)malloc(i);
-    memcpy(A_copy, A, i);
+	/* Create copy */
+	size_t i = row * row * sizeof(float);
+	float* A_copy = (float*)malloc(i);
+	memcpy(A_copy, A, i);
 
 	/* Check if matrix is symmetric */
-    bool symmetric = issymmetric(A_copy, row, row);
+	bool symmetric = issymmetric(A_copy, row, row);
 
 	/* Status flag */
 	bool status = false;
@@ -41,10 +41,11 @@ bool eig(const float A[], float dr[], float di[], float wr[], float wi[], size_t
 #ifdef CLAPACK_USED
 	if (symmetric) {
 		/* Compute the SVD is the same for EIG for a symmetric matrix */
-        status = svd(A_copy, row, row, wr, dr, wi);
+		status = svd(A_copy, row, row, wr, dr, wi);
 		memset(wi, 0, row * row * sizeof(float));
 		memset(di, 0, row * sizeof(float));
-	}else{
+	}
+	else {
 		/* Settings */
 		integer n = row, lda = row, ldvl = row, ldvr = row, info, lwork;
 		real wkopt;
@@ -55,18 +56,18 @@ bool eig(const float A[], float dr[], float di[], float wr[], float wi[], size_t
 
 		/* Allocate memory */
 		lwork = -1;
-        sgeev_("V", "N", &n, A_copy, &lda, dr, di, vl, &ldvl, vr, &ldvr, &wkopt, &lwork, &info);
+		sgeev_("V", "N", &n, A_copy, &lda, dr, di, vl, &ldvl, vr, &ldvr, &wkopt, &lwork, &info);
 		lwork = (integer)wkopt;
 		real* work = (real*)malloc(lwork * sizeof(real));
 
 		/* Compute  */
-        sgeev_("V", "N", &n, A_copy, &lda, dr, di, vl, &ldvl, vr, &ldvr, work, &lwork, &info);
+		sgeev_("V", "N", &n, A_copy, &lda, dr, di, vl, &ldvl, vr, &ldvr, work, &lwork, &info);
 
 		/* Check status */
 		status = info == 0;
 
 		/* Fill the eigenvectors in row major */
-        size_t j, s = 0, t = 0;
+		size_t j, s = 0, t = 0;
 		memset(wi, 0, row * row * sizeof(float));
 		for (i = 0; i < n; i++) {
 			if (fabsf(di[i]) < MIN_VALUE) {
@@ -106,7 +107,7 @@ bool eig(const float A[], float dr[], float di[], float wr[], float wi[], size_t
 
 		/* Compute*/
 		status = LAPACKE_sgeev(LAPACK_COL_MAJOR, 'V', 'N', row, A_copy, row, dr, di, vl, row, vr, row) == 0;
-		
+
 		/* Fill the eigenvectors */
 		size_t j, s = 0, t = 0;
 		memset(wi, 0, row * row * sizeof(float));
@@ -145,8 +146,8 @@ bool eig(const float A[], float dr[], float di[], float wr[], float wi[], size_t
 	}
 #endif
 
-    /* Free */
-    free(A_copy);
+	/* Free */
+	free(A_copy);
 
 	/* Return status */
 	return status;
@@ -158,7 +159,7 @@ static float pythag_float(float a, float b);
 #define square(a) ((a)*(a))
 #define abs_sign(a,b) ((b) >= 0.0f ? fabsf(a) : -fabsf(a)) /* Special case for tqli function */
 
-bool eig_sym(float A[], float d[], float wr[], size_t row) {
+bool eig_sym(const float A[], float d[], float wr[], size_t row) {
 	/* Copy A - wr will be eigenvectors */
 	memcpy(wr, A, row * row * sizeof(float));
 
@@ -296,7 +297,7 @@ static float pythag_float(float a, float b) {
 
 static bool tqli(float d[], float e[], size_t row, float z[]) {
 	int32_t m, l, iter, i, k;
-	float s, r, p, g, f, dd, c, b;
+	float s, r, p, g, f, c, b;
 	bool ok = true;
 	/* Save address */
 	float* zk;
@@ -309,7 +310,7 @@ static bool tqli(float d[], float e[], size_t row, float z[]) {
 		iter = 0;
 		do {
 			for (m = l; m < row - 1; m++) {
-				dd = fabsf(d[m]) + fabsf(d[m + 1]);
+				/*dd = fabsf(d[m]) + fabsf(d[m + 1]);*/
 				if (fabsf(e[m]) < MIN_VALUE) {
 					break;
 				}
@@ -377,7 +378,7 @@ static void prepare(float A[], size_t row);
  * wi [m*n]
  * n == m
  */
-bool eig_regular(float A[], float dr[], float di[], float wr[], float wi[], size_t row) {
+bool eig_regular(const float A[], float dr[], float di[], float wr[], float wi[], size_t row) {
 	/* Copy A */
 	float* Acopy = (float*)malloc(row * row * sizeof(float));
 	memcpy(Acopy, A, row * row * sizeof(float));
@@ -451,7 +452,7 @@ static void prepare(float A[], size_t row) {
 /* Shifted QR */
 static bool qr_shift_algorithm(float A[], float wr[], float wi[], size_t row) {
 	int32_t nn, m, l, k, j, its, i, mmin;
-	float z, y, x, w, v, u, t, s, r, q, p, anorm;
+	float z, y, x, w, u, t, s, r, q, p, anorm;
 	bool ok = true;
 	p = q = r = 0.0f;
 	anorm = 0.0f;
@@ -532,7 +533,7 @@ static bool qr_shift_algorithm(float A[], float wr[], float wi[], size_t row) {
 							break;
 						}
 						u = fabsf(A[row * m + m - 1]) * (fabsf(q) + fabsf(r));
-						v = fabsf(p) * (fabsf(A[row * (m - 1) + m - 1]) + fabsf(z) + fabsf(A[row * (m + 1) + m + 1]));
+						/*v = fabsf(p) * (fabsf(A[row * (m - 1) + m - 1]) + fabsf(z) + fabsf(A[row * (m + 1) + m + 1])); */
 						if (fabsf(u) < MIN_VALUE) {
 							break;
 						}

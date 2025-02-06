@@ -30,7 +30,7 @@ static void update_state_covarariance_matrix_and_state_estimation_vector(float S
  * xhat[L] = Estimated state (our input)
  * y[L] = Measurement state (our output)
  */
-void sr_ukf_state_estimation(const float y[], const float xhat[], const float Rn[], const float Rv[], const float u[], void (*F)(float[], const float[], const float[]), float S[], const float alpha, const float beta, const size_t L){
+void sr_ukf_state_estimation(const float y[], float xhat[], const float Rn[], const float Rv[], const float u[], void (*F)(float[], const float[], const float[]), float S[], const float alpha, const float beta, const size_t L){
 	/* Create the size N */
 	const size_t N = 2 * L + 1;
 

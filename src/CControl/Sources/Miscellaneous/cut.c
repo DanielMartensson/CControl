@@ -17,7 +17,7 @@
  */
 void cut(const float A[], const size_t column_a, float B[], const size_t start_row, const size_t stop_row, const size_t start_column, const size_t stop_column) {
 	/* Create adata matrix */
-	float* data = A + start_row * column_a + start_column;
+	const float* data = A + start_row * column_a + start_column;
 
 	/* Create the output */
 	const size_t out_columns = stop_column - start_column + 1;

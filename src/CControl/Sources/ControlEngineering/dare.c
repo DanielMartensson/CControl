@@ -35,7 +35,7 @@ static void RTYUI(const float R[], const float Y[], const float U[], float I[], 
 /* Discrete Algebraic Riccati Equation
  * Iterate: X = A'*X*A - X - A'*X*B*(B'*X*B + R)^{-1}*B'*X*A + Q
  */
-static void odefun(const float t, float X[], const float* matrices[], const size_t rows[], const size_t columns[]) {
+static void odefun(const float t, float X[], float* matrices[], const size_t rows[], const size_t columns[]) {
 	/* Get the matrices */
 	const float* A = matrices[0];
 	const float* B = matrices[1];
@@ -50,13 +50,13 @@ static void odefun(const float t, float X[], const float* matrices[], const size
 	const size_t row_b = rows[1];
 	const size_t column_b = columns[1];
 
-	/* row_q and column_q has the same value as row_a and column_a */
+	/* row_q and column_q has the same value as row_a and column_a 
 	const size_t row_q = rows[2];
-	const size_t column_q = columns[2];
+	const size_t column_q = columns[2]; */
 
-	/* row_r and column_r has the same value as column_b */
+	/* row_r and column_r has the same value as column_b 
 	const size_t row_r = rows[3];
-	const size_t column_r = columns[3];
+	const size_t column_r = columns[3]; */
 
 	/* row_x and column_x has the same value as row_a and column_a */
 	const size_t row_x = row_a;
@@ -134,7 +134,7 @@ void dare(const size_t iterations, const float sampleTime, const float A[], cons
 	memset(X, 0, row_a * row_a * sizeof(float));
 
 	/* Do Runge-Kutta ODE solver */
-	rk4args(iterations, sampleTime, Y, X, N, odefun, number_of_pointers, A, row_a, column_a, B, row_b, column_b, Q, row_a, column_q, R, row_r, column_r);
+	rk4args(iterations, sampleTime, Y, X, N, odefun, number_of_pointers, A, row_a, column_a, B, row_b, column_b, Q, row_q, column_q, R, row_r, column_r);
 
 	/* Free */
 	free(Y);

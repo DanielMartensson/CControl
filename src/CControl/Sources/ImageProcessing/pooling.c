@@ -57,6 +57,9 @@ void pooling(float X[], float P[], size_t row, size_t column, uint8_t p, POOLING
 			case POOLING_METHOD_SHAPE:
 				P[j] = mean(B, pp) * ratio_mean_max;
 				break;
+			default:
+				/* Nothing */
+				break;
 			}
 		}
 		P += w;

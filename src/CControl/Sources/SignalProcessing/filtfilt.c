@@ -7,7 +7,7 @@
 
 #include "signalprocessing.h"
 
-static void simulation(float K, float y[], float t[], size_t l);
+static void simulation(float K, float y[], const float t[], size_t l);
 static void flip(float y[], size_t l);
 
 /*
@@ -32,7 +32,7 @@ void filtfilt(float y[], const float t[], const size_t l, const float K) {
 }
 
 /* Euler method for simple ODE - Low pass filter */
-static void simulation(float K, float y[], float t[], size_t l) {
+static void simulation(float K, float y[], const float t[], size_t l) {
 	float h = t[1] - t[0]; /* Time step */
 	float x = y[0]; /* Initial state */
 	size_t i;

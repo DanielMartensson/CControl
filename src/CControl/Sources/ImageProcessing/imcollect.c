@@ -10,7 +10,7 @@
 MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 	/* Each sub folder is a class */
 	char** sub_folder_names = NULL;
-	size_t sub_folder_count;
+	size_t sub_folder_count = 0;
 	switch (model_settings->model_choice) {
 	case MODEL_CHOICE_FISHERFACES:
 		sub_folder_count = scan_sub_folder_names(model_settings->settings_fisherfaces.folder_path, &sub_folder_names);
@@ -54,7 +54,7 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 			PGM* image = imread(total_pgm_path);
 
 			/* Display class and path */
-			printf("Class ID: %i. Image path: %s\n", i, total_pgm_path);
+			printf("Class ID: %zu. Image path: %s\n", i, total_pgm_path);
 
 			/* Check if image is valid */
 			if (image) {
@@ -95,7 +95,7 @@ MODEL* imcollect(const MODEL_SETTINGS* model_settings) {
 					free(new_data);
 
 					/* Allocate new element */
-					model->fisherfaces_model.class_id = (size_t*)realloc(model->fisherfaces_model.class_id, (model->fisherfaces_model.input_row + 1) * sizeof(size_t));
+					model->fisherfaces_model.class_id = (uint8_t*)realloc(model->fisherfaces_model.class_id, (model->fisherfaces_model.input_row + 1) * sizeof(uint8_t));
 
 					/* Add new ID */
 					model->fisherfaces_model.class_id[model->fisherfaces_model.input_row] = i;

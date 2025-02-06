@@ -137,7 +137,7 @@ void mul(const float A[], const float B[], float C[], const size_t row_a, const 
 	size_t i, j, k;
 
 	/* Data matrix */
-	float* data_a, * data_b;
+	const float* data_a, * data_b;
 
 	for (i = 0; i < row_a; i++) {
 		/* Then we go through every column of b */

@@ -14,7 +14,7 @@
  * epsilon = Raduis of the clusters
  * min_pts = Minimum points of a valid cluster
  */
-size_t clusterfilter(const float X[], const size_t row, const size_t column, const float epsilon, const uint8_t min_pts){
+size_t clusterfilter(float X[], const size_t row, const size_t column, const float epsilon, const uint8_t min_pts){
 	/* Create the new indexes */
 	size_t* idx = (size_t*)malloc(row * sizeof(size_t));
 	dbscan(X, idx, epsilon, min_pts, row, column);

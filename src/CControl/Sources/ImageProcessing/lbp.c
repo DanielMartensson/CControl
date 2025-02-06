@@ -39,7 +39,7 @@ uint32_t lbp(const uint8_t X[], const size_t row, const size_t column, const siz
 		total_angles = 8U;
 		break;
 	}
-	const float* angles = radianvector(total_angles);
+	float* angles = radianvector(total_angles);
 
 	/* Compute Local Binary Pattern */
 	uint8_t i;

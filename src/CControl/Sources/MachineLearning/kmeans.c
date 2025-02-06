@@ -16,11 +16,10 @@
  */
 bool kmeans(const float X[], size_t idx[], float C[], const size_t k, const size_t row, const size_t column) {
 	/* Find a random initial start */
-	size_t* x = (float*)malloc(k * sizeof(size_t));
+	size_t* x = (size_t*)malloc(k * sizeof(size_t));
 	randperm(x, row, k);
 	const size_t k_column = k * column;
 	float* C0 = C;
-	float* X0 = X;
 	size_t i, j, l, m, counter;
 	for (i = 0; i < k; i++) {
 		memcpy(C, X + x[i] * column, column * sizeof(float));
