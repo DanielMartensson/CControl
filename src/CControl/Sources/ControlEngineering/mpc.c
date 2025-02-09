@@ -7,16 +7,16 @@
 
 #include "controlengineering.h"
 
-/*
- * A[row_a * row_a]
- * B[row_a * column_b]
- * C[row_c * row_a]
- * E[row_a * column_e]
- * Ad[row_a * row_a]
- * Bd[row_a * column_b]
- * Cd[row_c * row_a]
- * Ed[row_a * column_e]
- */
+ /*
+  * A[row_a * row_a]
+  * B[row_a * column_b]
+  * C[row_c * row_a]
+  * E[row_a * column_e]
+  * Ad[row_a * row_a]
+  * Bd[row_a * column_b]
+  * Cd[row_c * row_a]
+  * Ed[row_a * column_e]
+  */
 void mpc_discrete_matrices(const float sampleTime, const float A[], const float B[], const float C[], const float E[], float Ad[], float Bd[], float Cd[], float Ed[], const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e) {
 	/* Create augmented B */
 	float* Bae = (float*)malloc(row_a * (column_b + column_e) * sizeof(float));
@@ -117,15 +117,15 @@ void mpc_S_matrix(float S[], const float s, const size_t column_b) {
 void mpc_HS_matrix(float HS[], const float S[], const size_t column_b, const size_t N) {
 	/* Positive 2*S */
 	float* p2S = (float*)malloc(column_b * column_b * sizeof(float));
-	eye(p2S, 2.0f*S[0], column_b, column_b);
+	eye(p2S, 2.0f * S[0], column_b, column_b);
 
 	/* Negative -2*S */
 	float* m2S = (float*)malloc(column_b * column_b * sizeof(float));
-	eye(m2S, -2.0f*S[0], column_b, column_b);
+	eye(m2S, -2.0f * S[0], column_b, column_b);
 
 	/* Negative S */
 	float* mS = (float*)malloc(column_b * column_b * sizeof(float));
-	eye(mS, -1.0f*S[0], column_b, column_b);
+	eye(mS, -1.0f * S[0], column_b, column_b);
 
 	/* Fill */
 	if (N == 1) {
@@ -153,7 +153,7 @@ void mpc_HS_matrix(float HS[], const float S[], const size_t column_b, const siz
 	free(mS);
 }
 
-/* 
+/*
  * H[(N * column_b) * (N * column_b)]
  * Gamma[(N * row_c) * (N * column_b)]
  * QZ[(N * row_c) * (N * row_c)]
@@ -182,7 +182,7 @@ void mpc_H_matrix(float H[], const float Gamma[], const float QZ[], const float 
 }
 
 /*
- * Mx0[(N * column_b) * row_a] 
+ * Mx0[(N * column_b) * row_a]
  * Gamma[(N * row_c) * (N * column_b)]
  * QZ[(N * row_c) * (N * row_c)]
  * Phi[(N * row_c) * row_a]
@@ -224,7 +224,7 @@ void mpc_Mum1_matrix(float Mum1[], const float S[], const size_t column_b, const
 }
 
 /*
- * MR[(N * column_b) * (N * row_c)] 
+ * MR[(N * column_b) * (N * row_c)]
  * Gamma[(N * row_c) * (N * column_b)]
  * QZ[(N * row_c) * (N * row_c)]
  */
@@ -246,7 +246,7 @@ void mpc_MR_matrix(float MR[], const float Gamma[], const float QZ[], const size
 }
 
 /*
- * MD[(N * column_b) * (N * column_e)] 
+ * MD[(N * column_b) * (N * column_e)]
  * Gamma[(N * row_c) * (N * column_b)]
  * QZ[(N * row_c) * (N * row_c)]
  * Gammad[(N * row_c) * (N * column_e)]
@@ -364,7 +364,7 @@ void mpc_stateupdate_vector(float x[], const float Ad[], const float Bd[], const
 	float* Edd = (float*)malloc(row_a * sizeof(float));
 	mul(Ed, d, Edd, row_a, column_e, 1);
 	size_t i;
-	for(i = 0; i < row_a; i++){
+	for (i = 0; i < row_a; i++) {
 		x[i] = Adx[i] + Bdu[i] + Edd[i];
 	}
 
@@ -447,7 +447,7 @@ void mpc_Umax_vector(float Umax[], const float umax[], const float deltaumax[], 
 
 
 /*
- * barZmin[N * row_c] 
+ * barZmin[N * row_c]
  * Zmin[N * row_c]
  * Phi[(N * row_c) * row_a]
  * x0[row_a]
@@ -470,7 +470,7 @@ void mpc_barZmin_vector(float barZmin[], const float Zmin[], const float Phi[], 
 }
 
 /*
- * barZmax[N * row_c]  
+ * barZmax[N * row_c]
  * Zmax[N * row_c]
  * Phi[(N * row_c) * row_a]
  * x0[row_a]
@@ -493,7 +493,7 @@ void mpc_barZmax_vector(float barZmax[], const float Zmax[], const float Phi[], 
 }
 
 /*
- * barg[N * column_b + column_b * N] 
+ * barg[N * column_b + column_b * N]
  * g[N * column_b]
  * barspsi[N * column_b]
  */
@@ -556,7 +556,7 @@ void mpc_bmax_vector(float bmax[], const float deltaUmax[], const float barZmax[
 	insert_row += N * row_c;
 	const float infinity = FLT_MAX;
 	size_t i;
-	for (i = 0; i <  N * row_c; i++) {
+	for (i = 0; i < N * row_c; i++) {
 		bmax[insert_row + i] = infinity;
 	}
 }
@@ -702,7 +702,7 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 	/* Check if the mpc has been initlized before */
 	if (mpc->is_initlized) {
 		return false;
-    }
+	}
 
 	/* Set sizes */
 	mpc->row_a = row_a;           /* Dimension of A matrix */
@@ -766,6 +766,9 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 	float* H = (float*)malloc((N * column_b) * (N * column_b) * sizeof(float));
 	mpc_H_matrix(H, Gamma, QZ, HS, row_c, column_b, N);
 
+	/* Free */
+	free(HS);
+
 	/* Debug
 	print(H, N * column_b, N * column_b); */
 
@@ -785,6 +788,10 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 	mpc_MR_matrix(mpc->MR, Gamma, QZ, row_c, column_b, N);
 	mpc->MD = (float*)malloc((N * column_b) * (N * column_e) * sizeof(float));
 	mpc_MD_matrix(mpc->MD, Gamma, mpc->Gammad, QZ, row_c, column_b, column_e, N);
+
+	/* Free */
+	free(S);
+	free(QZ);
 
 	/* Debug
 	print(mpc->Mx0, N * column_b, row_a);
@@ -813,6 +820,10 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 	mpc->barH = (float*)malloc((2 * N * column_b) * (2 * N * column_b) * sizeof(float));
 	mpc_barH_matrix(mpc->barH, H, barSpsi, column_b, N);
 
+	/* Free */
+	free(H);
+	free(barSpsi);
+
 	/* Debug
 	print(mpc->barH, 2 * N * column_b, 2 * N * column_b); */
 
@@ -820,14 +831,12 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 	mpc->AA = (float*)malloc(((N - 1) * column_b + 2 * N * row_c) * (2 * N * column_b) * sizeof(float));
 	mpc_AA_matrix(mpc->AA, Lambda, Gamma, row_c, column_b, N);
 
+	/* Debug 
+	print(mpc->AA, (N - 1) * column_b + 2 * N * row_c, (2 * N * column_b)); */
+
 	/* Free */
 	free(Gamma);
-	free(QZ);
-	free(S);
-	free(HS);
-	free(H);
 	free(Lambda);
-	free(barSpsi);
 
 	/* Create empty arrays */
 	mpc->eta = (float*)malloc(row_c * sizeof(float));
@@ -843,7 +852,7 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 
 	/* Flag */
 	mpc->is_initlized = true;
-	
+
 	/* Return true */
 	return true;
 }
@@ -924,6 +933,9 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 	float* g = (float*)malloc(N * column_b * sizeof(float));
 	mpc_g_vector(g, mpc->Mx0, mpc->x, mpc->MR, R, mpc->eta, mpc->MD, D, mpc->Mum1, um1, row_a, row_c, column_b, column_e, N);
 
+	/* Free */
+	free(R);
+
 	/* Debug
 	print(g, N * column_b, 1); */
 
@@ -933,11 +945,17 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 	mpc_Umin_vector(Umin, mpc->umin, mpc->deltaumin, um1, N, column_b);
 	mpc_Umax_vector(Umax, mpc->umax, mpc->deltaumax, um1, N, column_b);
 
+	/* Free */
+	free(um1);
+
 	/* Create constraints for the output - Equation (3.44) */
 	float* barZmin = (float*)malloc(N * row_c * sizeof(float));
 	float* barZmax = (float*)malloc(N * row_c * sizeof(float));
 	mpc_barZmin_vector(barZmin, mpc->Zmin, mpc->Phi, mpc->x, mpc->Gammad, D, row_a, row_c, column_b, column_e, N);
 	mpc_barZmax_vector(barZmax, mpc->Zmax, mpc->Phi, mpc->x, mpc->Gammad, D, row_a, row_c, column_b, column_e, N);
+
+	/* Free */
+	free(D);
 
 	/* Debug
 	print(mpc->barZmin, N * row_c, 1);
@@ -960,6 +978,10 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 	mpc_barUmin_vector(barUmin, Umin, column_b, N);
 	mpc_barUmax_vector(barUmax, Umax, column_b, N);
 
+	/* Free */
+	free(Umin);
+	free(Umax);
+
 	/* Debug
 	print(barUmin, N * column_b + N, 1);
 	print(barUmax, N * column_b + N, 1); */
@@ -974,13 +996,23 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 	print(bmin, (N - 1) * column_b + N * row_c + N * row_c, 1);
 	print(bmax, (N - 1) * column_b + N * row_c + N * row_c, 1); */
 
+	/* Free */
+	free(barZmin);
+	free(barZmax);
+
 	/* Create for QP - Equation (3.57) */
 	float* aqp = (float*)malloc((2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N)) * (2 * N * column_b) * sizeof(float));
 	float* bqp = (float*)malloc((2 * (N * column_b + N) + 2 * ((N - 1) * column_b + N * row_c + N * row_c)) * sizeof(float));
 	mpc_aqp_matrix(aqp, mpc->AA, column_b, row_c, N);
 	mpc_bqp_vector(bqp, barUmin, barUmax, bmin, bmax, column_b, row_c, N);
 
-	/* Debug
+	/* Free */
+	free(bmin);
+	free(bmax);
+	free(barUmin);
+	free(barUmax);
+
+	/* Debug 
 	print(aqp, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 2 * N * column_b);
 	print(bqp, 2 * (N * column_b + N) + 2 * ((N - 1) * column_b + N * row_c + N * row_c), 1); */
 
@@ -992,24 +1024,13 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 	memcpy(u, U, column_b * sizeof(float));
 
 	/* Free */
-	free(R);
-	free(D);
-	free(um1);
-	free(barZmin);
-	free(barZmax);
-	free(Umin);
-	free(Umax);
 	free(barg);
-	free(barUmin);
-	free(barUmax);
-	free(bmin);
-	free(bmax);
 	free(aqp);
 	free(bqp);
 	free(U);
 
-    /* Return status */
-    return status;
+	/* Return status */
+	return status;
 }
 
 /*
@@ -1035,14 +1056,23 @@ void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]) {
 		e[i] = y[i] - Cdx[i];
 	}
 
+	/* Free */
+	free(Cdx);
+
 	/* Compute kalman */
 	float* Ke = (float*)malloc(row_a * sizeof(float));
 	mul(mpc->K, e, Ke, row_a, row_c, 1);
+
+	/* Free */
+	free(e);
 
 	/* State update */
 	for (i = 0; i < row_a; i++) {
 		mpc->x[i] = mpc->x[i] + Ke[i];
 	}
+
+	/* Free */
+	free(Ke);
 
 	/* Compute next state x */
 	float* Adx = (float*)malloc(row_a * sizeof(float));
@@ -1056,48 +1086,45 @@ void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]) {
 	}
 
 	/* Free */
-	free(Cdx);
-	free(e);
-	free(Ke);
 	free(Adx);
 	free(Bdu);
 	free(Edd);
 }
 
-bool mpc_free(MPC* mpc){
+bool mpc_free(MPC* mpc) {
 	/* Only free if it has been initlized */
 	if (!mpc->is_initlized) {
 		return false;
 	}
 
 	/* This follows the MPC struct */
-    free(mpc->Ad);
-    free(mpc->Bd);
-    free(mpc->Cd);
-    free(mpc->Ed);
-    free(mpc->K);
-    free(mpc->Phi);
-    free(mpc->Gammad);
-    free(mpc->Mx0);
-    free(mpc->Mum1);
-    free(mpc->MR);
-    free(mpc->MD);
-    free(mpc->deltaUmin);
-    free(mpc->deltaUmax);
-    free(mpc->deltaumin);
-    free(mpc->deltaumax);
-    free(mpc->Zmin);
-    free(mpc->Zmax);
-    free(mpc->umin);
-    free(mpc->umax);
-    free(mpc->barspsi);
-    free(mpc->barH);
-    free(mpc->AA);
-    free(mpc->eta);
-    free(mpc->x);
+	free(mpc->Ad);
+	free(mpc->Bd);
+	free(mpc->Cd);
+	free(mpc->Ed);
+	free(mpc->K);
+	free(mpc->Phi);
+	free(mpc->Gammad);
+	free(mpc->Mx0);
+	free(mpc->Mum1);
+	free(mpc->MR);
+	free(mpc->MD);
+	free(mpc->deltaUmin);
+	free(mpc->deltaUmax);
+	free(mpc->deltaumin);
+	free(mpc->deltaumax);
+	free(mpc->Zmin);
+	free(mpc->Zmax);
+	free(mpc->umin);
+	free(mpc->umax);
+	free(mpc->barspsi);
+	free(mpc->barH);
+	free(mpc->AA);
+	free(mpc->eta);
+	free(mpc->x);
 
 	/* Flag */
-    mpc->is_initlized = false;
+	mpc->is_initlized = false;
 
 	/* Return true */
 	return true;
