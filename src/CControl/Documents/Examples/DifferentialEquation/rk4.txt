@@ -10,56 +10,62 @@
 
 #include "CControl/ccontrol.h"
 
-/* Constants */
+ /* Constants */
 #define N 2
 #define h 0.1f
 #define ITERATIONS 200
+#define no_ode_output false
 
 /* Create ODE equation */
 void odefun(const float t, float y[]) {
-	/* This is a second order oscillating mass-spring-damper system */
-	const float k = 5.0f;    /* Spring constant [N/m] */
-	const float b = 1.4f;    /* Damper constant [Ns/m] */
-	const float m = 2.0f;    /* Mass [kg] */
-	const float F = 8.0f;    /* Force [N] */
+    /* This is a second order oscillating mass-spring-damper system */
+    const float k = 5.0f;    /* Spring constant [N/m] */
+    const float b = 1.4f;    /* Damper constant [Ns/m] */
+    const float m = 2.0f;    /* Mass [kg] */
+    const float F = 8.0f;    /* Force [N] */
 
-	/* Derivitive array */
-	float dy[2];
+    /* Derivitive array */
+    float dy[2];
 
-	/* Dynamical model */
-	dy[0] = y[1];
-	dy[1] = -k / m * y[0] - b / m * y[1] + 1 / m * F;
+    /* Dynamical model */
+    dy[0] = y[1];
+    dy[1] = -k / m * y[0] - b / m * y[1] + 1 / m * F;
 
-	/* Update */
-	y[0] = dy[0];
-	y[1] = dy[1];
+    /* Update */
+    y[0] = dy[0];
+    y[1] = dy[1];
 }
 
 int main() {
-	clock_t start, end;
-	float cpu_time_used;
-	start = clock();
+    clock_t start, end;
+    float cpu_time_used;
+    start = clock();
 
-	/* Declare intial state */
-	float y0[N] = { 0 };
+    /* Declare intial state */
+    float y0[N] = { 0 };
 
-	/* Declare output */
-	float Y[ITERATIONS * N];
+    /* Declare output. If no_ode_output = true, then declare Y[N] instead */
+    float Y[ITERATIONS * N];
 
-	/* Perform Runge-Kutta 4:th order */
-	rk4(ITERATIONS, h, Y, y0, N, odefun);
+    /* Perform Runge-Kutta 4:th order */
+    rk4(no_ode_output, ITERATIONS, h, Y, y0, N, odefun);
 
-	end = clock();
-	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
-	printf("\nTotal speed  was %f\n", cpu_time_used);
+    end = clock();
+    cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+    printf("\nTotal speed  was %f\n", cpu_time_used);
 
-	/* Plot */
-	print(Y, ITERATIONS, N);
+    /* Plot */
+    if (no_ode_output) {
+        print(Y, 1, N);
+    }
+    else {
+        print(Y, ITERATIONS, N);
+    }
 
     /* Check memory */
     detectmemoryleak();
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
 
 /*

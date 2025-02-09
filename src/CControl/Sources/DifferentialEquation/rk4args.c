@@ -16,8 +16,9 @@
   * N - Dimension for y-vector
   * odefun(const float t, float y[], const float* matrices[], const size_t rows[], const size_t columns[])
   * ... = const float matrixA[], const size_t rowA, const size_t columnA, const float matrixB[], const size_t rowB, const size_t columnB, const float matrixC[], const size_t rowC, const size_t columnC, etc...
+  * no_ode_output = If true, then Y[N]. If false, then Y[iterations*N].
   */
-void rk4args(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*, float**, const size_t*, const size_t*), const size_t number_of_pointers, ...) {
+void rk4args(const bool no_ode_output, const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*, float**, const size_t*, const size_t*), const size_t number_of_pointers, ...) {
 	/* Variables */
 	size_t i, j;
 
@@ -59,7 +60,7 @@ void rk4args(const size_t iterations, const float h, float Y[], float y[], const
 	for (i = 1; i < iterations; i++) {
 		/* Receive old output */
 		for (j = 0; j < N; j++) {
-			y[j] = Y[(i - 1) * N + j];
+			y[j] = Y[(i - 1) * N * (!no_ode_output) + j];
 		}
 
 		/* First statement */
@@ -101,7 +102,7 @@ void rk4args(const size_t iterations, const float h, float Y[], float y[], const
 
 		/* Save output */
 		for (j = 0; j < N; j++) {
-			Y[i * N + j] = y[j] + (k1[j] + 2.0f * k2[j] + 2.0f * k3[j] + k4[j]) / 6.0f;
+			Y[i * N * (!no_ode_output) + j] = y[j] + (k1[j] + 2.0f * k2[j] + 2.0f * k3[j] + k4[j]) / 6.0f;
 		}
 
 		/* Update t */

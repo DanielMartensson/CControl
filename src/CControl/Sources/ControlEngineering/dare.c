@@ -128,13 +128,13 @@ void dare(const size_t iterations, const float sampleTime, const float A[], cons
 	const size_t column_r = column_b;
 
 	/* State vector */
-	float* Y = (float*)malloc(iterations * N * sizeof(float));
+	float* Y = (float*)malloc(N * sizeof(float));
 
 	/* Clear solution */
 	memset(X, 0, row_a * row_a * sizeof(float));
 
 	/* Do Runge-Kutta ODE solver */
-	rk4args(iterations, sampleTime, Y, X, N, odefun, number_of_pointers, A, row_a, column_a, B, row_b, column_b, Q, row_q, column_q, R, row_r, column_r);
+	rk4args(true, iterations, sampleTime, Y, X, N, odefun, number_of_pointers, A, row_a, column_a, B, row_b, column_b, Q, row_q, column_q, R, row_r, column_r);
 
 	/* Free */
 	free(Y);

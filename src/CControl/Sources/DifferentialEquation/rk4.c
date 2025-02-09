@@ -16,7 +16,7 @@
  * N - Dimension for y-vector
  * odefun(const float t, float y[])
  */
-void rk4(const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*)) {
+void rk4(const bool no_ode_output, const size_t iterations, const float h, float Y[], float y[], const size_t N, void (*odefun)(float, float*)) {
 	/* Variables */
 	size_t i, j;
 
@@ -42,7 +42,7 @@ void rk4(const size_t iterations, const float h, float Y[], float y[], const siz
 	for (i = 1; i < iterations; i++) {
 		/* Receive old output */
 		for (j = 0; j < N; j++) {
-			y[j] = Y[(i-1) * N + j];
+			y[j] = Y[(i-1) * N * (!no_ode_output) + j];
 		}
 
 		/* First statement */
@@ -84,7 +84,7 @@ void rk4(const size_t iterations, const float h, float Y[], float y[], const siz
 
 		/* Save output */
 		for (j = 0; j < N; j++) {
-			Y[i * N + j] = y[j] + (k1[j] + 2.0f * k2[j] + 2.0f * k3[j] + k4[j]) / 6.0f;
+			Y[i * N * (!no_ode_output) + j] = y[j] + (k1[j] + 2.0f * k2[j] + 2.0f * k3[j] + k4[j]) / 6.0f;
 		}
 
 		/* Update t */
