@@ -21,7 +21,7 @@
  * return true = success
  * return false = fail
  */
-bool linsolve_chol(float A[], float x[], float b[], size_t row) {
+bool linsolve_chol(const float A[], float x[], const float b[], const size_t row) {
 #ifdef CLAPACK_USED
 	/* Settings */
 	integer n = row, nrhs = 1, lda = row, ldb = row, info;
@@ -46,7 +46,7 @@ bool linsolve_chol(float A[], float x[], float b[], size_t row) {
 	memcpy(x, b, row * sizeof(float));
 
 	/* Solve */
-	bool status = LAPACKE_sposv(LAPACK_COL_MAJOR, 'U', row, 1, Acopy, row, x, row) == 0;
+	const bool status = LAPACKE_sposv(LAPACK_COL_MAJOR, 'U', row, 1, Acopy, row, x, row) == 0;
 
 	/* Free */
 	free(Acopy);
@@ -55,7 +55,7 @@ bool linsolve_chol(float A[], float x[], float b[], size_t row) {
 	return status;
 #else
 	float* L = (float*)malloc(row * row * sizeof(float));
-	bool status = chol(A, L, row);
+	const bool status = chol(A, L, row);
 	float* y = (float*)malloc(row * sizeof(float));
 	linsolve_lower_triangular(L, y, b, row);
 	tran(L, row, row);

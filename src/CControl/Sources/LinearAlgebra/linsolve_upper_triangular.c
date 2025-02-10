@@ -14,12 +14,12 @@
  * b [m]
  * m == n
  */
-void linsolve_upper_triangular(float A[], float x[], float b[], size_t column) {
+void linsolve_upper_triangular(const float A[], float x[], const float b[], const size_t column) {
 	/* Save address - This is the first column at the last row */
-	float *A0 = &A[(column-1)*column];
+	const float* A0 = &A[(column-1)*column];
 
 	/* Time to solve x from Ax = b. */
-	memset(x, 0, column*sizeof(float));
+	memset(x, 0, column * sizeof(float));
 	float sum;
 	int32_t i, j;
 	for(i = column-1; i >= 0; i--){ /* Column */
