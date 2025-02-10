@@ -7,7 +7,7 @@
 
 #include "optimization.h"
 
-static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t row_a, size_t column_a);
+static bool opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
 
 /**
  * This is quadratic programming with Hildreth's method
@@ -30,7 +30,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
  * h [row_g]				// Equality constraint vector
  * x [column_a]				// Solution
  */
-bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], float x[], size_t row_a, size_t row_g, size_t column_a, bool equality_constraints_are_used) {
+bool quadprog(const float Q[], const float c[], const float A[], const float b[], const float G[], const float h[], float x[], const size_t row_a, const size_t row_g, const size_t column_a, const bool equality_constraints_are_used) {
 	if (equality_constraints_are_used) {
 		/* Create multiple inequality constraints. Those are going to be equality constranits */
 		float* A_long = (float*)malloc((row_a + row_g + row_g) * column_a * sizeof(float));
@@ -61,7 +61,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], 
 		b_long = b_long0;
 
 		/* Optimize */
-		bool status = opti(Q, c, A_long, b_long, x, row_a + row_g + row_g, column_a);
+		const bool status = opti(Q, c, A_long, b_long, x, row_a + row_g + row_g, column_a);
 
 		/* Free */
 		free(A_long);
@@ -76,7 +76,7 @@ bool quadprog(float Q[], float c[], float A[], float b[], float G[], float h[], 
 }
 
 
-static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t row_a, size_t column_a){		
+static bool opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
 	/* Declare */
 	size_t i, j, k;
 	
@@ -84,7 +84,7 @@ static bool opti(float Q[], float c[], float A[], float b[], float x[], size_t r
 	linsolve_chol(Q, x, c, column_a);
 
 	/* Save address */
-	float* Ai = A;
+	const float* Ai = A;
 
 	/* Turn x negative */
 	for (i = 0; i < column_a; i++) {
