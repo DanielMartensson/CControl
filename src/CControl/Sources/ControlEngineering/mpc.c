@@ -586,23 +586,29 @@ void mpc_AA_matrix(float AA[], const float Lambda[], const float Gamma[], const 
  * AA[((N-1) * column_b + 2 * N * row_c) * (2 * N * column_b)]
  */
 void mpc_aqp_matrix(float aqp[], const float AA[], const size_t column_b, const size_t row_c, const size_t N) {
-	float* UI = (float*)malloc((N * column_b + N) * (2 * N * column_b) * sizeof(float));
-	eye(UI, 1.0f, N * column_b + N, 2 * N * column_b);
+	/* First create a row index variable */
 	size_t insert_row = 0;
-	insert(UI, aqp, N * column_b + N, 2 * N * column_b, 2 * N * column_b, insert_row, 0);
+
+	/* Clear aqp matrix */
+	memset(aqp, 0, (2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N)) * (2 * N * column_b) * sizeof(float));
+	
+	/* Insert first I matrix */
+	eye(aqp + insert_row * (2 * N * column_b), 1.0f, N * column_b + N, 2 * N * column_b);
 	insert_row += N * column_b + N;
+	
+	/* Insert first AA matrix */
 	insert(AA, aqp, (N - 1) * column_b + 2 * N * row_c, 2 * N * column_b, 2 * N * column_b, insert_row, 0);
 	insert_row += (N - 1) * column_b + 2 * N * row_c;
-	eye(UI, -1.0f, N * column_b + N, 2 * N * column_b);
-	insert(UI, aqp, N * column_b + N, 2 * N * column_b, 2 * N * column_b, insert_row, 0);
+	
+	/* Insert second -I matrix */
+	eye(aqp + insert_row * (2 * N * column_b), -1.0f, N * column_b + N, 2 * N * column_b);
 	insert_row += N * column_b + N;
+	
+	/* Then insert -AA matrix */
 	size_t i;
 	for (i = 0; i < ((N - 1) * column_b + 2 * N * row_c) * (2 * N * column_b); i++) {
 		aqp[insert_row * 2 * N * column_b + i] = -AA[i];
 	}
-
-	/* Free */
-	free(UI);
 }
 
 /*
