@@ -62,6 +62,7 @@
     <ClCompile Include="CControl\Sources\DifferentialEquation\rk4.c" />
     <ClCompile Include="CControl\Sources\DifferentialEquation\rk4args.c" />
     <ClCompile Include="CControl\Sources\LinearAlgebra\eye.c" />
+    <ClCompile Include="CControl\Sources\Optimization\quadprogslim.c" />
     <ClCompile Include="CControl\Sources\SystemIdentification\theta2ss.c" />
     <ClCompile Include="CControl\Sources\Hardware\detectmemoryleak.c" />
     <ClCompile Include="CControl\Sources\ComputerVision\cornerdetection.c" />
@@ -227,6 +228,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseInteloneMKL>Sequential</UseInteloneMKL>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -236,6 +238,7 @@
     <CharacterSet>Unicode</CharacterSet>
     <UseInteloneMKL>Sequential</UseInteloneMKL>
     <UseILP64Interfaces1A>false</UseILP64Interfaces1A>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

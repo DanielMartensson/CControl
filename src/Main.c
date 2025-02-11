@@ -1,114 +1,112 @@
 /*
  ============================================================================
- Name        : mpc.c
+ Name        : quadprog.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Model Predictive Control with integral action
+ Description : Optimize a quadrtic problem with constraints by using Hildreth's method
  ============================================================================
  */
 
 #include "CControl/ccontrol.h"
 
- /* Constants */
-#define sampleTime 1.0f
-#define row_a 2
-#define column_b 1
-#define row_c 1
-#define column_e 1
-#define iterations 1000
-#define N 10
-#define qw 1.0f
-#define rv 0.1f
-#define qz 1.0f
-#define s 1.0f
-#define Spsi_spsi 1.0f
-
 int main() {
-    clock_t start, end;
-    float cpu_time_used;
+	clock_t start, end;
+	float cpu_time_used;
+	start = clock();
 
-    /* Mass damping spring system of second order. Described as state space x(k+1) = A*x(k) + B*u(k) */
-    const float k = 8.7f;    /* Spring constant [N/m] */
-    const float b = 3.1f;   /* Damper constant [Ns/m] */
-    const float m = 13.5f;    /* Mass [kg] */
-    const float A[row_a * row_a] = { 0, 1, -k / m, -b / m };
-    const float B[row_a * column_b] = { 0, 1/m };
-    const float C[row_c * row_a] = { 0.5f, 0 };
-    const float E[row_a * column_e] = { 0, 0 };
+	/* Objective function - Q MUST be symmetric */
+	float Q[2 * 2] = { 1.200, -5.1000,
+					-5.1000,   26.0000 };
 
-    /* Declare MPC structure */
-    MPC mpc = { 0 };
+	float c[2] = { -2,
+				  -6 };
 
-    /* Init the structure */
-    mpc_init(&mpc, A, B, C, E, sampleTime, qw, rv, qz, s, Spsi_spsi, row_a, column_b, row_c, column_e, N, iterations);
+	/* Inequality constraints */
+	float A[3 * 2] = { 1, 1,
+				   -1, 2,
+					2, 1 };
 
-    /* Set constraints */
-    const float deltaumin[column_b] = { -30 };
-    const float deltaumax[column_b] = { 30 };
-    const float umin[column_b] = { 0 };
-    const float umax[column_b] = { 60 };
-    const float zmin[row_c] = { -1 };
-    const float zmax[row_c] = { 100 };
-    mpc_set_constraints(&mpc, umin, umax, zmin, zmax, deltaumin, deltaumax);
+	float b[3] = { 2,
+				  2,
+				  3 };
 
-    /* Compute u */
-    float u[column_b] = { 0 };
-    const float r[row_c] = { 10 };
-    const float y[row_c] = { 0.5f };
-    const float d[column_e] = { 0 };
-    const float alpha = 0.1f;
-    const float antiwindup = 100.0f;
-    start = clock();
-    mpc_optimize(&mpc, u, r, y, d, alpha, antiwindup);
+	/* Equality constraints */
+	float G[2 * 2] = { 3, 6,
+					   3, 1 };
 
-    /* Compute next state x */
-    mpc_estimate(&mpc, y);
-    end = clock();
+	float h[2] = { 5,
+				   1 };
 
-    /* Print u */
-    printf("Optimized output u:\n");
-    print(u, column_b, 1);
+	/* Solution */
+	float x[2] = { 0 };
 
-    /* Print x */
-    printf("Estimated state x:\n");
-    print(mpc.x, row_a, 1);
+	/*
+	 * Do quadratic programming with Hildreth's method
+	 *  	Min 1/2x^TQx + c^Tx
+	 * 		S.t Ax <= b
+	 *      	Gx = h
+	 *
+	 */
+	bool equality_constraints_are_used = true;
+	bool solution = quadprogslim(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
+	solution = quadprog(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
+	end = clock();
+	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+	printf("\nTotal speed  was %f\n", cpu_time_used);
 
-    cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
-    printf("\nTotal speed  was %f\n", cpu_time_used);
+	printf("Solution:\n");
+	print(x, 2, 1);
+	printf("Solution was found: %s\n", solution == true ? "yes" : "no");
 
-    /* Check memory */
-    detectmemoryleak();
-
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
 
 /*
- GNU Octave code:
+ * GNU Octave code:
+	Q = [1.200 -5.1000; -5.1000 26.0000];
+	c = [-2; -6];
 
-m = 1;
-b = 10.4;
-k = 1;
+	% Inequality constraints
+	A = [1 1; -1 2; 2 1];
+	b = [2; 2; 3];
 
-% Definiera systemparametrar
-A = [0 1; -k/m -b/m];      % Tillståndsmatris
-B = [0, k 1; m -1/m b/m ];          % Ingångsmatris
-C = [1 0; 0 1];
+	% "Equality" constraints
+	G = [3 6; 3 1];
+	h = [5; 1];
 
-pkg load control
+	% Internal QP-solver for GNU Octave
+	[x, ~, info] = qp([], Q, c, G, h, [], [], [], A, b)
 
-sys = mc.ss(0, A, B, C);
-sys1 = ss(A, B, C);
-sysd = mc.c2d(sys, 0.5);
-sysd1 = c2d(sys1, 0.5);
+	% Internal QP-solver for GNU Octave
+	[x, ~, info] = qp([], Q, c, [], [], [], [], [], [A;G;-G], [b;h;-h])
 
 
-Q = [1 0; 0 1];
-R = [ 1, 0, 0; 0, 0.5, 0; 0, 0, 3 ];
+	Output is:
 
-%[X, L, K] = dare(A, B, Q, R)
-%[X, K, L] = mc.are(sysd, Q, R)
-L = lqr(sysd1, Q, R)
-L = mc.lqr(sysd, Q, R)
+	x =
 
-*/
+	   0.066667
+	   0.800000
+
+	info =
+
+	  scalar structure containing the fields:
+
+		solveiter = 1
+		info = 0
+
+	x =
+
+	   0.066667
+	   0.800000
+
+	info =
+
+	  scalar structure containing the fields:
+
+		solveiter = 3
+		info = 0
+
+	>>
+ */

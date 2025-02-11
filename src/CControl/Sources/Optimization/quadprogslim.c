@@ -1,5 +1,5 @@
 /*
- * quadprog.c
+ * quadprogslim.c
  *
  *  Created on: 27 aug. 2022
  *      Author: Daniel Mårtensson
@@ -7,7 +7,7 @@
 
 #include "optimization.h"
 
-static bool opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
+static bool optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
 
 /**
  * This is quadratic programming with Hildreth's method
@@ -30,7 +30,7 @@ static bool opti(const float Q[], const float c[], const float A[], const float 
  * h [row_g]				// Equality constraint vector
  * x [column_a]				// Solution
  */
-bool quadprog(const float Q[], const float c[], const float A[], const float b[], const float G[], const float h[], float x[], const size_t row_a, const size_t row_g, const size_t column_a, const bool equality_constraints_are_used) {
+bool quadprogslim(const float Q[], const float c[], const float A[], const float b[], const float G[], const float h[], float x[], const size_t row_a, const size_t row_g, const size_t column_a, const bool equality_constraints_are_used) {
 	if (equality_constraints_are_used) {
 		/* Create multiple inequality constraints. Those are going to be equality constranits */
 		float* A_long = (float*)malloc((row_a + row_g + row_g) * column_a * sizeof(float));
@@ -61,7 +61,7 @@ bool quadprog(const float Q[], const float c[], const float A[], const float b[]
 		b_long = b_long0;
 
 		/* Optimize */
-		const bool status = opti(Q, c, A_long, b_long, x, row_a + row_g + row_g, column_a);
+		const bool status = optislim(Q, c, A_long, b_long, x, row_a + row_g + row_g, column_a);
 
 		/* Free */
 		free(A_long);
@@ -71,14 +71,14 @@ bool quadprog(const float Q[], const float c[], const float A[], const float b[]
 		return status;
 	}
 	else {
-		return opti(Q, c, A, b, x, row_a, column_a);
+		return optislim(Q, c, A, b, x, row_a, column_a);
 	}
 }
 
 
-static bool opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
+static bool optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
 	/* Declare */
-	size_t i, j, k;
+	size_t i, j, k, l;
 	
 	/* Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric */
 	linsolve_chol(Q, x, c, column_a);
@@ -103,123 +103,49 @@ static bool opti(const float Q[], const float c[], const float A[], const float 
 	}
 
 	/* Count how many constraints A*x > b */
-	float *K = (float*)malloc(row_a * sizeof(float));
-	size_t violations = 0;
-	float value;
-	for(i = 0; i < row_a; i++){
+	bool violates = false;
+	for (i = 0; i < row_a; i++) {
 
 		/* Check how many rows are A*x > b */
-		value = 0.0f;
+		float value = 0.0f;
 		for(j = 0; j < column_a; j++){
 			value += Ai[j] * x[j];
 			/* value += A[i*column_a + j]*x[j]; */
 		}
-		Ai += column_a;
 
 		/* Constraints difference */
-		K[i] = b[i] - value;
+		float K = b[i] - value;
 
 		/* Check constraint violation */
-		if (K[i] < 0.0f) {
-			violations++;
+		if (!violates) {
+			violates = K < 0.0f;
 		}
+		if (violates) {
+			/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
+			float* P = (float*)malloc(column_a * sizeof(float));
+			linsolve_chol(Q, P, Ai, column_a);
+
+			/* Multiply H = A*Q*A' */
+			for (k = 0; k < row_a; k++) {
+				float H = 0.0f;
+				for (l = 0; l < column_a; l++) {
+					H += A[k * column_a + l] * P[l];
+				}
+
+				printf("%f\t", H);
+
+			}
+			printf("\n");
+
+			/* Free */
+			free(P);
+		}
+
+		Ai += column_a;
 	}
 
 	/* No violation */
-	if (violations == 0) {
-		free(K);
-		return true;
-	}
-
-	/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
-	float *P = (float*)malloc(row_a * column_a * sizeof(float));
-	float *P0 = P;
-	Ai = A;
-	for (i = 0; i < row_a; i++) {
-		linsolve_chol(Q, P, Ai, column_a);
-		/* linsolve_gauss(Q, P, Ai, column_a, column_a, 0.0f); - Old */
-		P += column_a;
-		Ai += column_a;
-	}
-	P = P0;
-	tran(P, row_a, column_a);
-
-	/* Multiply H = A*Q*A' */
-	float *H = (float*)malloc(row_a * row_a * sizeof(float));
-	float *Hj;
-	mul(A, P, H, row_a, column_a, row_a);
-	printf("\n");
-	print(H, row_a, row_a);
-
-	/* Solve lambda from H*lambda = -K, where lambda >= 0 */
-	float *lambda = (float*)malloc(row_a * sizeof(float));
-	memset(lambda, 0, row_a * sizeof(float));
-	float *lambda_p = (float*)malloc(row_a * sizeof(float));
-	float w;
-	for(i = 0; i < MAX_ITERATIONS; i++){
-		/* Update */
-		memcpy(lambda_p, lambda, row_a * sizeof(float));
-
-		/* Use Gauss Seidel */
-		Hj = H;
-		for (j = 0; j < row_a; j++) {
-			/* w = H(i, :)*lambda */
-			w = 0.0f;
-			for (k = 0; k < row_a; k++) {
-				w += Hj[k] * lambda[k];
-			}
-			
-			/* Find a solution */
-			w = -1.0f / Hj[j] * (K[j] + w - Hj[j]*lambda[j]);
-			Hj += row_a;
-			lambda[j] = vmax(0.0f, w);
-		}
-
-		/* Check if we should break - Found the optimal solution */
-		w = 0.0f;
-		for (j = 0; j < row_a; j++) {
-			value = lambda[j] - lambda_p[j];
-			w += value * value;
-		}
-#ifdef _MSC_VER
-		if (w < MIN_VALUE || _isnanf(w)) {
-			break;
-		}
-#else
-		if (w < MIN_VALUE || isnanf(w)) {
-			break;
-		}
-#endif
-	}
-
-	/* Solve x = x + P*lambda (Notice that x is negative (see above)) */
-	float *Plambda = (float*)malloc(column_a * sizeof(float));
-	mul(P, lambda, Plambda, column_a, row_a, 1);
-	for (j = 0; j < column_a; j++) {
-		x[j] -= Plambda[j];
-	}
-
-	/* Free */
-	free(K);
-	free(P);
-	free(H);
-	free(lambda);
-	free(lambda_p);
-	free(Plambda);
-
-	/* If w was nan - return false */
-#ifdef _MSC_VER
-	if (_isnanf(w)) {
-		return false;
-	}
-#else
-	if (isnanf(w)) {
-		return false;
-	}
-#endif
-
-	/* If i equal to MAX_ITERATIONS, then it did not find a solution */
-	return i < MAX_ITERATIONS;
+	return true;
 }
 
 /* GNU Octave code:
