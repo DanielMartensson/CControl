@@ -536,9 +536,6 @@
     <ClCompile Include="CControl\Sources\LinearAlgebra\eye.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CControl\Sources\Optimization\quadprogslim.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

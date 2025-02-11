@@ -148,8 +148,6 @@ static bool opti(const float Q[], const float c[], const float A[], const float 
 	float *H = (float*)malloc(row_a * row_a * sizeof(float));
 	float *Hj;
 	mul(A, P, H, row_a, column_a, row_a);
-	printf("\n");
-	print(H, row_a, row_a);
 
 	/* Solve lambda from H*lambda = -K, where lambda >= 0 */
 	float *lambda = (float*)malloc(row_a * sizeof(float));

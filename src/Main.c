@@ -49,8 +49,7 @@ int main() {
 	 *
 	 */
 	bool equality_constraints_are_used = true;
-	bool solution = quadprogslim(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
-	solution = quadprog(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
+	bool solution = quadprog(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);

@@ -128,6 +128,7 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 			/* Multiply H = A*Q*A' */
 			for (k = 0; k < row_a; k++) {
 				float H = 0.0f;
+				float Hii;
 				for (l = 0; l < column_a; l++) {
 					H += A[k * column_a + l] * P[l];
 				}
