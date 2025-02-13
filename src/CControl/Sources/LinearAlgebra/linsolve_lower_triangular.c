@@ -19,7 +19,7 @@ void linsolve_lower_triangular(const float A[], float x[], const float b[], cons
 	const float* A0 = A;
 
 	/* Time to solve x from Ax = b. */
-	memset(x, 0, row*sizeof(float));
+	memset(x, 0, row * sizeof(float));
 	float sum;
 	size_t i, j;
 	for (i = 0; i < row; i++) {
