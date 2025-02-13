@@ -78,7 +78,7 @@ bool quadprogslim(const float Q[], const float c[], const float A[], const float
 
 static bool optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
 	/* Declare */
-	size_t i, j, k, l;
+	size_t i, j, k;
 	
 	/* Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric */
 	linsolve_chol(Q, x, c, column_a);
@@ -139,9 +139,11 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 	memset(lambda, 0, row_a * sizeof(float));
 
 	/* Count how many constraints A*x > b */
+	float v;
 	for (i = 0; i < MAX_ITERATIONS; i++) {
 		/* Find lambda */
-		float K, w, v = 0.0f;
+		float K, w;
+		v = 0.0f;
 		Ai = A;
 		for (j = 0; j < row_a; j++) {
 			/* Check how many rows are A*x > b */
@@ -198,7 +200,11 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 	free(P);
 
 	/* If i equal to MAX_ITERATIONS, then it did not find a solution */
-	return i < MAX_ITERATIONS;
+#ifdef _MSC_VER
+	return i < MAX_ITERATIONS && !_isnanf(v);
+#else
+	return i < MAX_ITERATIONS && !isnanf(v);
+#endif
 }
 
 /* GNU Octave code:
