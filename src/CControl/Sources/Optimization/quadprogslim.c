@@ -188,8 +188,8 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 	}
 
 	for (j = 0; j < column_a; j++) {
-		for (i = 0; i < row_a; i++) {
-			x[j] -= P[i * column_a + j] * lambda[i];
+		for (k = 0; k < row_a; k++) {
+			x[j] -= P[k * column_a + j] * lambda[k];
 		}
 	}
 
