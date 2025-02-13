@@ -160,6 +160,7 @@ static bool opti(const float Q[], const float c[], const float A[], const float 
 
 		/* Use Gauss Seidel */
 		Hj = H;
+		float v = 0.0f;
 		for (j = 0; j < row_a; j++) {
 			/* w = H(i, :)*lambda */
 			w = 0.0f;
@@ -169,6 +170,7 @@ static bool opti(const float Q[], const float c[], const float A[], const float 
 			
 			/* Find a solution */
 			w = -1.0f / Hj[j] * (K[j] + w - Hj[j]*lambda[j]);
+			v += vmax(0.0f, w) - lambda[j];
 			Hj += row_a;
 			lambda[j] = vmax(0.0f, w);
 		}
@@ -180,7 +182,7 @@ static bool opti(const float Q[], const float c[], const float A[], const float 
 			w += value * value;
 		}
 #ifdef _MSC_VER
-		if (w < MIN_VALUE || _isnanf(w)) {
+		if (v < MIN_VALUE || _isnanf(v)) {
 			break;
 		}
 #else

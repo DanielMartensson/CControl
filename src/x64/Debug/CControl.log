@@ -1,2 +1,7 @@
-﻿  qmpc.c
+﻿  Main.c
+C:\Users\danie\Documents\GitHub\CControl\src\Main.c(19,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\danie\Documents\GitHub\CControl\src\Main.c(19,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\danie\Documents\GitHub\CControl\src\Main.c(20,6): warning C4305: 'initializing': truncation from 'double' to 'float'
   CControl.vcxproj -> C:\Users\danie\Documents\GitHub\CControl\x64\Debug\CControl.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.

@@ -57,7 +57,7 @@ typedef unsigned long long size_t;
 #define MKL_LAPACK_USED 				/* For large matrices on a regular computer */
 #define MKL_FFT_USED					/* For large matrices on a regular computer */
 #else
-#define CLAPACK_USED   					/* For larger embedded systems */
+#define CLAPACK_USED1   					/* For larger embedded systems */
 #endif /* !ARM_IS_USED */
 
 #endif /* !DEFINES_H_ */
