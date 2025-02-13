@@ -60,11 +60,9 @@ bool chol(const float A[], float L[], const size_t row) {
 	for (i = 0; i < row; i++) {
 		Lj = L;
 		for (j = 0; j <= i; j++) {
-			s = 0.0f;
-			for (k = 0; k < j; k++) {
-				s += Li[k] * Lj[k]; /* s += L[row * i + k] * L[row * j + k]; */
-			}
-
+			/* s += L[row * i + k] * L[row * j + k]; */
+			s = dot(Li, Lj, j);
+			
 			/* We cannot divide with zero L[row * j + j] */
 			if (fabsf(Lj[j]) < MIN_VALUE) {
 				Lj[j] = FLT_EPSILON;
