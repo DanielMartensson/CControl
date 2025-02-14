@@ -14,17 +14,17 @@
  * b [m]
  * m == n
  */
-void linsolve_upper_triangular(const float A[], float x[], const float b[], const size_t column) {
+void linsolve_upper_triangular(const float A[], float x[], const float b[], const size_t row) {
 	/* Shift address - This is the first column at the last row */
-	A = &A[(column-1)*column];
+	A = &A[(row -1)* row];
 
 	/* Time to solve x from Ax = b */
-	memset(x, 0, column * sizeof(float));
+	memset(x, 0, row * sizeof(float));
 	int32_t i;
-	for(i = column-1; i >= 0; i--){
-		const float s = dot(A + i, x + i, column - i);
+	for(i = row -1; i >= 0; i--){
+		const float s = dot(A + i, x + i, row - i);
 		x[i] = (b[i] - s) / A[i];
-		A -= column;
+		A -= row;
 	}
 }
 

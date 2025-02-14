@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 bool inv(float A[], const size_t row);
-void linsolve_upper_triangular(const float A[], float x[], const float b[], const size_t column);
+void linsolve_upper_triangular(const float A[], float x[], const float b[], const size_t row);
 void tran(float A[], const size_t row, const size_t column);
 void mul(const float A[], const float B[], float C[], const size_t row_a, const size_t column_a, const size_t column_b);
 size_t rank(float A[], size_t row, size_t column);
