@@ -78,7 +78,7 @@ bool quadprogslim(const float Q[], const float c[], const float A[], const float
 
 static bool optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
 	/* Declare */
-	size_t i, j, k, l;
+	size_t i, j, k;
 	
 	/* Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric */
 	linsolve_chol(Q, x, c, column_a);
@@ -136,14 +136,14 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 
 			/* Constraints difference */
 			K = b[j] - K;
+
+    /* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */       
+    linsolve_chol(Q, P, A + j * column_a, column_a);
 				
 			/* Multiply H = A*Q*A' */
 			float Hii = 1.0f;
 			w = 0.0f;
 			for (k = 0; k < row_a; k++) {
-				/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
-				linsolve_chol(Q, P, A + k * column_a, column_a);
-
 				/* Compute H */
 				const float H = dot(A + k * column_a, P, column_a);
 
@@ -173,14 +173,12 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 		}
 #endif
 	}
-	print(lambda, 1, row_a);
-	/* Solve the optimial x */
-	for (l = 0; l < row_a; l++) {
-		linsolve_chol(Q, P, A + l * column_a, column_a);
-		for (j = 0; j < column_a; j++) {
-			for (k = 0; k < row_a; k++) {
-				x[j] -= P[j] * lambda[k];
-			}
+	
+	/* Compute solution x */
+	for (j = 0; j < row_a; j++) {
+		linsolve_chol(Q, P, A + j * column_a, column_a);
+		for (k = 0; k < column_a; k++) {
+		  x[k] -= P[k] * lambda[j];
 		}
 	}
 
