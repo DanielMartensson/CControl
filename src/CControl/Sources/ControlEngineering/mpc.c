@@ -1024,7 +1024,7 @@ bool mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const f
 
 	/* Quadraptic programming output */
 	float* U = (float*)malloc(2 * N * column_b * sizeof(float));
-	const bool status = quadprog(mpc->barH, barg, aqp, bqp, NULL, NULL, U, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 0, 2 * N * column_b, false);
+	const bool status = quadprogslim(mpc->barH, barg, aqp, bqp, NULL, NULL, U, 2 * ((N - 1) * column_b + 2 * N * row_c) + 2 * (N * column_b + N), 0, 2 * N * column_b, false);
 
 	/* Get amount of output from U */
 	memcpy(u, U, column_b * sizeof(float));
