@@ -16,7 +16,7 @@
  */
 void linsolve_upper_triangular(const float A[], float x[], const float b[], const size_t row) {
 	/* Shift address - This is the first column at the last row */
-	A = &A[(row -1)* row];
+	A += (row - 1) * row;
 
 	/* Time to solve x from Ax = b */
 	memset(x, 0, row * sizeof(float));
