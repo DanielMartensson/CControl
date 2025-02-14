@@ -173,7 +173,8 @@ static bool opti(const float Q[], const float c[], const float A[], const float 
 		}
 #endif
 	}
-	print(lambda, 1, row_a);
+	
+  /* Compute solution x */
 	for (j = 0; j < column_a; j++) {
 		for (k = 0; k < row_a; k++) {
 			x[j] -= P[k * column_a + j] * lambda[k];
