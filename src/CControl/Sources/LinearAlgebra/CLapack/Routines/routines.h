@@ -77,6 +77,9 @@ int ssymm_(char* side, char* uplo, integer* m, integer* n,
 	real* alpha, real* a, integer* lda, real* b, integer* ldb, real* beta,
 	real* c__, integer* ldc);
 
+/* Dot product */
+doublereal sdot_(integer* n, real* sx, integer* incx, real* sy, integer* incy);
+
 #ifdef __cplusplus
 }
 #endif
