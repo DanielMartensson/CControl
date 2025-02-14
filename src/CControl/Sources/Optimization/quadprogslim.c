@@ -10,7 +10,7 @@
 static bool optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
 
 /**
- * This is quadratic programming with Hildreth's method
+ * This is quadratic programming with optimized Hildreth's method by Daniel Mårtensson
  * Min 1/2x^TQx + c^Tx
  * S.t Ax <= b
  *     Gx = h
@@ -78,13 +78,10 @@ bool quadprogslim(const float Q[], const float c[], const float A[], const float
 
 static bool optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
 	/* Declare */
-	size_t i, j, k;
+	size_t i, j, k, l;
 	
 	/* Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric */
 	linsolve_chol(Q, x, c, column_a);
-
-	/* Save address */
-	const float* Ai = A;
 
 	/* Turn x negative */
 	for (i = 0; i < column_a; i++) {
@@ -105,7 +102,7 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 	/* Check how many rows are A*x > b */
 	j = 0;
 	for (i = 0; i < row_a; i++) {
-		float K = dot(Ai, x, column_a);
+		float K = dot(A + i *column_a, x, column_a);
 
 		/* Constraints difference */
 		K = b[i] - K;
@@ -114,25 +111,14 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 		if (K < 0.0f) {
 			j++;
 		}
-
-		/* Next row */
-		Ai += column_a;
 	}
 	if (j == 0) {
 		/* No violation */
-		return;
+		return true;
 	}
 
-	/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
-	float* P = (float*)malloc(row_a * column_a * sizeof(float));
-	float* P0 = P;
-	Ai = A;
-	for (i = 0; i < row_a; i++) {
-		linsolve_chol(Q, P, Ai, column_a);
-		P += column_a;
-		Ai += column_a;
-	}
-	P = P0;
+	/* Allocate memory for special case P */
+	float* P = (float*)malloc(column_a * sizeof(float));
 
 	/* Create lambda and lambda past */
 	float* lambda = (float*)malloc(row_a * sizeof(float));
@@ -144,10 +130,9 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 		/* Find lambda */
 		float K, w;
 		v = 0.0f;
-		Ai = A;
 		for (j = 0; j < row_a; j++) {
 			/* Check how many rows are A*x > b */
-			K = dot(Ai, x, column_a);
+			K = dot(A + j * column_a, x, column_a);
 
 			/* Constraints difference */
 			K = b[j] - K;
@@ -156,8 +141,11 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 			float Hii = 1.0f;
 			w = 0.0f;
 			for (k = 0; k < row_a; k++) {
+				/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */
+				linsolve_chol(Q, P, A + k * column_a, column_a);
+
 				/* Compute H */
-				const float H = dot(A + k * column_a, P + j * column_a, column_a);
+				const float H = dot(A + k * column_a, P, column_a);
 
 				/* Save H(i,i) when we are at the diagonal */
 				if (j == k) {
@@ -173,9 +161,6 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 			Hii = vmax(0.0f, w);
 			v += Hii - lambda[j];
 			lambda[j] = Hii;
-		
-			/* Next row */
-			Ai += column_a;
 		}
 
 #ifdef _MSC_VER
@@ -183,15 +168,19 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 			break;
 		}
 #else
-		if (w < MIN_VALUE || isnanf(w)) {
+		if (v < MIN_VALUE || isnanf(v)) {
 			break;
 		}
 #endif
 	}
-
-	for (j = 0; j < column_a; j++) {
-		for (k = 0; k < row_a; k++) {
-			x[j] -= P[k * column_a + j] * lambda[k];
+	print(lambda, 1, row_a);
+	/* Solve the optimial x */
+	for (l = 0; l < row_a; l++) {
+		linsolve_chol(Q, P, A + l * column_a, column_a);
+		for (j = 0; j < column_a; j++) {
+			for (k = 0; k < row_a; k++) {
+				x[j] -= P[j] * lambda[k];
+			}
 		}
 	}
 
