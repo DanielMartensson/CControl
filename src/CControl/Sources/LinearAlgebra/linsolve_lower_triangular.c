@@ -15,22 +15,13 @@
  * n == m
  */
 void linsolve_lower_triangular(const float A[], float x[], const float b[], const size_t row) {
-	/* Save address */
-	const float* A0 = A;
-
-	/* Time to solve x from Ax = b. */
+	/* Time to solve x from Ax = b */
 	memset(x, 0, row * sizeof(float));
-	float sum;
-	size_t i, j;
+	size_t i;
 	for (i = 0; i < row; i++) {
-		sum = 0.0f;
-		for (j = 0; j < i; j++) {
-			sum += A0[j] * x[j];
-			/* sum = sum + A[row*i + j] * x[j]; */
-		}
-
-		x[i] = (b[i] - sum) / A[row*i + i];
-		A0 += row;
+		const float s = dot(A, x, i);
+		x[i] = (b[i] - s) / A[i];
+		A += row;
 	}
 }
 
