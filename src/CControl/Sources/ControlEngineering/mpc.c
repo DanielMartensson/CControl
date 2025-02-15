@@ -971,6 +971,9 @@ STATUS_CODES mpc_optimize(MPC* mpc, float u[], const float r[], const float y[],
 	float* barg = (float*)malloc((N * column_b + column_b * N) * sizeof(float));
 	mpc_barg_vector(barg, g, mpc->barspsi, column_b, N);
 
+	/* Free */
+	free(g);
+
 	/* Debug
 	print(barg, N * column_b + column_b * N, 1); */
 
