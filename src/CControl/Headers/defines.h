@@ -49,7 +49,7 @@ typedef unsigned long long size_t;
 /* Define for all */
 #define PI 3.14159265358979323846f		/* Constant PI */
 #define MIN_VALUE 1e-11f				/* Tuning parameter for the smalles value that can be allowed */
-#define MAX_ITERATIONS 10000U			/* For all iteration algorithm */
+#define MAX_ITERATIONS 10000U			/* For all iteration algorithms */
 #define CONV_MAX_KERNEL_FFT_INSTEAD 80  /* When we are going to use FFT with conv or conv2 */
 
 /* Select library by uncomment - If non of these are uncomment, then CControl will use the internal library instead */
@@ -57,7 +57,7 @@ typedef unsigned long long size_t;
 #define MKL_LAPACK_USED 				/* For large matrices on a regular computer */
 #define MKL_FFT_USED					/* For large matrices on a regular computer */
 #else
-#define CLAPACK_USED   					/* For larger embedded systems */
+#define CLAPACK_USED  					/* For larger embedded systems */
 #endif /* !ARM_IS_USED */
 
 #endif /* !DEFINES_H_ */
