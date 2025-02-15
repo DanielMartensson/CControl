@@ -77,7 +77,7 @@
 
  static STATUS_CODES opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
 	 /* Declare */
-	 size_t i, j, k;
+	 size_t i, j;
 
 	 /* Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric */
 	 linsolve_chol(Q, x, c, column_a);
@@ -104,16 +104,9 @@
 	 /* Count how many constraints A* x > b */
 	 float *K = (float*)malloc(row_a * sizeof(float));
 	 size_t violations = 0;
-	 float value;
 	 for(i = 0; i < row_a; i++){
-
 		 /* Check how many rows are A* x > b */
-		 value = 0.0f;
-		 for(j = 0; j < column_a; j++){
-			 value += Ai[j] * x[j];
-			 /* value += A[i * column_a + j] * x[j]; */
-		 }
-		 Ai += column_a;
+		 const float value = dot(Ai, x, column_a);
 
 		 /* Constraints difference */
 		 K[i] = b[i] - value;
@@ -122,6 +115,9 @@
 		 if (K[i] < 0.0f) {
 			 violations++;
 		 }
+
+		 /* Next row */
+		 Ai += column_a;
 	 }
 
 	 /* No violation */
@@ -151,44 +147,51 @@
 	 /* Solve lambda from H* lambda = -K, where lambda >= 0 */
 	 float *lambda = (float*)malloc(row_a * sizeof(float));
 	 memset(lambda, 0, row_a * sizeof(float));
-	 float *lambda_p = (float*)malloc(row_a * sizeof(float));
-	 float w;
 	 for(i = 0; i < MAX_ITERATIONS; i++){
-		 /* Update */
-		 memcpy(lambda_p, lambda, row_a * sizeof(float));
-
 		 /* Use Gauss Seidel */
 		 Hj = H;
 		 float v = 0.0f;
 		 for (j = 0; j < row_a; j++) {
 			 /* w = H(i, :) * lambda */
-			 w = 0.0f;
-			 for (k = 0; k < row_a; k++) {
-				 w += Hj[k] * lambda[k];
-			 }
+			 float w = dot(Hj, lambda, row_a);
 
 			 /* Find a solution */
 			 w = -1.0f / Hj[j] * (K[j] + w - Hj[j]*lambda[j]);
 			 v += vmax(0.0f, w) - lambda[j];
-			 Hj += row_a;
 			 lambda[j] = vmax(0.0f, w);
+			 Hj += row_a;
 		 }
 
+		 /* Negative times negative becomes positive */
+		 v = v * v;
+
 		 /* Check if we should break - Found the optimal solution */
-		 w = 0.0f;
-		 for (j = 0; j < row_a; j++) {
-			 value = lambda[j] - lambda_p[j];
-			 w += value * value;
+#ifdef _MSC_VER
+		 if (_isnanf(v)) {
+			 free(K);
+			 free(P);
+			 free(H);
+			 free(lambda);
+			 return STATUS_NAN;
 		 }
- #ifdef _MSC_VER
-		 if (v < MIN_VALUE || _isnanf(v)) {
+
+		 if (v < MIN_VALUE) {
 			 break;
 		 }
- #else
-		 if (w < MIN_VALUE || isnanf(w)) {
+#else
+		 if (isnanf(v)) {
+			 free(K);
+			 free(P);
+			 free(H);
+			 free(lambda);
+			 free(lambda_p);
+			 return STATUS_NAN;
+		 }
+
+		 if (v < MIN_VALUE) {
 			 break;
 		 }
- #endif
+#endif
 	 }
 
 	 /* Solve x = x + P * lambda(Notice that x is negative(see above)) */
@@ -203,19 +206,7 @@
 	 free(P);
 	 free(H);
 	 free(lambda);
-	 free(lambda_p);
 	 free(Plambda);
-
-	 /* If w was nan - return false */
- #ifdef _MSC_VER
-	 if (_isnanf(w)) {
-		 return STATUS_NAN;
-	 }
- #else
-	 if (isnanf(w)) {
-		 return STATUS_NAN;
-	 }
- #endif
 
 	 /* If i equal to MAX_ITERATIONS, then it did not find a solution */
 	 return i < MAX_ITERATIONS ? STATUS_OK : STATUS_NOT_OPTIMAL_SOLUTION;

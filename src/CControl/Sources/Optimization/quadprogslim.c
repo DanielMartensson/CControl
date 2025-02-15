@@ -150,14 +150,12 @@ static STATUS_CODES optislim(const float Q[], const float c[], const float A[], 
 	memset(lambda, 0, row_a * sizeof(float));
 
 	/* Count how many constraints A*x > b */
-	float v;
 	for (i = 0; i < MAX_ITERATIONS; i++) {
 		/* Find lambda */
-		float K, w;
-		v = 0.0f;
+		float v = 0.0f;
 		for (j = 0; j < row_a; j++) {
 			/* Check how many rows are A*x > b */
-			K = dot(A + j * column_a, x, column_a);
+			float K = dot(A + j * column_a, x, column_a);
 
 			/* Constraints difference */
 			K = b[j] - K;
@@ -168,7 +166,7 @@ static STATUS_CODES optislim(const float Q[], const float c[], const float A[], 
 
 			/* Multiply H = A*Q*A' */
 			float Hii = 1.0f;
-			w = 0.0f;
+			float w = 0.0f;
 			for (k = 0; k < row_a; k++) {
 				/* Compute H */
 				const float H = dot(A + k * column_a, P, column_a);
@@ -188,6 +186,9 @@ static STATUS_CODES optislim(const float Q[], const float c[], const float A[], 
 			v += Hii - lambda[j];
 			lambda[j] = Hii;
 		}
+
+		/* Negative times negative becomes positive */
+		v = v * v;
 
 #ifdef _MSC_VER
 		if (_isnanf(v)) {
