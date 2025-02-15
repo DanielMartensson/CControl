@@ -48,7 +48,7 @@ typedef unsigned long long size_t;
 
 /* Define for all */
 #define PI 3.14159265358979323846f		/* Constant PI */
-#define MIN_VALUE 1e-11f				/* Tuning parameter for the smalles value that can be allowed */
+#define MIN_VALUE 1e-11f				/* Tuning parameter for the smallest value that can be allowed */
 #define MAX_ITERATIONS 10000U			/* For all iteration algorithms */
 #define CONV_MAX_KERNEL_FFT_INSTEAD 80  /* When we are going to use FFT with conv or conv2 */
 
