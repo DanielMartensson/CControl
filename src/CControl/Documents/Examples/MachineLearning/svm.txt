@@ -86,7 +86,7 @@ int main() {
 	float accuracy;
 
 	/* Do SVM */
-	bool solution = svm(X, y, w, &b, &accuracy, C, lambda, row, column);
+	STATUS_CODES status = svm(X, y, w, &b, &accuracy, C, lambda, row, column);
 
 	/* Print the weights */
 	print(w, 1, column);
@@ -98,7 +98,7 @@ int main() {
 	printf("Accuracy = %f\n", accuracy);
 
 	/* Was the solution found? */
-	printf("Solution was found: %s\n", solution ? "yes" : "no");
+	printf("Solution was found: %s\n", status == STATUS_OK ? "yes" : "no");
 
 	/* Classify class_ID = sign(w*x + b) */
 	float x_unknown[column] = { 15, 21 };

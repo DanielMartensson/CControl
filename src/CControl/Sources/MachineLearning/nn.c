@@ -55,7 +55,7 @@ static bool has_been_called = false;
  * status[classes]
  * accuracy[classes]
  */
-void nn_train(const float X[], const uint8_t class_id[], float weight[], float bias[], bool status[], float accuracy[], const size_t row, const size_t column, const uint8_t classes, const float C, const float lambda) {
+void nn_train(const float X[], const uint8_t class_id[], float weight[], float bias[], STATUS_CODES status[], float accuracy[], const size_t row, const size_t column, const uint8_t classes, const float C, const float lambda) {
 	size_t i, j;
 	float* labels = (float*)malloc(row * sizeof(float));
 	for (i = 0; i < classes; i++) {
@@ -73,7 +73,7 @@ void nn_train(const float X[], const uint8_t class_id[], float weight[], float b
 		status[i] = svm(X, labels, weight + column * i, &bias[i], &accuracy[i], C, lambda, row, column);
 
 		/* Print the result */
-		printf("Class %i: Success: %s. The accuracy = %f\n", i, status[i] ? "yes" : "no", accuracy[i]*100.0f);
+		printf("Class %i: Success: %s. The accuracy = %f\n", i, status[i] == STATUS_OK ? "yes" : "no", accuracy[i]*100.0f);
 	}
 
 	/* Free*/

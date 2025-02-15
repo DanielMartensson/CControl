@@ -1,7 +1,7 @@
 /*
  ============================================================================
- Name        : quadprog.c
- Author      : Daniel MÃ¥rtensson
+ Name        : quadprogslim.c
+ Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
  Description : Optimize a quadrtic problem with constraints by using Hildreth's method
@@ -49,7 +49,7 @@ int main() {
 	 *
 	 */
 	bool equality_constraints_are_used = true;
-	STATUS_CODES solution = quadprog(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
+	STATUS_CODES solution = quadprogslim(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
 	end = clock();
 	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
 	printf("\nTotal speed  was %f\n", cpu_time_used);

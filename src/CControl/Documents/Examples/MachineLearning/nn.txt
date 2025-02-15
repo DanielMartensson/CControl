@@ -192,7 +192,7 @@ int main() {
 
 	/* Status and accuracy for each class */
 	float accuracy[max_classes];
-	bool status[max_classes];
+	STATUS_CODES status[max_classes];
 
 	/* Train a neural network */
 	float C = 2;

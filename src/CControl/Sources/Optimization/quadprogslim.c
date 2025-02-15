@@ -7,7 +7,7 @@
 
 #include "optimization.h"
 
-static bool optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
+static STATUS_CODES optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
 
 /**
  * This is quadratic programming with optimized Hildreth's method by Daniel Mårtensson
@@ -30,7 +30,7 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
  * h [row_g]				// Equality constraint vector
  * x [column_a]				// Solution
  */
-bool quadprogslim(const float Q[], const float c[], const float A[], const float b[], const float G[], const float h[], float x[], const size_t row_a, const size_t row_g, const size_t column_a, const bool equality_constraints_are_used) {
+STATUS_CODES quadprogslim(const float Q[], const float c[], const float A[], const float b[], const float G[], const float h[], float x[], const size_t row_a, const size_t row_g, const size_t column_a, const bool equality_constraints_are_used) {
 	if (equality_constraints_are_used) {
 		/* Create multiple inequality constraints. Those are going to be equality constranits */
 		float* A_long = (float*)malloc((row_a + row_g + row_g) * column_a * sizeof(float));
@@ -61,7 +61,7 @@ bool quadprogslim(const float Q[], const float c[], const float A[], const float
 		b_long = b_long0;
 
 		/* Optimize */
-		const bool status = optislim(Q, c, A_long, b_long, x, row_a + row_g + row_g, column_a);
+		const STATUS_CODES status = optislim(Q, c, A_long, b_long, x, row_a + row_g + row_g, column_a);
 
 		/* Free */
 		free(A_long);
@@ -75,26 +75,49 @@ bool quadprogslim(const float Q[], const float c[], const float A[], const float
 	}
 }
 
+static void linsolve_upper_tran_triangular(const float A[], float x[], const float b[], const size_t row) {
+	int32_t i, j;
+	for (i = row - 1; i >= 0; i--) {
+		/* Start with b[i] and substract the values that already has been solved */
+		x[i] = b[i]; 
 
-static bool optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
+		/* A[j * row] because A is lower triangular but is interpreted as upper triangular */
+		for (j = i + 1; j < row; j++) {
+			x[i] -= A[i + j * row] * x[j];
+		}
+
+		/* Divide with the element of the diangonal */
+		x[i] /= A[i * row + i];
+	}
+}
+
+static STATUS_CODES optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a){
 	/* Declare */
 	size_t i, j, k;
-	
+
+	/* Create the cholesky lower triangular matrix L from Q */
+	float* L = (float*)malloc(column_a * column_a * sizeof(float));
+	float* y = (float*)malloc(column_a * sizeof(float));
+	if (!chol(Q, L, column_a)) {
+		free(L);
+		free(y);
+		return STATUS_NAN;
+	}
+
 	/* Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric */
-	linsolve_chol(Q, x, c, column_a);
+	linsolve_lower_triangular(L, y, c, column_a);
+	linsolve_upper_tran_triangular(L, x, y, column_a);
 
 	/* Turn x negative */
 	for (i = 0; i < column_a; i++) {
 		x[i] = -x[i];
-
-		/* If x was nan - return false - Use higher value on lambda constant! */
 #ifdef _MSC_VER
 		if (_isnanf(x[i])) {
-			return false;
+			return STATUS_NAN;
 		}
 #else
 		if (isnanf(x[i])) {
-			return false;
+			return STATUS_NAN;
 		}
 #endif
 	}
@@ -102,7 +125,7 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 	/* Check how many rows are A*x > b */
 	j = 0;
 	for (i = 0; i < row_a; i++) {
-		float K = dot(A + i *column_a, x, column_a);
+		float K = dot(A + i * column_a, x, column_a);
 
 		/* Constraints difference */
 		K = b[i] - K;
@@ -114,7 +137,9 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 	}
 	if (j == 0) {
 		/* No violation */
-		return true;
+		free(L);
+		free(y);
+		return STATUS_OK;
 	}
 
 	/* Allocate memory for special case P */
@@ -137,9 +162,10 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 			/* Constraints difference */
 			K = b[j] - K;
 
-    /* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */       
-    linsolve_chol(Q, P, A + j * column_a, column_a);
-				
+			/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */       
+			linsolve_lower_triangular(L, y, A + j * column_a, column_a);
+			linsolve_upper_tran_triangular(L, P, y, column_a);
+
 			/* Multiply H = A*Q*A' */
 			float Hii = 1.0f;
 			w = 0.0f;
@@ -164,11 +190,27 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 		}
 
 #ifdef _MSC_VER
-		if (v < MIN_VALUE || _isnanf(v)) {
+		if (_isnanf(v)) {
+			free(L);
+			free(y);
+			free(P);
+			free(lambda);
+			return STATUS_NAN;
+		}
+
+		if (v < MIN_VALUE) {
 			break;
 		}
 #else
-		if (v < MIN_VALUE || isnanf(v)) {
+		if (isnanf(v)) {
+			free(L);
+			free(y);
+			free(P);
+			free(lambda);
+			return STATUS_NAN;
+		}
+
+		if (v < MIN_VALUE) {
 			break;
 		}
 #endif
@@ -176,7 +218,8 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 	
 	/* Compute solution x */
 	for (j = 0; j < row_a; j++) {
-		linsolve_chol(Q, P, A + j * column_a, column_a);
+		linsolve_lower_triangular(L, y, A + j * column_a, column_a);
+		linsolve_upper_tran_triangular(L, P, y, column_a);
 		for (k = 0; k < column_a; k++) {
 		  x[k] -= P[k] * lambda[j];
 		}
@@ -185,13 +228,11 @@ static bool optislim(const float Q[], const float c[], const float A[], const fl
 	/* Free */
 	free(lambda);
 	free(P);
+	free(L);
+	free(y);
 
 	/* If i equal to MAX_ITERATIONS, then it did not find a solution */
-#ifdef _MSC_VER
-	return i < MAX_ITERATIONS && !_isnanf(v);
-#else
-	return i < MAX_ITERATIONS && !isnanf(v);
-#endif
+	return i < MAX_ITERATIONS ? STATUS_OK : STATUS_NOT_OPTIMAL_SOLUTION;
 }
 
 /* GNU Octave code:

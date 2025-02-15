@@ -57,17 +57,17 @@ int main() {
     /* Compute u */
     float u[column_b] = { 0 };                 /* Control output e.g PWM signal for your e.g real process. MPC will compute u depending on the provided matrices and vectors. */
     const float r[row_c] = { 10 };             /* User setpoint for the trajectory */
-    const float y[row_c] = { 0 };           /* User mesured output */
+    const float y[row_c] = { 0 };              /* User mesured output */
     const float d[column_e] = { 0 };           /* User mesured known process disturbance */
     start = clock();
-    const bool status = mpc_optimize(&mpc, u, r, y, d);
+    const STATUS_CODES status = mpc_optimize(&mpc, u, r, y, d);
 
     /* Compute next state x */
     mpc_estimate(&mpc, u, y, d);
     end = clock();
 
     /* Print u */
-    printf("Optimized output u (success: %s):\n", status ? "yes" : "no");
+    printf("Optimized output u (success: %s):\n", status == STATUS_OK ? "yes" : "no");
     print(u, column_b, 1);
 
     /* Print x */

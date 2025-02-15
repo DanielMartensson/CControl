@@ -21,7 +21,7 @@
  * class_ID = sign(w*x + b), where x is an unknown measurement vector
  * 
  */
-bool svm(const float X[], const float y[], float w[], float* b, float* accuracy, const float C, const float lambda, const size_t row, const size_t column) {
+STATUS_CODES svm(const float X[], const float y[], float w[], float* b, float* accuracy, const float C, const float lambda, const size_t row, const size_t column) {
 	/* Create Q = (y*y').*(X*X') */
 	float* Q = (float*)malloc(row * row * sizeof(float));
 	float* Q0 = Q;
@@ -92,7 +92,7 @@ bool svm(const float X[], const float y[], float w[], float* b, float* accuracy,
 	 *     lb <= x <= ub
 	 */
 	float* alpha = (float*)malloc(row * sizeof(float));
-	bool solution = quadprog(Q, c, G, h, NULL, NULL, alpha, row_g, 0, row, false);
+	STATUS_CODES status = quadprog(Q, c, G, h, NULL, NULL, alpha, row_g, 0, row, false);
 
 	/* Find weights w = (alpha.*y')*X */
 	const float* X0 = X;
@@ -159,7 +159,7 @@ bool svm(const float X[], const float y[], float w[], float* b, float* accuracy,
 	free(alpha);
 
 	/* Return if the solution was found */
-	return solution;
+	return status;
 }
 
 /* GNU Octave code

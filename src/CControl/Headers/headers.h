@@ -24,6 +24,7 @@
 #include "functions.h"
 #include "structs.h"
 #include "unions.h"
+#include "typedefs.h"
 
 /* Load the MKL library */
 #if defined(MKL_LAPACK_USED) || defined(MKL_FFT_USED)
