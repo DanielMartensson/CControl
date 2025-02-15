@@ -221,8 +221,7 @@
 	 return i < MAX_ITERATIONS ? STATUS_OK : STATUS_NOT_OPTIMAL_SOLUTION;
  }
 
-
-/*static STATUS_CODES opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
+ /*static STATUS_CODES opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
 
  THIS IS ACTUALLY NEWER CODE THAN ABOVE. This code below gives the same result as above, but take less memory.
  The drawback is that this code below is much slower than the code above! 2025-02-15
@@ -246,16 +245,16 @@
  * G [row_g*column_a]		// Equality constraint matrix
  * h [row_g]				// Equality constraint vector
  * x [column_a]				// Solution
- 
+
 STATUS_CODES quadprog(const float Q[], const float c[], const float A[], const float b[], const float G[], const float h[], float x[], const size_t row_a, const size_t row_g, const size_t column_a, const bool equality_constraints_are_used) {
 	if (equality_constraints_are_used) {
-		/* Create multiple inequality constraints. Those are going to be equality constranits 
+		// Create multiple inequality constraints. Those are going to be equality constranits
 		float* A_long = (float*)malloc((row_a + row_g + row_g) * column_a * sizeof(float));
 		float* A_long0 = A_long;
 		float* b_long = (float*)malloc((row_a + row_g + row_g) * sizeof(float));
 		float* b_long0 = b_long;
 
-		/* Copy over A_long = [A; G; -G] 
+		// Copy over A_long = [A; G; -G]
 		memcpy(A_long, A, row_a * column_a * sizeof(float));
 		A_long += row_a * column_a;
 		size_t row_g_column_a = row_g * column_a;
@@ -267,7 +266,7 @@ STATUS_CODES quadprog(const float Q[], const float c[], const float A[], const f
 		}
 		A_long = A_long0;
 
-		/* Copy over b_long = [b; h; -h] 
+		// Copy over b_long = [b; h; -h]
 		memcpy(b_long, b, row_a * sizeof(float));
 		b_long += row_a;
 		memcpy(b_long, h, row_g * sizeof(float));
@@ -277,14 +276,14 @@ STATUS_CODES quadprog(const float Q[], const float c[], const float A[], const f
 		}
 		b_long = b_long0;
 
-		/* Optimize 
+		// Optimize
 		const STATUS_CODES status = opti(Q, c, A_long, b_long, x, row_a + row_g + row_g, column_a);
 
-		/* Free 
+		// Free
 		free(A_long);
 		free(b_long);
 
-		/* Return status 
+		// Return status
 		return status;
 	}
 	else {
@@ -294,15 +293,15 @@ STATUS_CODES quadprog(const float Q[], const float c[], const float A[], const f
 
 
 static STATUS_CODES opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a) {
-	/* Declare 
+	// Declare
 	size_t i, j, k;
 
-	/* Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric 
+	// Use Cholesky factorization to solve x from Qx = c because Q is square and symmetric
 	if (!linsolve_chol(Q, x, c, column_a)) {
 		return STATUS_NAN;
 	}
 
-	/* Turn x negative 
+	// Turn x negative
 	for (i = 0; i < column_a; i++) {
 		x[i] = -x[i];
 
@@ -317,25 +316,25 @@ static STATUS_CODES opti(const float Q[], const float c[], const float A[], cons
 #endif
 	}
 
-	/* Check how many rows are A*x > b 
+	// Check how many rows are A*x > b
 	j = 0;
 	for (i = 0; i < row_a; i++) {
 		float K = dot(A + i * column_a, x, column_a);
 
-		/* Constraints difference 
+		// Constraints difference
 		K = b[i] - K;
 
-		/* Check constraint violation 
+		// Check constraint violation
 		if (K < 0.0f) {
 			j++;
 		}
 	}
 	if (j == 0) {
-		/* No violation 
+		// No violation
 		return STATUS_OK;
 	}
 
-	/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') 
+	// Solve QP = A' (Notice that we are using a little trick here so we can avoid A')
 	float* P = (float*)malloc(row_a * column_a * sizeof(float));
 	for (i = 0; i < row_a; i++) {
 		if (!linsolve_chol(Q, P + i * column_a, A + i * column_a, column_a)) {
@@ -344,40 +343,40 @@ static STATUS_CODES opti(const float Q[], const float c[], const float A[], cons
 		}
 	}
 
-	/* Create lambda and lambda past 
+	// Create lambda and lambda past
 	float* lambda = (float*)malloc(row_a * sizeof(float));
 	memset(lambda, 0, row_a * sizeof(float));
 
-	/* Count how many constraints A*x > b 
+	// Count how many constraints A*x > b
 	float v;
 	for (i = 0; i < MAX_ITERATIONS; i++) {
-		/* Find lambda 
+		// Find lambda
 		float K, w;
 		v = 0.0f;
 		for (j = 0; j < row_a; j++) {
-			/* Check how many rows are A*x > b 
+			// Check how many rows are A*x > b
 			K = dot(A + j * column_a, x, column_a);
 
-			/* Constraints difference 
+			// Constraints difference
 			K = b[j] - K;
 
-			/* Multiply H = A*Q*A' 
+			// Multiply H = A*Q*A'
 			float Hii = 1.0f;
 			w = 0.0f;
 			for (k = 0; k < row_a; k++) {
-				/* Compute H 
+				// Compute H
 				const float H = dot(A + k * column_a, P + j * column_a, column_a);
 
-				/* Save H(i,i) when we are at the diagonal 
+				// Save H(i,i) when we are at the diagonal
 				if (j == k) {
 					Hii = H;
 				}
 
-				/* w = H(i, :)*lambda 
+				// w = H(i, :)*lambda
 				w += H * lambda[k];
 			}
 
-			/* Find a solution 
+			// Find a solution
 			w = -1.0f / Hii * (K + w - Hii * lambda[j]);
 			Hii = vmax(0.0f, w);
 			v += Hii - lambda[j];
@@ -406,26 +405,26 @@ static STATUS_CODES opti(const float Q[], const float c[], const float A[], cons
 		}
 #endif
 	}
-	
-  /* Compute solution x 
+
+  // Compute solution x
 	for (j = 0; j < column_a; j++) {
 		for (k = 0; k < row_a; k++) {
 			x[j] -= P[k * column_a + j] * lambda[k];
 		}
 	}
 
-	/* Free 
+	// Free
 	free(lambda);
 	free(P);
 
-	/* If i equal to MAX_ITERATIONS, then it did not find a solution 
+	// If i equal to MAX_ITERATIONS, then it did not find a solution
 	return i < MAX_ITERATIONS ? STATUS_OK : STATUS_NOT_OPTIMAL_SOLUTION;
 
 }
 
 
 
-/* GNU Octave code:
+// GNU Octave code:
  *
 	% This is quadratic programming with Hildreth's method
 	% Min 1/2x^TQx + c^Tx
