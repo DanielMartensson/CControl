@@ -224,6 +224,8 @@
 
 /*static STATUS_CODES opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
 
+ THIS IS ACTUALLY NEWER CODE THAN ABOVE. This code below gives the same result as above, but take less memory.
+ The drawback is that this code below is much slower than the code above! 2025-02-15
 *
  * This is quadratic programming with optimized Hildreth's method by Daniel Mårtensson
  * Min 1/2x^TQx + c^Tx
