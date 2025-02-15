@@ -184,7 +184,6 @@
 			 free(P);
 			 free(H);
 			 free(lambda);
-			 free(lambda_p);
 			 return STATUS_NAN;
 		 }
 
