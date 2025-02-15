@@ -27,6 +27,7 @@
     <ClInclude Include="CControl\Headers\headers.h" />
     <ClInclude Include="CControl\Headers\macros.h" />
     <ClInclude Include="CControl\Headers\structs.h" />
+    <ClInclude Include="CControl\Headers\typedefs.h" />
     <ClInclude Include="CControl\Headers\unions.h" />
     <ClInclude Include="CControl\Sources\ArtificialIntelligence\artificialintelligence.h" />
     <ClInclude Include="CControl\Sources\ComputerVision\computervision.h" />
