@@ -26,7 +26,6 @@ float dot(const float a[], const float b[], const size_t row) {
 #elif defined(MKL_LAPACK_USED)
     return cblas_sdot(row, a, 1, b, 1);
 #else
-
     float result = 0.0f;
     size_t i;
     for (i = 0; i < row; i++) {
