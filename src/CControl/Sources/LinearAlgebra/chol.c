@@ -56,7 +56,7 @@ bool chol(const float A[], float L[], const size_t row) {
 
 	memset(L, 0, row * row * sizeof(float));
 	float s;
-	size_t i, j, k;
+	size_t i, j;
 	for (i = 0; i < row; i++) {
 		Lj = L;
 		for (j = 0; j <= i; j++) {
