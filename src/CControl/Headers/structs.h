@@ -172,7 +172,6 @@ typedef struct {
 
 	/* State */
 	float* x;          /* [row_a] */
-
 }MPC;
 
 #endif /* !STRUCTS_H_ */
