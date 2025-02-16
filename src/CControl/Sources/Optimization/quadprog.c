@@ -145,8 +145,7 @@
 	 mul(A, P, H, row_a, column_a, row_a);
 
 	 /* Solve lambda from H* lambda = -K, where lambda >= 0 */
-	 float *lambda = (float*)malloc(row_a * sizeof(float));
-	 memset(lambda, 0, row_a * sizeof(float));
+	 float *lambda = (float*)calloc(row_a, sizeof(float));
 	 for(i = 0; i < MAX_ITERATIONS; i++){
 		 /* Use Gauss Seidel */
 		 Hj = H;
