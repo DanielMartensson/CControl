@@ -122,34 +122,31 @@ static STATUS_CODES optislim(const float Q[], const float c[], const float A[], 
 #endif
 	}
 
-	/* Check how many rows are A*x > b */
+	/* Check how many rows are A*x > b 
 	j = 0;
 	for (i = 0; i < row_a; i++) {
 		float K = dot(A + i * column_a, x, column_a);
 
-		/* Constraints difference */
+		/ Constraints difference /
 		K = b[i] - K;
 
-		/* Check constraint violation */
+		/ Check constraint violation /
 		if (K < 0.0f) {
 			j++;
 		}
 	}
 	if (j == 0) {
-		/* No violation */
+		/ No violation /
 		free(L);
 		free(y);
 		return STATUS_OK;
-	}
+	}*/
 
 	/* Allocate memory for special case P */
 	float* P = (float*)malloc(column_a * sizeof(float));
 
-	/* Create lambda and lambda past */
-	float* lambda = (float*)malloc(row_a * sizeof(float));
-	memset(lambda, 0, row_a * sizeof(float));
-
-	/* Count how many constraints A*x > b */
+	/* Solve lambda from H* lambda = -K, where lambda >= 0 */
+	float* lambda = (float*)calloc(row_a, sizeof(float));
 	for (i = 0; i < MAX_ITERATIONS; i++) {
 		/* Find lambda */
 		float v = 0.0f;
@@ -159,6 +156,11 @@ static STATUS_CODES optislim(const float Q[], const float c[], const float A[], 
 
 			/* Constraints difference */
 			K = b[j] - K;
+
+			/* Check constraint violation */
+			if (K >= 0.0f) {
+				continue;
+			}
 
 			/* Solve QP = A' (Notice that we are using a little trick here so we can avoid A') */       
 			linsolve_lower_triangular(L, y, A + j * column_a, column_a);
