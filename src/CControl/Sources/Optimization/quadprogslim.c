@@ -10,7 +10,8 @@
 static STATUS_CODES optislim(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
 
 /**
- * This is quadratic programming with optimized Hildreth's method by Daniel Mårtensson
+ * This is quadratic programming with optimized Hildreth's method by Luenberger, 1969, Wismer and Chattergy, 1978.
+ * The algorithm is slightly changed and even more optimized by Daniel Mårtensson(2025) in both size and speed.
  * Min 1/2x^TQx + c^Tx
  * S.t Ax <= b
  *     Gx = h

@@ -10,7 +10,8 @@
  static STATUS_CODES opti(const float Q[], const float c[], const float A[], const float b[], float x[], const size_t row_a, const size_t column_a);
 
  /*
-  * This is quadratic programming with optimized Hildreth's method by Daniel Mårtensson
+  * This is quadratic programming with optimized Hildreth's method by Luenberger, 1969, Wismer and Chattergy, 1978.
+  * The algorithm is slightly changed and very much optimized by Daniel Mårtensson(2025) in both size and speed.
   * Min 1/2x^TQx + c^Tx
   * S.t Ax <= b
   *     Gx = h
@@ -23,12 +24,12 @@
   *
   * Call this function with the sizes
   * Q [column_a*column_a]	// Symmetric matrix
-  * c [column_a]				// Objective function
+  * c [column_a]			// Objective function
   * A [row_a*column_a]		// Inequality constraint matrix
   * b [row_a]				// Inequality constraint vector
   * G [row_g*column_a]		// Equality constraint matrix
   * h [row_g]				// Equality constraint vector
-  * x [column_a]				// Solution
+  * x [column_a]			// Solution
   */
  STATUS_CODES quadprog(const float Q[], const float c[], const float A[], const float b[], const float G[], const float h[], float x[], const size_t row_a, const size_t row_g, const size_t column_a, const bool equality_constraints_are_used) {
 	 if (equality_constraints_are_used) {
