@@ -25,6 +25,7 @@
 #define Spsi_spsi 1.0f           /* Slack variable scalar for slack variable matrix Spsi and slack vector spsi */
 #define alpha 0.1f               /* Integral action constant */
 #define antiwindup 100.0f        /* Anti-windup max/min limitation for the integral action */
+#define integral_active true     /* Activate integral action */
 
 int main() {
     clock_t start, end;
@@ -60,7 +61,7 @@ int main() {
     const float y[row_c] = { 0 };              /* User mesured output */
     const float d[column_e] = { 0 };           /* User mesured known process disturbance */
     start = clock();
-    const STATUS_CODES status = mpc_optimize(&mpc, u, r, y, d);
+    const STATUS_CODES status = mpc_optimize(&mpc, u, r, y, d, integral_active);
 
     /* Compute next state x */
     mpc_estimate(&mpc, u, y, d);

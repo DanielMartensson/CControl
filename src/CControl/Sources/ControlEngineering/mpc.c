@@ -324,16 +324,14 @@ void mpc_barH_matrix(float barH[], const float H[], const float barSpsi[], const
  * r[row_c]
  * y[row_c]
  */
-void mpc_eta_vector(float eta[], const float r[], const float y[], const float alpha, const size_t row_c) {
-	size_t i;
-	float* psi = (float*)malloc(row_c * sizeof(float));
-	for (i = 0; i < row_c; i++) {
-		psi[i] = r[i] - y[i];
-		eta[i] = eta[i] + alpha * psi[i];
+void mpc_eta_vector(float eta[], const float r[], const float y[], const float alpha, const bool integral_active, const size_t row_c) {
+	if (integral_active) {
+		size_t i;
+		for (i = 0; i < row_c; i++) {
+			const float psi = r[i] - y[i];
+			eta[i] = eta[i] + alpha * psi;
+		}
 	}
-
-	/* Free */
-	free(psi);
 }
 
 /*
@@ -885,7 +883,7 @@ void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const
  * y[row_c]
  * d[column_e]
  */
-STATUS_CODES mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const float d[]) {
+STATUS_CODES mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const float d[], const bool integral_active) {
 	/* Get sizes */
 	const size_t row_a = mpc->row_a;
 	const size_t column_b = mpc->column_b;
@@ -894,7 +892,7 @@ STATUS_CODES mpc_optimize(MPC* mpc, float u[], const float r[], const float y[],
 	const size_t N = mpc->N;
 
 	/* Integral action - Equation (3.66) */
-	mpc_eta_vector(mpc->eta, r, y, mpc->alpha, row_c);
+	mpc_eta_vector(mpc->eta, r, y, mpc->alpha, integral_active, row_c);
 
 	/* Debug
 	print(mpc->eta, row_c, 1); */
