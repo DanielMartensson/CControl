@@ -443,7 +443,6 @@ void mpc_Umax_vector(float Umax[], const float umax[], const float deltaumax[], 
 	}
 }
 
-
 /*
  * barZmin[N * row_c]
  * Zmin[N * row_c]
@@ -539,7 +538,6 @@ void mpc_bmin_vector(float bmin[], const float deltaUmin[], const float barZmin[
 	insert_row += i;
 	insert(barZmin, bmin, N * row_c, 1, 1, insert_row, 0);
 }
-
 
 /*
  * bmax[(N - 1) * column_b + N * row_c + N * row_c]
@@ -702,7 +700,7 @@ void mpc_set_input_constraints(MPC* mpc, const float umin[], const float umax[])
  * C[row_c * row_a]
  * E[row_a * column_e]
  */
-bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations) {
+bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime_mpc, const float sampleTime_kf, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations) {
 	/* Check if the mpc has been initlized before */
 	if (mpc->is_initlized) {
 		return false;
@@ -715,24 +713,35 @@ bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const
 	mpc->column_e = column_e;     /* Columns of E matrix */
 	mpc->N = N;                   /* Horizon */
 
-	/* Create discrete matrices - Equation (2.9) */
+	/* Create discrete matrices for MPC - Equation (2.9) */
 	mpc->Ad = (float*)malloc(row_a * row_a * sizeof(float));
 	mpc->Bd = (float*)malloc(row_a * column_b * sizeof(float));
 	mpc->Cd = (float*)malloc(row_c * row_a * sizeof(float));
 	mpc->Ed = (float*)malloc(row_a * column_e * sizeof(float));
-	mpc_discrete_matrices(sampleTime, A, B, C, E, mpc->Ad, mpc->Bd, mpc->Cd, mpc->Ed, row_a, column_b, row_c, column_e);
+	mpc_discrete_matrices(sampleTime_mpc, A, B, C, E, mpc->Ad, mpc->Bd, mpc->Cd, mpc->Ed, row_a, column_b, row_c, column_e);
+
+	/* Create discrete matrices for KF - Equation (2.9) */
+	mpc->Adkf = (float*)malloc(row_a * row_a * sizeof(float));
+	mpc->Bdkf = (float*)malloc(row_a * column_b * sizeof(float));
+	mpc->Cdkf = (float*)malloc(row_c * row_a * sizeof(float));
+	mpc->Edkf = (float*)malloc(row_a * column_e * sizeof(float));
+	mpc_discrete_matrices(sampleTime_kf, A, B, C, E, mpc->Adkf, mpc->Bdkf, mpc->Cdkf, mpc->Edkf, row_a, column_b, row_c, column_e);
 
 	/* Debug
 	print(mpc->Ad, row_a, row_a);
 	print(mpc->Bd, row_a, column_b);
 	print(mpc->Cd, row_c, row_a);
-	print(mpc->Ed, row_a, column_e);  */
+	print(mpc->Ed, row_a, column_e); 
+	print(mpc->Adkf, row_a, row_a);
+	print(mpc->Bdkf, row_a, column_b);
+	print(mpc->Cdkf, row_c, row_a);
+	print(mpc->Edkf, row_a, column_e); */
 
 	/* Create the kalman gain matrix K - Here we use Kalman-Bucy (1961) filter instead of Kalman Filter (1960) */
 	mpc->K = (float*)malloc(row_a * row_c * sizeof(float));
-	mpc_kalman_gain(iterations, sampleTime, mpc->Ad, mpc->Cd, qw, rv, mpc->K, row_a, row_c);
+	mpc_kalman_gain(iterations, sampleTime_kf, mpc->Adkf, mpc->Cdkf, qw, rv, mpc->K, row_a, row_c);
 
-	/* Debug
+	/* Debug 
 	print(mpc->K, row_a, row_c); */
 
 	/* Create the Phi matrix and lower hankel toeplitz Gamma matrix of inputs - Equation (3.6) */
@@ -1053,18 +1062,18 @@ void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]) {
 	const size_t column_e = mpc->column_e;
 
 	/* Compute model output */
-	float* Cdx = (float*)malloc(row_c * sizeof(float));
-	mul(mpc->Cd, mpc->x, Cdx, row_c, row_a, 1);
+	float* Cdkfx = (float*)malloc(row_c * sizeof(float));
+	mul(mpc->Cdkf, mpc->x, Cdkfx, row_c, row_a, 1);
 
 	/* Compute error */
 	float* e = (float*)malloc(row_c * sizeof(float));
 	size_t i;
 	for (i = 0; i < row_c; i++) {
-		e[i] = y[i] - Cdx[i];
+		e[i] = y[i] - Cdkfx[i];
 	}
 
 	/* Free */
-	free(Cdx);
+	free(Cdkfx);
 
 	/* Compute kalman */
 	float* Ke = (float*)malloc(row_a * sizeof(float));
@@ -1081,21 +1090,21 @@ void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]) {
 	/* Free */
 	free(Ke);
 
-	/* Compute next state x */
-	float* Adx = (float*)malloc(row_a * sizeof(float));
-	mul(mpc->Ad, mpc->x, Adx, row_a, row_a, 1);
-	float* Bdu = (float*)malloc(row_a * sizeof(float));
-	mul(mpc->Bd, u, Bdu, row_a, column_b, 1);
-	float* Edd = (float*)malloc(row_a * sizeof(float));
-	mul(mpc->Ed, d, Edd, row_a, column_e, 1);
+	/* Compute next state x to MPC by using KF */
+	float* Adkfx = (float*)malloc(row_a * sizeof(float));
+	mul(mpc->Adkf, mpc->x, Adkfx, row_a, row_a, 1);
+	float* Bdkfu = (float*)malloc(row_a * sizeof(float));
+	mul(mpc->Bdkf, u, Bdkfu, row_a, column_b, 1);
+	float* Edkfd = (float*)malloc(row_a * sizeof(float));
+	mul(mpc->Edkf, d, Edkfd, row_a, column_e, 1);
 	for (i = 0; i < row_a; i++) {
-		mpc->x[i] = Adx[i] + Bdu[i] + Edd[i];
+		mpc->x[i] = Adkfx[i] + Bdkfu[i] + Edkfd[i];
 	}
 
 	/* Free */
-	free(Adx);
-	free(Bdu);
-	free(Edd);
+	free(Adkfx);
+	free(Bdkfu);
+	free(Edkfd);
 }
 
 bool mpc_free(MPC* mpc) {
@@ -1109,6 +1118,10 @@ bool mpc_free(MPC* mpc) {
 	free(mpc->Bd);
 	free(mpc->Cd);
 	free(mpc->Ed);
+	free(mpc->Adkf);
+	free(mpc->Bdkf);
+	free(mpc->Cdkf);
+	free(mpc->Edkf);
 	free(mpc->K);
 	free(mpc->Phi);
 	free(mpc->Gammad);
@@ -1138,30 +1151,31 @@ bool mpc_free(MPC* mpc) {
 }
 
 /* GNU Octave code
-
-% Use Model Predictive Control with integral action, quadratic programming and kalman-bucy filter.
+% Use Model Predictive Control with integral action, quadratic programming and kalman-bucy filter
 % This MPC code follows this thesis: https://github.com/DanielMartensson/MataveControl/blob/master/Model%20Predictive%20Control%20for%20an%20artifical%20pancreas%20-%20Matias%20S%C3%B8rensen%20og%20Simon%20Kristiansen.pdf
 % Input: sysp(State space model of the plant), sysc(State space model of the controller), N(Horizon number), r(Reference vector),
 % umin(Minimum input vector), umax(Maximum input vector), zmin(Minimum output vector), zmax(Maximum output vector),
 % deltaumin(Minimum output vector rate of change), deltaumax(Maximum rate of change output vector), antiwindup(Maximum/Minimum value of integral),
-% alpha(Integral rate, optional), Ts(The sample time, optional), T(End time, optional), x0(Initial state, optional),
+% alpha(Integral rate, optional), Ts_mpc(The sample time of MPC, optional), Ts_kf(The sample time of KF, optional), T(End time, optional), x0(Initial state, optional),
 % s(Regularization value, optional), Qz(Weight parameter, optional), qw(Disturbance kalman filter tuning, optional),
 % rv(Noice kalman filter tuning, optional), Spsi_spsi(Slack variable matrix tuning and slack variable vector tuning, optional),
 % d(Disturbance vector e.g other measurements rather than y, optional), E(Disturbance input signal matrix, optional)
 % Output: y(Output signal), T(Discrete time vector), X(State vector), U(Output signal)
 % Example 1: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup)
 % Example 2: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha)
-% Example 3: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts)
-% Example 4: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T)
-% Example 5: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0)
-% Example 6: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s)
-% Example 7: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz)
-% Example 8: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz, qw)
-% Example 9: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz, qw, rv)
-% Example 10: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz, qw, rv, Spsi_spsi)
-% Example 11: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz, qw, rv, Spsi_spsi, d)
-% Example 12: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts, T, x0, s, Qz, qw, rv, Spsi_spsi, d, E)
+% Example 3: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc)
+% Example 4: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf)
+% Example 5: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T)
+% Example 6: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T, x0)
+% Example 7: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T, x0, s)
+% Example 8: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T, x0, s, Qz)
+% Example 9: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T, x0, s, Qz, qw)
+% Example 10: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T, x0, s, Qz, qw, rv)
+% Example 11: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T, x0, s, Qz, qw, rv, Spsi_spsi)
+% Example 12: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T, x0, s, Qz, qw, rv, Spsi_spsi, d)
+% Example 13: [Y, T, X, U] = mc.kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, alpha, Ts_mpc, Ts_kf, T, x0, s, Qz, qw, rv, Spsi_spsi, d, E)
 % Author: Daniel Mårtensson 2025 Januari 20
+% Update: Add separte sample time for both MPC and KF, 2025-03-19
 
 function [Y, T, X, U] = kf_qmpc(varargin)
   % Check if there is any input
@@ -1253,72 +1267,79 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	alpha = 0.01;
   end
 
-  % Get sample time
+  % Get sample time for MPC
   if(length(varargin) >= 13)
-	Ts = varargin{13};
+	Ts_mpc = varargin{13};
   else
-	Ts = 1;
+	Ts_mpc = 1;
+  end
+
+  % Get sample time for KF
+  if(length(varargin) >= 14)
+	Ts_kf = varargin{14};
+  else
+	Ts_kf = 1;
   end
 
   % Get time
-  if(length(varargin) >= 14)
-	T = varargin{14};
+  if(length(varargin) >= 15)
+	T = varargin{15};
   else
 	T = 10;
   end
 
   % Get initial state x
-  if(length(varargin) >= 15)
-	x = varargin{15};
+  if(length(varargin) >= 16)
+	x = varargin{16};
   else
 	x = 0;
   end
 
   % Get regularization parameter s
-  if(length(varargin) >= 16)
-	s = varargin{16};
+  if(length(varargin) >= 17)
+	s = varargin{17};
   else
 	s = 1;
   end
 
   % Get weight parameter Qz
-  if(length(varargin) >= 17)
-	Qz = varargin{17};
+  if(length(varargin) >= 18)
+	Qz = varargin{18};
   else
 	Qz = 1;
   end
 
   % Get kalman disturbance qw
-  if(length(varargin) >= 18)
-	qw = varargin{18};
+  if(length(varargin) >= 19)
+	qw = varargin{19};
   else
 	qw = 1;
   end
 
   % Get kalman noise rv
-  if(length(varargin) >= 19)
-	rv = varargin{19};
+  if(length(varargin) >= 20)
+	rv = varargin{20};
   else
 	rv = 1;
   end
 
   % Get slack parameter Spsi_spsi
-  if(length(varargin) >= 20)
-	Spsi_spsi = varargin{20};
+  if(length(varargin) >= 21)
+	Spsi_spsi = varargin{21};
   else
 	Spsi_spsi = 1;
   end
 
   % Get disturbance
-  if(length(varargin) >= 21)
-	d = varargin{21};
+  if(length(varargin) >= 22)
+	d = varargin{22};
   else
 	d = 0;
   end
 
   % Get disturbance matrix E
-  if(length(varargin) >= 22)
-	E = varargin{22};
+  if(length(varargin) >= 23)
+	E = varargin{23};
 	Ep = E;
   else
 	E = 0;
@@ -1360,12 +1381,13 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	end
 
 	% Create the discrete matrices - Equation (2.9)
-	[Ad, Bd, Cd, Ed] = DiscreteMatrices(A, B, C, E, Ts);
-	[Adp, Bdp, Cdp, Edp] = DiscreteMatrices(Ap, Bp, Cp, Ep, Ts);
+	[Ad, Bd, Cd, Ed] = DiscreteMatrices(A, B, C, E, Ts_mpc);
+	[Adkf, Bdkf, Cdkf, Edkf] = DiscreteMatrices(A, B, C, E, Ts_kf);
+	[Adp, Bdp, Cdp, Edp] = DiscreteMatrices(Ap, Bp, Cp, Ep, Ts_kf);
 
 	% Create the kalman gain matrix K - Here we use Kalman-Bucy (1961) filter instead of Kalman Filter (1960).
-	syse = mc.ss(delayc, Ad, Bd, Cd);
-	syse.sampleTime = Ts;
+	syse = mc.ss(delayc, Adkf, Bdkf, Cdkf);
+	syse.sampleTime = Ts_kf;
 	Qw = qw * eye(nx);
 	Rv = rv * eye(nz);
 	[K] = mc.lqe(syse, Qw, Rv); % This is the same as running the MATLAB command dare for computing kalman-bucy gain K
@@ -1419,7 +1441,7 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	AA = AAMat(Lambda, Gamma, N, nu, nz);
 
 	% Create time vector
-	t = 0:Ts:T;
+	t = 0:Ts_kf:T;
 	L = length(t);
 
 	% Create outputs for the simulation
@@ -1465,7 +1487,7 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	  end
 
 	  % Compute candidate state x - Equation (3.65)
-	  x = Ad*x + Bd*u + Ed*disturbance;
+	  x = Adkf*x + Bdkf*u + Edkf*disturbance;
 
 	  % Create gradient g. Also add the integral eta together with reference vector R for adjust the reference settings - Equation (3.32)
 	  % The reason why adjusting the reference R vector is because then the integral action will be optimized inside the QP-solver.
@@ -1515,13 +1537,13 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	  u = output(1:nu);
 
 	  % Compute outputs - Equation (3.67)
-	  y = Cdp*xp + v(:, k);
+	  y = Cdp*xp + v(:, k)*0;
 
 	  % Compute plant model with the optimized u - Equation (3.65)
 	  xp = Adp*xp + Bdp*u + Edp*disturbance;
 
 	  % Update error - Equation (3.72)
-	  e = y - Cd*x;
+	  e = y - Cdkf*x;
 
 	  % Kalman update - Equation (3.75)
 	  x = x + K*e;
@@ -1567,8 +1589,8 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	  subplot(size(C,1),1,i)
 	  plot(T, Y(i,:));
 	  ylabel(strcat('y', num2str(i)));
-	  if (Ts > 0)
-		xlabel(strcat(num2str(Ts), ' time unit/sample'));
+	  if (Ts_kf > 0)
+		xlabel(strcat(num2str(Ts_kf), ' time unit/sample'));
 	  else
 		xlabel('Time units');
 	  end
@@ -1583,7 +1605,7 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	if(~strcmp(typec, 'SS' ))
 	  sysc = mc.tf2ss(sysc, 'OCF');
 	end
-	[Y, T, X, U] = kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, lambda, Ts, T, x0, s, Qz, qw, rv, Spsi_spsi, d, E);
+	[Y, T, X, U] = kf_qmpc(sysp, sysc, N, r, umin, umax, zmin, zmax, deltaumin, deltaumax, antiwindup, lambda, Ts_mpc, Ts_kf, T, x0, s, Qz, qw, rv, Spsi_spsi, d, E);
   end
 end
 
@@ -1774,5 +1796,4 @@ function [Ad, Bd, Cd, Ed] = DiscreteMatrices(A, B, C, E, Ts)
   Ed = M2(1:nx, nx + nu + 1:nx + nu + nd);
   Cd = C;
 end
-
 */

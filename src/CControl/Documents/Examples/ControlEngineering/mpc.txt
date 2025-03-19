@@ -11,13 +11,14 @@
 #include "CControl/ccontrol.h"
 
  /* Constants */
-#define sampleTime 1.0f          /* Sample time of discrete model */
+#define sampleTime_mpc 10.0f    /* Sample time of discrete model for MPC */
+#define sampleTime_kf 1.0f       /* Sample time of discrete model for Kalman Filter */
 #define row_a 2                  /* Dimension of system matrix A */
 #define column_b 1               /* Columns of input matrix B */
 #define row_c 1                  /* Dimension of output matrix C */
 #define column_e 1               /* Columns of disturbance matrix E */
 #define iterations 1000          /* Simulation for finding kalman gain K */
-#define N 10                     /* MPC control horizon */
+#define N 20                     /* MPC control horizon */
 #define qw 1.0f                  /* Kalman scalar for disturbance covariance matrix Q */
 #define rv 0.1f                  /* Kalman scalar for noise covariance matrix R */
 #define qz 1.0f                  /* Weight scalar for weight matrix QZ */
@@ -44,7 +45,7 @@ int main() {
     MPC mpc = { 0 };
 
     /* Init the structure */
-    const bool is_initlized = mpc_init(&mpc, A, B, C, E, sampleTime, qw, rv, qz, s, Spsi_spsi, row_a, column_b, row_c, column_e, N, iterations);
+    const bool is_initlized = mpc_init(&mpc, A, B, C, E, sampleTime_mpc, sampleTime_kf, qw, rv, qz, s, Spsi_spsi, row_a, column_b, row_c, column_e, N, iterations);
 
     /* Set constraints */
     const float deltaumin[column_b] = { -30 }; /* Minimum rate of change for input u */

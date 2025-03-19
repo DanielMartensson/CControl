@@ -121,11 +121,17 @@ typedef struct {
 	size_t column_e;   /* Constant columns of E matrix */
 	size_t N;          /* Constant horizon */
 
-	/* Discrete model */
+	/* Discrete model for MPC */
 	float* Ad;         /* [row_a * row_a] */
 	float* Bd;         /* [row_a * column_b] */
 	float* Cd;         /* [row_c * row_a] */
 	float* Ed;         /* [row_a * column_e] */
+
+	/* Discrete model for KF */
+	float* Adkf;       /* [row_a * row_a] */
+	float* Bdkf;       /* [row_a * column_b] */
+	float* Cdkf;       /* [row_c * row_a] */
+	float* Edkf;       /* [row_a * column_e] */
 
 	/* Kalman Filter */
 	float* K;          /* [row_a * row_c] */

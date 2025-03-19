@@ -19,7 +19,7 @@ bool ssint(const float A[], const float B[], const float C[], float Ai[], float 
 bool stability(const float A[], const size_t row);
 
 /* MPC */
-bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations);
+bool mpc_init(MPC* mpc, const float A[], const float B[], const float C[], const float E[], const float sampleTime_mpc, const float sampleTime_kf, const float qw, const float rv, const float qz, const float s, const float Spsi_spsi, const size_t row_a, const size_t column_b, const size_t row_c, const size_t column_e, const size_t N, const size_t iterations);
 void mpc_set_constraints(MPC* mpc, const float umin[], const float umax[], const float zmin[], const float zmax[], const float deltaumin[], const float deltaumax[], const float alpha, const float antiwindup);
 STATUS_CODES mpc_optimize(MPC* mpc, float u[], const float r[], const float y[], const float d[], const bool integral_active);
 void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]);
