@@ -347,32 +347,6 @@ void mpc_antiwindup_vector(float eta[], const float antiwindup, const size_t row
 }
 
 /*
- * x[row_a]
- * Ad[row_a * row_a]
- * Bd[row_a * column_b]
- * Ed[row_a * column_e]
- * u[column_b]
- * d[column_e]
- */
-void mpc_stateupdate_vector(float x[], const float Ad[], const float Bd[], const float Ed[], const float u[], const float d[], const size_t row_a, const size_t column_b, const size_t column_e) {
-	float* Adx = (float*)malloc(row_a * sizeof(float));
-	mul(Ad, x, Adx, row_a, row_a, 1);
-	float* Bdu = (float*)malloc(row_a * sizeof(float));
-	mul(Bd, u, Bdu, row_a, column_b, 1);
-	float* Edd = (float*)malloc(row_a * sizeof(float));
-	mul(Ed, d, Edd, row_a, column_e, 1);
-	size_t i;
-	for (i = 0; i < row_a; i++) {
-		x[i] = Adx[i] + Bdu[i] + Edd[i];
-	}
-
-	/* Free */
-	free(Adx);
-	free(Bdu);
-	free(Edd);
-}
-
-/*
  * g[N * column_b]
  * Mx0[(N * column_b) * row_a]
  * MR[(N * column_b) * (N * row_c)]
@@ -912,12 +886,6 @@ STATUS_CODES mpc_optimize(MPC* mpc, float u[], const float r[], const float y[],
 	/* Debug
 	print(mpc->eta, row_c, 1); */
 
-	/* Compute candidate state x - Equation (3.65) */
-	mpc_stateupdate_vector(mpc->x, mpc->Ad, mpc->Bd, mpc->Ed, u, d, row_a, column_b, column_e);
-
-	/* Debug
-	print(mpc->x, row_a, 1); */
-
 	/* Create reference vector */
 	float* R = (float*)malloc(N * row_c * sizeof(float));
 	mpc_vector(R, r, row_c, N);
@@ -1065,7 +1033,7 @@ void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]) {
 	float* Cdkfx = (float*)malloc(row_c * sizeof(float));
 	mul(mpc->Cdkf, mpc->x, Cdkfx, row_c, row_a, 1);
 
-	/* Compute error */
+	/* Update error - Equation (3.72) */
 	float* e = (float*)malloc(row_c * sizeof(float));
 	size_t i;
 	for (i = 0; i < row_c; i++) {
@@ -1082,7 +1050,7 @@ void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]) {
 	/* Free */
 	free(e);
 
-	/* State update */
+	/* Kalman update - Equation (3.75) */
 	for (i = 0; i < row_a; i++) {
 		mpc->x[i] = mpc->x[i] + Ke[i];
 	}
@@ -1090,7 +1058,7 @@ void mpc_estimate(MPC* mpc, const float u[], const float y[], const float d[]) {
 	/* Free */
 	free(Ke);
 
-	/* Compute next state x to MPC by using KF */
+	/* Compute candidate state x - Equation (3.65) */
 	float* Adkfx = (float*)malloc(row_a * sizeof(float));
 	mul(mpc->Adkf, mpc->x, Adkfx, row_a, row_a, 1);
 	float* Bdkfu = (float*)malloc(row_a * sizeof(float));
@@ -1486,9 +1454,6 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 		eta = sign(eta)*antiwindup;
 	  end
 
-	  % Compute candidate state x - Equation (3.65)
-	  x = Adkf*x + Bdkf*u + Edkf*disturbance;
-
 	  % Create gradient g. Also add the integral eta together with reference vector R for adjust the reference settings - Equation (3.32)
 	  % The reason why adjusting the reference R vector is because then the integral action will be optimized inside the QP-solver.
 	  Ri = repmat(eta, N, 1);
@@ -1537,7 +1502,7 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	  u = output(1:nu);
 
 	  % Compute outputs - Equation (3.67)
-	  y = Cdp*xp + v(:, k)*0;
+	  y = Cdp*xp + v(:, k);
 
 	  % Compute plant model with the optimized u - Equation (3.65)
 	  xp = Adp*xp + Bdp*u + Edp*disturbance;
@@ -1548,6 +1513,8 @@ function [Y, T, X, U] = kf_qmpc(varargin)
 	  % Kalman update - Equation (3.75)
 	  x = x + K*e;
 
+	  % Compute candidate state x - Equation (3.65)
+	  x = Adkf*x + Bdkf*u + Edkf*disturbance;
 	end
 
 	%Cange t and y vector and u so the plot look like it is discrete - Important!
