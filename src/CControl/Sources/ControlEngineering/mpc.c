@@ -331,6 +331,9 @@ void mpc_eta_vector(float eta[], const float r[], const float y[], const float a
 			const float psi = r[i] - y[i];
 			eta[i] = eta[i] + alpha * psi;
 		}
+	} else {
+		/* Reset the integral */
+		memset(eta, 0, row_c * sizeof(float));
 	}
 }
 
