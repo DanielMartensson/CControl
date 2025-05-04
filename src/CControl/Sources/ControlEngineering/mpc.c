@@ -299,7 +299,7 @@ void mpc_barSpsi_matrix(float barSpsi[], const float Spsi, const size_t column_b
 }
 
 /*
- * barspsi[N]
+ * barspsi[N *  column_b]
  */
 void mpc_barspsi_vector(float barspsi[], const float spsi, const size_t column_b, const size_t N) {
 	size_t i;
