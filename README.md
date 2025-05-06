@@ -241,11 +241,12 @@ I replaced the PCB circuit with a new modern PCB circuit and implemented a Model
 
 ![a](https://github.com/DanielMartensson/Weller-to-JBC-converter/blob/main/Pictures/Soldering%20station.jpg?raw=true)
 
-This is the feedback. It could increase the temperature much faster if the transformer had about 100W-150W. The original transformer of Weller WECP-20 have a 50W transformer. The most important thing here is that the Model Predictive Controller is working perfectly!
+This is the feedback. It could control the temperature much faster if the transformer could give about 100W-150W i power. The original transformer of Weller WECP-20 is a 50W transformer. The most important thing here is that the Model Predictive Controller is working perfectly! It was not so difficult to implement by the way. Once you have the state space model, the tuning of other parameters was easy.
+
+Link to the Project: [Weller to JBC converter](https://github.com/DanielMartensson/Weller-to-JBC-converter)
 
 ![a](https://github.com/DanielMartensson/Weller-to-JBC-converter/blob/main/Pictures/Feedback%20control%20MPC.png?raw=true)
 
-Link to the Project: [Weller to JBC converter](https://github.com/DanielMartensson/Weller-to-JBC-converter)
 
 ## Fan Controller with Linear Quadratic Integral Control
 
