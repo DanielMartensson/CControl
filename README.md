@@ -232,6 +232,21 @@ int main() {
 
 # Projects made with CControl
 
+## Model Predictive Control with integral action and Kalman-Bucy filtering
+
+I have an old Weller WECP-20 that have seen better Days. I decided to give it new life by replacing the old analog AC PCB circuit that was
+using a simple PI-controller + a triac to Control the heat inside the soldering tip. The soldering handle of the Weller WECP-20 was replaced with a JBC handle because I find JCB tips much better than old Weller tips. 
+
+I replaced the PCB circuit with a new modern PCB circuit and implemented a Model Predictive Control with integral action and Kalman-Bucy filtering (Linear Quadratic Estimator, LQE) onto the microcontroller of the PCB circuit. 
+
+![a](https://github.com/DanielMartensson/Weller-to-JBC-converter/blob/main/Pictures/Soldering%20station.jpg?raw=true)
+
+This is the feedback. It could increase the temperature much faster if the transformer had about 100W-150W. The original transformer of Weller WECP-20 have a 50W transformer. The most important thing here is that the Model Predictive Controller is working perfectly!
+
+![a](https://github.com/DanielMartensson/Weller-to-JBC-converter/blob/main/Pictures/Feedback%20control%20MPC.png?raw=true)
+
+Link to the Project: [Weller to JBC converter](https://github.com/DanielMartensson/Weller-to-JBC-converter)
+
 ## Fan Controller with Linear Quadratic Integral Control
 
 I have created a controller for a fan. The controller works as it read the temperature sensor and it compare the temperature sensor with the potentiometer, which is the reference set point. If the error is large between the temperature sensor and the potentiometer, then the fan is going to turn on high, or low, depending on if the error is negative or positive. 
