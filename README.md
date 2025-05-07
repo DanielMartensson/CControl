@@ -1,11 +1,11 @@
 # CControl
 
-CControl is a library written in 100% ANSI C (C89) code. No external libraries and 100% platform independent.
+CControl is a library written in 100% ANSI C (C89) code.
 The purpose with this library is to fit advanced tools for really small embedded systems or desktop as well.
 Here I have focused on practical numerical methods and selected the methods that works best in practice. It has
 been a lot of work finding the best methods and best algorithms.
 
-# CLAPACK, Math Kernel Library, FFTPACK support
+# CLAPACK, Math Kernel Library, FFTPACK support...if enabled
 
 This library have different types of libraries. First library is the internal lightweight library that suits small embedded systems. The second library is higher lever library for larger matrices. The third library is libraries that are hardware independent. Set this as your math library inside `defines.h` file. The Math Kernel Library is extremely optimized and it's suitable for operative systems such as Windows, Linux, Mac OS meanwhile the lightweight library or CLAPACK and FFTPACK is suitable for an Arduino, STM32, PIC etc because they are 100% portable. The internal library is suited for really small devices.
 
@@ -32,7 +32,7 @@ This library have different types of libraries. First library is the internal li
  
 If you want to add more, just download `clapack-3.2.1.zip` from `Netlib` and include necessary `.c` files inside the `Lapack` folder of this project, for supporting your routine.
 
-| Type  | Internal | MLK | CLapack | FFTpack | 
+| Type  | Internal (100% portability) | MLK | CLapack | FFTpack | 
 | ------------- | ------------- | ------------------- | ------------------- | ------------------- |
 | `Speed` | Slow for large data | Fast for large data | Faster than internal | Very fast | 
 | `Portability` | Platform independent | Only Windows/Linux/ Mac OS | Platform independent | Platform independent |
