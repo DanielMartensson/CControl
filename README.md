@@ -237,7 +237,17 @@ int main() {
 I have an old Weller WECP-20 that have seen better Days. I decided to give it new life by replacing the old analog AC PCB circuit that was
 using a simple PI-controller + a triac to Control the heat inside the soldering tip. The soldering handle of the Weller WECP-20 was replaced with a JBC handle because I find JCB tips much better than old Weller tips. 
 
-I replaced the PCB circuit with a new modern PCB circuit and implemented a Model Predictive Control with integral action and Kalman-Bucy filtering (Linear Quadratic Estimator, LQE) onto the microcontroller of the PCB circuit. 
+I replaced the PCB circuit with a new modern PCB circuit and implemented a Model Predictive Control with integral action and Kalman-Bucy filtering (Linear Quadratic Estimator, LQE) onto the microcontroller of the PCB circuit. The Weller WECP-20 has now a STM32 microcontroller.
+
+The microcontroller is a STM32F051R8 has the following properties:
+
+* ARM®Cortex®-M0 32-bit RISC core
+* 48 MHz CPU
+* 64 kB in Flash
+* 8 kB in SRAM
+* 12-bit ADC
+* 32-bit PWM
+* USART
 
 ![a](https://github.com/DanielMartensson/Weller-to-JBC-converter/blob/main/Pictures/Soldering%20station.jpg?raw=true)
 
