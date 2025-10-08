@@ -114,10 +114,14 @@ static STATUS_CODES optislim(const float Q[], const float c[], const float A[], 
 		x[i] = -x[i];
 #ifdef _MSC_VER
 		if (_isnanf(x[i])) {
+			free(L);
+			free(y);
 			return STATUS_NAN;
 		}
 #else
 		if (isnanf(x[i])) {
+			free(L);
+			free(y);
 			return STATUS_NAN;
 		}
 #endif
