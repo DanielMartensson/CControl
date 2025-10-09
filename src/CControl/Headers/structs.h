@@ -8,6 +8,9 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
+/* For C++ only */
+#include <stdint.h>
+
 /* For imshow.c and imread.c */
 typedef struct {
 	size_t width;
