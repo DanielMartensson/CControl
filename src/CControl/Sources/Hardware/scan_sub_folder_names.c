@@ -46,7 +46,7 @@ size_t scan_sub_folder_names(const char folder_path[], char** sub_folder_names[]
 	return sub_folder_count;
 }
 #else
-size_t get_sub_folder_names(const char folder_path[], char* sub_folder_names[]) {
+size_t scan_sub_folder_names(const char folder_path[], char* sub_folder_names[]) {
 	return 0;
 }
 #endif
