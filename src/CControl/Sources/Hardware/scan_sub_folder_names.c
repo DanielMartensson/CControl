@@ -2,7 +2,7 @@
  * scan_sub_folder_names.c
  *
  *  Created on: 24 juli 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "hardware.h"
@@ -46,7 +46,7 @@ size_t scan_sub_folder_names(const char folder_path[], char** sub_folder_names[]
 	return sub_folder_count;
 }
 #else
-size_t scan_sub_folder_names(const char folder_path[], char* sub_folder_names[]) {
+size_t scan_sub_folder_names(const char folder_path[], char** sub_folder_names[]) {
 	return 0;
 }
 #endif
