@@ -682,6 +682,30 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult)->get_Status(reinterpret_cast<int32_t*>(&value)));
         return value;
     }
+    template <typename D> auto consume_Windows_ApplicationModel_Store_Preview_InstallControl_IGetEntitlementResult2<D>::IsAlreadyOwned() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2)->get_IsAlreadyOwned(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Store_Preview_InstallControl_IGetEntitlementResult2<D>::OrderId() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2)->get_OrderId(&value));
+        return hstring{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Store_Preview_InstallControl_IGetEntitlementResult2<D>::SkuId() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2)->get_SkuId(&value));
+        return hstring{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Store_Preview_InstallControl_IGetEntitlementResult2<D>::AvailabilityId() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2)->get_AvailabilityId(&value));
+        return hstring{ value, take_ownership_from_abi };
+    }
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
     struct produce<D, winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppInstallItem> : produce_base<D, winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppInstallItem>
@@ -1714,6 +1738,43 @@ namespace winrt::impl
         catch (...) { return to_hresult(); }
     };
 #endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2> : produce_base<D, winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2>
+    {
+        int32_t __stdcall get_IsAlreadyOwned(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().IsAlreadyOwned());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_OrderId(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<hstring>(this->shim().OrderId());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_SkuId(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<hstring>(this->shim().SkuId());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_AvailabilityId(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<hstring>(this->shim().AvailabilityId());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
 }
 WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Store::Preview::InstallControl
 {
@@ -1754,6 +1815,7 @@ namespace std
     template<> struct hash<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallItem> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallManager> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallManagerItemEventArgs> : winrt::impl::hash_base {};

@@ -9,7 +9,7 @@
 WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth
 {
     struct __declspec(empty_bases) BluetoothAdapter : winrt::Windows::Devices::Bluetooth::IBluetoothAdapter,
-        impl::require<BluetoothAdapter, winrt::Windows::Devices::Bluetooth::IBluetoothAdapter2, winrt::Windows::Devices::Bluetooth::IBluetoothAdapter3>
+        impl::require<BluetoothAdapter, winrt::Windows::Devices::Bluetooth::IBluetoothAdapter2, winrt::Windows::Devices::Bluetooth::IBluetoothAdapter3, winrt::Windows::Devices::Bluetooth::IBluetoothAdapter4>
     {
         BluetoothAdapter(std::nullptr_t) noexcept {}
         BluetoothAdapter(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::IBluetoothAdapter(ptr, take_ownership_from_abi) {}

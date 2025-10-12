@@ -65,6 +65,12 @@ WINRT_EXPORT namespace winrt::Windows::Media::Audio
         UnknownFailure = 3,
         AccessDenied = 4,
     };
+    enum class AudioEffectsPackStatus : int32_t
+    {
+        NotEnabled = 0,
+        Enabled = 1,
+        NotSupported = 2,
+    };
     enum class AudioFileNodeCreationStatus : int32_t
     {
         Success = 0,
@@ -148,6 +154,8 @@ WINRT_EXPORT namespace winrt::Windows::Media::Audio
     };
     struct IAudioDeviceInputNode;
     struct IAudioDeviceOutputNode;
+    struct IAudioEffectsPackConfiguration;
+    struct IAudioEffectsPackConfigurationStatics;
     struct IAudioFileInputNode;
     struct IAudioFileOutputNode;
     struct IAudioFrameCompletedEventArgs;
@@ -213,6 +221,7 @@ WINRT_EXPORT namespace winrt::Windows::Media::Audio
     struct ISpatialAudioFormatSubtypeStatics2;
     struct AudioDeviceInputNode;
     struct AudioDeviceOutputNode;
+    struct AudioEffectsPackConfiguration;
     struct AudioFileInputNode;
     struct AudioFileOutputNode;
     struct AudioFrameCompletedEventArgs;
@@ -255,6 +264,8 @@ namespace winrt::impl
 {
     template <> struct category<winrt::Windows::Media::Audio::IAudioDeviceInputNode>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Audio::IAudioDeviceOutputNode>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::Media::Audio::IAudioEffectsPackConfiguration>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::Media::Audio::IAudioEffectsPackConfigurationStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Audio::IAudioFileInputNode>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Audio::IAudioFileOutputNode>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Audio::IAudioFrameCompletedEventArgs>{ using type = interface_category; };
@@ -320,6 +331,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::Media::Audio::ISpatialAudioFormatSubtypeStatics2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioDeviceInputNode>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioDeviceOutputNode>{ using type = class_category; };
+    template <> struct category<winrt::Windows::Media::Audio::AudioEffectsPackConfiguration>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioFileInputNode>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioFileOutputNode>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioFrameCompletedEventArgs>{ using type = class_category; };
@@ -358,6 +370,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::Media::Audio::SpatialAudioFormatConfiguration>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Audio::SpatialAudioFormatSubtype>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioDeviceNodeCreationStatus>{ using type = enum_category; };
+    template <> struct category<winrt::Windows::Media::Audio::AudioEffectsPackStatus>{ using type = enum_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioFileNodeCreationStatus>{ using type = enum_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioGraphCreationStatus>{ using type = enum_category; };
     template <> struct category<winrt::Windows::Media::Audio::AudioGraphUnrecoverableError>{ using type = enum_category; };
@@ -373,6 +386,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::Media::Audio::SpatialAudioModel>{ using type = enum_category; };
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioDeviceInputNode> = L"Windows.Media.Audio.AudioDeviceInputNode";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioDeviceOutputNode> = L"Windows.Media.Audio.AudioDeviceOutputNode";
+    template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioEffectsPackConfiguration> = L"Windows.Media.Audio.AudioEffectsPackConfiguration";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioFileInputNode> = L"Windows.Media.Audio.AudioFileInputNode";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioFileOutputNode> = L"Windows.Media.Audio.AudioFileOutputNode";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioFrameCompletedEventArgs> = L"Windows.Media.Audio.AudioFrameCompletedEventArgs";
@@ -411,6 +425,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::SpatialAudioFormatConfiguration> = L"Windows.Media.Audio.SpatialAudioFormatConfiguration";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::SpatialAudioFormatSubtype> = L"Windows.Media.Audio.SpatialAudioFormatSubtype";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioDeviceNodeCreationStatus> = L"Windows.Media.Audio.AudioDeviceNodeCreationStatus";
+    template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioEffectsPackStatus> = L"Windows.Media.Audio.AudioEffectsPackStatus";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioFileNodeCreationStatus> = L"Windows.Media.Audio.AudioFileNodeCreationStatus";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioGraphCreationStatus> = L"Windows.Media.Audio.AudioGraphCreationStatus";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::AudioGraphUnrecoverableError> = L"Windows.Media.Audio.AudioGraphUnrecoverableError";
@@ -426,6 +441,8 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::SpatialAudioModel> = L"Windows.Media.Audio.SpatialAudioModel";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::IAudioDeviceInputNode> = L"Windows.Media.Audio.IAudioDeviceInputNode";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::IAudioDeviceOutputNode> = L"Windows.Media.Audio.IAudioDeviceOutputNode";
+    template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::IAudioEffectsPackConfiguration> = L"Windows.Media.Audio.IAudioEffectsPackConfiguration";
+    template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::IAudioEffectsPackConfigurationStatics> = L"Windows.Media.Audio.IAudioEffectsPackConfigurationStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::IAudioFileInputNode> = L"Windows.Media.Audio.IAudioFileInputNode";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::IAudioFileOutputNode> = L"Windows.Media.Audio.IAudioFileOutputNode";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::IAudioFrameCompletedEventArgs> = L"Windows.Media.Audio.IAudioFrameCompletedEventArgs";
@@ -491,6 +508,8 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Audio::ISpatialAudioFormatSubtypeStatics2> = L"Windows.Media.Audio.ISpatialAudioFormatSubtypeStatics2";
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Audio::IAudioDeviceInputNode>{ 0xB01B6BE1,0x6F4E,0x49E2,{ 0xAC,0x01,0x55,0x9D,0x62,0xBE,0xB3,0xA9 } }; // B01B6BE1-6F4E-49E2-AC01-559D62BEB3A9
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Audio::IAudioDeviceOutputNode>{ 0x362EDBFF,0xFF1C,0x4434,{ 0x9E,0x0F,0xBD,0x2E,0xF5,0x22,0xAC,0x82 } }; // 362EDBFF-FF1C-4434-9E0F-BD2EF522AC82
+    template <> inline constexpr guid guid_v<winrt::Windows::Media::Audio::IAudioEffectsPackConfiguration>{ 0x71D7627D,0x70C1,0x536C,{ 0xA8,0xF8,0x6F,0x98,0x01,0x5A,0x7F,0x06 } }; // 71D7627D-70C1-536C-A8F8-6F98015A7F06
+    template <> inline constexpr guid guid_v<winrt::Windows::Media::Audio::IAudioEffectsPackConfigurationStatics>{ 0x61C20413,0x530C,0x55FF,{ 0xBA,0x2B,0x8E,0x68,0xA9,0xB5,0x6A,0x04 } }; // 61C20413-530C-55FF-BA2B-8E68A9B56A04
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Audio::IAudioFileInputNode>{ 0x905B67C8,0x6F65,0x4CD4,{ 0x88,0x90,0x46,0x94,0x84,0x3C,0x27,0x6D } }; // 905B67C8-6F65-4CD4-8890-4694843C276D
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Audio::IAudioFileOutputNode>{ 0x50E01980,0x5166,0x4093,{ 0x80,0xF8,0xAD,0xA0,0x00,0x89,0xE9,0xCF } }; // 50E01980-5166-4093-80F8-ADA00089E9CF
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Audio::IAudioFrameCompletedEventArgs>{ 0xDC7C829E,0x0208,0x4504,{ 0xA5,0xA8,0xF0,0xF2,0x68,0x92,0x0A,0x65 } }; // DC7C829E-0208-4504-A5A8-F0F268920A65
@@ -556,6 +575,7 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Audio::ISpatialAudioFormatSubtypeStatics2>{ 0x4565E6CB,0xD95B,0x5621,{ 0xB6,0xAF,0x0E,0x88,0x49,0xC5,0x7C,0x80 } }; // 4565E6CB-D95B-5621-B6AF-0E8849C57C80
     template <> struct default_interface<winrt::Windows::Media::Audio::AudioDeviceInputNode>{ using type = winrt::Windows::Media::Audio::IAudioDeviceInputNode; };
     template <> struct default_interface<winrt::Windows::Media::Audio::AudioDeviceOutputNode>{ using type = winrt::Windows::Media::Audio::IAudioDeviceOutputNode; };
+    template <> struct default_interface<winrt::Windows::Media::Audio::AudioEffectsPackConfiguration>{ using type = winrt::Windows::Media::Audio::IAudioEffectsPackConfiguration; };
     template <> struct default_interface<winrt::Windows::Media::Audio::AudioFileInputNode>{ using type = winrt::Windows::Media::Audio::IAudioFileInputNode; };
     template <> struct default_interface<winrt::Windows::Media::Audio::AudioFileOutputNode>{ using type = winrt::Windows::Media::Audio::IAudioFileOutputNode; };
     template <> struct default_interface<winrt::Windows::Media::Audio::AudioFrameCompletedEventArgs>{ using type = winrt::Windows::Media::Audio::IAudioFrameCompletedEventArgs; };
@@ -604,6 +624,25 @@ namespace winrt::impl
         struct __declspec(novtable) type : inspectable_abi
         {
             virtual int32_t __stdcall get_Device(void**) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::Media::Audio::IAudioEffectsPackConfiguration>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_DeviceId(void**) noexcept = 0;
+            virtual int32_t __stdcall get_EffectsPackId(void**) noexcept = 0;
+            virtual int32_t __stdcall get_Status(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall add_StatusChanged(void*, winrt::event_token*) noexcept = 0;
+            virtual int32_t __stdcall remove_StatusChanged(winrt::event_token) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::Media::Audio::IAudioEffectsPackConfigurationStatics>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall GetForDeviceId(void*, void*, void**) noexcept = 0;
+            virtual int32_t __stdcall IsDeviceIdSupported(void*, void*, bool*) noexcept = 0;
         };
     };
     template <> struct abi<winrt::Windows::Media::Audio::IAudioFileInputNode>
@@ -1288,6 +1327,31 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::Media::Audio::IAudioDeviceOutputNode>
     {
         template <typename D> using type = consume_Windows_Media_Audio_IAudioDeviceOutputNode<D>;
+    };
+    template <typename D>
+    struct consume_Windows_Media_Audio_IAudioEffectsPackConfiguration
+    {
+        [[nodiscard]] auto DeviceId() const;
+        [[nodiscard]] auto EffectsPackId() const;
+        [[nodiscard]] auto Status() const;
+        auto StatusChanged(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::Media::Audio::AudioEffectsPackConfiguration, winrt::Windows::Foundation::IInspectable> const& handler) const;
+        using StatusChanged_revoker = impl::event_revoker<winrt::Windows::Media::Audio::IAudioEffectsPackConfiguration, &impl::abi_t<winrt::Windows::Media::Audio::IAudioEffectsPackConfiguration>::remove_StatusChanged>;
+        [[nodiscard]] auto StatusChanged(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::Media::Audio::AudioEffectsPackConfiguration, winrt::Windows::Foundation::IInspectable> const& handler) const;
+        auto StatusChanged(winrt::event_token const& token) const noexcept;
+    };
+    template <> struct consume<winrt::Windows::Media::Audio::IAudioEffectsPackConfiguration>
+    {
+        template <typename D> using type = consume_Windows_Media_Audio_IAudioEffectsPackConfiguration<D>;
+    };
+    template <typename D>
+    struct consume_Windows_Media_Audio_IAudioEffectsPackConfigurationStatics
+    {
+        auto GetForDeviceId(param::hstring const& effectsPackId, param::hstring const& deviceId) const;
+        auto IsDeviceIdSupported(param::hstring const& effectsPackId, param::hstring const& deviceId) const;
+    };
+    template <> struct consume<winrt::Windows::Media::Audio::IAudioEffectsPackConfigurationStatics>
+    {
+        template <typename D> using type = consume_Windows_Media_Audio_IAudioEffectsPackConfigurationStatics<D>;
     };
     template <typename D>
     struct consume_Windows_Media_Audio_IAudioFileInputNode

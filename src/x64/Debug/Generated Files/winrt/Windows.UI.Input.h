@@ -801,6 +801,188 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IMouseWheelParameters)->put_PageTranslation(impl::bind_in(value)));
     }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::IsActive() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_IsActive(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::GestureSettings() const
+    {
+        winrt::Windows::UI::Input::GestureSettings value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_GestureSettings(reinterpret_cast<uint32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::GestureSettings(winrt::Windows::UI::Input::GestureSettings const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_GestureSettings(static_cast<uint32_t>(value)));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::TapMinContactCount() const
+    {
+        uint32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_TapMinContactCount(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::TapMinContactCount(uint32_t value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_TapMinContactCount(value));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::TapMaxContactCount() const
+    {
+        uint32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_TapMaxContactCount(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::TapMaxContactCount(uint32_t value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_TapMaxContactCount(value));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::HoldMinContactCount() const
+    {
+        uint32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_HoldMinContactCount(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::HoldMinContactCount(uint32_t value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_HoldMinContactCount(value));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::HoldMaxContactCount() const
+    {
+        uint32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_HoldMaxContactCount(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::HoldMaxContactCount(uint32_t value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_HoldMaxContactCount(value));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::HoldRadius() const
+    {
+        float value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_HoldRadius(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::HoldRadius(float value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_HoldRadius(value));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::HoldStartDelay() const
+    {
+        winrt::Windows::Foundation::TimeSpan value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_HoldStartDelay(put_abi(value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::HoldStartDelay(winrt::Windows::Foundation::TimeSpan const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_HoldStartDelay(impl::bind_in(value)));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::TranslationMinContactCount() const
+    {
+        uint32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_TranslationMinContactCount(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::TranslationMinContactCount(uint32_t value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_TranslationMinContactCount(value));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::TranslationMaxContactCount() const
+    {
+        uint32_t value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->get_TranslationMaxContactCount(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::TranslationMaxContactCount(uint32_t value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->put_TranslationMaxContactCount(value));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ProcessDownEvent(winrt::Windows::UI::Input::PointerPoint const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->ProcessDownEvent(*(void**)(&value)));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ProcessMoveEvents(param::vector<winrt::Windows::UI::Input::PointerPoint> const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->ProcessMoveEvents(*(void**)(&value)));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ProcessUpEvent(winrt::Windows::UI::Input::PointerPoint const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->ProcessUpEvent(*(void**)(&value)));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::CompleteGesture() const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->CompleteGesture());
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationStarted(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationStartedEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->add_ManipulationStarted(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationStarted(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationStartedEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, ManipulationStarted_revoker>(this, ManipulationStarted(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationStarted(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->remove_ManipulationStarted(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationUpdated(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationUpdatedEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->add_ManipulationUpdated(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationUpdated(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationUpdatedEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, ManipulationUpdated_revoker>(this, ManipulationUpdated(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationUpdated(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->remove_ManipulationUpdated(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationCompleted(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationCompletedEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->add_ManipulationCompleted(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationCompleted(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationCompletedEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, ManipulationCompleted_revoker>(this, ManipulationCompleted(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::ManipulationCompleted(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->remove_ManipulationCompleted(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::Tapped(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::TappedEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->add_Tapped(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::Tapped(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::TappedEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, Tapped_revoker>(this, Tapped(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::Tapped(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->remove_Tapped(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::Holding(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::HoldingEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->add_Holding(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::Holding(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::HoldingEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, Holding_revoker>(this, Holding(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPhysicalGestureRecognizer<D>::Holding(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPhysicalGestureRecognizer)->remove_Holding(impl::bind_in(token));
+    }
     template <typename D> auto consume_Windows_UI_Input_IPointerPoint<D>::PointerDevice() const
     {
         void* value{};
@@ -848,6 +1030,18 @@ namespace winrt::impl
         void* value{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPointerPoint)->get_Properties(&value));
         return winrt::Windows::UI::Input::PointerPointProperties{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPointerPointPhysicalPosition<D>::IsPhysicalPositionSupported() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPointerPointPhysicalPosition)->get_IsPhysicalPositionSupported(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_IPointerPointPhysicalPosition<D>::PhysicalPosition() const
+    {
+        winrt::Windows::Foundation::Point value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::IPointerPointPhysicalPosition)->get_PhysicalPosition(put_abi(value)));
+        return value;
     }
     template <typename D> auto consume_Windows_UI_Input_IPointerPointProperties<D>::Pressure() const
     {
@@ -1704,6 +1898,106 @@ namespace winrt::impl
         uint32_t value{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITappedEventArgs2)->get_ContactCount(&value));
         return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::Enabled() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->get_Enabled(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::Enabled(bool value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->put_Enabled(value));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::SupportedGestures() const
+    {
+        winrt::Windows::UI::Input::TouchpadGlobalGestureKinds value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->get_SupportedGestures(reinterpret_cast<uint32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::SupportedGestures(winrt::Windows::UI::Input::TouchpadGlobalGestureKinds const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->put_SupportedGestures(static_cast<uint32_t>(value)));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerPressed(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->add_PointerPressed(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerPressed(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, PointerPressed_revoker>(this, PointerPressed(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerPressed(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->remove_PointerPressed(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerMoved(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->add_PointerMoved(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerMoved(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, PointerMoved_revoker>(this, PointerMoved(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerMoved(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->remove_PointerMoved(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerReleased(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->add_PointerReleased(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerReleased(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, PointerReleased_revoker>(this, PointerReleased(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::PointerReleased(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->remove_PointerReleased(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::GlobalActionPerformed(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Input::TouchpadGlobalActionEventArgs> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->add_GlobalActionPerformed(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::GlobalActionPerformed(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Input::TouchpadGlobalActionEventArgs> const& handler) const
+    {
+        return impl::make_event_revoker<D, GlobalActionPerformed_revoker>(this, GlobalActionPerformed(handler));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesController<D>::GlobalActionPerformed(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesController)->remove_GlobalActionPerformed(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesControllerStatics<D>::IsSupported() const
+    {
+        bool result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesControllerStatics)->IsSupported(&result));
+        return result;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGesturesControllerStatics<D>::CreateForProcess() const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGesturesControllerStatics)->CreateForProcess(&result));
+        return winrt::Windows::UI::Input::TouchpadGesturesController{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGlobalActionEventArgs<D>::Action() const
+    {
+        winrt::Windows::UI::Input::TouchpadGlobalAction value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGlobalActionEventArgs)->get_Action(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_UI_Input_ITouchpadGlobalActionEventArgs<D>::PointerDevice() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::Input::ITouchpadGlobalActionEventArgs)->get_PointerDevice(&value));
+        return winrt::Windows::Devices::Input::PointerDevice{ value, take_ownership_from_abi };
     }
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
@@ -2846,6 +3140,244 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::UI::Input::IPhysicalGestureRecognizer> : produce_base<D, winrt::Windows::UI::Input::IPhysicalGestureRecognizer>
+    {
+        int32_t __stdcall get_IsActive(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().IsActive());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_GestureSettings(uint32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::UI::Input::GestureSettings>(this->shim().GestureSettings());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_GestureSettings(uint32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().GestureSettings(*reinterpret_cast<winrt::Windows::UI::Input::GestureSettings const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_TapMinContactCount(uint32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<uint32_t>(this->shim().TapMinContactCount());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_TapMinContactCount(uint32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().TapMinContactCount(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_TapMaxContactCount(uint32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<uint32_t>(this->shim().TapMaxContactCount());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_TapMaxContactCount(uint32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().TapMaxContactCount(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_HoldMinContactCount(uint32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<uint32_t>(this->shim().HoldMinContactCount());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_HoldMinContactCount(uint32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().HoldMinContactCount(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_HoldMaxContactCount(uint32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<uint32_t>(this->shim().HoldMaxContactCount());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_HoldMaxContactCount(uint32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().HoldMaxContactCount(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_HoldRadius(float* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<float>(this->shim().HoldRadius());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_HoldRadius(float value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().HoldRadius(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_HoldStartDelay(int64_t* value) noexcept final try
+        {
+            zero_abi<winrt::Windows::Foundation::TimeSpan>(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::TimeSpan>(this->shim().HoldStartDelay());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_HoldStartDelay(int64_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().HoldStartDelay(*reinterpret_cast<winrt::Windows::Foundation::TimeSpan const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_TranslationMinContactCount(uint32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<uint32_t>(this->shim().TranslationMinContactCount());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_TranslationMinContactCount(uint32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().TranslationMinContactCount(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_TranslationMaxContactCount(uint32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<uint32_t>(this->shim().TranslationMaxContactCount());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_TranslationMaxContactCount(uint32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().TranslationMaxContactCount(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall ProcessDownEvent(void* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ProcessDownEvent(*reinterpret_cast<winrt::Windows::UI::Input::PointerPoint const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall ProcessMoveEvents(void* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ProcessMoveEvents(*reinterpret_cast<winrt::Windows::Foundation::Collections::IVector<winrt::Windows::UI::Input::PointerPoint> const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall ProcessUpEvent(void* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ProcessUpEvent(*reinterpret_cast<winrt::Windows::UI::Input::PointerPoint const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall CompleteGesture() noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().CompleteGesture();
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall add_ManipulationStarted(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().ManipulationStarted(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationStartedEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_ManipulationStarted(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ManipulationStarted(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+        int32_t __stdcall add_ManipulationUpdated(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().ManipulationUpdated(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationUpdatedEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_ManipulationUpdated(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ManipulationUpdated(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+        int32_t __stdcall add_ManipulationCompleted(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().ManipulationCompleted(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::ManipulationCompletedEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_ManipulationCompleted(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ManipulationCompleted(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+        int32_t __stdcall add_Tapped(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().Tapped(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::TappedEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_Tapped(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().Tapped(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+        int32_t __stdcall add_Holding(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().Holding(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::PhysicalGestureRecognizer, winrt::Windows::UI::Input::HoldingEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_Holding(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().Holding(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::UI::Input::IPointerPoint> : produce_base<D, winrt::Windows::UI::Input::IPointerPoint>
     {
         int32_t __stdcall get_PointerDevice(void** value) noexcept final try
@@ -2905,6 +3437,27 @@ namespace winrt::impl
             clear_abi(value);
             typename D::abi_guard guard(this->shim());
             *value = detach_from<winrt::Windows::UI::Input::PointerPointProperties>(this->shim().Properties());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::UI::Input::IPointerPointPhysicalPosition> : produce_base<D, winrt::Windows::UI::Input::IPointerPointPhysicalPosition>
+    {
+        int32_t __stdcall get_IsPhysicalPositionSupported(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().IsPhysicalPositionSupported());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_PhysicalPosition(winrt::Windows::Foundation::Point* value) noexcept final try
+        {
+            zero_abi<winrt::Windows::Foundation::Point>(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::Point>(this->shim().PhysicalPosition());
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -4201,6 +4754,138 @@ namespace winrt::impl
         catch (...) { return to_hresult(); }
     };
 #endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::UI::Input::ITouchpadGesturesController> : produce_base<D, winrt::Windows::UI::Input::ITouchpadGesturesController>
+    {
+        int32_t __stdcall get_Enabled(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().Enabled());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_Enabled(bool value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().Enabled(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_SupportedGestures(uint32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::UI::Input::TouchpadGlobalGestureKinds>(this->shim().SupportedGestures());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_SupportedGestures(uint32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().SupportedGestures(*reinterpret_cast<winrt::Windows::UI::Input::TouchpadGlobalGestureKinds const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall add_PointerPressed(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().PointerPressed(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_PointerPressed(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().PointerPressed(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+        int32_t __stdcall add_PointerMoved(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().PointerMoved(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_PointerMoved(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().PointerMoved(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+        int32_t __stdcall add_PointerReleased(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().PointerReleased(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Core::PointerEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_PointerReleased(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().PointerReleased(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+        int32_t __stdcall add_GlobalActionPerformed(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().GlobalActionPerformed(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Input::TouchpadGesturesController, winrt::Windows::UI::Input::TouchpadGlobalActionEventArgs> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_GlobalActionPerformed(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().GlobalActionPerformed(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::UI::Input::ITouchpadGesturesControllerStatics> : produce_base<D, winrt::Windows::UI::Input::ITouchpadGesturesControllerStatics>
+    {
+        int32_t __stdcall IsSupported(bool* result) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<bool>(this->shim().IsSupported());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall CreateForProcess(void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::UI::Input::TouchpadGesturesController>(this->shim().CreateForProcess());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::UI::Input::ITouchpadGlobalActionEventArgs> : produce_base<D, winrt::Windows::UI::Input::ITouchpadGlobalActionEventArgs>
+    {
+        int32_t __stdcall get_Action(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::UI::Input::TouchpadGlobalAction>(this->shim().Action());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_PointerDevice(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Devices::Input::PointerDevice>(this->shim().PointerDevice());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
 }
 WINRT_EXPORT namespace winrt::Windows::UI::Input
 {
@@ -4235,6 +4920,37 @@ WINRT_EXPORT namespace winrt::Windows::UI::Input
         left = left ^ right;
         return left;
     }
+    constexpr auto operator|(TouchpadGlobalGestureKinds const left, TouchpadGlobalGestureKinds const right) noexcept
+    {
+        return static_cast<TouchpadGlobalGestureKinds>(impl::to_underlying_type(left) | impl::to_underlying_type(right));
+    }
+    constexpr auto operator|=(TouchpadGlobalGestureKinds& left, TouchpadGlobalGestureKinds const right) noexcept
+    {
+        left = left | right;
+        return left;
+    }
+    constexpr auto operator&(TouchpadGlobalGestureKinds const left, TouchpadGlobalGestureKinds const right) noexcept
+    {
+        return static_cast<TouchpadGlobalGestureKinds>(impl::to_underlying_type(left) & impl::to_underlying_type(right));
+    }
+    constexpr auto operator&=(TouchpadGlobalGestureKinds& left, TouchpadGlobalGestureKinds const right) noexcept
+    {
+        left = left & right;
+        return left;
+    }
+    constexpr auto operator~(TouchpadGlobalGestureKinds const value) noexcept
+    {
+        return static_cast<TouchpadGlobalGestureKinds>(~impl::to_underlying_type(value));
+    }
+    constexpr auto operator^(TouchpadGlobalGestureKinds const left, TouchpadGlobalGestureKinds const right) noexcept
+    {
+        return static_cast<TouchpadGlobalGestureKinds>(impl::to_underlying_type(left) ^ impl::to_underlying_type(right));
+    }
+    constexpr auto operator^=(TouchpadGlobalGestureKinds& left, TouchpadGlobalGestureKinds const right) noexcept
+    {
+        left = left ^ right;
+        return left;
+    }
     inline auto EdgeGesture::GetForCurrentView()
     {
         return impl::call_factory_cast<winrt::Windows::UI::Input::EdgeGesture(*)(IEdgeGestureStatics const&), EdgeGesture, IEdgeGestureStatics>([](IEdgeGestureStatics const& f) { return f.GetForCurrentView(); });
@@ -4246,6 +4962,10 @@ WINRT_EXPORT namespace winrt::Windows::UI::Input
     inline auto KeyboardDeliveryInterceptor::GetForCurrentView()
     {
         return impl::call_factory_cast<winrt::Windows::UI::Input::KeyboardDeliveryInterceptor(*)(IKeyboardDeliveryInterceptorStatics const&), KeyboardDeliveryInterceptor, IKeyboardDeliveryInterceptorStatics>([](IKeyboardDeliveryInterceptorStatics const& f) { return f.GetForCurrentView(); });
+    }
+    inline PhysicalGestureRecognizer::PhysicalGestureRecognizer() :
+        PhysicalGestureRecognizer(impl::call_factory_cast<PhysicalGestureRecognizer(*)(winrt::Windows::Foundation::IActivationFactory const&), PhysicalGestureRecognizer>([](winrt::Windows::Foundation::IActivationFactory const& f) { return f.template ActivateInstance<PhysicalGestureRecognizer>(); }))
+    {
     }
     inline auto PointerPoint::GetCurrentPoint(uint32_t pointerId)
     {
@@ -4315,6 +5035,14 @@ WINRT_EXPORT namespace winrt::Windows::UI::Input
     {
         return impl::call_factory<SystemButtonEventController, ISystemButtonEventControllerStatics>([&](ISystemButtonEventControllerStatics const& f) { return f.CreateForDispatcherQueue(queue); });
     }
+    inline auto TouchpadGesturesController::IsSupported()
+    {
+        return impl::call_factory_cast<bool(*)(ITouchpadGesturesControllerStatics const&), TouchpadGesturesController, ITouchpadGesturesControllerStatics>([](ITouchpadGesturesControllerStatics const& f) { return f.IsSupported(); });
+    }
+    inline auto TouchpadGesturesController::CreateForProcess()
+    {
+        return impl::call_factory_cast<winrt::Windows::UI::Input::TouchpadGesturesController(*)(ITouchpadGesturesControllerStatics const&), TouchpadGesturesController, ITouchpadGesturesControllerStatics>([](ITouchpadGesturesControllerStatics const& f) { return f.CreateForProcess(); });
+    }
 }
 namespace std
 {
@@ -4345,7 +5073,9 @@ namespace std
     template<> struct hash<winrt::Windows::UI::Input::IManipulationUpdatedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::IManipulationUpdatedEventArgs2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::IMouseWheelParameters> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Input::IPhysicalGestureRecognizer> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::IPointerPoint> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Input::IPointerPointPhysicalPosition> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::IPointerPointProperties> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::IPointerPointProperties2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::IPointerPointStatics> : winrt::impl::hash_base {};
@@ -4387,6 +5117,9 @@ namespace std
     template<> struct hash<winrt::Windows::UI::Input::ISystemFunctionLockIndicatorChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::ITappedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::ITappedEventArgs2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Input::ITouchpadGesturesController> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Input::ITouchpadGesturesControllerStatics> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Input::ITouchpadGlobalActionEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::AttachableInputObject> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::CrossSlidingEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::DraggingEventArgs> : winrt::impl::hash_base {};
@@ -4402,6 +5135,7 @@ namespace std
     template<> struct hash<winrt::Windows::UI::Input::ManipulationStartedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::ManipulationUpdatedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::MouseWheelParameters> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Input::PhysicalGestureRecognizer> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::PointerPoint> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::PointerPointProperties> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::PointerVisualizationSettings> : winrt::impl::hash_base {};
@@ -4425,6 +5159,8 @@ namespace std
     template<> struct hash<winrt::Windows::UI::Input::SystemFunctionLockChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::SystemFunctionLockIndicatorChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::Input::TappedEventArgs> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Input::TouchpadGesturesController> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::Input::TouchpadGlobalActionEventArgs> : winrt::impl::hash_base {};
 #endif
 #ifdef __cpp_lib_format
 #endif

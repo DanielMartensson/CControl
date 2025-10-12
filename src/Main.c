@@ -1,112 +1,95 @@
 /*
  ============================================================================
- Name        : quadprog.c
+ Name        : mpc.c
  Author      : Daniel Mårtensson
  Version     : 1.0
  Copyright   : MIT
- Description : Optimize a quadrtic problem with constraints by using Hildreth's method
+ Description : Model Predictive Control with integral action and kalman filtering
  ============================================================================
  */
 
 #include "CControl/ccontrol.h"
 
+ /* Constants */
+#define sampleTime_mpc 10.0f    /* Sample time of discrete model for MPC */
+#define sampleTime_kf 1.0f       /* Sample time of discrete model for Kalman Filter */
+#define row_a 2                  /* Dimension of system matrix A */
+#define column_b 1               /* Columns of input matrix B */
+#define row_c 1                  /* Dimension of output matrix C */
+#define column_e 1               /* Columns of disturbance matrix E */
+#define iterations 1000          /* Simulation for finding kalman gain K */
+#define N 20                     /* MPC control horizon */
+#define qw 1.0f                  /* Kalman scalar for disturbance covariance matrix Q */
+#define rv 0.1f                  /* Kalman scalar for noise covariance matrix R */
+#define qz 1.0f                  /* Weight scalar for weight matrix QZ */
+#define s 1.0f                   /* Regularization scalar for regularization matrix S */
+#define Spsi_spsi 1.0f           /* Slack variable scalar for slack variable matrix Spsi and slack vector spsi */
+#define alpha 0.1f               /* Integral action constant */
+#define antiwindup 100.0f        /* Anti-windup max/min limitation for the integral action */
+#define integral_active true     /* Activate integral action */
+
 int main() {
-	clock_t start, end;
-	float cpu_time_used;
-	start = clock();
+    clock_t start, end;
+    float cpu_time_used;
 
-	/* Objective function - Q MUST be symmetric */
-	float Q[2 * 2] = { 12.200, -5.1000,
-					-5.1000,   26.0000 };
+    /* Mass damping spring system of second order with disturbance input d. Described as state space x(k+1) = A*x(k) + B*u(k) + E*d(k) */
+    const float k = 8.7f;                       /* Spring constant [N/m] */
+    const float b = 3.1f;                       /* Damper constant [Ns/m] */
+    const float m = 13.5f;                      /* Mass [kg] */
+    const float A[row_a * row_a] = { 0, 1, -k / m, -b / m };
+    const float B[row_a * column_b] = { 0, 1 / m };
+    const float C[row_c * row_a] = { 0.5f, 0 };
+    const float E[row_a * column_e] = { 0, 0 };
 
-	float c[2] = { -2,
-				  -6 };
+    /* Declare MPC structure */
+    MPC mpc = { 0 };
 
-	/* Inequality constraints */
-	float A[3 * 2] = { 1, 1,
-				   -1, 2,
-					2, 1 };
+    /* Init the structure */
+    const bool is_initlized = mpc_init(&mpc, A, B, C, E, sampleTime_mpc, sampleTime_kf, qw, rv, qz, s, Spsi_spsi, row_a, column_b, row_c, column_e, N, iterations);
 
-	float b[3] = { 2,
-				  2,
-				  3 };
+    /* Set constraints */
+    const float deltaumin[column_b] = { -30 }; /* Minimum rate of change for input u */
+    const float deltaumax[column_b] = { 30 };  /* Maximum rate of change for input u */
+    const float umin[column_b] = { 0 };        /* Minimum limit for input u */
+    const float umax[column_b] = { 60 };       /* Maximum limit for input u */
+    const float zmin[row_c] = { -1 };          /* Minimum limit for output y */
+    const float zmax[row_c] = { 100 };         /* Maximum limit for output y */
+    mpc_set_constraints(&mpc, umin, umax, zmin, zmax, deltaumin, deltaumax, alpha, antiwindup);
 
-	/* Equality constraints */
-	float G[2 * 2] = { 3, 6,
-					   3, 1 };
+    /* Compute u */
+    float u[column_b] = { 0 };                 /* Control output e.g PWM signal for your e.g real process. MPC will compute u depending on the provided matrices and vectors. */
+    const float r[row_c] = { 10 };             /* User setpoint for the trajectory */
+    const float y[row_c] = { 0 };              /* User mesured output */
+    const float d[column_e] = { 0 };           /* User mesured known process disturbance */
+    start = clock();
+    const STATUS_CODES status = mpc_optimize(&mpc, u, r, y, d, integral_active);
 
-	float h[2] = { 5,
-				   1 };
+    /* Compute next state x */
+    mpc_estimate(&mpc, u, y, d);
+    end = clock();
 
-	/* Solution */
-	float x[2] = { 0 };
+    /* Print u */
+    printf("Optimized output u (success: %s):\n", status == STATUS_OK ? "yes" : "no");
+    print(u, column_b, 1);
 
-	/*
-	 * Do quadratic programming with Hildreth's method
-	 *  	Min 1/2x^TQx + c^Tx
-	 * 		S.t Ax <= b
-	 *      	Gx = h
-	 *
-	 */
-	bool equality_constraints_are_used = true;
-	bool solution = quadprogslim(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
-	//solution = quadprog(Q, c, A, b, G, h, x, 3, 2, 2, equality_constraints_are_used);
-	end = clock();
-	cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
-	printf("\nTotal speed  was %f\n", cpu_time_used);
+    /* Print x */
+    printf("Estimated state x:\n");
+    print(mpc.x, row_a, 1);
 
-	printf("Solution:\n");
-	print(x, 2, 1);
-	printf("Solution was found: %s\n", solution == true ? "yes" : "no");
+    /* Is struct initlized */
+    printf("Is MPC struct initlized after mpc_init: %s\n", is_initlized ? "yes" : "no");
 
-	return EXIT_SUCCESS;
+    /* Free */
+    const bool is_freed = mpc_free(&mpc);
+
+    /* Is struct initlized */
+    printf("Is MPC struct freed after mpc_free: %s\n", is_freed ? "yes" : "no");
+
+    cpu_time_used = ((float)(end - start)) / CLOCKS_PER_SEC;
+    printf("\nTotal speed  was %f\n", cpu_time_used);
+
+    /* Check memory */
+    detectmemoryleak();
+
+    return EXIT_SUCCESS;
 }
-
-/*
- * GNU Octave code:
-	Q = [12.200 -5.1000; -5.1000 26.0000];
-	c = [-2; -6];
-
-	% Inequality constraints
-	A = [1 1; -1 2; 2 1];
-	b = [2; 2; 3];
-
-	% "Equality" constraints
-	G = [3 6; 3 1];
-	h = [5; 1];
-
-	% Internal QP-solver for GNU Octave
-	[x, ~, info] = qp([], Q, c, G, h, [], [], [], A, b)
-
-	% Internal QP-solver for GNU Octave
-	[x, ~, info] = qp([], Q, c, [], [], [], [], [], [A;G;-G], [b;h;-h])
-
-
-	Output is:
-
-	x =
-
-	   0.066667
-	   0.800000
-
-	info =
-
-	  scalar structure containing the fields:
-
-		solveiter = 1
-		info = 0
-
-	x =
-
-	   0.066667
-	   0.800000
-
-	info =
-
-	  scalar structure containing the fields:
-
-		solveiter = 3
-		info = 0
-
-	>>
- */

@@ -94,6 +94,42 @@ namespace winrt::impl
     {
         WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAccountMonitor2)->remove_AccountPictureUpdated(impl::bind_in(token));
     }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationAddAccountResponse<D>::WebAccount() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponse)->get_WebAccount(&value));
+        return winrt::Windows::Security::Credentials::WebAccount{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationAddAccountResponse<D>::Properties() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponse)->get_Properties(&value));
+        return winrt::Windows::Foundation::Collections::IMap<hstring, hstring>{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationAddAccountResponseFactory<D>::CreateWithAccount(winrt::Windows::Security::Credentials::WebAccount const& webAccount) const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponseFactory)->CreateWithAccount(*(void**)(&webAccount), &value));
+        return winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountResponse{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationAddAccountResult<D>::ResponseData() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResult)->get_ResponseData(&value));
+        return winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountResponse{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationAddAccountResult<D>::ResponseStatus() const
+    {
+        winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountStatus value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResult)->get_ResponseStatus(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationAddAccountResult<D>::ResponseError() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResult)->get_ResponseError(&value));
+        return winrt::Windows::Security::Authentication::Web::Core::WebProviderError{ value, take_ownership_from_abi };
+    }
     template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationCoreManagerStatics<D>::GetTokenSilentlyAsync(winrt::Windows::Security::Authentication::Web::Core::WebTokenRequest const& request) const
     {
         void* asyncInfo{};
@@ -177,6 +213,56 @@ namespace winrt::impl
         void* operation{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics4)->FindSystemAccountProviderWithAuthorityForUserAsync(*(void**)(&webAccountProviderId), *(void**)(&authority), *(void**)(&user), &operation));
         return winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Security::Credentials::WebAccountProvider>{ operation, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationCoreManagerStatics5<D>::AddAccountWithTransferTokenAsync(winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationTransferTokenRequest const& request) const
+    {
+        void* operation{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics5)->AddAccountWithTransferTokenAsync(*(void**)(&request), &operation));
+        return winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountResult>{ operation, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationTransferTokenRequest<D>::WebAccountProvider() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest)->get_WebAccountProvider(&value));
+        return winrt::Windows::Security::Credentials::WebAccountProvider{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationTransferTokenRequest<D>::TransferToken() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest)->get_TransferToken(&value));
+        return hstring{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationTransferTokenRequest<D>::TransferToken(param::hstring const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest)->put_TransferToken(*(void**)(&value)));
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationTransferTokenRequest<D>::Properties() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest)->get_Properties(&value));
+        return winrt::Windows::Foundation::Collections::IMap<hstring, hstring>{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationTransferTokenRequest<D>::CorrelationId() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest)->get_CorrelationId(&value));
+        return hstring{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationTransferTokenRequest<D>::CorrelationId(param::hstring const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest)->put_CorrelationId(*(void**)(&value)));
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationTransferTokenRequestFactory<D>::Create(winrt::Windows::Security::Credentials::WebAccountProvider const& provider, param::hstring const& transferToken) const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequestFactory)->Create(*(void**)(&provider), *(void**)(&transferToken), &value));
+        return winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationTransferTokenRequest{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebAuthenticationTransferTokenRequestFactory<D>::CreateWithCorrelationId(winrt::Windows::Security::Credentials::WebAccountProvider const& provider, param::hstring const& transferToken, param::hstring const& correlationId) const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequestFactory)->CreateWithCorrelationId(*(void**)(&provider), *(void**)(&transferToken), *(void**)(&correlationId), &value));
+        return winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationTransferTokenRequest{ value, take_ownership_from_abi };
     }
     template <typename D> auto consume_Windows_Security_Authentication_Web_Core_IWebProviderError<D>::ErrorCode() const
     {
@@ -451,6 +537,71 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponse> : produce_base<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponse>
+    {
+        int32_t __stdcall get_WebAccount(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Security::Credentials::WebAccount>(this->shim().WebAccount());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_Properties(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::Collections::IMap<hstring, hstring>>(this->shim().Properties());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponseFactory> : produce_base<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponseFactory>
+    {
+        int32_t __stdcall CreateWithAccount(void* webAccount, void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountResponse>(this->shim().CreateWithAccount(*reinterpret_cast<winrt::Windows::Security::Credentials::WebAccount const*>(&webAccount)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResult> : produce_base<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResult>
+    {
+        int32_t __stdcall get_ResponseData(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountResponse>(this->shim().ResponseData());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ResponseStatus(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountStatus>(this->shim().ResponseStatus());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ResponseError(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Security::Authentication::Web::Core::WebProviderError>(this->shim().ResponseError());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics> : produce_base<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics>
     {
         int32_t __stdcall GetTokenSilentlyAsync(void* request, void** asyncInfo) noexcept final try
@@ -580,6 +731,94 @@ namespace winrt::impl
             clear_abi(operation);
             typename D::abi_guard guard(this->shim());
             *operation = detach_from<winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Security::Credentials::WebAccountProvider>>(this->shim().FindSystemAccountProviderAsync(*reinterpret_cast<hstring const*>(&webAccountProviderId), *reinterpret_cast<hstring const*>(&authority), *reinterpret_cast<winrt::Windows::System::User const*>(&user)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics5> : produce_base<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics5>
+    {
+        int32_t __stdcall AddAccountWithTransferTokenAsync(void* request, void** operation) noexcept final try
+        {
+            clear_abi(operation);
+            typename D::abi_guard guard(this->shim());
+            *operation = detach_from<winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountResult>>(this->shim().AddAccountWithTransferTokenAsync(*reinterpret_cast<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationTransferTokenRequest const*>(&request)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest> : produce_base<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest>
+    {
+        int32_t __stdcall get_WebAccountProvider(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Security::Credentials::WebAccountProvider>(this->shim().WebAccountProvider());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_TransferToken(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<hstring>(this->shim().TransferToken());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_TransferToken(void* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().TransferToken(*reinterpret_cast<hstring const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_Properties(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::Collections::IMap<hstring, hstring>>(this->shim().Properties());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_CorrelationId(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<hstring>(this->shim().CorrelationId());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_CorrelationId(void* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().CorrelationId(*reinterpret_cast<hstring const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequestFactory> : produce_base<D, winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequestFactory>
+    {
+        int32_t __stdcall Create(void* provider, void* transferToken, void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationTransferTokenRequest>(this->shim().Create(*reinterpret_cast<winrt::Windows::Security::Credentials::WebAccountProvider const*>(&provider), *reinterpret_cast<hstring const*>(&transferToken)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall CreateWithCorrelationId(void* provider, void* transferToken, void* correlationId, void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationTransferTokenRequest>(this->shim().CreateWithCorrelationId(*reinterpret_cast<winrt::Windows::Security::Credentials::WebAccountProvider const*>(&provider), *reinterpret_cast<hstring const*>(&transferToken), *reinterpret_cast<hstring const*>(&correlationId)));
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -854,6 +1093,10 @@ namespace winrt::impl
 }
 WINRT_EXPORT namespace winrt::Windows::Security::Authentication::Web::Core
 {
+    inline WebAuthenticationAddAccountResponse::WebAuthenticationAddAccountResponse(winrt::Windows::Security::Credentials::WebAccount const& webAccount) :
+        WebAuthenticationAddAccountResponse(impl::call_factory<WebAuthenticationAddAccountResponse, IWebAuthenticationAddAccountResponseFactory>([&](IWebAuthenticationAddAccountResponseFactory const& f) { return f.CreateWithAccount(webAccount); }))
+    {
+    }
     inline auto WebAuthenticationCoreManager::GetTokenSilentlyAsync(winrt::Windows::Security::Authentication::Web::Core::WebTokenRequest const& request)
     {
         return impl::call_factory<WebAuthenticationCoreManager, IWebAuthenticationCoreManagerStatics>([&](IWebAuthenticationCoreManagerStatics const& f) { return f.GetTokenSilentlyAsync(request); });
@@ -910,6 +1153,18 @@ WINRT_EXPORT namespace winrt::Windows::Security::Authentication::Web::Core
     {
         return impl::call_factory<WebAuthenticationCoreManager, IWebAuthenticationCoreManagerStatics4>([&](IWebAuthenticationCoreManagerStatics4 const& f) { return f.FindSystemAccountProviderAsync(webAccountProviderId, authority, user); });
     }
+    inline auto WebAuthenticationCoreManager::AddAccountWithTransferTokenAsync(winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationTransferTokenRequest const& request)
+    {
+        return impl::call_factory<WebAuthenticationCoreManager, IWebAuthenticationCoreManagerStatics5>([&](IWebAuthenticationCoreManagerStatics5 const& f) { return f.AddAccountWithTransferTokenAsync(request); });
+    }
+    inline WebAuthenticationTransferTokenRequest::WebAuthenticationTransferTokenRequest(winrt::Windows::Security::Credentials::WebAccountProvider const& provider, param::hstring const& transferToken) :
+        WebAuthenticationTransferTokenRequest(impl::call_factory<WebAuthenticationTransferTokenRequest, IWebAuthenticationTransferTokenRequestFactory>([&](IWebAuthenticationTransferTokenRequestFactory const& f) { return f.Create(provider, transferToken); }))
+    {
+    }
+    inline WebAuthenticationTransferTokenRequest::WebAuthenticationTransferTokenRequest(winrt::Windows::Security::Credentials::WebAccountProvider const& provider, param::hstring const& transferToken, param::hstring const& correlationId) :
+        WebAuthenticationTransferTokenRequest(impl::call_factory<WebAuthenticationTransferTokenRequest, IWebAuthenticationTransferTokenRequestFactory>([&](IWebAuthenticationTransferTokenRequestFactory const& f) { return f.CreateWithCorrelationId(provider, transferToken, correlationId); }))
+    {
+    }
     inline WebProviderError::WebProviderError(uint32_t errorCode, param::hstring const& errorMessage) :
         WebProviderError(impl::call_factory<WebProviderError, IWebProviderErrorFactory>([&](IWebProviderErrorFactory const& f) { return f.Create(errorCode, errorMessage); }))
     {
@@ -954,10 +1209,16 @@ namespace std
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAccountEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAccountMonitor> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAccountMonitor2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponse> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResponseFactory> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationAddAccountResult> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics3> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics4> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationCoreManagerStatics5> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequest> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebAuthenticationTransferTokenRequestFactory> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebProviderError> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebProviderErrorFactory> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::IWebTokenRequest> : winrt::impl::hash_base {};
@@ -970,7 +1231,10 @@ namespace std
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::FindAllAccountsResult> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebAccountEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebAccountMonitor> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountResponse> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationAddAccountResult> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationCoreManager> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebAuthenticationTransferTokenRequest> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebProviderError> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebTokenRequest> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Security::Authentication::Web::Core::WebTokenRequestResult> : winrt::impl::hash_base {};

@@ -10,12 +10,18 @@
 #include "winrt/impl/Windows.Media.Effects.1.h"
 WINRT_EXPORT namespace winrt::Windows::Media::Effects
 {
+    struct __declspec(empty_bases) AcousticEchoCancellationConfiguration : winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration
+    {
+        AcousticEchoCancellationConfiguration(std::nullptr_t) noexcept {}
+        AcousticEchoCancellationConfiguration(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) AudioCaptureEffectsManager : winrt::Windows::Media::Effects::IAudioCaptureEffectsManager
     {
         AudioCaptureEffectsManager(std::nullptr_t) noexcept {}
         AudioCaptureEffectsManager(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Media::Effects::IAudioCaptureEffectsManager(ptr, take_ownership_from_abi) {}
     };
-    struct __declspec(empty_bases) AudioEffect : winrt::Windows::Media::Effects::IAudioEffect
+    struct __declspec(empty_bases) AudioEffect : winrt::Windows::Media::Effects::IAudioEffect,
+        impl::require<AudioEffect, winrt::Windows::Media::Effects::IAudioEffect2>
     {
         AudioEffect(std::nullptr_t) noexcept {}
         AudioEffect(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Media::Effects::IAudioEffect(ptr, take_ownership_from_abi) {}
@@ -55,12 +61,6 @@ WINRT_EXPORT namespace winrt::Windows::Media::Effects
     {
         ProcessVideoFrameContext(std::nullptr_t) noexcept {}
         ProcessVideoFrameContext(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Media::Effects::IProcessVideoFrameContext(ptr, take_ownership_from_abi) {}
-    };
-    struct __declspec(empty_bases) SlowMotionEffectDefinition : winrt::Windows::Media::Effects::ISlowMotionEffectDefinition
-    {
-        SlowMotionEffectDefinition(std::nullptr_t) noexcept {}
-        SlowMotionEffectDefinition(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Media::Effects::ISlowMotionEffectDefinition(ptr, take_ownership_from_abi) {}
-        SlowMotionEffectDefinition();
     };
     struct __declspec(empty_bases) VideoCompositorDefinition : winrt::Windows::Media::Effects::IVideoCompositorDefinition
     {

@@ -8,6 +8,7 @@ static_assert(winrt::check_version(CPPWINRT_VERSION, "2.0.220531.1"), "Mismatche
 #define CPPWINRT_VERSION "2.0.220531.1"
 #include "winrt/Windows.Devices.h"
 #include "winrt/impl/Windows.Foundation.2.h"
+#include "winrt/impl/Windows.Foundation.Collections.2.h"
 #include "winrt/impl/Windows.System.Power.2.h"
 #include "winrt/impl/Windows.Devices.Power.2.h"
 namespace winrt::impl
@@ -85,6 +86,56 @@ namespace winrt::impl
         void* result{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IBatteryStatics)->GetDeviceSelector(&result));
         return hstring{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridData<D>::Severity() const
+    {
+        double value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IPowerGridData)->get_Severity(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridData<D>::IsLowUserExperienceImpact() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IPowerGridData)->get_IsLowUserExperienceImpact(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridForecast<D>::StartTime() const
+    {
+        winrt::Windows::Foundation::DateTime value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IPowerGridForecast)->get_StartTime(put_abi(value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridForecast<D>::BlockDuration() const
+    {
+        winrt::Windows::Foundation::TimeSpan value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IPowerGridForecast)->get_BlockDuration(put_abi(value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridForecast<D>::Forecast() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IPowerGridForecast)->get_Forecast(&value));
+        return winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Devices::Power::PowerGridData>{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridForecastStatics<D>::GetForecast() const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IPowerGridForecastStatics)->GetForecast(&result));
+        return winrt::Windows::Devices::Power::PowerGridForecast{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridForecastStatics<D>::ForecastUpdated(winrt::Windows::Foundation::EventHandler<winrt::Windows::Foundation::IInspectable> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IPowerGridForecastStatics)->add_ForecastUpdated(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridForecastStatics<D>::ForecastUpdated(auto_revoke_t, winrt::Windows::Foundation::EventHandler<winrt::Windows::Foundation::IInspectable> const& handler) const
+    {
+        return impl::make_event_revoker<D, ForecastUpdated_revoker>(this, ForecastUpdated(handler));
+    }
+    template <typename D> auto consume_Windows_Devices_Power_IPowerGridForecastStatics<D>::ForecastUpdated(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::Devices::Power::IPowerGridForecastStatics)->remove_ForecastUpdated(impl::bind_in(token));
     }
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
@@ -197,6 +248,84 @@ namespace winrt::impl
         catch (...) { return to_hresult(); }
     };
 #endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Devices::Power::IPowerGridData> : produce_base<D, winrt::Windows::Devices::Power::IPowerGridData>
+    {
+        int32_t __stdcall get_Severity(double* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<double>(this->shim().Severity());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_IsLowUserExperienceImpact(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().IsLowUserExperienceImpact());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Devices::Power::IPowerGridForecast> : produce_base<D, winrt::Windows::Devices::Power::IPowerGridForecast>
+    {
+        int32_t __stdcall get_StartTime(int64_t* value) noexcept final try
+        {
+            zero_abi<winrt::Windows::Foundation::DateTime>(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::DateTime>(this->shim().StartTime());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_BlockDuration(int64_t* value) noexcept final try
+        {
+            zero_abi<winrt::Windows::Foundation::TimeSpan>(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::TimeSpan>(this->shim().BlockDuration());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_Forecast(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Devices::Power::PowerGridData>>(this->shim().Forecast());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Devices::Power::IPowerGridForecastStatics> : produce_base<D, winrt::Windows::Devices::Power::IPowerGridForecastStatics>
+    {
+        int32_t __stdcall GetForecast(void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::Devices::Power::PowerGridForecast>(this->shim().GetForecast());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall add_ForecastUpdated(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().ForecastUpdated(*reinterpret_cast<winrt::Windows::Foundation::EventHandler<winrt::Windows::Foundation::IInspectable> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_ForecastUpdated(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ForecastUpdated(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+    };
+#endif
 }
 WINRT_EXPORT namespace winrt::Windows::Devices::Power
 {
@@ -212,6 +341,23 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Power
     {
         return impl::call_factory_cast<hstring(*)(IBatteryStatics const&), Battery, IBatteryStatics>([](IBatteryStatics const& f) { return f.GetDeviceSelector(); });
     }
+    inline auto PowerGridForecast::GetForecast()
+    {
+        return impl::call_factory_cast<winrt::Windows::Devices::Power::PowerGridForecast(*)(IPowerGridForecastStatics const&), PowerGridForecast, IPowerGridForecastStatics>([](IPowerGridForecastStatics const& f) { return f.GetForecast(); });
+    }
+    inline auto PowerGridForecast::ForecastUpdated(winrt::Windows::Foundation::EventHandler<winrt::Windows::Foundation::IInspectable> const& handler)
+    {
+        return impl::call_factory<PowerGridForecast, IPowerGridForecastStatics>([&](IPowerGridForecastStatics const& f) { return f.ForecastUpdated(handler); });
+    }
+    inline auto PowerGridForecast::ForecastUpdated(auto_revoke_t, winrt::Windows::Foundation::EventHandler<winrt::Windows::Foundation::IInspectable> const& handler)
+    {
+        auto f = get_activation_factory<PowerGridForecast, winrt::Windows::Devices::Power::IPowerGridForecastStatics>();
+        return PowerGridForecast::ForecastUpdated_revoker{ f, f.ForecastUpdated(handler) };
+    }
+    inline auto PowerGridForecast::ForecastUpdated(winrt::event_token const& token)
+    {
+        impl::call_factory<PowerGridForecast, IPowerGridForecastStatics>([&](IPowerGridForecastStatics const& f) { return f.ForecastUpdated(token); });
+    }
 }
 namespace std
 {
@@ -219,8 +365,13 @@ namespace std
     template<> struct hash<winrt::Windows::Devices::Power::IBattery> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Power::IBatteryReport> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Power::IBatteryStatics> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Power::IPowerGridData> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Power::IPowerGridForecast> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Power::IPowerGridForecastStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Power::Battery> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Power::BatteryReport> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Power::PowerGridData> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Power::PowerGridForecast> : winrt::impl::hash_base {};
 #endif
 #ifdef __cpp_lib_format
 #endif

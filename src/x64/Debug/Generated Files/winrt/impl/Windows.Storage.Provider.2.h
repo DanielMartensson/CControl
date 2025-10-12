@@ -104,11 +104,29 @@ WINRT_EXPORT namespace winrt::Windows::Storage::Provider
         StorageProviderMoreInfoUI(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderMoreInfoUI(ptr, take_ownership_from_abi) {}
         StorageProviderMoreInfoUI();
     };
+    struct __declspec(empty_bases) StorageProviderQueryResultSet : winrt::Windows::Storage::Provider::IStorageProviderQueryResultSet
+    {
+        StorageProviderQueryResultSet(std::nullptr_t) noexcept {}
+        StorageProviderQueryResultSet(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderQueryResultSet(ptr, take_ownership_from_abi) {}
+        explicit StorageProviderQueryResultSet(array_view<winrt::Windows::Storage::Provider::IStorageProviderQueryResult const> results);
+    };
     struct __declspec(empty_bases) StorageProviderQuotaUI : winrt::Windows::Storage::Provider::IStorageProviderQuotaUI
     {
         StorageProviderQuotaUI(std::nullptr_t) noexcept {}
         StorageProviderQuotaUI(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderQuotaUI(ptr, take_ownership_from_abi) {}
         StorageProviderQuotaUI();
+    };
+    struct __declspec(empty_bases) StorageProviderSearchQueryOptions : winrt::Windows::Storage::Provider::IStorageProviderSearchQueryOptions
+    {
+        StorageProviderSearchQueryOptions(std::nullptr_t) noexcept {}
+        StorageProviderSearchQueryOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderSearchQueryOptions(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) StorageProviderSearchResult : winrt::Windows::Storage::Provider::IStorageProviderSearchResult,
+        impl::require<StorageProviderSearchResult, winrt::Windows::Storage::Provider::IStorageProviderQueryResult>
+    {
+        StorageProviderSearchResult(std::nullptr_t) noexcept {}
+        StorageProviderSearchResult(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Storage::Provider::IStorageProviderSearchResult(ptr, take_ownership_from_abi) {}
+        StorageProviderSearchResult();
     };
     struct __declspec(empty_bases) StorageProviderStatusUI : winrt::Windows::Storage::Provider::IStorageProviderStatusUI
     {

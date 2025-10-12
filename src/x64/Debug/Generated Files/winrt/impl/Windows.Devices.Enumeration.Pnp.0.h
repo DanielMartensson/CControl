@@ -30,6 +30,7 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Enumeration::Pnp
         AssociationEndpointContainer = 6,
         AssociationEndpointService = 7,
         DevicePanel = 8,
+        AssociationEndpointProtocol = 9,
     };
     struct IPnpObject;
     struct IPnpObjectStatics;

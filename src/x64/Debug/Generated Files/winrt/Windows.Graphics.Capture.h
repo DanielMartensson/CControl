@@ -8,6 +8,7 @@ static_assert(winrt::check_version(CPPWINRT_VERSION, "2.0.220531.1"), "Mismatche
 #define CPPWINRT_VERSION "2.0.220531.1"
 #include "winrt/Windows.Graphics.h"
 #include "winrt/impl/Windows.Foundation.2.h"
+#include "winrt/impl/Windows.Foundation.Collections.2.h"
 #include "winrt/impl/Windows.Graphics.2.h"
 #include "winrt/impl/Windows.Graphics.DirectX.2.h"
 #include "winrt/impl/Windows.Graphics.DirectX.Direct3D11.2.h"
@@ -34,6 +35,18 @@ namespace winrt::impl
     {
         winrt::Windows::Graphics::SizeInt32 value{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame)->get_ContentSize(put_abi(value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Graphics_Capture_IDirect3D11CaptureFrame2<D>::DirtyRegions() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame2)->get_DirtyRegions(&value));
+        return winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Graphics::RectInt32>{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Graphics_Capture_IDirect3D11CaptureFrame2<D>::DirtyRegionMode() const
+    {
+        winrt::Windows::Graphics::Capture::GraphicsCaptureDirtyRegionMode value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame2)->get_DirtyRegionMode(reinterpret_cast<int32_t*>(&value)));
         return value;
     }
     template <typename D> auto consume_Windows_Graphics_Capture_IDirect3D11CaptureFramePool<D>::Recreate(winrt::Windows::Graphics::DirectX::Direct3D11::IDirect3DDevice const& device, winrt::Windows::Graphics::DirectX::DirectXPixelFormat const& pixelFormat, int32_t numberOfBuffers, winrt::Windows::Graphics::SizeInt32 const& size) const
@@ -164,6 +177,36 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IGraphicsCaptureSession3)->put_IsBorderRequired(value));
     }
+    template <typename D> auto consume_Windows_Graphics_Capture_IGraphicsCaptureSession4<D>::DirtyRegionMode() const
+    {
+        winrt::Windows::Graphics::Capture::GraphicsCaptureDirtyRegionMode value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IGraphicsCaptureSession4)->get_DirtyRegionMode(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Graphics_Capture_IGraphicsCaptureSession4<D>::DirtyRegionMode(winrt::Windows::Graphics::Capture::GraphicsCaptureDirtyRegionMode const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IGraphicsCaptureSession4)->put_DirtyRegionMode(static_cast<int32_t>(value)));
+    }
+    template <typename D> auto consume_Windows_Graphics_Capture_IGraphicsCaptureSession5<D>::MinUpdateInterval() const
+    {
+        winrt::Windows::Foundation::TimeSpan value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IGraphicsCaptureSession5)->get_MinUpdateInterval(put_abi(value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Graphics_Capture_IGraphicsCaptureSession5<D>::MinUpdateInterval(winrt::Windows::Foundation::TimeSpan const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IGraphicsCaptureSession5)->put_MinUpdateInterval(impl::bind_in(value)));
+    }
+    template <typename D> auto consume_Windows_Graphics_Capture_IGraphicsCaptureSession6<D>::IncludeSecondaryWindows() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IGraphicsCaptureSession6)->get_IncludeSecondaryWindows(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Graphics_Capture_IGraphicsCaptureSession6<D>::IncludeSecondaryWindows(bool value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Graphics::Capture::IGraphicsCaptureSession6)->put_IncludeSecondaryWindows(value));
+    }
     template <typename D> auto consume_Windows_Graphics_Capture_IGraphicsCaptureSessionStatics<D>::IsSupported() const
     {
         bool result{};
@@ -195,6 +238,27 @@ namespace winrt::impl
             zero_abi<winrt::Windows::Graphics::SizeInt32>(value);
             typename D::abi_guard guard(this->shim());
             *value = detach_from<winrt::Windows::Graphics::SizeInt32>(this->shim().ContentSize());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame2> : produce_base<D, winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame2>
+    {
+        int32_t __stdcall get_DirtyRegions(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Graphics::RectInt32>>(this->shim().DirtyRegions());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_DirtyRegionMode(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Graphics::Capture::GraphicsCaptureDirtyRegionMode>(this->shim().DirtyRegionMode());
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -434,6 +498,67 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession4> : produce_base<D, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession4>
+    {
+        int32_t __stdcall get_DirtyRegionMode(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Graphics::Capture::GraphicsCaptureDirtyRegionMode>(this->shim().DirtyRegionMode());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_DirtyRegionMode(int32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().DirtyRegionMode(*reinterpret_cast<winrt::Windows::Graphics::Capture::GraphicsCaptureDirtyRegionMode const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession5> : produce_base<D, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession5>
+    {
+        int32_t __stdcall get_MinUpdateInterval(int64_t* value) noexcept final try
+        {
+            zero_abi<winrt::Windows::Foundation::TimeSpan>(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::TimeSpan>(this->shim().MinUpdateInterval());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_MinUpdateInterval(int64_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().MinUpdateInterval(*reinterpret_cast<winrt::Windows::Foundation::TimeSpan const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession6> : produce_base<D, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession6>
+    {
+        int32_t __stdcall get_IncludeSecondaryWindows(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().IncludeSecondaryWindows());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_IncludeSecondaryWindows(bool value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().IncludeSecondaryWindows(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::Graphics::Capture::IGraphicsCaptureSessionStatics> : produce_base<D, winrt::Windows::Graphics::Capture::IGraphicsCaptureSessionStatics>
     {
         int32_t __stdcall IsSupported(bool* result) noexcept final try
@@ -485,6 +610,7 @@ namespace std
 {
 #ifndef WINRT_LEAN_AND_MEAN
     template<> struct hash<winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Graphics::Capture::IDirect3D11CaptureFramePool> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Graphics::Capture::IDirect3D11CaptureFramePoolStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Graphics::Capture::IDirect3D11CaptureFramePoolStatics2> : winrt::impl::hash_base {};
@@ -496,6 +622,9 @@ namespace std
     template<> struct hash<winrt::Windows::Graphics::Capture::IGraphicsCaptureSession> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Graphics::Capture::IGraphicsCaptureSession2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Graphics::Capture::IGraphicsCaptureSession3> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Graphics::Capture::IGraphicsCaptureSession4> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Graphics::Capture::IGraphicsCaptureSession5> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Graphics::Capture::IGraphicsCaptureSession6> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Graphics::Capture::IGraphicsCaptureSessionStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Graphics::Capture::Direct3D11CaptureFrame> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Graphics::Capture::Direct3D11CaptureFramePool> : winrt::impl::hash_base {};

@@ -23,6 +23,10 @@ static_assert(winrt::check_version(CPPWINRT_VERSION, "2.0.220531.1"), "Mismatche
 #include "winrt/impl/Windows.Media.Effects.2.h"
 namespace winrt::impl
 {
+    template <typename D> auto consume_Windows_Media_Effects_IAcousticEchoCancellationConfiguration<D>::SetEchoCancellationRenderEndpoint(param::hstring const& deviceId) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration)->SetEchoCancellationRenderEndpoint(*(void**)(&deviceId)));
+    }
     template <typename D> auto consume_Windows_Media_Effects_IAudioCaptureEffectsManager<D>::AudioCaptureEffectsChanged(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::Media::Effects::AudioCaptureEffectsManager, winrt::Windows::Foundation::IInspectable> const& handler) const
     {
         winrt::event_token token{};
@@ -48,6 +52,28 @@ namespace winrt::impl
         winrt::Windows::Media::Effects::AudioEffectType value{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::IAudioEffect)->get_AudioEffectType(reinterpret_cast<int32_t*>(&value)));
         return value;
+    }
+    template <typename D> auto consume_Windows_Media_Effects_IAudioEffect2<D>::AcousticEchoCancellationConfiguration() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::IAudioEffect2)->get_AcousticEchoCancellationConfiguration(&value));
+        return winrt::Windows::Media::Effects::AcousticEchoCancellationConfiguration{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Media_Effects_IAudioEffect2<D>::CanSetState() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::IAudioEffect2)->get_CanSetState(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_Effects_IAudioEffect2<D>::State() const
+    {
+        winrt::Windows::Media::Effects::AudioEffectState value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::IAudioEffect2)->get_State(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Media_Effects_IAudioEffect2<D>::SetState(winrt::Windows::Media::Effects::AudioEffectState const& newState) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::IAudioEffect2)->SetState(static_cast<int32_t>(newState)));
     }
     template <typename D> auto consume_Windows_Media_Effects_IAudioEffectDefinition<D>::ActivatableClassId() const
     {
@@ -249,16 +275,6 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::IProcessVideoFrameContext)->get_OutputFrame(&value));
         return winrt::Windows::Media::VideoFrame{ value, take_ownership_from_abi };
     }
-    template <typename D> auto consume_Windows_Media_Effects_ISlowMotionEffectDefinition<D>::TimeStretchRate() const
-    {
-        double value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::ISlowMotionEffectDefinition)->get_TimeStretchRate(&value));
-        return value;
-    }
-    template <typename D> auto consume_Windows_Media_Effects_ISlowMotionEffectDefinition<D>::TimeStretchRate(double value) const
-    {
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Effects::ISlowMotionEffectDefinition)->put_TimeStretchRate(value));
-    }
     template <typename D> auto consume_Windows_Media_Effects_IVideoCompositor<D>::TimeIndependent() const
     {
         bool value{};
@@ -447,6 +463,19 @@ namespace winrt::impl
     }
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration> : produce_base<D, winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration>
+    {
+        int32_t __stdcall SetEchoCancellationRenderEndpoint(void* deviceId) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().SetEchoCancellationRenderEndpoint(*reinterpret_cast<hstring const*>(&deviceId));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::Media::Effects::IAudioCaptureEffectsManager> : produce_base<D, winrt::Windows::Media::Effects::IAudioCaptureEffectsManager>
     {
         int32_t __stdcall add_AudioCaptureEffectsChanged(void* handler, winrt::event_token* token) noexcept final try
@@ -481,6 +510,41 @@ namespace winrt::impl
         {
             typename D::abi_guard guard(this->shim());
             *value = detach_from<winrt::Windows::Media::Effects::AudioEffectType>(this->shim().AudioEffectType());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Media::Effects::IAudioEffect2> : produce_base<D, winrt::Windows::Media::Effects::IAudioEffect2>
+    {
+        int32_t __stdcall get_AcousticEchoCancellationConfiguration(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Media::Effects::AcousticEchoCancellationConfiguration>(this->shim().AcousticEchoCancellationConfiguration());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_CanSetState(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().CanSetState());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_State(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Media::Effects::AudioEffectState>(this->shim().State());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall SetState(int32_t newState) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().SetState(*reinterpret_cast<winrt::Windows::Media::Effects::AudioEffectState const*>(&newState));
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -808,26 +872,6 @@ namespace winrt::impl
             clear_abi(value);
             typename D::abi_guard guard(this->shim());
             *value = detach_from<winrt::Windows::Media::VideoFrame>(this->shim().OutputFrame());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-    };
-#endif
-#ifndef WINRT_LEAN_AND_MEAN
-    template <typename D>
-    struct produce<D, winrt::Windows::Media::Effects::ISlowMotionEffectDefinition> : produce_base<D, winrt::Windows::Media::Effects::ISlowMotionEffectDefinition>
-    {
-        int32_t __stdcall get_TimeStretchRate(double* value) noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<double>(this->shim().TimeStretchRate());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall put_TimeStretchRate(double value) noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().TimeStretchRate(value);
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -1167,10 +1211,6 @@ WINRT_EXPORT namespace winrt::Windows::Media::Effects
     {
         return impl::call_factory<AudioEffectsManager, IAudioEffectsManagerStatics>([&](IAudioEffectsManagerStatics const& f) { return f.CreateAudioCaptureEffectsManager(deviceId, category, mode); });
     }
-    inline SlowMotionEffectDefinition::SlowMotionEffectDefinition() :
-        SlowMotionEffectDefinition(impl::call_factory_cast<SlowMotionEffectDefinition(*)(winrt::Windows::Foundation::IActivationFactory const&), SlowMotionEffectDefinition>([](winrt::Windows::Foundation::IActivationFactory const& f) { return f.template ActivateInstance<SlowMotionEffectDefinition>(); }))
-    {
-    }
     inline VideoCompositorDefinition::VideoCompositorDefinition(param::hstring const& activatableClassId) :
         VideoCompositorDefinition(impl::call_factory<VideoCompositorDefinition, IVideoCompositorDefinitionFactory>([&](IVideoCompositorDefinitionFactory const& f) { return f.Create(activatableClassId); }))
     {
@@ -1195,8 +1235,10 @@ WINRT_EXPORT namespace winrt::Windows::Media::Effects
 namespace std
 {
 #ifndef WINRT_LEAN_AND_MEAN
+    template<> struct hash<winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IAudioCaptureEffectsManager> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IAudioEffect> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::Effects::IAudioEffect2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IAudioEffectDefinition> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IAudioEffectDefinitionFactory> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IAudioEffectsManagerStatics> : winrt::impl::hash_base {};
@@ -1207,7 +1249,6 @@ namespace std
     template<> struct hash<winrt::Windows::Media::Effects::ICompositeVideoFrameContext> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IProcessAudioFrameContext> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IProcessVideoFrameContext> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::Media::Effects::ISlowMotionEffectDefinition> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IVideoCompositor> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IVideoCompositorDefinition> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IVideoCompositorDefinitionFactory> : winrt::impl::hash_base {};
@@ -1216,6 +1257,7 @@ namespace std
     template<> struct hash<winrt::Windows::Media::Effects::IVideoTransformEffectDefinition> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IVideoTransformEffectDefinition2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::IVideoTransformSphericalProjection> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::Effects::AcousticEchoCancellationConfiguration> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::AudioCaptureEffectsManager> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::AudioEffect> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::AudioEffectDefinition> : winrt::impl::hash_base {};
@@ -1224,7 +1266,6 @@ namespace std
     template<> struct hash<winrt::Windows::Media::Effects::CompositeVideoFrameContext> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::ProcessAudioFrameContext> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::ProcessVideoFrameContext> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::Media::Effects::SlowMotionEffectDefinition> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::VideoCompositorDefinition> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::VideoEffectDefinition> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Effects::VideoTransformEffectDefinition> : winrt::impl::hash_base {};

@@ -100,6 +100,10 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection)->Start());
     }
+    template <typename D> auto consume_Windows_Devices_Bluetooth_Background_IGattServiceProviderConnection2<D>::UpdateAdvertisingParameters(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::GattServiceProviderAdvertisingParameters const& parameters) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection2)->UpdateAdvertisingParameters(*(void**)(&parameters)));
+    }
     template <typename D> auto consume_Windows_Devices_Bluetooth_Background_IGattServiceProviderConnectionStatics<D>::AllServices() const
     {
         void* value{};
@@ -314,6 +318,19 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection2> : produce_base<D, winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection2>
+    {
+        int32_t __stdcall UpdateAdvertisingParameters(void* parameters) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().UpdateAdvertisingParameters(*reinterpret_cast<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::GattServiceProviderAdvertisingParameters const*>(&parameters));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnectionStatics> : produce_base<D, winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnectionStatics>
     {
         int32_t __stdcall get_AllServices(void** value) noexcept final try
@@ -457,6 +474,7 @@ namespace std
     template<> struct hash<winrt::Windows::Devices::Bluetooth::Background::IGattCharacteristicNotificationTriggerDetails> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::Background::IGattCharacteristicNotificationTriggerDetails2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnectionStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderTriggerDetails> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::Background::IRfcommConnectionTriggerDetails> : winrt::impl::hash_base {};

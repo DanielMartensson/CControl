@@ -163,6 +163,7 @@ WINRT_EXPORT namespace winrt::Windows::Graphics::DirectX
         V408 = 132,
         SamplerFeedbackMinMipOpaque = 189,
         SamplerFeedbackMipRegionUsedOpaque = 190,
+        A4B4G4R4 = 191,
     };
     enum class DirectXPrimitiveTopology : int32_t
     {

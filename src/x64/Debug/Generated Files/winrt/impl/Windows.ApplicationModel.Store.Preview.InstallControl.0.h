@@ -84,6 +84,7 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Store::Preview::Install
     struct IAppUpdateOptions;
     struct IAppUpdateOptions2;
     struct IGetEntitlementResult;
+    struct IGetEntitlementResult2;
     struct AppInstallItem;
     struct AppInstallManager;
     struct AppInstallManagerItemEventArgs;
@@ -115,6 +116,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallItem>{ using type = class_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallManager>{ using type = class_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallManagerItemEventArgs>{ using type = class_category; };
@@ -160,6 +162,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions> = L"Windows.ApplicationModel.Store.Preview.InstallControl.IAppUpdateOptions";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions2> = L"Windows.ApplicationModel.Store.Preview.InstallControl.IAppUpdateOptions2";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult> = L"Windows.ApplicationModel.Store.Preview.InstallControl.IGetEntitlementResult";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2> = L"Windows.ApplicationModel.Store.Preview.InstallControl.IGetEntitlementResult2";
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppInstallItem>{ 0x49D3DFAB,0x168A,0x4CBF,{ 0xA9,0x3A,0x9E,0x44,0x8C,0x82,0x73,0x7D } }; // 49D3DFAB-168A-4CBF-A93A-9E448C82737D
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppInstallItem2>{ 0xD3972AF8,0x40C0,0x4FD7,{ 0xAA,0x6C,0x0A,0xA1,0x3C,0xA6,0x18,0x8C } }; // D3972AF8-40C0-4FD7-AA6C-0AA13CA6188C
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppInstallItem3>{ 0x6F3DC998,0xDD47,0x433C,{ 0x92,0x34,0x56,0x01,0x72,0xD6,0x7A,0x45 } }; // 6F3DC998-DD47-433C-9234-560172D67A45
@@ -181,6 +184,7 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions>{ 0x26F0B02F,0xC2F3,0x4AEA,{ 0xAF,0x8C,0x63,0x08,0xDD,0x9D,0xB8,0x5F } }; // 26F0B02F-C2F3-4AEA-AF8C-6308DD9DB85F
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions2>{ 0xF4646E08,0xED26,0x4BF9,{ 0x96,0x79,0x48,0xF6,0x28,0xE5,0x3D,0xF8 } }; // F4646E08-ED26-4BF9-9679-48F628E53DF8
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult>{ 0x74FC843F,0x1A9E,0x4609,{ 0x8E,0x4D,0x81,0x90,0x86,0xD0,0x8A,0x3D } }; // 74FC843F-1A9E-4609-8E4D-819086D08A3D
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2>{ 0xE3906641,0xA981,0x4302,{ 0x8C,0x68,0xFF,0x83,0x66,0x66,0xBB,0x3B } }; // E3906641-A981-4302-8C68-FF836666BB3B
     template <> struct default_interface<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallItem>{ using type = winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppInstallItem; };
     template <> struct default_interface<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallManager>{ using type = winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppInstallManager; };
     template <> struct default_interface<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::AppInstallManagerItemEventArgs>{ using type = winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppInstallManagerItemEventArgs; };
@@ -435,6 +439,16 @@ namespace winrt::impl
         struct __declspec(novtable) type : inspectable_abi
         {
             virtual int32_t __stdcall get_Status(int32_t*) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_IsAlreadyOwned(bool*) noexcept = 0;
+            virtual int32_t __stdcall get_OrderId(void**) noexcept = 0;
+            virtual int32_t __stdcall get_SkuId(void**) noexcept = 0;
+            virtual int32_t __stdcall get_AvailabilityId(void**) noexcept = 0;
         };
     };
     template <typename D>
@@ -735,6 +749,18 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult>
     {
         template <typename D> using type = consume_Windows_ApplicationModel_Store_Preview_InstallControl_IGetEntitlementResult<D>;
+    };
+    template <typename D>
+    struct consume_Windows_ApplicationModel_Store_Preview_InstallControl_IGetEntitlementResult2
+    {
+        [[nodiscard]] auto IsAlreadyOwned() const;
+        [[nodiscard]] auto OrderId() const;
+        [[nodiscard]] auto SkuId() const;
+        [[nodiscard]] auto AvailabilityId() const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_Store_Preview_InstallControl_IGetEntitlementResult2<D>;
     };
 }
 #endif

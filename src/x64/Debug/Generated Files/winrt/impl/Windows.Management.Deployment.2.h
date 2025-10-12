@@ -75,14 +75,15 @@ WINRT_EXPORT namespace winrt::Windows::Management::Deployment
         FindSharedPackageContainerOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Management::Deployment::IFindSharedPackageContainerOptions(ptr, take_ownership_from_abi) {}
         FindSharedPackageContainerOptions();
     };
-    struct __declspec(empty_bases) PackageAllUserProvisioningOptions : winrt::Windows::Management::Deployment::IPackageAllUserProvisioningOptions
+    struct __declspec(empty_bases) PackageAllUserProvisioningOptions : winrt::Windows::Management::Deployment::IPackageAllUserProvisioningOptions,
+        impl::require<PackageAllUserProvisioningOptions, winrt::Windows::Management::Deployment::IPackageAllUserProvisioningOptions2>
     {
         PackageAllUserProvisioningOptions(std::nullptr_t) noexcept {}
         PackageAllUserProvisioningOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Management::Deployment::IPackageAllUserProvisioningOptions(ptr, take_ownership_from_abi) {}
         PackageAllUserProvisioningOptions();
     };
     struct __declspec(empty_bases) PackageManager : winrt::Windows::Management::Deployment::IPackageManager,
-        impl::require<PackageManager, winrt::Windows::Management::Deployment::IPackageManager2, winrt::Windows::Management::Deployment::IPackageManager3, winrt::Windows::Management::Deployment::IPackageManager4, winrt::Windows::Management::Deployment::IPackageManager5, winrt::Windows::Management::Deployment::IPackageManager6, winrt::Windows::Management::Deployment::IPackageManager7, winrt::Windows::Management::Deployment::IPackageManager8, winrt::Windows::Management::Deployment::IPackageManager9, winrt::Windows::Management::Deployment::IPackageManager10>
+        impl::require<PackageManager, winrt::Windows::Management::Deployment::IPackageManager2, winrt::Windows::Management::Deployment::IPackageManager3, winrt::Windows::Management::Deployment::IPackageManager4, winrt::Windows::Management::Deployment::IPackageManager5, winrt::Windows::Management::Deployment::IPackageManager6, winrt::Windows::Management::Deployment::IPackageManager7, winrt::Windows::Management::Deployment::IPackageManager8, winrt::Windows::Management::Deployment::IPackageManager9, winrt::Windows::Management::Deployment::IPackageManager10, winrt::Windows::Management::Deployment::IPackageManager11, winrt::Windows::Management::Deployment::IPackageManager12>
     {
         PackageManager(std::nullptr_t) noexcept {}
         PackageManager(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Management::Deployment::IPackageManager(ptr, take_ownership_from_abi) {}
@@ -129,6 +130,13 @@ WINRT_EXPORT namespace winrt::Windows::Management::Deployment
         RegisterPackageOptions(std::nullptr_t) noexcept {}
         RegisterPackageOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Management::Deployment::IRegisterPackageOptions(ptr, take_ownership_from_abi) {}
         RegisterPackageOptions();
+    };
+    struct __declspec(empty_bases) RemovePackageOptions : winrt::Windows::Management::Deployment::IRemovePackageOptions,
+        impl::require<RemovePackageOptions, winrt::Windows::Management::Deployment::IRemovePackageOptions2>
+    {
+        RemovePackageOptions(std::nullptr_t) noexcept {}
+        RemovePackageOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Management::Deployment::IRemovePackageOptions(ptr, take_ownership_from_abi) {}
+        RemovePackageOptions();
     };
     struct __declspec(empty_bases) SharedPackageContainer : winrt::Windows::Management::Deployment::ISharedPackageContainer
     {

@@ -64,6 +64,7 @@ WINRT_EXPORT namespace winrt::Windows::Graphics::Printing
         Color = 3,
         Grayscale = 4,
         Monochrome = 5,
+        AutoSelect = 6,
     };
     enum class PrintDuplex : int32_t
     {

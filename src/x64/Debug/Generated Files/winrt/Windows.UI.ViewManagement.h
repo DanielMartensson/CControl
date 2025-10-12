@@ -713,126 +713,6 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IProjectionManagerStatics2)->GetDeviceSelector(&selector));
         return hstring{ selector, take_ownership_from_abi };
     }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::ShowAsync() const
-    {
-        void* returnValue{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->ShowAsync(&returnValue));
-        return winrt::Windows::Foundation::IAsyncAction{ returnValue, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::HideAsync() const
-    {
-        void* returnValue{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->HideAsync(&returnValue));
-        return winrt::Windows::Foundation::IAsyncAction{ returnValue, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::BackgroundOpacity() const
-    {
-        double value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->get_BackgroundOpacity(&value));
-        return value;
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::BackgroundOpacity(double value) const
-    {
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->put_BackgroundOpacity(value));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::ForegroundColor() const
-    {
-        void* value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->get_ForegroundColor(&value));
-        return winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color>{ value, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::ForegroundColor(winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color> const& value) const
-    {
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->put_ForegroundColor(*(void**)(&value)));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::BackgroundColor() const
-    {
-        void* value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->get_BackgroundColor(&value));
-        return winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color>{ value, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::BackgroundColor(winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color> const& value) const
-    {
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->put_BackgroundColor(*(void**)(&value)));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::ProgressIndicator() const
-    {
-        void* value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->get_ProgressIndicator(&value));
-        return winrt::Windows::UI::ViewManagement::StatusBarProgressIndicator{ value, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::OccludedRect() const
-    {
-        winrt::Windows::Foundation::Rect value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->get_OccludedRect(put_abi(value)));
-        return value;
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::Showing(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::StatusBar, winrt::Windows::Foundation::IInspectable> const& eventHandler) const
-    {
-        winrt::event_token token{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->add_Showing(*(void**)(&eventHandler), put_abi(token)));
-        return token;
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::Showing(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::StatusBar, winrt::Windows::Foundation::IInspectable> const& eventHandler) const
-    {
-        return impl::make_event_revoker<D, Showing_revoker>(this, Showing(eventHandler));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::Showing(winrt::event_token const& token) const noexcept
-    {
-        WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->remove_Showing(impl::bind_in(token));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::Hiding(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::StatusBar, winrt::Windows::Foundation::IInspectable> const& eventHandler) const
-    {
-        winrt::event_token token{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->add_Hiding(*(void**)(&eventHandler), put_abi(token)));
-        return token;
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::Hiding(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::StatusBar, winrt::Windows::Foundation::IInspectable> const& eventHandler) const
-    {
-        return impl::make_event_revoker<D, Hiding_revoker>(this, Hiding(eventHandler));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBar<D>::Hiding(winrt::event_token const& token) const noexcept
-    {
-        WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBar)->remove_Hiding(impl::bind_in(token));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBarProgressIndicator<D>::ShowAsync() const
-    {
-        void* returnValue{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator)->ShowAsync(&returnValue));
-        return winrt::Windows::Foundation::IAsyncAction{ returnValue, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBarProgressIndicator<D>::HideAsync() const
-    {
-        void* returnValue{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator)->HideAsync(&returnValue));
-        return winrt::Windows::Foundation::IAsyncAction{ returnValue, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBarProgressIndicator<D>::Text() const
-    {
-        void* value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator)->get_Text(&value));
-        return hstring{ value, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBarProgressIndicator<D>::Text(param::hstring const& value) const
-    {
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator)->put_Text(*(void**)(&value)));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBarProgressIndicator<D>::ProgressValue() const
-    {
-        void* value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator)->get_ProgressValue(&value));
-        return winrt::Windows::Foundation::IReference<double>{ value, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBarProgressIndicator<D>::ProgressValue(winrt::Windows::Foundation::IReference<double> const& value) const
-    {
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator)->put_ProgressValue(*(void**)(&value)));
-    }
-    template <typename D> auto consume_Windows_UI_ViewManagement_IStatusBarStatics<D>::GetForCurrentView() const
-    {
-        void* value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IStatusBarStatics)->GetForCurrentView(&value));
-        return winrt::Windows::UI::ViewManagement::StatusBar{ value, take_ownership_from_abi };
-    }
     template <typename D> auto consume_Windows_UI_ViewManagement_IUISettings<D>::HandPreference() const
     {
         winrt::Windows::UI::ViewManagement::HandPreference value{};
@@ -1025,11 +905,31 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IUIViewSettings)->get_UserInteractionMode(reinterpret_cast<int32_t*>(&value)));
         return value;
     }
+    template <typename D> auto consume_Windows_UI_ViewManagement_IUIViewSettingsPreferredInteractionMode<D>::GetPreferredInteractionMode(array_view<winrt::Windows::UI::ViewManagement::UserInteractionMode const> supportedModes) const
+    {
+        winrt::Windows::UI::ViewManagement::UserInteractionMode result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IUIViewSettingsPreferredInteractionMode)->GetPreferredInteractionMode(supportedModes.size(), get_abi(supportedModes), reinterpret_cast<int32_t*>(&result)));
+        return result;
+    }
+    template <typename D> auto consume_Windows_UI_ViewManagement_IUIViewSettingsPreferredInteractionMode<D>::PreferredInteractionModeChanged(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::UIViewSettings, winrt::Windows::Foundation::IInspectable> const& handler) const
+    {
+        winrt::event_token token{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IUIViewSettingsPreferredInteractionMode)->add_PreferredInteractionModeChanged(*(void**)(&handler), put_abi(token)));
+        return token;
+    }
+    template <typename D> auto consume_Windows_UI_ViewManagement_IUIViewSettingsPreferredInteractionMode<D>::PreferredInteractionModeChanged(auto_revoke_t, winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::UIViewSettings, winrt::Windows::Foundation::IInspectable> const& handler) const
+    {
+        return impl::make_event_revoker<D, PreferredInteractionModeChanged_revoker>(this, PreferredInteractionModeChanged(handler));
+    }
+    template <typename D> auto consume_Windows_UI_ViewManagement_IUIViewSettingsPreferredInteractionMode<D>::PreferredInteractionModeChanged(winrt::event_token const& token) const noexcept
+    {
+        WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IUIViewSettingsPreferredInteractionMode)->remove_PreferredInteractionModeChanged(impl::bind_in(token));
+    }
     template <typename D> auto consume_Windows_UI_ViewManagement_IUIViewSettingsStatics<D>::GetForCurrentView() const
     {
-        void* current{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IUIViewSettingsStatics)->GetForCurrentView(&current));
-        return winrt::Windows::UI::ViewManagement::UIViewSettings{ current, take_ownership_from_abi };
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::UI::ViewManagement::IUIViewSettingsStatics)->GetForCurrentView(&result));
+        return winrt::Windows::UI::ViewManagement::UIViewSettings{ result, take_ownership_from_abi };
     }
     template <typename D> auto consume_Windows_UI_ViewManagement_IViewModePreferences<D>::ViewSizePreference() const
     {
@@ -2173,182 +2073,6 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
-    struct produce<D, winrt::Windows::UI::ViewManagement::IStatusBar> : produce_base<D, winrt::Windows::UI::ViewManagement::IStatusBar>
-    {
-        int32_t __stdcall ShowAsync(void** returnValue) noexcept final try
-        {
-            clear_abi(returnValue);
-            typename D::abi_guard guard(this->shim());
-            *returnValue = detach_from<winrt::Windows::Foundation::IAsyncAction>(this->shim().ShowAsync());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall HideAsync(void** returnValue) noexcept final try
-        {
-            clear_abi(returnValue);
-            typename D::abi_guard guard(this->shim());
-            *returnValue = detach_from<winrt::Windows::Foundation::IAsyncAction>(this->shim().HideAsync());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_BackgroundOpacity(double* value) noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<double>(this->shim().BackgroundOpacity());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall put_BackgroundOpacity(double value) noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().BackgroundOpacity(value);
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_ForegroundColor(void** value) noexcept final try
-        {
-            clear_abi(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color>>(this->shim().ForegroundColor());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall put_ForegroundColor(void* value) noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().ForegroundColor(*reinterpret_cast<winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color> const*>(&value));
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_BackgroundColor(void** value) noexcept final try
-        {
-            clear_abi(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color>>(this->shim().BackgroundColor());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall put_BackgroundColor(void* value) noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().BackgroundColor(*reinterpret_cast<winrt::Windows::Foundation::IReference<winrt::Windows::UI::Color> const*>(&value));
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_ProgressIndicator(void** value) noexcept final try
-        {
-            clear_abi(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<winrt::Windows::UI::ViewManagement::StatusBarProgressIndicator>(this->shim().ProgressIndicator());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_OccludedRect(winrt::Windows::Foundation::Rect* value) noexcept final try
-        {
-            zero_abi<winrt::Windows::Foundation::Rect>(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<winrt::Windows::Foundation::Rect>(this->shim().OccludedRect());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall add_Showing(void* eventHandler, winrt::event_token* token) noexcept final try
-        {
-            zero_abi<winrt::event_token>(token);
-            typename D::abi_guard guard(this->shim());
-            *token = detach_from<winrt::event_token>(this->shim().Showing(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::StatusBar, winrt::Windows::Foundation::IInspectable> const*>(&eventHandler)));
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall remove_Showing(winrt::event_token token) noexcept final
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().Showing(*reinterpret_cast<winrt::event_token const*>(&token));
-            return 0;
-        }
-        int32_t __stdcall add_Hiding(void* eventHandler, winrt::event_token* token) noexcept final try
-        {
-            zero_abi<winrt::event_token>(token);
-            typename D::abi_guard guard(this->shim());
-            *token = detach_from<winrt::event_token>(this->shim().Hiding(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::StatusBar, winrt::Windows::Foundation::IInspectable> const*>(&eventHandler)));
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall remove_Hiding(winrt::event_token token) noexcept final
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().Hiding(*reinterpret_cast<winrt::event_token const*>(&token));
-            return 0;
-        }
-    };
-#endif
-#ifndef WINRT_LEAN_AND_MEAN
-    template <typename D>
-    struct produce<D, winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator> : produce_base<D, winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator>
-    {
-        int32_t __stdcall ShowAsync(void** returnValue) noexcept final try
-        {
-            clear_abi(returnValue);
-            typename D::abi_guard guard(this->shim());
-            *returnValue = detach_from<winrt::Windows::Foundation::IAsyncAction>(this->shim().ShowAsync());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall HideAsync(void** returnValue) noexcept final try
-        {
-            clear_abi(returnValue);
-            typename D::abi_guard guard(this->shim());
-            *returnValue = detach_from<winrt::Windows::Foundation::IAsyncAction>(this->shim().HideAsync());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_Text(void** value) noexcept final try
-        {
-            clear_abi(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<hstring>(this->shim().Text());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall put_Text(void* value) noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().Text(*reinterpret_cast<hstring const*>(&value));
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_ProgressValue(void** value) noexcept final try
-        {
-            clear_abi(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<winrt::Windows::Foundation::IReference<double>>(this->shim().ProgressValue());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall put_ProgressValue(void* value) noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().ProgressValue(*reinterpret_cast<winrt::Windows::Foundation::IReference<double> const*>(&value));
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-    };
-#endif
-#ifndef WINRT_LEAN_AND_MEAN
-    template <typename D>
-    struct produce<D, winrt::Windows::UI::ViewManagement::IStatusBarStatics> : produce_base<D, winrt::Windows::UI::ViewManagement::IStatusBarStatics>
-    {
-        int32_t __stdcall GetForCurrentView(void** value) noexcept final try
-        {
-            clear_abi(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<winrt::Windows::UI::ViewManagement::StatusBar>(this->shim().GetForCurrentView());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-    };
-#endif
-#ifndef WINRT_LEAN_AND_MEAN
-    template <typename D>
     struct produce<D, winrt::Windows::UI::ViewManagement::IUISettings> : produce_base<D, winrt::Windows::UI::ViewManagement::IUISettings>
     {
         int32_t __stdcall get_HandPreference(int32_t* value) noexcept final try
@@ -2625,13 +2349,40 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::UI::ViewManagement::IUIViewSettingsPreferredInteractionMode> : produce_base<D, winrt::Windows::UI::ViewManagement::IUIViewSettingsPreferredInteractionMode>
+    {
+        int32_t __stdcall GetPreferredInteractionMode(uint32_t __supportedModesSize, int32_t* supportedModes, int32_t* result) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::UI::ViewManagement::UserInteractionMode>(this->shim().GetPreferredInteractionMode(array_view<winrt::Windows::UI::ViewManagement::UserInteractionMode const>(reinterpret_cast<winrt::Windows::UI::ViewManagement::UserInteractionMode const *>(supportedModes), reinterpret_cast<winrt::Windows::UI::ViewManagement::UserInteractionMode const *>(supportedModes) + __supportedModesSize)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall add_PreferredInteractionModeChanged(void* handler, winrt::event_token* token) noexcept final try
+        {
+            zero_abi<winrt::event_token>(token);
+            typename D::abi_guard guard(this->shim());
+            *token = detach_from<winrt::event_token>(this->shim().PreferredInteractionModeChanged(*reinterpret_cast<winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::ViewManagement::UIViewSettings, winrt::Windows::Foundation::IInspectable> const*>(&handler)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall remove_PreferredInteractionModeChanged(winrt::event_token token) noexcept final
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().PreferredInteractionModeChanged(*reinterpret_cast<winrt::event_token const*>(&token));
+            return 0;
+        }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::UI::ViewManagement::IUIViewSettingsStatics> : produce_base<D, winrt::Windows::UI::ViewManagement::IUIViewSettingsStatics>
     {
-        int32_t __stdcall GetForCurrentView(void** current) noexcept final try
+        int32_t __stdcall GetForCurrentView(void** result) noexcept final try
         {
-            clear_abi(current);
+            clear_abi(result);
             typename D::abi_guard guard(this->shim());
-            *current = detach_from<winrt::Windows::UI::ViewManagement::UIViewSettings>(this->shim().GetForCurrentView());
+            *result = detach_from<winrt::Windows::UI::ViewManagement::UIViewSettings>(this->shim().GetForCurrentView());
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -2889,10 +2640,6 @@ WINRT_EXPORT namespace winrt::Windows::UI::ViewManagement
     {
         return impl::call_factory_cast<hstring(*)(IProjectionManagerStatics2 const&), ProjectionManager, IProjectionManagerStatics2>([](IProjectionManagerStatics2 const& f) { return f.GetDeviceSelector(); });
     }
-    inline auto StatusBar::GetForCurrentView()
-    {
-        return impl::call_factory_cast<winrt::Windows::UI::ViewManagement::StatusBar(*)(IStatusBarStatics const&), StatusBar, IStatusBarStatics>([](IStatusBarStatics const& f) { return f.GetForCurrentView(); });
-    }
     inline UISettings::UISettings() :
         UISettings(impl::call_factory_cast<UISettings(*)(winrt::Windows::Foundation::IActivationFactory const&), UISettings>([](winrt::Windows::Foundation::IActivationFactory const& f) { return f.template ActivateInstance<UISettings>(); }))
     {
@@ -2942,9 +2689,6 @@ namespace std
     template<> struct hash<winrt::Windows::UI::ViewManagement::IInputPaneVisibilityEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IProjectionManagerStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IProjectionManagerStatics2> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::UI::ViewManagement::IStatusBar> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::UI::ViewManagement::IStatusBarProgressIndicator> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::UI::ViewManagement::IStatusBarStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IUISettings> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IUISettings2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IUISettings3> : winrt::impl::hash_base {};
@@ -2955,6 +2699,7 @@ namespace std
     template<> struct hash<winrt::Windows::UI::ViewManagement::IUISettingsAutoHideScrollBarsChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IUISettingsMessageDurationChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IUIViewSettings> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::UI::ViewManagement::IUIViewSettingsPreferredInteractionMode> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IUIViewSettingsStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IViewModePreferences> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::IViewModePreferencesStatics> : winrt::impl::hash_base {};
@@ -2969,8 +2714,6 @@ namespace std
     template<> struct hash<winrt::Windows::UI::ViewManagement::InputPane> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::InputPaneVisibilityEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::ProjectionManager> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::UI::ViewManagement::StatusBar> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::UI::ViewManagement::StatusBarProgressIndicator> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::UISettings> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::UISettingsAnimationsEnabledChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::UI::ViewManagement::UISettingsAutoHideScrollBarsChangedEventArgs> : winrt::impl::hash_base {};

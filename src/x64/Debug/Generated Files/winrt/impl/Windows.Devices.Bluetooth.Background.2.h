@@ -23,7 +23,8 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth::Background
         GattCharacteristicNotificationTriggerDetails(std::nullptr_t) noexcept {}
         GattCharacteristicNotificationTriggerDetails(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::Background::IGattCharacteristicNotificationTriggerDetails(ptr, take_ownership_from_abi) {}
     };
-    struct __declspec(empty_bases) GattServiceProviderConnection : winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection
+    struct __declspec(empty_bases) GattServiceProviderConnection : winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection,
+        impl::require<GattServiceProviderConnection, winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection2>
     {
         GattServiceProviderConnection(std::nullptr_t) noexcept {}
         GattServiceProviderConnection(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::Background::IGattServiceProviderConnection(ptr, take_ownership_from_abi) {}

@@ -958,6 +958,10 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Networking::Vpn::IVpnPlugInProfile2)->get_ConnectionStatus(reinterpret_cast<int32_t*>(&value)));
         return value;
     }
+    template <typename D> auto consume_Windows_Networking_Vpn_IVpnPlugInReconnectTransport<D>::ReconnectTransport(winrt::Windows::Networking::Vpn::VpnChannel const& channel, winrt::Windows::Foundation::IInspectable const& context) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport)->ReconnectTransport(*(void**)(&channel), *(void**)(&context)));
+    }
     template <typename D> auto consume_Windows_Networking_Vpn_IVpnProfile<D>::ProfileName() const
     {
         void* value{};
@@ -2794,6 +2798,17 @@ namespace winrt::impl
     };
 #endif
     template <typename D>
+    struct produce<D, winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport> : produce_base<D, winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport>
+    {
+        int32_t __stdcall ReconnectTransport(void* channel, void* context) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ReconnectTransport(*reinterpret_cast<winrt::Windows::Networking::Vpn::VpnChannel const*>(&channel), *reinterpret_cast<winrt::Windows::Foundation::IInspectable const*>(&context));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+    template <typename D>
     struct produce<D, winrt::Windows::Networking::Vpn::IVpnProfile> : produce_base<D, winrt::Windows::Networking::Vpn::IVpnProfile>
     {
         int32_t __stdcall get_ProfileName(void** value) noexcept final try
@@ -3340,6 +3355,7 @@ namespace std
     template<> struct hash<winrt::Windows::Networking::Vpn::IVpnPlugIn> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Networking::Vpn::IVpnPlugInProfile> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Networking::Vpn::IVpnPlugInProfile2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Networking::Vpn::IVpnProfile> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Networking::Vpn::IVpnRoute> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Networking::Vpn::IVpnRouteAssignment> : winrt::impl::hash_base {};

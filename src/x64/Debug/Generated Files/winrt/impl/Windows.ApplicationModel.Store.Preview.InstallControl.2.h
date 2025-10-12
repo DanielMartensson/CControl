@@ -76,7 +76,8 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Store::Preview::Install
         AppUpdateOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IAppUpdateOptions(ptr, take_ownership_from_abi) {}
         AppUpdateOptions();
     };
-    struct __declspec(empty_bases) GetEntitlementResult : winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult
+    struct __declspec(empty_bases) GetEntitlementResult : winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult,
+        impl::require<GetEntitlementResult, winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult2>
     {
         GetEntitlementResult(std::nullptr_t) noexcept {}
         GetEntitlementResult(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Store::Preview::InstallControl::IGetEntitlementResult(ptr, take_ownership_from_abi) {}

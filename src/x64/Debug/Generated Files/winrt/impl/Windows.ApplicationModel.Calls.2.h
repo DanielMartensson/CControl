@@ -9,7 +9,22 @@
 #include "winrt/impl/Windows.ApplicationModel.Calls.1.h"
 WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Calls
 {
-    struct __declspec(empty_bases) CallAnswerEventArgs : winrt::Windows::ApplicationModel::Calls::ICallAnswerEventArgs
+    struct __declspec(empty_bases) AcceptedVoipPhoneCallOptions : winrt::Windows::ApplicationModel::Calls::IAcceptedVoipPhoneCallOptions
+    {
+        AcceptedVoipPhoneCallOptions(std::nullptr_t) noexcept {}
+        AcceptedVoipPhoneCallOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::IAcceptedVoipPhoneCallOptions(ptr, take_ownership_from_abi) {}
+        AcceptedVoipPhoneCallOptions();
+        explicit AcceptedVoipPhoneCallOptions(param::iterable<hstring> const& associatedDeviceIds);
+    };
+    struct __declspec(empty_bases) AppInitiatedVoipPhoneCallOptions : winrt::Windows::ApplicationModel::Calls::IAppInitiatedVoipPhoneCallOptions
+    {
+        AppInitiatedVoipPhoneCallOptions(std::nullptr_t) noexcept {}
+        AppInitiatedVoipPhoneCallOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::IAppInitiatedVoipPhoneCallOptions(ptr, take_ownership_from_abi) {}
+        AppInitiatedVoipPhoneCallOptions();
+        explicit AppInitiatedVoipPhoneCallOptions(param::iterable<hstring> const& associatedDeviceIds);
+    };
+    struct __declspec(empty_bases) CallAnswerEventArgs : winrt::Windows::ApplicationModel::Calls::ICallAnswerEventArgs,
+        impl::require<CallAnswerEventArgs, winrt::Windows::ApplicationModel::Calls::ICallAnswerEventArgs2>
     {
         CallAnswerEventArgs(std::nullptr_t) noexcept {}
         CallAnswerEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::ICallAnswerEventArgs(ptr, take_ownership_from_abi) {}
@@ -23,6 +38,13 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Calls
     {
         CallStateChangeEventArgs(std::nullptr_t) noexcept {}
         CallStateChangeEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::ICallStateChangeEventArgs(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) IncomingVoipPhoneCallOptions : winrt::Windows::ApplicationModel::Calls::IIncomingVoipPhoneCallOptions
+    {
+        IncomingVoipPhoneCallOptions(std::nullptr_t) noexcept {}
+        IncomingVoipPhoneCallOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::IIncomingVoipPhoneCallOptions(ptr, take_ownership_from_abi) {}
+        IncomingVoipPhoneCallOptions();
+        explicit IncomingVoipPhoneCallOptions(param::iterable<hstring> const& associatedDeviceIds);
     };
     struct __declspec(empty_bases) LockScreenCallEndCallDeferral : winrt::Windows::ApplicationModel::Calls::ILockScreenCallEndCallDeferral
     {
@@ -43,6 +65,13 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Calls
     {
         MuteChangeEventArgs(std::nullptr_t) noexcept {}
         MuteChangeEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::IMuteChangeEventArgs(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) OutgoingVoipPhoneCallOptions : winrt::Windows::ApplicationModel::Calls::IOutgoingVoipPhoneCallOptions
+    {
+        OutgoingVoipPhoneCallOptions(std::nullptr_t) noexcept {}
+        OutgoingVoipPhoneCallOptions(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::IOutgoingVoipPhoneCallOptions(ptr, take_ownership_from_abi) {}
+        OutgoingVoipPhoneCallOptions();
+        explicit OutgoingVoipPhoneCallOptions(param::iterable<hstring> const& associatedDeviceIds);
     };
     struct __declspec(empty_bases) PhoneCall : winrt::Windows::ApplicationModel::Calls::IPhoneCall
     {
@@ -190,7 +219,7 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Calls
         PhoneVoicemail(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::IPhoneVoicemail(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) VoipCallCoordinator : winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator,
-        impl::require<VoipCallCoordinator, winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator2, winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator3, winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator4>
+        impl::require<VoipCallCoordinator, winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator2, winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator3, winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator4, winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator5>
     {
         VoipCallCoordinator(std::nullptr_t) noexcept {}
         VoipCallCoordinator(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator(ptr, take_ownership_from_abi) {}
@@ -199,12 +228,16 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Calls
         using winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator::ReserveCallResourcesAsync;
         using impl::consume_t<VoipCallCoordinator, winrt::Windows::ApplicationModel::Calls::IVoipCallCoordinator4>::ReserveCallResourcesAsync;
         static auto GetDefault();
+        static auto IsCallControlDeviceKindSupportedForAssociation(winrt::Windows::ApplicationModel::Calls::VoipCallControlDeviceKind const& kind);
+        static auto GetDeviceSelectorForCallControl();
     };
     struct __declspec(empty_bases) VoipPhoneCall : winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall,
-        impl::require<VoipPhoneCall, winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall2, winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall3>
+        impl::require<VoipPhoneCall, winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall2, winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall3, winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall4>
     {
         VoipPhoneCall(std::nullptr_t) noexcept {}
         VoipPhoneCall(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall(ptr, take_ownership_from_abi) {}
+        using winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall::NotifyCallActive;
+        using impl::consume_t<VoipPhoneCall, winrt::Windows::ApplicationModel::Calls::IVoipPhoneCall4>::NotifyCallActive;
     };
 }
 #endif

@@ -1769,6 +1769,10 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider)->StopAdvertising());
     }
+    template <typename D> auto consume_Windows_Devices_Bluetooth_GenericAttributeProfile_IGattServiceProvider2<D>::UpdateAdvertisingParameters(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::GattServiceProviderAdvertisingParameters const& parameters) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider2)->UpdateAdvertisingParameters(*(void**)(&parameters)));
+    }
     template <typename D> auto consume_Windows_Devices_Bluetooth_GenericAttributeProfile_IGattServiceProviderAdvertisementStatusChangedEventArgs<D>::Error() const
     {
         winrt::Windows::Devices::Bluetooth::BluetoothError value{};
@@ -1810,6 +1814,26 @@ namespace winrt::impl
         void* value{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters2)->get_ServiceData(&value));
         return winrt::Windows::Storage::Streams::IBuffer{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_Devices_Bluetooth_GenericAttributeProfile_IGattServiceProviderAdvertisingParameters3<D>::UseLowEnergyUncoded1MPhyAsSecondaryPhy() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters3)->get_UseLowEnergyUncoded1MPhyAsSecondaryPhy(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Devices_Bluetooth_GenericAttributeProfile_IGattServiceProviderAdvertisingParameters3<D>::UseLowEnergyUncoded1MPhyAsSecondaryPhy(bool value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters3)->put_UseLowEnergyUncoded1MPhyAsSecondaryPhy(value));
+    }
+    template <typename D> auto consume_Windows_Devices_Bluetooth_GenericAttributeProfile_IGattServiceProviderAdvertisingParameters3<D>::UseLowEnergyUncoded2MPhyAsSecondaryPhy() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters3)->get_UseLowEnergyUncoded2MPhyAsSecondaryPhy(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Devices_Bluetooth_GenericAttributeProfile_IGattServiceProviderAdvertisingParameters3<D>::UseLowEnergyUncoded2MPhyAsSecondaryPhy(bool value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters3)->put_UseLowEnergyUncoded2MPhyAsSecondaryPhy(value));
     }
     template <typename D> auto consume_Windows_Devices_Bluetooth_GenericAttributeProfile_IGattServiceProviderResult<D>::Error() const
     {
@@ -4558,6 +4582,19 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider2> : produce_base<D, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider2>
+    {
+        int32_t __stdcall UpdateAdvertisingParameters(void* parameters) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().UpdateAdvertisingParameters(*reinterpret_cast<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::GattServiceProviderAdvertisingParameters const*>(&parameters));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisementStatusChangedEventArgs> : produce_base<D, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisementStatusChangedEventArgs>
     {
         int32_t __stdcall get_Error(int32_t* value) noexcept final try
@@ -4626,6 +4663,40 @@ namespace winrt::impl
             clear_abi(value);
             typename D::abi_guard guard(this->shim());
             *value = detach_from<winrt::Windows::Storage::Streams::IBuffer>(this->shim().ServiceData());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters3> : produce_base<D, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters3>
+    {
+        int32_t __stdcall get_UseLowEnergyUncoded1MPhyAsSecondaryPhy(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().UseLowEnergyUncoded1MPhyAsSecondaryPhy());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_UseLowEnergyUncoded1MPhyAsSecondaryPhy(bool value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().UseLowEnergyUncoded1MPhyAsSecondaryPhy(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_UseLowEnergyUncoded2MPhyAsSecondaryPhy(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().UseLowEnergyUncoded2MPhyAsSecondaryPhy());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_UseLowEnergyUncoded2MPhyAsSecondaryPhy(bool value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().UseLowEnergyUncoded2MPhyAsSecondaryPhy(value);
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -5882,9 +5953,11 @@ namespace std
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattReliableWriteTransaction2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattRequestStateChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisementStatusChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters3> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderResult> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceUuidsStatics> : winrt::impl::hash_base {};

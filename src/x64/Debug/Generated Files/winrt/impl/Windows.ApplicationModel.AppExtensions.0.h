@@ -13,11 +13,21 @@ WINRT_EXPORT namespace winrt::Windows::Foundation
     struct EventRegistrationToken;
     template <typename TSender, typename TResult> struct __declspec(empty_bases) TypedEventHandler;
 }
+WINRT_EXPORT namespace winrt::Windows::Foundation::Collections
+{
+    struct IPropertySet;
+}
+WINRT_EXPORT namespace winrt::Windows::Storage
+{
+    struct StorageFolder;
+}
 WINRT_EXPORT namespace winrt::Windows::ApplicationModel::AppExtensions
 {
     struct IAppExtension;
     struct IAppExtension2;
+    struct IAppExtension3;
     struct IAppExtensionCatalog;
+    struct IAppExtensionCatalog2;
     struct IAppExtensionCatalogStatics;
     struct IAppExtensionPackageInstalledEventArgs;
     struct IAppExtensionPackageStatusChangedEventArgs;
@@ -36,7 +46,9 @@ namespace winrt::impl
 {
     template <> struct category<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension2>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalogStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageInstalledEventArgs>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageStatusChangedEventArgs>{ using type = interface_category; };
@@ -59,7 +71,9 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::AppExtensionPackageUpdatingEventArgs> = L"Windows.ApplicationModel.AppExtensions.AppExtensionPackageUpdatingEventArgs";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension> = L"Windows.ApplicationModel.AppExtensions.IAppExtension";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension2> = L"Windows.ApplicationModel.AppExtensions.IAppExtension2";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3> = L"Windows.ApplicationModel.AppExtensions.IAppExtension3";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog> = L"Windows.ApplicationModel.AppExtensions.IAppExtensionCatalog";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2> = L"Windows.ApplicationModel.AppExtensions.IAppExtensionCatalog2";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalogStatics> = L"Windows.ApplicationModel.AppExtensions.IAppExtensionCatalogStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageInstalledEventArgs> = L"Windows.ApplicationModel.AppExtensions.IAppExtensionPackageInstalledEventArgs";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageStatusChangedEventArgs> = L"Windows.ApplicationModel.AppExtensions.IAppExtensionPackageStatusChangedEventArgs";
@@ -68,7 +82,9 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageUpdatingEventArgs> = L"Windows.ApplicationModel.AppExtensions.IAppExtensionPackageUpdatingEventArgs";
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension>{ 0x8450902C,0x15ED,0x4FAF,{ 0x93,0xEA,0x22,0x37,0xBB,0xF8,0xCB,0xD6 } }; // 8450902C-15ED-4FAF-93EA-2237BBF8CBD6
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension2>{ 0xAB3B15F0,0x14F9,0x4B9F,{ 0x94,0x19,0xA3,0x49,0xA2,0x42,0xEF,0x38 } }; // AB3B15F0-14F9-4B9F-9419-A349A242EF38
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3>{ 0x5923C101,0xAA38,0x4009,{ 0x84,0xD9,0x5B,0x54,0xA0,0xDF,0x30,0xAE } }; // 5923C101-AA38-4009-84D9-5B54A0DF30AE
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog>{ 0x97872032,0x8426,0x4AD1,{ 0x90,0x84,0x92,0xE8,0x8C,0x2D,0xA2,0x00 } }; // 97872032-8426-4AD1-9084-92E88C2DA200
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2>{ 0x50056EBA,0x58B6,0x4147,{ 0xB5,0xA5,0x8F,0xEC,0xA6,0xDF,0xB4,0x9D } }; // 50056EBA-58B6-4147-B5A5-8FECA6DFB49D
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalogStatics>{ 0x3C36668A,0x5F18,0x4F0B,{ 0x9C,0xE5,0xCA,0xB6,0x1D,0x19,0x6F,0x11 } }; // 3C36668A-5F18-4F0B-9CE5-CAB61D196F11
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageInstalledEventArgs>{ 0x39E59234,0x3351,0x4A8D,{ 0x97,0x45,0xE7,0xD3,0xDD,0x45,0xBC,0x48 } }; // 39E59234-3351-4A8D-9745-E7D3DD45BC48
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageStatusChangedEventArgs>{ 0x1CE17433,0x1153,0x44FD,{ 0x87,0xB1,0x8A,0xE1,0x05,0x03,0x03,0xDF } }; // 1CE17433-1153-44FD-87B1-8AE1050303DF
@@ -102,6 +118,15 @@ namespace winrt::impl
             virtual int32_t __stdcall get_AppUserModelId(void**) noexcept = 0;
         };
     };
+    template <> struct abi<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall GetExtensionProperties(void**) noexcept = 0;
+            virtual int32_t __stdcall GetPublicPath(void**) noexcept = 0;
+            virtual int32_t __stdcall GetPublicFolder(void**) noexcept = 0;
+        };
+    };
     template <> struct abi<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog>
     {
         struct __declspec(novtable) type : inspectable_abi
@@ -118,6 +143,13 @@ namespace winrt::impl
             virtual int32_t __stdcall remove_PackageUninstalling(winrt::event_token) noexcept = 0;
             virtual int32_t __stdcall add_PackageStatusChanged(void*, winrt::event_token*) noexcept = 0;
             virtual int32_t __stdcall remove_PackageStatusChanged(winrt::event_token) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall FindAll(void**) noexcept = 0;
         };
     };
     template <> struct abi<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalogStatics>
@@ -194,6 +226,17 @@ namespace winrt::impl
         template <typename D> using type = consume_Windows_ApplicationModel_AppExtensions_IAppExtension2<D>;
     };
     template <typename D>
+    struct consume_Windows_ApplicationModel_AppExtensions_IAppExtension3
+    {
+        auto GetExtensionProperties() const;
+        auto GetPublicPath() const;
+        auto GetPublicFolder() const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_AppExtensions_IAppExtension3<D>;
+    };
+    template <typename D>
     struct consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalog
     {
         auto FindAllAsync() const;
@@ -222,6 +265,15 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog>
     {
         template <typename D> using type = consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalog<D>;
+    };
+    template <typename D>
+    struct consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalog2
+    {
+        auto FindAll() const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalog2<D>;
     };
     template <typename D>
     struct consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalogStatics

@@ -142,7 +142,14 @@ WINRT_EXPORT namespace winrt::Windows::UI::Input
         MouseWheelParameters(std::nullptr_t) noexcept {}
         MouseWheelParameters(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::UI::Input::IMouseWheelParameters(ptr, take_ownership_from_abi) {}
     };
-    struct __declspec(empty_bases) PointerPoint : winrt::Windows::UI::Input::IPointerPoint
+    struct __declspec(empty_bases) PhysicalGestureRecognizer : winrt::Windows::UI::Input::IPhysicalGestureRecognizer
+    {
+        PhysicalGestureRecognizer(std::nullptr_t) noexcept {}
+        PhysicalGestureRecognizer(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::UI::Input::IPhysicalGestureRecognizer(ptr, take_ownership_from_abi) {}
+        PhysicalGestureRecognizer();
+    };
+    struct __declspec(empty_bases) PointerPoint : winrt::Windows::UI::Input::IPointerPoint,
+        impl::require<PointerPoint, winrt::Windows::UI::Input::IPointerPointPhysicalPosition>
     {
         PointerPoint(std::nullptr_t) noexcept {}
         PointerPoint(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::UI::Input::IPointerPoint(ptr, take_ownership_from_abi) {}
@@ -285,6 +292,18 @@ WINRT_EXPORT namespace winrt::Windows::UI::Input
     {
         TappedEventArgs(std::nullptr_t) noexcept {}
         TappedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::UI::Input::ITappedEventArgs(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) TouchpadGesturesController : winrt::Windows::UI::Input::ITouchpadGesturesController
+    {
+        TouchpadGesturesController(std::nullptr_t) noexcept {}
+        TouchpadGesturesController(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::UI::Input::ITouchpadGesturesController(ptr, take_ownership_from_abi) {}
+        static auto IsSupported();
+        static auto CreateForProcess();
+    };
+    struct __declspec(empty_bases) TouchpadGlobalActionEventArgs : winrt::Windows::UI::Input::ITouchpadGlobalActionEventArgs
+    {
+        TouchpadGlobalActionEventArgs(std::nullptr_t) noexcept {}
+        TouchpadGlobalActionEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::UI::Input::ITouchpadGlobalActionEventArgs(ptr, take_ownership_from_abi) {}
     };
 }
 #endif

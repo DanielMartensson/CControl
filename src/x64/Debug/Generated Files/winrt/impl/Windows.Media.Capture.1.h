@@ -765,27 +765,6 @@ WINRT_EXPORT namespace winrt::Windows::Media::Capture
         IPhotoConfirmationCapturedEventArgs(std::nullptr_t = nullptr) noexcept {}
         IPhotoConfirmationCapturedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
-    struct __declspec(empty_bases) IScreenCapture :
-        winrt::Windows::Foundation::IInspectable,
-        impl::consume_t<IScreenCapture>
-    {
-        IScreenCapture(std::nullptr_t = nullptr) noexcept {}
-        IScreenCapture(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
-    };
-    struct __declspec(empty_bases) IScreenCaptureStatics :
-        winrt::Windows::Foundation::IInspectable,
-        impl::consume_t<IScreenCaptureStatics>
-    {
-        IScreenCaptureStatics(std::nullptr_t = nullptr) noexcept {}
-        IScreenCaptureStatics(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
-    };
-    struct __declspec(empty_bases) ISourceSuspensionChangedEventArgs :
-        winrt::Windows::Foundation::IInspectable,
-        impl::consume_t<ISourceSuspensionChangedEventArgs>
-    {
-        ISourceSuspensionChangedEventArgs(std::nullptr_t = nullptr) noexcept {}
-        ISourceSuspensionChangedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
-    };
     struct __declspec(empty_bases) IVideoStreamConfiguration :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IVideoStreamConfiguration>

@@ -66,6 +66,11 @@ WINRT_EXPORT namespace winrt::Windows::UI
 }
 WINRT_EXPORT namespace winrt::Windows::Media::Effects
 {
+    enum class AudioEffectState : int32_t
+    {
+        Off = 0,
+        On = 1,
+    };
     enum class AudioEffectType : int32_t
     {
         Other = 0,
@@ -102,8 +107,10 @@ WINRT_EXPORT namespace winrt::Windows::Media::Effects
         Cpu = 1,
         GpuAndCpu = 2,
     };
+    struct IAcousticEchoCancellationConfiguration;
     struct IAudioCaptureEffectsManager;
     struct IAudioEffect;
+    struct IAudioEffect2;
     struct IAudioEffectDefinition;
     struct IAudioEffectDefinitionFactory;
     struct IAudioEffectsManagerStatics;
@@ -114,7 +121,6 @@ WINRT_EXPORT namespace winrt::Windows::Media::Effects
     struct ICompositeVideoFrameContext;
     struct IProcessAudioFrameContext;
     struct IProcessVideoFrameContext;
-    struct ISlowMotionEffectDefinition;
     struct IVideoCompositor;
     struct IVideoCompositorDefinition;
     struct IVideoCompositorDefinitionFactory;
@@ -123,6 +129,7 @@ WINRT_EXPORT namespace winrt::Windows::Media::Effects
     struct IVideoTransformEffectDefinition;
     struct IVideoTransformEffectDefinition2;
     struct IVideoTransformSphericalProjection;
+    struct AcousticEchoCancellationConfiguration;
     struct AudioCaptureEffectsManager;
     struct AudioEffect;
     struct AudioEffectDefinition;
@@ -131,7 +138,6 @@ WINRT_EXPORT namespace winrt::Windows::Media::Effects
     struct CompositeVideoFrameContext;
     struct ProcessAudioFrameContext;
     struct ProcessVideoFrameContext;
-    struct SlowMotionEffectDefinition;
     struct VideoCompositorDefinition;
     struct VideoEffectDefinition;
     struct VideoTransformEffectDefinition;
@@ -139,8 +145,10 @@ WINRT_EXPORT namespace winrt::Windows::Media::Effects
 }
 namespace winrt::impl
 {
+    template <> struct category<winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IAudioCaptureEffectsManager>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IAudioEffect>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::Media::Effects::IAudioEffect2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IAudioEffectDefinition>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IAudioEffectDefinitionFactory>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IAudioEffectsManagerStatics>{ using type = interface_category; };
@@ -151,7 +159,6 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::Media::Effects::ICompositeVideoFrameContext>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IProcessAudioFrameContext>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IProcessVideoFrameContext>{ using type = interface_category; };
-    template <> struct category<winrt::Windows::Media::Effects::ISlowMotionEffectDefinition>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IVideoCompositor>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IVideoCompositorDefinition>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IVideoCompositorDefinitionFactory>{ using type = interface_category; };
@@ -160,6 +167,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::Media::Effects::IVideoTransformEffectDefinition>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IVideoTransformEffectDefinition2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Media::Effects::IVideoTransformSphericalProjection>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::Media::Effects::AcousticEchoCancellationConfiguration>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::AudioCaptureEffectsManager>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::AudioEffect>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::AudioEffectDefinition>{ using type = class_category; };
@@ -168,14 +176,15 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::Media::Effects::CompositeVideoFrameContext>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::ProcessAudioFrameContext>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::ProcessVideoFrameContext>{ using type = class_category; };
-    template <> struct category<winrt::Windows::Media::Effects::SlowMotionEffectDefinition>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::VideoCompositorDefinition>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::VideoEffectDefinition>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::VideoTransformEffectDefinition>{ using type = class_category; };
     template <> struct category<winrt::Windows::Media::Effects::VideoTransformSphericalProjection>{ using type = class_category; };
+    template <> struct category<winrt::Windows::Media::Effects::AudioEffectState>{ using type = enum_category; };
     template <> struct category<winrt::Windows::Media::Effects::AudioEffectType>{ using type = enum_category; };
     template <> struct category<winrt::Windows::Media::Effects::MediaEffectClosedReason>{ using type = enum_category; };
     template <> struct category<winrt::Windows::Media::Effects::MediaMemoryTypes>{ using type = enum_category; };
+    template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::AcousticEchoCancellationConfiguration> = L"Windows.Media.Effects.AcousticEchoCancellationConfiguration";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::AudioCaptureEffectsManager> = L"Windows.Media.Effects.AudioCaptureEffectsManager";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::AudioEffect> = L"Windows.Media.Effects.AudioEffect";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::AudioEffectDefinition> = L"Windows.Media.Effects.AudioEffectDefinition";
@@ -184,16 +193,18 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::CompositeVideoFrameContext> = L"Windows.Media.Effects.CompositeVideoFrameContext";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::ProcessAudioFrameContext> = L"Windows.Media.Effects.ProcessAudioFrameContext";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::ProcessVideoFrameContext> = L"Windows.Media.Effects.ProcessVideoFrameContext";
-    template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::SlowMotionEffectDefinition> = L"Windows.Media.Effects.SlowMotionEffectDefinition";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::VideoCompositorDefinition> = L"Windows.Media.Effects.VideoCompositorDefinition";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::VideoEffectDefinition> = L"Windows.Media.Effects.VideoEffectDefinition";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::VideoTransformEffectDefinition> = L"Windows.Media.Effects.VideoTransformEffectDefinition";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::VideoTransformSphericalProjection> = L"Windows.Media.Effects.VideoTransformSphericalProjection";
+    template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::AudioEffectState> = L"Windows.Media.Effects.AudioEffectState";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::AudioEffectType> = L"Windows.Media.Effects.AudioEffectType";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::MediaEffectClosedReason> = L"Windows.Media.Effects.MediaEffectClosedReason";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::MediaMemoryTypes> = L"Windows.Media.Effects.MediaMemoryTypes";
+    template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration> = L"Windows.Media.Effects.IAcousticEchoCancellationConfiguration";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IAudioCaptureEffectsManager> = L"Windows.Media.Effects.IAudioCaptureEffectsManager";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IAudioEffect> = L"Windows.Media.Effects.IAudioEffect";
+    template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IAudioEffect2> = L"Windows.Media.Effects.IAudioEffect2";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IAudioEffectDefinition> = L"Windows.Media.Effects.IAudioEffectDefinition";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IAudioEffectDefinitionFactory> = L"Windows.Media.Effects.IAudioEffectDefinitionFactory";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IAudioEffectsManagerStatics> = L"Windows.Media.Effects.IAudioEffectsManagerStatics";
@@ -204,7 +215,6 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::ICompositeVideoFrameContext> = L"Windows.Media.Effects.ICompositeVideoFrameContext";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IProcessAudioFrameContext> = L"Windows.Media.Effects.IProcessAudioFrameContext";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IProcessVideoFrameContext> = L"Windows.Media.Effects.IProcessVideoFrameContext";
-    template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::ISlowMotionEffectDefinition> = L"Windows.Media.Effects.ISlowMotionEffectDefinition";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IVideoCompositor> = L"Windows.Media.Effects.IVideoCompositor";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IVideoCompositorDefinition> = L"Windows.Media.Effects.IVideoCompositorDefinition";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IVideoCompositorDefinitionFactory> = L"Windows.Media.Effects.IVideoCompositorDefinitionFactory";
@@ -213,8 +223,10 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IVideoTransformEffectDefinition> = L"Windows.Media.Effects.IVideoTransformEffectDefinition";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IVideoTransformEffectDefinition2> = L"Windows.Media.Effects.IVideoTransformEffectDefinition2";
     template <> inline constexpr auto& name_v<winrt::Windows::Media::Effects::IVideoTransformSphericalProjection> = L"Windows.Media.Effects.IVideoTransformSphericalProjection";
+    template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration>{ 0x587E735B,0x175B,0x5177,{ 0xA4,0x07,0x2E,0x33,0xBA,0xFE,0x33,0xA5 } }; // 587E735B-175B-5177-A407-2E33BAFE33A5
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IAudioCaptureEffectsManager>{ 0x8F85C271,0x038D,0x4393,{ 0x82,0x98,0x54,0x01,0x10,0x60,0x8E,0xEF } }; // 8F85C271-038D-4393-8298-540110608EEF
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IAudioEffect>{ 0x34AAFA51,0x9207,0x4055,{ 0xBE,0x93,0x6E,0x57,0x34,0xA8,0x6A,0xE4 } }; // 34AAFA51-9207-4055-BE93-6E5734A86AE4
+    template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IAudioEffect2>{ 0x06703CB0,0x757E,0x5757,{ 0x8A,0xF0,0x6B,0xA5,0x8A,0x8B,0x29,0x90 } }; // 06703CB0-757E-5757-8AF0-6BA58A8B2990
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IAudioEffectDefinition>{ 0xE4D7F974,0x7D80,0x4F73,{ 0x90,0x89,0xE3,0x1C,0x9D,0xB9,0xC2,0x94 } }; // E4D7F974-7D80-4F73-9089-E31C9DB9C294
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IAudioEffectDefinitionFactory>{ 0x8E1DA646,0xE705,0x45ED,{ 0x8A,0x2B,0xFC,0x4E,0x4F,0x40,0x5A,0x97 } }; // 8E1DA646-E705-45ED-8A2B-FC4E4F405A97
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IAudioEffectsManagerStatics>{ 0x66406C04,0x86FA,0x47CC,{ 0xA3,0x15,0xF4,0x89,0xD8,0xC3,0xFE,0x10 } }; // 66406C04-86FA-47CC-A315-F489D8C3FE10
@@ -225,7 +237,6 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::ICompositeVideoFrameContext>{ 0x6C30024B,0xF514,0x4278,{ 0xA5,0xF7,0xB9,0x18,0x80,0x49,0xD1,0x10 } }; // 6C30024B-F514-4278-A5F7-B9188049D110
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IProcessAudioFrameContext>{ 0x4CD92946,0x1222,0x4A27,{ 0xA5,0x86,0xFB,0x3E,0x20,0x27,0x32,0x55 } }; // 4CD92946-1222-4A27-A586-FB3E20273255
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IProcessVideoFrameContext>{ 0x276F0E2B,0x6461,0x401E,{ 0xBA,0x78,0x0F,0xDA,0xD6,0x11,0x4E,0xEC } }; // 276F0E2B-6461-401E-BA78-0FDAD6114EEC
-    template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::ISlowMotionEffectDefinition>{ 0x35053CD0,0x176C,0x4763,{ 0x82,0xC4,0x1B,0x02,0xDB,0xE3,0x17,0x37 } }; // 35053CD0-176C-4763-82C4-1B02DBE31737
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IVideoCompositor>{ 0x8510B43E,0x420C,0x420F,{ 0x96,0xC7,0x7C,0x98,0xBB,0xA1,0xFC,0x55 } }; // 8510B43E-420C-420F-96C7-7C98BBA1FC55
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IVideoCompositorDefinition>{ 0x7946B8D0,0x2010,0x4AE3,{ 0x9A,0xB2,0x2C,0xEF,0x42,0xED,0xD4,0xD2 } }; // 7946B8D0-2010-4AE3-9AB2-2CEF42EDD4D2
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IVideoCompositorDefinitionFactory>{ 0x4366FD10,0x68B8,0x4D52,{ 0x89,0xB6,0x02,0xA9,0x68,0xCC,0xA8,0x99 } }; // 4366FD10-68B8-4D52-89B6-02A968CCA899
@@ -234,6 +245,7 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IVideoTransformEffectDefinition>{ 0x9664BB6A,0x1EA6,0x4AA6,{ 0x80,0x74,0xAB,0xE8,0x85,0x1E,0xCA,0xE2 } }; // 9664BB6A-1EA6-4AA6-8074-ABE8851ECAE2
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IVideoTransformEffectDefinition2>{ 0xF0A8089F,0x66C8,0x4694,{ 0x9F,0xD9,0x11,0x36,0xAB,0xF7,0x44,0x4A } }; // F0A8089F-66C8-4694-9FD9-1136ABF7444A
     template <> inline constexpr guid guid_v<winrt::Windows::Media::Effects::IVideoTransformSphericalProjection>{ 0xCF4401F0,0x9BF2,0x4C39,{ 0x9F,0x41,0xE0,0x22,0x51,0x4A,0x84,0x68 } }; // CF4401F0-9BF2-4C39-9F41-E022514A8468
+    template <> struct default_interface<winrt::Windows::Media::Effects::AcousticEchoCancellationConfiguration>{ using type = winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration; };
     template <> struct default_interface<winrt::Windows::Media::Effects::AudioCaptureEffectsManager>{ using type = winrt::Windows::Media::Effects::IAudioCaptureEffectsManager; };
     template <> struct default_interface<winrt::Windows::Media::Effects::AudioEffect>{ using type = winrt::Windows::Media::Effects::IAudioEffect; };
     template <> struct default_interface<winrt::Windows::Media::Effects::AudioEffectDefinition>{ using type = winrt::Windows::Media::Effects::IAudioEffectDefinition; };
@@ -241,11 +253,17 @@ namespace winrt::impl
     template <> struct default_interface<winrt::Windows::Media::Effects::CompositeVideoFrameContext>{ using type = winrt::Windows::Media::Effects::ICompositeVideoFrameContext; };
     template <> struct default_interface<winrt::Windows::Media::Effects::ProcessAudioFrameContext>{ using type = winrt::Windows::Media::Effects::IProcessAudioFrameContext; };
     template <> struct default_interface<winrt::Windows::Media::Effects::ProcessVideoFrameContext>{ using type = winrt::Windows::Media::Effects::IProcessVideoFrameContext; };
-    template <> struct default_interface<winrt::Windows::Media::Effects::SlowMotionEffectDefinition>{ using type = winrt::Windows::Media::Effects::ISlowMotionEffectDefinition; };
     template <> struct default_interface<winrt::Windows::Media::Effects::VideoCompositorDefinition>{ using type = winrt::Windows::Media::Effects::IVideoCompositorDefinition; };
     template <> struct default_interface<winrt::Windows::Media::Effects::VideoEffectDefinition>{ using type = winrt::Windows::Media::Effects::IVideoEffectDefinition; };
     template <> struct default_interface<winrt::Windows::Media::Effects::VideoTransformEffectDefinition>{ using type = winrt::Windows::Media::Effects::IVideoEffectDefinition; };
     template <> struct default_interface<winrt::Windows::Media::Effects::VideoTransformSphericalProjection>{ using type = winrt::Windows::Media::Effects::IVideoTransformSphericalProjection; };
+    template <> struct abi<winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall SetEchoCancellationRenderEndpoint(void*) noexcept = 0;
+        };
+    };
     template <> struct abi<winrt::Windows::Media::Effects::IAudioCaptureEffectsManager>
     {
         struct __declspec(novtable) type : inspectable_abi
@@ -260,6 +278,16 @@ namespace winrt::impl
         struct __declspec(novtable) type : inspectable_abi
         {
             virtual int32_t __stdcall get_AudioEffectType(int32_t*) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::Media::Effects::IAudioEffect2>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_AcousticEchoCancellationConfiguration(void**) noexcept = 0;
+            virtual int32_t __stdcall get_CanSetState(bool*) noexcept = 0;
+            virtual int32_t __stdcall get_State(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall SetState(int32_t) noexcept = 0;
         };
     };
     template <> struct abi<winrt::Windows::Media::Effects::IAudioEffectDefinition>
@@ -358,14 +386,6 @@ namespace winrt::impl
             virtual int32_t __stdcall get_OutputFrame(void**) noexcept = 0;
         };
     };
-    template <> struct abi<winrt::Windows::Media::Effects::ISlowMotionEffectDefinition>
-    {
-        struct __declspec(novtable) type : inspectable_abi
-        {
-            virtual int32_t __stdcall get_TimeStretchRate(double*) noexcept = 0;
-            virtual int32_t __stdcall put_TimeStretchRate(double) noexcept = 0;
-        };
-    };
     template <> struct abi<winrt::Windows::Media::Effects::IVideoCompositor>
     {
         struct __declspec(novtable) type : inspectable_abi
@@ -451,6 +471,15 @@ namespace winrt::impl
         };
     };
     template <typename D>
+    struct consume_Windows_Media_Effects_IAcousticEchoCancellationConfiguration
+    {
+        auto SetEchoCancellationRenderEndpoint(param::hstring const& deviceId) const;
+    };
+    template <> struct consume<winrt::Windows::Media::Effects::IAcousticEchoCancellationConfiguration>
+    {
+        template <typename D> using type = consume_Windows_Media_Effects_IAcousticEchoCancellationConfiguration<D>;
+    };
+    template <typename D>
     struct consume_Windows_Media_Effects_IAudioCaptureEffectsManager
     {
         auto AudioCaptureEffectsChanged(winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::Media::Effects::AudioCaptureEffectsManager, winrt::Windows::Foundation::IInspectable> const& handler) const;
@@ -471,6 +500,18 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::Media::Effects::IAudioEffect>
     {
         template <typename D> using type = consume_Windows_Media_Effects_IAudioEffect<D>;
+    };
+    template <typename D>
+    struct consume_Windows_Media_Effects_IAudioEffect2
+    {
+        [[nodiscard]] auto AcousticEchoCancellationConfiguration() const;
+        [[nodiscard]] auto CanSetState() const;
+        [[nodiscard]] auto State() const;
+        auto SetState(winrt::Windows::Media::Effects::AudioEffectState const& newState) const;
+    };
+    template <> struct consume<winrt::Windows::Media::Effects::IAudioEffect2>
+    {
+        template <typename D> using type = consume_Windows_Media_Effects_IAudioEffect2<D>;
     };
     template <typename D>
     struct consume_Windows_Media_Effects_IAudioEffectDefinition
@@ -589,16 +630,6 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::Media::Effects::IProcessVideoFrameContext>
     {
         template <typename D> using type = consume_Windows_Media_Effects_IProcessVideoFrameContext<D>;
-    };
-    template <typename D>
-    struct consume_Windows_Media_Effects_ISlowMotionEffectDefinition
-    {
-        [[nodiscard]] auto TimeStretchRate() const;
-        auto TimeStretchRate(double value) const;
-    };
-    template <> struct consume<winrt::Windows::Media::Effects::ISlowMotionEffectDefinition>
-    {
-        template <typename D> using type = consume_Windows_Media_Effects_ISlowMotionEffectDefinition<D>;
     };
     template <typename D>
     struct consume_Windows_Media_Effects_IVideoCompositor

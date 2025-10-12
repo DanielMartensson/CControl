@@ -283,7 +283,8 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth::GenericAttributeProfi
         GattRequestStateChangedEventArgs(std::nullptr_t) noexcept {}
         GattRequestStateChangedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattRequestStateChangedEventArgs(ptr, take_ownership_from_abi) {}
     };
-    struct __declspec(empty_bases) GattServiceProvider : winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider
+    struct __declspec(empty_bases) GattServiceProvider : winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider,
+        impl::require<GattServiceProvider, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider2>
     {
         GattServiceProvider(std::nullptr_t) noexcept {}
         GattServiceProvider(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProvider(ptr, take_ownership_from_abi) {}
@@ -295,7 +296,7 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth::GenericAttributeProfi
         GattServiceProviderAdvertisementStatusChangedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisementStatusChangedEventArgs(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) GattServiceProviderAdvertisingParameters : winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters,
-        impl::require<GattServiceProviderAdvertisingParameters, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters2>
+        impl::require<GattServiceProviderAdvertisingParameters, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters2, winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters3>
     {
         GattServiceProviderAdvertisingParameters(std::nullptr_t) noexcept {}
         GattServiceProviderAdvertisingParameters(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::GenericAttributeProfile::IGattServiceProviderAdvertisingParameters(ptr, take_ownership_from_abi) {}

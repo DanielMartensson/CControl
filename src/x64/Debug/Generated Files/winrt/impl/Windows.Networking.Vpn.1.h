@@ -357,6 +357,13 @@ WINRT_EXPORT namespace winrt::Windows::Networking::Vpn
         IVpnPlugInProfile2(std::nullptr_t = nullptr) noexcept {}
         IVpnPlugInProfile2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IVpnPlugInReconnectTransport :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IVpnPlugInReconnectTransport>
+    {
+        IVpnPlugInReconnectTransport(std::nullptr_t = nullptr) noexcept {}
+        IVpnPlugInReconnectTransport(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IVpnProfile :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IVpnProfile>

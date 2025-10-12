@@ -187,6 +187,7 @@ WINRT_EXPORT namespace winrt::Windows::Networking::Vpn
     struct IVpnPlugIn;
     struct IVpnPlugInProfile;
     struct IVpnPlugInProfile2;
+    struct IVpnPlugInReconnectTransport;
     struct IVpnProfile;
     struct IVpnRoute;
     struct IVpnRouteAssignment;
@@ -279,6 +280,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::Networking::Vpn::IVpnPlugIn>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Networking::Vpn::IVpnPlugInProfile>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Networking::Vpn::IVpnPlugInProfile2>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Networking::Vpn::IVpnProfile>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Networking::Vpn::IVpnRoute>{ using type = interface_category; };
     template <> struct category<winrt::Windows::Networking::Vpn::IVpnRouteAssignment>{ using type = interface_category; };
@@ -427,6 +429,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::Networking::Vpn::IVpnPlugIn> = L"Windows.Networking.Vpn.IVpnPlugIn";
     template <> inline constexpr auto& name_v<winrt::Windows::Networking::Vpn::IVpnPlugInProfile> = L"Windows.Networking.Vpn.IVpnPlugInProfile";
     template <> inline constexpr auto& name_v<winrt::Windows::Networking::Vpn::IVpnPlugInProfile2> = L"Windows.Networking.Vpn.IVpnPlugInProfile2";
+    template <> inline constexpr auto& name_v<winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport> = L"Windows.Networking.Vpn.IVpnPlugInReconnectTransport";
     template <> inline constexpr auto& name_v<winrt::Windows::Networking::Vpn::IVpnProfile> = L"Windows.Networking.Vpn.IVpnProfile";
     template <> inline constexpr auto& name_v<winrt::Windows::Networking::Vpn::IVpnRoute> = L"Windows.Networking.Vpn.IVpnRoute";
     template <> inline constexpr auto& name_v<winrt::Windows::Networking::Vpn::IVpnRouteAssignment> = L"Windows.Networking.Vpn.IVpnRouteAssignment";
@@ -483,6 +486,7 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::Networking::Vpn::IVpnPlugIn>{ 0xCEB78D07,0xD0A8,0x4703,{ 0xA0,0x91,0xC8,0xC2,0xC0,0x91,0x5B,0xC4 } }; // CEB78D07-D0A8-4703-A091-C8C2C0915BC4
     template <> inline constexpr guid guid_v<winrt::Windows::Networking::Vpn::IVpnPlugInProfile>{ 0x0EDF0DA4,0x4F00,0x4589,{ 0x8D,0x7B,0x4B,0xF9,0x88,0xF6,0x54,0x2C } }; // 0EDF0DA4-4F00-4589-8D7B-4BF988F6542C
     template <> inline constexpr guid guid_v<winrt::Windows::Networking::Vpn::IVpnPlugInProfile2>{ 0x611C4892,0xCF94,0x4AD6,{ 0xBA,0x99,0x00,0xF4,0xFF,0x34,0x56,0x5E } }; // 611C4892-CF94-4AD6-BA99-00F4FF34565E
+    template <> inline constexpr guid guid_v<winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport>{ 0x9D5A1092,0xBB46,0x4D34,{ 0x9D,0x88,0xF2,0x17,0x89,0x30,0x76,0xF4 } }; // 9D5A1092-BB46-4D34-9D88-F217893076F4
     template <> inline constexpr guid guid_v<winrt::Windows::Networking::Vpn::IVpnProfile>{ 0x7875B751,0xB0D7,0x43DB,{ 0x8A,0x93,0xD3,0xFE,0x24,0x79,0xE5,0x6A } }; // 7875B751-B0D7-43DB-8A93-D3FE2479E56A
     template <> inline constexpr guid guid_v<winrt::Windows::Networking::Vpn::IVpnRoute>{ 0xB5731B83,0x0969,0x4699,{ 0x93,0x8E,0x77,0x76,0xDB,0x29,0xCF,0xB3 } }; // B5731B83-0969-4699-938E-7776DB29CFB3
     template <> inline constexpr guid guid_v<winrt::Windows::Networking::Vpn::IVpnRouteAssignment>{ 0xDB64DE22,0xCE39,0x4A76,{ 0x95,0x50,0xF6,0x10,0x39,0xF8,0x0E,0x48 } }; // DB64DE22-CE39-4A76-9550-F61039F80E48
@@ -990,6 +994,13 @@ namespace winrt::impl
             virtual int32_t __stdcall get_RequireVpnClientAppUI(bool*) noexcept = 0;
             virtual int32_t __stdcall put_RequireVpnClientAppUI(bool) noexcept = 0;
             virtual int32_t __stdcall get_ConnectionStatus(int32_t*) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall ReconnectTransport(void*, void*) noexcept = 0;
         };
     };
     template <> struct abi<winrt::Windows::Networking::Vpn::IVpnProfile>
@@ -1650,6 +1661,15 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::Networking::Vpn::IVpnPlugInProfile2>
     {
         template <typename D> using type = consume_Windows_Networking_Vpn_IVpnPlugInProfile2<D>;
+    };
+    template <typename D>
+    struct consume_Windows_Networking_Vpn_IVpnPlugInReconnectTransport
+    {
+        auto ReconnectTransport(winrt::Windows::Networking::Vpn::VpnChannel const& channel, winrt::Windows::Foundation::IInspectable const& context) const;
+    };
+    template <> struct consume<winrt::Windows::Networking::Vpn::IVpnPlugInReconnectTransport>
+    {
+        template <typename D> using type = consume_Windows_Networking_Vpn_IVpnPlugInReconnectTransport<D>;
     };
     template <typename D>
     struct consume_Windows_Networking_Vpn_IVpnProfile

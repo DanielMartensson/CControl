@@ -492,36 +492,6 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::SpeechRecognition::ISpeechRecognizerUIOptions)->put_ShowConfirmation(value));
     }
-    template <typename D> auto consume_Windows_Media_SpeechRecognition_IVoiceCommandManager<D>::InstallCommandSetsFromStorageFileAsync(winrt::Windows::Storage::StorageFile const& file) const
-    {
-        void* installAction{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::SpeechRecognition::IVoiceCommandManager)->InstallCommandSetsFromStorageFileAsync(*(void**)(&file), &installAction));
-        return winrt::Windows::Foundation::IAsyncAction{ installAction, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_Media_SpeechRecognition_IVoiceCommandManager<D>::InstalledCommandSets() const
-    {
-        void* voiceCommandSets{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::SpeechRecognition::IVoiceCommandManager)->get_InstalledCommandSets(&voiceCommandSets));
-        return winrt::Windows::Foundation::Collections::IMapView<hstring, winrt::Windows::Media::SpeechRecognition::VoiceCommandSet>{ voiceCommandSets, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_Media_SpeechRecognition_IVoiceCommandSet<D>::Language() const
-    {
-        void* value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::SpeechRecognition::IVoiceCommandSet)->get_Language(&value));
-        return hstring{ value, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_Media_SpeechRecognition_IVoiceCommandSet<D>::Name() const
-    {
-        void* value{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::SpeechRecognition::IVoiceCommandSet)->get_Name(&value));
-        return hstring{ value, take_ownership_from_abi };
-    }
-    template <typename D> auto consume_Windows_Media_SpeechRecognition_IVoiceCommandSet<D>::SetPhraseListAsync(param::hstring const& phraseListName, param::async_iterable<hstring> const& phraseList) const
-    {
-        void* updateAction{};
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::SpeechRecognition::IVoiceCommandSet)->SetPhraseListAsync(*(void**)(&phraseListName), *(void**)(&phraseList), &updateAction));
-        return winrt::Windows::Foundation::IAsyncAction{ updateAction, take_ownership_from_abi };
-    }
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
     struct produce<D, winrt::Windows::Media::SpeechRecognition::ISpeechContinuousRecognitionCompletedEventArgs> : produce_base<D, winrt::Windows::Media::SpeechRecognition::ISpeechContinuousRecognitionCompletedEventArgs>
@@ -1296,58 +1266,6 @@ namespace winrt::impl
         catch (...) { return to_hresult(); }
     };
 #endif
-#ifndef WINRT_LEAN_AND_MEAN
-    template <typename D>
-    struct produce<D, winrt::Windows::Media::SpeechRecognition::IVoiceCommandManager> : produce_base<D, winrt::Windows::Media::SpeechRecognition::IVoiceCommandManager>
-    {
-        int32_t __stdcall InstallCommandSetsFromStorageFileAsync(void* file, void** installAction) noexcept final try
-        {
-            clear_abi(installAction);
-            typename D::abi_guard guard(this->shim());
-            *installAction = detach_from<winrt::Windows::Foundation::IAsyncAction>(this->shim().InstallCommandSetsFromStorageFileAsync(*reinterpret_cast<winrt::Windows::Storage::StorageFile const*>(&file)));
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_InstalledCommandSets(void** voiceCommandSets) noexcept final try
-        {
-            clear_abi(voiceCommandSets);
-            typename D::abi_guard guard(this->shim());
-            *voiceCommandSets = detach_from<winrt::Windows::Foundation::Collections::IMapView<hstring, winrt::Windows::Media::SpeechRecognition::VoiceCommandSet>>(this->shim().InstalledCommandSets());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-    };
-#endif
-#ifndef WINRT_LEAN_AND_MEAN
-    template <typename D>
-    struct produce<D, winrt::Windows::Media::SpeechRecognition::IVoiceCommandSet> : produce_base<D, winrt::Windows::Media::SpeechRecognition::IVoiceCommandSet>
-    {
-        int32_t __stdcall get_Language(void** value) noexcept final try
-        {
-            clear_abi(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<hstring>(this->shim().Language());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall get_Name(void** value) noexcept final try
-        {
-            clear_abi(value);
-            typename D::abi_guard guard(this->shim());
-            *value = detach_from<hstring>(this->shim().Name());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-        int32_t __stdcall SetPhraseListAsync(void* phraseListName, void* phraseList, void** updateAction) noexcept final try
-        {
-            clear_abi(updateAction);
-            typename D::abi_guard guard(this->shim());
-            *updateAction = detach_from<winrt::Windows::Foundation::IAsyncAction>(this->shim().SetPhraseListAsync(*reinterpret_cast<hstring const*>(&phraseListName), *reinterpret_cast<winrt::Windows::Foundation::Collections::IIterable<hstring> const*>(&phraseList)));
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-    };
-#endif
 }
 WINRT_EXPORT namespace winrt::Windows::Media::SpeechRecognition
 {
@@ -1399,14 +1317,6 @@ WINRT_EXPORT namespace winrt::Windows::Media::SpeechRecognition
     {
         return impl::call_factory<SpeechRecognizer, ISpeechRecognizerStatics2>([&](ISpeechRecognizerStatics2 const& f) { return f.TrySetSystemSpeechLanguageAsync(speechLanguage); });
     }
-    inline auto VoiceCommandManager::InstallCommandSetsFromStorageFileAsync(winrt::Windows::Storage::StorageFile const& file)
-    {
-        return impl::call_factory<VoiceCommandManager, IVoiceCommandManager>([&](IVoiceCommandManager const& f) { return f.InstallCommandSetsFromStorageFileAsync(file); });
-    }
-    inline auto VoiceCommandManager::InstalledCommandSets()
-    {
-        return impl::call_factory_cast<winrt::Windows::Foundation::Collections::IMapView<hstring, winrt::Windows::Media::SpeechRecognition::VoiceCommandSet>(*)(IVoiceCommandManager const&), VoiceCommandManager, IVoiceCommandManager>([](IVoiceCommandManager const& f) { return f.InstalledCommandSets(); });
-    }
 }
 namespace std
 {
@@ -1437,8 +1347,6 @@ namespace std
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::ISpeechRecognizerStatics2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::ISpeechRecognizerTimeouts> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::ISpeechRecognizerUIOptions> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::Media::SpeechRecognition::IVoiceCommandManager> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::Media::SpeechRecognition::IVoiceCommandSet> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::SpeechContinuousRecognitionCompletedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::SpeechContinuousRecognitionResultGeneratedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::SpeechContinuousRecognitionSession> : winrt::impl::hash_base {};
@@ -1456,8 +1364,6 @@ namespace std
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::SpeechRecognizerStateChangedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::SpeechRecognizerTimeouts> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::SpeechRecognition::SpeechRecognizerUIOptions> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::Media::SpeechRecognition::VoiceCommandManager> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::Media::SpeechRecognition::VoiceCommandSet> : winrt::impl::hash_base {};
 #endif
 #ifdef __cpp_lib_format
 #endif

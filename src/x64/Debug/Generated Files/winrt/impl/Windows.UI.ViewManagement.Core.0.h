@@ -24,6 +24,7 @@ WINRT_EXPORT namespace winrt::Windows::UI::ViewManagement::Core
         Symbols = 4,
         Clipboard = 5,
         Dictation = 6,
+        Gamepad = 7,
     };
     enum class CoreInputViewOcclusionKind : int32_t
     {

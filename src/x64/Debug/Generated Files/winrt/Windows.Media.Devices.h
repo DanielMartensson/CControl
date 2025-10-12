@@ -12,6 +12,7 @@ static_assert(winrt::check_version(CPPWINRT_VERSION, "2.0.220531.1"), "Mismatche
 #include "winrt/impl/Windows.Foundation.Collections.2.h"
 #include "winrt/impl/Windows.Media.Capture.2.h"
 #include "winrt/impl/Windows.Media.Devices.Core.2.h"
+#include "winrt/impl/Windows.Media.Effects.2.h"
 #include "winrt/impl/Windows.Media.MediaProperties.2.h"
 #include "winrt/impl/Windows.Storage.Streams.2.h"
 #include "winrt/impl/Windows.Media.Devices.2.h"
@@ -272,6 +273,12 @@ namespace winrt::impl
         float value{};
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Devices::IAudioDeviceController)->get_VolumePercent(&value));
         return value;
+    }
+    template <typename D> auto consume_Windows_Media_Devices_IAudioDeviceController2<D>::AudioCaptureEffectsManager() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Media::Devices::IAudioDeviceController2)->get_AudioCaptureEffectsManager(&value));
+        return winrt::Windows::Media::Effects::AudioCaptureEffectsManager{ value, take_ownership_from_abi };
     }
     template <typename D> auto consume_Windows_Media_Devices_IAudioDeviceModule<D>::ClassId() const
     {
@@ -2368,6 +2375,20 @@ namespace winrt::impl
         {
             typename D::abi_guard guard(this->shim());
             *value = detach_from<float>(this->shim().VolumePercent());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Media::Devices::IAudioDeviceController2> : produce_base<D, winrt::Windows::Media::Devices::IAudioDeviceController2>
+    {
+        int32_t __stdcall get_AudioCaptureEffectsManager(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Media::Effects::AudioCaptureEffectsManager>(this->shim().AudioCaptureEffectsManager());
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -4940,6 +4961,7 @@ namespace std
     template<> struct hash<winrt::Windows::Media::Devices::IAdvancedVideoCaptureDeviceController8> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Devices::IAdvancedVideoCaptureDeviceController9> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Devices::IAudioDeviceController> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Media::Devices::IAudioDeviceController2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Devices::IAudioDeviceModule> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Devices::IAudioDeviceModuleNotificationEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Media::Devices::IAudioDeviceModulesManager> : winrt::impl::hash_base {};

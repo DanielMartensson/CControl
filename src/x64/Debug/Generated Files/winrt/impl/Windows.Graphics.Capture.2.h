@@ -13,7 +13,7 @@
 WINRT_EXPORT namespace winrt::Windows::Graphics::Capture
 {
     struct __declspec(empty_bases) Direct3D11CaptureFrame : winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame,
-        impl::require<Direct3D11CaptureFrame, winrt::Windows::Foundation::IClosable>
+        impl::require<Direct3D11CaptureFrame, winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame2, winrt::Windows::Foundation::IClosable>
     {
         Direct3D11CaptureFrame(std::nullptr_t) noexcept {}
         Direct3D11CaptureFrame(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Graphics::Capture::IDirect3D11CaptureFrame(ptr, take_ownership_from_abi) {}
@@ -46,7 +46,7 @@ WINRT_EXPORT namespace winrt::Windows::Graphics::Capture
         GraphicsCapturePicker();
     };
     struct __declspec(empty_bases) GraphicsCaptureSession : winrt::Windows::Graphics::Capture::IGraphicsCaptureSession,
-        impl::require<GraphicsCaptureSession, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession2, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession3, winrt::Windows::Foundation::IClosable>
+        impl::require<GraphicsCaptureSession, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession2, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession3, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession4, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession5, winrt::Windows::Graphics::Capture::IGraphicsCaptureSession6, winrt::Windows::Foundation::IClosable>
     {
         GraphicsCaptureSession(std::nullptr_t) noexcept {}
         GraphicsCaptureSession(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Graphics::Capture::IGraphicsCaptureSession(ptr, take_ownership_from_abi) {}

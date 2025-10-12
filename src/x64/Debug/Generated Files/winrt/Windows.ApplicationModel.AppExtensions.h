@@ -62,6 +62,24 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::AppExtensions::IAppExtension2)->get_AppUserModelId(&value));
         return hstring{ value, take_ownership_from_abi };
     }
+    template <typename D> auto consume_Windows_ApplicationModel_AppExtensions_IAppExtension3<D>::GetExtensionProperties() const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3)->GetExtensionProperties(&result));
+        return winrt::Windows::Foundation::Collections::IPropertySet{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_AppExtensions_IAppExtension3<D>::GetPublicPath() const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3)->GetPublicPath(&result));
+        return hstring{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_AppExtensions_IAppExtension3<D>::GetPublicFolder() const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3)->GetPublicFolder(&result));
+        return winrt::Windows::Storage::StorageFolder{ result, take_ownership_from_abi };
+    }
     template <typename D> auto consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalog<D>::FindAllAsync() const
     {
         void* operation{};
@@ -143,6 +161,12 @@ namespace winrt::impl
     template <typename D> auto consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalog<D>::PackageStatusChanged(winrt::event_token const& token) const noexcept
     {
         WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog)->remove_PackageStatusChanged(impl::bind_in(token));
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalog2<D>::FindAll() const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2)->FindAll(&result));
+        return winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::ApplicationModel::AppExtensions::AppExtension>{ result, take_ownership_from_abi };
     }
     template <typename D> auto consume_Windows_ApplicationModel_AppExtensions_IAppExtensionCatalogStatics<D>::Open(param::hstring const& appExtensionName) const
     {
@@ -300,6 +324,36 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3> : produce_base<D, winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3>
+    {
+        int32_t __stdcall GetExtensionProperties(void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::Foundation::Collections::IPropertySet>(this->shim().GetExtensionProperties());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall GetPublicPath(void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<hstring>(this->shim().GetPublicPath());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall GetPublicFolder(void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::Storage::StorageFolder>(this->shim().GetPublicFolder());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog> : produce_base<D, winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog>
     {
         int32_t __stdcall FindAllAsync(void** operation) noexcept final try
@@ -388,6 +442,20 @@ namespace winrt::impl
             this->shim().PackageStatusChanged(*reinterpret_cast<winrt::event_token const*>(&token));
             return 0;
         }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2> : produce_base<D, winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2>
+    {
+        int32_t __stdcall FindAll(void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::ApplicationModel::AppExtensions::AppExtension>>(this->shim().FindAll());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
     };
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
@@ -543,7 +611,9 @@ namespace std
 #ifndef WINRT_LEAN_AND_MEAN
     template<> struct hash<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::AppExtensions::IAppExtension3> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalog2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionCatalogStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageInstalledEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::AppExtensions::IAppExtensionPackageStatusChangedEventArgs> : winrt::impl::hash_base {};

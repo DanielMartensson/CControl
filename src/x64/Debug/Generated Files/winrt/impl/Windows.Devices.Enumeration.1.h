@@ -21,12 +21,26 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Enumeration
         IDeviceAccessChangedEventArgs2(std::nullptr_t = nullptr) noexcept {}
         IDeviceAccessChangedEventArgs2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IDeviceAccessChangedEventArgs3 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IDeviceAccessChangedEventArgs3>
+    {
+        IDeviceAccessChangedEventArgs3(std::nullptr_t = nullptr) noexcept {}
+        IDeviceAccessChangedEventArgs3(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IDeviceAccessInformation :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IDeviceAccessInformation>
     {
         IDeviceAccessInformation(std::nullptr_t = nullptr) noexcept {}
         IDeviceAccessInformation(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) IDeviceAccessInformation2 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IDeviceAccessInformation2>
+    {
+        IDeviceAccessInformation2(std::nullptr_t = nullptr) noexcept {}
+        IDeviceAccessInformation2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) IDeviceAccessInformationStatics :
         winrt::Windows::Foundation::IInspectable,
@@ -49,6 +63,13 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Enumeration
         IDeviceDisconnectButtonClickedEventArgs(std::nullptr_t = nullptr) noexcept {}
         IDeviceDisconnectButtonClickedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IDeviceEnumerationSettings :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IDeviceEnumerationSettings>
+    {
+        IDeviceEnumerationSettings(std::nullptr_t = nullptr) noexcept {}
+        IDeviceEnumerationSettings(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IDeviceInformation :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IDeviceInformation>
@@ -69,6 +90,13 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Enumeration
     {
         IDeviceInformationCustomPairing(std::nullptr_t = nullptr) noexcept {}
         IDeviceInformationCustomPairing(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) IDeviceInformationCustomPairing2 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IDeviceInformationCustomPairing2>
+    {
+        IDeviceInformationCustomPairing2(std::nullptr_t = nullptr) noexcept {}
+        IDeviceInformationCustomPairing2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) IDeviceInformationPairing :
         winrt::Windows::Foundation::IInspectable,
@@ -112,6 +140,13 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Enumeration
         IDeviceInformationStatics2(std::nullptr_t = nullptr) noexcept {}
         IDeviceInformationStatics2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IDeviceInformationStatics3 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IDeviceInformationStatics3>
+    {
+        IDeviceInformationStatics3(std::nullptr_t = nullptr) noexcept {}
+        IDeviceInformationStatics3(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IDeviceInformationUpdate :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IDeviceInformationUpdate>
@@ -140,12 +175,26 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Enumeration
         IDevicePairingRequestedEventArgs2(std::nullptr_t = nullptr) noexcept {}
         IDevicePairingRequestedEventArgs2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IDevicePairingRequestedEventArgs3 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IDevicePairingRequestedEventArgs3>
+    {
+        IDevicePairingRequestedEventArgs3(std::nullptr_t = nullptr) noexcept {}
+        IDevicePairingRequestedEventArgs3(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IDevicePairingResult :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IDevicePairingResult>
     {
         IDevicePairingResult(std::nullptr_t = nullptr) noexcept {}
         IDevicePairingResult(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) IDevicePairingSetMembersRequestedEventArgs :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IDevicePairingSetMembersRequestedEventArgs>
+    {
+        IDevicePairingSetMembersRequestedEventArgs(std::nullptr_t = nullptr) noexcept {}
+        IDevicePairingSetMembersRequestedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) IDevicePairingSettings :
         winrt::Windows::Foundation::IInspectable,

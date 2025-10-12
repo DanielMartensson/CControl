@@ -1,6 +1,0 @@
-Algebra.c:14:6:tran	48	dynamic
-Algebra.c:37:6:mul	48	static
-Algebra.c:64:6:dmul	72	static
-Algebra.c:91:6:linsolve	96	dynamic
-Algebra.c:145:6:inv	80	dynamic
-Algebra.c:170:6:print	40	static

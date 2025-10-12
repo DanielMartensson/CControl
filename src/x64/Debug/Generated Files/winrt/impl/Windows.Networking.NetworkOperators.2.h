@@ -115,11 +115,6 @@ WINRT_EXPORT namespace winrt::Windows::Networking::NetworkOperators
         ESimWatcher(std::nullptr_t) noexcept {}
         ESimWatcher(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::IESimWatcher(ptr, take_ownership_from_abi) {}
     };
-    struct FdnAccessManager
-    {
-        FdnAccessManager() = delete;
-        static auto RequestUnlockAsync(param::hstring const& contactListId);
-    };
     struct __declspec(empty_bases) HotspotAuthenticationContext : winrt::Windows::Networking::NetworkOperators::IHotspotAuthenticationContext,
         impl::require<HotspotAuthenticationContext, winrt::Windows::Networking::NetworkOperators::IHotspotAuthenticationContext2>
     {
@@ -250,12 +245,18 @@ WINRT_EXPORT namespace winrt::Windows::Networking::NetworkOperators
         MobileBroadbandDeviceService(std::nullptr_t) noexcept {}
         MobileBroadbandDeviceService(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceService(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) MobileBroadbandDeviceServiceCommandEventArgs : winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceServiceCommandEventArgs
+    {
+        MobileBroadbandDeviceServiceCommandEventArgs(std::nullptr_t) noexcept {}
+        MobileBroadbandDeviceServiceCommandEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceServiceCommandEventArgs(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) MobileBroadbandDeviceServiceCommandResult : winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceServiceCommandResult
     {
         MobileBroadbandDeviceServiceCommandResult(std::nullptr_t) noexcept {}
         MobileBroadbandDeviceServiceCommandResult(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceServiceCommandResult(ptr, take_ownership_from_abi) {}
     };
-    struct __declspec(empty_bases) MobileBroadbandDeviceServiceCommandSession : winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceServiceCommandSession
+    struct __declspec(empty_bases) MobileBroadbandDeviceServiceCommandSession : winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceServiceCommandSession,
+        impl::require<MobileBroadbandDeviceServiceCommandSession, winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceServiceCommandSession2>
     {
         MobileBroadbandDeviceServiceCommandSession(std::nullptr_t) noexcept {}
         MobileBroadbandDeviceServiceCommandSession(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::IMobileBroadbandDeviceServiceCommandSession(ptr, take_ownership_from_abi) {}
@@ -430,7 +431,7 @@ WINRT_EXPORT namespace winrt::Windows::Networking::NetworkOperators
         NetworkOperatorNotificationEventDetails(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::INetworkOperatorNotificationEventDetails(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) NetworkOperatorTetheringAccessPointConfiguration : winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringAccessPointConfiguration,
-        impl::require<NetworkOperatorTetheringAccessPointConfiguration, winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringAccessPointConfiguration2>
+        impl::require<NetworkOperatorTetheringAccessPointConfiguration, winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringAccessPointConfiguration2, winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringAccessPointConfiguration3>
     {
         NetworkOperatorTetheringAccessPointConfiguration(std::nullptr_t) noexcept {}
         NetworkOperatorTetheringAccessPointConfiguration(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringAccessPointConfiguration(ptr, take_ownership_from_abi) {}
@@ -442,10 +443,12 @@ WINRT_EXPORT namespace winrt::Windows::Networking::NetworkOperators
         NetworkOperatorTetheringClient(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringClient(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) NetworkOperatorTetheringManager : winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringManager,
-        impl::require<NetworkOperatorTetheringManager, winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringClientManager>
+        impl::require<NetworkOperatorTetheringManager, winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringClientManager, winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringManager2>
     {
         NetworkOperatorTetheringManager(std::nullptr_t) noexcept {}
         NetworkOperatorTetheringManager(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringManager(ptr, take_ownership_from_abi) {}
+        using winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringManager::StartTetheringAsync;
+        using impl::consume_t<NetworkOperatorTetheringManager, winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringManager2>::StartTetheringAsync;
         static auto GetTetheringCapability(param::hstring const& networkAccountId);
         static auto CreateFromNetworkAccountId(param::hstring const& networkAccountId);
         static auto GetTetheringCapabilityFromConnectionProfile(winrt::Windows::Networking::Connectivity::ConnectionProfile const& profile);
@@ -461,6 +464,12 @@ WINRT_EXPORT namespace winrt::Windows::Networking::NetworkOperators
     {
         NetworkOperatorTetheringOperationResult(std::nullptr_t) noexcept {}
         NetworkOperatorTetheringOperationResult(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringOperationResult(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) NetworkOperatorTetheringSessionAccessPointConfiguration : winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringSessionAccessPointConfiguration
+    {
+        NetworkOperatorTetheringSessionAccessPointConfiguration(std::nullptr_t) noexcept {}
+        NetworkOperatorTetheringSessionAccessPointConfiguration(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Networking::NetworkOperators::INetworkOperatorTetheringSessionAccessPointConfiguration(ptr, take_ownership_from_abi) {}
+        NetworkOperatorTetheringSessionAccessPointConfiguration();
     };
     struct __declspec(empty_bases) ProvisionFromXmlDocumentResults : winrt::Windows::Networking::NetworkOperators::IProvisionFromXmlDocumentResults
     {

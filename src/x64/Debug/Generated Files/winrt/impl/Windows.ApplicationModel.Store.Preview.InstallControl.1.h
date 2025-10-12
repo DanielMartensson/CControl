@@ -153,5 +153,12 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Store::Preview::Install
         IGetEntitlementResult(std::nullptr_t = nullptr) noexcept {}
         IGetEntitlementResult(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IGetEntitlementResult2 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IGetEntitlementResult2>
+    {
+        IGetEntitlementResult2(std::nullptr_t = nullptr) noexcept {}
+        IGetEntitlementResult2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
 }
 #endif

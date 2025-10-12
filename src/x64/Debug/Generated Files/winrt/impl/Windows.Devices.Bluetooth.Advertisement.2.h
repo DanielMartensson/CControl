@@ -60,7 +60,7 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth::Advertisement
         BluetoothLEAdvertisementFilter();
     };
     struct __declspec(empty_bases) BluetoothLEAdvertisementPublisher : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementPublisher,
-        impl::require<BluetoothLEAdvertisementPublisher, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementPublisher2>
+        impl::require<BluetoothLEAdvertisementPublisher, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementPublisher2, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementPublisher3>
     {
         BluetoothLEAdvertisementPublisher(std::nullptr_t) noexcept {}
         BluetoothLEAdvertisementPublisher(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementPublisher(ptr, take_ownership_from_abi) {}
@@ -74,13 +74,20 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth::Advertisement
         BluetoothLEAdvertisementPublisherStatusChangedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementPublisherStatusChangedEventArgs(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) BluetoothLEAdvertisementReceivedEventArgs : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementReceivedEventArgs,
-        impl::require<BluetoothLEAdvertisementReceivedEventArgs, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementReceivedEventArgs2>
+        impl::require<BluetoothLEAdvertisementReceivedEventArgs, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementReceivedEventArgs2, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementReceivedEventArgs3>
     {
         BluetoothLEAdvertisementReceivedEventArgs(std::nullptr_t) noexcept {}
         BluetoothLEAdvertisementReceivedEventArgs(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementReceivedEventArgs(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) BluetoothLEAdvertisementScanParameters : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementScanParameters
+    {
+        BluetoothLEAdvertisementScanParameters(std::nullptr_t) noexcept {}
+        BluetoothLEAdvertisementScanParameters(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementScanParameters(ptr, take_ownership_from_abi) {}
+        static auto CoexistenceOptimized();
+        static auto LowLatency();
+    };
     struct __declspec(empty_bases) BluetoothLEAdvertisementWatcher : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementWatcher,
-        impl::require<BluetoothLEAdvertisementWatcher, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementWatcher2>
+        impl::require<BluetoothLEAdvertisementWatcher, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementWatcher2, winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementWatcher3>
     {
         BluetoothLEAdvertisementWatcher(std::nullptr_t) noexcept {}
         BluetoothLEAdvertisementWatcher(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Devices::Bluetooth::Advertisement::IBluetoothLEAdvertisementWatcher(ptr, take_ownership_from_abi) {}

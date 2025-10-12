@@ -40,6 +40,8 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Lights
         Furniture = 9,
         Art = 10,
         Headset = 11,
+        Microphone = 12,
+        Speaker = 13,
     };
     enum class LampPurposes : uint32_t
     {

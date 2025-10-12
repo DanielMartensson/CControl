@@ -90,6 +90,18 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::IBluetoothAdapter3)->get_MaxAdvertisementDataLength(&value));
         return value;
     }
+    template <typename D> auto consume_Windows_Devices_Bluetooth_IBluetoothAdapter4<D>::IsLowEnergyUncoded2MPhySupported() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::IBluetoothAdapter4)->get_IsLowEnergyUncoded2MPhySupported(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_Devices_Bluetooth_IBluetoothAdapter4<D>::IsLowEnergyCodedPhySupported() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::Devices::Bluetooth::IBluetoothAdapter4)->get_IsLowEnergyCodedPhySupported(&value));
+        return value;
+    }
     template <typename D> auto consume_Windows_Devices_Bluetooth_IBluetoothAdapterStatics<D>::GetDeviceSelector() const
     {
         void* result{};
@@ -1193,6 +1205,26 @@ namespace winrt::impl
         {
             typename D::abi_guard guard(this->shim());
             *value = detach_from<uint32_t>(this->shim().MaxAdvertisementDataLength());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::Devices::Bluetooth::IBluetoothAdapter4> : produce_base<D, winrt::Windows::Devices::Bluetooth::IBluetoothAdapter4>
+    {
+        int32_t __stdcall get_IsLowEnergyUncoded2MPhySupported(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().IsLowEnergyUncoded2MPhySupported());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_IsLowEnergyCodedPhySupported(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().IsLowEnergyCodedPhySupported());
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -2993,6 +3025,7 @@ namespace std
     template<> struct hash<winrt::Windows::Devices::Bluetooth::IBluetoothAdapter> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::IBluetoothAdapter2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::IBluetoothAdapter3> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::Devices::Bluetooth::IBluetoothAdapter4> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::IBluetoothAdapterStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::IBluetoothClassOfDevice> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::Devices::Bluetooth::IBluetoothClassOfDeviceStatics> : winrt::impl::hash_base {};

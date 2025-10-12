@@ -292,6 +292,34 @@ namespace winrt::impl
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder5)->SetTaskEntryPointClsid(impl::bind_in(TaskEntryPoint)));
     }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilder6<D>::AllowRunningTaskInStandby() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6)->get_AllowRunningTaskInStandby(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilder6<D>::AllowRunningTaskInStandby(bool value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6)->put_AllowRunningTaskInStandby(value));
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilder6<D>::Validate() const
+    {
+        bool result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6)->Validate(&result));
+        return result;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilder6<D>::Register(param::hstring const& taskName) const
+    {
+        void* result{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6)->Register(*(void**)(&taskName), &result));
+        return winrt::Windows::ApplicationModel::Background::BackgroundTaskRegistration{ result, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilderStatics<D>::IsRunningTaskInStandbySupported() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics)->get_IsRunningTaskInStandbySupported(&value));
+        return value;
+    }
     template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskCompletedEventArgs<D>::InstanceId() const
     {
         winrt::guid value{};
@@ -440,6 +468,18 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration3)->get_TaskGroup(&value));
         return winrt::Windows::ApplicationModel::Background::BackgroundTaskRegistrationGroup{ value, take_ownership_from_abi };
     }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskRegistration4<D>::TaskLastThrottledInStandbyTimestamp() const
+    {
+        winrt::Windows::Foundation::DateTime value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4)->get_TaskLastThrottledInStandbyTimestamp(put_abi(value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskRegistration4<D>::AppEnergyUsePredictionContribution() const
+    {
+        double value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4)->get_AppEnergyUsePredictionContribution(&value));
+        return value;
+    }
     template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundTaskRegistrationGroup<D>::Id() const
     {
         void* value{};
@@ -508,6 +548,24 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics)->get_CurrentBackgroundWorkCost(reinterpret_cast<int32_t*>(&value)));
         return value;
     }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundWorkCostStatics2<D>::AppEnergyUseLevel() const
+    {
+        winrt::Windows::ApplicationModel::Background::EnergyUseLevel value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2)->get_AppEnergyUseLevel(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundWorkCostStatics2<D>::AppEnergyUsePrediction() const
+    {
+        winrt::Windows::ApplicationModel::Background::EnergyUseLevel value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2)->get_AppEnergyUsePrediction(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBackgroundWorkCostStatics2<D>::AppLastThrottledInStandbyTimestamp() const
+    {
+        winrt::Windows::Foundation::DateTime value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2)->get_AppLastThrottledInStandbyTimestamp(put_abi(value)));
+        return value;
+    }
     template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger<D>::Advertisement() const
     {
         void* value{};
@@ -553,6 +611,26 @@ namespace winrt::impl
     template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger2<D>::IncludeTransmitPowerLevel(bool value) const
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger2)->put_IncludeTransmitPowerLevel(value));
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger3<D>::PrimaryPhy() const
+    {
+        winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3)->get_PrimaryPhy(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger3<D>::PrimaryPhy(winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3)->put_PrimaryPhy(static_cast<int32_t>(value)));
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger3<D>::SecondaryPhy() const
+    {
+        winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3)->get_SecondaryPhy(reinterpret_cast<int32_t*>(&value)));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger3<D>::SecondaryPhy(winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3)->put_SecondaryPhy(static_cast<int32_t>(value)));
     }
     template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger<D>::MinSamplingInterval() const
     {
@@ -607,6 +685,36 @@ namespace winrt::impl
     template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger2<D>::AllowExtendedAdvertisements(bool value) const
     {
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger2)->put_AllowExtendedAdvertisements(value));
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger3<D>::UseUncoded1MPhy() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3)->get_UseUncoded1MPhy(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger3<D>::UseUncoded1MPhy(bool value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3)->put_UseUncoded1MPhy(value));
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger3<D>::UseCodedPhy() const
+    {
+        bool value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3)->get_UseCodedPhy(&value));
+        return value;
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger3<D>::UseCodedPhy(bool value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3)->put_UseCodedPhy(value));
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger3<D>::ScanParameters() const
+    {
+        void* value{};
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3)->get_ScanParameters(&value));
+        return winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementScanParameters{ value, take_ownership_from_abi };
+    }
+    template <typename D> auto consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger3<D>::ScanParameters(winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementScanParameters const& value) const
+    {
+        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3)->put_ScanParameters(*(void**)(&value)));
     }
     template <typename D> auto consume_Windows_ApplicationModel_Background_ICachedFileUpdaterTriggerDetails<D>::UpdateTarget() const
     {
@@ -1549,6 +1657,54 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6>
+    {
+        int32_t __stdcall get_AllowRunningTaskInStandby(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().AllowRunningTaskInStandby());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_AllowRunningTaskInStandby(bool value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().AllowRunningTaskInStandby(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall Validate(bool* result) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<bool>(this->shim().Validate());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall Register(void* taskName, void** result) noexcept final try
+        {
+            clear_abi(result);
+            typename D::abi_guard guard(this->shim());
+            *result = detach_from<winrt::Windows::ApplicationModel::Background::BackgroundTaskRegistration>(this->shim().Register(*reinterpret_cast<hstring const*>(&taskName)));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics>
+    {
+        int32_t __stdcall get_IsRunningTaskInStandbySupported(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().IsRunningTaskInStandbySupported());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskCompletedEventArgs> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskCompletedEventArgs>
     {
         int32_t __stdcall get_InstanceId(winrt::guid* value) noexcept final try
@@ -1773,6 +1929,27 @@ namespace winrt::impl
     };
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4>
+    {
+        int32_t __stdcall get_TaskLastThrottledInStandbyTimestamp(int64_t* value) noexcept final try
+        {
+            zero_abi<winrt::Windows::Foundation::DateTime>(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::DateTime>(this->shim().TaskLastThrottledInStandbyTimestamp());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_AppEnergyUsePredictionContribution(double* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<double>(this->shim().AppEnergyUsePredictionContribution());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroup> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroup>
     {
         int32_t __stdcall get_Id(void** value) noexcept final try
@@ -1892,6 +2069,34 @@ namespace winrt::impl
 #endif
 #ifndef WINRT_LEAN_AND_MEAN
     template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2>
+    {
+        int32_t __stdcall get_AppEnergyUseLevel(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::ApplicationModel::Background::EnergyUseLevel>(this->shim().AppEnergyUseLevel());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_AppEnergyUsePrediction(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::ApplicationModel::Background::EnergyUseLevel>(this->shim().AppEnergyUsePrediction());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_AppLastThrottledInStandbyTimestamp(int64_t* value) noexcept final try
+        {
+            zero_abi<winrt::Windows::Foundation::DateTime>(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Foundation::DateTime>(this->shim().AppLastThrottledInStandbyTimestamp());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
     struct produce<D, winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger>
     {
         int32_t __stdcall get_Advertisement(void** value) noexcept final try
@@ -1962,6 +2167,40 @@ namespace winrt::impl
         {
             typename D::abi_guard guard(this->shim());
             this->shim().IncludeTransmitPowerLevel(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3>
+    {
+        int32_t __stdcall get_PrimaryPhy(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType>(this->shim().PrimaryPhy());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_PrimaryPhy(int32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().PrimaryPhy(*reinterpret_cast<winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType const*>(&value));
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_SecondaryPhy(int32_t* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType>(this->shim().SecondaryPhy());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_SecondaryPhy(int32_t value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().SecondaryPhy(*reinterpret_cast<winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType const*>(&value));
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -2050,6 +2289,55 @@ namespace winrt::impl
         {
             typename D::abi_guard guard(this->shim());
             this->shim().AllowExtendedAdvertisements(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+    };
+#endif
+#ifndef WINRT_LEAN_AND_MEAN
+    template <typename D>
+    struct produce<D, winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3> : produce_base<D, winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3>
+    {
+        int32_t __stdcall get_UseUncoded1MPhy(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().UseUncoded1MPhy());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_UseUncoded1MPhy(bool value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().UseUncoded1MPhy(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_UseCodedPhy(bool* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<bool>(this->shim().UseCodedPhy());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_UseCodedPhy(bool value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().UseCodedPhy(value);
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall get_ScanParameters(void** value) noexcept final try
+        {
+            clear_abi(value);
+            typename D::abi_guard guard(this->shim());
+            *value = detach_from<winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementScanParameters>(this->shim().ScanParameters());
+            return 0;
+        }
+        catch (...) { return to_hresult(); }
+        int32_t __stdcall put_ScanParameters(void* value) noexcept final try
+        {
+            typename D::abi_guard guard(this->shim());
+            this->shim().ScanParameters(*reinterpret_cast<winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementScanParameters const*>(&value));
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -3029,6 +3317,10 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
         BackgroundTaskBuilder(impl::call_factory_cast<BackgroundTaskBuilder(*)(winrt::Windows::Foundation::IActivationFactory const&), BackgroundTaskBuilder>([](winrt::Windows::Foundation::IActivationFactory const& f) { return f.template ActivateInstance<BackgroundTaskBuilder>(); }))
     {
     }
+    inline auto BackgroundTaskBuilder::IsRunningTaskInStandbySupported()
+    {
+        return impl::call_factory_cast<bool(*)(IBackgroundTaskBuilderStatics const&), BackgroundTaskBuilder, IBackgroundTaskBuilderStatics>([](IBackgroundTaskBuilderStatics const& f) { return f.IsRunningTaskInStandbySupported(); });
+    }
     inline auto BackgroundTaskRegistration::AllTasks()
     {
         return impl::call_factory_cast<winrt::Windows::Foundation::Collections::IMapView<winrt::guid, winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration>(*)(IBackgroundTaskRegistrationStatics const&), BackgroundTaskRegistration, IBackgroundTaskRegistrationStatics>([](IBackgroundTaskRegistrationStatics const& f) { return f.AllTasks(); });
@@ -3052,6 +3344,18 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
     inline auto BackgroundWorkCost::CurrentBackgroundWorkCost()
     {
         return impl::call_factory_cast<winrt::Windows::ApplicationModel::Background::BackgroundWorkCostValue(*)(IBackgroundWorkCostStatics const&), BackgroundWorkCost, IBackgroundWorkCostStatics>([](IBackgroundWorkCostStatics const& f) { return f.CurrentBackgroundWorkCost(); });
+    }
+    inline auto BackgroundWorkCost::AppEnergyUseLevel()
+    {
+        return impl::call_factory_cast<winrt::Windows::ApplicationModel::Background::EnergyUseLevel(*)(IBackgroundWorkCostStatics2 const&), BackgroundWorkCost, IBackgroundWorkCostStatics2>([](IBackgroundWorkCostStatics2 const& f) { return f.AppEnergyUseLevel(); });
+    }
+    inline auto BackgroundWorkCost::AppEnergyUsePrediction()
+    {
+        return impl::call_factory_cast<winrt::Windows::ApplicationModel::Background::EnergyUseLevel(*)(IBackgroundWorkCostStatics2 const&), BackgroundWorkCost, IBackgroundWorkCostStatics2>([](IBackgroundWorkCostStatics2 const& f) { return f.AppEnergyUsePrediction(); });
+    }
+    inline auto BackgroundWorkCost::AppLastThrottledInStandbyTimestamp()
+    {
+        return impl::call_factory_cast<winrt::Windows::Foundation::DateTime(*)(IBackgroundWorkCostStatics2 const&), BackgroundWorkCost, IBackgroundWorkCostStatics2>([](IBackgroundWorkCostStatics2 const& f) { return f.AppLastThrottledInStandbyTimestamp(); });
     }
     inline BluetoothLEAdvertisementPublisherTrigger::BluetoothLEAdvertisementPublisherTrigger() :
         BluetoothLEAdvertisementPublisherTrigger(impl::call_factory_cast<BluetoothLEAdvertisementPublisherTrigger(*)(winrt::Windows::Foundation::IActivationFactory const&), BluetoothLEAdvertisementPublisherTrigger>([](winrt::Windows::Foundation::IActivationFactory const& f) { return f.template ActivateInstance<BluetoothLEAdvertisementPublisherTrigger>(); }))
@@ -3372,6 +3676,8 @@ namespace std
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder3> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder4> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder5> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskCompletedEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskDeferral> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskInstance> : winrt::impl::hash_base {};
@@ -3381,16 +3687,20 @@ namespace std
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration3> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroup> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroupFactory> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationStatics2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundTrigger> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger2> : winrt::impl::hash_base {};
+    template<> struct hash<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTrigger> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTriggerDetails> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::Background::IChatMessageNotificationTrigger> : winrt::impl::hash_base {};

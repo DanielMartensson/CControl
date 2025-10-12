@@ -134,6 +134,8 @@ WINRT_EXPORT namespace winrt::Windows::Networking::Connectivity
         Hsdpa = 0x8,
         Hsupa = 0x10,
         LteAdvanced = 0x20,
+        NewRadioNonStandalone = 0x40,
+        NewRadioStandalone = 0x80,
         Cdma1xRtt = 0x10000,
         Cdma1xEvdo = 0x20000,
         Cdma1xEvdoRevA = 0x40000,

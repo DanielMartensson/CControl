@@ -48,6 +48,13 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth::Background
         IGattServiceProviderConnection(std::nullptr_t = nullptr) noexcept {}
         IGattServiceProviderConnection(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IGattServiceProviderConnection2 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IGattServiceProviderConnection2>
+    {
+        IGattServiceProviderConnection2(std::nullptr_t = nullptr) noexcept {}
+        IGattServiceProviderConnection2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IGattServiceProviderConnectionStatics :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IGattServiceProviderConnectionStatics>

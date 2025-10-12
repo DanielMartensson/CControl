@@ -235,10 +235,6 @@ namespace winrt::impl
         check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::IAppInstanceStatics)->GetInstances(&result));
         return winrt::Windows::Foundation::Collections::IVector<winrt::Windows::ApplicationModel::AppInstance>{ result, take_ownership_from_abi };
     }
-    template <typename D> auto consume_Windows_ApplicationModel_ICameraApplicationManagerStatics<D>::ShowInstalledApplicationsUI() const
-    {
-        check_hresult(WINRT_IMPL_SHIM(winrt::Windows::ApplicationModel::ICameraApplicationManagerStatics)->ShowInstalledApplicationsUI());
-    }
     template <typename D> auto consume_Windows_ApplicationModel_IDesignModeStatics<D>::DesignModeEnabled() const
     {
         bool value{};
@@ -1582,19 +1578,6 @@ namespace winrt::impl
             clear_abi(result);
             typename D::abi_guard guard(this->shim());
             *result = detach_from<winrt::Windows::Foundation::Collections::IVector<winrt::Windows::ApplicationModel::AppInstance>>(this->shim().GetInstances());
-            return 0;
-        }
-        catch (...) { return to_hresult(); }
-    };
-#endif
-#ifndef WINRT_LEAN_AND_MEAN
-    template <typename D>
-    struct produce<D, winrt::Windows::ApplicationModel::ICameraApplicationManagerStatics> : produce_base<D, winrt::Windows::ApplicationModel::ICameraApplicationManagerStatics>
-    {
-        int32_t __stdcall ShowInstalledApplicationsUI() noexcept final try
-        {
-            typename D::abi_guard guard(this->shim());
-            this->shim().ShowInstalledApplicationsUI();
             return 0;
         }
         catch (...) { return to_hresult(); }
@@ -3227,10 +3210,6 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel
     {
         return impl::call_factory_cast<winrt::Windows::Foundation::Collections::IVector<winrt::Windows::ApplicationModel::AppInstance>(*)(IAppInstanceStatics const&), AppInstance, IAppInstanceStatics>([](IAppInstanceStatics const& f) { return f.GetInstances(); });
     }
-    inline auto CameraApplicationManager::ShowInstalledApplicationsUI()
-    {
-        impl::call_factory_cast<void(*)(ICameraApplicationManagerStatics const&), CameraApplicationManager, ICameraApplicationManagerStatics>([](ICameraApplicationManagerStatics const& f) { return f.ShowInstalledApplicationsUI(); });
-    }
     inline auto DesignMode::DesignModeEnabled()
     {
         return impl::call_factory_cast<bool(*)(IDesignModeStatics const&), DesignMode, IDesignModeStatics>([](IDesignModeStatics const& f) { return f.DesignModeEnabled(); });
@@ -3313,7 +3292,6 @@ namespace std
     template<> struct hash<winrt::Windows::ApplicationModel::IAppInstallerInfo2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::IAppInstance> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::IAppInstanceStatics> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::ApplicationModel::ICameraApplicationManagerStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::IDesignModeStatics> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::IDesignModeStatics2> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::IEnteredBackgroundEventArgs> : winrt::impl::hash_base {};
@@ -3368,7 +3346,6 @@ namespace std
     template<> struct hash<winrt::Windows::ApplicationModel::AppInfo> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::AppInstallerInfo> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::AppInstance> : winrt::impl::hash_base {};
-    template<> struct hash<winrt::Windows::ApplicationModel::CameraApplicationManager> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::DesignMode> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::EnteredBackgroundEventArgs> : winrt::impl::hash_base {};
     template<> struct hash<winrt::Windows::ApplicationModel::FindRelatedPackagesOptions> : winrt::impl::hash_base {};

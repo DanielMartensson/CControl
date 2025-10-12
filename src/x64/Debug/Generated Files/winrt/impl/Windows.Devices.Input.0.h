@@ -20,6 +20,7 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Input
         Touch = 0,
         Pen = 1,
         Mouse = 2,
+        Touchpad = 3,
     };
     struct IKeyboardCapabilities;
     struct IMouseCapabilities;

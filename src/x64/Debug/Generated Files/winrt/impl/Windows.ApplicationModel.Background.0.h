@@ -20,6 +20,8 @@ WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth::Advertisement
 {
     struct BluetoothLEAdvertisement;
     struct BluetoothLEAdvertisementFilter;
+    enum class BluetoothLEAdvertisementPhyType : int32_t;
+    struct BluetoothLEAdvertisementScanParameters;
 }
 WINRT_EXPORT namespace winrt::Windows::Devices::Bluetooth::Background
 {
@@ -157,6 +159,13 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
         DeniedBySystem = 2,
         LowBattery = 3,
     };
+    enum class EnergyUseLevel : int32_t
+    {
+        Unknown = 0,
+        UnderHalfOfBudget = 1,
+        OverHalfOfBudget = 2,
+        OverBudget = 3,
+    };
     enum class LocationTriggerType : int32_t
     {
         Geofence = 0,
@@ -218,6 +227,8 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
     struct IBackgroundTaskBuilder3;
     struct IBackgroundTaskBuilder4;
     struct IBackgroundTaskBuilder5;
+    struct IBackgroundTaskBuilder6;
+    struct IBackgroundTaskBuilderStatics;
     struct IBackgroundTaskCompletedEventArgs;
     struct IBackgroundTaskDeferral;
     struct IBackgroundTaskInstance;
@@ -227,16 +238,20 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
     struct IBackgroundTaskRegistration;
     struct IBackgroundTaskRegistration2;
     struct IBackgroundTaskRegistration3;
+    struct IBackgroundTaskRegistration4;
     struct IBackgroundTaskRegistrationGroup;
     struct IBackgroundTaskRegistrationGroupFactory;
     struct IBackgroundTaskRegistrationStatics;
     struct IBackgroundTaskRegistrationStatics2;
     struct IBackgroundTrigger;
     struct IBackgroundWorkCostStatics;
+    struct IBackgroundWorkCostStatics2;
     struct IBluetoothLEAdvertisementPublisherTrigger;
     struct IBluetoothLEAdvertisementPublisherTrigger2;
+    struct IBluetoothLEAdvertisementPublisherTrigger3;
     struct IBluetoothLEAdvertisementWatcherTrigger;
     struct IBluetoothLEAdvertisementWatcherTrigger2;
+    struct IBluetoothLEAdvertisementWatcherTrigger3;
     struct ICachedFileUpdaterTrigger;
     struct ICachedFileUpdaterTriggerDetails;
     struct IChatMessageNotificationTrigger;
@@ -388,6 +403,8 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder3>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder4>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder5>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskCompletedEventArgs>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskDeferral>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskInstance>{ using type = interface_category; };
@@ -397,16 +414,20 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration3>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroup>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroupFactory>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationStatics>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationStatics2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundTrigger>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger2>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger2>{ using type = interface_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTrigger>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTriggerDetails>{ using type = interface_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::IChatMessageNotificationTrigger>{ using type = interface_category; };
@@ -542,6 +563,7 @@ namespace winrt::impl
     template <> struct category<winrt::Windows::ApplicationModel::Background::BackgroundWorkCostValue>{ using type = enum_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::CustomSystemEventTriggerRecurrence>{ using type = enum_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::DeviceTriggerResult>{ using type = enum_category; };
+    template <> struct category<winrt::Windows::ApplicationModel::Background::EnergyUseLevel>{ using type = enum_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::LocationTriggerType>{ using type = enum_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::MediaProcessingTriggerResult>{ using type = enum_category; };
     template <> struct category<winrt::Windows::ApplicationModel::Background::SystemConditionType>{ using type = enum_category; };
@@ -626,6 +648,7 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::BackgroundWorkCostValue> = L"Windows.ApplicationModel.Background.BackgroundWorkCostValue";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::CustomSystemEventTriggerRecurrence> = L"Windows.ApplicationModel.Background.CustomSystemEventTriggerRecurrence";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::DeviceTriggerResult> = L"Windows.ApplicationModel.Background.DeviceTriggerResult";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::EnergyUseLevel> = L"Windows.ApplicationModel.Background.EnergyUseLevel";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::LocationTriggerType> = L"Windows.ApplicationModel.Background.LocationTriggerType";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::MediaProcessingTriggerResult> = L"Windows.ApplicationModel.Background.MediaProcessingTriggerResult";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::SystemConditionType> = L"Windows.ApplicationModel.Background.SystemConditionType";
@@ -649,6 +672,8 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder3> = L"Windows.ApplicationModel.Background.IBackgroundTaskBuilder3";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder4> = L"Windows.ApplicationModel.Background.IBackgroundTaskBuilder4";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder5> = L"Windows.ApplicationModel.Background.IBackgroundTaskBuilder5";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6> = L"Windows.ApplicationModel.Background.IBackgroundTaskBuilder6";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics> = L"Windows.ApplicationModel.Background.IBackgroundTaskBuilderStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskCompletedEventArgs> = L"Windows.ApplicationModel.Background.IBackgroundTaskCompletedEventArgs";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskDeferral> = L"Windows.ApplicationModel.Background.IBackgroundTaskDeferral";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskInstance> = L"Windows.ApplicationModel.Background.IBackgroundTaskInstance";
@@ -658,16 +683,20 @@ namespace winrt::impl
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration> = L"Windows.ApplicationModel.Background.IBackgroundTaskRegistration";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration2> = L"Windows.ApplicationModel.Background.IBackgroundTaskRegistration2";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration3> = L"Windows.ApplicationModel.Background.IBackgroundTaskRegistration3";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4> = L"Windows.ApplicationModel.Background.IBackgroundTaskRegistration4";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroup> = L"Windows.ApplicationModel.Background.IBackgroundTaskRegistrationGroup";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroupFactory> = L"Windows.ApplicationModel.Background.IBackgroundTaskRegistrationGroupFactory";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationStatics> = L"Windows.ApplicationModel.Background.IBackgroundTaskRegistrationStatics";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationStatics2> = L"Windows.ApplicationModel.Background.IBackgroundTaskRegistrationStatics2";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundTrigger> = L"Windows.ApplicationModel.Background.IBackgroundTrigger";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics> = L"Windows.ApplicationModel.Background.IBackgroundWorkCostStatics";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2> = L"Windows.ApplicationModel.Background.IBackgroundWorkCostStatics2";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger> = L"Windows.ApplicationModel.Background.IBluetoothLEAdvertisementPublisherTrigger";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger2> = L"Windows.ApplicationModel.Background.IBluetoothLEAdvertisementPublisherTrigger2";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3> = L"Windows.ApplicationModel.Background.IBluetoothLEAdvertisementPublisherTrigger3";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger> = L"Windows.ApplicationModel.Background.IBluetoothLEAdvertisementWatcherTrigger";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger2> = L"Windows.ApplicationModel.Background.IBluetoothLEAdvertisementWatcherTrigger2";
+    template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3> = L"Windows.ApplicationModel.Background.IBluetoothLEAdvertisementWatcherTrigger3";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTrigger> = L"Windows.ApplicationModel.Background.ICachedFileUpdaterTrigger";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTriggerDetails> = L"Windows.ApplicationModel.Background.ICachedFileUpdaterTriggerDetails";
     template <> inline constexpr auto& name_v<winrt::Windows::ApplicationModel::Background::IChatMessageNotificationTrigger> = L"Windows.ApplicationModel.Background.IChatMessageNotificationTrigger";
@@ -748,6 +777,8 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder3>{ 0x28C74F4A,0x8BA9,0x4C09,{ 0xA2,0x4F,0x19,0x68,0x3E,0x2C,0x92,0x4C } }; // 28C74F4A-8BA9-4C09-A24F-19683E2C924C
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder4>{ 0x4755E522,0xCBA2,0x4E35,{ 0xBD,0x16,0xA6,0xDA,0x7F,0x1C,0x19,0xAA } }; // 4755E522-CBA2-4E35-BD16-A6DA7F1C19AA
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder5>{ 0x077103F6,0x99F5,0x4AF4,{ 0xBC,0xAD,0x47,0x31,0xD0,0x33,0x0D,0x43 } }; // 077103F6-99F5-4AF4-BCAD-4731D0330D43
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6>{ 0x80B47B17,0xEC8B,0x5653,{ 0x85,0x0B,0x75,0x08,0xA0,0x1F,0x52,0xE7 } }; // 80B47B17-EC8B-5653-850B-7508A01F52E7
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics>{ 0xD1EB5046,0x06F2,0x55B4,{ 0x9B,0xB7,0xA6,0x45,0x7E,0xBF,0x33,0x00 } }; // D1EB5046-06F2-55B4-9BB7-A6457EBF3300
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskCompletedEventArgs>{ 0x565D25CF,0xF209,0x48F4,{ 0x99,0x67,0x2B,0x18,0x4F,0x7B,0xFB,0xF0 } }; // 565D25CF-F209-48F4-9967-2B184F7BFBF0
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskDeferral>{ 0x93CC156D,0xAF27,0x4DD3,{ 0x84,0x6E,0x24,0xEE,0x40,0xCA,0xDD,0x25 } }; // 93CC156D-AF27-4DD3-846E-24EE40CADD25
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskInstance>{ 0x865BDA7A,0x21D8,0x4573,{ 0x8F,0x32,0x92,0x8A,0x1B,0x06,0x41,0xF6 } }; // 865BDA7A-21D8-4573-8F32-928A1B0641F6
@@ -757,16 +788,20 @@ namespace winrt::impl
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration>{ 0x10654CC2,0xA26E,0x43BF,{ 0x8C,0x12,0x1F,0xB4,0x0D,0xBF,0xBF,0xA0 } }; // 10654CC2-A26E-43BF-8C12-1FB40DBFBFA0
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration2>{ 0x6138C703,0xBB86,0x4112,{ 0xAF,0xC3,0x7F,0x93,0x9B,0x16,0x6E,0x3B } }; // 6138C703-BB86-4112-AFC3-7F939B166E3B
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration3>{ 0xFE338195,0x9423,0x4D8B,{ 0x83,0x0D,0xB1,0xDD,0x2C,0x7B,0xAD,0xD5 } }; // FE338195-9423-4D8B-830D-B1DD2C7BADD5
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4>{ 0x169C09C9,0xB0DE,0x5576,{ 0xA0,0x5B,0xA0,0x20,0x67,0x98,0x98,0x79 } }; // 169C09C9-B0DE-5576-A05B-A02067989879
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroup>{ 0x2AB1919A,0x871B,0x4167,{ 0x8A,0x76,0x05,0x5C,0xD6,0x7B,0x5B,0x23 } }; // 2AB1919A-871B-4167-8A76-055CD67B5B23
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroupFactory>{ 0x83D92B69,0x44CF,0x4631,{ 0x97,0x40,0x03,0xC7,0xD8,0x74,0x1B,0xC5 } }; // 83D92B69-44CF-4631-9740-03C7D8741BC5
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationStatics>{ 0x4C542F69,0xB000,0x42BA,{ 0xA0,0x93,0x6A,0x56,0x3C,0x65,0xE3,0xF8 } }; // 4C542F69-B000-42BA-A093-6A563C65E3F8
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationStatics2>{ 0x174B671E,0xB20D,0x4FA9,{ 0xAD,0x9A,0xE9,0x3A,0xD6,0xC7,0x1E,0x01 } }; // 174B671E-B20D-4FA9-AD9A-E93AD6C71E01
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundTrigger>{ 0x84B3A058,0x6027,0x4B87,{ 0x97,0x90,0xBD,0xF3,0xF7,0x57,0xDB,0xD7 } }; // 84B3A058-6027-4B87-9790-BDF3F757DBD7
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics>{ 0xC740A662,0xC310,0x4B82,{ 0xB3,0xE3,0x3B,0xCF,0xB9,0xE4,0xC7,0x7D } }; // C740A662-C310-4B82-B3E3-3BCFB9E4C77D
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2>{ 0xD868C976,0x81F6,0x57C8,{ 0xAB,0x2B,0x40,0x0B,0x74,0x9E,0x21,0xD6 } }; // D868C976-81F6-57C8-AB2B-400B749E21D6
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger>{ 0xAB3E2612,0x25D3,0x48AE,{ 0x87,0x24,0xD8,0x18,0x77,0xAE,0x61,0x29 } }; // AB3E2612-25D3-48AE-8724-D81877AE6129
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger2>{ 0xAA28D064,0x38F4,0x597D,{ 0xB5,0x97,0x4E,0x55,0x58,0x8C,0x65,0x03 } }; // AA28D064-38F4-597D-B597-4E55588C6503
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3>{ 0x64419D03,0xD604,0x5BDC,{ 0xB7,0xD2,0xA7,0xFE,0x25,0xC5,0x54,0x60 } }; // 64419D03-D604-5BDC-B7D2-A7FE25C55460
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger>{ 0x1AAB1819,0xBCE1,0x48EB,{ 0xA8,0x27,0x59,0xFB,0x7C,0xEE,0x52,0xA6 } }; // 1AAB1819-BCE1-48EB-A827-59FB7CEE52A6
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger2>{ 0x39B56799,0xEB39,0x5AB6,{ 0x99,0x32,0xAA,0x9E,0x45,0x49,0x60,0x4D } }; // 39B56799-EB39-5AB6-9932-AA9E4549604D
+    template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3>{ 0xDA50011A,0x8261,0x56A0,{ 0xAC,0x7B,0xA8,0xDE,0x16,0x24,0x08,0x8B } }; // DA50011A-8261-56A0-AC7B-A8DE1624088B
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTrigger>{ 0xE21CAEEB,0x32F2,0x4D31,{ 0xB5,0x53,0xB9,0xE0,0x1B,0xDE,0x37,0xE0 } }; // E21CAEEB-32F2-4D31-B553-B9E01BDE37E0
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTriggerDetails>{ 0x71838C13,0x1314,0x47B4,{ 0x95,0x97,0xDC,0x7E,0x24,0x8C,0x17,0xCC } }; // 71838C13-1314-47B4-9597-DC7E248C17CC
     template <> inline constexpr guid guid_v<winrt::Windows::ApplicationModel::Background::IChatMessageNotificationTrigger>{ 0x513B43BF,0x1D40,0x5C5D,{ 0x78,0xF5,0xC9,0x23,0xFE,0xE3,0x73,0x9E } }; // 513B43BF-1D40-5C5D-78F5-C923FEE3739E
@@ -1057,6 +1092,23 @@ namespace winrt::impl
             virtual int32_t __stdcall SetTaskEntryPointClsid(winrt::guid) noexcept = 0;
         };
     };
+    template <> struct abi<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_AllowRunningTaskInStandby(bool*) noexcept = 0;
+            virtual int32_t __stdcall put_AllowRunningTaskInStandby(bool) noexcept = 0;
+            virtual int32_t __stdcall Validate(bool*) noexcept = 0;
+            virtual int32_t __stdcall Register(void*, void**) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_IsRunningTaskInStandbySupported(bool*) noexcept = 0;
+        };
+    };
     template <> struct abi<winrt::Windows::ApplicationModel::Background::IBackgroundTaskCompletedEventArgs>
     {
         struct __declspec(novtable) type : inspectable_abi
@@ -1136,6 +1188,14 @@ namespace winrt::impl
             virtual int32_t __stdcall get_TaskGroup(void**) noexcept = 0;
         };
     };
+    template <> struct abi<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_TaskLastThrottledInStandbyTimestamp(int64_t*) noexcept = 0;
+            virtual int32_t __stdcall get_AppEnergyUsePredictionContribution(double*) noexcept = 0;
+        };
+    };
     template <> struct abi<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistrationGroup>
     {
         struct __declspec(novtable) type : inspectable_abi
@@ -1183,6 +1243,15 @@ namespace winrt::impl
             virtual int32_t __stdcall get_CurrentBackgroundWorkCost(int32_t*) noexcept = 0;
         };
     };
+    template <> struct abi<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_AppEnergyUseLevel(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall get_AppEnergyUsePrediction(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall get_AppLastThrottledInStandbyTimestamp(int64_t*) noexcept = 0;
+        };
+    };
     template <> struct abi<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger>
     {
         struct __declspec(novtable) type : inspectable_abi
@@ -1202,6 +1271,16 @@ namespace winrt::impl
             virtual int32_t __stdcall put_IsAnonymous(bool) noexcept = 0;
             virtual int32_t __stdcall get_IncludeTransmitPowerLevel(bool*) noexcept = 0;
             virtual int32_t __stdcall put_IncludeTransmitPowerLevel(bool) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_PrimaryPhy(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall put_PrimaryPhy(int32_t) noexcept = 0;
+            virtual int32_t __stdcall get_SecondaryPhy(int32_t*) noexcept = 0;
+            virtual int32_t __stdcall put_SecondaryPhy(int32_t) noexcept = 0;
         };
     };
     template <> struct abi<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger>
@@ -1224,6 +1303,18 @@ namespace winrt::impl
         {
             virtual int32_t __stdcall get_AllowExtendedAdvertisements(bool*) noexcept = 0;
             virtual int32_t __stdcall put_AllowExtendedAdvertisements(bool) noexcept = 0;
+        };
+    };
+    template <> struct abi<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3>
+    {
+        struct __declspec(novtable) type : inspectable_abi
+        {
+            virtual int32_t __stdcall get_UseUncoded1MPhy(bool*) noexcept = 0;
+            virtual int32_t __stdcall put_UseUncoded1MPhy(bool) noexcept = 0;
+            virtual int32_t __stdcall get_UseCodedPhy(bool*) noexcept = 0;
+            virtual int32_t __stdcall put_UseCodedPhy(bool) noexcept = 0;
+            virtual int32_t __stdcall get_ScanParameters(void**) noexcept = 0;
+            virtual int32_t __stdcall put_ScanParameters(void*) noexcept = 0;
         };
     };
     template <> struct abi<winrt::Windows::ApplicationModel::Background::ICachedFileUpdaterTrigger>
@@ -1871,6 +1962,27 @@ namespace winrt::impl
         template <typename D> using type = consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilder5<D>;
     };
     template <typename D>
+    struct consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilder6
+    {
+        [[nodiscard]] auto AllowRunningTaskInStandby() const;
+        auto AllowRunningTaskInStandby(bool value) const;
+        auto Validate() const;
+        auto Register(param::hstring const& taskName) const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilder6>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilder6<D>;
+    };
+    template <typename D>
+    struct consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilderStatics
+    {
+        [[nodiscard]] auto IsRunningTaskInStandbySupported() const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::Background::IBackgroundTaskBuilderStatics>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_Background_IBackgroundTaskBuilderStatics<D>;
+    };
+    template <typename D>
     struct consume_Windows_ApplicationModel_Background_IBackgroundTaskCompletedEventArgs
     {
         [[nodiscard]] auto InstanceId() const;
@@ -1974,6 +2086,16 @@ namespace winrt::impl
         template <typename D> using type = consume_Windows_ApplicationModel_Background_IBackgroundTaskRegistration3<D>;
     };
     template <typename D>
+    struct consume_Windows_ApplicationModel_Background_IBackgroundTaskRegistration4
+    {
+        [[nodiscard]] auto TaskLastThrottledInStandbyTimestamp() const;
+        [[nodiscard]] auto AppEnergyUsePredictionContribution() const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::Background::IBackgroundTaskRegistration4>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_Background_IBackgroundTaskRegistration4<D>;
+    };
+    template <typename D>
     struct consume_Windows_ApplicationModel_Background_IBackgroundTaskRegistrationGroup
     {
         [[nodiscard]] auto Id() const;
@@ -2035,6 +2157,17 @@ namespace winrt::impl
         template <typename D> using type = consume_Windows_ApplicationModel_Background_IBackgroundWorkCostStatics<D>;
     };
     template <typename D>
+    struct consume_Windows_ApplicationModel_Background_IBackgroundWorkCostStatics2
+    {
+        [[nodiscard]] auto AppEnergyUseLevel() const;
+        [[nodiscard]] auto AppEnergyUsePrediction() const;
+        [[nodiscard]] auto AppLastThrottledInStandbyTimestamp() const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::Background::IBackgroundWorkCostStatics2>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_Background_IBackgroundWorkCostStatics2<D>;
+    };
+    template <typename D>
     struct consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger
     {
         [[nodiscard]] auto Advertisement() const;
@@ -2058,6 +2191,18 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger2>
     {
         template <typename D> using type = consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger2<D>;
+    };
+    template <typename D>
+    struct consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger3
+    {
+        [[nodiscard]] auto PrimaryPhy() const;
+        auto PrimaryPhy(winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType const& value) const;
+        [[nodiscard]] auto SecondaryPhy() const;
+        auto SecondaryPhy(winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementPhyType const& value) const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementPublisherTrigger3>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementPublisherTrigger3<D>;
     };
     template <typename D>
     struct consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger
@@ -2084,6 +2229,20 @@ namespace winrt::impl
     template <> struct consume<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger2>
     {
         template <typename D> using type = consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger2<D>;
+    };
+    template <typename D>
+    struct consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger3
+    {
+        [[nodiscard]] auto UseUncoded1MPhy() const;
+        auto UseUncoded1MPhy(bool value) const;
+        [[nodiscard]] auto UseCodedPhy() const;
+        auto UseCodedPhy(bool value) const;
+        [[nodiscard]] auto ScanParameters() const;
+        auto ScanParameters(winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementScanParameters const& value) const;
+    };
+    template <> struct consume<winrt::Windows::ApplicationModel::Background::IBluetoothLEAdvertisementWatcherTrigger3>
+    {
+        template <typename D> using type = consume_Windows_ApplicationModel_Background_IBluetoothLEAdvertisementWatcherTrigger3<D>;
     };
     template <typename D>
     struct consume_Windows_ApplicationModel_Background_ICachedFileUpdaterTrigger

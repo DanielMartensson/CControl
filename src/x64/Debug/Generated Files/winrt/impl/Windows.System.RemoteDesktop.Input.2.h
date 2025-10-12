@@ -19,11 +19,12 @@ WINRT_EXPORT namespace winrt::Windows::System::RemoteDesktop::Input
         auto operator()(array_view<uint8_t const> pduData) const;
     };
     struct __declspec(empty_bases) RemoteTextConnection : winrt::Windows::System::RemoteDesktop::Input::IRemoteTextConnection,
-        impl::require<RemoteTextConnection, winrt::Windows::Foundation::IClosable>
+        impl::require<RemoteTextConnection, winrt::Windows::System::RemoteDesktop::Input::IRemoteTextConnection2, winrt::Windows::Foundation::IClosable>
     {
         RemoteTextConnection(std::nullptr_t) noexcept {}
         RemoteTextConnection(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::System::RemoteDesktop::Input::IRemoteTextConnection(ptr, take_ownership_from_abi) {}
         RemoteTextConnection(winrt::guid const& connectionId, winrt::Windows::System::RemoteDesktop::Input::RemoteTextConnectionDataHandler const& pduForwarder);
+        RemoteTextConnection(winrt::guid const& connectionId, winrt::Windows::System::RemoteDesktop::Input::RemoteTextConnectionDataHandler const& pduForwarder, winrt::Windows::System::RemoteDesktop::Input::RemoteTextConnectionOptions const& options);
     };
 }
 #endif

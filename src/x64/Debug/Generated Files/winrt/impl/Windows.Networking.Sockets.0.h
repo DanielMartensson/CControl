@@ -145,6 +145,7 @@ WINRT_EXPORT namespace winrt::Windows::Networking::Sockets
         Tls11 = 7,
         Tls12 = 8,
         Unspecified = 9,
+        Tls13 = 10,
     };
     enum class SocketQualityOfService : int32_t
     {

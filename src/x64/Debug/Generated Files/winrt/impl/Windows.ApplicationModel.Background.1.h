@@ -143,6 +143,20 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
         IBackgroundTaskBuilder5(std::nullptr_t = nullptr) noexcept {}
         IBackgroundTaskBuilder5(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IBackgroundTaskBuilder6 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IBackgroundTaskBuilder6>
+    {
+        IBackgroundTaskBuilder6(std::nullptr_t = nullptr) noexcept {}
+        IBackgroundTaskBuilder6(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) IBackgroundTaskBuilderStatics :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IBackgroundTaskBuilderStatics>
+    {
+        IBackgroundTaskBuilderStatics(std::nullptr_t = nullptr) noexcept {}
+        IBackgroundTaskBuilderStatics(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IBackgroundTaskCompletedEventArgs :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IBackgroundTaskCompletedEventArgs>
@@ -210,6 +224,13 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
         IBackgroundTaskRegistration3(std::nullptr_t = nullptr) noexcept {}
         IBackgroundTaskRegistration3(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IBackgroundTaskRegistration4 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IBackgroundTaskRegistration4>
+    {
+        IBackgroundTaskRegistration4(std::nullptr_t = nullptr) noexcept {}
+        IBackgroundTaskRegistration4(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IBackgroundTaskRegistrationGroup :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IBackgroundTaskRegistrationGroup>
@@ -252,6 +273,13 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
         IBackgroundWorkCostStatics(std::nullptr_t = nullptr) noexcept {}
         IBackgroundWorkCostStatics(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IBackgroundWorkCostStatics2 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IBackgroundWorkCostStatics2>
+    {
+        IBackgroundWorkCostStatics2(std::nullptr_t = nullptr) noexcept {}
+        IBackgroundWorkCostStatics2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IBluetoothLEAdvertisementPublisherTrigger :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IBluetoothLEAdvertisementPublisherTrigger>,
@@ -267,6 +295,13 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
         IBluetoothLEAdvertisementPublisherTrigger2(std::nullptr_t = nullptr) noexcept {}
         IBluetoothLEAdvertisementPublisherTrigger2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
+    struct __declspec(empty_bases) IBluetoothLEAdvertisementPublisherTrigger3 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IBluetoothLEAdvertisementPublisherTrigger3>
+    {
+        IBluetoothLEAdvertisementPublisherTrigger3(std::nullptr_t = nullptr) noexcept {}
+        IBluetoothLEAdvertisementPublisherTrigger3(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
     struct __declspec(empty_bases) IBluetoothLEAdvertisementWatcherTrigger :
         winrt::Windows::Foundation::IInspectable,
         impl::consume_t<IBluetoothLEAdvertisementWatcherTrigger>,
@@ -281,6 +316,13 @@ WINRT_EXPORT namespace winrt::Windows::ApplicationModel::Background
     {
         IBluetoothLEAdvertisementWatcherTrigger2(std::nullptr_t = nullptr) noexcept {}
         IBluetoothLEAdvertisementWatcherTrigger2(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
+    };
+    struct __declspec(empty_bases) IBluetoothLEAdvertisementWatcherTrigger3 :
+        winrt::Windows::Foundation::IInspectable,
+        impl::consume_t<IBluetoothLEAdvertisementWatcherTrigger3>
+    {
+        IBluetoothLEAdvertisementWatcherTrigger3(std::nullptr_t = nullptr) noexcept {}
+        IBluetoothLEAdvertisementWatcherTrigger3(void* ptr, take_ownership_from_abi_t) noexcept : winrt::Windows::Foundation::IInspectable(ptr, take_ownership_from_abi) {}
     };
     struct __declspec(empty_bases) ICachedFileUpdaterTrigger :
         winrt::Windows::Foundation::IInspectable,
