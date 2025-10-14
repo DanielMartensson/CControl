@@ -39,10 +39,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS})
 
 # Länka MKL om det finns
 if(MKL_FOUND)
-    set(MKL_LINK "dynamic")
-    set(MKL_INTERFACE_FULL "intel_ilp64")
-    set(MKL_THREADING "sequential")  # Viktigt om du vill sekventiell MKL
-    set(MKL_MPI "intelmpi")
     target_link_libraries(${PROJECT_NAME} PRIVATE MKL::MKL)
     target_compile_definitions(CControl PUBLIC MKL_LAPACK_USED)
     target_compile_definitions(CControl PUBLIC MKL_FFT_USED)
