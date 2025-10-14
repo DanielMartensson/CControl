@@ -6,6 +6,10 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE "Release")
 
 # Leta efter MKL (ej REQUIRED, vi hanterar fallback)
+set(MKL_LINK "dynamic")
+set(MKL_THREADING "sequential")   # Viktigt om du vill ha sekventiell MKL
+set(MKL_INTERFACE "ilp64")        # Vanligt standardval för 64-bitars indexering
+set(MKL_MPI "intelmpi")           # Om du använder MPI, annars kan du testa "none" eller ta bort
 find_package(MKL CONFIG REQUIRED)
 
 # Hämta alla C filer
