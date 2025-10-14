@@ -1,9 +1,16 @@
 cmake_minimum_required(VERSION 3.18)
 project(CControl)
 
-set(CMAKE_C_STANDARD 90)
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE "Release")
+
+# Leta efter OpenMP
+find_package(OpenMP REQUIRED)
+
+if(OpenMP_C_FOUND AND OpenMP_C_LIBRARIES)
+    set(OMP_LIBRARY "${OpenMP_C_LIBRARIES}")
+endif()
 
 # Leta efter MKL (ej REQUIRED, vi hanterar fallback)
 find_package(MKL CONFIG REQUIRED)
@@ -46,3 +53,5 @@ else()
     # Comment this line below if you want to use the lightweight algorithms
     target_compile_definitions(CControl PUBLIC CLAPACK_USED)
 endif()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_C)

@@ -229,6 +229,37 @@ int main() {
 	return EXIT_SUCCESS;
 }
 ```
+# Build
+
+```bash
+# Download repos
+git clone https://github.com/DanielMartensson/CControl.git
+git clone https://github.com/microsoft/vcpkg.git
+
+# Enter vcpkg
+cd vcpkg
+
+# Bootstrap
+./bootstrap-vcpkg.sh # Linux
+bootstrap-vcpkg.bat # Windows
+
+# Install Intel-Math Kernel Library
+./vcpkg install intel-mkl # Linux
+vcpkg install intel-mkl # Windows
+
+# Go out from vcpkg and then to CControl
+cd ..
+cd CControl
+
+# Tool chain for CMake # Linux
+sudo apt-get install libomp-dev 
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_PREFIX_PATH=path/to/vcpkg/installed/x64-linux
+
+# Build in Linux
+cmake --build build
+
+```
+
 
 # Projects made with CControl
 
