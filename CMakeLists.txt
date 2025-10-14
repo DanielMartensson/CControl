@@ -10,9 +10,9 @@ find_package(OpenMP REQUIRED)
 
 if(OpenMP_C_FOUND AND OpenMP_C_LIBRARIES)
     set(OMP_LIBRARY "${OpenMP_C_LIBRARIES}")
-    message(STATUS "OpenMP found")
+    message(STATUS "OpenMP found!")
 else()
-    message(STATUS "OpenMP not found")
+    message(STATUS "OpenMP not found!")
 endif()
 
 # Leta efter MKL (ej REQUIRED, vi hanterar fallback)
