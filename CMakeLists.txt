@@ -5,14 +5,13 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE "Release")
 
-# Leta efter OpenMP
-find_package(OpenMP REQUIRED)
+# Leta efter OpenMP (valfritt)
+find_package(OpenMP)
 
-if(OpenMP_C_FOUND AND OpenMP_C_LIBRARIES)
-    set(OMP_LIBRARY "${OpenMP_C_LIBRARIES}")
+if(OpenMP_C_FOUND)
     message(STATUS "OpenMP found!")
 else()
-    message(STATUS "OpenMP not found!")
+    message(STATUS "OpenMP not found. Building without OpenMP.")
 endif()
 
 # Leta efter MKL (ej REQUIRED, vi hanterar fallback)
