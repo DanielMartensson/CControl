@@ -37,20 +37,16 @@ endforeach()
 list(REMOVE_DUPLICATES INCLUDE_DIRS)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS})
 
-# Länka mot MKL med sekventiell backend
+# Länka MKL om det finns
 if(MKL_FOUND)
-    # Manuell länkning till MKL i sekventiellt läge
-    target_link_libraries(${PROJECT_NAME} PRIVATE
-        mkl_intel_ilp64
-        mkl_sequential
-        mkl_core
-        pthread
-        m
-        dl
-    )
-
+    set(MKL_LINK "dynamic")
+    set(MKL_INTERFACE_FULL "intel_ilp64")
+    set(MKL_THREADING "sequential")  # Viktigt om du vill sekventiell MKL
+    set(MKL_MPI "intelmpi")
+    target_link_libraries(${PROJECT_NAME} PRIVATE MKL::MKL)
     target_compile_definitions(CControl PUBLIC MKL_LAPACK_USED)
     target_compile_definitions(CControl PUBLIC MKL_FFT_USED)
 else()
+    # Comment this line below if you want to use the lightweight algorithms
     target_compile_definitions(CControl PUBLIC CLAPACK_USED)
 endif()
