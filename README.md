@@ -252,8 +252,10 @@ cd ..
 cd CControl
 
 # Tool chain for CMake # Linux
-sudo apt-get install libomp-dev 
-cmake -B build -S .   -DCMAKE_TOOLCHAIN_FILE=~/github/vcpkg/scripts/buildsystems/vcpkg.cmake
+sudo apt-get install libomp-dev plocate
+cmake -B build -S . \
+  -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vcpkg.cmake \
+  -DOMP_LIBRARY=/usr/lib/gcc/x86_64-linux-gnu/13/libgomp.so
 
 # Build in Linux
 cmake --build build

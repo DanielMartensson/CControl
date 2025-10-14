@@ -5,15 +5,6 @@ set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE "Release")
 
-# Leta efter OpenMP (valfritt)
-find_package(OpenMP)
-
-if(OpenMP_C_FOUND)
-    message(STATUS "OpenMP found!")
-else()
-    message(STATUS "OpenMP not found. Building without OpenMP.")
-endif()
-
 # Leta efter MKL (ej REQUIRED, vi hanterar fallback)
 find_package(MKL CONFIG REQUIRED)
 
@@ -46,14 +37,20 @@ endforeach()
 list(REMOVE_DUPLICATES INCLUDE_DIRS)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS})
 
-# Länka MKL om det finns
+# Länka mot MKL med sekventiell backend
 if(MKL_FOUND)
-    target_link_libraries(${PROJECT_NAME} PRIVATE MKL::MKL)
+    # Manuell länkning till MKL i sekventiellt läge
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        mkl_intel_ilp64
+        mkl_sequential
+        mkl_core
+        pthread
+        m
+        dl
+    )
+
     target_compile_definitions(CControl PUBLIC MKL_LAPACK_USED)
     target_compile_definitions(CControl PUBLIC MKL_FFT_USED)
 else()
-    # Comment this line below if you want to use the lightweight algorithms
     target_compile_definitions(CControl PUBLIC CLAPACK_USED)
 endif()
-
-target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_C)
