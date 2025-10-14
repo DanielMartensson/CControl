@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.28.3)
 project(CControl)
 
 set(CMAKE_C_STANDARD 17)
@@ -10,6 +10,9 @@ find_package(OpenMP REQUIRED)
 
 if(OpenMP_C_FOUND AND OpenMP_C_LIBRARIES)
     set(OMP_LIBRARY "${OpenMP_C_LIBRARIES}")
+    message(STATUS "OpenMP found")
+else()
+    message(STATUS "OpenMP not found")
 endif()
 
 # Leta efter MKL (ej REQUIRED, vi hanterar fallback)

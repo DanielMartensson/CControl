@@ -253,7 +253,7 @@ cd CControl
 
 # Tool chain for CMake # Linux
 sudo apt-get install libomp-dev 
-cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_PREFIX_PATH=path/to/vcpkg/installed/x64-linux
+cmake -B build -S .   -DCMAKE_TOOLCHAIN_FILE=~/github/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 # Build in Linux
 cmake --build build
