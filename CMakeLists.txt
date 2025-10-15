@@ -6,14 +6,14 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE "Release")
 
 # Leta efter MKL (ej REQUIRED, vi hanterar fallback)
-set(MKL_LINK "dynamic")
+set(MKL_LINK "static")
 set(MKL_THREADING "sequential")   # Viktigt om du vill ha sekventiell MKL
-set(MKL_INTERFACE "ilp64")        # Vanligt standardval fˆr 64-bitars indexering
-set(MKL_MPI "intelmpi")           # Om du anv‰nder MPI, annars kan du testa "none" eller ta bort
+set(MKL_INTERFACE "ilp64")        # Vanligt standardval f√∂r 64-bitars indexering
+set(MKL_MPI "intelmpi")           # Om du anv√§nder MPI, annars kan du testa "none" eller ta bort
 find_package(MKL CONFIG REQUIRED PATHS $ENV{MKLROOT})
 message(STATUS "Imported oneMKL targets: ${MKL_IMPORTED_TARGETS}")
 
-# H‰mta alla C filer
+# H√§mta alla C filer
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     "${PROJECT_SOURCE_DIR}/src/*.c"
     "${PROJECT_SOURCE_DIR}/src/*.cpp"  # Om du har C++
@@ -22,7 +22,7 @@ file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS
     "${PROJECT_SOURCE_DIR}/src/*.h"
 )
 
-# Filtrera bort CLapack-k‰llor om MKL hittas
+# Filtrera bort CLapack-k√§llor om MKL hittas
 if(MKL_FOUND)
     message(STATUS "MKL found. CLapack sources will be excluded.")
     list(FILTER SOURCES EXCLUDE REGEX ".*/CLapack/.*|.*\\\\CLapack\\\\.*")
@@ -30,10 +30,10 @@ else()
     message(STATUS "MKL not found. CLapack sources will be used.")
 endif()
 
-# Skapa exekverbart mÂl
+# Skapa exekverbart m√•l
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# L‰gg till include paths automatiskt (baserat pÂ .h-filer)
+# L√§gg till include paths automatiskt (baserat p√• .h-filer)
 file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/**/*.h")
 foreach(header ${HEADERS})
     get_filename_component(dir ${header} DIRECTORY)
@@ -42,7 +42,7 @@ endforeach()
 list(REMOVE_DUPLICATES INCLUDE_DIRS)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS})
 
-# L‰nka MKL om det finns
+# L√§nka MKL om det finns
 if(MKL_FOUND)
     #target_link_libraries(${PROJECT_NAME} PRIVATE MKL::MKL)
     target_compile_options(${PROJECT_NAME} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INTERFACE_COMPILE_OPTIONS>)
