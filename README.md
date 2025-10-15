@@ -257,8 +257,7 @@ cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vc
 # Build
 cmake --build build
 ```
-
-
+
 # Projects made with CControl
 
 ## Model Predictive Control with integral action and Kalman-Bucy filtering
