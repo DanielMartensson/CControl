@@ -2,7 +2,7 @@
  * pca.c
  *
  *  Created on: 24 mars 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel MÃ¥rtensson
  */
 
 #include "statistics.h"
@@ -97,7 +97,7 @@ static void compute_components(float X[], float W[], size_t c, size_t row, size_
 	free(work);
 	free(Xcopy);
 #elif defined(MKL_LAPACK_USED)
-	float* superb = (float*)malloc((min(row, column) - 1)*sizeof(float));
+	float* superb = (float*)malloc((vmin(row, column) - 1)*sizeof(float));
 	float* Y = (float*)malloc(row * column * sizeof(float));
 	memcpy(Y, X, row * column * sizeof(float));
 	LAPACKE_sgesvd(LAPACK_ROW_MAJOR, 'S', 'N', row, column, Y, column, S, U, row, NULL, column, superb);
@@ -143,7 +143,7 @@ static void compute_components(float X[], float W[], size_t c, size_t row, size_
 	% Output: Projected matrix P, Project matrix W, mu(Average vector of X)
 	% Example 1: [P, W] = mi.pca(X, c);
 	% Example 2: [P, W, mu] = mi.pca(X, c);
-	% Author: Daniel Mårtensson, 2023 April
+	% Author: Daniel MÃ¥rtensson, 2023 April
 
 	function [P, W, mu] = pca(varargin)
 	  % Check if there is any input
