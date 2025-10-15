@@ -251,11 +251,9 @@ vcpkg install intel-mkl # Windows
 cd ..
 cd CControl
 
-# Tool chain for CMake # Linux
-sudo apt-get install libomp-dev plocate
-cmake -B build -S . \
-  -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vcpkg.cmake \
-  -DOMP_LIBRARY=/usr/lib/gcc/x86_64-linux-gnu/13/libgomp.so
+# Tool chain for CMake
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vcpkg.cmake 
+  
 
 # Build in Linux
 cmake --build build
