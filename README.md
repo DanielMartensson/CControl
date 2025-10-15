@@ -1,6 +1,6 @@
 # CControl
 
-CControl is a library written in 100% ANSI C (C89) code.
+CControl is a library written in 100% ANSI C (C89) code. The CMake project standard is set to `C17`.
 The purpose with this library is to fit advanced tools for really small embedded systems or desktop as well.
 Here I have focused on practical numerical methods and selected the methods that works best in practice. It has
 been a lot of work finding the best methods and best algorithms.
