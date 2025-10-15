@@ -251,13 +251,11 @@ vcpkg install intel-mkl # Windows
 cd ..
 cd CControl
 
-# Tool chain for CMake
+# Tool chain
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vcpkg.cmake 
-  
-
-# Build in Linux
-cmake --build build
-
+  
+# Build
+cmake --build build
 ```
 
 
