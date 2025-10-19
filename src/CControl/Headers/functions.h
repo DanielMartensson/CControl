@@ -1,10 +1,3 @@
-/*
- * functions.h
- *
- *  Created on: 5 oct. 2019
- *      Author: Daniel Mårtensson
- */
-
 #ifndef FUNCTIONS_H_
 #define FUNCTIONS_H_
 
@@ -12,64 +5,94 @@
 extern "C" {
 #endif
 
-#if __STDC_VERSION__ < 199901L
+#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
+
 #if !defined(_MSC_VER)
-float sqrtf(float x) {
-	return (float)sqrt(x);
-}
 
-float fabsf(float x) {
-	return (float)fabs(x);
+#ifndef sqrtf
+static float sqrtf(float x) {
+    return (float)sqrt((double)x);
 }
+#endif
 
-float acosf(float x) {
-	return (float)acos(x);
+#ifndef fabsf
+static float fabsf(float x) {
+    return (float)fabs((double)x);
 }
-/*
-float atan2f(float x) {
+#endif
+
+#ifndef acosf
+static float acosf(float x) {
+    return (float)acos((double)x);
+}
+#endif
+
+#ifndef atan2f
+static float atan2f(float x) {
 	return (float)atan(x);
 }
-*/
-float expf(float x) {
-	return (float)exp(x);
-}
+#endif
 
-float powf(float base, float power) {
-	return (float)pow(base, power);
+#ifndef expf
+static float expf(float x) {
+    return (float)exp((double)x);
 }
+#endif
 
-float logf(float x) {
-	return (float)log(x);
+#ifndef powf
+static float powf(float base, float power) {
+    return (float)pow((double)base, (double)power);
 }
+#endif
 
-float sinf(float x) {
-	return (float)sin(x);
+#ifndef logf
+static float logf(float x) {
+    return (float)log((double)x);
 }
+#endif
 
-float tanhf(float x) {
-	return (float)tanh(x);
+#ifndef sinf
+static float sinf(float x) {
+    return (float)sin((double)x);
 }
+#endif
 
-float roundf(float x) {
-	return (float)round(x);
+#ifndef tanhf
+static float tanhf(float x) {
+    return (float)tanh((double)x);
 }
+#endif
 
-float ceilf(float x) {
-	return (float)ceil(x);
+#ifndef roundf
+static float roundf(float x) {
+    return (float)round((double)x);
 }
+#endif
 
-float floorf(float x) {
-	return (float)floor(x);
+#ifndef ceilf
+static float ceilf(float x) {
+    return (float)ceil((double)x);
 }
+#endif
 
-float fmodf(float x, float y) {
-	return (float)fmod(x, y);
+#ifndef floorf
+static float floorf(float x) {
+    return (float)floor((double)x);
 }
+#endif
+
+#ifndef fmodf
+static float fmodf(float x, float y) {
+    return (float)fmod((double)x, (double)y);
+}
+#endif
 
 #endif /* !defined(_MSC_VER) */
-#endif /* !__STDC_VERSION__ */
+
+#endif /*__STDC_VERSION__*/
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* !FUNCTIONS_H_ */
+#endif /* FUNCTIONS_H_ */
