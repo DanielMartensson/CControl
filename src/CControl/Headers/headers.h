@@ -1,7 +1,7 @@
 #ifndef HEADERS_H_
 #define HEADERS_H_
 
-/* C89 standard library */
+/* C standard library */
 #include <string.h>						/* For memcpy, memset etc */
 #include <stdio.h>						/* For printf */
 #include <stdlib.h>						/* Standard library */
