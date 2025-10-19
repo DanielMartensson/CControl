@@ -54,3 +54,6 @@ else()
     # Comment this line below if you want to use the lightweight algorithms
     target_compile_definitions(${PROJECT_NAME} PUBLIC CLAPACK_USED)
 endif()
+
+# Länka math.h
+target_link_libraries(${PROJECT_NAME} PUBLIC m)
