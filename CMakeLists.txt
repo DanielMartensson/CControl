@@ -10,7 +10,7 @@ set(MKL_LINK "static")
 set(MKL_THREADING "sequential")   # Viktigt om du vill ha sekventiell MKL
 set(MKL_INTERFACE "ilp64")        # Vanligt standardval för 64-bitars indexering
 set(MKL_MPI "intelmpi")           # Om du använder MPI, annars kan du testa "none" eller ta bort
-find_package(MKL CONFIG REQUIRED PATHS $ENV{MKLROOT})
+find_package(MKL CONFIG REQUIRED)
 message(STATUS "Imported oneMKL targets: ${MKL_IMPORTED_TARGETS}")
 
 # Hämta alla C filer
@@ -56,4 +56,6 @@ else()
 endif()
 
 # Länka math.h
-target_link_libraries(${PROJECT_NAME} PUBLIC m)
+if(UNIX)
+    target_link_libraries(${PROJECT_NAME} PUBLIC m)
+endif()
