@@ -12,6 +12,7 @@
 
 #include "f2c.h"
 #include "blaswrap.h"
+#include <stdio.h> /* Added 2025-10-22 because "incompatible implicit declaration of built-in function 'printf'" */
 
 /* Table of constant values */
 
