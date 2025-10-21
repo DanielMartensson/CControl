@@ -118,6 +118,12 @@ static STATUS_CODES optislim(const float Q[], const float c[], const float A[], 
 			free(y);
 			return STATUS_NAN;
 		}
+#elif  __GNUC__
+		if (_isnanf(x[i])) {
+			free(L);
+			free(y);
+			return STATUS_NAN;
+		}
 #else
 		if (isnanf(x[i])) {
 			free(L);
@@ -209,6 +215,18 @@ static STATUS_CODES optislim(const float Q[], const float c[], const float A[], 
 		if (v < MIN_VALUE) {
 			break;
 		}
+#elif __GNUC__
+		 if (_isnanf(v)) {
+			 free(L);
+			 free(y);
+			 free(P);
+			 free(lambda);
+			 return STATUS_NAN;
+		 }
+
+		 if (v < MIN_VALUE) {
+			 break;
+		 }
 #else
 		if (isnanf(v)) {
 			free(L);

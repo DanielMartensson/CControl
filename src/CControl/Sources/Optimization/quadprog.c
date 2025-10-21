@@ -95,6 +95,10 @@
 		 if (_isnanf(x[i])) {
 			 return STATUS_NAN;
 		 }
+ #elif  __GNUC__
+		 if (_isnanf(x[i])) {
+			 return STATUS_NAN;
+		 }
  #else
 		 if (isnanf(x[i])) {
 			 return STATUS_NAN;
@@ -167,6 +171,18 @@
 
 		 /* Check if we should break - Found the optimal solution */
 #ifdef _MSC_VER
+		 if (_isnanf(v)) {
+			 free(K);
+			 free(P);
+			 free(H);
+			 free(lambda);
+			 return STATUS_NAN;
+		 }
+
+		 if (v < MIN_VALUE) {
+			 break;
+		 }
+#elif __GNUC__
 		 if (_isnanf(v)) {
 			 free(K);
 			 free(P);
