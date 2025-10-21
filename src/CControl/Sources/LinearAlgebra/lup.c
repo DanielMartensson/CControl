@@ -25,11 +25,24 @@ bool lup(float A[], float LU[], int P[], size_t row) {
 #ifdef CLAPACK_USED
 	integer m = row, lda = row, n = row, info;
 	memcpy(LU, A, row * row * sizeof(float));
-	sgetrf_(&m, &n, LU, &lda, P, &info);
+	integer* ipiv = (integer*)malloc(row * sizeof(integer));
+	sgetrf_(&m, &n, LU, &lda, ipiv, &info);
+	size_t i;
+	for(i = 0; i < row; i++){
+		P[i] = ipiv[i];
+	}
+	free(ipiv);
 	return info == 0;
 #elif defined(MKL_LAPACK_USED)
 	memcpy(LU, A, row * row * sizeof(float));
-	bool status = LAPACKE_sgetrf(LAPACK_COL_MAJOR, row, row, LU, row, P) == 0;
+	lapack_int* lapack_int_P = (lapack_int*)malloc(row * sizeof(lapack_int));
+	lapack_int info = LAPACKE_sgetrf(LAPACK_COL_MAJOR, row, row, LU, row, lapack_int_P);
+	size_t i;
+	for(i = 0; i < row; i++){
+		P[i] = lapack_int_P[i];
+	}
+	free(lapack_int_P);
+	bool status = info == (lapack_int)0;
 	/* Return status */
 	return status;
 #else
