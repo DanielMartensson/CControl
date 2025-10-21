@@ -27,16 +27,29 @@ bool linsolve_lup(float A[], float x[], float b[], size_t row) {
 	bool status = lup(A, LU, P, row);
 #ifdef CLAPACK_USED
 	integer n = row, nrhs = 1, lda = row, ldb = row, info;
+	integer* ipiv = (integer*)malloc(row * sizeof(integer));
+	size_t i;
+	for(i = 0; i < row; i++){
+		ipiv[i] = P[i];
+	}
 	float* bcopy = (float*)malloc(ldb * sizeof(float));
 	memcpy(bcopy, b, ldb * sizeof(float));
-	sgetrs_("T", &n, &nrhs, LU, &lda, P, bcopy, &ldb, &info);
+	sgetrs_("T", &n, &nrhs, LU, &lda, ipiv, bcopy, &ldb, &info);
 	memcpy(x, bcopy, n * sizeof(real));
 	free(bcopy);
+	free(ipiv);
 	status = (info == 0) && status;
 #elif defined(MKL_LAPACK_USED)
 	float* bcopy = (float*)malloc(row * sizeof(float));
 	memcpy(bcopy, b, row * sizeof(float));
-	status = LAPACKE_sgetrs(LAPACK_COL_MAJOR, 'T', row, 1, LU, row, P, bcopy, row) == 0;
+	lapack_int* lapack_int_P = (lapack_int*)malloc(row * sizeof(lapack_int));
+	lapack_int info = LAPACKE_sgetrs(LAPACK_COL_MAJOR, 'T', row, 1, LU, row, lapack_int_P, bcopy, row);
+	size_t i;
+	for(i = 0; i < row; i++){
+		P[i] = lapack_int_P[i];
+	}
+	free(lapack_int_P);
+	status = info == (lapack_int)0;
 	memcpy(x, bcopy, row * sizeof(float));
 	free(bcopy);
 #else
