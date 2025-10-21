@@ -2,7 +2,7 @@
  * kpca_lda_nn.c
  *
  *  Created on: 19 November 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel Mï¿½rtensson
  */
 
 #include "machinelearning.h"
@@ -99,7 +99,7 @@ void kpca_lda_nn(MODEL_NN* model_nn, const MODEL_SETTINGS* model_settings) {
 	printf("6: Create a Neural Network for a linear model that can handle nonlinear data.\n");
 	tran(P, components_lda, model_nn->input_column);
 	float* accuracy = (float*)malloc(model_nn->classes * sizeof(float));
-	bool* status = (bool*)malloc(model_nn->classes * sizeof(bool));
+	STATUS_CODES* status = (STATUS_CODES*)malloc(model_nn->classes * sizeof(STATUS_CODES));
 	float* weight = (float*)malloc(model_nn->classes * components_lda * sizeof(float));
 	model_nn->model_b[0] = (float*)malloc(model_nn->classes * sizeof(float));
 	nn_train(P, model_nn->class_id, weight, model_nn->model_b[0], status, accuracy, model_nn->input_column, components_lda, model_nn->classes, general_settings->C, general_settings->lambda);
