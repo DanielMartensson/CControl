@@ -3,15 +3,19 @@ project(CControl)
 
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_BUILD_TYPE "Release")
 
-# Leta efter MKL (ej REQUIRED, vi hanterar fallback)
-set(MKL_LINK "static")
-set(MKL_THREADING "sequential")   # Viktigt om du vill ha sekventiell MKL
-set(MKL_INTERFACE "ilp64")        # Vanligt standardval för 64-bitars indexering
-set(MKL_MPI "intelmpi")           # Om du använder MPI, annars kan du testa "none" eller ta bort
-find_package(MKL CONFIG REQUIRED)
-message(STATUS "Imported oneMKL targets: ${MKL_IMPORTED_TARGETS}")
+# MinGW är inte kompatibel med Intel MKL!
+if(MINGW)
+    message(STATUS "MinGW detected - MKL will be disabled.")
+else()
+    # Leta efter MKL (ej REQUIRED, vi hanterar fallback)
+    set(MKL_LINK "static")
+    set(MKL_THREADING "sequential")   # Viktigt om du vill ha sekventiell MKL
+    set(MKL_INTERFACE "ilp64")        # Vanligt standardval för 64-bitars indexering
+    set(MKL_MPI "intelmpi")           # Om du använder MPI, annars kan du testa "none" eller ta bort
+    find_package(MKL CONFIG REQUIRED)
+    message(STATUS "Imported oneMKL targets: ${MKL_IMPORTED_TARGETS}")
+endif()
 
 # Hämta alla C filer
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
@@ -44,7 +48,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIRS})
 
 # Länka MKL om det finns
 if(MKL_FOUND)
-    #target_link_libraries(${PROJECT_NAME} PRIVATE MKL::MKL)
+    target_link_libraries(${PROJECT_NAME} PRIVATE MKL::MKL)
     target_compile_options(${PROJECT_NAME} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INTERFACE_COMPILE_OPTIONS>)
     target_include_directories(${PROJECT_NAME} PUBLIC $<TARGET_PROPERTY:MKL::MKL,INTERFACE_INCLUDE_DIRECTORIES>)
     target_link_libraries(${PROJECT_NAME} PUBLIC $<LINK_ONLY:MKL::MKL>)
