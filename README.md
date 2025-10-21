@@ -240,12 +240,13 @@ git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 
 # Bootstrap
-./bootstrap-vcpkg.sh # Linux
-bootstrap-vcpkg.bat # Windows
+./bootstrap-vcpkg
 
-# Install Intel-Math Kernel Library
-./vcpkg install intel-mkl # Linux
-vcpkg install intel-mkl # Windows
+# Install Intel-Math Kernel Library (Works in Linux and Windows with MSVC)
+./vcpkg install intel-mkl 
+
+# Intel MKL won't work with MinGW, instead CLapack will be used
+./vcpkg install intel-mkl  --host-triplet=x64-mingw-static
 
 # Go out from vcpkg and then to CControl
 cd ..
@@ -255,9 +256,11 @@ cd CControl
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
 
 # Build
-cmake --build build
+cmake --build build
+
 ```
-
+
+
 # Projects made with CControl
 
 ## Model Predictive Control with integral action and Kalman-Bucy filtering
@@ -340,4 +343,4 @@ For state estimation
 
 For parameter estimation
 
-![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/SR-UKF/sr-ukf-parameter-estimation.png)
+![a](https://raw.githubusercontent.com/DanielMartensson/CControl/master/Projects/SR-UKF/sr-ukf-parameter-estimation.png)
