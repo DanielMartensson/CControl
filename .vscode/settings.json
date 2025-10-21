@@ -1,0 +1,19 @@
+{
+    "vcpkg.target.defaultTriplet": "x64-mingw-static",
+    "vcpkg.target.hostTriplet": "x64-mingw-static",
+    "vcpkg.target.useManifest": false,
+    "vcpkg.target.useStaticLib": true,
+    "cmake.configureArgs": [
+        "-DVCPKG_APPLOCAL_DEPS=ON",
+        "-DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON",
+        "-DVCPKG_MANIFEST_MODE=OFF",
+        "-DVCPKG_TARGET_TRIPLET=x64-mingw-static"
+    ],
+    "vcpkg.general.enable": true,
+    "cmake.configureSettings": {
+        "CMAKE_TOOLCHAIN_FILE": "C:/Users/danie/Documents/GitHub/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_PREFIX_PATH": "C:/Users/danie/Documents/GitHub/vcpkg/installed/x64-mingw-static"
+    },
+    "vcpkg.target.installDependencies": true,
+    "vcpkg.target.preferSystemLibs": false
+}
