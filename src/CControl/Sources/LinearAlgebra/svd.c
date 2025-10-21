@@ -95,7 +95,7 @@ bool svd(const float A[], const size_t row, const size_t column, float U[], floa
 		real wkopt;
 		real* work = NULL;
 		real* u = (real*)malloc(m * n * sizeof(real));
-		real* iwork = (real*)malloc(8 * vmin(m, n) * sizeof(real));
+		integer* iwork = (integer*)malloc(8 * vmin(m, n) * sizeof(integer));
 
 		/* Important to take transpose */
 		float* Acopy = (float*)malloc(row * column * sizeof(float));
