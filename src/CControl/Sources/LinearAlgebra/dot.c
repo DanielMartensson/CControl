@@ -2,7 +2,7 @@
  * dot.c
  *
  *  Created on: 25 April 2023
- *      Author: Daniel Mårtensson
+ *      Author: Daniel Mï¿½rtensson
  */
 
 #include "linearalgebra.h"
@@ -20,8 +20,8 @@
  */
 float dot(const float a[], const float b[], const size_t row) {
 #ifdef CLAPACK_USED
-    const integer n = row;
-    static const int inc = 1;
+    integer n = row;
+    integer inc = 1;
     return (float) sdot_(&n, a, &inc, b, &inc);
 #elif defined(MKL_LAPACK_USED)
     return cblas_sdot(row, a, 1, b, 1);
